@@ -59,14 +59,6 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Greenshot, Version=1.0.0.3051, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Greenshot.dll</HintPath>
-    </Reference>
-    <Reference Include="GreenshotPlugin, Version=0.9.0.3051, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\GreenshotPlugin.dll</HintPath>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>..\Lib\log4net.dll</HintPath>
     </Reference>
@@ -191,6 +183,14 @@
     <ProjectReference Include="..\IndexersLib\IndexersLib.csproj">
       <Project>{47CD5EEF-C12D-4CEA-B88A-3AFAEC6DDAD8}</Project>
       <Name>IndexersLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\GreenshotPlugin\GreenshotPlugin.csproj">
+      <Project>{5B924697-4DCD-4F98-85F1-105CB84B7341}</Project>
+      <Name>GreenshotPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\Greenshot\Greenshot.csproj">
+      <Project>{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}</Project>
+      <Name>Greenshot</Name>
     </ProjectReference>
     <ProjectReference Include="..\ScreenCapture.Shapes\ScreenCapture.Shapes.csproj">
       <Project>{7F53BD0C-1BBD-416C-89CE-3FF39D4D3414}</Project>
