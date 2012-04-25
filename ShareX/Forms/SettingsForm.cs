@@ -263,7 +263,7 @@ namespace ShareX
         {
             if (loaded)
             {
-                ShortcutHelper.SetShortcut(cbStartWithWindows.Checked, Environment.SpecialFolder.Startup);
+                ShortcutHelper.SetShortcut(cbStartWithWindows.Checked, Environment.SpecialFolder.Startup, "-silent");
             }
         }
 
