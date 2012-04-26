@@ -2,26 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using HelpersLib.Hotkey;
+using HelpersLib;
 
 namespace ShareX
 {
-    public class Workflow
+    public partial class MainForm
     {
-        public HotkeySetting Hotkey = new HotkeySetting();
-        public List<EActivity> Activities = new List<EActivity>();
-
-        public Workflow()
+        public void DoWork(Workflow wf)
         {
-        }
-
-        public void DoWork()
-        {
-            foreach (EActivity act in Activities)
+            foreach (EActivity act in wf.Activities)
             {
                 if (act == EActivity.CaptureActiveWindow)
                 {
-                    Console.WriteLine("Capture Active Window");
+                    CaptureActiveWindow(false);
                 }
 
                 if (act == EActivity.ImageAnnotate)

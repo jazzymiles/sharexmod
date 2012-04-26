@@ -41,28 +41,4 @@ namespace ShareX
     {
         Percentage, Width, Height, Specific
     }
-
-    public enum EActivity
-    {
-        [Description("Capture active window")]
-        CaptureActiveWindow,
-        [Description("Capture screen")]
-        CaptureScreen,
-        [Description("Copy image to clipboard")]
-        ClipboardCopyImage,
-        [Description("Copy URL to clipboard")]
-        ClipboardCopyLink,
-        [Description("Annotate image")]
-        ImageAnnotate,
-        [Description("Save to file")]
-        SaveToFile,
-        [Description("Save to file with dialog")]
-        SaveToFileWithDialog,
-        [Description("Upload clipboard content")]
-        UploadClipboard,
-        [Description("Upload file")]
-        UploadFile,
-        [Description("Upload to remote host")]
-        UploadToRemoteHost
-    }
 }

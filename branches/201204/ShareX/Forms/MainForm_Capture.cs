@@ -43,14 +43,21 @@ namespace ShareX
 
         private void InitHotkeys()
         {
-            HotkeyManager = new HotkeyManager(this, ZAppType.ShareX);
+            HotkeyManager = new HotkeyManager(this);
 
-            HotkeyManager.AddHotkey(ZUploaderHotkey.ClipboardUpload.GetDescription(), Program.Settings.HotkeyClipboardUpload, UploadManager.ClipboardUpload);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.FileUpload.GetDescription(), Program.Settings.HotkeyFileUpload, UploadManager.UploadFile);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.PrintScreen.GetDescription(), Program.Settings.HotkeyPrintScreen, () => CaptureScreen(false), tsmiFullscreen);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.ActiveWindow.GetDescription(), Program.Settings.HotkeyActiveWindow, () => CaptureActiveWindow(false));
-            HotkeyManager.AddHotkey(ZUploaderHotkey.ActiveMonitor.GetDescription(), Program.Settings.HotkeyActiveMonitor, () => CaptureActiveMonitor(false));
-            HotkeyManager.AddHotkey(ZUploaderHotkey.WindowRectangle.GetDescription(), Program.Settings.HotkeyWindowRectangle, () => WindowRectangleCapture(false), tsmiWindowRectangle);
+            HotkeyManager.AddHotkey(ZUploaderHotkey.ClipboardUpload.GetDescription(), Program.Settings.HotkeyClipboardUpload,
+                UploadManager.ClipboardUpload);
+            HotkeyManager.AddHotkey(ZUploaderHotkey.FileUpload.GetDescription(), Program.Settings.HotkeyFileUpload,
+                UploadManager.UploadFile);
+
+            HotkeyManager.AddHotkey(ZUploaderHotkey.PrintScreen.GetDescription(), Program.Settings.HotkeyPrintScreen,
+                () => CaptureScreen(false), tsmiFullscreen);
+            HotkeyManager.AddHotkey(ZUploaderHotkey.ActiveWindow.GetDescription(), Program.Settings.HotkeyActiveWindow,
+                () => CaptureActiveWindow(false));
+            HotkeyManager.AddHotkey(ZUploaderHotkey.ActiveMonitor.GetDescription(), Program.Settings.HotkeyActiveMonitor,
+                () => CaptureActiveMonitor(false));
+            HotkeyManager.AddHotkey(ZUploaderHotkey.WindowRectangle.GetDescription(), Program.Settings.HotkeyWindowRectangle,
+                () => WindowRectangleCapture(false), tsmiWindowRectangle);
             HotkeyManager.AddHotkey(ZUploaderHotkey.RectangleRegion.GetDescription(), Program.Settings.HotkeyRectangleRegion,
                 () => CaptureRegion(new RectangleRegion(), false), tsmiRectangle);
             HotkeyManager.AddHotkey(ZUploaderHotkey.RoundedRectangleRegion.GetDescription(), Program.Settings.HotkeyRoundedRectangleRegion,
@@ -69,19 +76,17 @@ namespace ShareX
             if (Program.Settings.Workflows99.Count == 0)
             {
                 Workflow wfUser1 = new Workflow();
-                wfUser1.Hotkey = new HotkeySetting(Keys.Control | Keys.Shift | Keys.A);
-                wfUser1.Hotkey.Description = "Capture Active Window, Annotate Image and Upload";
+                wfUser1.HotkeyConfig = new HotkeySetting(Keys.Control | Keys.Shift | Keys.A);
+                wfUser1.HotkeyConfig.Description = "Capture Active Window, Annotate Image and Upload";
                 wfUser1.Activities.Add(EActivity.CaptureActiveWindow);
                 wfUser1.Activities.Add(EActivity.ImageAnnotate);
                 wfUser1.Activities.Add(EActivity.UploadToRemoteHost);
                 Program.Settings.Workflows99.Add(wfUser1);
             }
 
-            WindowWorkflow wwf = new WindowWorkflow(Program.Settings.Workflows99[0]);
-
             foreach (Workflow wf in Program.Settings.Workflows99)
             {
-                HotkeyManager.AddHotkey(wf.Hotkey.Description, wf.Hotkey, wf.DoWork);
+                HotkeyManager.AddHotkey(wf.HotkeyConfig.Description, wf.HotkeyConfig, () => this.DoWork(wf));
             }
 
             string failedHotkeys;

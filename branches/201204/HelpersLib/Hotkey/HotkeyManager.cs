@@ -99,15 +99,13 @@ namespace HelpersLib.Hotkey
 
     public class HotkeyManager
     {
-        public ZAppType Host = ZAppType.ShareX;
         public List<HotkeySetting> Settings = new List<HotkeySetting>();
 
         private HotkeyForm hotkeyForm;
 
-        public HotkeyManager(HotkeyForm hotkeyForm, ZAppType host)
+        public HotkeyManager(HotkeyForm hotkeyForm)
         {
             this.hotkeyForm = hotkeyForm;
-            this.Host = host;
         }
 
         public void AddHotkey(string description, HotkeySetting hotkeySetting, Action action, ToolStripMenuItem menuItem = null)

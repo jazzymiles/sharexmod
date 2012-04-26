@@ -33,25 +33,27 @@ namespace HelpersLib.Hotkey
     {
         public event EventHandler HotkeyChanged;
 
-        public HotkeySetting Setting { get; set; }
+        public Workflow Setting { get; set; }
 
-        public HotkeySelectionControl(HotkeySetting setting)
+        public bool Checked { get; set; }
+
+        public HotkeySelectionControl(Workflow setting)
         {
             InitializeComponent();
             Setting = setting;
-            lblHotkeyDescription.Text = Setting.Description;
-            btnSetHotkey.Text = new KeyInfo(Setting.Hotkey).ToString();
+            chkHotkeyDescription.Text = Setting.HotkeyConfig.Description;
+            btnSetHotkey.Text = new KeyInfo(Setting.HotkeyConfig.Hotkey).ToString();
             UpdateHotkeyStatus();
         }
 
         private void btnSetHotkey_Click(object sender, EventArgs e)
         {
-            using (HotkeyInputForm inputForm = new HotkeyInputForm(Setting.Hotkey, Setting.HotkeyDefault))
+            using (HotkeyInputForm inputForm = new HotkeyInputForm(Setting.HotkeyConfig.Hotkey, Setting.HotkeyConfig.HotkeyDefault))
             {
                 if (inputForm.ShowDialog() == DialogResult.OK)
                 {
-                    Setting.Hotkey = inputForm.SelectedKey;
-                    btnSetHotkey.Text = new KeyInfo(Setting.Hotkey).ToString();
+                    Setting.HotkeyConfig.Hotkey = inputForm.SelectedKey;
+                    btnSetHotkey.Text = new KeyInfo(Setting.HotkeyConfig.Hotkey).ToString();
                     OnHotkeyChanged();
                     UpdateHotkeyStatus();
                 }
@@ -60,7 +62,7 @@ namespace HelpersLib.Hotkey
 
         private void UpdateHotkeyStatus()
         {
-            switch (Setting.HotkeyStatus)
+            switch (Setting.HotkeyConfig.HotkeyStatus)
             {
                 case HotkeyStatus.Failed:
                     lblIsHotkeyActive.BackColor = Color.IndianRed;
@@ -80,6 +82,11 @@ namespace HelpersLib.Hotkey
             {
                 HotkeyChanged(this, null);
             }
+        }
+
+        private void chkHotkeyDescription_CheckedChanged(object sender, EventArgs e)
+        {
+            Checked = chkHotkeyDescription.Checked;
         }
     }
 }

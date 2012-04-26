@@ -25,6 +25,7 @@
 
 using System;
 using System.Windows.Forms;
+using HelplersLib;
 
 namespace HelpersLib.Hotkey
 {
@@ -55,7 +56,32 @@ namespace HelpersLib.Hotkey
         private void control_HotkeyChanged(object sender, EventArgs e)
         {
             HotkeySelectionControl control = (HotkeySelectionControl)sender;
-            manager.UpdateHotkey(control.Setting);
+            manager.UpdateHotkey(control.Setting.HotkeyConfig);
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            Workflow wf = new Workflow();
+            WindowWorkflow wwf = new WindowWorkflow(wf);
+            wwf.ShowDialog();
+
+            HotkeySetting hotkeyConfig = new HotkeySetting() { Description = wwf.Description };
+            wf.HotkeyConfig = hotkeyConfig;
+            manager.Settings.Add(hotkeyConfig);
+            HotkeySelectionControl control = new HotkeySelectionControl(wf);
+            control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
+
+            flpHotkeys.Controls.Add(control);
+        }
+
+        private void btnConfigure_Click(object sender, EventArgs e)
+        {
+            foreach (HotkeySelectionControl hk in flpHotkeys.Controls)
+            {
+                if (hk.Checked)
+                {
+                }
+            }
         }
     }
 }
