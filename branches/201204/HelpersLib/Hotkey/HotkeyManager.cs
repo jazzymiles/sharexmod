@@ -110,22 +110,12 @@ namespace HelpersLib.Hotkey
             this.Host = host;
         }
 
-        public void AddHotkey(ZUploaderHotkey hotkeyEnum, HotkeySetting hotkeySetting, Action action, ToolStripMenuItem menuItem = null)
+        public void AddHotkey(string description, HotkeySetting hotkeySetting, Action action, ToolStripMenuItem menuItem = null)
         {
-            AddHotkey((int)hotkeyEnum, hotkeyEnum.GetDescription(), hotkeySetting, action, menuItem);
+            AddHotkey(Helpers.GetRandomAlphanumeric(12), description, hotkeySetting, action, menuItem);
         }
 
-        public void AddHotkey(ZScreenHotkey hotkeyEnum, HotkeySetting hotkeySetting, Action action, ToolStripMenuItem menuItem = null)
-        {
-            AddHotkey((int)hotkeyEnum, hotkeyEnum.GetDescription(), hotkeySetting, action, menuItem);
-        }
-
-        public void AddHotkey(JBirdHotkey hotkeyEnum, HotkeySetting hotkeySetting, Action action, ToolStripMenuItem menuItem = null)
-        {
-            AddHotkey((int)hotkeyEnum, hotkeyEnum.GetDescription(), hotkeySetting, action, menuItem);
-        }
-
-        private void AddHotkey(int hotkeyId, string hotkeyDescription, HotkeySetting hotkeySetting, Action action, ToolStripMenuItem menuItem = null)
+        private void AddHotkey(string hotkeyId, string hotkeyDescription, HotkeySetting hotkeySetting, Action action, ToolStripMenuItem menuItem = null)
         {
             hotkeySetting.Tag = hotkeyId;
             hotkeySetting.Description = hotkeyDescription;

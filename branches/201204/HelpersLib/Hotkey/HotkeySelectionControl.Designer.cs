@@ -35,16 +35,17 @@
             // 
             // lblHotkeyDescription
             // 
+            this.lblHotkeyDescription.AutoSize = true;
             this.lblHotkeyDescription.Location = new System.Drawing.Point(0, 5);
             this.lblHotkeyDescription.Name = "lblHotkeyDescription";
-            this.lblHotkeyDescription.Size = new System.Drawing.Size(250, 15);
+            this.lblHotkeyDescription.Size = new System.Drawing.Size(60, 13);
             this.lblHotkeyDescription.TabIndex = 0;
             this.lblHotkeyDescription.Text = "Description";
             // 
             // btnSetHotkey
             // 
             this.btnSetHotkey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSetHotkey.Location = new System.Drawing.Point(288, 0);
+            this.btnSetHotkey.Location = new System.Drawing.Point(300, 0);
             this.btnSetHotkey.Name = "btnSetHotkey";
             this.btnSetHotkey.Size = new System.Drawing.Size(195, 23);
             this.btnSetHotkey.TabIndex = 1;
@@ -57,7 +58,7 @@
             this.lblIsHotkeyActive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblIsHotkeyActive.BackColor = System.Drawing.Color.IndianRed;
             this.lblIsHotkeyActive.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblIsHotkeyActive.Location = new System.Drawing.Point(256, 1);
+            this.lblIsHotkeyActive.Location = new System.Drawing.Point(268, 1);
             this.lblIsHotkeyActive.Name = "lblIsHotkeyActive";
             this.lblIsHotkeyActive.Size = new System.Drawing.Size(28, 21);
             this.lblIsHotkeyActive.TabIndex = 2;
@@ -71,8 +72,9 @@
             this.Controls.Add(this.lblHotkeyDescription);
             this.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
             this.Name = "HotkeySelectionControl";
-            this.Size = new System.Drawing.Size(483, 23);
+            this.Size = new System.Drawing.Size(495, 23);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

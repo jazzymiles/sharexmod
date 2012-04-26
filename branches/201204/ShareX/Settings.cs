@@ -23,6 +23,7 @@
 
 #endregion License Information (GPL v3)
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using HelpersLib;
@@ -55,8 +56,9 @@ namespace ShareX
         public bool AutoPlaySound = true;
 
         // Hotkeys
-        public HotkeySetting HotkeyClipboardUpload = new HotkeySetting(Keys.Control | Keys.PageUp);
+        public List<Workflow> Workflows99 = new List<Workflow>();
 
+        public HotkeySetting HotkeyClipboardUpload = new HotkeySetting(Keys.Control | Keys.PageUp);
         public HotkeySetting HotkeyFileUpload = new HotkeySetting(Keys.Shift | Keys.PageUp);
         public HotkeySetting HotkeyPrintScreen = new HotkeySetting(Keys.PrintScreen);
         public HotkeySetting HotkeyActiveWindow = new HotkeySetting(Keys.Alt | Keys.PrintScreen);

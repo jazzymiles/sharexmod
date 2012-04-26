@@ -42,6 +42,7 @@ namespace HelpersLib
         public int HotkeyRepeatLimit { get; set; }
 
         public delegate void HotkeyEventHandler(KeyEventArgs e);
+
         public event HotkeyEventHandler HotkeyPress;
 
         private Stopwatch repeatLimitTimer;
@@ -54,7 +55,7 @@ namespace HelpersLib
             repeatLimitTimer = Stopwatch.StartNew();
         }
 
-        public HotkeyStatus RegisterHotkey(Keys hotkey, Action hotkeyPress = null, int tag = 0)
+        public HotkeyStatus RegisterHotkey(Keys hotkey, Action hotkeyPress = null, string tag = "0")
         {
             KeyInfo keyInfo = new KeyInfo(hotkey);
 
@@ -124,7 +125,7 @@ namespace HelpersLib
             return UnregisterHotkey(hotkeyInfo);
         }
 
-        public HotkeyStatus ChangeHotkey(int tag, Keys newHotkey, Action hotkeyPress = null)
+        public HotkeyStatus ChangeHotkey(string tag, Keys newHotkey, Action hotkeyPress = null)
         {
             HotkeyInfo hi = GetHotkeyInfoFromTag(tag);
 
@@ -154,7 +155,7 @@ namespace HelpersLib
             return HotkeyList.FirstOrDefault(x => x.Key == key);
         }
 
-        public HotkeyInfo GetHotkeyInfoFromTag(int tag)
+        public HotkeyInfo GetHotkeyInfoFromTag(string tag)
         {
             return HotkeyList.FirstOrDefault(x => x.Tag == tag);
         }

@@ -138,6 +138,14 @@
     <Compile Include="Forms\WindowAfterUpload.Designer.cs">
       <DependentUpon>WindowAfterUpload.cs</DependentUpon>
     </Compile>
+    <Compile Include="WindowWorkflow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WindowWorkflow.Designer.cs">
+      <DependentUpon>WindowWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Workflows\Workflow.cs" />
+    <Compile Include="Workflows\WorkflowManager.cs" />
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -173,6 +181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\WindowAfterUpload.resx">
       <DependentUpon>WindowAfterUpload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WindowWorkflow.resx">
+      <DependentUpon>WindowWorkflow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

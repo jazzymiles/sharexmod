@@ -36,9 +36,9 @@ namespace HelpersLib
 
         public Action HotkeyPress { get; set; }
 
-        public int Tag { get; set; }
+        public string Tag { get; set; }
 
-        public HotkeyInfo(ushort id, Keys key, Action hotkeyPress = null, int tag = -1)
+        public HotkeyInfo(ushort id, Keys key, Action hotkeyPress = null, string tag = "-1")
         {
             ID = id;
             Key = key;
