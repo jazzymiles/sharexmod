@@ -3,7 +3,7 @@
 #define MyAppPath "ShareX\bin\Release\ShareX.exe"
 #define MyAppVersion GetStringFileInfo(MyAppPath, "Assembly Version")
 #define MyAppPublisher "ShareX Developers"
-#define MyAppURL "http://code.google.com/p/sharex"
+#define MyAppURL "http://code.google.com/p/sharexmod"
 
 [Setup]
 AllowNoIcons=true
@@ -29,7 +29,7 @@ InfoBeforeFile=Docs\license.txt
 InternalCompressLevel=ultra64
 LanguageDetectionMethod=uilanguage
 MinVersion=4.90.3000,5.0.2195sp3
-OutputBaseFilename={#MyAppName}-{#MyAppVersion}-setup
+OutputBaseFilename={#MyAppName}mod-{#MyAppVersion}-setup
 OutputDir=Output\
 PrivilegesRequired=admin
 ShowLanguageDialog=auto
@@ -71,11 +71,6 @@ Name: "{commonstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppFile}"; WorkingDir
 
 [Run]
 Filename: "{app}\{#MyAppFile}"; Description: {cm:LaunchProgram,{#MyAppName}}; Flags: nowait postinstall skipifsilent
-
-;[Registry]
-;Root: "HKCU"; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueName: "{#MyAppName}"; Flags: uninsdeletevalue
-;Root: "HKCU"; Subkey: "Software\Classes\*\shell\{#MyAppName}"; Flags: uninsdeletekey
-;Root: "HKCU"; Subkey: "Software\Classes\Folder\shell\{#MyAppName}"; Flags: uninsdeletekey
 
 [Code]
 function DesktopIconExists(): Boolean;
