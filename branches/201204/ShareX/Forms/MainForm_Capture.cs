@@ -45,48 +45,53 @@ namespace ShareX
         {
             HotkeyManager = new HotkeyManager(this);
 
-            HotkeyManager.AddHotkey(ZUploaderHotkey.ClipboardUpload.GetDescription(), Program.Settings.HotkeyClipboardUpload,
-                UploadManager.ClipboardUpload);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.FileUpload.GetDescription(), Program.Settings.HotkeyFileUpload,
-                UploadManager.UploadFile);
+            Workflow wfClipboardUpload = new Workflow(ZUploaderHotkey.ClipboardUpload.GetDescription(), Program.Settings.HotkeyClipboardUpload, true);
+            Workflow wfFileUpload = new Workflow(ZUploaderHotkey.FileUpload.GetDescription(), Program.Settings.HotkeyFileUpload, true);
+            Workflow wfPrintScreen = new Workflow(ZUploaderHotkey.PrintScreen.GetDescription(), Program.Settings.HotkeyPrintScreen, true);
+            Workflow wfActiveWindow = new Workflow(ZUploaderHotkey.ActiveWindow.GetDescription(), Program.Settings.HotkeyActiveWindow, true);
+            Workflow wfActiveMonitor = new Workflow(ZUploaderHotkey.ActiveMonitor.GetDescription(), Program.Settings.HotkeyActiveMonitor, true);
+            Workflow WindowRectangle = new Workflow(ZUploaderHotkey.WindowRectangle.GetDescription(), Program.Settings.HotkeyWindowRectangle, true);
+            Workflow wfRectangleRegion = new Workflow(ZUploaderHotkey.RectangleRegion.GetDescription(), Program.Settings.HotkeyRectangleRegion, true);
+            Workflow wfRoundedRectangleRegion = new Workflow(ZUploaderHotkey.RoundedRectangleRegion.GetDescription(), Program.Settings.HotkeyRoundedRectangleRegion, true);
+            Workflow wfEllipseRegion = new Workflow(ZUploaderHotkey.EllipseRegion.GetDescription(), Program.Settings.HotkeyEllipseRegion, true);
+            Workflow wfTriangleRegion = new Workflow(ZUploaderHotkey.TriangleRegion.GetDescription(), Program.Settings.HotkeyTriangleRegion, true);
+            Workflow wfDiamondRegion = new Workflow(ZUploaderHotkey.DiamondRegion.GetDescription(), Program.Settings.HotkeyDiamondRegion, true);
+            Workflow wfPolygonRegion = new Workflow(ZUploaderHotkey.PolygonRegion.GetDescription(), Program.Settings.HotkeyPolygonRegion, true);
+            Workflow wfFreeHandRegion = new Workflow(ZUploaderHotkey.FreeHandRegion.GetDescription(), Program.Settings.HotkeyFreeHandRegion, true);
 
-            HotkeyManager.AddHotkey(ZUploaderHotkey.PrintScreen.GetDescription(), Program.Settings.HotkeyPrintScreen,
-                () => CaptureScreen(false), tsmiFullscreen);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.ActiveWindow.GetDescription(), Program.Settings.HotkeyActiveWindow,
-                () => CaptureActiveWindow(false));
-            HotkeyManager.AddHotkey(ZUploaderHotkey.ActiveMonitor.GetDescription(), Program.Settings.HotkeyActiveMonitor,
-                () => CaptureActiveMonitor(false));
-            HotkeyManager.AddHotkey(ZUploaderHotkey.WindowRectangle.GetDescription(), Program.Settings.HotkeyWindowRectangle,
-                () => WindowRectangleCapture(false), tsmiWindowRectangle);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.RectangleRegion.GetDescription(), Program.Settings.HotkeyRectangleRegion,
-                () => CaptureRegion(new RectangleRegion(), false), tsmiRectangle);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.RoundedRectangleRegion.GetDescription(), Program.Settings.HotkeyRoundedRectangleRegion,
-                () => CaptureRegion(new RoundedRectangleRegion(), false), tsmiRoundedRectangle);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.EllipseRegion.GetDescription(), Program.Settings.HotkeyEllipseRegion,
-                () => CaptureRegion(new EllipseRegion(), false), tsmiEllipse);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.TriangleRegion.GetDescription(), Program.Settings.HotkeyTriangleRegion,
-                () => CaptureRegion(new TriangleRegion(), false), tsmiTriangle);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.DiamondRegion.GetDescription(), Program.Settings.HotkeyDiamondRegion,
-                () => CaptureRegion(new DiamondRegion(), false), tsmiDiamond);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.PolygonRegion.GetDescription(), Program.Settings.HotkeyPolygonRegion,
-                () => CaptureRegion(new PolygonRegion(), false), tsmiPolygon);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.FreeHandRegion.GetDescription(), Program.Settings.HotkeyFreeHandRegion,
-                () => CaptureRegion(new FreeHandRegion(), false), tsmiFreeHand);
+            HotkeyManager.AddHotkeyApp(wfClipboardUpload, UploadManager.ClipboardUpload);
+            HotkeyManager.AddHotkeyApp(wfFileUpload, UploadManager.UploadFile);
+            HotkeyManager.AddHotkeyApp(wfPrintScreen, () => CaptureScreen(false), tsmiFullscreen);
+            HotkeyManager.AddHotkeyApp(wfActiveWindow, () => CaptureActiveWindow(false));
+            HotkeyManager.AddHotkeyApp(wfActiveMonitor, () => CaptureActiveMonitor(false));
+            HotkeyManager.AddHotkeyApp(WindowRectangle, () => WindowRectangleCapture(false), tsmiWindowRectangle);
+            HotkeyManager.AddHotkeyApp(wfRectangleRegion, () => CaptureRegion(new RectangleRegion(), false), tsmiRectangle);
+            HotkeyManager.AddHotkeyApp(wfRoundedRectangleRegion, () => CaptureRegion(new RoundedRectangleRegion(), false), tsmiRoundedRectangle);
+            HotkeyManager.AddHotkeyApp(wfEllipseRegion, () => CaptureRegion(new EllipseRegion(), false), tsmiEllipse);
+            HotkeyManager.AddHotkeyApp(wfTriangleRegion, () => CaptureRegion(new TriangleRegion(), false), tsmiTriangle);
+            HotkeyManager.AddHotkeyApp(wfDiamondRegion, () => CaptureRegion(new DiamondRegion(), false), tsmiDiamond);
+            HotkeyManager.AddHotkeyApp(wfPolygonRegion, () => CaptureRegion(new PolygonRegion(), false), tsmiPolygon);
+            HotkeyManager.AddHotkeyApp(wfFreeHandRegion, () => CaptureRegion(new FreeHandRegion(), false), tsmiFreeHand);
 
-            if (Program.Settings.Workflows99.Count == 0)
+            /*
+            if (Program.Settings.Workflows97.Count == 0)
             {
-                Workflow wfUser1 = new Workflow();
-                wfUser1.HotkeyConfig = new HotkeySetting(Keys.Control | Keys.Shift | Keys.A);
-                wfUser1.HotkeyConfig.Description = "Capture Active Window, Annotate Image and Upload";
+                Workflow wfUser1 = new Workflow("Capture Active Window, Annotate and Upload", new HotkeySetting(Keys.Control | Keys.Shift | Keys.A));
                 wfUser1.Activities.Add(EActivity.CaptureActiveWindow);
                 wfUser1.Activities.Add(EActivity.ImageAnnotate);
                 wfUser1.Activities.Add(EActivity.UploadToRemoteHost);
-                Program.Settings.Workflows99.Add(wfUser1);
-            }
+                Program.Settings.Workflows97.Add(wfUser1);
 
-            foreach (Workflow wf in Program.Settings.Workflows99)
+                Workflow wfUser2 = new Workflow("Crop, Annotate and Upload", new HotkeySetting(Keys.Control | Keys.Shift | Keys.X));
+                wfUser2.Activities.Add(EActivity.CaptureRectangleRegion);
+                wfUser2.Activities.Add(EActivity.ImageAnnotate);
+                wfUser2.Activities.Add(EActivity.UploadToRemoteHost);
+                Program.Settings.Workflows97.Add(wfUser2);
+            }
+            */
+            foreach (Workflow wf in Program.Settings.Workflows97)
             {
-                HotkeyManager.AddHotkey(wf.HotkeyConfig.Description, wf.HotkeyConfig, () => this.DoWork(wf));
+                HotkeyManager.AddHotkeyUser(wf, () => this.DoWork(wf.HotkeyConfig.Tag));
             }
 
             string failedHotkeys;
@@ -99,7 +104,7 @@ namespace ShareX
             }
         }
 
-        private new void Capture(ScreenCaptureDelegate capture, bool autoHideForm = true)
+        private new Image Capture(ScreenCaptureDelegate capture, bool autoHideForm = true)
         {
             if (autoHideForm)
             {
@@ -135,9 +140,9 @@ namespace ShareX
                 {
                     ShowActivate();
                 }
-
-                AfterCapture(img);
             }
+
+            return img;
         }
 
         private void EditImage(ref Image img)
@@ -186,11 +191,6 @@ namespace ShareX
                     configAfterCapture = dlg.Config;
                 }
 
-                if (configAfterCapture.AnnotateImage)
-                {
-                    EditImage(ref img);
-                }
-
                 if (configAfterCapture.CopyImageToClipboard)
                 {
                     Clipboard.SetImage(img);
@@ -222,15 +222,15 @@ namespace ShareX
             Capture(Screenshot.CaptureFullscreen, autoHideForm);
         }
 
-        private void CaptureActiveWindow(bool autoHideForm = true)
+        private Image CaptureActiveWindow(bool autoHideForm = true)
         {
             if (Program.Settings.CaptureTransparent)
             {
-                Capture(Screenshot.CaptureActiveWindowTransparent, autoHideForm);
+                return Capture(Screenshot.CaptureActiveWindowTransparent, autoHideForm);
             }
             else
             {
-                Capture(Screenshot.CaptureActiveWindow, autoHideForm);
+                return Capture(Screenshot.CaptureActiveWindow, autoHideForm);
             }
         }
 
@@ -262,9 +262,9 @@ namespace ShareX
             }, autoHideForm);
         }
 
-        private void CaptureRegion(Surface surface, bool autoHideForm = true)
+        private Image CaptureRegion(Surface surface, bool autoHideForm = true)
         {
-            Capture(() =>
+            return Capture(() =>
             {
                 Image img = null;
                 Image screenshot = Screenshot.CaptureFullscreen();

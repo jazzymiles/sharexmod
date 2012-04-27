@@ -32,18 +32,19 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnConfigure = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // flpHotkeys
             // 
-            this.flpHotkeys.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flpHotkeys.AutoScroll = true;
+            this.flpHotkeys.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpHotkeys.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpHotkeys.Location = new System.Drawing.Point(0, 40);
+            this.flpHotkeys.Location = new System.Drawing.Point(0, 0);
             this.flpHotkeys.Name = "flpHotkeys";
-            this.flpHotkeys.Padding = new System.Windows.Forms.Padding(10);
-            this.flpHotkeys.Size = new System.Drawing.Size(300, 260);
+            this.flpHotkeys.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.flpHotkeys.Size = new System.Drawing.Size(544, 336);
             this.flpHotkeys.TabIndex = 3;
             this.flpHotkeys.WrapContents = false;
             // 
@@ -65,6 +66,7 @@
             this.btnRemove.TabIndex = 2;
             this.btnRemove.Text = "&Remove...";
             this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
             // btnConfigure
             // 
@@ -76,17 +78,28 @@
             this.btnConfigure.UseVisualStyleBackColor = true;
             this.btnConfigure.Click += new System.EventHandler(this.btnConfigure_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.flpHotkeys);
+            this.panel1.Location = new System.Drawing.Point(0, 40);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(544, 336);
+            this.panel1.TabIndex = 0;
+            // 
             // HotkeyManagerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnConfigure);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.flpHotkeys);
             this.Name = "HotkeyManagerControl";
-            this.Size = new System.Drawing.Size(300, 300);
+            this.Size = new System.Drawing.Size(545, 377);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -97,5 +110,6 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnConfigure;
+        private System.Windows.Forms.Panel panel1;
     }
 }

@@ -212,13 +212,13 @@
       <DependentUpon>OptionsCoreUI.cs</DependentUpon>
     </Compile>
     <Compile Include="SerializationHelper.cs" />
-    <Compile Include="Workflows\WindowWorkflow.cs">
+    <Compile Include="Hotkey\WorkflowConfig.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Workflows\WindowWorkflow.Designer.cs">
-      <DependentUpon>WindowWorkflow.cs</DependentUpon>
+    <Compile Include="Hotkey\WorkflowConfig.Designer.cs">
+      <DependentUpon>WorkflowConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="Workflows\Workflow.cs" />
+    <Compile Include="Hotkey\Workflow.cs" />
     <Compile Include="XMLSettingsBase.cs" />
     <Compile Include="Links.cs" />
     <EmbeddedResource Include="UpdateChecker\DownloaderForm.resx">
@@ -268,8 +268,8 @@
     <EmbeddedResource Include="Wizards\OptionsCoreUI.resx">
       <DependentUpon>OptionsCoreUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Workflows\WindowWorkflow.resx">
-      <DependentUpon>WindowWorkflow.cs</DependentUpon>
+    <EmbeddedResource Include="Hotkey\WorkflowConfig.resx">
+      <DependentUpon>WorkflowConfig.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

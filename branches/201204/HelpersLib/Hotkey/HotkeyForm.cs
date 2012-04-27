@@ -55,7 +55,7 @@ namespace HelpersLib
             repeatLimitTimer = Stopwatch.StartNew();
         }
 
-        public HotkeyStatus RegisterHotkey(Keys hotkey, Action hotkeyPress = null, string tag = "0")
+        public HotkeyStatus RegisterHotkey(Keys hotkey, Action hotkeyPress = null, string tag = "")
         {
             KeyInfo keyInfo = new KeyInfo(hotkey);
 

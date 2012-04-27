@@ -173,6 +173,8 @@ namespace HelpersLib
         CaptureActiveWindow,
         [Description("Capture screen")]
         CaptureScreen,
+        [Description("Capture rectangle region")]
+        CaptureRectangleRegion,
         [Description("Copy image to clipboard")]
         ClipboardCopyImage,
         [Description("Copy URL to clipboard")]

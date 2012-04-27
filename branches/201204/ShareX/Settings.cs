@@ -56,7 +56,7 @@ namespace ShareX
         public bool AutoPlaySound = true;
 
         // Hotkeys
-        public List<Workflow> Workflows99 = new List<Workflow>();
+        public List<Workflow> Workflows97 = new List<Workflow>();
 
         public HotkeySetting HotkeyClipboardUpload = new HotkeySetting(Keys.Control | Keys.PageUp) { Protected = true };
         public HotkeySetting HotkeyFileUpload = new HotkeySetting(Keys.Shift | Keys.PageUp) { Protected = true };

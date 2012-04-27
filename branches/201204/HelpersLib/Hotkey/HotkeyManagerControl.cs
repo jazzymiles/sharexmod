@@ -44,9 +44,16 @@ namespace HelpersLib.Hotkey
             {
                 manager = hotkeyManager;
 
-                foreach (HotkeySetting setting in manager.Settings)
+                foreach (Workflow wf in manager.WorkflowsApp)
                 {
-                    HotkeySelectionControl control = new HotkeySelectionControl(setting);
+                    HotkeySelectionControl control = new HotkeySelectionControl(wf);
+                    control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
+                    flpHotkeys.Controls.Add(control);
+                }
+
+                foreach (Workflow wf in manager.WorkflowsUser)
+                {
+                    HotkeySelectionControl control = new HotkeySelectionControl(wf);
                     control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
                     flpHotkeys.Controls.Add(control);
                 }
@@ -56,18 +63,16 @@ namespace HelpersLib.Hotkey
         private void control_HotkeyChanged(object sender, EventArgs e)
         {
             HotkeySelectionControl control = (HotkeySelectionControl)sender;
-            manager.UpdateHotkey(control.Setting.HotkeyConfig);
+            manager.UpdateHotkey(control.Workflow.HotkeyConfig);
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            Workflow wf = new Workflow();
+            Workflow wf = new Workflow("New Workflow", new HotkeySetting());
             WindowWorkflow wwf = new WindowWorkflow(wf);
             wwf.ShowDialog();
 
-            HotkeySetting hotkeyConfig = new HotkeySetting() { Description = wwf.Description };
-            wf.HotkeyConfig = hotkeyConfig;
-            manager.Settings.Add(hotkeyConfig);
+            manager.WorkflowsUser.Add(wf);
             HotkeySelectionControl control = new HotkeySelectionControl(wf);
             control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
 
@@ -80,6 +85,21 @@ namespace HelpersLib.Hotkey
             {
                 if (hk.Checked)
                 {
+                    WindowWorkflow wwf = new WindowWorkflow(hk.Workflow);
+                    wwf.ShowDialog();
+                    hk.Workflow = wwf.Workflow;
+                    break;
+                }
+            }
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            foreach (HotkeySelectionControl hk in flpHotkeys.Controls)
+            {
+                if (hk.Checked && !hk.Workflow.HotkeyConfig.Protected)
+                {
+                    flpHotkeys.Controls.Remove(hk);
                 }
             }
         }

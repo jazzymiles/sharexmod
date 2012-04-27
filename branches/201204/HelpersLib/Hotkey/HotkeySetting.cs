@@ -35,9 +35,9 @@ namespace HelpersLib.Hotkey
 
         public Keys HotkeyDefault { get; set; }
 
+        [XmlIgnore]
         public bool Protected { get; set; }
 
-        [XmlIgnore]
         public string Tag { get; set; }
 
         [XmlIgnore]

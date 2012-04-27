@@ -33,27 +33,27 @@ namespace HelpersLib.Hotkey
     {
         public event EventHandler HotkeyChanged;
 
-        public Workflow Setting { get; set; }
+        public Workflow Workflow { get; set; }
 
         public bool Checked { get; set; }
 
-        public HotkeySelectionControl(Workflow setting)
+        public HotkeySelectionControl(Workflow wf)
         {
             InitializeComponent();
-            Setting = setting;
-            chkHotkeyDescription.Text = Setting.HotkeyConfig.Description;
-            btnSetHotkey.Text = new KeyInfo(Setting.HotkeyConfig.Hotkey).ToString();
+            Workflow = wf;
+            chkHotkeyDescription.Text = Workflow.HotkeyConfig.Description;
+            btnSetHotkey.Text = new KeyInfo(Workflow.HotkeyConfig.Hotkey).ToString();
             UpdateHotkeyStatus();
         }
 
         private void btnSetHotkey_Click(object sender, EventArgs e)
         {
-            using (HotkeyInputForm inputForm = new HotkeyInputForm(Setting.HotkeyConfig.Hotkey, Setting.HotkeyConfig.HotkeyDefault))
+            using (HotkeyInputForm inputForm = new HotkeyInputForm(Workflow.HotkeyConfig.Hotkey, Workflow.HotkeyConfig.HotkeyDefault))
             {
                 if (inputForm.ShowDialog() == DialogResult.OK)
                 {
-                    Setting.HotkeyConfig.Hotkey = inputForm.SelectedKey;
-                    btnSetHotkey.Text = new KeyInfo(Setting.HotkeyConfig.Hotkey).ToString();
+                    Workflow.HotkeyConfig.Hotkey = inputForm.SelectedKey;
+                    btnSetHotkey.Text = new KeyInfo(Workflow.HotkeyConfig.Hotkey).ToString();
                     OnHotkeyChanged();
                     UpdateHotkeyStatus();
                 }
@@ -62,7 +62,7 @@ namespace HelpersLib.Hotkey
 
         private void UpdateHotkeyStatus()
         {
-            switch (Setting.HotkeyConfig.HotkeyStatus)
+            switch (Workflow.HotkeyConfig.HotkeyStatus)
             {
                 case HotkeyStatus.Failed:
                     lblIsHotkeyActive.BackColor = Color.IndianRed;
