@@ -31,7 +31,7 @@ using System.Windows.Forms;
 
 namespace HelpersLib.Hotkey
 {
-    public enum ZUploaderHotkey
+    public enum EHotkey
     {
         [Description("Clipboard Upload")]
         ClipboardUpload,
@@ -99,8 +99,7 @@ namespace HelpersLib.Hotkey
 
     public class HotkeyManager
     {
-        public List<Workflow> WorkflowsApp = new List<Workflow>();
-        public List<Workflow> WorkflowsUser = new List<Workflow>();
+        public List<Workflow> Workflows = new List<Workflow>();
 
         private HotkeyForm hotkeyForm;
 
@@ -109,21 +108,11 @@ namespace HelpersLib.Hotkey
             this.hotkeyForm = hotkeyForm;
         }
 
-        public void AddHotkeyApp(Workflow wf, Action action, ToolStripMenuItem menuItem = null)
-        {
-            AddHotkey(WorkflowsApp, wf, action, menuItem);
-        }
-
-        public void AddHotkeyUser(Workflow wf, Action action, ToolStripMenuItem menuItem = null)
-        {
-            AddHotkey(WorkflowsUser, wf, action, menuItem);
-        }
-
-        private void AddHotkey(List<Workflow> wfList, Workflow wf, Action action, ToolStripMenuItem menuItem = null)
+        public void AddHotkey(Workflow wf, Action action, ToolStripMenuItem menuItem = null)
         {
             wf.HotkeyConfig.Action = action;
             wf.HotkeyConfig.MenuItem = menuItem;
-            wfList.Add(wf);
+            Workflows.Add(wf);
             wf.HotkeyConfig.UpdateMenuItemShortcut();
             wf.HotkeyConfig.HotkeyStatus = hotkeyForm.RegisterHotkey(wf.HotkeyConfig.Hotkey, action, wf.HotkeyConfig.Tag);
         }
@@ -139,7 +128,7 @@ namespace HelpersLib.Hotkey
         {
             failedHotkeys = null;
             bool status = false;
-            var failedHotkeysList = WorkflowsApp.Where(x => x.HotkeyConfig.HotkeyStatus == HotkeyStatus.Failed);
+            var failedHotkeysList = Workflows.Where(x => x.HotkeyConfig.HotkeyStatus == HotkeyStatus.Failed);
             if (status = failedHotkeysList.Count() > 0)
             {
                 failedHotkeys = string.Join("\r\n", failedHotkeysList.Select(wf => wf.HotkeyConfig.Description + ": " + wf.HotkeyConfig.ToString()).ToArray());

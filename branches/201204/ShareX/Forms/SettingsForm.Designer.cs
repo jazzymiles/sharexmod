@@ -506,7 +506,7 @@
             this.tcImage.Location = new System.Drawing.Point(5, 5);
             this.tcImage.Name = "tcImage";
             this.tcImage.SelectedIndex = 0;
-            this.tcImage.Size = new System.Drawing.Size(546, 356);
+            this.tcImage.Size = new System.Drawing.Size(546, 372);
             this.tcImage.TabIndex = 0;
             // 
             // tpQuality
@@ -526,7 +526,7 @@
             this.tpQuality.Location = new System.Drawing.Point(4, 22);
             this.tpQuality.Name = "tpQuality";
             this.tpQuality.Padding = new System.Windows.Forms.Padding(3);
-            this.tpQuality.Size = new System.Drawing.Size(538, 330);
+            this.tpQuality.Size = new System.Drawing.Size(538, 346);
             this.tpQuality.TabIndex = 0;
             this.tpQuality.Text = "Quality";
             this.tpQuality.UseVisualStyleBackColor = true;
@@ -683,7 +683,7 @@
             this.tpResize.Location = new System.Drawing.Point(4, 22);
             this.tpResize.Name = "tpResize";
             this.tpResize.Padding = new System.Windows.Forms.Padding(3);
-            this.tpResize.Size = new System.Drawing.Size(538, 330);
+            this.tpResize.Size = new System.Drawing.Size(538, 346);
             this.tpResize.TabIndex = 1;
             this.tpResize.Text = "Resize";
             this.tpResize.UseVisualStyleBackColor = true;
@@ -1069,7 +1069,7 @@
             this.lblClipboardUploadInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblClipboardUploadInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblClipboardUploadInfo.ForeColor = System.Drawing.Color.White;
-            this.lblClipboardUploadInfo.Location = new System.Drawing.Point(3, 334);
+            this.lblClipboardUploadInfo.Location = new System.Drawing.Point(3, 350);
             this.lblClipboardUploadInfo.Name = "lblClipboardUploadInfo";
             this.lblClipboardUploadInfo.Size = new System.Drawing.Size(550, 29);
             this.lblClipboardUploadInfo.TabIndex = 5;
@@ -1132,7 +1132,7 @@
             this.tcCapture.Location = new System.Drawing.Point(5, 5);
             this.tcCapture.Name = "tcCapture";
             this.tcCapture.SelectedIndex = 0;
-            this.tcCapture.Size = new System.Drawing.Size(546, 356);
+            this.tcCapture.Size = new System.Drawing.Size(546, 372);
             this.tcCapture.TabIndex = 0;
             // 
             // tpCaptureGeneral
@@ -1144,7 +1144,7 @@
             this.tpCaptureGeneral.Location = new System.Drawing.Point(4, 22);
             this.tpCaptureGeneral.Name = "tpCaptureGeneral";
             this.tpCaptureGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCaptureGeneral.Size = new System.Drawing.Size(538, 330);
+            this.tpCaptureGeneral.Size = new System.Drawing.Size(538, 346);
             this.tpCaptureGeneral.TabIndex = 0;
             this.tpCaptureGeneral.Text = "General";
             this.tpCaptureGeneral.UseVisualStyleBackColor = true;
@@ -1184,7 +1184,7 @@
             this.txtSaveImageSubFolderPatternPreview.Name = "txtSaveImageSubFolderPatternPreview";
             this.txtSaveImageSubFolderPatternPreview.ReadOnly = true;
             this.txtSaveImageSubFolderPatternPreview.Size = new System.Drawing.Size(80, 20);
-            this.txtSaveImageSubFolderPatternPreview.TabIndex = 8;
+            this.txtSaveImageSubFolderPatternPreview.TabIndex = 6;
             // 
             // btnBrowseScreenshotsDir
             // 
@@ -1193,7 +1193,7 @@
             this.btnBrowseScreenshotsDir.Location = new System.Drawing.Point(432, 95);
             this.btnBrowseScreenshotsDir.Name = "btnBrowseScreenshotsDir";
             this.btnBrowseScreenshotsDir.Size = new System.Drawing.Size(26, 23);
-            this.btnBrowseScreenshotsDir.TabIndex = 6;
+            this.btnBrowseScreenshotsDir.TabIndex = 7;
             this.btnBrowseScreenshotsDir.Text = "...";
             this.btnBrowseScreenshotsDir.UseVisualStyleBackColor = true;
             this.btnBrowseScreenshotsDir.Click += new System.EventHandler(this.btnBrowseScreenshotsDir_Click);
@@ -1241,7 +1241,7 @@
             this.cbCaptureUploadImage.Location = new System.Drawing.Point(16, 128);
             this.cbCaptureUploadImage.Name = "cbCaptureUploadImage";
             this.cbCaptureUploadImage.Size = new System.Drawing.Size(126, 17);
-            this.cbCaptureUploadImage.TabIndex = 7;
+            this.cbCaptureUploadImage.TabIndex = 8;
             this.cbCaptureUploadImage.Text = "Upload image to host";
             this.cbCaptureUploadImage.UseVisualStyleBackColor = true;
             this.cbCaptureUploadImage.CheckedChanged += new System.EventHandler(this.cbCaptureUploadImage_CheckedChanged);
@@ -1305,7 +1305,7 @@
             this.tpCaptureShape.Location = new System.Drawing.Point(4, 22);
             this.tpCaptureShape.Name = "tpCaptureShape";
             this.tpCaptureShape.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCaptureShape.Size = new System.Drawing.Size(538, 330);
+            this.tpCaptureShape.Size = new System.Drawing.Size(538, 346);
             this.tpCaptureShape.TabIndex = 1;
             this.tpCaptureShape.Text = "Shape capture";
             this.tpCaptureShape.UseVisualStyleBackColor = true;
@@ -1464,7 +1464,7 @@
             this.lblHistoryInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblHistoryInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblHistoryInfo.ForeColor = System.Drawing.Color.White;
-            this.lblHistoryInfo.Location = new System.Drawing.Point(3, 334);
+            this.lblHistoryInfo.Location = new System.Drawing.Point(3, 350);
             this.lblHistoryInfo.Name = "lblHistoryInfo";
             this.lblHistoryInfo.Size = new System.Drawing.Size(550, 29);
             this.lblHistoryInfo.TabIndex = 6;
@@ -1585,7 +1585,7 @@
             this.txtDebugLog.Multiline = true;
             this.txtDebugLog.Name = "txtDebugLog";
             this.txtDebugLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtDebugLog.Size = new System.Drawing.Size(550, 360);
+            this.txtDebugLog.Size = new System.Drawing.Size(550, 376);
             this.txtDebugLog.TabIndex = 0;
             this.txtDebugLog.WordWrap = false;
             // 
@@ -1605,7 +1605,7 @@
             this.pgSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgSettings.Location = new System.Drawing.Point(3, 3);
             this.pgSettings.Name = "pgSettings";
-            this.pgSettings.Size = new System.Drawing.Size(550, 360);
+            this.pgSettings.Size = new System.Drawing.Size(550, 376);
             this.pgSettings.TabIndex = 0;
             // 
             // SettingsForm

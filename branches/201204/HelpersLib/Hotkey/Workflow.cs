@@ -16,14 +16,9 @@ namespace HelpersLib
         public Workflow(string description, HotkeySetting hotkeyConfig, bool bProtected = false)
         {
             this.HotkeyConfig = hotkeyConfig;
-            this.HotkeyConfig.Protected = bProtected;
+            this.HotkeyConfig.SystemHotkey = bProtected;
             this.HotkeyConfig.Tag = Helpers.GetRandomAlphanumeric(12);
             this.HotkeyConfig.Description = description;
-
-            if (this.Activities.Count == 0)
-            {
-                this.Activities.Add(EActivity.UploadToRemoteHost);
-            }
         }
     }
 }

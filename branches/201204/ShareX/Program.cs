@@ -30,6 +30,7 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using HelpersLib;
+using HelpersLib.Hotkey;
 using SingleInstanceApplication;
 using UploadersLib;
 

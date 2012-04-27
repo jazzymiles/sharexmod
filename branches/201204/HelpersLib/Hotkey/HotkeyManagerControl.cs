@@ -44,14 +44,7 @@ namespace HelpersLib.Hotkey
             {
                 manager = hotkeyManager;
 
-                foreach (Workflow wf in manager.WorkflowsApp)
-                {
-                    HotkeySelectionControl control = new HotkeySelectionControl(wf);
-                    control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
-                    flpHotkeys.Controls.Add(control);
-                }
-
-                foreach (Workflow wf in manager.WorkflowsUser)
+                foreach (Workflow wf in manager.Workflows)
                 {
                     HotkeySelectionControl control = new HotkeySelectionControl(wf);
                     control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
@@ -72,7 +65,8 @@ namespace HelpersLib.Hotkey
             WindowWorkflow wwf = new WindowWorkflow(wf);
             wwf.ShowDialog();
 
-            manager.WorkflowsUser.Add(wf);
+            manager.Workflows.Add(wf);
+
             HotkeySelectionControl control = new HotkeySelectionControl(wf);
             control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
 
@@ -97,9 +91,10 @@ namespace HelpersLib.Hotkey
         {
             foreach (HotkeySelectionControl hk in flpHotkeys.Controls)
             {
-                if (hk.Checked && !hk.Workflow.HotkeyConfig.Protected)
+                if (hk.Checked && !hk.Workflow.HotkeyConfig.SystemHotkey)
                 {
                     flpHotkeys.Controls.Remove(hk);
+                    manager.Workflows.Remove(hk.Workflow);
                 }
             }
         }

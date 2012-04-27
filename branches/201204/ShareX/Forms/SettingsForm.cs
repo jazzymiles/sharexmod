@@ -161,7 +161,7 @@ namespace ShareX
             if (Directory.Exists(dir))
                 Program.Settings.ScreenshotsPath2 = dir;
 
-            Program.Settings.Workflows97 = Program.mainForm.HotkeyManager.WorkflowsUser;
+            Program.Settings.Workflows2 = Program.mainForm.HotkeyManager.Workflows;
         }
 
         private void SettingsForm_Shown(object sender, EventArgs e)
