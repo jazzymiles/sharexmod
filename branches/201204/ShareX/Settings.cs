@@ -71,7 +71,7 @@ namespace ShareX
         public HotkeySetting HotkeyPolygonRegion = new HotkeySetting(Keys.Control | Keys.Shift | Keys.P);
         public HotkeySetting HotkeyFreeHandRegion = new HotkeySetting(Keys.Control | Keys.Shift | Keys.F);
 
-        public List<Workflow> Workflows2 = new List<Workflow>();
+        public List<Workflow> Workflows7 = new List<Workflow>();
 
         // Upload
         public bool UseCustomUploadersConfigPath = false;

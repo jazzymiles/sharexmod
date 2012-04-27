@@ -20,7 +20,7 @@ namespace HelplersLib
             Workflow = wf;
             InitializeComponent();
 
-            this.Text = wf.HotkeyConfig.Description;
+            this.Text = "Workflow - " + wf.HotkeyConfig.Description;
             this.txtDescription.Text = wf.HotkeyConfig.Description;
 
             foreach (EActivity act in wf.Activities)
@@ -67,6 +67,17 @@ namespace HelplersLib
             {
                 lbActivitiesUser.Items.Remove(act);
             }
+        }
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.Close();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

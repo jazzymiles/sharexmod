@@ -27,7 +27,7 @@ namespace HelpersLib
 {
     public static class Links
     {
-        public const string URL_WEBSITE = "http://code.google.com/p/sharex";
+        public const string URL_WEBSITE = "http://code.google.com/p/sharexmod";
         public const string URL_ISSUES = "http://code.google.com/p/sharex/issues/entry";
         public const string URL_UPDATE = "http://zscreen.googlecode.com/svn/trunk/Update.xml";
         public const string URL_BERK = "http://code.google.com/u/flexy123";

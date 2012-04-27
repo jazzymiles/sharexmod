@@ -63,25 +63,26 @@ namespace HelpersLib.Hotkey
         {
             Workflow wf = new Workflow("New Workflow", new HotkeySetting());
             WindowWorkflow wwf = new WindowWorkflow(wf);
-            wwf.ShowDialog();
 
-            manager.Workflows.Add(wf);
-
-            HotkeySelectionControl control = new HotkeySelectionControl(wf);
-            control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
-
-            flpHotkeys.Controls.Add(control);
+            if (wwf.ShowDialog() == DialogResult.OK)
+            {
+                manager.Workflows.Add(wf);
+                HotkeySelectionControl control = new HotkeySelectionControl(wf);
+                control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
+                flpHotkeys.Controls.Add(control);
+            }
         }
 
         private void btnConfigure_Click(object sender, EventArgs e)
         {
-            foreach (HotkeySelectionControl hk in flpHotkeys.Controls)
+            foreach (HotkeySelectionControl hksc in flpHotkeys.Controls)
             {
-                if (hk.Checked)
+                if (hksc.Checked)
                 {
-                    WindowWorkflow wwf = new WindowWorkflow(hk.Workflow);
+                    WindowWorkflow wwf = new WindowWorkflow(hksc.Workflow);
                     wwf.ShowDialog();
-                    hk.Workflow = wwf.Workflow;
+                    hksc.set_HotkeyDescription(wwf.Workflow.HotkeyConfig.Description);
+                    hksc.Workflow = wwf.Workflow;
                     break;
                 }
             }
@@ -89,12 +90,20 @@ namespace HelpersLib.Hotkey
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            foreach (HotkeySelectionControl hk in flpHotkeys.Controls)
+            foreach (HotkeySelectionControl hksc in flpHotkeys.Controls)
             {
-                if (hk.Checked && !hk.Workflow.HotkeyConfig.SystemHotkey)
+                if (hksc.Checked)
                 {
-                    flpHotkeys.Controls.Remove(hk);
-                    manager.Workflows.Remove(hk.Workflow);
+                    if (!hksc.Workflow.HotkeyConfig.SystemHotkey)
+                    {
+                        flpHotkeys.Controls.Remove(hksc);
+                        manager.Workflows.Remove(hksc.Workflow);
+                    }
+                    else
+                    {
+                        MessageBox.Show("You can only remove user generated workflows. \n\nHowever you can reconfigure application generated workflows.",
+                            Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
             }
         }

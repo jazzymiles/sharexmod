@@ -110,9 +110,15 @@ namespace HelpersLib.Hotkey
 
         public void AddHotkey(Workflow wf, Action action, ToolStripMenuItem menuItem = null)
         {
+            Workflow wfOld = Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
+            if (wfOld != null)
+                Workflows.Remove(wfOld);
+
             wf.HotkeyConfig.Action = action;
             wf.HotkeyConfig.MenuItem = menuItem;
+
             Workflows.Add(wf);
+
             wf.HotkeyConfig.UpdateMenuItemShortcut();
             wf.HotkeyConfig.HotkeyStatus = hotkeyForm.RegisterHotkey(wf.HotkeyConfig.Hotkey, action, wf.HotkeyConfig.Tag);
         }

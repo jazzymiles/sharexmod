@@ -24,6 +24,7 @@
 #endregion License Information (GPL v3)
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -161,7 +162,40 @@ namespace ShareX
             if (Directory.Exists(dir))
                 Program.Settings.ScreenshotsPath2 = dir;
 
-            Program.Settings.Workflows2 = Program.mainForm.HotkeyManager.Workflows;
+            #region Workflows
+
+            List<Workflow> workflowsNew = new List<Workflow>();
+            foreach (Workflow wf in Program.mainForm.HotkeyManager.Workflows)
+            {
+                Workflow wf2 = Program.Settings.Workflows7.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
+                if (wf2 == null)
+                    workflowsNew.Add(wf);
+            }
+
+            foreach (Workflow wf in workflowsNew)
+            {
+                string tag = wf.HotkeyConfig.Tag;
+                Program.mainForm.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
+                Program.mainForm.HotkeyManager.AddHotkey(wf, () => Program.mainForm.DoWork(tag));
+            }
+
+            List<Workflow> workflowOld = new List<Workflow>();
+            foreach (Workflow wf in Program.Settings.Workflows7)
+            {
+                Workflow wf2 = Program.mainForm.HotkeyManager.Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
+                if (wf2 == null)
+                    workflowOld.Add(wf);
+            }
+
+            foreach (Workflow wf in workflowOld)
+            {
+                Program.mainForm.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
+            }
+
+            Program.Settings.Workflows7.Clear();
+            Program.Settings.Workflows7.AddRange(Program.mainForm.HotkeyManager.Workflows);
+
+            #endregion Workflows
         }
 
         private void SettingsForm_Shown(object sender, EventArgs e)

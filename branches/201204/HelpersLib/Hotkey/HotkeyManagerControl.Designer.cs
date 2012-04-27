@@ -45,7 +45,7 @@
             this.flpHotkeys.Name = "flpHotkeys";
             this.flpHotkeys.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.flpHotkeys.Size = new System.Drawing.Size(544, 336);
-            this.flpHotkeys.TabIndex = 3;
+            this.flpHotkeys.TabIndex = 0;
             this.flpHotkeys.WrapContents = false;
             // 
             // btnAdd
@@ -87,7 +87,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 40);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(544, 336);
-            this.panel1.TabIndex = 0;
+            this.panel1.TabIndex = 3;
             // 
             // HotkeyManagerControl
             // 

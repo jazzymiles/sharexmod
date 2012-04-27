@@ -45,9 +45,9 @@ namespace ShareX
         {
             HotkeyManager = new HotkeyManager(this);
 
-            if (Program.Settings.Workflows2.Count == 0)
+            if (Program.Settings.Workflows7.Count == 0)
             {
-                Workflow wfClipboardUpload = new Workflow(EHotkey.ClipboardUpload.GetDescription(), Program.Settings.HotkeyClipboardUpload, bProtected: true);
+                Workflow wfClipboardUpload = new Workflow(EHotkey.ClipboardUpload.GetDescription(), Program.Settings.HotkeyClipboardUpload, true);
                 wfClipboardUpload.Activities.Add(EActivity.UploadClipboard);
 
                 Workflow wfFileUpload = new Workflow(EHotkey.FileUpload.GetDescription(), Program.Settings.HotkeyFileUpload, true);
@@ -97,22 +97,22 @@ namespace ShareX
                 wfFreeHandRegion.Activities.Add(EActivity.CaptureFreeHandRegion);
                 wfFreeHandRegion.Activities.Add(EActivity.UploadToRemoteHost);
 
-                Program.Settings.Workflows2.Add(wfClipboardUpload);
-                Program.Settings.Workflows2.Add(wfFileUpload);
-                Program.Settings.Workflows2.Add(wfPrintScreen);
-                Program.Settings.Workflows2.Add(wfActiveWindow);
-                Program.Settings.Workflows2.Add(wfActiveMonitor);
-                Program.Settings.Workflows2.Add(wfWindowRectangle);
-                Program.Settings.Workflows2.Add(wfRectangleRegion);
-                Program.Settings.Workflows2.Add(wfRoundedRectangleRegion);
-                Program.Settings.Workflows2.Add(wfEllipseRegion);
-                Program.Settings.Workflows2.Add(wfTriangleRegion);
-                Program.Settings.Workflows2.Add(wfDiamondRegion);
-                Program.Settings.Workflows2.Add(wfPolygonRegion);
-                Program.Settings.Workflows2.Add(wfFreeHandRegion);
+                Program.Settings.Workflows7.Add(wfClipboardUpload);
+                Program.Settings.Workflows7.Add(wfFileUpload);
+                Program.Settings.Workflows7.Add(wfPrintScreen);
+                Program.Settings.Workflows7.Add(wfActiveWindow);
+                Program.Settings.Workflows7.Add(wfActiveMonitor);
+                Program.Settings.Workflows7.Add(wfWindowRectangle);
+                Program.Settings.Workflows7.Add(wfRectangleRegion);
+                Program.Settings.Workflows7.Add(wfRoundedRectangleRegion);
+                Program.Settings.Workflows7.Add(wfEllipseRegion);
+                Program.Settings.Workflows7.Add(wfTriangleRegion);
+                Program.Settings.Workflows7.Add(wfDiamondRegion);
+                Program.Settings.Workflows7.Add(wfPolygonRegion);
+                Program.Settings.Workflows7.Add(wfFreeHandRegion);
             }
 
-            foreach (Workflow wf in Program.Settings.Workflows2)
+            foreach (Workflow wf in Program.Settings.Workflows7)
             {
                 string tag = wf.HotkeyConfig.Tag;
                 HotkeyManager.AddHotkey(wf, () => DoWork(tag));
@@ -169,33 +169,6 @@ namespace ShareX
             return img;
         }
 
-        private void EditImage(ref Image img)
-        {
-            if (Greenshot.MainForm.instance == null)
-                Greenshot.MainForm.Start(new string[0]);
-
-            GreenshotPlugin.Core.CoreConfiguration coreConfiguration = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>();
-            coreConfiguration.OutputFileFilenamePattern = "${title}";
-            coreConfiguration.OutputFilePath = Program.ScreenshotsPath;
-
-            Greenshot.Plugin.ICapture capture = new GreenshotPlugin.Core.Capture();
-            capture.Image = img;
-            ImageData imageData = TaskHelper.PrepareImageAndFilename(img);
-            capture.CaptureDetails.Filename = Path.Combine(Program.ScreenshotsPath, imageData.Filename);
-            capture.CaptureDetails.Title =
-                Path.GetFileNameWithoutExtension(capture.CaptureDetails.Filename);
-            capture.CaptureDetails.AddMetaData("file", capture.CaptureDetails.Filename);
-            capture.CaptureDetails.AddMetaData("source", "file");
-
-            var surface = new Greenshot.Drawing.Surface(capture);
-            var editor = new Greenshot.ImageEditorForm(surface, Program.Settings.CaptureSaveImage) { Icon = this.Icon };
-
-            editor.SetImagePath(capture.CaptureDetails.Filename);
-            editor.Visible = false;
-            editor.ShowDialog();
-            img = editor.GetImageForExport();
-        }
-
         private void AfterCapture(Image img)
         {
             if (img != null)
@@ -215,6 +188,11 @@ namespace ShareX
                     configAfterCapture = dlg.Config;
                 }
 
+                if (configAfterCapture.AnnotateImage)
+                {
+                    EditImage(ref img);
+                }
+
                 if (configAfterCapture.CopyImageToClipboard)
                 {
                     Clipboard.SetImage(img);
@@ -222,19 +200,10 @@ namespace ShareX
 
                 if (configAfterCapture.SaveImageToFile)
                 {
-                    ImageData imageData = TaskHelper.PrepareImageAndFilename(img);
-                    string filePath = imageData.WriteToFile(Program.ScreenshotsPath);
-
-                    if (configAfterCapture.UploadImageToHost)
-                    {
-                        UploadManager.UploadImageStream(imageData.ImageStream, filePath);
-                    }
-                    else
-                    {
-                        imageData.Dispose();
-                    }
+                    SaveImageToFile(img);
                 }
-                else if (configAfterCapture.UploadImageToHost)
+
+                if (configAfterCapture.UploadImageToHost)
                 {
                     UploadManager.UploadImage(img);
                 }
