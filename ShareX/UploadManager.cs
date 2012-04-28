@@ -446,13 +446,14 @@ namespace ShareX
                         CacheProgressIcon();
                     }
 
+                    IEnumerable<Task> workingTasks = Tasks.Where(x => x != null && x.IsWorking && x.Info != null && x.Info.Progress != null);
                     Icon icon = null;
 
-                    if (Tasks.Any(x => x.IsWorking))
+                    if (workingTasks.Count() > 0)
                     {
-                        double averageProgress = Tasks.Where(x => x.Info != null && x.Info.Progress != null).Average(x => x.Info.Progress.Percentage);
+                        double averageProgress = workingTasks.Average(x => x.Info.Progress.Percentage);
                         int index = (int)(averageProgress / 100 * (trayIcons.Length - 1));
-                        icon = trayIcons[index];
+                        icon = trayIcons.ReturnIfValidIndex(index) ?? trayIcons[0];
                     }
                     else
                     {

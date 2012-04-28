@@ -165,12 +165,10 @@ namespace ShareX
 
         private void EditImage(ref Image img)
         {
-            if (Greenshot.MainForm.instance == null)
-                Greenshot.MainForm.Start(new string[0]);
-
-            GreenshotPlugin.Core.CoreConfiguration coreConfiguration = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>();
-            coreConfiguration.OutputFileFilenamePattern = "${title}";
-            coreConfiguration.OutputFilePath = Program.ScreenshotsPath;
+            Greenshot.IniFile.IniConfig.Init();
+            GreenshotPlugin.Core.CoreConfiguration conf = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>(); ;
+            conf.OutputFileFilenamePattern = "${title}";
+            conf.OutputFilePath = Program.ScreenshotsPath;
 
             Greenshot.Plugin.ICapture capture = new GreenshotPlugin.Core.Capture();
             capture.Image = img;

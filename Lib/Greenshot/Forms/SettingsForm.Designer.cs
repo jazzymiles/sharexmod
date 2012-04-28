@@ -869,8 +869,7 @@ namespace Greenshot {
 			this.listview_plugins.TabIndex = 2;
 			this.listview_plugins.UseCompatibleStateImageBehavior = false;
 			this.listview_plugins.View = System.Windows.Forms.View.Details;
-			this.listview_plugins.SelectedIndexChanged += new System.EventHandler(this.Listview_pluginsSelectedIndexChanged);
-			this.listview_plugins.Click += new System.EventHandler(this.Listview_pluginsSelectedIndexChanged);
+
 			// 
 			// button_pluginconfigure
 			// 
@@ -883,7 +882,6 @@ namespace Greenshot {
 			this.button_pluginconfigure.TabIndex = 1;
 			this.button_pluginconfigure.Text = "Configure";
 			this.button_pluginconfigure.UseVisualStyleBackColor = true;
-			this.button_pluginconfigure.Click += new System.EventHandler(this.Button_pluginconfigureClick);
 
 			// 
 			// groupbox_expert
