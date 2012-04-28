@@ -24,6 +24,7 @@
 #endregion License Information (GPL v3)
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -45,9 +46,9 @@ namespace ShareX
         private static readonly string DefaultPersonalPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ApplicationName);
         private static readonly string PortablePersonalPath = Path.Combine(Application.StartupPath, ApplicationName);
 
-        private static readonly string SettingsFileName = ApplicationName + "Settings.xml";
+        private static readonly string SettingsFileName = ApplicationName + "Settings.json";
         private static readonly string HistoryFileName = "UploadersHistory.xml";
-        private static readonly string UploadersConfigFileName = "UploadersConfig.xml";
+        private static readonly string UploadersConfigFileName = "UploadersConfig.json";
         private static readonly string LogFileName = ApplicationName + "Log-{0}-{1}.txt";
 
         public static string PersonalPath
@@ -188,6 +189,8 @@ namespace ShareX
         public static ManualResetEvent SettingsResetEvent;
         public static ManualResetEvent UploaderSettingsResetEvent;
 
+        public static List<string> LibNames = new List<string>();
+
         [STAThread]
         private static void Main(string[] args)
         {
@@ -217,6 +220,7 @@ namespace ShareX
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+                AppDomain.CurrentDomain.AssemblyLoad += new AssemblyLoadEventHandler(CurrentDomain_AssemblyLoad);
 
                 MyLogger = new Logger();
                 DebugHelper.MyLogger = MyLogger;
@@ -258,11 +262,52 @@ namespace ShareX
             }
         }
 
+        private static void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
+        {
+            LibNames.Add(args.LoadedAssembly.Location);
+        }
+
         public static void LoadSettings()
         {
-            Settings = Settings.Load(SettingsFilePath);
+            // import from ZUploader - remove this code after 2013-04-28
+            string zuSettings = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"ZUploader\Settings.xml");
+            if (!File.Exists(SettingsFilePath) && File.Exists(zuSettings))
+            {
+                Settings = Settings.Load(zuSettings, SerializationType.Xml);
+                try
+                {
+                    File.Delete(zuSettings);
+                }
+                catch (Exception ex)
+                {
+                    MyLogger.WriteException(ex, "while deleting old ZUploader settings");
+                }
+            }
+            else
+            {
+                Settings = Settings.Load(SettingsFilePath);
+            }
+
             SettingsResetEvent.Set();
-            LoadUploadersConfig();
+
+            string zuOutputsConfig = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"ZUploader\UploadersConfig.xml");
+            if (!File.Exists(UploadersConfigFilePath) && File.Exists(zuOutputsConfig))
+            {
+                UploadersConfig = UploadersConfig.Load(zuOutputsConfig, SerializationType.Xml);
+                try
+                {
+                    File.Delete(zuOutputsConfig);
+                }
+                catch (Exception ex)
+                {
+                    MyLogger.WriteException(ex, "while importing ZUploader outputs config");
+                }
+            }
+            else
+            {
+                LoadUploadersConfig();
+            }
+
             UploaderSettingsResetEvent.Set();
         }
 

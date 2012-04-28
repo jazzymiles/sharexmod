@@ -26,6 +26,7 @@
 using System;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace HelpersLib.Hotkey
 {
@@ -39,13 +40,13 @@ namespace HelpersLib.Hotkey
 
         public string Tag { get; set; }
 
-        [XmlIgnore]
+        [XmlIgnore, JsonIgnore]
         public Action Action { get; set; }
 
-        [XmlIgnore]
+        [XmlIgnore, JsonIgnore]
         public ToolStripMenuItem MenuItem { get; set; }
 
-        [XmlIgnore]
+        [XmlIgnore, JsonIgnore]
         public HotkeyStatus HotkeyStatus { get; set; }
 
         public string Description { get; set; }

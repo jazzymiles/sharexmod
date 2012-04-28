@@ -36,7 +36,7 @@ using UploadersLib.TextUploaders;
 
 namespace UploadersLib
 {
-    public class UploadersConfig : XMLSettingsBase<UploadersConfig>
+    public class UploadersConfig : SettingsBase<UploadersConfig>
     {
         public UploadersConfig()
         {
