@@ -202,13 +202,10 @@ namespace Greenshot
                         }
                     }
                 };
-
-                toolStrip1.Items.Insert(toolStrip1.Items.IndexOf(toolStripSeparator16), destinationButton);
             }
             else
             {
                 ToolStripButton destinationButton = new ToolStripButton();
-                toolStrip1.Items.Insert(toolStrip1.Items.IndexOf(toolStripSeparator16), destinationButton);
                 destinationButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
                 destinationButton.Size = new System.Drawing.Size(23, 22);
                 destinationButton.Text = toolstripDestination.Description;
@@ -302,13 +299,11 @@ namespace Greenshot
             this.btnFreehand.Text = Language.GetString(LangKey.editor_drawfreehand);
             this.btnCrop.Text = Language.GetString(LangKey.editor_crop);
             this.btnDelete.Text = Language.GetString(LangKey.editor_deleteelement);
-            this.btnSettings.Text = Language.GetString(LangKey.contextmenu_settings);
             this.btnCut.Text = Language.GetString(LangKey.editor_cuttoclipboard);
             this.btnCopy.Text = Language.GetString(LangKey.editor_copytoclipboard);
             this.btnPaste.Text = Language.GetString(LangKey.editor_pastefromclipboard);
 
             this.selectAllToolStripMenuItem.Text = Language.GetString(LangKey.editor_selectall);
-            this.preferencesToolStripMenuItem.Text = Language.GetString(LangKey.contextmenu_settings);
             this.removeObjectToolStripMenuItem.Text = Language.GetString(LangKey.editor_deleteelement);
             this.copyToolStripMenuItem.Text = Language.GetString(LangKey.editor_copytoclipboard);
             this.pasteToolStripMenuItem.Text = Language.GetString(LangKey.editor_pastefromclipboard);
@@ -1070,7 +1065,6 @@ namespace Greenshot
                     ToolStripItemEndisabler.Enable(closeToolStripMenuItem);
                     ToolStripItemEndisabler.Enable(helpToolStripMenuItem);
                     ToolStripItemEndisabler.Enable(aboutToolStripMenuItem);
-                    ToolStripItemEndisabler.Enable(preferencesToolStripMenuItem);
                     controlsDisabledDueToConfirmable = true;
                 }
             }

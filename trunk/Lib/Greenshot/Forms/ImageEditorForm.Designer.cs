@@ -92,8 +92,6 @@ namespace Greenshot {
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.duplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-            this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.autoCropToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insert_window_toolstripmenuitem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -131,9 +129,6 @@ namespace Greenshot {
             this.btnUndo = new System.Windows.Forms.ToolStripButton();
             this.btnRedo = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnSettings = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             this.btnHelp = new System.Windows.Forms.ToolStripButton();
             this.propertiesToolStrip = new Greenshot.Controls.ToolStripEx();
             this.obfuscateModeButton = new Greenshot.Controls.BindableToolStripDropDownButton();
@@ -563,8 +558,6 @@ namespace Greenshot {
             this.toolStripSeparator4,
             this.duplicateToolStripMenuItem,
             this.toolStripSeparator12,
-            this.preferencesToolStripMenuItem,
-            this.toolStripSeparator5,
             this.autoCropToolStripMenuItem,
             this.insert_window_toolstripmenuitem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
@@ -645,19 +638,6 @@ namespace Greenshot {
             // 
             this.toolStripSeparator12.Name = "toolStripSeparator12";
             this.toolStripSeparator12.Size = new System.Drawing.Size(163, 6);
-            // 
-            // preferencesToolStripMenuItem
-            // 
-            this.preferencesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("preferencesToolStripMenuItem.Image")));
-            this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.preferencesToolStripMenuItem.Text = "Preferences...";
-            this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.PreferencesToolStripMenuItemClick);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(163, 6);
             // 
             // autoCropToolStripMenuItem
             // 
@@ -881,9 +861,6 @@ namespace Greenshot {
             this.btnUndo,
             this.btnRedo,
             this.toolStripSeparator6,
-            this.btnSettings,
-            this.toolStripSeparator11,
-            this.toolStripSeparator16,
             this.btnHelp});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
@@ -1000,26 +977,6 @@ namespace Greenshot {
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
             // 
-            // btnSettings
-            // 
-            this.btnSettings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnSettings.Image = ((System.Drawing.Image)(resources.GetObject("btnSettings.Image")));
-            this.btnSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(23, 22);
-            this.btnSettings.Text = "Preferences";
-            this.btnSettings.Click += new System.EventHandler(this.BtnSettingsClick);
-            // 
-            // toolStripSeparator11
-            // 
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripSeparator16
-            // 
-            this.toolStripSeparator16.Name = "toolStripSeparator16";
-            this.toolStripSeparator16.Size = new System.Drawing.Size(6, 25);
-            // 
             // btnHelp
             // 
             this.btnHelp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -1089,7 +1046,7 @@ namespace Greenshot {
             // 
             this.pixelizeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pixelizeToolStripMenuItem.Image")));
             this.pixelizeToolStripMenuItem.Name = "pixelizeToolStripMenuItem";
-            this.pixelizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pixelizeToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.pixelizeToolStripMenuItem.Tag = Greenshot.Drawing.FilterContainer.PreparedFilter.PIXELIZE;
             this.pixelizeToolStripMenuItem.Text = "Pixelate";
             // 
@@ -1097,7 +1054,7 @@ namespace Greenshot {
             // 
             this.blurToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("blurToolStripMenuItem.Image")));
             this.blurToolStripMenuItem.Name = "blurToolStripMenuItem";
-            this.blurToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.blurToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.blurToolStripMenuItem.Tag = Greenshot.Drawing.FilterContainer.PreparedFilter.BLUR;
             this.blurToolStripMenuItem.Text = "Blur";
             // 
@@ -1602,8 +1559,7 @@ namespace Greenshot {
 		private System.Windows.Forms.ToolStripMenuItem addDropshadowToolStripMenuItem;
 		private System.Windows.Forms.ToolStripDropDownButton toolStripSplitButton1;
 		private System.Windows.Forms.ToolStripStatusLabel dimensionsLabel;
-		private System.Windows.Forms.ToolStripMenuItem insert_window_toolstripmenuitem;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem insert_window_toolstripmenuitem;
 		private System.Windows.Forms.ToolStripMenuItem grayscaleHighlightMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem areaHighlightMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem textHighlightMenuItem;
@@ -1649,8 +1605,7 @@ namespace Greenshot {
 		private System.Windows.Forms.ToolStripLabel lineThicknessLabel;
 		private Greenshot.Controls.ToolStripNumericUpDown lineThicknessUpDown;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
 		private System.Windows.Forms.ToolStripButton btnFreehand;
 		private System.Windows.Forms.ToolStripButton btnObfuscate;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
@@ -1670,14 +1625,11 @@ namespace Greenshot {
 		private System.Windows.Forms.ToolStripMenuItem drawFreehandToolStripMenuItem;
 		private System.Windows.Forms.ToolStripButton btnText;
 		private System.Windows.Forms.ToolStripMenuItem drawLineToolStripMenuItem;
-		private System.Windows.Forms.ToolStripButton btnLine;
-		private System.Windows.Forms.ToolStripButton btnSettings;
-		private System.Windows.Forms.ToolStripButton btnHelp;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+        private System.Windows.Forms.ToolStripButton btnLine;
+        private System.Windows.Forms.ToolStripButton btnHelp;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
-		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
