@@ -22,9 +22,14 @@ namespace Greenshot
 
         public void ShowSetting()
         {
+            if (settingsForm == null)
+            {
+                settingsForm = new SettingsForm();
+            }
             if (settingsForm != null)
             {
                 WindowDetails.ToForeground(settingsForm.Handle);
+                settingsForm.ShowDialog();
             }
         }
 

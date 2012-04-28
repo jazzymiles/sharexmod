@@ -112,7 +112,6 @@ namespace Greenshot {
 			this.checkboxAllowRotate = new GreenshotPlugin.Controls.GreenshotCheckBox();
 			this.checkboxAllowEnlarge = new GreenshotPlugin.Controls.GreenshotCheckBox();
 			this.checkboxAllowShrink = new GreenshotPlugin.Controls.GreenshotCheckBox();
-			this.tab_plugins = new GreenshotPlugin.Controls.GreenshotTabPage();
 			this.groupbox_plugins = new GreenshotPlugin.Controls.GreenshotGroupBox();
 			this.listview_plugins = new System.Windows.Forms.ListView();
 			this.button_pluginconfigure = new System.Windows.Forms.Button();
@@ -140,7 +139,6 @@ namespace Greenshot {
 
 			this.tab_printer.SuspendLayout();
 			this.groupbox_printoptions.SuspendLayout();
-			this.tab_plugins.SuspendLayout();
 			this.groupbox_plugins.SuspendLayout();
 
 			this.groupbox_expert.SuspendLayout();
@@ -416,7 +414,6 @@ namespace Greenshot {
 
 			this.tabcontrol.Controls.Add(this.tab_capture);
 			this.tabcontrol.Controls.Add(this.tab_printer);
-			this.tabcontrol.Controls.Add(this.tab_plugins);
 			this.tabcontrol.Location = new System.Drawing.Point(12, 13);
 			this.tabcontrol.Name = "tabcontrol";
 			this.tabcontrol.SelectedIndex = 0;
@@ -832,17 +829,7 @@ namespace Greenshot {
 			this.checkboxAllowShrink.Text = "Shrink large printouts to paper size.";
 			this.checkboxAllowShrink.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.checkboxAllowShrink.UseVisualStyleBackColor = true;
-			// 
-			// tab_plugins
-			// 
-			this.tab_plugins.Controls.Add(this.groupbox_plugins);
-			this.tab_plugins.LanguageKey = "settings_plugins";
-			this.tab_plugins.Location = new System.Drawing.Point(4, 22);
-			this.tab_plugins.Name = "tab_plugins";
-			this.tab_plugins.Size = new System.Drawing.Size(423, 320);
-			this.tab_plugins.TabIndex = 2;
-			this.tab_plugins.Text = "Plugins";
-			this.tab_plugins.UseVisualStyleBackColor = true;
+
 			// 
 			// groupbox_plugins
 			// 
@@ -986,7 +973,6 @@ namespace Greenshot {
 
 			this.tab_printer.ResumeLayout(false);
 			this.groupbox_printoptions.ResumeLayout(false);
-			this.tab_plugins.ResumeLayout(false);
 			this.groupbox_plugins.ResumeLayout(false);
 			this.groupbox_plugins.PerformLayout();
 
@@ -1030,7 +1016,6 @@ namespace Greenshot {
 		private System.Windows.Forms.ListView listview_plugins;
 		private System.Windows.Forms.Button button_pluginconfigure;
 		private GreenshotPlugin.Controls.GreenshotGroupBox groupbox_plugins;
-		private GreenshotPlugin.Controls.GreenshotTabPage tab_plugins;
 		private GreenshotPlugin.Controls.GreenshotCheckBox checkboxTimestamp;
 		private System.Windows.Forms.Button btnPatternHelp;
 		private GreenshotPlugin.Controls.GreenshotCheckBox checkbox_copypathtoclipboard;
