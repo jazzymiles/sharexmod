@@ -534,23 +534,6 @@ namespace Greenshot
             contextmenu_captureclipboard.Enabled = ClipboardHelper.ContainsImage();
             contextmenu_capturelastregion.Enabled = RuntimeConfig.LastCapturedRegion != Rectangle.Empty;
 
-            // IE context menu code
-            try
-            {
-                if (conf.IECapture && IECaptureHelper.IsIERunning())
-                {
-                    this.contextmenu_captureie.Enabled = true;
-                }
-                else
-                {
-                    this.contextmenu_captureie.Enabled = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                LOG.WarnFormat("Problem accessing IE information: {0}", ex.Message);
-            }
-
             // Multi-Screen captures
             this.contextmenu_capturefullscreen.Click -= new System.EventHandler(this.CaptureFullScreenToolStripMenuItemClick);
             this.contextmenu_capturefullscreen.DropDownOpening -= new System.EventHandler(MultiScreenDropDownOpening);
@@ -571,56 +554,6 @@ namespace Greenshot
             this.contextmenu_captureie.DropDownItems.Clear();
             this.contextmenu_capturewindow.DropDownItems.Clear();
             cleanupThumbnail();
-        }
-
-        /// <summary>
-        /// Build a selectable list of IE tabs when we enter the menu item
-        /// </summary>
-        private void CaptureIEMenuDropDownOpening(object sender, EventArgs e)
-        {
-            try
-            {
-                List<KeyValuePair<WindowDetails, string>> tabs = IECaptureHelper.GetTabList();
-                this.contextmenu_captureie.DropDownItems.Clear();
-                if (tabs.Count > 0)
-                {
-                    this.contextmenu_captureie.Enabled = true;
-                    Dictionary<WindowDetails, int> counter = new Dictionary<WindowDetails, int>();
-
-                    foreach (KeyValuePair<WindowDetails, string> tabData in tabs)
-                    {
-                        ToolStripMenuItem captureIETabItem = new ToolStripMenuItem(tabData.Value);
-                        int index;
-                        if (counter.ContainsKey(tabData.Key))
-                        {
-                            index = counter[tabData.Key];
-                        }
-                        else
-                        {
-                            index = 0;
-                        }
-                        captureIETabItem.Tag = new KeyValuePair<WindowDetails, int>(tabData.Key, index++);
-                        captureIETabItem.Click += new System.EventHandler(Contextmenu_captureIE_Click);
-                        this.contextmenu_captureie.DropDownItems.Add(captureIETabItem);
-                        if (counter.ContainsKey(tabData.Key))
-                        {
-                            counter[tabData.Key] = index;
-                        }
-                        else
-                        {
-                            counter.Add(tabData.Key, index);
-                        }
-                    }
-                }
-                else
-                {
-                    this.contextmenu_captureie.Enabled = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                LOG.WarnFormat("Problem accessing IE information: {0}", ex.Message);
-            }
         }
 
         /// <summary>
@@ -864,36 +797,6 @@ namespace Greenshot
                 {
                     WindowDetails windowToCapture = (WindowDetails)clickedItem.Tag;
                     CaptureHelper.CaptureWindow(windowToCapture);
-                }
-                catch (Exception exception)
-                {
-                    LOG.Error(exception);
-                }
-            });
-        }
-
-        private void Contextmenu_captureIE_Click(object sender, EventArgs e)
-        {
-            if (!conf.IECapture)
-            {
-                LOG.InfoFormat("IE Capture is disabled.");
-                return;
-            }
-            ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
-            KeyValuePair<WindowDetails, int> tabData = (KeyValuePair<WindowDetails, int>)clickedItem.Tag;
-            BeginInvoke((MethodInvoker)delegate
-            {
-                try
-                {
-                    IECaptureHelper.ActivateIETab(tabData.Key, tabData.Value);
-                }
-                catch (Exception exception)
-                {
-                    LOG.Error(exception);
-                }
-                try
-                {
-                    CaptureHelper.CaptureIE(false);
                 }
                 catch (Exception exception)
                 {

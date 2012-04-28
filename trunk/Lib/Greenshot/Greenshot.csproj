@@ -96,15 +96,10 @@
     </Compile>
     <Compile Include="Destinations\ClipboardDestination.cs" />
     <Compile Include="Destinations\EditorDestination.cs" />
-    <Compile Include="Destinations\EmailDestination.cs" />
-    <Compile Include="Destinations\ExcelDestination.cs" />
     <Compile Include="Destinations\FileDestination.cs" />
     <Compile Include="Destinations\FileWithDialogDestination.cs" />
-    <Compile Include="Destinations\OneNoteDestination.cs" />
     <Compile Include="Destinations\PickerDestination.cs" />
-    <Compile Include="Destinations\PowerpointDestination.cs" />
     <Compile Include="Destinations\PrinterDestination.cs" />
-    <Compile Include="Destinations\WordDestination.cs" />
     <Compile Include="Drawing\ArrowContainer.cs" />
     <Compile Include="Drawing\BitmapContainer.cs" />
     <Compile Include="Drawing\CropContainer.cs" />
@@ -221,8 +216,6 @@
     <Compile Include="Helpers\CopyData.cs" />
     <Compile Include="Helpers\GeometryHelper.cs" />
     <Compile Include="Helpers\DestinationHelper.cs" />
-    <Compile Include="Helpers\IECaptureHelper.cs" />
-    <Compile Include="Helpers\IEInterop\IEContainer.cs" />
     <Compile Include="Helpers\ProcessorHelper.cs" />
     <Compile Include="Help\HelpFileLoader.cs" />
     <Compile Include="Processors\TitleFixProcessor.cs" />
@@ -242,7 +235,6 @@
     <Compile Include="Helpers\EnvironmentInfo.cs" />
     <Compile Include="Helpers\GuiRectangle.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
-    <Compile Include="Helpers\MailHelper.cs" />
     <Compile Include="Helpers\PluginHelper.cs" />
     <Compile Include="Helpers\PrintHelper.cs" />
     <Compile Include="Helpers\ImageOutput.cs" />
@@ -266,9 +258,6 @@
     <EmbeddedResource Include="Sounds.resx" />
     <None Include="greenshot.manifest" />
     <Compile Include="AssemblyInfo.cs" />
-    <EmbeddedResource Include="Languages\help-en-US.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Languages\language-en-US.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -299,6 +288,9 @@
       <Project>{5B924697-4DCD-4F98-85F1-105CB84B7341}</Project>
       <Name>GreenshotPlugin</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">

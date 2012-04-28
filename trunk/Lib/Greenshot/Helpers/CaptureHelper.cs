@@ -273,13 +273,7 @@ namespace Greenshot.Helpers
                     }
                     HandleCapture();
                     break;
-                case CaptureMode.IE:
-                    if (IECaptureHelper.CaptureIE(capture) != null)
-                    {
-                        capture.CaptureDetails.AddMetaData("source", "Internet Explorer");
-                        HandleCapture();
-                    }
-                    break;
+
                 case CaptureMode.FullScreen:
                     // Check how we need to capture the screen
                     bool captureTaken = false;
@@ -771,22 +765,6 @@ namespace Greenshot.Helpers
             // 3) Otherwise use GDI (Screen might be also okay but might lose content)
             if (isAutoMode)
             {
-                if (conf.IECapture && windowToCapture.ClassName == "IEFrame")
-                {
-                    try
-                    {
-                        ICapture ieCapture = IECaptureHelper.CaptureIE(captureForWindow);
-                        if (ieCapture != null)
-                        {
-                            return ieCapture;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        LOG.WarnFormat("Problem capturing IE, skipping to normal capture. Exception message was: {0}", ex.Message);
-                    }
-                }
-
                 // Take default screen
                 windowCaptureMode = WindowCaptureMode.Screen;
 
