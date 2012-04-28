@@ -150,32 +150,6 @@ namespace Greenshot
 
             // Workaround: for the MouseWheel event which doesn't get to the panel
             this.MouseWheel += new MouseEventHandler(PanelMouseWheel);
-
-            // Create export buttons
-            foreach (IDestination destination in DestinationHelper.GetAllDestinations())
-            {
-                if (destination.Priority <= 2)
-                {
-                    continue;
-                }
-                if (!destination.isActive)
-                {
-                    continue;
-                }
-                if (destination.DisplayIcon == null)
-                {
-                    continue;
-                }
-                try
-                {
-                    AddDestinationButton(destination);
-                }
-                catch (Exception addingException)
-                {
-                    LOG.WarnFormat("Problem adding destination {0}", destination.Designation);
-                    LOG.Warn("Exception: ", addingException);
-                }
-            }
         }
 
         private void AddDestinationButton(IDestination toolstripDestination)
@@ -249,34 +223,7 @@ namespace Greenshot
         private void FileMenuDropDownOpening(object sender, EventArgs eventArgs)
         {
             this.fileStripMenuItem.DropDownItems.Clear();
-            //this.fileStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            //						this.saveToolStripMenuItem,
-            //						this.saveAsToolStripMenuItem,
-            //						this.copyImageToClipboardToolStripMenuItem,
-            //						this.printToolStripMenuItem});
-
-            foreach (IDestination destination in DestinationHelper.GetAllDestinations())
-            {
-                if (ignoreDestinations.Contains(destination.Designation))
-                {
-                    continue;
-                }
-                if (!destination.isActive)
-                {
-                    continue;
-                }
-
-                ToolStripMenuItem item = destination.GetMenuItem(true, new EventHandler(DestinationToolStripMenuItemClick));
-                item.ShortcutKeys = destination.EditorShortcutKeys;
-                if (item != null)
-                {
-                    fileStripMenuItem.DropDownItems.Add(item);
-                }
-            }
-            // add the elements after the destinations
-            this.fileStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-									this.toolStripSeparator9,
-									this.closeToolStripMenuItem});
+            this.fileStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.closeToolStripMenuItem });
         }
 
         private void SurfaceMessageReceived(object sender, SurfaceMessageEventArgs eventArgs)
@@ -785,7 +732,7 @@ namespace Greenshot
 
         private void PreferencesToolStripMenuItemClick(object sender, System.EventArgs e)
         {
-            MainForm.instance.ShowSetting();
+            ShowSetting();
         }
 
         private void BtnSettingsClick(object sender, System.EventArgs e)
@@ -1314,7 +1261,7 @@ namespace Greenshot
         private void Insert_window_toolstripmenuitemMouseEnter(object sender, EventArgs e)
         {
             ToolStripMenuItem captureWindowMenuItem = (ToolStripMenuItem)sender;
-            MainForm.instance.AddCaptureWindowMenuItems(captureWindowMenuItem, Contextmenu_window_Click);
+            AddCaptureWindowMenuItems(captureWindowMenuItem, Contextmenu_window_Click);
         }
 
         private void Contextmenu_window_Click(object sender, EventArgs e)

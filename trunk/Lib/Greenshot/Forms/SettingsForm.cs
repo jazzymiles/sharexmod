@@ -69,7 +69,6 @@ namespace Greenshot
                 this.trackBarJpegQuality.BackColor = System.Drawing.SystemColors.Control;
             }
 
-            DisplayPluginTab();
             UpdateUI();
             DisplaySettings();
             CheckSettings();
@@ -147,43 +146,6 @@ namespace Greenshot
             PopulateComboBox<WindowCaptureMode>(combobox_window_capture_mode, availableModes, selectedWindowCaptureMode);
         }
 
-        private void DisplayPluginTab()
-        {
-            if (!PluginHelper.instance.HasPlugins())
-            {
-                this.tabcontrol.TabPages.Remove(tab_plugins);
-            }
-            else
-            {
-                // Draw the Plugin listview
-                listview_plugins.BeginUpdate();
-                listview_plugins.Items.Clear();
-                listview_plugins.Columns.Clear();
-                string[] columns = { "Name", "Version", "Created by", "DLL path" };
-                foreach (string column in columns)
-                {
-                    listview_plugins.Columns.Add(column);
-                }
-                PluginHelper.instance.FillListview(this.listview_plugins);
-                // Maximize Column size!
-                for (int i = 0; i < listview_plugins.Columns.Count; i++)
-                {
-                    listview_plugins.AutoResizeColumn(i, ColumnHeaderAutoResizeStyle.ColumnContent);
-                    int width = listview_plugins.Columns[i].Width;
-                    listview_plugins.AutoResizeColumn(i, ColumnHeaderAutoResizeStyle.HeaderSize);
-                    if (width > listview_plugins.Columns[i].Width)
-                    {
-                        listview_plugins.Columns[i].Width = width;
-                    }
-                }
-                listview_plugins.EndUpdate();
-                listview_plugins.Refresh();
-
-                // Disable the configure button, it will be enabled when a plugin is selected AND isConfigurable
-                button_pluginconfigure.Enabled = false;
-            }
-        }
-
         /// <summary>
         /// Update the UI to reflect the language and other text settings
         /// </summary>
@@ -241,57 +203,6 @@ namespace Greenshot
             }
         }
 
-        /// <summary>
-        /// Build the view with all the destinations
-        /// </summary>
-        private void DisplayDestinations()
-        {
-            checkbox_picker.Checked = false;
-
-            destinationsListView.Items.Clear();
-            destinationsListView.ListViewItemSorter = new ListviewWithDestinationComparer();
-            ImageList imageList = new ImageList();
-            destinationsListView.SmallImageList = imageList;
-            int imageNr = -1;
-            foreach (IDestination destination in DestinationHelper.GetAllDestinations())
-            {
-                Image destinationImage = destination.DisplayIcon;
-                if (destinationImage != null)
-                {
-                    imageList.Images.Add(destination.DisplayIcon);
-                    imageNr++;
-                }
-                if (PickerDestination.DESIGNATION.Equals(destination.Designation))
-                {
-                    checkbox_picker.Checked = coreConfiguration.OutputDestinations.Contains(destination.Designation);
-                    checkbox_picker.Text = destination.Description;
-                }
-                else
-                {
-                    ListViewItem item;
-                    if (destinationImage != null)
-                    {
-                        item = destinationsListView.Items.Add(destination.Description, imageNr);
-                    }
-                    else
-                    {
-                        item = destinationsListView.Items.Add(destination.Description);
-                    }
-                    item.Tag = destination;
-                    item.Checked = coreConfiguration.OutputDestinations.Contains(destination.Designation);
-                }
-            }
-            if (checkbox_picker.Checked)
-            {
-                destinationsListView.Enabled = false;
-                foreach (int index in destinationsListView.CheckedIndices)
-                {
-                    ListViewItem item = destinationsListView.Items[index];
-                    item.Checked = false;
-                }
-            }
-        }
-
         private void DisplaySettings()
         {
             colorButton_window_background.SelectedColor = coreConfiguration.DWMBackgroundColor;
@@ -306,8 +217,6 @@ namespace Greenshot
 
             trackBarJpegQuality.Value = coreConfiguration.OutputFileJpegQuality;
             textBoxJpegQuality.Text = coreConfiguration.OutputFileJpegQuality + "%";
-
-            DisplayDestinations();
 
             numericUpDownWaitTime.Value = coreConfiguration.CaptureDelay >= 0 ? coreConfiguration.CaptureDelay : 0;
 
@@ -367,9 +276,6 @@ namespace Greenshot
             coreConfiguration.UpdateCheckInterval = (int)numericUpDown_daysbetweencheck.Value;
 
             IniConfig.Save();
-
-            // Make sure the current language & settings are reflected in the Main-context menu
-            MainForm.instance.UpdateUI();
 
             try
             {
@@ -438,16 +344,6 @@ namespace Greenshot
             // Convert %NUM% to ${NUM} for old language files!
             filenamepatternText = Regex.Replace(filenamepatternText, "%([a-zA-Z_0-9]+)%", @"${$1}");
             MessageBox.Show(filenamepatternText, Language.GetString(LangKey.settings_filenamepattern));
-        }
-
-        private void Listview_pluginsSelectedIndexChanged(object sender, EventArgs e)
-        {
-            button_pluginconfigure.Enabled = PluginHelper.instance.isSelectedItemConfigurable(listview_plugins);
-        }
-
-        private void Button_pluginconfigureClick(object sender, EventArgs e)
-        {
-            PluginHelper.instance.ConfigureSelectedItem(listview_plugins);
         }
 
         private void Combobox_languageSelectedIndexChanged(object sender, EventArgs e)
