@@ -35,8 +35,9 @@ namespace HelpersLib.Hotkey
 
         public Keys HotkeyDefault { get; set; }
 
-        [XmlIgnore]
-        public int Tag { get; set; }
+        public bool SystemHotkey { get; set; }
+
+        public string Tag { get; set; }
 
         [XmlIgnore]
         public Action Action { get; set; }
@@ -47,7 +48,6 @@ namespace HelpersLib.Hotkey
         [XmlIgnore]
         public HotkeyStatus HotkeyStatus { get; set; }
 
-        [XmlIgnore]
         public string Description { get; set; }
 
         public HotkeySetting()
@@ -61,7 +61,7 @@ namespace HelpersLib.Hotkey
             HotkeyDefault = hotkey;
         }
 
-        public HotkeySetting(Keys hotkey, int tag, Action action, ToolStripMenuItem menuItem = null)
+        public HotkeySetting(Keys hotkey, string tag, Action action, ToolStripMenuItem menuItem = null)
             : this(hotkey)
         {
             Tag = tag;

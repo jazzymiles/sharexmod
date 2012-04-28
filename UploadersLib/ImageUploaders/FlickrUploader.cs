@@ -27,7 +27,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using System.Xml.Linq;
 using HelpersLib;
 using UploadersLib.HelperClasses;
@@ -45,14 +44,6 @@ namespace UploadersLib.ImageUploaders
         public FlickrAuthInfo Auth = new FlickrAuthInfo();
         public FlickrSettings Settings = new FlickrSettings();
         public string Frob;
-
-        public override string Host
-        {
-            get
-            {
-                return ImageDestination.Flickr.GetDescription();
-            }
-        }
 
         public FlickrUploader(string key, string secret)
         {
@@ -100,7 +91,9 @@ namespace UploadersLib.ImageUploaders
             args.Add("api_sig", GetAPISig(args));
 
             string response = SendPostRequest(API_URL, args);
+
             this.Frob = ParseResponse(response, "frob").Value;
+
             return this.Frob;
         }
 

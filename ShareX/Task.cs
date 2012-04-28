@@ -298,6 +298,9 @@ namespace ShareX
                     yFrogOptions.Source = Application.ProductName;
                     imageUploader = new YfrogUploader(yFrogOptions);
                     break;
+				case ImageDestination.Immio:
+                    imageUploader = new ImmioUploader();
+                    break;
             }
 
             if (imageUploader != null)

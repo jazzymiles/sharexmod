@@ -25,6 +25,7 @@
 
 using System;
 using System.Windows.Forms;
+using HelplersLib;
 
 namespace HelpersLib.Hotkey
 {
@@ -43,9 +44,9 @@ namespace HelpersLib.Hotkey
             {
                 manager = hotkeyManager;
 
-                foreach (HotkeySetting setting in manager.Settings)
+                foreach (Workflow wf in manager.Workflows)
                 {
-                    HotkeySelectionControl control = new HotkeySelectionControl(setting, manager.Host);
+                    HotkeySelectionControl control = new HotkeySelectionControl(wf);
                     control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
                     flpHotkeys.Controls.Add(control);
                 }
@@ -55,7 +56,62 @@ namespace HelpersLib.Hotkey
         private void control_HotkeyChanged(object sender, EventArgs e)
         {
             HotkeySelectionControl control = (HotkeySelectionControl)sender;
-            manager.UpdateHotkey(control.Setting);
+            manager.UpdateHotkey(control.Workflow.HotkeyConfig);
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            Workflow wf = new Workflow("New Workflow", new HotkeySetting());
+            WindowWorkflow wwf = new WindowWorkflow(wf);
+
+            if (wwf.ShowDialog() == DialogResult.OK)
+            {
+                manager.Workflows.Add(wf);
+                HotkeySelectionControl control = new HotkeySelectionControl(wf);
+                control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
+                flpHotkeys.Controls.Add(control);
+                lblHelp.Text = "Your new hotkey will not be active until you close Settings.";
+            }
+        }
+
+        private void btnConfigure_Click(object sender, EventArgs e)
+        {
+            foreach (HotkeySelectionControl hksc in flpHotkeys.Controls)
+            {
+                if (hksc.Checked)
+                {
+                    WindowWorkflow wwf = new WindowWorkflow(hksc.Workflow);
+                    wwf.ShowDialog();
+                    hksc.set_HotkeyDescription(wwf.Workflow.HotkeyConfig.Description);
+                    hksc.Workflow = wwf.Workflow;
+                    break;
+                }
+            }
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            foreach (HotkeySelectionControl hksc in flpHotkeys.Controls)
+            {
+                if (hksc.Checked)
+                {
+                    if (!hksc.Workflow.HotkeyConfig.SystemHotkey)
+                    {
+                        if (MessageBox.Show(string.Format("Are you sure that you want to remove the workflow:\n{0}?",
+                                hksc.Workflow.HotkeyConfig.Description), Application.ProductName,
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                        {
+                            flpHotkeys.Controls.Remove(hksc);
+                            manager.Workflows.Remove(hksc.Workflow);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("You can only remove user generated workflows. \n\nHowever you can reconfigure application generated workflows.",
+                            Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
         }
     }
 }

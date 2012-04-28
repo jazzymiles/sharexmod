@@ -33,20 +33,10 @@ namespace UploadersLib.ImageUploaders
     public sealed class ImageShackUploader : ImageUploader
     {
         public AccountType AccountType { get; private set; }
-
         public bool IsPublic { get; set; }
 
         private string DeveloperKey { get; set; }
-
         private string RegistrationCode { get; set; }
-
-        public override string Host
-        {
-            get
-            {
-                return ImageDestination.ImageShack.GetDescription();
-            }
-        }
 
         public ImageShackUploader(string developerKey, AccountType accountType = AccountType.Anonymous, string registrationCode = null)
         {

@@ -1,6 +1,6 @@
-#define MyAppName "ShareX"
-#define MyAppFile "ShareX.exe"
-#define MyAppPath "ShareX\bin\Release\ShareX.exe"
+#define MyAppName "ShareXmod"
+#define MyAppFile "ShareXmod.exe"
+#define MyAppPath "ShareX\bin\Release\ShareXmod.exe"
 #define MyAppVersion GetStringFileInfo(MyAppPath, "Assembly Version")
 #define MyAppPublisher "ShareX Developers"
 #define MyAppURL "http://code.google.com/p/sharexmod"

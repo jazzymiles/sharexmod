@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ShareX</RootNamespace>
-    <AssemblyName>ShareX</AssemblyName>
+    <AssemblyName>ShareXmod</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ApplicationIcon>Resources\ShareX.ico</ApplicationIcon>
@@ -124,6 +124,9 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HelperClasses\TaskHelper.cs" />
+    <Compile Include="Forms\MainForm_Workflow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\WindowAfterCapture.cs">
@@ -287,10 +290,6 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Release "$(SolutionDir)Tools\sgen.exe" /a:"$(TargetDir)ShareX.exe" /f /t:"ShareX.Settings" /v
-if $(ConfigurationName) == Release "$(SolutionDir)Tools\sgen.exe" /a:"$(TargetDir)UploadersLib.dll" /f /t:"UploadersLib.UploadersConfig" /v</PostBuildEvent>
-  </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>

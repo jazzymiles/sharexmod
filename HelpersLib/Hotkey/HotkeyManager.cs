@@ -31,7 +31,7 @@ using System.Windows.Forms;
 
 namespace HelpersLib.Hotkey
 {
-    public enum ZUploaderHotkey
+    public enum EHotkey
     {
         [Description("Clipboard Upload")]
         ClipboardUpload,
@@ -99,41 +99,28 @@ namespace HelpersLib.Hotkey
 
     public class HotkeyManager
     {
-        public ZAppType Host = ZAppType.ShareX;
-        public List<HotkeySetting> Settings = new List<HotkeySetting>();
+        public List<Workflow> Workflows = new List<Workflow>();
 
         private HotkeyForm hotkeyForm;
 
-        public HotkeyManager(HotkeyForm hotkeyForm, ZAppType host)
+        public HotkeyManager(HotkeyForm hotkeyForm)
         {
             this.hotkeyForm = hotkeyForm;
-            this.Host = host;
         }
 
-        public void AddHotkey(ZUploaderHotkey hotkeyEnum, HotkeySetting hotkeySetting, Action action, ToolStripMenuItem menuItem = null)
+        public void AddHotkey(Workflow wf, Action action, ToolStripMenuItem menuItem = null)
         {
-            AddHotkey((int)hotkeyEnum, hotkeyEnum.GetDescription(), hotkeySetting, action, menuItem);
-        }
+            Workflow wfOld = Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
+            if (wfOld != null)
+                Workflows.Remove(wfOld);
 
-        public void AddHotkey(ZScreenHotkey hotkeyEnum, HotkeySetting hotkeySetting, Action action, ToolStripMenuItem menuItem = null)
-        {
-            AddHotkey((int)hotkeyEnum, hotkeyEnum.GetDescription(), hotkeySetting, action, menuItem);
-        }
+            wf.HotkeyConfig.Action = action;
+            wf.HotkeyConfig.MenuItem = menuItem;
 
-        public void AddHotkey(JBirdHotkey hotkeyEnum, HotkeySetting hotkeySetting, Action action, ToolStripMenuItem menuItem = null)
-        {
-            AddHotkey((int)hotkeyEnum, hotkeyEnum.GetDescription(), hotkeySetting, action, menuItem);
-        }
+            Workflows.Add(wf);
 
-        private void AddHotkey(int hotkeyId, string hotkeyDescription, HotkeySetting hotkeySetting, Action action, ToolStripMenuItem menuItem = null)
-        {
-            hotkeySetting.Tag = hotkeyId;
-            hotkeySetting.Description = hotkeyDescription;
-            hotkeySetting.Action = action;
-            hotkeySetting.MenuItem = menuItem;
-            Settings.Add(hotkeySetting);
-            hotkeySetting.UpdateMenuItemShortcut();
-            hotkeySetting.HotkeyStatus = hotkeyForm.RegisterHotkey(hotkeySetting.Hotkey, action, hotkeyId);
+            wf.HotkeyConfig.UpdateMenuItemShortcut();
+            wf.HotkeyConfig.HotkeyStatus = hotkeyForm.RegisterHotkey(wf.HotkeyConfig.Hotkey, action, wf.HotkeyConfig.Tag);
         }
 
         public HotkeyStatus UpdateHotkey(HotkeySetting setting)
@@ -147,10 +134,10 @@ namespace HelpersLib.Hotkey
         {
             failedHotkeys = null;
             bool status = false;
-            var failedHotkeysList = Settings.Where(x => x.HotkeyStatus == HotkeyStatus.Failed);
+            var failedHotkeysList = Workflows.Where(x => x.HotkeyConfig.HotkeyStatus == HotkeyStatus.Failed);
             if (status = failedHotkeysList.Count() > 0)
             {
-                failedHotkeys = string.Join("\r\n", failedHotkeysList.Select(x => x.Description + ": " + x.ToString()).ToArray());
+                failedHotkeys = string.Join("\r\n", failedHotkeysList.Select(wf => wf.HotkeyConfig.Description + ": " + wf.HotkeyConfig.ToString()).ToArray());
             }
             return status;
         }

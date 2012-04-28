@@ -33,36 +33,32 @@ namespace HelpersLib.Hotkey
     {
         public event EventHandler HotkeyChanged;
 
-        public HotkeySetting Setting { get; set; }
+        public Workflow Workflow { get; set; }
 
-        public HotkeySelectionControl(HotkeySetting setting, ZAppType host)
+        public bool Checked { get; set; }
+
+        public HotkeySelectionControl(Workflow wf)
         {
             InitializeComponent();
-            Setting = setting;
-            switch (host)
-            {
-                case ZAppType.ZScreen:
-                    lblHotkeyDescription.Text = ((ZScreenHotkey)Setting.Tag).GetDescription();
-                    break;
-                case ZAppType.JBird:
-                    lblHotkeyDescription.Text = ((JBirdHotkey)Setting.Tag).GetDescription();
-                    break;
-                default:
-                    lblHotkeyDescription.Text = ((ZUploaderHotkey)Setting.Tag).GetDescription();
-                    break;
-            }
-            btnSetHotkey.Text = new KeyInfo(Setting.Hotkey).ToString();
+            Workflow = wf;
+            chkHotkeyDescription.Text = Workflow.HotkeyConfig.Description;
+            btnSetHotkey.Text = new KeyInfo(Workflow.HotkeyConfig.Hotkey).ToString();
             UpdateHotkeyStatus();
+        }
+
+        public void set_HotkeyDescription(string txt)
+        {
+            chkHotkeyDescription.Text = txt;
         }
 
         private void btnSetHotkey_Click(object sender, EventArgs e)
         {
-            using (HotkeyInputForm inputForm = new HotkeyInputForm(Setting.Hotkey, Setting.HotkeyDefault))
+            using (HotkeyInputForm inputForm = new HotkeyInputForm(Workflow.HotkeyConfig.Hotkey, Workflow.HotkeyConfig.HotkeyDefault))
             {
                 if (inputForm.ShowDialog() == DialogResult.OK)
                 {
-                    Setting.Hotkey = inputForm.SelectedKey;
-                    btnSetHotkey.Text = new KeyInfo(Setting.Hotkey).ToString();
+                    Workflow.HotkeyConfig.Hotkey = inputForm.SelectedKey;
+                    btnSetHotkey.Text = new KeyInfo(Workflow.HotkeyConfig.Hotkey).ToString();
                     OnHotkeyChanged();
                     UpdateHotkeyStatus();
                 }
@@ -71,7 +67,7 @@ namespace HelpersLib.Hotkey
 
         private void UpdateHotkeyStatus()
         {
-            switch (Setting.HotkeyStatus)
+            switch (Workflow.HotkeyConfig.HotkeyStatus)
             {
                 case HotkeyStatus.Failed:
                     lblIsHotkeyActive.BackColor = Color.IndianRed;
@@ -91,6 +87,11 @@ namespace HelpersLib.Hotkey
             {
                 HotkeyChanged(this, null);
             }
+        }
+
+        private void chkHotkeyDescription_CheckedChanged(object sender, EventArgs e)
+        {
+            Checked = chkHotkeyDescription.Checked;
         }
     }
 }
