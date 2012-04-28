@@ -28,26 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblHotkeyDescription = new System.Windows.Forms.Label();
             this.btnSetHotkey = new System.Windows.Forms.Button();
             this.lblIsHotkeyActive = new System.Windows.Forms.Label();
+            this.chkHotkeyDescription = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
-            // 
-            // lblHotkeyDescription
-            // 
-            this.lblHotkeyDescription.Location = new System.Drawing.Point(0, 5);
-            this.lblHotkeyDescription.Name = "lblHotkeyDescription";
-            this.lblHotkeyDescription.Size = new System.Drawing.Size(250, 15);
-            this.lblHotkeyDescription.TabIndex = 0;
-            this.lblHotkeyDescription.Text = "Description";
             // 
             // btnSetHotkey
             // 
             this.btnSetHotkey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSetHotkey.Location = new System.Drawing.Point(288, 0);
+            this.btnSetHotkey.Location = new System.Drawing.Point(300, 0);
             this.btnSetHotkey.Name = "btnSetHotkey";
             this.btnSetHotkey.Size = new System.Drawing.Size(195, 23);
-            this.btnSetHotkey.TabIndex = 1;
+            this.btnSetHotkey.TabIndex = 2;
             this.btnSetHotkey.Text = "Ctrl + Shift + Alt + Print Screen";
             this.btnSetHotkey.UseVisualStyleBackColor = true;
             this.btnSetHotkey.Click += new System.EventHandler(this.btnSetHotkey_Click);
@@ -57,29 +49,41 @@
             this.lblIsHotkeyActive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblIsHotkeyActive.BackColor = System.Drawing.Color.IndianRed;
             this.lblIsHotkeyActive.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblIsHotkeyActive.Location = new System.Drawing.Point(256, 1);
+            this.lblIsHotkeyActive.Location = new System.Drawing.Point(268, 1);
             this.lblIsHotkeyActive.Name = "lblIsHotkeyActive";
             this.lblIsHotkeyActive.Size = new System.Drawing.Size(28, 21);
-            this.lblIsHotkeyActive.TabIndex = 2;
+            this.lblIsHotkeyActive.TabIndex = 1;
+            // 
+            // chkHotkeyDescription
+            // 
+            this.chkHotkeyDescription.AutoSize = true;
+            this.chkHotkeyDescription.Location = new System.Drawing.Point(0, 2);
+            this.chkHotkeyDescription.Name = "chkHotkeyDescription";
+            this.chkHotkeyDescription.Size = new System.Drawing.Size(79, 17);
+            this.chkHotkeyDescription.TabIndex = 0;
+            this.chkHotkeyDescription.Text = "Description";
+            this.chkHotkeyDescription.UseVisualStyleBackColor = true;
+            this.chkHotkeyDescription.CheckedChanged += new System.EventHandler(this.chkHotkeyDescription_CheckedChanged);
             // 
             // HotkeySelectionControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chkHotkeyDescription);
             this.Controls.Add(this.lblIsHotkeyActive);
             this.Controls.Add(this.btnSetHotkey);
-            this.Controls.Add(this.lblHotkeyDescription);
             this.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
             this.Name = "HotkeySelectionControl";
-            this.Size = new System.Drawing.Size(483, 23);
+            this.Size = new System.Drawing.Size(495, 23);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label lblHotkeyDescription;
         private System.Windows.Forms.Button btnSetHotkey;
         private System.Windows.Forms.Label lblIsHotkeyActive;
+        private System.Windows.Forms.CheckBox chkHotkeyDescription;
     }
 }

@@ -41,41 +41,7 @@ namespace ShareX
     {
         private delegate Image ScreenCaptureDelegate();
 
-        private void InitHotkeys()
-        {
-            HotkeyManager = new HotkeyManager(this, ZAppType.ShareX);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.ClipboardUpload, Program.Settings.HotkeyClipboardUpload, UploadManager.ClipboardUpload);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.FileUpload, Program.Settings.HotkeyFileUpload, UploadManager.UploadFile);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.PrintScreen, Program.Settings.HotkeyPrintScreen, () => CaptureScreen(false), tsmiFullscreen);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.ActiveWindow, Program.Settings.HotkeyActiveWindow, () => CaptureActiveWindow(false));
-            HotkeyManager.AddHotkey(ZUploaderHotkey.ActiveMonitor, Program.Settings.HotkeyActiveMonitor, () => CaptureActiveMonitor(false));
-            HotkeyManager.AddHotkey(ZUploaderHotkey.WindowRectangle, Program.Settings.HotkeyWindowRectangle, () => WindowRectangleCapture(false), tsmiWindowRectangle);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.RectangleRegion, Program.Settings.HotkeyRectangleRegion,
-                () => CaptureRegion(new RectangleRegion(), false), tsmiRectangle);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.RoundedRectangleRegion, Program.Settings.HotkeyRoundedRectangleRegion,
-                () => CaptureRegion(new RoundedRectangleRegion(), false), tsmiRoundedRectangle);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.EllipseRegion, Program.Settings.HotkeyEllipseRegion,
-                () => CaptureRegion(new EllipseRegion(), false), tsmiEllipse);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.TriangleRegion, Program.Settings.HotkeyTriangleRegion,
-                () => CaptureRegion(new TriangleRegion(), false), tsmiTriangle);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.DiamondRegion, Program.Settings.HotkeyDiamondRegion,
-                () => CaptureRegion(new DiamondRegion(), false), tsmiDiamond);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.PolygonRegion, Program.Settings.HotkeyPolygonRegion,
-                () => CaptureRegion(new PolygonRegion(), false), tsmiPolygon);
-            HotkeyManager.AddHotkey(ZUploaderHotkey.FreeHandRegion, Program.Settings.HotkeyFreeHandRegion,
-                () => CaptureRegion(new FreeHandRegion(), false), tsmiFreeHand);
-
-            string failedHotkeys;
-
-            if (HotkeyManager.IsHotkeyRegisterFailed(out failedHotkeys))
-            {
-                MessageBox.Show("Unable to register hotkey(s):\r\n\r\n" + failedHotkeys +
-                    "\r\n\r\nPlease select a different hotkey or quit the conflicting application and reopen ShareX.",
-                    "Hotkey register failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        private new void Capture(ScreenCaptureDelegate capture, bool autoHideForm = true)
+        private new Image Capture(ScreenCaptureDelegate capture, bool autoHideForm = true)
         {
             if (autoHideForm)
             {
@@ -111,36 +77,9 @@ namespace ShareX
                 {
                     ShowActivate();
                 }
-
-                AfterCapture(img);
             }
-        }
 
-        private void EditImage(ref Image img)
-        {
-            if (Greenshot.MainForm.instance == null)
-                Greenshot.MainForm.Start(new string[0]);
-
-            GreenshotPlugin.Core.CoreConfiguration coreConfiguration = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>();
-            coreConfiguration.OutputFileFilenamePattern = "${title}";
-            coreConfiguration.OutputFilePath = Program.ScreenshotsPath;
-
-            Greenshot.Plugin.ICapture capture = new GreenshotPlugin.Core.Capture();
-            capture.Image = img;
-            ImageData imageData = TaskHelper.PrepareImageAndFilename(img);
-            capture.CaptureDetails.Filename = Path.Combine(Program.ScreenshotsPath, imageData.Filename);
-            capture.CaptureDetails.Title =
-                Path.GetFileNameWithoutExtension(capture.CaptureDetails.Filename);
-            capture.CaptureDetails.AddMetaData("file", capture.CaptureDetails.Filename);
-            capture.CaptureDetails.AddMetaData("source", "file");
-
-            var surface = new Greenshot.Drawing.Surface(capture);
-            var editor = new Greenshot.ImageEditorForm(surface, Program.Settings.CaptureSaveImage) { Icon = this.Icon };
-
-            editor.SetImagePath(capture.CaptureDetails.Filename);
-            editor.Visible = false;
-            editor.ShowDialog();
-            img = editor.GetImageForExport();
+            return img;
         }
 
         private void AfterCapture(Image img)
@@ -174,73 +113,64 @@ namespace ShareX
 
                 if (configAfterCapture.SaveImageToFile)
                 {
-                    ImageData imageData = TaskHelper.PrepareImageAndFilename(img);
-                    string filePath = imageData.WriteToFile(Program.ScreenshotsPath);
-
-                    if (configAfterCapture.UploadImageToHost)
-                    {
-                        UploadManager.UploadImageStream(imageData.ImageStream, filePath);
-                    }
-                    else
-                    {
-                        imageData.Dispose();
-                    }
+                    SaveImageToFile(img);
                 }
-                else if (configAfterCapture.UploadImageToHost)
+
+                if (configAfterCapture.UploadImageToHost)
                 {
                     UploadManager.UploadImage(img);
                 }
             }
         }
 
-        private void CaptureScreen(bool autoHideForm = true)
+        private Image CaptureScreen(bool autoHideForm = true)
         {
-            Capture(Screenshot.CaptureFullscreen, autoHideForm);
+            return Capture(Screenshot.CaptureFullscreen, autoHideForm);
         }
 
-        private void CaptureActiveWindow(bool autoHideForm = true)
+        private Image CaptureActiveWindow(bool autoHideForm = true)
         {
             if (Program.Settings.CaptureTransparent)
             {
-                Capture(Screenshot.CaptureActiveWindowTransparent, autoHideForm);
+                return Capture(Screenshot.CaptureActiveWindowTransparent, autoHideForm);
             }
             else
             {
-                Capture(Screenshot.CaptureActiveWindow, autoHideForm);
+                return Capture(Screenshot.CaptureActiveWindow, autoHideForm);
             }
         }
 
-        private void CaptureActiveMonitor(bool autoHideForm = true)
+        private Image CaptureActiveMonitor(bool autoHideForm = true)
         {
-            Capture(Screenshot.CaptureActiveMonitor, autoHideForm);
+            return Capture(Screenshot.CaptureActiveMonitor, autoHideForm);
         }
 
-        private void CaptureWindow(IntPtr handle, bool autoHideForm = true)
+        private Image CaptureWindow(IntPtr handle, bool autoHideForm = true)
         {
             autoHideForm = autoHideForm && handle != this.Handle;
 
-            Capture(() =>
-            {
-                if (NativeMethods.IsIconic(handle))
-                {
-                    NativeMethods.RestoreWindow(handle);
-                }
+            return Capture(() =>
+             {
+                 if (NativeMethods.IsIconic(handle))
+                 {
+                     NativeMethods.RestoreWindow(handle);
+                 }
 
-                NativeMethods.SetForegroundWindow(handle);
-                Thread.Sleep(250);
+                 NativeMethods.SetForegroundWindow(handle);
+                 Thread.Sleep(250);
 
-                if (Program.Settings.CaptureTransparent)
-                {
-                    return Screenshot.CaptureWindowTransparent(handle);
-                }
+                 if (Program.Settings.CaptureTransparent)
+                 {
+                     return Screenshot.CaptureWindowTransparent(handle);
+                 }
 
-                return Screenshot.CaptureWindow(handle);
-            }, autoHideForm);
+                 return Screenshot.CaptureWindow(handle);
+             }, autoHideForm);
         }
 
-        private void CaptureRegion(Surface surface, bool autoHideForm = true)
+        private Image CaptureRegion(Surface surface, bool autoHideForm = true)
         {
-            Capture(() =>
+            return Capture(() =>
             {
                 Image img = null;
                 Image screenshot = Screenshot.CaptureFullscreen();
@@ -260,11 +190,11 @@ namespace ShareX
             }, autoHideForm);
         }
 
-        private void WindowRectangleCapture(bool autoHideForm = true)
+        private Image WindowRectangleCapture(bool autoHideForm = true)
         {
             RectangleRegion rectangleRegion = new RectangleRegion();
             rectangleRegion.AreaManager.WindowCaptureMode = true;
-            CaptureRegion(rectangleRegion, autoHideForm);
+            return CaptureRegion(rectangleRegion, autoHideForm);
         }
 
         private void PrepareWindowsMenu(ToolStripMenuItem tsmi, EventHandler handler)

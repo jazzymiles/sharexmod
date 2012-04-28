@@ -23,6 +23,8 @@
 
 #endregion License Information (GPL v3)
 
+using System.ComponentModel;
+
 namespace ShareX
 {
     public enum EImageFormat

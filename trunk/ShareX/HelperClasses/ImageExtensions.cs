@@ -23,6 +23,7 @@
 
 #endregion License Information (GPL v3)
 
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -36,23 +37,29 @@ namespace ShareX
         {
             MemoryStream stream = new MemoryStream();
 
-            switch (imageFormat)
+            try
             {
-                case EImageFormat.PNG:
-                    img.Save(stream, ImageFormat.Png);
-                    break;
-                case EImageFormat.JPEG:
-                    img.SaveJPG(stream, Program.Settings.ImageJPEGQuality, true);
-                    break;
-                case EImageFormat.GIF:
-                    img.SaveGIF(stream, Program.Settings.ImageGIFQuality);
-                    break;
-                case EImageFormat.BMP:
-                    img.Save(stream, ImageFormat.Bmp);
-                    break;
-                case EImageFormat.TIFF:
-                    img.Save(stream, ImageFormat.Tiff);
-                    break;
+                switch (imageFormat)
+                {
+                    case EImageFormat.PNG:
+                        img.Save(stream, ImageFormat.Png);
+                        break;
+                    case EImageFormat.JPEG:
+                        img.SaveJPG(stream, Program.Settings.ImageJPEGQuality, true);
+                        break;
+                    case EImageFormat.GIF:
+                        img.SaveGIF(stream, Program.Settings.ImageGIFQuality);
+                        break;
+                    case EImageFormat.BMP:
+                        img.Save(stream, ImageFormat.Bmp);
+                        break;
+                    case EImageFormat.TIFF:
+                        img.Save(stream, ImageFormat.Tiff);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
             }
 
             return stream;
