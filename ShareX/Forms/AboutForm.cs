@@ -25,6 +25,7 @@
 
 using System;
 using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
 using HelpersLib;
 using UpdateCheckerLib;
@@ -40,6 +41,24 @@ namespace ShareX
             Text = Program.Title;
             lblProductName.Text = Program.Title;
             lblCopyright.Text = AssemblyCopyright;
+
+            StringBuilder sbDesc = new StringBuilder();
+            sbDesc.AppendLine("Acknowledgements:");
+            sbDesc.AppendLine("FTP Library: http://www.starksoft.com");
+            sbDesc.AppendLine("Json.NET: http://json.codeplex.com");
+            sbDesc.AppendLine("SSH.NET: http://sshnet.codeplex.com");
+            sbDesc.AppendLine("Icons: http://p.yusukekamiyamane.com");
+            sbDesc.AppendLine("Greenshot Image Editor: http://getgreenshot.org");
+            sbDesc.AppendLine();
+            if (Program.LibNames != null)
+            {
+                sbDesc.AppendLine("Referenced assemblies:");
+                foreach (string dll in Program.LibNames)
+                {
+                    sbDesc.AppendLine(dll);
+                }
+            }
+            txtDetails.Text = sbDesc.ToString();
 
             UpdateChecker updateChecker = new UpdateChecker(Links.URL_UPDATE, Application.ProductName, new Version(Program.AssemblyVersion),
                 ReleaseChannelType.Stable, Uploader.ProxySettings.GetWebProxy);

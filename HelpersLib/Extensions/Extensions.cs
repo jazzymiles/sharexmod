@@ -37,11 +37,6 @@ namespace HelpersLib
 {
     public static class Extensions
     {
-        public static int Mid(this int number, int min, int max)
-        {
-            return Math.Min(Math.Max(number, min), max);
-        }
-
         public static string GetDescription(this Enum value)
         {
             FieldInfo fi = value.GetType().GetField(value.ToString());
@@ -58,7 +53,6 @@ namespace HelpersLib
         {
             ulong keysVal = Convert.ToUInt64(keys);
             ulong flagVal = Convert.ToUInt64(flag);
-
             return (keysVal & flagVal) == flagVal;
         }
 
@@ -67,6 +61,11 @@ namespace HelpersLib
             if (num <= min) return min;
             if (num >= max) return max;
             return num;
+        }
+
+        public static int Between(this int num, Array array)
+        {
+            return num.Between(0, array.Length - 1);
         }
 
         public static int BetweenOrDefault(this int num, int min, int max, int defaultValue = 0)
@@ -155,15 +154,26 @@ namespace HelpersLib
             return true;
         }
 
-        public static bool HasValidIndex<T>(this IEnumerable<T> list, int selected)
+        public static bool IsValidIndex<T>(this T[] array, int index)
         {
-            if (list != null)
-            {
-                int count = list.Count();
-                return count > 0 && selected.IsBetween(0, count - 1);
-            }
+            return array != null && index >= 0 && index < array.Length;
+        }
 
-            return false;
+        public static bool IsValidIndex<T>(this List<T> list, int index)
+        {
+            return list != null && index >= 0 && index < list.Count;
+        }
+
+        public static T ReturnIfValidIndex<T>(this T[] array, int index)
+        {
+            if (array.IsValidIndex(index)) return array[index];
+            return default(T);
+        }
+
+        public static T ReturnIfValidIndex<T>(this List<T> list, int index)
+        {
+            if (list.IsValidIndex(index)) return list[index];
+            return default(T);
         }
 
         public static double ToDouble(this Version value)

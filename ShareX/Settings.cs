@@ -33,7 +33,7 @@ using UploadersLib.HelperClasses;
 
 namespace ShareX
 {
-    public class Settings : XMLSettingsBase<Settings>
+    public class Settings : SettingsBase<Settings>
     {
         #region Main Form
 

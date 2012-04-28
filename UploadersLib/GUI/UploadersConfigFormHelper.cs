@@ -262,7 +262,7 @@ namespace UploadersLib
         {
             MediaWikiAccount account = null;
 
-            if (Config.MediaWikiAccountList.HasValidIndex(Config.MediaWikiAccountSelected))
+            if (Config.MediaWikiAccountList.IsValidIndex(Config.MediaWikiAccountSelected))
             {
                 account = Config.MediaWikiAccountList[Config.MediaWikiAccountSelected];
             }
@@ -581,7 +581,7 @@ namespace UploadersLib
 
         public bool CheckFTPAccounts()
         {
-            return Config.FTPAccountList2.HasValidIndex(Config.FTPSelectedImage);
+            return Config.FTPAccountList2.IsValidIndex(Config.FTPSelectedImage);
         }
 
         public void TestFTPAccountAsync(FTPAccount acc)
@@ -820,7 +820,7 @@ namespace UploadersLib
 
         public bool CheckTwitterAccounts()
         {
-            return Config.TwitterOAuthInfoList.HasValidIndex(Config.TwitterSelectedAccount);
+            return Config.TwitterOAuthInfoList.IsValidIndex(Config.TwitterSelectedAccount);
         }
 
         /// <summary>

@@ -32,7 +32,6 @@
             this.lblZScreen = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
             this.lblCopyright = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.lblBugs = new System.Windows.Forms.Label();
             this.lblBerk = new System.Windows.Forms.Label();
             this.pbTR = new System.Windows.Forms.PictureBox();
@@ -42,6 +41,7 @@
             this.lblMike = new System.Windows.Forms.Label();
             this.pbLogo = new System.Windows.Forms.PictureBox();
             this.uclUpdate = new UpdateCheckerLib.UpdateCheckerLabel();
+            this.txtDetails = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbTR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbBerkURL)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbMikeURL)).BeginInit();
@@ -79,7 +79,7 @@
             // btnClose
             // 
             this.btnClose.ForeColor = System.Drawing.Color.Black;
-            this.btnClose.Location = new System.Drawing.Point(456, 224);
+            this.btnClose.Location = new System.Drawing.Point(520, 472);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(67, 31);
             this.btnClose.TabIndex = 8;
@@ -92,24 +92,12 @@
             this.lblCopyright.AutoSize = true;
             this.lblCopyright.BackColor = System.Drawing.Color.Transparent;
             this.lblCopyright.ForeColor = System.Drawing.Color.Black;
-            this.lblCopyright.Location = new System.Drawing.Point(272, 208);
+            this.lblCopyright.Location = new System.Drawing.Point(8, 488);
             this.lblCopyright.Name = "lblCopyright";
             this.lblCopyright.Size = new System.Drawing.Size(51, 13);
             this.lblCopyright.TabIndex = 7;
             this.lblCopyright.Text = "Copyright";
             this.lblCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(272, 144);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(195, 52);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "FTP Library: http://www.starksoft.com\r\nJson.NET: http://json.codeplex.com\r\nSSH.NE" +
-    "T: http://sshnet.codeplex.com\r\nIcons: http://p.yusukekamiyamane.com";
             // 
             // lblBugs
             // 
@@ -197,9 +185,8 @@
             // 
             // pbLogo
             // 
-            this.pbLogo.Dock = System.Windows.Forms.DockStyle.Left;
             this.pbLogo.Image = global::ShareX.Properties.Resources.ShareXLogo;
-            this.pbLogo.Location = new System.Drawing.Point(0, 0);
+            this.pbLogo.Location = new System.Drawing.Point(8, 8);
             this.pbLogo.Name = "pbLogo";
             this.pbLogo.Size = new System.Drawing.Size(264, 264);
             this.pbLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -213,11 +200,24 @@
             this.uclUpdate.Size = new System.Drawing.Size(250, 24);
             this.uclUpdate.TabIndex = 1;
             // 
+            // txtDetails
+            // 
+            this.txtDetails.Location = new System.Drawing.Point(8, 280);
+            this.txtDetails.Multiline = true;
+            this.txtDetails.Name = "txtDetails";
+            this.txtDetails.ReadOnly = true;
+            this.txtDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtDetails.Size = new System.Drawing.Size(576, 184);
+            this.txtDetails.TabIndex = 6;
+            this.txtDetails.WordWrap = false;
+            // 
             // AboutForm
             // 
+            this.AcceptButton = this.btnClose;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(533, 264);
+            this.ClientSize = new System.Drawing.Size(594, 512);
+            this.Controls.Add(this.txtDetails);
             this.Controls.Add(this.uclUpdate);
             this.Controls.Add(this.pbLogo);
             this.Controls.Add(this.pbMikeURL);
@@ -227,7 +227,6 @@
             this.Controls.Add(this.pbTR);
             this.Controls.Add(this.lblBerk);
             this.Controls.Add(this.lblBugs);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblCopyright);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.lblZScreen);
@@ -254,7 +253,6 @@
         private System.Windows.Forms.Label lblZScreen;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Label lblCopyright;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblBugs;
         private System.Windows.Forms.Label lblBerk;
         private System.Windows.Forms.PictureBox pbTR;
@@ -264,5 +262,6 @@
         private System.Windows.Forms.Label lblMike;
         private System.Windows.Forms.PictureBox pbLogo;
         private UpdateCheckerLib.UpdateCheckerLabel uclUpdate;
+        private System.Windows.Forms.TextBox txtDetails;
     }
 }
