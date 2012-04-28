@@ -43,13 +43,6 @@ namespace ShareX
             lblCopyright.Text = AssemblyCopyright;
 
             StringBuilder sbDesc = new StringBuilder();
-            sbDesc.AppendLine("Acknowledgements:");
-            sbDesc.AppendLine("FTP Library: http://www.starksoft.com");
-            sbDesc.AppendLine("Json.NET: http://json.codeplex.com");
-            sbDesc.AppendLine("SSH.NET: http://sshnet.codeplex.com");
-            sbDesc.AppendLine("Icons: http://p.yusukekamiyamane.com");
-            sbDesc.AppendLine("Greenshot Image Editor: http://getgreenshot.org");
-            sbDesc.AppendLine();
             if (Program.LibNames != null)
             {
                 sbDesc.AppendLine("Referenced assemblies:");
@@ -58,6 +51,13 @@ namespace ShareX
                     sbDesc.AppendLine(dll);
                 }
             }
+            sbDesc.AppendLine();
+            sbDesc.AppendLine("Acknowledgements:");
+            sbDesc.AppendLine("FTP Library: http://www.starksoft.com");
+            sbDesc.AppendLine("Json.NET: http://json.codeplex.com");
+            sbDesc.AppendLine("SSH.NET: http://sshnet.codeplex.com");
+            sbDesc.AppendLine("Icons: http://p.yusukekamiyamane.com");
+            sbDesc.AppendLine("Greenshot Image Editor: http://getgreenshot.org");
             txtDetails.Text = sbDesc.ToString();
 
             UpdateChecker updateChecker = new UpdateChecker(Links.URL_UPDATE, Application.ProductName, new Version(Program.AssemblyVersion),

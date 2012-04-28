@@ -65,7 +65,7 @@ namespace ShareX
 
             IsReady = true;
 
-            Program.MyLogger.WriteLine("Startup time: {0}ms", Program.StartTimer.ElapsedMilliseconds);
+            Program.MyLogger.WriteLine("Startup time: {0} ms", Program.StartTimer.ElapsedMilliseconds);
 
             UseCommandLineArgs(Environment.GetCommandLineArgs());
         }

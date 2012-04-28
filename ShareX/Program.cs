@@ -194,6 +194,7 @@ namespace ShareX
         [STAThread]
         private static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.AssemblyLoad += new AssemblyLoadEventHandler(CurrentDomain_AssemblyLoad);
             StartTimer = Stopwatch.StartNew();
 
             IsMultiInstance = CLIHelper.CheckArgs(args, "m", "multi");
@@ -220,7 +221,6 @@ namespace ShareX
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                AppDomain.CurrentDomain.AssemblyLoad += new AssemblyLoadEventHandler(CurrentDomain_AssemblyLoad);
 
                 MyLogger = new Logger();
                 DebugHelper.MyLogger = MyLogger;
