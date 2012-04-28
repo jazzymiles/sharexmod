@@ -167,7 +167,7 @@ namespace ShareX
             List<Workflow> workflowsNew = new List<Workflow>();
             foreach (Workflow wf in Program.mainForm.HotkeyManager.Workflows)
             {
-                Workflow wf2 = Program.Settings.Workflows7.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
+                Workflow wf2 = Program.Settings.Workflows9.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
                 if (wf2 == null)
                     workflowsNew.Add(wf);
             }
@@ -180,7 +180,7 @@ namespace ShareX
             }
 
             List<Workflow> workflowOld = new List<Workflow>();
-            foreach (Workflow wf in Program.Settings.Workflows7)
+            foreach (Workflow wf in Program.Settings.Workflows9)
             {
                 Workflow wf2 = Program.mainForm.HotkeyManager.Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
                 if (wf2 == null)
@@ -192,8 +192,8 @@ namespace ShareX
                 Program.mainForm.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
             }
 
-            Program.Settings.Workflows7.Clear();
-            Program.Settings.Workflows7.AddRange(Program.mainForm.HotkeyManager.Workflows);
+            Program.Settings.Workflows9.Clear();
+            Program.Settings.Workflows9.AddRange(Program.mainForm.HotkeyManager.Workflows);
 
             #endregion Workflows
         }

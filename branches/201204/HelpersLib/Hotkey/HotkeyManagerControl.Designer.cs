@@ -33,6 +33,7 @@
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnConfigure = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblHelp = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,12 +88,21 @@
             this.panel1.Location = new System.Drawing.Point(0, 40);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(544, 336);
-            this.panel1.TabIndex = 3;
+            this.panel1.TabIndex = 4;
+            // 
+            // lblHelp
+            // 
+            this.lblHelp.AutoSize = true;
+            this.lblHelp.Location = new System.Drawing.Point(256, 8);
+            this.lblHelp.Name = "lblHelp";
+            this.lblHelp.Size = new System.Drawing.Size(0, 13);
+            this.lblHelp.TabIndex = 3;
             // 
             // HotkeyManagerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblHelp);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnConfigure);
             this.Controls.Add(this.btnRemove);
@@ -101,6 +111,7 @@
             this.Size = new System.Drawing.Size(545, 377);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -111,5 +122,6 @@
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnConfigure;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label lblHelp;
     }
 }

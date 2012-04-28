@@ -124,7 +124,6 @@
             this.Name = "WindowWorkflow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "WindowWorkflow";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WindowWorkflow_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

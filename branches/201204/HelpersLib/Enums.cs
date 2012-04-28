@@ -171,18 +171,16 @@ namespace HelpersLib
     [TypeConverter(typeof(EnumToStringUsingDescription))]
     public enum EActivity
     {
+        [Description("Capture screen")]
+        CaptureScreen,
         [Description("Capture active monitor")]
         CaptureActiveMonitor,
         [Description("Capture active window")]
         CaptureActiveWindow,
-        [Description("Capture screen")]
-        CaptureScreen,
         [Description("Capture window or rectangle region")]
         CaptureWindowRectangle,
-
         [Description("Capture rectangle region")]
         CaptureRectangleRegion,
-
         [Description("Capture rounded rectangle region")]
         CaptureRoundedRectangleRegion,
         [Description("Capture ellipse region")]
@@ -196,6 +194,11 @@ namespace HelpersLib
         [Description("Capture freehand region")]
         CaptureFreeHandRegion,
 
+        [Description("Upload clipboard content")]
+        UploadClipboard,
+        [Description("Upload file")]
+        UploadFile,
+
         [Description("Copy image to clipboard")]
         ClipboardCopyImage,
         [Description("Copy URL to clipboard")]
@@ -206,10 +209,6 @@ namespace HelpersLib
         SaveToFile,
         [Description("Save to file with dialog")]
         SaveToFileWithDialog,
-        [Description("Upload clipboard content")]
-        UploadClipboard,
-        [Description("Upload file")]
-        UploadFile,
         [Description("Upload to remote host")]
         UploadToRemoteHost
     }

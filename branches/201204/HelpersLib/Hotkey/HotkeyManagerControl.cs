@@ -70,6 +70,7 @@ namespace HelpersLib.Hotkey
                 HotkeySelectionControl control = new HotkeySelectionControl(wf);
                 control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
                 flpHotkeys.Controls.Add(control);
+                lblHelp.Text = "Your new hotkey will not be active until you close Settings.";
             }
         }
 
@@ -96,8 +97,13 @@ namespace HelpersLib.Hotkey
                 {
                     if (!hksc.Workflow.HotkeyConfig.SystemHotkey)
                     {
-                        flpHotkeys.Controls.Remove(hksc);
-                        manager.Workflows.Remove(hksc.Workflow);
+                        if (MessageBox.Show(string.Format("Are you sure that you want to remove the workflow:\n{0}?",
+                                hksc.Workflow.HotkeyConfig.Description), Application.ProductName,
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                        {
+                            flpHotkeys.Controls.Remove(hksc);
+                            manager.Workflows.Remove(hksc.Workflow);
+                        }
                     }
                     else
                     {

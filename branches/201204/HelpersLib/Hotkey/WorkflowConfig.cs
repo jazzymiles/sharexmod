@@ -47,15 +47,6 @@ namespace HelplersLib
             }
         }
 
-        private void WindowWorkflow_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Workflow.Activities.Clear();
-            foreach (EActivity act in lbActivitiesUser.Items)
-            {
-                Workflow.Activities.Add(act);
-            }
-        }
-
         private void btnRemove_Click(object sender, EventArgs e)
         {
             List<EActivity> tempActivities = new List<EActivity>();
@@ -72,6 +63,13 @@ namespace HelplersLib
         private void btnOk_Click(object sender, EventArgs e)
         {
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
+
+            Workflow.Activities.Clear();
+            foreach (EActivity act in lbActivitiesUser.Items)
+            {
+                Workflow.Activities.Add(act);
+            }
+
             this.Close();
         }
 
