@@ -19,69 +19,60 @@ namespace ShareX
         {
             HotkeyManager = new HotkeyManager(this);
 
-            if (Program.Settings.Workflows9.Count == 0)
+            Workflow wfClipboardUpload = new Workflow(EHotkey.ClipboardUpload, Program.HotkeyClipboardUpload);
+            Workflow wfFileUpload = new Workflow(EHotkey.FileUpload, Program.HotkeyFileUpload);
+
+            Workflow wfPrintScreen = new Workflow(EHotkey.FullScreen, Program.HotkeyPrintScreen);
+            Workflow wfActiveMonitor = new Workflow(EHotkey.ActiveMonitor, Program.HotkeyActiveMonitor);
+            Workflow wfActiveWindow = new Workflow(EHotkey.ActiveWindow, Program.HotkeyActiveWindow);
+            Workflow wfWindowRectangle = new Workflow(EHotkey.WindowRectangle, Program.HotkeyWindowRectangle);
+
+            Workflow wfRectangleRegion = new Workflow(EHotkey.RectangleRegion, Program.HotkeyRectangleRegion);
+            Workflow wfRoundedRectangleRegion = new Workflow(EHotkey.RoundedRectangleRegion, new HotkeySetting());
+            Workflow wfEllipseRegion = new Workflow(EHotkey.EllipseRegion, new HotkeySetting());
+            Workflow wfTriangleRegion = new Workflow(EHotkey.TriangleRegion, new HotkeySetting());
+            Workflow wfDiamondRegion = new Workflow(EHotkey.DiamondRegion, new HotkeySetting());
+            Workflow wfPolygonRegion = new Workflow(EHotkey.PolygonRegion, new HotkeySetting());
+            Workflow wfFreeHandRegion = new Workflow(EHotkey.FreeHandRegion, new HotkeySetting());
+
+            wfClipboardUpload.Activities.Add(EActivity.UploadClipboard);
+            wfFileUpload.Activities.Add(EActivity.UploadFile);
+            wfPrintScreen.Activities.Add(EActivity.CaptureScreen);
+            wfActiveWindow.Activities.Add(EActivity.CaptureActiveWindow);
+            wfActiveMonitor.Activities.Add(EActivity.CaptureActiveMonitor);
+            wfWindowRectangle.Activities.Add(EActivity.CaptureWindowRectangle);
+            wfRectangleRegion.Activities.Add(EActivity.CaptureRectangleRegion);
+            wfRoundedRectangleRegion.Activities.Add(EActivity.CaptureRoundedRectangleRegion);
+            wfEllipseRegion.Activities.Add(EActivity.CaptureEllipseRegion);
+            wfTriangleRegion.Activities.Add(EActivity.CaptureTriangleRegion);
+            wfDiamondRegion.Activities.Add(EActivity.CaptureDiamondRegion);
+            wfPolygonRegion.Activities.Add(EActivity.CapturePolygonRegion);
+            wfFreeHandRegion.Activities.Add(EActivity.CaptureFreeHandRegion);
+
+            if (Program.Settings.Workflows11.Count == 0)
             {
-                Workflow wfClipboardUpload = new Workflow(EHotkey.ClipboardUpload.GetDescription(), Program.HotkeyClipboardUpload, true);
-                wfClipboardUpload.Activities.Add(EActivity.UploadClipboard);
+                Program.Settings.Workflows11.Add(wfClipboardUpload);
+                Program.Settings.Workflows11.Add(wfFileUpload);
+                Program.Settings.Workflows11.Add(wfPrintScreen);
+                Program.Settings.Workflows11.Add(wfActiveWindow);
+                Program.Settings.Workflows11.Add(wfActiveMonitor);
+                Program.Settings.Workflows11.Add(wfWindowRectangle);
+                Program.Settings.Workflows11.Add(wfRectangleRegion);
+                Program.Settings.Workflows11.Add(wfRoundedRectangleRegion);
+                Program.Settings.Workflows11.Add(wfEllipseRegion);
+                Program.Settings.Workflows11.Add(wfTriangleRegion);
+                Program.Settings.Workflows11.Add(wfDiamondRegion);
+                Program.Settings.Workflows11.Add(wfPolygonRegion);
+                Program.Settings.Workflows11.Add(wfFreeHandRegion);
 
-                Workflow wfFileUpload = new Workflow(EHotkey.FileUpload.GetDescription(), Program.HotkeyFileUpload, true);
-                wfFileUpload.Activities.Add(EActivity.UploadFile);
-
-                Workflow wfPrintScreen = new Workflow(EHotkey.PrintScreen.GetDescription(), Program.HotkeyPrintScreen, true);
-                wfPrintScreen.Activities.Add(EActivity.CaptureScreen);
-
-                Workflow wfActiveWindow = new Workflow(EHotkey.ActiveWindow.GetDescription(), Program.HotkeyActiveWindow, true);
-                wfActiveWindow.Activities.Add(EActivity.CaptureActiveWindow);
-
-                Workflow wfActiveMonitor = new Workflow(EHotkey.ActiveMonitor.GetDescription(), Program.HotkeyActiveMonitor, true);
-                wfActiveMonitor.Activities.Add(EActivity.CaptureActiveMonitor);
-
-                Workflow wfWindowRectangle = new Workflow(EHotkey.WindowRectangle.GetDescription(), Program.HotkeyWindowRectangle, true);
-                wfWindowRectangle.Activities.Add(EActivity.CaptureWindowRectangle);
-
-                Workflow wfRectangleRegion = new Workflow(EHotkey.RectangleRegion.GetDescription(), Program.HotkeyRectangleRegion, true);
-                wfRectangleRegion.Activities.Add(EActivity.CaptureRectangleRegion);
-
-                Workflow wfRoundedRectangleRegion = new Workflow(EHotkey.RoundedRectangleRegion.GetDescription(), new HotkeySetting(), true);
-                wfRoundedRectangleRegion.Activities.Add(EActivity.CaptureRoundedRectangleRegion);
-
-                Workflow wfEllipseRegion = new Workflow(EHotkey.EllipseRegion.GetDescription(), new HotkeySetting(), true);
-                wfEllipseRegion.Activities.Add(EActivity.CaptureEllipseRegion);
-
-                Workflow wfTriangleRegion = new Workflow(EHotkey.TriangleRegion.GetDescription(), new HotkeySetting(), true);
-                wfTriangleRegion.Activities.Add(EActivity.CaptureTriangleRegion);
-
-                Workflow wfDiamondRegion = new Workflow(EHotkey.DiamondRegion.GetDescription(), new HotkeySetting(), true);
-                wfDiamondRegion.Activities.Add(EActivity.CaptureDiamondRegion);
-
-                Workflow wfPolygonRegion = new Workflow(EHotkey.PolygonRegion.GetDescription(), new HotkeySetting(), true);
-                wfPolygonRegion.Activities.Add(EActivity.CapturePolygonRegion);
-
-                Workflow wfFreeHandRegion = new Workflow(EHotkey.FreeHandRegion.GetDescription(), new HotkeySetting(), true);
-                wfFreeHandRegion.Activities.Add(EActivity.CaptureFreeHandRegion);
-
-                Program.Settings.Workflows9.Add(wfClipboardUpload);
-                Program.Settings.Workflows9.Add(wfFileUpload);
-                Program.Settings.Workflows9.Add(wfPrintScreen);
-                Program.Settings.Workflows9.Add(wfActiveWindow);
-                Program.Settings.Workflows9.Add(wfActiveMonitor);
-                Program.Settings.Workflows9.Add(wfWindowRectangle);
-                Program.Settings.Workflows9.Add(wfRectangleRegion);
-                Program.Settings.Workflows9.Add(wfRoundedRectangleRegion);
-                Program.Settings.Workflows9.Add(wfEllipseRegion);
-                Program.Settings.Workflows9.Add(wfTriangleRegion);
-                Program.Settings.Workflows9.Add(wfDiamondRegion);
-                Program.Settings.Workflows9.Add(wfPolygonRegion);
-                Program.Settings.Workflows9.Add(wfFreeHandRegion);
-
-                foreach (Workflow wf in Program.Settings.Workflows9)
+                foreach (Workflow wf in Program.Settings.Workflows11)
                 {
                     wf.Activities.Add(EActivity.ClipboardCopyLink);
                     wf.Activities.Add(EActivity.UploadToRemoteHost);
                 }
             } // if Workflows.Count == 0
 
-            foreach (Workflow wf in Program.Settings.Workflows9)
+            foreach (Workflow wf in Program.Settings.Workflows11)
             {
                 string tag = wf.HotkeyConfig.Tag;
                 HotkeyManager.AddHotkey(wf, () => DoWork(tag));
@@ -99,11 +90,11 @@ namespace ShareX
 
         public void DoWork(string tag)
         {
-            Workflow wf = Program.Settings.Workflows9.FirstOrDefault(x => x.HotkeyConfig.Tag == tag);
+            Workflow wf = Program.Settings.Workflows11.FirstOrDefault(x => x.HotkeyConfig.Tag == tag);
             Image img = null;
 
             if (wf == null)
-                return;
+                throw new Exception("Workflow cannot be found!");
 
             foreach (EActivity act in wf.Activities)
             {
@@ -236,6 +227,16 @@ namespace ShareX
                 dataObject.SetData(DataFormats.Dib, ms2);
                 Clipboard.SetDataObject(dataObject, true, 3, 1000);
             }
+        }
+
+        private string FindTagByHotkey(EHotkey hotkey)
+        {
+            return FindAppWorkflowByHotkey(hotkey).HotkeyConfig.Tag;
+        }
+
+        private Workflow FindAppWorkflowByHotkey(EHotkey hotkey)
+        {
+            return Program.Settings.Workflows11.FirstOrDefault(x => x.Hotkey == hotkey);
         }
     }
 }

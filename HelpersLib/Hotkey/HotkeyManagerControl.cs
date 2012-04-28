@@ -61,7 +61,7 @@ namespace HelpersLib.Hotkey
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            Workflow wf = new Workflow("New Workflow", new HotkeySetting());
+            Workflow wf = new Workflow("New Workflow", new HotkeySetting(), false);
             WindowWorkflow wwf = new WindowWorkflow(wf);
 
             if (wwf.ShowDialog() == DialogResult.OK)
@@ -107,7 +107,7 @@ namespace HelpersLib.Hotkey
                     }
                     else
                     {
-                        MessageBox.Show("You can only remove user generated workflows. \n\nHowever you can reconfigure application generated workflows.",
+                        MessageBox.Show("You can only remove user generated workflows. \n\nYou can configure application generated workflows.",
                             Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }

@@ -233,7 +233,7 @@ namespace ShareX
 
         private void tsmiFullscreen_Click(object sender, EventArgs e)
         {
-            CaptureScreen();
+            DoWork(FindTagByHotkey(EHotkey.FullScreen));
         }
 
         private void tsddbCapture_DropDownOpening(object sender, EventArgs e)
@@ -245,47 +245,47 @@ namespace ShareX
         {
             ToolStripItem tsi = (ToolStripItem)sender;
             WindowInfo wi = tsi.Tag as WindowInfo;
-            if (wi != null) CaptureWindow(wi.Handle);
+            if (wi != null) AfterCapture(CaptureWindow(wi.Handle));
         }
 
         private void tsmiWindowRectangle_Click(object sender, EventArgs e)
         {
-            WindowRectangleCapture();
+            DoWork(FindTagByHotkey(EHotkey.WindowRectangle));
         }
 
         private void tsmiRectangle_Click(object sender, EventArgs e)
         {
-            CaptureRegion(new RectangleRegion());
+            DoWork(FindTagByHotkey(EHotkey.RectangleRegion));
         }
 
         private void tsmiRoundedRectangle_Click(object sender, EventArgs e)
         {
-            CaptureRegion(new RoundedRectangleRegion());
+            DoWork(FindTagByHotkey(EHotkey.RoundedRectangleRegion));
         }
 
         private void tsmiEllipse_Click(object sender, EventArgs e)
         {
-            CaptureRegion(new EllipseRegion());
+            DoWork(FindTagByHotkey(EHotkey.EllipseRegion));
         }
 
         private void tsmiTriangle_Click(object sender, EventArgs e)
         {
-            CaptureRegion(new TriangleRegion());
+            DoWork(FindTagByHotkey(EHotkey.TriangleRegion));
         }
 
         private void tsmiDiamond_Click(object sender, EventArgs e)
         {
-            CaptureRegion(new DiamondRegion());
+            DoWork(FindTagByHotkey(EHotkey.DiamondRegion));
         }
 
         private void tsmiPolygon_Click(object sender, EventArgs e)
         {
-            CaptureRegion(new PolygonRegion());
+            DoWork(FindTagByHotkey(EHotkey.PolygonRegion));
         }
 
         private void tsmiFreeHand_Click(object sender, EventArgs e)
         {
-            CaptureRegion(new FreeHandRegion());
+            DoWork(FindTagByHotkey(EHotkey.FreeHandRegion));
         }
 
         #endregion Menu events

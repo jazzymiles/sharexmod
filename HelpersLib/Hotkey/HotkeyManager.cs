@@ -37,27 +37,27 @@ namespace HelpersLib.Hotkey
         ClipboardUpload,
         [Description("File Upload")]
         FileUpload,
-        [Description("Fullscreen")]
-        PrintScreen,
-        [Description("Active Window")]
+        [Description("Capture Fullscreen")]
+        FullScreen,
+        [Description("Capture Active Window")]
         ActiveWindow,
-        [Description("Active Monitor")]
+        [Description("Capture Active Monitor")]
         ActiveMonitor,
-        [Description("Window && Rectangle")]
+        [Description("Capture Window && Rectangle")]
         WindowRectangle,
-        [Description("Rectangle Region")]
+        [Description("Capture Rectangle Region")]
         RectangleRegion,
-        [Description("Rounded Rectangle Region")]
+        [Description("Capture Rounded Rectangle Region")]
         RoundedRectangleRegion,
-        [Description("Ellipse Region")]
+        [Description("Capture Ellipse Region")]
         EllipseRegion,
-        [Description("Triangle Region")]
+        [Description("Capture Triangle Region")]
         TriangleRegion,
-        [Description("Diamond Region")]
+        [Description("Capture Diamond Region")]
         DiamondRegion,
-        [Description("Polygon Region")]
+        [Description("Capture Polygon Region")]
         PolygonRegion,
-        [Description("Freehand Region")]
+        [Description("Capture Freehand Region")]
         FreeHandRegion
     }
 
