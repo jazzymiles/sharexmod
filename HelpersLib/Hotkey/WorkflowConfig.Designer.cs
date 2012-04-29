@@ -35,6 +35,7 @@
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.btnInsert = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtDescription
@@ -62,7 +63,7 @@
             this.lbActivitiesUser.Location = new System.Drawing.Point(328, 40);
             this.lbActivitiesUser.Name = "lbActivitiesUser";
             this.lbActivitiesUser.Size = new System.Drawing.Size(208, 264);
-            this.lbActivitiesUser.TabIndex = 4;
+            this.lbActivitiesUser.TabIndex = 5;
             // 
             // btnAdd
             // 
@@ -76,10 +77,10 @@
             // 
             // btnRemove
             // 
-            this.btnRemove.Location = new System.Drawing.Point(224, 80);
+            this.btnRemove.Location = new System.Drawing.Point(224, 112);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(96, 23);
-            this.btnRemove.TabIndex = 3;
+            this.btnRemove.TabIndex = 4;
             this.btnRemove.Text = "<== Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
@@ -89,7 +90,7 @@
             this.btnOk.Location = new System.Drawing.Point(456, 312);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(74, 22);
-            this.btnOk.TabIndex = 6;
+            this.btnOk.TabIndex = 7;
             this.btnOk.Text = "&OK";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -100,10 +101,20 @@
             this.btnCancel.Location = new System.Drawing.Point(376, 312);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(74, 22);
-            this.btnCancel.TabIndex = 5;
+            this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "&Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnInsert
+            // 
+            this.btnInsert.Location = new System.Drawing.Point(224, 80);
+            this.btnInsert.Name = "btnInsert";
+            this.btnInsert.Size = new System.Drawing.Size(96, 23);
+            this.btnInsert.TabIndex = 3;
+            this.btnInsert.Text = "Insert ==>";
+            this.btnInsert.UseVisualStyleBackColor = true;
+            this.btnInsert.Click += new System.EventHandler(this.btnInsert_Click);
             // 
             // WindowWorkflow
             // 
@@ -112,6 +123,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(546, 343);
+            this.Controls.Add(this.btnInsert);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnRemove);
@@ -138,6 +150,7 @@
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnInsert;
 
     }
 }

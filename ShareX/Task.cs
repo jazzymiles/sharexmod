@@ -455,9 +455,6 @@ namespace ShareX
                 case UrlShortenerType.Jmp:
                     urlShortener = new JmpURLShortener(ApiKeys.BitlyLogin, ApiKeys.BitlyKey);
                     break;
-                /*case UrlShortenerType.THREELY:
-                    urlShortener = new ThreelyURLShortener(Program.ThreelyKey);
-                    break;*/
                 case UrlShortenerType.TINYURL:
                     urlShortener = new TinyURLShortener();
                     break;

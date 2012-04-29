@@ -201,14 +201,14 @@ namespace HelpersLib
 
         [Description("Copy image to clipboard")]
         ClipboardCopyImage,
-        [Description("Copy URL to clipboard")]
-        ClipboardCopyLink,
         [Description("Annotate image")]
         ImageAnnotate,
         [Description("Save to file")]
         SaveToFile,
         [Description("Save to file with dialog")]
         SaveToFileWithDialog,
+        [Description("Perform after capture tasks")]
+        AfterCaptureTasks,
         [Description("Upload to remote host")]
         UploadToRemoteHost
     }
