@@ -39,11 +39,89 @@ namespace HelplersLib
             Workflow.HotkeyConfig.Description = txtDescription.Text;
         }
 
+        private bool ValidateActivity(EActivity act_to_be_added, int index_to_new_act)
+        {
+            int index_to_capture = -1;
+            bool hasCapture = false;
+            EActivity act_capture = EActivity.CaptureActiveMonitor;
+
+            foreach (EActivity act_existing in lbActivitiesUser.Items)
+            {
+                switch (act_existing)
+                {
+                    case EActivity.AfterCaptureTasks:
+                    case EActivity.ImageAnnotate:
+                    case EActivity.SaveToFile:
+                    case EActivity.SaveToFileWithDialog:
+                    case EActivity.UploadClipboard:
+                    case EActivity.UploadFile:
+                    case EActivity.UploadToRemoteHost:
+                        break;
+                    case EActivity.CaptureActiveMonitor:
+                    case EActivity.CaptureActiveWindow:
+                    case EActivity.CaptureDiamondRegion:
+                    case EActivity.CaptureEllipseRegion:
+                    case EActivity.CaptureFreeHandRegion:
+                    case EActivity.CapturePolygonRegion:
+                    case EActivity.CaptureRectangleRegion:
+                    case EActivity.CaptureRoundedRectangleRegion:
+                    case EActivity.CaptureScreen:
+                    case EActivity.CaptureTriangleRegion:
+                    case EActivity.CaptureWindowRectangle:
+                        hasCapture = true;
+                        index_to_capture = lbActivitiesUser.Items.IndexOf(act_existing);
+                        act_capture = act_existing;
+                        break;
+                    default:
+                        throw new Exception("Unhandled: " + act_existing.GetDescription());
+                }
+            }
+
+            if (act_to_be_added == EActivity.SaveToFile)
+            {
+                if (hasCapture && index_to_capture >= index_to_new_act)
+                {
+                    MessageBox.Show(string.Format("{0} must occur after {1}",
+                        EActivity.SaveToFile.GetDescription(),
+                        act_capture.GetDescription()),
+                        Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                else if (lbActivitiesUser.Items.Contains(EActivity.UploadToRemoteHost))
+                {
+                    int index_upload_to_remote_host = lbActivitiesUser.Items.IndexOf(EActivity.UploadToRemoteHost);
+                    if (index_to_new_act > index_upload_to_remote_host)
+                    {
+                        MessageBox.Show(string.Format("{0} must occur before {1}",
+                            EActivity.SaveToFile.GetDescription(),
+                            EActivity.UploadToRemoteHost.GetDescription()),
+                            Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
             foreach (EActivity act in lbActivitiesAll.SelectedItems)
             {
-                lbActivitiesUser.Items.Add(act);
+                if (ValidateActivity(act, lbActivitiesUser.Items.Count))
+                    lbActivitiesUser.Items.Add(act);
+            }
+        }
+
+        private void btnInsert_Click(object sender, EventArgs e)
+        {
+            if (lbActivitiesUser.SelectedIndex > -1)
+            {
+                foreach (EActivity act in lbActivitiesAll.SelectedItems)
+                {
+                    if (ValidateActivity(act, lbActivitiesUser.SelectedIndex))
+                        lbActivitiesUser.Items.Insert(lbActivitiesUser.SelectedIndex, act);
+                }
             }
         }
 

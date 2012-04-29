@@ -57,7 +57,7 @@ namespace ShareX
 
         // Hotkeys / Workflows
 
-        public List<Workflow> Workflows11 = new List<Workflow>();
+        public List<Workflow> Workflows1 = new List<Workflow>();
 
         // Upload
         public bool UseCustomUploadersConfigPath = false;

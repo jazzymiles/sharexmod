@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -24,7 +25,7 @@ namespace ShareX
             pbPreview.LoadingImage = ShareX.Properties.Resources.Loading;
             pbPreview.LoadImage(info.FilePath, info.Result.URL);
 
-            this.Text = info.FileName;
+            this.Text = File.Exists(info.FilePath) ? info.FilePath : info.FileName;
 
             foreach (LinkFormatEnum type in Enum.GetValues(typeof(LinkFormatEnum)))
             {

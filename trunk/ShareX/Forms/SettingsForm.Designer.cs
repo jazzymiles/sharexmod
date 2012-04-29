@@ -1176,7 +1176,7 @@
             this.gbCaptureAfter.Size = new System.Drawing.Size(472, 176);
             this.gbCaptureAfter.TabIndex = 3;
             this.gbCaptureAfter.TabStop = false;
-            this.gbCaptureAfter.Text = "After capture";
+            this.gbCaptureAfter.Text = "After capture tasks";
             // 
             // txtSaveImageSubFolderPatternPreview
             // 
