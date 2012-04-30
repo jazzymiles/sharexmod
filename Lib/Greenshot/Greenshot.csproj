@@ -216,9 +216,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Processors\TitleFixProcessor.cs" />
-    <None Include="Greenshot.exe.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Compile Include="Helpers\WindowWrapper.cs" />
     <Compile Include="Memento\AddElementMemento.cs" />
     <Compile Include="Memento\ChangeFieldHolderMemento.cs" />
@@ -254,10 +251,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Lib\log4net.dll" />
-    <None Include="log4net-debug.xml" />
-    <None Include="log4net-portable.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="log4net.xml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>

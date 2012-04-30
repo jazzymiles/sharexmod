@@ -177,7 +177,9 @@ namespace ShareX
 
         private void EditImage(ref Image img_gse)
         {
-            Greenshot.IniFile.IniConfig.Init();
+            if (!Greenshot.IniFile.IniConfig.IsInited)
+                Greenshot.IniFile.IniConfig.Init();
+
             GreenshotPlugin.Core.CoreConfiguration conf = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>(); ;
             conf.OutputFileFilenamePattern = "${title}";
             conf.OutputFilePath = Program.ScreenshotsPath;
@@ -195,8 +197,9 @@ namespace ShareX
             var editor = new Greenshot.ImageEditorForm(surface, Program.Settings.CaptureSaveImage) { Icon = this.Icon };
 
             editor.SetImagePath(capture.CaptureDetails.Filename);
-            editor.Visible = false;
+            editor.Visible = false; // required before ShowDialog
             editor.ShowDialog();
+
             img_gse = editor.GetImageForExport();
         }
 
