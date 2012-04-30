@@ -106,7 +106,7 @@ namespace ShareX
         public bool CaptureSaveImage = false;
         public string SaveImageSubFolderPattern = "%y-%mo";
         public bool CaptureUploadImage = true;
-        public SurfaceOptions SurfaceOptions = new SurfaceOptions();
+        public SurfaceOptions SurfaceOptions = new SurfaceOptions() { QuickCrop = true };
 
         // History
         public bool SaveHistory = true;

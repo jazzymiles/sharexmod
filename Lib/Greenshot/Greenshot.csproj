@@ -225,7 +225,6 @@
     <Compile Include="Memento\DrawableContainerBoundsChangeMemento.cs" />
     <Compile Include="Memento\SurfaceBackgroundChangeMemento.cs" />
     <Compile Include="Helpers\ScreenCaptureHelper.cs" />
-    <Compile Include="Helpers\UpdateHelper.cs" />
     <Compile Include="Helpers\EnvironmentInfo.cs" />
     <Compile Include="Helpers\GuiRectangle.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
@@ -251,9 +250,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Lib\log4net.dll" />
-    <None Include="log4net.xml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <Compile Include="Helpers\FilenameHelper.cs" />
     <Compile Include="Forms\QualityDialog.Designer.cs">
       <DependentUpon>QualityDialog.cs</DependentUpon>
