@@ -28,7 +28,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
-namespace HelpersLib.Hotkey
+namespace HelpersLib.Hotkeys2
 {
     public class HotkeySetting
     {

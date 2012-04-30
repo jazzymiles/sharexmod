@@ -28,7 +28,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using HelpersLib;
-using HelpersLib.Hotkey;
+using HelpersLib.Hotkeys2;
 using HistoryLib;
 using ScreenCapture;
 using ShareX.Properties;
@@ -38,7 +38,7 @@ using UploadersLib.HelperClasses;
 
 namespace ShareX
 {
-    public partial class MainForm : HotkeyForm
+    public partial class MainForm : HelpersLib.Hotkeys2.HotkeyForm
     {
         public bool IsReady { get; private set; }
 
@@ -81,6 +81,7 @@ namespace ShareX
 
             this.Text = Program.Title;
             this.Icon = Resources.ShareX;
+            niTray.Text = this.Text;
             niTray.Icon = Resources.ShareXSmallIcon;
 
             foreach (string imageUploader in Helpers.GetEnumDescriptions<ImageDestination>())

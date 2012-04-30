@@ -1,4 +1,4 @@
-﻿namespace HelpersLib
+﻿namespace HelpersLib.Hotkeys2
 {
     partial class HotkeyInputForm
     {

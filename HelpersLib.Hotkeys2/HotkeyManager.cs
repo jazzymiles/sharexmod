@@ -29,7 +29,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace HelpersLib.Hotkey
+namespace HelpersLib.Hotkeys2
 {
     public enum EHotkey
     {

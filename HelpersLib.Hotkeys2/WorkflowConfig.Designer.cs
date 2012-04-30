@@ -1,4 +1,4 @@
-﻿namespace HelplersLib
+﻿namespace HelpersLib.Hotkeys2
 {
     partial class WindowWorkflow
     {

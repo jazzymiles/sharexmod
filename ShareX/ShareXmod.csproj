@@ -59,9 +59,17 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HelpersLib, Version=1.0.0.17, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\ShareX\trunk\HelpersLib\bin\Release\HelpersLib.dll</HintPath>
+    </Reference>
     <Reference Include="HistoryLib, Version=1.0.0.17, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\ShareX\trunk\HistoryLib\bin\Release\HistoryLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\ShareX\trunk\HelpersLib\bin\Release\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -97,6 +105,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentModelStrings.cs" />
     <Compile Include="Forms\MainForm_Capture.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -189,6 +198,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HelpersLib.Hotkeys2\HelpersLib.Hotkeys2.csproj">
+      <Project>{B791C0EF-7DFD-4F2B-B004-91F7344EE146}</Project>
+      <Name>HelpersLib.Hotkeys2</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IndexersLib\IndexersLib.csproj">
       <Project>{47CD5EEF-C12D-4CEA-B88A-3AFAEC6DDAD8}</Project>
       <Name>IndexersLib</Name>
@@ -200,10 +213,6 @@
     <ProjectReference Include="..\Lib\Greenshot\Greenshot.csproj">
       <Project>{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}</Project>
       <Name>Greenshot</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HelpersLib\HelpersLib.csproj">
-      <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
-      <Name>HelpersLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

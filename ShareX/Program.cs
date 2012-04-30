@@ -31,7 +31,7 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using HelpersLib;
-using HelpersLib.Hotkey;
+using HelpersLib.Hotkeys2;
 using SingleInstanceApplication;
 using UploadersLib;
 
@@ -269,45 +269,9 @@ namespace ShareX
 
         public static void LoadSettings()
         {
-            // import from ZUploader - remove this code after 2013-04-28
-            string zuSettings = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"ZUploader\Settings.xml");
-            if (!File.Exists(SettingsFilePath) && File.Exists(zuSettings))
-            {
-                Settings = Settings.Load(zuSettings, SerializationType.Xml);
-                try
-                {
-                    File.Delete(zuSettings);
-                }
-                catch (Exception ex)
-                {
-                    MyLogger.WriteException(ex, "while deleting old ZUploader settings");
-                }
-            }
-            else
-            {
-                Settings = Settings.Load(SettingsFilePath);
-            }
-
+            Settings = Settings.Load(SettingsFilePath);
             SettingsResetEvent.Set();
-
-            string zuOutputsConfig = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"ZUploader\UploadersConfig.xml");
-            if (!File.Exists(UploadersConfigFilePath) && File.Exists(zuOutputsConfig))
-            {
-                UploadersConfig = UploadersConfig.Load(zuOutputsConfig, SerializationType.Xml);
-                try
-                {
-                    File.Delete(zuOutputsConfig);
-                }
-                catch (Exception ex)
-                {
-                    MyLogger.WriteException(ex, "while importing ZUploader outputs config");
-                }
-            }
-            else
-            {
-                LoadUploadersConfig();
-            }
-
+            LoadUploadersConfig();
             UploaderSettingsResetEvent.Set();
         }
 
