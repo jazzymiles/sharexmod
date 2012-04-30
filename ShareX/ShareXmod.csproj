@@ -89,6 +89,10 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="UIAutomationProvider" />
+    <Reference Include="UploadersLib, Version=4.0.0.38548, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\ShareX\trunk\UploadersLib\bin\Release\UploadersLib.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
@@ -200,10 +204,6 @@
     <ProjectReference Include="..\HelpersLib\HelpersLib.csproj">
       <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
       <Name>HelpersLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UploadersLib\UploadersLib.csproj">
-      <Project>{E1C94415-3424-4517-A2A1-B2FDD1F59C67}</Project>
-      <Name>UploadersLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
