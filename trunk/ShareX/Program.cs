@@ -158,6 +158,7 @@ namespace ShareX
         public static bool IsSilentRun { get; private set; }
         public static Stopwatch StartTimer { get; private set; }
         public static Logger MyLogger { get; private set; }
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static string Title
         {
@@ -269,8 +270,10 @@ namespace ShareX
 
         public static void LoadSettings()
         {
+            log.Info("Loading Settings");
             Settings = Settings.Load(SettingsFilePath);
             SettingsResetEvent.Set();
+            log.Info("Loading Uploaders Config");
             LoadUploadersConfig();
             UploaderSettingsResetEvent.Set();
         }

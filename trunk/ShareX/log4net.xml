@@ -6,9 +6,9 @@
       <file type="log4net.Util.PatternString">
         <converter>
           <name value="folder" />
-          <type value="Greenshot.Helpers.SpecialFolderPatternConverter" />
+          <type value="ShareX.SpecialFolderPatternConverter" />
         </converter>
-        <conversionPattern value="%folder{LocalApplicationData}\ShareX\ShareX.log" />
+        <conversionPattern value="%folder{LocalApplicationData}\ShareX\ShareXmod.log" />
       </file>
       <encoding value="utf-8" />
       <appendToFile value="true" />

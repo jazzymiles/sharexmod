@@ -71,49 +71,11 @@ namespace GreenshotPlugin.Core
             string applicationDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string applicationFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            // PAF Path
-            AddPath(Path.Combine(applicationFolder, @"App\Greenshot\Languages"));
-
-            // Application data path
-            AddPath(Path.Combine(applicationDataFolder, @"Greenshot\Languages\"));
-
             // Startup path
             AddPath(Path.Combine(applicationFolder, @"Languages"));
 
-            try
-            {
-                using (RegistryKey languageGroupsKey = Registry.LocalMachine.OpenSubKey(LANGUAGE_GROUPS_KEY, false))
-                {
-                    if (languageGroupsKey != null)
-                    {
-                        string[] groups = languageGroupsKey.GetValueNames();
-                        foreach (string group in groups)
-                        {
-                            string groupValue = (string)languageGroupsKey.GetValue(group);
-                            bool isGroupNotInstalled = "0".Equals(groupValue);
-                            if (isGroupNotInstalled)
-                            {
-                                unsupportedLanguageGroups.Add(group.ToLower());
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                LOG.Warn("Couldn't read the installed language groups.", e);
-            }
-
-            coreConfig = IniConfig.GetIniSection<CoreConfiguration>();
             ScanFiles();
-            if (!string.IsNullOrEmpty(coreConfig.Language))
-            {
-                CurrentLanguage = coreConfig.Language;
-            }
-            else
-            {
-                CurrentLanguage = DEFAULT_LANGUAGE;
-            }
+            CurrentLanguage = DEFAULT_LANGUAGE;
             LOG.Error("Couldn't set language, installation problem?");
         }
 
