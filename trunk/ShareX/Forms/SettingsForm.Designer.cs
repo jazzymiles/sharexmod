@@ -141,8 +141,6 @@
             this.cbHistorySave = new System.Windows.Forms.CheckBox();
             this.tpProxy = new System.Windows.Forms.TabPage();
             this.btnAutofillProxy = new System.Windows.Forms.Button();
-            this.tpDebug = new System.Windows.Forms.TabPage();
-            this.txtDebugLog = new System.Windows.Forms.TextBox();
             this.tpAdvanced = new System.Windows.Forms.TabPage();
             this.pgSettings = new System.Windows.Forms.PropertyGrid();
             this.tcSettings.SuspendLayout();
@@ -174,7 +172,6 @@
             this.tpHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHistoryMaxItemCount)).BeginInit();
             this.tpProxy.SuspendLayout();
-            this.tpDebug.SuspendLayout();
             this.tpAdvanced.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -206,7 +203,7 @@
             this.pgProxy.Location = new System.Drawing.Point(5, 5);
             this.pgProxy.Name = "pgProxy";
             this.pgProxy.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.pgProxy.Size = new System.Drawing.Size(520, 356);
+            this.pgProxy.Size = new System.Drawing.Size(546, 372);
             this.pgProxy.TabIndex = 0;
             this.pgProxy.ToolbarVisible = false;
             // 
@@ -220,7 +217,6 @@
             this.tcSettings.Controls.Add(this.tpCapture);
             this.tcSettings.Controls.Add(this.tpHistory);
             this.tcSettings.Controls.Add(this.tpProxy);
-            this.tcSettings.Controls.Add(this.tpDebug);
             this.tcSettings.Controls.Add(this.tpAdvanced);
             this.tcSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcSettings.Location = new System.Drawing.Point(3, 3);
@@ -1567,28 +1563,6 @@
             this.btnAutofillProxy.UseVisualStyleBackColor = true;
             this.btnAutofillProxy.Click += new System.EventHandler(this.btnAutofillProxy_Click);
             // 
-            // tpDebug
-            // 
-            this.tpDebug.Controls.Add(this.txtDebugLog);
-            this.tpDebug.Location = new System.Drawing.Point(4, 22);
-            this.tpDebug.Name = "tpDebug";
-            this.tpDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tpDebug.Size = new System.Drawing.Size(556, 382);
-            this.tpDebug.TabIndex = 8;
-            this.tpDebug.Text = "Debug";
-            this.tpDebug.UseVisualStyleBackColor = true;
-            // 
-            // txtDebugLog
-            // 
-            this.txtDebugLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtDebugLog.Location = new System.Drawing.Point(3, 3);
-            this.txtDebugLog.Multiline = true;
-            this.txtDebugLog.Name = "txtDebugLog";
-            this.txtDebugLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtDebugLog.Size = new System.Drawing.Size(550, 376);
-            this.txtDebugLog.TabIndex = 0;
-            this.txtDebugLog.WordWrap = false;
-            // 
             // tpAdvanced
             // 
             this.tpAdvanced.Controls.Add(this.pgSettings);
@@ -1596,7 +1570,7 @@
             this.tpAdvanced.Name = "tpAdvanced";
             this.tpAdvanced.Padding = new System.Windows.Forms.Padding(3);
             this.tpAdvanced.Size = new System.Drawing.Size(556, 382);
-            this.tpAdvanced.TabIndex = 9;
+            this.tpAdvanced.TabIndex = 8;
             this.tpAdvanced.Text = "Advanced";
             this.tpAdvanced.UseVisualStyleBackColor = true;
             // 
@@ -1662,8 +1636,6 @@
             this.tpHistory.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHistoryMaxItemCount)).EndInit();
             this.tpProxy.ResumeLayout(false);
-            this.tpDebug.ResumeLayout(false);
-            this.tpDebug.PerformLayout();
             this.tpAdvanced.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -1701,8 +1673,6 @@
         private System.Windows.Forms.NumericUpDown nudHistoryMaxItemCount;
         private System.Windows.Forms.Label lblHistoryInfo;
         private System.Windows.Forms.Label lblGeneralInfo;
-        private System.Windows.Forms.TabPage tpDebug;
-        private System.Windows.Forms.TextBox txtDebugLog;
         private System.Windows.Forms.Button btnNameFormatPatternHelp;
         private System.Windows.Forms.TextBox txtNameFormatPattern;
         private System.Windows.Forms.Label lblNameFormatPattern;
