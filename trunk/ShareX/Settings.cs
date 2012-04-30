@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using HelpersLib;
-using HelpersLib.Hotkey;
+using HelpersLib.Hotkeys2;
 using ScreenCapture;
 using UploadersLib.HelperClasses;
 

@@ -27,7 +27,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace HelpersLib.Hotkey
+namespace HelpersLib.Hotkeys2
 {
     public partial class HotkeySelectionControl : UserControl
     {

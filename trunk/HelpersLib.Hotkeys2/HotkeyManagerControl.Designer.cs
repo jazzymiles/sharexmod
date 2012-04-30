@@ -1,4 +1,4 @@
-﻿namespace HelpersLib.Hotkey
+﻿namespace HelpersLib.Hotkeys2
 {
     partial class HotkeyManagerControl
     {

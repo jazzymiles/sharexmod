@@ -26,7 +26,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace HelpersLib
+namespace HelpersLib.Hotkeys2
 {
     public class HotkeyInfo
     {

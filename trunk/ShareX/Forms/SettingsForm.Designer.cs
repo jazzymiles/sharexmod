@@ -54,7 +54,7 @@
             this.lblBufferSizeInfo = new System.Windows.Forms.Label();
             this.cbBufferSize = new System.Windows.Forms.ComboBox();
             this.tpHotkeys = new System.Windows.Forms.TabPage();
-            this.hmHotkeys = new HelpersLib.Hotkey.HotkeyManagerControl();
+            this.hmHotkeys = new HelpersLib.Hotkeys2.HotkeyManagerControl();
             this.tpImage = new System.Windows.Forms.TabPage();
             this.tcImage = new System.Windows.Forms.TabControl();
             this.tpQuality = new System.Windows.Forms.TabPage();
@@ -1727,7 +1727,7 @@
         private System.Windows.Forms.CheckBox cbShowTray;
         private System.Windows.Forms.TabPage tpCapture;
         private System.Windows.Forms.TabPage tpHotkeys;
-        private HelpersLib.Hotkey.HotkeyManagerControl hmHotkeys;
+        private HelpersLib.Hotkeys2.HotkeyManagerControl hmHotkeys;
         private System.Windows.Forms.CheckBox cbShowCursor;
         private System.Windows.Forms.CheckBox cbDrawBorder;
         private System.Windows.Forms.CheckBox cbDrawCheckerboard;

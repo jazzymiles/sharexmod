@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using HelpersLib.Hotkey;
+using HelpersLib.Hotkeys2;
 
-namespace HelpersLib
+namespace HelpersLib.Hotkeys2
 {
     public class Workflow
     {

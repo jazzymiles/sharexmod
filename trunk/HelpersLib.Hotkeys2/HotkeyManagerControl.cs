@@ -25,9 +25,8 @@
 
 using System;
 using System.Windows.Forms;
-using HelplersLib;
 
-namespace HelpersLib.Hotkey
+namespace HelpersLib.Hotkeys2
 {
     public partial class HotkeyManagerControl : UserControl
     {

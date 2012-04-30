@@ -32,6 +32,7 @@ using System.Linq;
 using System.Net;
 using System.Windows.Forms;
 using HelpersLib;
+using HelpersLib.Hotkeys2;
 using ScreenCapture;
 
 namespace ShareX

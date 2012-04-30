@@ -7,9 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using HelpersLib;
-using HelpersLib.Hotkey;
 
-namespace HelplersLib
+namespace HelpersLib.Hotkeys2
 {
     public partial class WindowWorkflow : Form
     {

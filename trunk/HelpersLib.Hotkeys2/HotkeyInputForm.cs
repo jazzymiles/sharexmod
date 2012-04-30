@@ -27,7 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace HelpersLib
+namespace HelpersLib.Hotkeys2
 {
     public partial class HotkeyInputForm : Form
     {
