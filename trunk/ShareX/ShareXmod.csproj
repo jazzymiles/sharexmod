@@ -142,6 +142,7 @@
     <Compile Include="Forms\MainForm_Workflow.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="log4netHelpers\log4netHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\WindowAfterCapture.cs">
@@ -181,8 +182,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SpecialFolderPatternConverter.cs" />
+    <Compile Include="log4netHelpers\SpecialFolderPatternConverter.cs" />
     <Compile Include="Task.cs" />
+    <Compile Include="log4netHelpers\TextBoxAppender.cs" />
     <Compile Include="UploadManager.cs" />
     <Compile Include="UploadProgress.cs" />
     <Compile Include="Settings.cs" />

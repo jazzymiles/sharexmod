@@ -42,6 +42,8 @@ namespace ShareX
 {
     public static class UploadManager
     {
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public static ImageDestination ImageUploader { get; set; }
         public static TextDestination TextUploader { get; set; }
         public static FileDestination FileUploader { get; set; }
@@ -298,7 +300,7 @@ namespace ShareX
         {
             if (ListViewControl != null)
             {
-                Program.MyLogger.WriteLine("Upload in queue. ID: {0}, Job: {1}, Type: {2}, Host: {3}", info.ID, info.Job, info.UploadDestination, info.UploaderHost);
+                log.InfoFormat("Upload in queue. ID: {0}, Job: {1}, Type: {2}, Host: {3}", info.ID, info.Job, info.UploadDestination, info.UploaderHost);
 
                 ListViewItem lvi = new ListViewItem();
                 lvi.Text = info.FileName;
@@ -320,7 +322,7 @@ namespace ShareX
 
         private static void task_UploadPreparing(UploadInfo info)
         {
-            Program.MyLogger.WriteLine("Upload preparing. ID: {0}", info.ID);
+            log.Info(string.Format("Upload preparing. ID: {0}", info.ID));
             ChangeListViewItemStatus(info);
         }
 
@@ -328,7 +330,7 @@ namespace ShareX
         {
             string status = string.Format("Upload started. ID: {0}, Filename: {1}", info.ID, info.FileName);
             if (!string.IsNullOrEmpty(info.FilePath)) status += ", Filepath: " + info.FilePath;
-            Program.MyLogger.WriteLine(status);
+            log.Info(status);
 
             ListViewItem lvi = ListViewControl.Items[info.ID];
             lvi.Text = info.FileName;
@@ -371,7 +373,7 @@ namespace ShareX
                     {
                         string errors = string.Join("\r\n\r\n", info.Result.Errors.ToArray());
 
-                        Program.MyLogger.WriteLine("Upload failed. ID: {0}, Filename: {1}, Errors:\r\n{2}", info.ID, info.FileName, errors);
+                        log.ErrorFormat("Upload failed. ID: {0}, Filename: {1}, Errors:\r\n{2}", info.ID, info.FileName, errors);
 
                         lvi.SubItems[1].Text = "Error";
                         lvi.SubItems[8].Text = string.Empty;
@@ -384,7 +386,7 @@ namespace ShareX
                     }
                     else
                     {
-                        Program.MyLogger.WriteLine("Upload completed. ID: {0}, Filename: {1}, URL: {2}, Duration: {3}ms", info.ID, info.FileName,
+                        log.InfoFormat("Upload completed. ID: {0}, Filename: {1}, URL: {2}, Duration: {3}ms", info.ID, info.FileName,
                             info.Result.URL, (int)info.UploadDuration.TotalMilliseconds);
 
                         lvi.SubItems[1].Text = info.Status;
