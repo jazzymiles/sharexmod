@@ -19,7 +19,7 @@ namespace ShareX
         public WindowAfterUpload(UploadInfo info)
         {
             InitializeComponent();
-
+            tmrClose.Start();
             mUploadInfo = info;
 
             pbPreview.LoadingImage = ShareX.Properties.Resources.Loading;
@@ -52,6 +52,11 @@ namespace ShareX
                 Helpers.CopyTextSafely(e.Node.FirstNode.Text);
             else
                 Helpers.CopyTextSafely(e.Node.Text);
+        }
+
+        private void tmrClose_Tick(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -8,8 +8,8 @@
     <ProjectGuid>{47CD5EEF-C12D-4CEA-B88A-3AFAEC6DDAD8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ZSS.IndexersLib</RootNamespace>
-    <AssemblyName>ZSS.IndexersLib</AssemblyName>
+    <RootNamespace>IndexersLib</RootNamespace>
+    <AssemblyName>IndexersLib</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>

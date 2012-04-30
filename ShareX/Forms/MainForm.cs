@@ -574,13 +574,6 @@ namespace ShareX
             new HistoryForm(Program.HistoryFilePath, Program.Settings.HistoryMaxItemCount, "ShareX - History").ShowDialog();
         }
 
-        private void tsbSettings_Click(object sender, EventArgs e)
-        {
-            new SettingsForm() { Icon = this.Icon }.ShowDialog();
-            UploadManager.UpdateProxySettings();
-            Program.Settings.SaveAsync();
-        }
-
         private void tsbAbout_Click(object sender, EventArgs e)
         {
             new AboutForm() { Icon = this.Icon }.ShowDialog();
@@ -691,6 +684,25 @@ namespace ShareX
 
         #endregion Tray events
 
+        private void tsmiDebugOpen_Click(object sender, EventArgs e)
+        {
+            log4netHelpers.log4netViewer viewer = new log4netHelpers.log4netViewer();
+            viewer.Icon = this.Icon;
+            viewer.Show();
+        }
+
         #endregion Form events
+
+        private void tsmiSettings2_Click(object sender, EventArgs e)
+        {
+            tsmiSettings_Click(sender, e);
+        }
+
+        private void tsmiSettings_Click(object sender, EventArgs e)
+        {
+            new SettingsForm() { Icon = this.Icon }.ShowDialog();
+            UploadManager.UpdateProxySettings();
+            Program.Settings.SaveAsync();
+        }
     }
 }

@@ -15,7 +15,6 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <ApplicationManifest>greenshot.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -244,7 +243,6 @@
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sounds.resx" />
-    <None Include="greenshot.manifest" />
     <Compile Include="AssemblyInfo.cs" />
     <EmbeddedResource Include="Languages\language-en-US.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

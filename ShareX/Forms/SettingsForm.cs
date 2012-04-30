@@ -33,12 +33,16 @@ using System.Net;
 using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
+using log4net.Config;
+using log4net.Core;
+using log4net.Layout;
 using ScreenCapture;
 
 namespace ShareX
 {
     public partial class SettingsForm : Form
     {
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private const int MaxBufferSizePower = 12;
 
         private bool loaded;
@@ -148,10 +152,6 @@ namespace ShareX
             // Proxy
             pgProxy.SelectedObject = Program.Settings.ProxySettings;
 
-            // Debug
-            log4netHelper.SetTextBox(txtDebugLog);
-            txtDebugLog.ScrollToCaret();
-
             // Advanced
             pgSettings.SelectedObject = Program.Settings;
         }
@@ -161,7 +161,7 @@ namespace ShareX
             string dir = txtScreenshotsPath.Text;
 
             if (Directory.Exists(dir))
-                Program.Settings.ScreenshotsPath2 = dir;
+                Program.Settings.ScreenshotsPath = dir;
 
             #region Workflows
 

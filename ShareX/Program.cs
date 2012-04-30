@@ -32,6 +32,7 @@ using System.Threading;
 using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
+using ShareX.log4netHelpers;
 using SingleInstanceApplication;
 using UploadersLib;
 
@@ -43,6 +44,7 @@ namespace ShareX
 
         #region Paths
 
+        private static readonly string DefaultScreenshotsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), ApplicationName);
         private static readonly string DefaultPersonalPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ApplicationName);
         private static readonly string PortablePersonalPath = Path.Combine(Application.StartupPath, ApplicationName);
 
@@ -111,13 +113,13 @@ namespace ShareX
         {
             get
             {
-                if (Settings != null && Directory.Exists(Settings.ScreenshotsPath2))
+                if (Settings != null && Directory.Exists(Settings.ScreenshotsPath))
                 {
-                    return Settings.ScreenshotsPath2;
+                    return Settings.ScreenshotsPath;
                 }
                 else
                 {
-                    return Path.Combine(PersonalPath, "Screenshots");
+                    return DefaultScreenshotsPath;
                 }
             }
         }
@@ -222,21 +224,22 @@ namespace ShareX
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                log4netHelper.Init_log4net();
 
-                log.Info(string.Format("{0} {1} r{2} started", Application.ProductName, Application.ProductVersion, AppRevision));
-                log.Info(string.Format("Operating system: " + Environment.OSVersion.VersionString));
-                log.Info(string.Format("CommandLine: " + Environment.CommandLine));
-                log.Info(string.Format("IsMultiInstance: " + IsMultiInstance));
-                log.Info(string.Format("IsSilentRun: " + IsSilentRun));
-                log.Info(string.Format("IsPortable: " + IsPortable));
+                log.InfoFormat("{0} {1} r{2} started", Application.ProductName, Application.ProductVersion, AppRevision);
+                log.InfoFormat("Operating system: " + Environment.OSVersion.VersionString);
+                log.InfoFormat("CommandLine: " + Environment.CommandLine);
+                log.InfoFormat("IsMultiInstance: " + IsMultiInstance);
+                log.InfoFormat("IsSilentRun: " + IsSilentRun);
+                log.InfoFormat("IsPortable: " + IsPortable);
 
                 SettingsResetEvent = new ManualResetEvent(false);
                 UploaderSettingsResetEvent = new ManualResetEvent(false);
                 ThreadPool.QueueUserWorkItem(state => LoadSettings());
 
-                log.Info(string.Format("new MainForm() started"));
+                log.InfoFormat("new MainForm() started");
                 mainForm = new MainForm();
-                log.Info(string.Format("new MainForm() finished"));
+                log.InfoFormat("new MainForm() finished");
 
                 if (Settings == null)
                 {
@@ -246,7 +249,6 @@ namespace ShareX
                 Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
                 Application.Run(mainForm);
-
                 Settings.Save();
 
                 log.Info("ShareX closing");

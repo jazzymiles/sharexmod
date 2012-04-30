@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tvMain = new System.Windows.Forms.TreeView();
             this.pbPreview = new HelpersLib.MyPictureBox();
+            this.tmrClose = new System.Windows.Forms.Timer(this.components);
             this.tlpMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,6 +70,12 @@
             this.pbPreview.Size = new System.Drawing.Size(227, 256);
             this.pbPreview.TabIndex = 0;
             // 
+            // tmrClose
+            // 
+            this.tmrClose.Enabled = true;
+            this.tmrClose.Interval = 60000;
+            this.tmrClose.Tick += new System.EventHandler(this.tmrClose_Tick);
+            // 
             // WindowAfterUpload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -87,5 +95,6 @@
         private System.Windows.Forms.TableLayoutPanel tlpMain;
         private System.Windows.Forms.TreeView tvMain;
         private HelpersLib.MyPictureBox pbPreview;
+        private System.Windows.Forms.Timer tmrClose;
     }
 }
