@@ -149,7 +149,7 @@ namespace ShareX
             pgProxy.SelectedObject = Program.Settings.ProxySettings;
 
             // Debug
-            txtDebugLog.Text = Program.MyLogger.Messages.ToString();
+            log4netHelper.SetTextBox(txtDebugLog);
             txtDebugLog.ScrollToCaret();
 
             // Advanced
