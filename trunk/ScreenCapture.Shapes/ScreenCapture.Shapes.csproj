@@ -106,10 +106,6 @@
       <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
       <Name>HelpersLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ScreenCapture\ScreenCapture.csproj">
-      <Project>{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}</Project>
-      <Name>ScreenCapture</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Crosshair.cur" />
