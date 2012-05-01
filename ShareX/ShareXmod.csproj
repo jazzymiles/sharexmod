@@ -60,16 +60,15 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HelpersLib, Version=1.0.0.17, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ShareX\trunk\HelpersLib\bin\Release\HelpersLib.dll</HintPath>
-    </Reference>
     <Reference Include="HistoryLib, Version=1.0.0.17, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\ShareX\trunk\HistoryLib\bin\Release\HistoryLib.dll</HintPath>
     </Reference>
     <Reference Include="IndexersLib">
       <HintPath>..\IndexersLib\obj\Debug\IndexersLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.IWshRuntimeLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -92,6 +91,8 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Design" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -148,7 +149,14 @@
     <Compile Include="Forms\MainForm_Workflow.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="log4netHelpers\log4netViewer_ListView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="log4netHelpers\log4netViewer_ListView.Designer.cs">
+      <DependentUpon>log4netViewer_ListView.cs</DependentUpon>
+    </Compile>
     <Compile Include="log4netHelpers\LevelTextStyle.cs" />
+    <Compile Include="log4netHelpers\ListViewAppender.cs" />
     <Compile Include="log4netHelpers\log4netHelper.cs" />
     <Compile Include="log4netHelpers\log4netViewer.cs">
       <SubType>Form</SubType>
@@ -185,6 +193,9 @@
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="log4netHelpers\log4netViewer_ListView.resx">
+      <DependentUpon>log4netViewer_ListView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="log4netHelpers\log4netViewer.resx">
       <DependentUpon>log4netViewer.cs</DependentUpon>
     </EmbeddedResource>
@@ -213,6 +224,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ShareX\trunk\HelpersLib\HelpersLib.csproj">
+      <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
+      <Name>HelpersLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HelpersLib.Hotkeys2\HelpersLib.Hotkeys2.csproj">
       <Project>{B791C0EF-7DFD-4F2B-B004-91F7344EE146}</Project>
       <Name>HelpersLib.Hotkeys2</Name>
