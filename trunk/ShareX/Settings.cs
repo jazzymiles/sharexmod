@@ -25,7 +25,9 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.Windows.Forms;
+using System.Windows.Forms.Design;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
 using ScreenCapture;
@@ -126,6 +128,12 @@ namespace ShareX
         public bool ShowClipboardOptionsWizard { get; set; }
         [Category(ComponentModelStrings.InputsClipboard), DefaultValue(false), Description("When a folder path is in the clipboard, upload the folder index instead of the folder path as part of Clipboard Upload.")]
         public bool IndexFolderWhenPossible { get; set; }
+        // Options / Watch Folder
+        [Category(HelpersLib.ComponentModelStrings.InputsWatchFolder), DefaultValue(false), Description("Automatically upload files saved in to this folder.")]
+        public bool FolderMonitoring { get; set; }
+        [Category(HelpersLib.ComponentModelStrings.InputsWatchFolder), Description("Folder monitor path where files automatically get uploaded.")]
+        [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
+        public string FolderMonitorPath { get; set; }
 
         #endregion Settings Form
 

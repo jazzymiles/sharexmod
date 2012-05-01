@@ -303,7 +303,7 @@ namespace ShareX
 
         private void tsmiTrayFullscreen_Click(object sender, EventArgs e)
         {
-            CaptureScreen(false);
+            tsmiFullscreen_Click(sender, e);
         }
 
         private void tsmiCapture_DropDownOpening(object sender, EventArgs e)
@@ -313,44 +313,42 @@ namespace ShareX
 
         private void tsmiTrayWindowItems_Click(object sender, EventArgs e)
         {
-            ToolStripItem tsi = (ToolStripItem)sender;
-            WindowInfo wi = tsi.Tag as WindowInfo;
-            if (wi != null) CaptureWindow(wi.Handle, false);
+            tsmiWindowItems_Click(sender, e);
         }
 
         private void tsmiTrayWindowRectangle_Click(object sender, EventArgs e)
         {
-            WindowRectangleCapture(false);
+            tsmiWindowRectangle_Click(sender, e);
         }
 
         private void tsmiTrayRectangle_Click(object sender, EventArgs e)
         {
-            CaptureRegion(new RectangleRegion(), false);
+            tsmiRectangle_Click(sender, e);
         }
 
         private void tsmiTrayRoundedRectangle_Click(object sender, EventArgs e)
         {
-            CaptureRegion(new RoundedRectangleRegion(), false);
+            tsmiRoundedRectangle_Click(sender, e);
         }
 
         private void tsmiTrayTriangle_Click(object sender, EventArgs e)
         {
-            CaptureRegion(new TriangleRegion(), false);
+            tsmiTriangle_Click(sender, e);
         }
 
         private void tsmiTrayDiamond_Click(object sender, EventArgs e)
         {
-            CaptureRegion(new DiamondRegion(), false);
+            tsmiDiamond_Click(sender, e);
         }
 
         private void tsmiTrayPolygon_Click(object sender, EventArgs e)
         {
-            CaptureRegion(new PolygonRegion(), false);
+            tsmiPolygon_Click(sender, e);
         }
 
         private void tsmiTrayFreeHand_Click(object sender, EventArgs e)
         {
-            CaptureRegion(new FreeHandRegion(), false);
+            tsmiFreeHand_Click(sender, e);
         }
 
         #endregion Tray events

@@ -60,6 +60,8 @@ namespace ShareX
 
             InitHotkeys();
 
+            ReloadConfig();
+
             if (Program.Settings.AutoCheckUpdate)
             {
                 new Thread(CheckUpdate).Start();
@@ -75,6 +77,20 @@ namespace ShareX
         private void AfterShownJobs()
         {
             ShowActivate();
+        }
+
+        public void ReloadConfig()
+        {
+            FolderWatcher folderWatcher = new FolderWatcher(this);
+            folderWatcher.FolderPath = Program.Settings.FolderMonitorPath;
+            if (Program.Settings.FolderMonitoring)
+            {
+                folderWatcher.StartWatching();
+            }
+            else
+            {
+                folderWatcher.StopWatching();
+            }
         }
 
         private void InitControls()
