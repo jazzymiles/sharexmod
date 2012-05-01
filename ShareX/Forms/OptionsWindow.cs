@@ -23,15 +23,21 @@ namespace ShareX.Forms
         private ContextMenuStrip codesMenu;
         private Dictionary<string, Panel> Panels = new Dictionary<string, Panel>();
 
-        public OptionsWindow()
-        {
-            InitializeComponent();
-            this.Text = Application.ProductName + " - Settings";
+        #region General / Notifications
 
-            ConfigurePanels();
-            LoadSettings();
-            loaded = true;
+        private void cbPlaySoundAfterCapture_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Settings.PlaySoundAfterCapture = cbPlaySoundAfterCapture.Checked;
         }
+
+        private void chkPlaySoundAfterUpload_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Settings.PlaySoundAfterUpload = chkPlaySoundAfterUpload.Checked;
+        }
+
+        #endregion General / Notifications
+
+        #region Helper Methods
 
         #region Configure Panels
 
@@ -334,6 +340,8 @@ namespace ShareX.Forms
             return false;
         }
 
+        #endregion Helper Methods
+
         #region General
 
         private void cbStartWithWindows_CheckedChanged(object sender, EventArgs e)
@@ -388,54 +396,6 @@ namespace ShareX.Forms
             Program.Settings.ShowCursor = cbShowCursor.Checked;
         }
 
-        #endregion Capture
-
-        #region Proxy
-
-        private void btnAutofillProxy_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(Program.Settings.ProxySettings.UserName))
-            {
-                Program.Settings.ProxySettings.UserName = Environment.UserName;
-            }
-
-            WebProxy proxy = Helpers.GetDefaultWebProxy();
-            if (proxy != null && proxy.Address != null)
-            {
-                if (string.IsNullOrEmpty(Program.Settings.ProxySettings.Host))
-                {
-                    Program.Settings.ProxySettings.Host = proxy.Address.Host;
-                }
-                if (Program.Settings.ProxySettings.Port == 0)
-                {
-                    Program.Settings.ProxySettings.Port = proxy.Address.Port;
-                }
-            }
-
-            pgProxy.SelectedObject = Program.Settings.ProxySettings;
-        }
-
-        #endregion Proxy
-
-        private void cbCaptureUploadImage_CheckedChanged(object sender, EventArgs e)
-        {
-            Program.Settings.UploadImageToHost = cbCaptureUploadImage.Checked;
-        }
-
-        #region Paths
-
-        private void btnBrowseScreenshotsDir_Click(object sender, EventArgs e)
-        {
-            string dir = Path.Combine(txtScreenshotsPath.Text, txtSaveImageSubFolderPatternPreview.Text);
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
-            Process.Start(dir);
-        }
-
-        #endregion Paths
-
         #region After Capture
 
         private void cbCaptureSaveImage_CheckedChanged(object sender, EventArgs e)
@@ -454,13 +414,6 @@ namespace ShareX.Forms
         }
 
         #endregion After Capture
-
-        private void txtSaveImageSubFolderPattern_TextChanged(object sender, EventArgs e)
-        {
-            Program.Settings.SaveImageSubFolderPattern = txtSaveImageSubFolderPattern.Text;
-            string subFolderName = new NameParser(NameParserType.SaveFolder).Convert(txtSaveImageSubFolderPattern.Text);
-            txtSaveImageSubFolderPatternPreview.Text = subFolderName;
-        }
 
         #region Capture / Shapes
 
@@ -520,6 +473,8 @@ namespace ShareX.Forms
         }
 
         #endregion Capture / Clipboard
+
+        #endregion Capture
 
         #region Image Processing
 
@@ -635,48 +590,12 @@ namespace ShareX.Forms
 
         #endregion Image Processing
 
-        #region History
-
-        private void btnBrowseCustomHistoryPath_Click(object sender, EventArgs e)
-        {
-            ChooseFolder("ShareX - Choose history file path", txtCustomHistoryPath);
-        }
-
-        private void nudHistoryMaxItemCount_ValueChanged(object sender, EventArgs e)
-        {
-            Program.Settings.HistoryMaxItemCount = (int)nudHistoryMaxItemCount.Value;
-        }
-
-        private void cbHistorySave_CheckedChanged(object sender, EventArgs e)
-        {
-            Program.Settings.SaveHistory = cbHistorySave.Checked;
-        }
-
-        private void txtCustomHistoryPath_TextChanged(object sender, EventArgs e)
-        {
-            Program.Settings.CustomHistoryPath = txtCustomHistoryPath.Text;
-        }
-
-        private void cbUseCustomHistoryPath_CheckedChanged(object sender, EventArgs e)
-        {
-            Program.Settings.UseCustomHistoryPath = cbUseCustomHistoryPath.Checked;
-        }
-
-        #endregion History
-
-        #region Root
-
-        private void btnOpenPersonalPath_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(Program.PersonalPath) && Directory.Exists(Program.PersonalPath))
-            {
-                Process.Start(Program.PersonalPath);
-            }
-        }
-
-        #endregion Root
-
         #region Upload
+
+        private void cbCaptureUploadImage_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Settings.UploadImageToHost = cbCaptureUploadImage.Checked;
+        }
 
         private void cbBufferSize_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -724,13 +643,109 @@ namespace ShareX.Forms
 
         #endregion Upload
 
+        #region Paths
+
+        private void btnBrowseScreenshotsDir_Click(object sender, EventArgs e)
+        {
+            string dir = Path.Combine(txtScreenshotsPath.Text, txtSaveImageSubFolderPatternPreview.Text);
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+            Process.Start(dir);
+        }
+
+        private void btnOpenPersonalPath_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(Program.PersonalPath) && Directory.Exists(Program.PersonalPath))
+            {
+                Process.Start(Program.PersonalPath);
+            }
+        }
+
+        private void txtSaveImageSubFolderPattern_TextChanged(object sender, EventArgs e)
+        {
+            Program.Settings.SaveImageSubFolderPattern = txtSaveImageSubFolderPattern.Text;
+            string subFolderName = new NameParser(NameParserType.SaveFolder).Convert(txtSaveImageSubFolderPattern.Text);
+            txtSaveImageSubFolderPatternPreview.Text = subFolderName;
+        }
+
+        #region History
+
+        private void btnBrowseCustomHistoryPath_Click(object sender, EventArgs e)
+        {
+            ChooseFolder("ShareX - Choose history file path", txtCustomHistoryPath);
+        }
+
+        private void nudHistoryMaxItemCount_ValueChanged(object sender, EventArgs e)
+        {
+            Program.Settings.HistoryMaxItemCount = (int)nudHistoryMaxItemCount.Value;
+        }
+
+        private void cbHistorySave_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Settings.SaveHistory = cbHistorySave.Checked;
+        }
+
+        private void txtCustomHistoryPath_TextChanged(object sender, EventArgs e)
+        {
+            Program.Settings.CustomHistoryPath = txtCustomHistoryPath.Text;
+        }
+
+        private void cbUseCustomHistoryPath_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Settings.UseCustomHistoryPath = cbUseCustomHistoryPath.Checked;
+        }
+
+        #endregion History
+
+        #endregion Paths
+
+        #region Proxy
+
+        private void btnAutofillProxy_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(Program.Settings.ProxySettings.UserName))
+            {
+                Program.Settings.ProxySettings.UserName = Environment.UserName;
+            }
+
+            WebProxy proxy = Helpers.GetDefaultWebProxy();
+            if (proxy != null && proxy.Address != null)
+            {
+                if (string.IsNullOrEmpty(Program.Settings.ProxySettings.Host))
+                {
+                    Program.Settings.ProxySettings.Host = proxy.Address.Host;
+                }
+                if (Program.Settings.ProxySettings.Port == 0)
+                {
+                    Program.Settings.ProxySettings.Port = proxy.Address.Port;
+                }
+            }
+
+            pgProxy.SelectedObject = Program.Settings.ProxySettings;
+        }
+
+        #endregion Proxy
+
         #region Form Events
+
+        public OptionsWindow()
+        {
+            InitializeComponent();
+            this.Text = Application.ProductName + " Settings - " + Program.Settings.FilePath;
+
+            ConfigurePanels();
+            LoadSettings();
+            loaded = true;
+        }
 
         private void OptionsWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
             BeforeClose();
             UploadManager.UpdateProxySettings();
             Program.Settings.SaveAsync();
+            Program.mainForm.ReloadConfig();
         }
 
         private void OptionsWindow_Shown(object sender, EventArgs e)
@@ -745,19 +760,5 @@ namespace ShareX.Forms
         }
 
         #endregion Form Events
-
-        #region General / Notifications
-
-        private void cbPlaySoundAfterCapture_CheckedChanged(object sender, EventArgs e)
-        {
-            Program.Settings.PlaySoundAfterCapture = cbPlaySoundAfterCapture.Checked;
-        }
-
-        private void chkPlaySoundAfterUpload_CheckedChanged(object sender, EventArgs e)
-        {
-            Program.Settings.PlaySoundAfterUpload = chkPlaySoundAfterUpload.Checked;
-        }
-
-        #endregion General / Notifications
     }
 }
