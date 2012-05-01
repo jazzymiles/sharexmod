@@ -19,6 +19,11 @@ namespace ShareX.Forms
             InitializeComponent();
             loaded = true;
 
+            foreach (TreeNode tn in tvMain.Nodes)
+            {
+                tn.Tag = tn.Name.Replace("tn", "panel");
+            }
+
             foreach (Control ctl in panelBase.Controls)
             {
                 if (ctl.Name == panelGeneral.Name)

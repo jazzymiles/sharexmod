@@ -28,27 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("General");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Shapes");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Capture", new System.Windows.Forms.TreeNode[] {
-            treeNode5});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("General");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Shapes");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Capture", new System.Windows.Forms.TreeNode[] {
+            treeNode2});
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Upload");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Paths");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Advanced");
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tvMain = new System.Windows.Forms.TreeView();
             this.panelBase = new System.Windows.Forms.Panel();
+            this.panelCapture = new System.Windows.Forms.Panel();
+            this.cbCaptureShadow = new System.Windows.Forms.CheckBox();
+            this.cbShowCursor = new System.Windows.Forms.CheckBox();
+            this.cbCaptureTransparent = new System.Windows.Forms.CheckBox();
+            this.panelShapes = new System.Windows.Forms.Panel();
             this.panelGeneral = new System.Windows.Forms.Panel();
+            this.lblGeneralInfo = new System.Windows.Forms.Label();
             this.cbCheckUpdates = new System.Windows.Forms.CheckBox();
             this.cbStartWithWindows = new System.Windows.Forms.CheckBox();
             this.cbShowTray = new System.Windows.Forms.CheckBox();
             this.cbShellContextMenu = new System.Windows.Forms.CheckBox();
-            this.panelCapture = new System.Windows.Forms.Panel();
-            this.panelShapes = new System.Windows.Forms.Panel();
-            this.cbCaptureShadow = new System.Windows.Forms.CheckBox();
-            this.cbShowCursor = new System.Windows.Forms.CheckBox();
-            this.cbCaptureTransparent = new System.Windows.Forms.CheckBox();
+            this.panelAdvanced = new System.Windows.Forms.Panel();
+            this.pgSettings = new System.Windows.Forms.PropertyGrid();
             this.tlpMain.SuspendLayout();
             this.panelBase.SuspendLayout();
-            this.panelGeneral.SuspendLayout();
             this.panelCapture.SuspendLayout();
+            this.panelGeneral.SuspendLayout();
+            this.panelAdvanced.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpMain
@@ -71,24 +78,34 @@
             this.tvMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvMain.Location = new System.Drawing.Point(3, 3);
             this.tvMain.Name = "tvMain";
-            treeNode4.Name = "tnGeneral";
-            treeNode4.Tag = "panelGeneral";
-            treeNode4.Text = "General";
-            treeNode5.Name = "tnShapes";
-            treeNode5.Tag = "panelShapes";
-            treeNode5.Text = "Shapes";
-            treeNode6.Name = "tnCapture";
-            treeNode6.Tag = "panelCapture";
-            treeNode6.Text = "Capture";
+            treeNode1.Name = "tnGeneral";
+            treeNode1.Tag = "panelGeneral";
+            treeNode1.Text = "General";
+            treeNode2.Name = "tnShapes";
+            treeNode2.Tag = "panelShapes";
+            treeNode2.Text = "Shapes";
+            treeNode3.Name = "tnCapture";
+            treeNode3.Tag = "panelCapture";
+            treeNode3.Text = "Capture";
+            treeNode4.Name = "tnUpload";
+            treeNode4.Text = "Upload";
+            treeNode5.Name = "tnPaths";
+            treeNode5.Text = "Paths";
+            treeNode6.Name = "tnAdvanced";
+            treeNode6.Text = "Advanced";
             this.tvMain.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode3,
             treeNode4,
+            treeNode5,
             treeNode6});
             this.tvMain.Size = new System.Drawing.Size(192, 548);
             this.tvMain.TabIndex = 0;
             // 
             // panelBase
             // 
-            this.panelBase.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.panelBase.BackColor = System.Drawing.SystemColors.Control;
+            this.panelBase.Controls.Add(this.panelAdvanced);
             this.panelBase.Controls.Add(this.panelCapture);
             this.panelBase.Controls.Add(this.panelShapes);
             this.panelBase.Controls.Add(this.panelGeneral);
@@ -98,9 +115,64 @@
             this.panelBase.Size = new System.Drawing.Size(459, 548);
             this.panelBase.TabIndex = 1;
             // 
+            // panelCapture
+            // 
+            this.panelCapture.BackColor = System.Drawing.SystemColors.Control;
+            this.panelCapture.Controls.Add(this.cbCaptureShadow);
+            this.panelCapture.Controls.Add(this.cbShowCursor);
+            this.panelCapture.Controls.Add(this.cbCaptureTransparent);
+            this.panelCapture.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelCapture.Location = new System.Drawing.Point(0, 0);
+            this.panelCapture.Name = "panelCapture";
+            this.panelCapture.Size = new System.Drawing.Size(459, 548);
+            this.panelCapture.TabIndex = 1;
+            // 
+            // cbCaptureShadow
+            // 
+            this.cbCaptureShadow.AutoSize = true;
+            this.cbCaptureShadow.Location = new System.Drawing.Point(16, 64);
+            this.cbCaptureShadow.Name = "cbCaptureShadow";
+            this.cbCaptureShadow.Size = new System.Drawing.Size(274, 17);
+            this.cbCaptureShadow.TabIndex = 2;
+            this.cbCaptureShadow.Text = "Capture window with shadow (requires transparency)";
+            this.cbCaptureShadow.UseVisualStyleBackColor = true;
+            this.cbCaptureShadow.CheckedChanged += new System.EventHandler(this.cbCaptureShadow_CheckedChanged);
+            // 
+            // cbShowCursor
+            // 
+            this.cbShowCursor.AutoSize = true;
+            this.cbShowCursor.Location = new System.Drawing.Point(16, 16);
+            this.cbShowCursor.Name = "cbShowCursor";
+            this.cbShowCursor.Size = new System.Drawing.Size(156, 17);
+            this.cbShowCursor.TabIndex = 0;
+            this.cbShowCursor.Text = "Show cursor in screenshots";
+            this.cbShowCursor.UseVisualStyleBackColor = true;
+            this.cbShowCursor.CheckedChanged += new System.EventHandler(this.cbShowCursor_CheckedChanged);
+            // 
+            // cbCaptureTransparent
+            // 
+            this.cbCaptureTransparent.AutoSize = true;
+            this.cbCaptureTransparent.Location = new System.Drawing.Point(16, 40);
+            this.cbCaptureTransparent.Name = "cbCaptureTransparent";
+            this.cbCaptureTransparent.Size = new System.Drawing.Size(188, 17);
+            this.cbCaptureTransparent.TabIndex = 1;
+            this.cbCaptureTransparent.Text = "Capture window with transparency";
+            this.cbCaptureTransparent.UseVisualStyleBackColor = true;
+            this.cbCaptureTransparent.CheckedChanged += new System.EventHandler(this.cbCaptureTransparent_CheckedChanged);
+            // 
+            // panelShapes
+            // 
+            this.panelShapes.BackColor = System.Drawing.SystemColors.Control;
+            this.panelShapes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelShapes.Location = new System.Drawing.Point(0, 0);
+            this.panelShapes.Name = "panelShapes";
+            this.panelShapes.Size = new System.Drawing.Size(459, 548);
+            this.panelShapes.TabIndex = 2;
+            // 
             // panelGeneral
             // 
             this.panelGeneral.BackColor = System.Drawing.SystemColors.Control;
+            this.panelGeneral.Controls.Add(this.lblGeneralInfo);
             this.panelGeneral.Controls.Add(this.cbCheckUpdates);
             this.panelGeneral.Controls.Add(this.cbStartWithWindows);
             this.panelGeneral.Controls.Add(this.cbShowTray);
@@ -109,7 +181,20 @@
             this.panelGeneral.Location = new System.Drawing.Point(0, 0);
             this.panelGeneral.Name = "panelGeneral";
             this.panelGeneral.Size = new System.Drawing.Size(459, 548);
-            this.panelGeneral.TabIndex = 2;
+            this.panelGeneral.TabIndex = 3;
+            // 
+            // lblGeneralInfo
+            // 
+            this.lblGeneralInfo.BackColor = System.Drawing.Color.DimGray;
+            this.lblGeneralInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblGeneralInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblGeneralInfo.ForeColor = System.Drawing.Color.White;
+            this.lblGeneralInfo.Location = new System.Drawing.Point(0, 519);
+            this.lblGeneralInfo.Name = "lblGeneralInfo";
+            this.lblGeneralInfo.Size = new System.Drawing.Size(459, 29);
+            this.lblGeneralInfo.TabIndex = 4;
+            this.lblGeneralInfo.Text = "Shell context menu is Windows Explorer right click menu for files and folders.";
+            this.lblGeneralInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // cbCheckUpdates
             // 
@@ -155,59 +240,23 @@
             this.cbShellContextMenu.UseVisualStyleBackColor = true;
             this.cbShellContextMenu.CheckedChanged += new System.EventHandler(this.cbShellContextMenu_CheckedChanged);
             // 
-            // panelCapture
+            // panelAdvanced
             // 
-            this.panelCapture.BackColor = System.Drawing.SystemColors.Control;
-            this.panelCapture.Controls.Add(this.cbCaptureShadow);
-            this.panelCapture.Controls.Add(this.cbShowCursor);
-            this.panelCapture.Controls.Add(this.cbCaptureTransparent);
-            this.panelCapture.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelCapture.Location = new System.Drawing.Point(0, 0);
-            this.panelCapture.Name = "panelCapture";
-            this.panelCapture.Size = new System.Drawing.Size(459, 548);
-            this.panelCapture.TabIndex = 0;
+            this.panelAdvanced.BackColor = System.Drawing.SystemColors.Control;
+            this.panelAdvanced.Controls.Add(this.pgSettings);
+            this.panelAdvanced.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelAdvanced.Location = new System.Drawing.Point(0, 0);
+            this.panelAdvanced.Name = "panelAdvanced";
+            this.panelAdvanced.Size = new System.Drawing.Size(459, 548);
+            this.panelAdvanced.TabIndex = 0;
             // 
-            // panelShapes
+            // pgSettings
             // 
-            this.panelShapes.BackColor = System.Drawing.SystemColors.Control;
-            this.panelShapes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelShapes.Location = new System.Drawing.Point(0, 0);
-            this.panelShapes.Name = "panelShapes";
-            this.panelShapes.Size = new System.Drawing.Size(459, 548);
-            this.panelShapes.TabIndex = 1;
-            // 
-            // cbCaptureShadow
-            // 
-            this.cbCaptureShadow.AutoSize = true;
-            this.cbCaptureShadow.Location = new System.Drawing.Point(16, 64);
-            this.cbCaptureShadow.Name = "cbCaptureShadow";
-            this.cbCaptureShadow.Size = new System.Drawing.Size(274, 17);
-            this.cbCaptureShadow.TabIndex = 2;
-            this.cbCaptureShadow.Text = "Capture window with shadow (requires transparency)";
-            this.cbCaptureShadow.UseVisualStyleBackColor = true;
-            this.cbCaptureShadow.CheckedChanged += new System.EventHandler(this.cbCaptureShadow_CheckedChanged);
-            // 
-            // cbShowCursor
-            // 
-            this.cbShowCursor.AutoSize = true;
-            this.cbShowCursor.Location = new System.Drawing.Point(16, 16);
-            this.cbShowCursor.Name = "cbShowCursor";
-            this.cbShowCursor.Size = new System.Drawing.Size(156, 17);
-            this.cbShowCursor.TabIndex = 0;
-            this.cbShowCursor.Text = "Show cursor in screenshots";
-            this.cbShowCursor.UseVisualStyleBackColor = true;
-            this.cbShowCursor.CheckedChanged += new System.EventHandler(this.cbShowCursor_CheckedChanged);
-            // 
-            // cbCaptureTransparent
-            // 
-            this.cbCaptureTransparent.AutoSize = true;
-            this.cbCaptureTransparent.Location = new System.Drawing.Point(16, 40);
-            this.cbCaptureTransparent.Name = "cbCaptureTransparent";
-            this.cbCaptureTransparent.Size = new System.Drawing.Size(188, 17);
-            this.cbCaptureTransparent.TabIndex = 1;
-            this.cbCaptureTransparent.Text = "Capture window with transparency";
-            this.cbCaptureTransparent.UseVisualStyleBackColor = true;
-            this.cbCaptureTransparent.CheckedChanged += new System.EventHandler(this.cbCaptureTransparent_CheckedChanged);
+            this.pgSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pgSettings.Location = new System.Drawing.Point(0, 0);
+            this.pgSettings.Name = "pgSettings";
+            this.pgSettings.Size = new System.Drawing.Size(459, 548);
+            this.pgSettings.TabIndex = 1;
             // 
             // OptionsWindow
             // 
@@ -220,10 +269,11 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OptionsWindow_FormClosed);
             this.tlpMain.ResumeLayout(false);
             this.panelBase.ResumeLayout(false);
-            this.panelGeneral.ResumeLayout(false);
-            this.panelGeneral.PerformLayout();
             this.panelCapture.ResumeLayout(false);
             this.panelCapture.PerformLayout();
+            this.panelGeneral.ResumeLayout(false);
+            this.panelGeneral.PerformLayout();
+            this.panelAdvanced.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -236,6 +286,7 @@
         private System.Windows.Forms.Panel panelGeneral;
         private System.Windows.Forms.Panel panelCapture;
         private System.Windows.Forms.Panel panelShapes;
+        private System.Windows.Forms.Panel panelAdvanced;
         private System.Windows.Forms.CheckBox cbCheckUpdates;
         private System.Windows.Forms.CheckBox cbStartWithWindows;
         private System.Windows.Forms.CheckBox cbShowTray;
@@ -243,5 +294,7 @@
         private System.Windows.Forms.CheckBox cbCaptureShadow;
         private System.Windows.Forms.CheckBox cbShowCursor;
         private System.Windows.Forms.CheckBox cbCaptureTransparent;
+        private System.Windows.Forms.Label lblGeneralInfo;
+        private System.Windows.Forms.PropertyGrid pgSettings;
     }
 }
