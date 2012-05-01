@@ -31,6 +31,7 @@ using HelpersLib;
 using HelpersLib.Hotkeys2;
 using HistoryLib;
 using ScreenCapture;
+using ShareX.Forms;
 using ShareX.Properties;
 using UpdateCheckerLib;
 using UploadersLib;
@@ -700,9 +701,7 @@ namespace ShareX
 
         private void tsmiSettings_Click(object sender, EventArgs e)
         {
-            new SettingsForm() { Icon = this.Icon }.ShowDialog();
-            UploadManager.UpdateProxySettings();
-            Program.Settings.SaveAsync();
+            new OptionsWindow() { Icon = this.Icon }.Show();
         }
     }
 }

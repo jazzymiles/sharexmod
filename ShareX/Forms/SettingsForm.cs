@@ -335,12 +335,9 @@ namespace ShareX
 
         private void btnOpenZUploaderPath_Click(object sender, EventArgs e)
         {
-            OptionsWindow ow = new OptionsWindow();
-            ow.Show();
-            return;
-            if (!string.IsNullOrEmpty(Program.PersonalPath) && Directory.Exists(Program.PersonalPath))
+            if (!string.IsNullOrEmpty(Program.ScreenshotsPath) && Directory.Exists(Program.ScreenshotsPath))
             {
-                Process.Start(Program.PersonalPath);
+                Process.Start(Program.ScreenshotsPath);
             }
         }
 
