@@ -37,6 +37,7 @@ using log4net.Config;
 using log4net.Core;
 using log4net.Layout;
 using ScreenCapture;
+using ShareX.Forms;
 
 namespace ShareX
 {
@@ -334,6 +335,9 @@ namespace ShareX
 
         private void btnOpenZUploaderPath_Click(object sender, EventArgs e)
         {
+            OptionsWindow ow = new OptionsWindow();
+            ow.Show();
+            return;
             if (!string.IsNullOrEmpty(Program.PersonalPath) && Directory.Exists(Program.PersonalPath))
             {
                 Process.Start(Program.PersonalPath);
