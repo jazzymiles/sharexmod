@@ -19,6 +19,14 @@ namespace ShareX.Forms
             InitializeComponent();
             loaded = true;
 
+            foreach (Control ctl in panelBase.Controls)
+            {
+                if (ctl.Name == panelGeneral.Name)
+                    ctl.Visible = true;
+                else
+                    ctl.Visible = false;
+            }
+
             for (int i = 0; i < tvMain.Nodes.Count; i++)
             {
                 tvMain.NodeMouseClick += new TreeNodeMouseClickEventHandler(tvMain_NodeMouseClick);
@@ -77,6 +85,29 @@ namespace ShareX.Forms
         private void cbCheckUpdates_CheckedChanged(object sender, EventArgs e)
         {
             Program.Settings.AutoCheckUpdate = cbCheckUpdates.Checked;
+        }
+
+        private void cbCaptureShadow_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Settings.CaptureShadow = cbCaptureShadow.Checked;
+        }
+
+        private void cbCaptureTransparent_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Settings.CaptureTransparent = cbCaptureTransparent.Checked;
+
+            cbCaptureShadow.Enabled = Program.Settings.CaptureTransparent;
+        }
+
+        private void cbShowCursor_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Settings.ShowCursor = cbShowCursor.Checked;
+        }
+
+        private void OptionsWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            UploadManager.UpdateProxySettings();
+            Program.Settings.SaveAsync();
         }
     }
 }
