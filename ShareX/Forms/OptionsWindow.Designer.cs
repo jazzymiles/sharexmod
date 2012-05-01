@@ -310,7 +310,7 @@
             this.tpGeneral.Controls.Add(this.panelGeneral);
             this.tpGeneral.Location = new System.Drawing.Point(4, 22);
             this.tpGeneral.Name = "tpGeneral";
-            this.tpGeneral.Size = new System.Drawing.Size(543, 488);
+            this.tpGeneral.Size = new System.Drawing.Size(543, 520);
             this.tpGeneral.TabIndex = 0;
             this.tpGeneral.Text = "General";
             this.tpGeneral.UseVisualStyleBackColor = true;
@@ -327,7 +327,7 @@
             this.panelGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelGeneral.Location = new System.Drawing.Point(0, 0);
             this.panelGeneral.Name = "panelGeneral";
-            this.panelGeneral.Size = new System.Drawing.Size(543, 488);
+            this.panelGeneral.Size = new System.Drawing.Size(543, 520);
             this.panelGeneral.TabIndex = 3;
             // 
             // gbNotifications
@@ -369,7 +369,7 @@
             this.lblGeneralInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblGeneralInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblGeneralInfo.ForeColor = System.Drawing.Color.White;
-            this.lblGeneralInfo.Location = new System.Drawing.Point(0, 459);
+            this.lblGeneralInfo.Location = new System.Drawing.Point(0, 491);
             this.lblGeneralInfo.Name = "lblGeneralInfo";
             this.lblGeneralInfo.Size = new System.Drawing.Size(543, 29);
             this.lblGeneralInfo.TabIndex = 4;
@@ -425,7 +425,7 @@
             this.tpAdvanced.Controls.Add(this.panelAdvanced);
             this.tpAdvanced.Location = new System.Drawing.Point(4, 22);
             this.tpAdvanced.Name = "tpAdvanced";
-            this.tpAdvanced.Size = new System.Drawing.Size(543, 488);
+            this.tpAdvanced.Size = new System.Drawing.Size(543, 520);
             this.tpAdvanced.TabIndex = 1;
             this.tpAdvanced.Text = "Advanced";
             this.tpAdvanced.UseVisualStyleBackColor = true;
@@ -437,7 +437,7 @@
             this.panelAdvanced.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAdvanced.Location = new System.Drawing.Point(0, 0);
             this.panelAdvanced.Name = "panelAdvanced";
-            this.panelAdvanced.Size = new System.Drawing.Size(556, 534);
+            this.panelAdvanced.Size = new System.Drawing.Size(543, 520);
             this.panelAdvanced.TabIndex = 0;
             // 
             // pgSettings
@@ -445,7 +445,7 @@
             this.pgSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgSettings.Location = new System.Drawing.Point(0, 0);
             this.pgSettings.Name = "pgSettings";
-            this.pgSettings.Size = new System.Drawing.Size(556, 534);
+            this.pgSettings.Size = new System.Drawing.Size(543, 520);
             this.pgSettings.TabIndex = 1;
             // 
             // tpCapture
@@ -454,7 +454,7 @@
             this.tpCapture.Location = new System.Drawing.Point(4, 22);
             this.tpCapture.Name = "tpCapture";
             this.tpCapture.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCapture.Size = new System.Drawing.Size(543, 488);
+            this.tpCapture.Size = new System.Drawing.Size(543, 520);
             this.tpCapture.TabIndex = 2;
             this.tpCapture.Text = "Capture";
             this.tpCapture.UseVisualStyleBackColor = true;
@@ -469,7 +469,7 @@
             this.panelCapture.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCapture.Location = new System.Drawing.Point(3, 3);
             this.panelCapture.Name = "panelCapture";
-            this.panelCapture.Size = new System.Drawing.Size(537, 482);
+            this.panelCapture.Size = new System.Drawing.Size(537, 514);
             this.panelCapture.TabIndex = 1;
             // 
             // gbCaptureAfter
@@ -729,7 +729,7 @@
             this.tpProxy.Location = new System.Drawing.Point(4, 22);
             this.tpProxy.Name = "tpProxy";
             this.tpProxy.Padding = new System.Windows.Forms.Padding(3);
-            this.tpProxy.Size = new System.Drawing.Size(543, 488);
+            this.tpProxy.Size = new System.Drawing.Size(543, 520);
             this.tpProxy.TabIndex = 4;
             this.tpProxy.Text = "Proxy";
             this.tpProxy.UseVisualStyleBackColor = true;
@@ -771,7 +771,7 @@
             this.tpClipboardUpload.Location = new System.Drawing.Point(4, 22);
             this.tpClipboardUpload.Name = "tpClipboardUpload";
             this.tpClipboardUpload.Padding = new System.Windows.Forms.Padding(3);
-            this.tpClipboardUpload.Size = new System.Drawing.Size(543, 488);
+            this.tpClipboardUpload.Size = new System.Drawing.Size(543, 520);
             this.tpClipboardUpload.TabIndex = 5;
             this.tpClipboardUpload.Text = "Clipboard Upload";
             this.tpClipboardUpload.UseVisualStyleBackColor = true;
@@ -857,7 +857,7 @@
             this.tpUpload.Location = new System.Drawing.Point(4, 22);
             this.tpUpload.Name = "tpUpload";
             this.tpUpload.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUpload.Size = new System.Drawing.Size(543, 488);
+            this.tpUpload.Size = new System.Drawing.Size(543, 520);
             this.tpUpload.TabIndex = 6;
             this.tpUpload.Text = "Upload";
             this.tpUpload.UseVisualStyleBackColor = true;
@@ -947,7 +947,7 @@
             this.tpHotkeys.Location = new System.Drawing.Point(4, 22);
             this.tpHotkeys.Name = "tpHotkeys";
             this.tpHotkeys.Padding = new System.Windows.Forms.Padding(3);
-            this.tpHotkeys.Size = new System.Drawing.Size(543, 488);
+            this.tpHotkeys.Size = new System.Drawing.Size(543, 520);
             this.tpHotkeys.TabIndex = 7;
             this.tpHotkeys.Text = "Hotkeys";
             this.tpHotkeys.UseVisualStyleBackColor = true;
@@ -975,7 +975,7 @@
             this.tpImageQuality.Location = new System.Drawing.Point(4, 22);
             this.tpImageQuality.Name = "tpImageQuality";
             this.tpImageQuality.Padding = new System.Windows.Forms.Padding(3);
-            this.tpImageQuality.Size = new System.Drawing.Size(543, 488);
+            this.tpImageQuality.Size = new System.Drawing.Size(543, 520);
             this.tpImageQuality.TabIndex = 8;
             this.tpImageQuality.Text = "Quality";
             this.tpImageQuality.UseVisualStyleBackColor = true;
@@ -1346,7 +1346,7 @@
             this.tpImageResize.Location = new System.Drawing.Point(4, 22);
             this.tpImageResize.Name = "tpImageResize";
             this.tpImageResize.Padding = new System.Windows.Forms.Padding(3);
-            this.tpImageResize.Size = new System.Drawing.Size(543, 488);
+            this.tpImageResize.Size = new System.Drawing.Size(543, 520);
             this.tpImageResize.TabIndex = 9;
             this.tpImageResize.Text = "Resize";
             this.tpImageResize.UseVisualStyleBackColor = true;
@@ -1799,7 +1799,7 @@
             this.tpAfterUpload.Location = new System.Drawing.Point(4, 22);
             this.tpAfterUpload.Name = "tpAfterUpload";
             this.tpAfterUpload.Padding = new System.Windows.Forms.Padding(3);
-            this.tpAfterUpload.Size = new System.Drawing.Size(543, 488);
+            this.tpAfterUpload.Size = new System.Drawing.Size(543, 520);
             this.tpAfterUpload.TabIndex = 11;
             this.tpAfterUpload.Text = "After Upload";
             this.tpAfterUpload.UseVisualStyleBackColor = true;
@@ -1811,7 +1811,7 @@
             this.panelAfterUpload.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAfterUpload.Location = new System.Drawing.Point(3, 3);
             this.panelAfterUpload.Name = "panelAfterUpload";
-            this.panelAfterUpload.Size = new System.Drawing.Size(537, 482);
+            this.panelAfterUpload.Size = new System.Drawing.Size(537, 514);
             this.panelAfterUpload.TabIndex = 0;
             // 
             // cbURLShortenAfterUpload
