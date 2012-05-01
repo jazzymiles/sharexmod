@@ -68,7 +68,7 @@
       <HintPath>..\..\..\ShareX\trunk\HistoryLib\bin\Release\HistoryLib.dll</HintPath>
     </Reference>
     <Reference Include="IndexersLib">
-      <HintPath>..\IndexersLib\bin\Release\IndexersLib.dll</HintPath>
+      <HintPath>..\IndexersLib\obj\Debug\IndexersLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -133,12 +133,6 @@
     <Compile Include="Forms\ResponseForm.Designer.cs">
       <DependentUpon>ResponseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\SettingsForm.Designer.cs">
-      <DependentUpon>SettingsForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="HelperClasses\ImageData.cs" />
     <Compile Include="HelperClasses\ImageExtensions.cs" />
     <Compile Include="Forms\MainForm.cs">
@@ -184,9 +178,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ResponseForm.resx">
       <DependentUpon>ResponseForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SettingsForm.resx">
-      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

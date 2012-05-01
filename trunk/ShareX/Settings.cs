@@ -53,7 +53,8 @@ namespace ShareX
         public bool AutoCheckUpdate = true;
         public bool ClipboardAutoCopy = true;
         public bool URLShortenAfterUpload = false;
-        public bool AutoPlaySound = true;
+        public bool PlaySoundAfterCapture = true;
+        public bool PlaySoundAfterUpload = true;
 
         // Hotkeys / Workflows
 
@@ -105,7 +106,7 @@ namespace ShareX
         public bool CaptureCopyImage = false;
         public bool CaptureSaveImage = false;
         public string SaveImageSubFolderPattern = "%y-%mo";
-        public bool CaptureUploadImage = true;
+        public bool UploadImageToHost = true;
         public SurfaceOptions SurfaceOptions = new SurfaceOptions() { QuickCrop = true };
 
         // History
