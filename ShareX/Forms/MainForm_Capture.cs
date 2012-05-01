@@ -57,7 +57,7 @@ namespace ShareX
                 Screenshot.CaptureShadow = Program.Settings.CaptureShadow;
                 img = capture();
 
-                if (img != null && Program.Settings.AutoPlaySound)
+                if (img != null && Program.Settings.PlaySoundAfterCapture)
                 {
                     string soundPath = Path.Combine(Application.StartupPath, "Camera.wav");
 
@@ -91,7 +91,7 @@ namespace ShareX
                     AnnotateImage = Program.Settings.CaptureAnnotateImage,
                     CopyImageToClipboard = Program.Settings.CaptureCopyImage,
                     SaveImageToFile = Program.Settings.CaptureSaveImage,
-                    UploadImageToHost = Program.Settings.CaptureUploadImage
+                    UploadImageToHost = Program.Settings.UploadImageToHost
                 };
 
                 if (Program.Settings.ShowAfterCaptureWizard)
