@@ -84,8 +84,11 @@ namespace ShareX.Forms
         {
             TreeNode tvNode = e.Node;
             Panel myPanel = Panels.ContainsKey(tvNode.Tag.ToString()) ? Panels[tvNode.Tag.ToString()] : new Panel();
-            tlpMain.Controls.RemoveAt(1);
-            tlpMain.Controls.Add(myPanel, 1, 0);
+            if (tlpMain.Controls[1].Name != myPanel.Name)
+            {
+                tlpMain.Controls.RemoveAt(1);
+                tlpMain.Controls.Add(myPanel, 1, 0);
+            }
         }
 
         #endregion Configure Panels
