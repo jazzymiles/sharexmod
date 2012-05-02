@@ -108,7 +108,7 @@ namespace UploadersLib
         [EditorAttribute(typeof(CertFileNameEditor), typeof(UITypeEditor))]
         public string FtpsCertLocation { get; set; }
 
-        [Category("FTPS"), Description("Security Protocol"), DefaultValue(FtpSecurityProtocol.Ssl2Explicit)]
+        [Category("FTPS"), Description("Security Protocol"), DefaultValue(FtpSecurityProtocol.None)]
         public FtpSecurityProtocol FtpsSecurityProtocol { get; set; }
 
         [Category("SFTP"), Description("OpenSSH key Passphrase"), PasswordPropertyText(true)]

@@ -54,14 +54,11 @@ namespace UploadersLib
             switch (account.Protocol)
             {
                 case FTPProtocol.FTPS:
+                    Client.SecurityProtocol = account.FtpsSecurityProtocol;
+                    Client.ValidateServerCertificate += new EventHandler<ValidateServerCertificateEventArgs>(Client_ValidateServerCertificate);
                     if (File.Exists(account.FtpsCertLocation))
                     {
-                        Client.SecurityProtocol = account.FtpsSecurityProtocol;
                         Client.SecurityCertificates.Add(X509Certificate.CreateFromSignedFile(account.FtpsCertLocation));
-                    }
-                    else
-                    {
-                        throw new Exception("Can't find ftps certificate (" + account.FtpsCertLocation + ")");
                     }
                     break;
                 default:
@@ -86,6 +83,11 @@ namespace UploadersLib
 
             Client.TransferProgress += new EventHandler<TransferProgressEventArgs>(OnTransferProgressChanged);
             Client.ConnectionClosed += new EventHandler<ConnectionClosedEventArgs>(Client_ConnectionClosed);
+        }
+
+        private void Client_ValidateServerCertificate(object sender, ValidateServerCertificateEventArgs e)
+        {
+            //  throw new NotImplementedException();
         }
 
         private void OnTransferProgressChanged(object sender, TransferProgressEventArgs e)
