@@ -53,15 +53,23 @@
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Width = 93;
+            this.columnHeader1.Text = "Timestamp";
+            this.columnHeader1.Width = 100;
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Width = 86;
+            this.columnHeader2.Text = "Level";
+            this.columnHeader2.Width = 89;
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Width = 219;
+            this.columnHeader3.Text = "Location";
+            this.columnHeader3.Width = 300;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Message";
+            this.columnHeader4.Width = 400;
             // 
             // log4netViewer_ListView
             // 

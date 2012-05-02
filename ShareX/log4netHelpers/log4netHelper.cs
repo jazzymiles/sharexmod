@@ -30,7 +30,7 @@ namespace ShareX
                 fa.RollingStyle = RollingFileAppender.RollingMode.Size;
                 fa.MaxFileSize = 100000;
                 fa.MaxSizeRollBackups = 3;
-                fa.File = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Application.ProductName), Application.ProductName + ".log");
+                fa.File = Path.Combine(Program.PersonalPath, Application.ProductName + ".log");
                 fa.Layout = new log4net.Layout.PatternLayout("%date{ISO8601} [%thread] %-5level - [%logger] %m%n%exception");
                 log4net.Config.BasicConfigurator.Configure(fa);
                 fa.ActivateOptions();

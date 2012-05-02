@@ -103,9 +103,9 @@ namespace UploadersLib
 
         public void FlickrAuthOpen()
         {
-            FlickrUploader flickr = new FlickrUploader(APIKeys.FlickrKey, APIKeys.FlickrSecret);
             try
             {
+                FlickrUploader flickr = new FlickrUploader(APIKeys.FlickrKey, APIKeys.FlickrSecret);
                 btnFlickrOpenAuthorize.Tag = flickr.GetFrob();
                 string url = flickr.GetAuthLink(FlickrPermission.Write);
                 if (!string.IsNullOrEmpty(url))
@@ -116,11 +116,7 @@ namespace UploadersLib
             }
             catch (Exception ex)
             {
-                StringBuilder sbMsg = new StringBuilder();
-                sbMsg.AppendLine(flickr.ToErrorString());
-                sbMsg.AppendLine();
-                sbMsg.AppendLine(ex.ToString());
-                MessageBox.Show(sbMsg.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -255,78 +251,6 @@ namespace UploadersLib
         }
 
         #endregion Photobucket
-
-        #region MediaWiki
-
-        private MediaWikiAccount GetSelectedMediaWiki()
-        {
-            MediaWikiAccount account = null;
-
-            if (Config.MediaWikiAccountList.IsValidIndex(Config.MediaWikiAccountSelected))
-            {
-                account = Config.MediaWikiAccountList[Config.MediaWikiAccountSelected];
-            }
-
-            return account;
-        }
-
-        private void TestMediaWikiAccount(MediaWikiAccount account, Action success, Action<string> failure)
-        {
-            var timeoutTimer = new System.Windows.Forms.Timer();
-            Thread thread = new Thread(new ThreadStart(delegate
-            {
-                TestMediaWikiAccountThread(account,
-                    delegate()
-                    {
-                        timeoutTimer.Stop(); success();
-                    },
-                    delegate(string msg)
-                    {
-                        timeoutTimer.Stop(); failure(msg);
-                    });
-            }));
-            thread.Start();
-            timeoutTimer.Interval = 10000;
-            timeoutTimer.Tick += new EventHandler(delegate(object sender, EventArgs e)
-            {
-                thread.Interrupt();
-                timeoutTimer.Stop();
-                failure("The website at the URL you specified doesn't answer");
-            });
-            timeoutTimer.Start();
-        }
-
-        private void TestMediaWikiAccountThread(MediaWikiAccount acc, Action success, Action<string> failure)
-        {
-            try
-            {
-                MediaWiki connector = new MediaWiki(new MediaWikiOptions(acc, null)); // TODO: MediaWiki CheckProxySettings().GetWebProxy
-                connector.Login();
-                success();
-            }
-            catch (Exception ex)
-            {
-                // ignore ThreadInterruptedException : the request timed out and the thread was interrupted
-                if (!(ex.InnerException is ThreadInterruptedException))
-                    failure(ex.Message);
-            }
-        }
-
-        private void MediaWikiSetup(IEnumerable<MediaWikiAccount> accs)
-        {
-            if (accs != null)
-            {
-                ucMediaWikiAccounts.AccountsList.Items.Clear();
-                Config.MediaWikiAccountList = new List<MediaWikiAccount>();
-                Config.MediaWikiAccountList.AddRange(accs);
-                foreach (MediaWikiAccount acc in Config.MediaWikiAccountList)
-                {
-                    ucMediaWikiAccounts.AccountsList.Items.Add(acc);
-                }
-            }
-        }
-
-        #endregion MediaWiki
 
         #region Dropbox
 
