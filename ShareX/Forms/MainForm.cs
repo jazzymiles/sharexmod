@@ -460,6 +460,11 @@ namespace ShareX
             {
                 e.Cancel = true;
                 Hide();
+
+                if (Program.Settings.DropboxSync)
+                {
+                    new DropboxSyncHelper().Save();
+                }
             }
         }
 
@@ -566,14 +571,7 @@ namespace ShareX
 
         private void tsddbUploadersConfig_Click(object sender, EventArgs e)
         {
-            if (Program.UploadersConfig == null)
-            {
-                Program.UploaderSettingsResetEvent.WaitOne();
-            }
-
-            UploadersConfigForm uploadersConfigForm = new UploadersConfigForm(Program.UploadersConfig, new UploadersAPIKeys()) { Icon = this.Icon };
-            uploadersConfigForm.ShowDialog();
-            uploadersConfigForm.Config.SaveAsync(Program.UploadersConfigFilePath);
+            FormsHelper.ShowUploadersConfig();
         }
 
         private void tsbCopy_Click(object sender, EventArgs e)
@@ -717,7 +715,7 @@ namespace ShareX
 
         private void tsmiSettings_Click(object sender, EventArgs e)
         {
-            new OptionsWindow() { Icon = this.Icon }.Show();
+            FormsHelper.ShowOptions();
         }
     }
 }

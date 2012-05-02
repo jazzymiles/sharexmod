@@ -14,9 +14,9 @@ namespace ShareX
 {
     public class DropboxSyncHelper
     {
-        string dropBoxSettingsPath = Helpers.CombineURL(Application.ProductName, Program.SettingsFileName);
-        string dropBoxUploadersConfigPath = Helpers.CombineURL(Application.ProductName, Program.UploadersConfigFileName);
-        FileUploader fileUploader = null;
+        string pathDropboxSettings = Helpers.CombineURL(Application.ProductName, Program.SettingsFileName);
+        string pathDropboxUploadersConfig = Helpers.CombineURL(Application.ProductName, Program.UploadersConfigFileName);
+        Dropbox fileUploader = null;
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public DropboxSyncHelper()
@@ -54,21 +54,25 @@ namespace ShareX
 
         private void bwLoad_DoWork(object sender, DoWorkEventArgs e)
         {
-            Dropbox dropBox = fileUploader as Dropbox;
-
-            Settings settings = dropBox.DownloadFile<Settings>(dropBoxSettingsPath);
+            Settings settings = fileUploader.DownloadFile<Settings>(pathDropboxSettings);
             if (settings != null)
             {
-                settings.Paths = Program.Settings.Paths;
+                settings.ProxySettings = Program.Settings.ProxySettings;
+                settings.Paths = Program.Settings.Paths; // override paths from local settings
                 Program.Settings = settings;
-                log.InfoFormat("Updated Settings using {0}", dropBoxSettingsPath);
+                log.InfoFormat("Updated Settings using {0}", pathDropboxSettings);
             }
-            UploadersConfig config = dropBox.DownloadFile<UploadersConfig>(dropBoxUploadersConfigPath);
+            UploadersConfig config = fileUploader.DownloadFile<UploadersConfig>(pathDropboxUploadersConfig);
             if (config != null)
             {
                 Program.UploadersConfig = config;
-                log.InfoFormat("Updated Uploaders Config using {0}", dropBoxUploadersConfigPath);
+                log.InfoFormat("Updated Uploaders Config using {0}", pathDropboxUploadersConfig);
             }
+        }
+
+        private void bwLoad_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            FormsHelper.Options.LoadSettings();
         }
 
         private void bwSave_DoWork(object sender, DoWorkEventArgs e)
@@ -78,9 +82,12 @@ namespace ShareX
             Settings settings = cm.Clone(Program.Settings);
             // Empty the Paths
             settings.Paths = new SettingsPaths();
-            fileUploader.Upload(GetMemoryStream(settings), dropBoxSettingsPath);
+            settings.ProxySettings = new UploadersLib.HelperClasses.ProxyInfo();
+            fileUploader.Upload(GetMemoryStream(settings), pathDropboxSettings);
+            log.InfoFormat("{0} updated.", pathDropboxSettings);
             UploadersConfig config = cm.Clone(Program.UploadersConfig);
-            fileUploader.Upload(GetMemoryStream(config), dropBoxUploadersConfigPath);
+            fileUploader.Upload(GetMemoryStream(config), pathDropboxUploadersConfig);
+            log.InfoFormat("{0} updated.", pathDropboxUploadersConfig);
         }
 
         public void Load()
@@ -89,6 +96,7 @@ namespace ShareX
             {
                 BackgroundWorker bwLoad = new BackgroundWorker();
                 bwLoad.DoWork += new DoWorkEventHandler(bwLoad_DoWork);
+                bwLoad.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bwLoad_RunWorkerCompleted);
                 bwLoad.RunWorkerAsync();
             }
         }

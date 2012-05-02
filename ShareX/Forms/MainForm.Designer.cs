@@ -248,7 +248,7 @@ namespace ShareX
             this.tsMain.Name = "tsMain";
             this.tsMain.Padding = new System.Windows.Forms.Padding(4, 6, 4, 4);
             this.tsMain.ShowItemToolTips = false;
-            this.tsMain.Size = new System.Drawing.Size(841, 33);
+            this.tsMain.Size = new System.Drawing.Size(899, 33);
             this.tsMain.TabIndex = 0;
             this.tsMain.Text = "toolStrip1";
             // 
@@ -489,6 +489,7 @@ namespace ShareX
             // tsmiDebugOpen
             // 
             this.tsmiDebugOpen.Name = "tsmiDebugOpen";
+            this.tsmiDebugOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.tsmiDebugOpen.Size = new System.Drawing.Size(176, 22);
             this.tsmiDebugOpen.Text = "Debug...";
             this.tsmiDebugOpen.Click += new System.EventHandler(this.tsmiDebugOpen_Click);
@@ -636,7 +637,7 @@ namespace ShareX
             this.tssTray2,
             this.tsmiTrayExit});
             this.cmsTray.Name = "cmsTray";
-            this.cmsTray.Size = new System.Drawing.Size(176, 236);
+            this.cmsTray.Size = new System.Drawing.Size(176, 214);
             // 
             // tsmiTrayClipboardUpload
             // 

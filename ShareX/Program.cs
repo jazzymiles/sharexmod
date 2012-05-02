@@ -32,6 +32,7 @@ using System.Threading;
 using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
+using ShareX.Forms;
 using ShareX.log4netHelpers;
 using SingleInstanceApplication;
 using UploadersLib;
@@ -187,7 +188,6 @@ namespace ShareX
             }
         }
 
-        public static MainForm mainForm;
         public static ManualResetEvent SettingsResetEvent;
         public static ManualResetEvent UploaderSettingsResetEvent;
 
@@ -237,9 +237,9 @@ namespace ShareX
                 UploaderSettingsResetEvent = new ManualResetEvent(false);
                 ThreadPool.QueueUserWorkItem(state => LoadSettings());
 
-                log.InfoFormat("new MainForm() started");
-                mainForm = new MainForm();
-                log.InfoFormat("new MainForm() finished");
+                log.InfoFormat("new FormsHelper.mainForm() started");
+                FormsHelper.Main = new MainForm();
+                log.InfoFormat("new FormsHelper.mainForm() finished");
 
                 if (Settings == null)
                 {
@@ -248,7 +248,7 @@ namespace ShareX
 
                 Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-                Application.Run(mainForm);
+                Application.Run(FormsHelper.Main);
                 Settings.Save();
 
                 log.Info("ShareX closing");
@@ -310,15 +310,15 @@ namespace ShareX
             {
                 Action d = () =>
                 {
-                    if (mainForm.Visible)
+                    if (FormsHelper.Main.Visible)
                     {
-                        mainForm.ShowActivate();
+                        FormsHelper.Main.ShowActivate();
                     }
 
-                    mainForm.UseCommandLineArgs(args.CommandLineArgs);
+                    FormsHelper.Main.UseCommandLineArgs(args.CommandLineArgs);
                 };
 
-                mainForm.Invoke(d);
+                FormsHelper.Main.Invoke(d);
             }
         }
 
@@ -328,7 +328,7 @@ namespace ShareX
 
             while (timer.ElapsedMilliseconds < wait)
             {
-                if (mainForm != null && mainForm.IsReady) return true;
+                if (FormsHelper.Main != null && FormsHelper.Main.IsReady) return true;
 
                 Thread.Sleep(10);
             }

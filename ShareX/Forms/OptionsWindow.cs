@@ -45,7 +45,7 @@ namespace ShareX.Forms
         {
             this.tlpMain.Dock = DockStyle.Fill;
 
-            hmHotkeys.PrepareHotkeys(Program.mainForm.HotkeyManager);
+            hmHotkeys.PrepareHotkeys(FormsHelper.Main.HotkeyManager);
 
             // TreeView node.Tag property will have corresponding panel.Name
             FillTagsUsingName(tvMain.Nodes);
@@ -99,7 +99,7 @@ namespace ShareX.Forms
 
         #endregion Configure Panels
 
-        private void LoadSettings()
+        internal void LoadSettings()
         {
             // General
             cbShowTray.Checked = Program.Settings.ShowTray;
@@ -205,16 +205,10 @@ namespace ShareX.Forms
             if (Directory.Exists(dir))
                 Program.Settings.Paths.ScreenshotsPath = dir;
 
-            if (Program.Settings.DropboxSync)
-            {
-                DropboxSyncHelper sync = new DropboxSyncHelper();
-                sync.Save();
-            }
-
             #region Workflows
 
             List<Workflow> workflowsNew = new List<Workflow>();
-            foreach (Workflow wf in Program.mainForm.HotkeyManager.Workflows)
+            foreach (Workflow wf in FormsHelper.Main.HotkeyManager.Workflows)
             {
                 Workflow wf2 = Program.Settings.Workflows1.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
                 if (wf2 == null)
@@ -224,25 +218,25 @@ namespace ShareX.Forms
             foreach (Workflow wf in workflowsNew)
             {
                 string tag = wf.HotkeyConfig.Tag;
-                Program.mainForm.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
-                Program.mainForm.HotkeyManager.AddHotkey(wf, () => Program.mainForm.DoWork(tag));
+                FormsHelper.Main.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
+                FormsHelper.Main.HotkeyManager.AddHotkey(wf, () => FormsHelper.Main.DoWork(tag));
             }
 
             List<Workflow> workflowOld = new List<Workflow>();
             foreach (Workflow wf in Program.Settings.Workflows1)
             {
-                Workflow wf2 = Program.mainForm.HotkeyManager.Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
+                Workflow wf2 = FormsHelper.Main.HotkeyManager.Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
                 if (wf2 == null)
                     workflowOld.Add(wf);
             }
 
             foreach (Workflow wf in workflowOld)
             {
-                Program.mainForm.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
+                FormsHelper.Main.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
             }
 
             Program.Settings.Workflows1.Clear();
-            Program.Settings.Workflows1.AddRange(Program.mainForm.HotkeyManager.Workflows);
+            Program.Settings.Workflows1.AddRange(FormsHelper.Main.HotkeyManager.Workflows);
 
             #endregion Workflows
         }
@@ -372,7 +366,7 @@ namespace ShareX.Forms
 
             if (loaded)
             {
-                Program.mainForm.niTray.Visible = Program.Settings.ShowTray;
+                FormsHelper.Main.niTray.Visible = Program.Settings.ShowTray;
             }
         }
 
@@ -751,7 +745,7 @@ namespace ShareX.Forms
             BeforeClose();
             UploadManager.UpdateProxySettings();
             Program.Settings.SaveAsync();
-            Program.mainForm.ReloadConfig();
+            FormsHelper.Main.ReloadConfig();
         }
 
         private void OptionsWindow_Shown(object sender, EventArgs e)
@@ -766,5 +760,15 @@ namespace ShareX.Forms
         }
 
         #endregion Form Events
+
+        private void btnDropboxSyncImport_Click(object sender, EventArgs e)
+        {
+            new DropboxSyncHelper().Load();
+        }
+
+        private void btnDropboxSyncExport_Click(object sender, EventArgs e)
+        {
+            new DropboxSyncHelper().Save();
+        }
     }
 }
