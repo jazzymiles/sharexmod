@@ -79,9 +79,9 @@ namespace ShareX
         {
             get
             {
-                if (Settings != null && Settings.UseCustomHistoryPath && !string.IsNullOrEmpty(Settings.Paths.CustomHistoryPath))
+                if (Settings != null && Settings.UseCustomHistoryPath && !string.IsNullOrEmpty(Settings.CustomHistoryPath))
                 {
-                    return Settings.Paths.CustomHistoryPath;
+                    return Settings.CustomHistoryPath;
                 }
 
                 return Path.Combine(PersonalPath, HistoryFileName);
@@ -92,9 +92,9 @@ namespace ShareX
         {
             get
             {
-                if (Settings != null && Settings.UseCustomUploadersConfigPath && !string.IsNullOrEmpty(Settings.Paths.CustomUploadersConfigPath))
+                if (Settings != null && Settings.UseCustomUploadersConfigPath && !string.IsNullOrEmpty(Settings.CustomUploadersConfigPath))
                 {
-                    return Settings.Paths.CustomUploadersConfigPath;
+                    return Settings.CustomUploadersConfigPath;
                 }
 
                 return Path.Combine(PersonalPath, UploadersConfigFileName);
@@ -114,9 +114,9 @@ namespace ShareX
         {
             get
             {
-                if (Settings != null && Directory.Exists(Settings.Paths.ScreenshotsPath))
+                if (Settings != null && Directory.Exists(Settings.ScreenshotsPath))
                 {
-                    return Settings.Paths.ScreenshotsPath;
+                    return Settings.ScreenshotsPath;
                 }
                 else
                 {
@@ -279,8 +279,7 @@ namespace ShareX
 
             if (Program.Settings.DropboxSync)
             {
-                DropboxSyncHelper sync = new DropboxSyncHelper();
-                sync.Load();
+                new DropboxSyncHelper().Load();
             }
         }
 
