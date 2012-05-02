@@ -106,6 +106,7 @@
     <Compile Include="ComponentModelStrings.cs" />
     <Compile Include="DropboxSyncHelper.cs" />
     <Compile Include="FolderWatcher.cs" />
+    <Compile Include="FormsHelper.cs" />
     <Compile Include="Forms\MainForm_Capture.cs">
       <SubType>Form</SubType>
     </Compile>

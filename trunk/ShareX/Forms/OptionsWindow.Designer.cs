@@ -43,7 +43,9 @@
             System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Upload");
             System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Paths");
             System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Proxy");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Advanced");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Dropbox Sync");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Advanced", new System.Windows.Forms.TreeNode[] {
+            treeNode12});
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tvMain = new System.Windows.Forms.TreeView();
             this.tcBase = new System.Windows.Forms.TabControl();
@@ -96,6 +98,9 @@
             this.txtNameFormatPattern = new System.Windows.Forms.TextBox();
             this.tpUpload = new System.Windows.Forms.TabPage();
             this.panelUpload = new System.Windows.Forms.Panel();
+            this.gbAfterUpload = new System.Windows.Forms.GroupBox();
+            this.cbURLShortenAfterUpload = new System.Windows.Forms.CheckBox();
+            this.cbClipboardAutoCopy = new System.Windows.Forms.CheckBox();
             this.lblUploadLimitHint = new System.Windows.Forms.Label();
             this.nudUploadLimit = new System.Windows.Forms.NumericUpDown();
             this.lblUploadLimit = new System.Windows.Forms.Label();
@@ -170,11 +175,10 @@
             this.txtCustomHistoryPath = new System.Windows.Forms.TextBox();
             this.cbUseCustomHistoryPath = new System.Windows.Forms.CheckBox();
             this.cbHistorySave = new System.Windows.Forms.CheckBox();
-            this.tpAfterUpload = new System.Windows.Forms.TabPage();
-            this.panelAfterUpload = new System.Windows.Forms.Panel();
-            this.cbURLShortenAfterUpload = new System.Windows.Forms.CheckBox();
-            this.cbClipboardAutoCopy = new System.Windows.Forms.CheckBox();
-            this.gbAfterUpload = new System.Windows.Forms.GroupBox();
+            this.tpDropboxSync = new System.Windows.Forms.TabPage();
+            this.panelDropboxSync = new System.Windows.Forms.Panel();
+            this.btnDropboxSyncImport = new System.Windows.Forms.Button();
+            this.btnDropboxSyncExport = new System.Windows.Forms.Button();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -195,6 +199,7 @@
             this.panelClipboardUpload.SuspendLayout();
             this.tpUpload.SuspendLayout();
             this.panelUpload.SuspendLayout();
+            this.gbAfterUpload.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudUploadLimit)).BeginInit();
             this.tpHotkeys.SuspendLayout();
             this.panelHotkeys.SuspendLayout();
@@ -218,8 +223,8 @@
             this.gbUploadersConfig.SuspendLayout();
             this.gbHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHistoryMaxItemCount)).BeginInit();
-            this.tpAfterUpload.SuspendLayout();
-            this.gbAfterUpload.SuspendLayout();
+            this.tpDropboxSync.SuspendLayout();
+            this.panelDropboxSync.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpMain
@@ -266,8 +271,10 @@
             treeNode10.Text = "Paths";
             treeNode11.Name = "tnProxy";
             treeNode11.Text = "Proxy";
-            treeNode12.Name = "tnAdvanced";
-            treeNode12.Text = "Advanced";
+            treeNode12.Name = "tnDropboxSync";
+            treeNode12.Text = "Dropbox Sync";
+            treeNode13.Name = "tnAdvanced";
+            treeNode13.Text = "Advanced";
             this.tvMain.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
@@ -276,7 +283,7 @@
             treeNode9,
             treeNode10,
             treeNode11,
-            treeNode12});
+            treeNode13});
             this.tvMain.Size = new System.Drawing.Size(133, 546);
             this.tvMain.TabIndex = 0;
             // 
@@ -293,7 +300,7 @@
             this.tcBase.Controls.Add(this.tpImageQuality);
             this.tcBase.Controls.Add(this.tpImageResize);
             this.tcBase.Controls.Add(this.tpPaths);
-            this.tcBase.Controls.Add(this.tpAfterUpload);
+            this.tcBase.Controls.Add(this.tpDropboxSync);
             this.tcBase.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcBase.Location = new System.Drawing.Point(142, 3);
             this.tcBase.Name = "tcBase";
@@ -873,6 +880,39 @@
             this.panelUpload.Name = "panelUpload";
             this.panelUpload.Size = new System.Drawing.Size(537, 514);
             this.panelUpload.TabIndex = 0;
+            // 
+            // gbAfterUpload
+            // 
+            this.gbAfterUpload.Controls.Add(this.cbURLShortenAfterUpload);
+            this.gbAfterUpload.Controls.Add(this.cbClipboardAutoCopy);
+            this.gbAfterUpload.Location = new System.Drawing.Point(16, 88);
+            this.gbAfterUpload.Name = "gbAfterUpload";
+            this.gbAfterUpload.Size = new System.Drawing.Size(483, 82);
+            this.gbAfterUpload.TabIndex = 6;
+            this.gbAfterUpload.TabStop = false;
+            this.gbAfterUpload.Text = "After Upload";
+            // 
+            // cbURLShortenAfterUpload
+            // 
+            this.cbURLShortenAfterUpload.AutoSize = true;
+            this.cbURLShortenAfterUpload.Location = new System.Drawing.Point(16, 24);
+            this.cbURLShortenAfterUpload.Name = "cbURLShortenAfterUpload";
+            this.cbURLShortenAfterUpload.Size = new System.Drawing.Size(240, 17);
+            this.cbURLShortenAfterUpload.TabIndex = 0;
+            this.cbURLShortenAfterUpload.Text = "Use URL Shortener after upload is completed";
+            this.cbURLShortenAfterUpload.UseVisualStyleBackColor = true;
+            this.cbURLShortenAfterUpload.CheckedChanged += new System.EventHandler(this.cbURLShortenAfterUpload_CheckedChanged);
+            // 
+            // cbClipboardAutoCopy
+            // 
+            this.cbClipboardAutoCopy.AutoSize = true;
+            this.cbClipboardAutoCopy.Location = new System.Drawing.Point(16, 48);
+            this.cbClipboardAutoCopy.Name = "cbClipboardAutoCopy";
+            this.cbClipboardAutoCopy.Size = new System.Drawing.Size(254, 17);
+            this.cbClipboardAutoCopy.TabIndex = 1;
+            this.cbClipboardAutoCopy.Text = "Copy URL to clipboard after upload is completed";
+            this.cbClipboardAutoCopy.UseVisualStyleBackColor = true;
+            this.cbClipboardAutoCopy.CheckedChanged += new System.EventHandler(this.cbClipboardAutoCopy_CheckedChanged);
             // 
             // lblUploadLimitHint
             // 
@@ -1791,57 +1831,46 @@
             this.cbHistorySave.UseVisualStyleBackColor = true;
             this.cbHistorySave.CheckedChanged += new System.EventHandler(this.cbHistorySave_CheckedChanged);
             // 
-            // tpAfterUpload
+            // tpDropboxSync
             // 
-            this.tpAfterUpload.Controls.Add(this.panelAfterUpload);
-            this.tpAfterUpload.Location = new System.Drawing.Point(4, 22);
-            this.tpAfterUpload.Name = "tpAfterUpload";
-            this.tpAfterUpload.Padding = new System.Windows.Forms.Padding(3);
-            this.tpAfterUpload.Size = new System.Drawing.Size(543, 520);
-            this.tpAfterUpload.TabIndex = 11;
-            this.tpAfterUpload.Text = "After Upload";
-            this.tpAfterUpload.UseVisualStyleBackColor = true;
+            this.tpDropboxSync.Controls.Add(this.panelDropboxSync);
+            this.tpDropboxSync.Location = new System.Drawing.Point(4, 22);
+            this.tpDropboxSync.Name = "tpDropboxSync";
+            this.tpDropboxSync.Padding = new System.Windows.Forms.Padding(3);
+            this.tpDropboxSync.Size = new System.Drawing.Size(543, 520);
+            this.tpDropboxSync.TabIndex = 11;
+            this.tpDropboxSync.Text = "Dropbox Sync";
+            this.tpDropboxSync.UseVisualStyleBackColor = true;
             // 
-            // panelAfterUpload
+            // panelDropboxSync
             // 
-            this.panelAfterUpload.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAfterUpload.Location = new System.Drawing.Point(3, 3);
-            this.panelAfterUpload.Name = "panelAfterUpload";
-            this.panelAfterUpload.Size = new System.Drawing.Size(537, 514);
-            this.panelAfterUpload.TabIndex = 0;
+            this.panelDropboxSync.Controls.Add(this.btnDropboxSyncExport);
+            this.panelDropboxSync.Controls.Add(this.btnDropboxSyncImport);
+            this.panelDropboxSync.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelDropboxSync.Location = new System.Drawing.Point(3, 3);
+            this.panelDropboxSync.Name = "panelDropboxSync";
+            this.panelDropboxSync.Size = new System.Drawing.Size(537, 514);
+            this.panelDropboxSync.TabIndex = 0;
             // 
-            // cbURLShortenAfterUpload
+            // btnDropboxSyncImport
             // 
-            this.cbURLShortenAfterUpload.AutoSize = true;
-            this.cbURLShortenAfterUpload.Location = new System.Drawing.Point(16, 24);
-            this.cbURLShortenAfterUpload.Name = "cbURLShortenAfterUpload";
-            this.cbURLShortenAfterUpload.Size = new System.Drawing.Size(240, 17);
-            this.cbURLShortenAfterUpload.TabIndex = 0;
-            this.cbURLShortenAfterUpload.Text = "Use URL Shortener after upload is completed";
-            this.cbURLShortenAfterUpload.UseVisualStyleBackColor = true;
-            this.cbURLShortenAfterUpload.CheckedChanged += new System.EventHandler(this.cbURLShortenAfterUpload_CheckedChanged);
+            this.btnDropboxSyncImport.Location = new System.Drawing.Point(8, 8);
+            this.btnDropboxSyncImport.Name = "btnDropboxSyncImport";
+            this.btnDropboxSyncImport.Size = new System.Drawing.Size(184, 22);
+            this.btnDropboxSyncImport.TabIndex = 0;
+            this.btnDropboxSyncImport.Text = "&Import Settings from Dropbox";
+            this.btnDropboxSyncImport.UseVisualStyleBackColor = true;
+            this.btnDropboxSyncImport.Click += new System.EventHandler(this.btnDropboxSyncImport_Click);
             // 
-            // cbClipboardAutoCopy
+            // btnDropboxSyncExport
             // 
-            this.cbClipboardAutoCopy.AutoSize = true;
-            this.cbClipboardAutoCopy.Location = new System.Drawing.Point(16, 48);
-            this.cbClipboardAutoCopy.Name = "cbClipboardAutoCopy";
-            this.cbClipboardAutoCopy.Size = new System.Drawing.Size(254, 17);
-            this.cbClipboardAutoCopy.TabIndex = 1;
-            this.cbClipboardAutoCopy.Text = "Copy URL to clipboard after upload is completed";
-            this.cbClipboardAutoCopy.UseVisualStyleBackColor = true;
-            this.cbClipboardAutoCopy.CheckedChanged += new System.EventHandler(this.cbClipboardAutoCopy_CheckedChanged);
-            // 
-            // gbAfterUpload
-            // 
-            this.gbAfterUpload.Controls.Add(this.cbURLShortenAfterUpload);
-            this.gbAfterUpload.Controls.Add(this.cbClipboardAutoCopy);
-            this.gbAfterUpload.Location = new System.Drawing.Point(16, 88);
-            this.gbAfterUpload.Name = "gbAfterUpload";
-            this.gbAfterUpload.Size = new System.Drawing.Size(483, 82);
-            this.gbAfterUpload.TabIndex = 6;
-            this.gbAfterUpload.TabStop = false;
-            this.gbAfterUpload.Text = "After Upload";
+            this.btnDropboxSyncExport.Location = new System.Drawing.Point(8, 40);
+            this.btnDropboxSyncExport.Name = "btnDropboxSyncExport";
+            this.btnDropboxSyncExport.Size = new System.Drawing.Size(184, 22);
+            this.btnDropboxSyncExport.TabIndex = 1;
+            this.btnDropboxSyncExport.Text = "&Export Settings from Dropbox";
+            this.btnDropboxSyncExport.UseVisualStyleBackColor = true;
+            this.btnDropboxSyncExport.Click += new System.EventHandler(this.btnDropboxSyncExport_Click);
             // 
             // OptionsWindow
             // 
@@ -1882,6 +1911,8 @@
             this.tpUpload.ResumeLayout(false);
             this.panelUpload.ResumeLayout(false);
             this.panelUpload.PerformLayout();
+            this.gbAfterUpload.ResumeLayout(false);
+            this.gbAfterUpload.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudUploadLimit)).EndInit();
             this.tpHotkeys.ResumeLayout(false);
             this.panelHotkeys.ResumeLayout(false);
@@ -1912,9 +1943,8 @@
             this.gbHistory.ResumeLayout(false);
             this.gbHistory.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHistoryMaxItemCount)).EndInit();
-            this.tpAfterUpload.ResumeLayout(false);
-            this.gbAfterUpload.ResumeLayout(false);
-            this.gbAfterUpload.PerformLayout();
+            this.tpDropboxSync.ResumeLayout(false);
+            this.panelDropboxSync.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2043,8 +2073,8 @@
         private System.Windows.Forms.Label lblOpenZUploaderPath;
         private System.Windows.Forms.Button btnOpenZUploaderPath;
         private System.Windows.Forms.CheckBox cbPlaySoundAfterCapture;
-        private System.Windows.Forms.TabPage tpAfterUpload;
-        private System.Windows.Forms.Panel panelAfterUpload;
+        private System.Windows.Forms.TabPage tpDropboxSync;
+        private System.Windows.Forms.Panel panelDropboxSync;
         private System.Windows.Forms.CheckBox cbURLShortenAfterUpload;
         private System.Windows.Forms.CheckBox cbClipboardAutoCopy;
         private System.Windows.Forms.GroupBox gbNotifications;
@@ -2052,5 +2082,7 @@
         private System.Windows.Forms.GroupBox gbScreenshots;
         private System.Windows.Forms.CheckBox chkPlaySoundAfterUpload;
         private System.Windows.Forms.GroupBox gbAfterUpload;
+        private System.Windows.Forms.Button btnDropboxSyncExport;
+        private System.Windows.Forms.Button btnDropboxSyncImport;
     }
 }

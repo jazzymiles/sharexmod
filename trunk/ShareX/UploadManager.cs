@@ -403,10 +403,10 @@ namespace ShareX
                                 HistoryManager.AddHistoryItemAsync(Program.HistoryFilePath, info.GetHistoryItem());
                             }
 
-                            if (Program.mainForm.niTray.Visible)
+                            if (FormsHelper.Main.niTray.Visible)
                             {
-                                Program.mainForm.niTray.Tag = url;
-                                Program.mainForm.niTray.ShowBalloonTip(5000, "ShareX - Upload completed", url, ToolTipIcon.Info);
+                                FormsHelper.Main.niTray.Tag = url;
+                                FormsHelper.Main.niTray.ShowBalloonTip(5000, "ShareX - Upload completed", url, ToolTipIcon.Info);
                             }
 
                             if (Program.Settings.ShowClipboardOptionsWizard)
@@ -434,7 +434,7 @@ namespace ShareX
 
         public static void UpdateTrayIcon()
         {
-            if (Program.mainForm.niTray.Visible)
+            if (FormsHelper.Main.niTray.Visible)
             {
                 lock (uploadManagerLock)
                 {
@@ -457,9 +457,9 @@ namespace ShareX
                         icon = trayIcons[0];
                     }
 
-                    if (Program.mainForm.niTray.Icon != icon)
+                    if (FormsHelper.Main.niTray.Icon != icon)
                     {
-                        Program.mainForm.niTray.Icon = icon;
+                        FormsHelper.Main.niTray.Icon = icon;
                     }
                 }
             }
