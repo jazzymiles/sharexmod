@@ -134,6 +134,22 @@ namespace UploadersLib.FileUploaders
             return null;
         }
 
+        public T DownloadFile<T>(string path)
+        {
+            if (OAuthInfo.CheckOAuth(AuthInfo))
+            {
+                string url = OAuthManager.GenerateQuery(Helpers.CombineURL(URLFiles, path), null, HttpMethod.Get, AuthInfo);
+
+                string response = SendGetRequest(url);
+
+                if (!string.IsNullOrEmpty(response))
+                {
+                    return JsonConvert.DeserializeObject<T>(response);
+                }
+            }
+            return default(T);
+        }
+
         /// <summary>Retrieves file and folder metadata.</summary>
         /// <param name="path">The path to the file or folder.</param>
         /// <returns>

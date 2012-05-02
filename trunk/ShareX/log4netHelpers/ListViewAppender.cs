@@ -53,10 +53,10 @@ namespace ShareX
             switch (loggingEvent.Level.ToString())
             {
                 case "INFO":
-                    lvi.ForeColor = System.Drawing.Color.Black;
+                    lvi.ForeColor = System.Drawing.Color.Blue;
                     break;
                 case "WARN":
-                    lvi.ForeColor = System.Drawing.Color.Blue;
+                    lvi.ForeColor = System.Drawing.Color.Orange;
                     break;
                 case "ERROR":
                     lvi.ForeColor = System.Drawing.Color.Red;

@@ -48,9 +48,9 @@ namespace ShareX
         private static readonly string DefaultPersonalPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ApplicationName);
         private static readonly string PortablePersonalPath = Path.Combine(Application.StartupPath, ApplicationName);
 
-        private static readonly string SettingsFileName = ApplicationName + "Settings.json";
+        internal static readonly string SettingsFileName = ApplicationName + "Settings.json";
         private static readonly string HistoryFileName = "UploadersHistory.xml";
-        private static readonly string UploadersConfigFileName = "UploadersConfig.json";
+        internal static readonly string UploadersConfigFileName = "UploadersConfig.json";
         private static readonly string LogFileName = ApplicationName + "Log-{0}-{1}.txt";
 
         public static string PersonalPath
@@ -78,9 +78,9 @@ namespace ShareX
         {
             get
             {
-                if (Settings != null && Settings.UseCustomHistoryPath && !string.IsNullOrEmpty(Settings.CustomHistoryPath))
+                if (Settings != null && Settings.UseCustomHistoryPath && !string.IsNullOrEmpty(Settings.Paths.CustomHistoryPath))
                 {
-                    return Settings.CustomHistoryPath;
+                    return Settings.Paths.CustomHistoryPath;
                 }
 
                 return Path.Combine(PersonalPath, HistoryFileName);
@@ -91,9 +91,9 @@ namespace ShareX
         {
             get
             {
-                if (Settings != null && Settings.UseCustomUploadersConfigPath && !string.IsNullOrEmpty(Settings.CustomUploadersConfigPath))
+                if (Settings != null && Settings.UseCustomUploadersConfigPath && !string.IsNullOrEmpty(Settings.Paths.CustomUploadersConfigPath))
                 {
-                    return Settings.CustomUploadersConfigPath;
+                    return Settings.Paths.CustomUploadersConfigPath;
                 }
 
                 return Path.Combine(PersonalPath, UploadersConfigFileName);
@@ -113,9 +113,9 @@ namespace ShareX
         {
             get
             {
-                if (Settings != null && Directory.Exists(Settings.ScreenshotsPath))
+                if (Settings != null && Directory.Exists(Settings.Paths.ScreenshotsPath))
                 {
-                    return Settings.ScreenshotsPath;
+                    return Settings.Paths.ScreenshotsPath;
                 }
                 else
                 {
@@ -153,8 +153,8 @@ namespace ShareX
 
         #endregion Hotkeys / Workflows
 
-        public static Settings Settings { get; private set; }
-        public static UploadersConfig UploadersConfig { get; private set; }
+        public static Settings Settings { get; internal set; }
+        public static UploadersConfig UploadersConfig { get; internal set; }
         public static bool IsMultiInstance { get; private set; }
         public static bool IsPortable { get; private set; }
         public static bool IsSilentRun { get; private set; }
@@ -272,9 +272,16 @@ namespace ShareX
             log.Info("Loading Settings");
             Settings = Settings.Load(SettingsFilePath);
             SettingsResetEvent.Set();
+
             log.Info("Loading Uploaders Config");
             LoadUploadersConfig();
             UploaderSettingsResetEvent.Set();
+
+            if (Program.Settings.DropboxSync)
+            {
+                DropboxSyncHelper sync = new DropboxSyncHelper();
+                sync.Load();
+            }
         }
 
         public static void LoadUploadersConfig()

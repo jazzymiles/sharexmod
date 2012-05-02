@@ -82,7 +82,7 @@ namespace ShareX
         public void ReloadConfig()
         {
             FolderWatcher folderWatcher = new FolderWatcher(this);
-            folderWatcher.FolderPath = Program.Settings.FolderMonitorPath;
+            folderWatcher.FolderPath = Program.Settings.Paths.FolderMonitorPath;
             if (Program.Settings.FolderMonitoring)
             {
                 folderWatcher.StartWatching();

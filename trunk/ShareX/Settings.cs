@@ -50,6 +50,8 @@ namespace ShareX
         #region Settings Form
 
         // General
+        public SettingsPaths Paths = new SettingsPaths();
+
         public bool ShowTray = true;
 
         public bool AutoCheckUpdate = true;
@@ -65,12 +67,8 @@ namespace ShareX
         // Upload
         public bool UseCustomUploadersConfigPath = false;
 
-        public string CustomUploadersConfigPath = string.Empty;
         public int UploadLimit = 5;
         public int BufferSizePower = 3;
-
-        // Image - Location
-        public string ScreenshotsPath = Program.ScreenshotsRootPath;
 
         // Image - Quality
         public EImageFormat ImageFormat = EImageFormat.PNG;
@@ -115,13 +113,14 @@ namespace ShareX
         public bool SaveHistory = true;
 
         public bool UseCustomHistoryPath = false;
-        public string CustomHistoryPath = string.Empty;
         public int HistoryMaxItemCount = -1;
 
         // Proxy
         public ProxyInfo ProxySettings = new ProxyInfo();
 
         // Advanced
+        [Category(HelpersLib.ComponentModelStrings.App), DefaultValue(false), Description("If you have configured Dropbox, then this setting will synchronize uploaders configuration and application settings except for paths.")]
+        public bool DropboxSync { get; set; }
         [Category(ComponentModelStrings.SettingsInteraction), DefaultValue(false), Description("Show after capture wizard. Dynamically choose actions after capture")]
         public bool ShowAfterCaptureWizard { get; set; }
         [Category(ComponentModelStrings.SettingsInteraction), DefaultValue(false), Description("Show clipboard options after host upload is completed. Dynamically choose which link format to be copied to the clipboad.")]
@@ -131,9 +130,6 @@ namespace ShareX
         // Options / Watch Folder
         [Category(HelpersLib.ComponentModelStrings.InputsWatchFolder), DefaultValue(false), Description("Automatically upload files saved in to this folder.")]
         public bool FolderMonitoring { get; set; }
-        [Category(HelpersLib.ComponentModelStrings.InputsWatchFolder), Description("Folder monitor path where files automatically get uploaded.")]
-        [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
-        public string FolderMonitorPath { get; set; }
 
         #endregion Settings Form
 
@@ -155,5 +151,13 @@ namespace ShareX
         }
 
         #endregion Methods
+    }
+
+    public class SettingsPaths
+    {
+        public string ScreenshotsPath = Program.ScreenshotsRootPath;
+        public string CustomUploadersConfigPath = string.Empty;
+        public string CustomHistoryPath = string.Empty;
+        public string FolderMonitorPath = string.Empty;
     }
 }
