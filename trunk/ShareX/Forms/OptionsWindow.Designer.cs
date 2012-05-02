@@ -43,9 +43,7 @@
             System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Upload");
             System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Paths");
             System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Proxy");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Dropbox Sync");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Advanced", new System.Windows.Forms.TreeNode[] {
-            treeNode12});
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Advanced");
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tvMain = new System.Windows.Forms.TreeView();
             this.tcBase = new System.Windows.Forms.TabControl();
@@ -177,8 +175,8 @@
             this.cbHistorySave = new System.Windows.Forms.CheckBox();
             this.tpDropboxSync = new System.Windows.Forms.TabPage();
             this.panelDropboxSync = new System.Windows.Forms.Panel();
-            this.btnDropboxSyncImport = new System.Windows.Forms.Button();
             this.btnDropboxSyncExport = new System.Windows.Forms.Button();
+            this.btnDropboxSyncImport = new System.Windows.Forms.Button();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -271,10 +269,8 @@
             treeNode10.Text = "Paths";
             treeNode11.Name = "tnProxy";
             treeNode11.Text = "Proxy";
-            treeNode12.Name = "tnDropboxSync";
-            treeNode12.Text = "Dropbox Sync";
-            treeNode13.Name = "tnAdvanced";
-            treeNode13.Text = "Advanced";
+            treeNode12.Name = "tnAdvanced";
+            treeNode12.Text = "Advanced";
             this.tvMain.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
@@ -283,7 +279,7 @@
             treeNode9,
             treeNode10,
             treeNode11,
-            treeNode13});
+            treeNode12});
             this.tvMain.Size = new System.Drawing.Size(133, 546);
             this.tvMain.TabIndex = 0;
             // 
@@ -745,13 +741,13 @@
             this.panelProxy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelProxy.Location = new System.Drawing.Point(3, 3);
             this.panelProxy.Name = "panelProxy";
-            this.panelProxy.Size = new System.Drawing.Size(537, 482);
+            this.panelProxy.Size = new System.Drawing.Size(537, 514);
             this.panelProxy.TabIndex = 0;
             // 
             // btnAutofillProxy
             // 
             this.btnAutofillProxy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAutofillProxy.Location = new System.Drawing.Point(452, 446);
+            this.btnAutofillProxy.Location = new System.Drawing.Point(452, 478);
             this.btnAutofillProxy.Name = "btnAutofillProxy";
             this.btnAutofillProxy.Size = new System.Drawing.Size(75, 23);
             this.btnAutofillProxy.TabIndex = 1;
@@ -765,7 +761,7 @@
             this.pgProxy.Location = new System.Drawing.Point(0, 0);
             this.pgProxy.Name = "pgProxy";
             this.pgProxy.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.pgProxy.Size = new System.Drawing.Size(537, 482);
+            this.pgProxy.Size = new System.Drawing.Size(537, 514);
             this.pgProxy.TabIndex = 0;
             this.pgProxy.ToolbarVisible = false;
             // 
@@ -791,7 +787,7 @@
             this.panelClipboardUpload.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelClipboardUpload.Location = new System.Drawing.Point(3, 3);
             this.panelClipboardUpload.Name = "panelClipboardUpload";
-            this.panelClipboardUpload.Size = new System.Drawing.Size(550, 528);
+            this.panelClipboardUpload.Size = new System.Drawing.Size(537, 514);
             this.panelClipboardUpload.TabIndex = 0;
             // 
             // cbClipboardUploadAutoDetectURL
@@ -811,9 +807,9 @@
             this.lblClipboardUploadInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblClipboardUploadInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblClipboardUploadInfo.ForeColor = System.Drawing.Color.White;
-            this.lblClipboardUploadInfo.Location = new System.Drawing.Point(0, 499);
+            this.lblClipboardUploadInfo.Location = new System.Drawing.Point(0, 485);
             this.lblClipboardUploadInfo.Name = "lblClipboardUploadInfo";
-            this.lblClipboardUploadInfo.Size = new System.Drawing.Size(550, 29);
+            this.lblClipboardUploadInfo.Size = new System.Drawing.Size(537, 29);
             this.lblClipboardUploadInfo.TabIndex = 5;
             this.lblClipboardUploadInfo.Text = "Clipboard upload automatically detects the data type and selects the upload servi" +
     "ce accordingly.";
@@ -996,7 +992,7 @@
             this.panelHotkeys.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelHotkeys.Location = new System.Drawing.Point(3, 3);
             this.panelHotkeys.Name = "panelHotkeys";
-            this.panelHotkeys.Size = new System.Drawing.Size(550, 528);
+            this.panelHotkeys.Size = new System.Drawing.Size(537, 514);
             this.panelHotkeys.TabIndex = 0;
             // 
             // hmHotkeys
@@ -1004,7 +1000,7 @@
             this.hmHotkeys.Dock = System.Windows.Forms.DockStyle.Fill;
             this.hmHotkeys.Location = new System.Drawing.Point(0, 0);
             this.hmHotkeys.Name = "hmHotkeys";
-            this.hmHotkeys.Size = new System.Drawing.Size(550, 528);
+            this.hmHotkeys.Size = new System.Drawing.Size(537, 514);
             this.hmHotkeys.TabIndex = 0;
             // 
             // tpImageQuality
@@ -1027,7 +1023,7 @@
             this.panelImageQuality.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelImageQuality.Location = new System.Drawing.Point(3, 3);
             this.panelImageQuality.Name = "panelImageQuality";
-            this.panelImageQuality.Size = new System.Drawing.Size(537, 482);
+            this.panelImageQuality.Size = new System.Drawing.Size(537, 514);
             this.panelImageQuality.TabIndex = 0;
             // 
             // cbImageUseSmoothScaling
@@ -1852,16 +1848,6 @@
             this.panelDropboxSync.Size = new System.Drawing.Size(537, 514);
             this.panelDropboxSync.TabIndex = 0;
             // 
-            // btnDropboxSyncImport
-            // 
-            this.btnDropboxSyncImport.Location = new System.Drawing.Point(8, 8);
-            this.btnDropboxSyncImport.Name = "btnDropboxSyncImport";
-            this.btnDropboxSyncImport.Size = new System.Drawing.Size(184, 22);
-            this.btnDropboxSyncImport.TabIndex = 0;
-            this.btnDropboxSyncImport.Text = "&Import Settings from Dropbox";
-            this.btnDropboxSyncImport.UseVisualStyleBackColor = true;
-            this.btnDropboxSyncImport.Click += new System.EventHandler(this.btnDropboxSyncImport_Click);
-            // 
             // btnDropboxSyncExport
             // 
             this.btnDropboxSyncExport.Location = new System.Drawing.Point(8, 40);
@@ -1871,6 +1857,16 @@
             this.btnDropboxSyncExport.Text = "&Export Settings from Dropbox";
             this.btnDropboxSyncExport.UseVisualStyleBackColor = true;
             this.btnDropboxSyncExport.Click += new System.EventHandler(this.btnDropboxSyncExport_Click);
+            // 
+            // btnDropboxSyncImport
+            // 
+            this.btnDropboxSyncImport.Location = new System.Drawing.Point(8, 8);
+            this.btnDropboxSyncImport.Name = "btnDropboxSyncImport";
+            this.btnDropboxSyncImport.Size = new System.Drawing.Size(184, 22);
+            this.btnDropboxSyncImport.TabIndex = 0;
+            this.btnDropboxSyncImport.Text = "&Import Settings from Dropbox";
+            this.btnDropboxSyncImport.UseVisualStyleBackColor = true;
+            this.btnDropboxSyncImport.Click += new System.EventHandler(this.btnDropboxSyncImport_Click);
             // 
             // OptionsWindow
             // 

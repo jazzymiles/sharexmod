@@ -99,7 +99,7 @@ namespace ShareX.Forms
 
         #endregion Configure Panels
 
-        internal void LoadSettings()
+        private void LoadSettings()
         {
             // General
             cbShowTray.Checked = Program.Settings.ShowTray;
@@ -113,7 +113,7 @@ namespace ShareX.Forms
 
             // Upload
             cbUseCustomUploadersConfigPath.Checked = Program.Settings.UseCustomUploadersConfigPath;
-            txtCustomUploadersConfigPath.Text = Program.Settings.Paths.CustomUploadersConfigPath;
+            txtCustomUploadersConfigPath.Text = Program.Settings.CustomUploadersConfigPath;
             nudUploadLimit.Value = Program.Settings.UploadLimit;
 
             for (int i = 0; i < MaxBufferSizePower; i++)
@@ -188,7 +188,7 @@ namespace ShareX.Forms
             // History
             cbHistorySave.Checked = Program.Settings.SaveHistory;
             cbUseCustomHistoryPath.Checked = Program.Settings.UseCustomHistoryPath;
-            txtCustomHistoryPath.Text = Program.Settings.Paths.CustomHistoryPath;
+            txtCustomHistoryPath.Text = Program.Settings.CustomHistoryPath;
             nudHistoryMaxItemCount.Value = Program.Settings.HistoryMaxItemCount;
 
             // Proxy
@@ -203,7 +203,7 @@ namespace ShareX.Forms
             string dir = txtScreenshotsPath.Text;
 
             if (Directory.Exists(dir))
-                Program.Settings.Paths.ScreenshotsPath = dir;
+                Program.Settings.ScreenshotsPath = dir;
 
             #region Workflows
 
@@ -611,7 +611,7 @@ namespace ShareX.Forms
 
         private void txtCustomUploadersConfigPath_TextChanged(object sender, EventArgs e)
         {
-            Program.Settings.Paths.CustomUploadersConfigPath = txtCustomUploadersConfigPath.Text;
+            Program.Settings.CustomUploadersConfigPath = txtCustomUploadersConfigPath.Text;
         }
 
         private void cbUseCustomUploadersConfigPath_CheckedChanged(object sender, EventArgs e)
@@ -622,7 +622,7 @@ namespace ShareX.Forms
         private void btnBrowseCustomUploadersConfigPath_Click(object sender, EventArgs e)
         {
             ChooseFolder("ShareX - Choose uploaders config file path", txtCustomUploadersConfigPath);
-            Program.Settings.Paths.CustomUploadersConfigPath = txtCustomUploadersConfigPath.Text;
+            Program.Settings.CustomUploadersConfigPath = txtCustomUploadersConfigPath.Text;
             Program.LoadUploadersConfig();
         }
 
@@ -689,7 +689,7 @@ namespace ShareX.Forms
 
         private void txtCustomHistoryPath_TextChanged(object sender, EventArgs e)
         {
-            Program.Settings.Paths.CustomHistoryPath = txtCustomHistoryPath.Text;
+            Program.Settings.CustomHistoryPath = txtCustomHistoryPath.Text;
         }
 
         private void cbUseCustomHistoryPath_CheckedChanged(object sender, EventArgs e)

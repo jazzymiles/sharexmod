@@ -1,8 +1,13 @@
-﻿Version 6.0.0 - 2012-09-28
+﻿Version 7.0.0 - 2012-09-28
 
-Log Viewer powered by log4net replaces the previous logging system
-Dropbox synchronisation of Settings except for Paths
-6.0.0 Merged most popular functionality of ZScreen and rebranded as ShareX
+* Log Viewer powered by log4net replaces the previous logging system
+* Dropbox synchronisation of Settings except for Paths
+* Workflow system to add/configure Workflow and assign hotkeys
+* Merged most popular functionality of ZScreen and rebranded as ShareXmod
+
+Version 6.0.0 - 2012-06-30
+
+6.0.0 Rebranded as ShareX
 
 Version 5.5.0 - 2012-03-07
 

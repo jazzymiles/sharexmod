@@ -50,8 +50,6 @@ namespace ShareX
         #region Settings Form
 
         // General
-        public SettingsPaths Paths = new SettingsPaths();
-
         public bool ShowTray = true;
 
         public bool AutoCheckUpdate = true;
@@ -67,8 +65,12 @@ namespace ShareX
         // Upload
         public bool UseCustomUploadersConfigPath = false;
 
+        public string CustomUploadersConfigPath = string.Empty;
         public int UploadLimit = 5;
         public int BufferSizePower = 3;
+
+        // Image - Location
+        public string ScreenshotsPath = Program.ScreenshotsRootPath;
 
         // Image - Quality
         public EImageFormat ImageFormat = EImageFormat.PNG;
@@ -112,6 +114,7 @@ namespace ShareX
         // History
         public bool SaveHistory = true;
 
+        public string CustomHistoryPath = string.Empty;
         public bool UseCustomHistoryPath = false;
         public int HistoryMaxItemCount = -1;
 
@@ -130,6 +133,9 @@ namespace ShareX
         // Options / Watch Folder
         [Category(HelpersLib.ComponentModelStrings.InputsWatchFolder), DefaultValue(false), Description("Automatically upload files saved in to this folder.")]
         public bool FolderMonitoring { get; set; }
+        [Category(HelpersLib.ComponentModelStrings.InputsWatchFolder), Description("Folder monitor path where files automatically get uploaded.")]
+        [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
+        public string FolderMonitorPath { get; set; }
 
         #endregion Settings Form
 
@@ -151,13 +157,5 @@ namespace ShareX
         }
 
         #endregion Methods
-    }
-
-    public class SettingsPaths
-    {
-        public string ScreenshotsPath = Program.ScreenshotsRootPath;
-        public string CustomUploadersConfigPath = string.Empty;
-        public string CustomHistoryPath = string.Empty;
-        public string FolderMonitorPath = string.Empty;
     }
 }

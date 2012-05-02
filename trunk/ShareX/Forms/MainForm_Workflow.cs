@@ -19,38 +19,38 @@ namespace ShareX
         {
             HotkeyManager = new HotkeyManager(this);
 
-            Workflow wfClipboardUpload = new Workflow(EHotkey.ClipboardUpload, Program.HotkeyClipboardUpload);
-            Workflow wfFileUpload = new Workflow(EHotkey.FileUpload, Program.HotkeyFileUpload);
-
-            Workflow wfPrintScreen = new Workflow(EHotkey.FullScreen, Program.HotkeyPrintScreen);
-            Workflow wfActiveMonitor = new Workflow(EHotkey.ActiveMonitor, Program.HotkeyActiveMonitor);
-            Workflow wfActiveWindow = new Workflow(EHotkey.ActiveWindow, Program.HotkeyActiveWindow);
-            Workflow wfWindowRectangle = new Workflow(EHotkey.WindowRectangle, Program.HotkeyWindowRectangle);
-
-            Workflow wfRectangleRegion = new Workflow(EHotkey.RectangleRegion, Program.HotkeyRectangleRegion);
-            Workflow wfRoundedRectangleRegion = new Workflow(EHotkey.RoundedRectangleRegion, new HotkeySetting());
-            Workflow wfEllipseRegion = new Workflow(EHotkey.EllipseRegion, new HotkeySetting());
-            Workflow wfTriangleRegion = new Workflow(EHotkey.TriangleRegion, new HotkeySetting());
-            Workflow wfDiamondRegion = new Workflow(EHotkey.DiamondRegion, new HotkeySetting());
-            Workflow wfPolygonRegion = new Workflow(EHotkey.PolygonRegion, new HotkeySetting());
-            Workflow wfFreeHandRegion = new Workflow(EHotkey.FreeHandRegion, new HotkeySetting());
-
-            wfClipboardUpload.Activities.Add(EActivity.UploadClipboard);
-            wfFileUpload.Activities.Add(EActivity.UploadFile);
-            wfPrintScreen.Activities.Add(EActivity.CaptureScreen);
-            wfActiveWindow.Activities.Add(EActivity.CaptureActiveWindow);
-            wfActiveMonitor.Activities.Add(EActivity.CaptureActiveMonitor);
-            wfWindowRectangle.Activities.Add(EActivity.CaptureWindowRectangle);
-            wfRectangleRegion.Activities.Add(EActivity.CaptureRectangleRegion);
-            wfRoundedRectangleRegion.Activities.Add(EActivity.CaptureRoundedRectangleRegion);
-            wfEllipseRegion.Activities.Add(EActivity.CaptureEllipseRegion);
-            wfTriangleRegion.Activities.Add(EActivity.CaptureTriangleRegion);
-            wfDiamondRegion.Activities.Add(EActivity.CaptureDiamondRegion);
-            wfPolygonRegion.Activities.Add(EActivity.CapturePolygonRegion);
-            wfFreeHandRegion.Activities.Add(EActivity.CaptureFreeHandRegion);
-
             if (Program.Settings.Workflows1.Count == 0)
             {
+                Workflow wfClipboardUpload = new Workflow(EHotkey.ClipboardUpload, Program.HotkeyClipboardUpload);
+                Workflow wfFileUpload = new Workflow(EHotkey.FileUpload, Program.HotkeyFileUpload);
+
+                Workflow wfPrintScreen = new Workflow(EHotkey.FullScreen, Program.HotkeyPrintScreen);
+                Workflow wfActiveMonitor = new Workflow(EHotkey.ActiveMonitor, Program.HotkeyActiveMonitor);
+                Workflow wfActiveWindow = new Workflow(EHotkey.ActiveWindow, Program.HotkeyActiveWindow);
+                Workflow wfWindowRectangle = new Workflow(EHotkey.WindowRectangle, Program.HotkeyWindowRectangle);
+
+                Workflow wfRectangleRegion = new Workflow(EHotkey.RectangleRegion, Program.HotkeyRectangleRegion);
+                Workflow wfRoundedRectangleRegion = new Workflow(EHotkey.RoundedRectangleRegion, new HotkeySetting());
+                Workflow wfEllipseRegion = new Workflow(EHotkey.EllipseRegion, new HotkeySetting());
+                Workflow wfTriangleRegion = new Workflow(EHotkey.TriangleRegion, new HotkeySetting());
+                Workflow wfDiamondRegion = new Workflow(EHotkey.DiamondRegion, new HotkeySetting());
+                Workflow wfPolygonRegion = new Workflow(EHotkey.PolygonRegion, new HotkeySetting());
+                Workflow wfFreeHandRegion = new Workflow(EHotkey.FreeHandRegion, new HotkeySetting());
+
+                wfClipboardUpload.Activities.Add(EActivity.UploadClipboard);
+                wfFileUpload.Activities.Add(EActivity.UploadFile);
+                wfPrintScreen.Activities.Add(EActivity.CaptureScreen);
+                wfActiveWindow.Activities.Add(EActivity.CaptureActiveWindow);
+                wfActiveMonitor.Activities.Add(EActivity.CaptureActiveMonitor);
+                wfWindowRectangle.Activities.Add(EActivity.CaptureWindowRectangle);
+                wfRectangleRegion.Activities.Add(EActivity.CaptureRectangleRegion);
+                wfRoundedRectangleRegion.Activities.Add(EActivity.CaptureRoundedRectangleRegion);
+                wfEllipseRegion.Activities.Add(EActivity.CaptureEllipseRegion);
+                wfTriangleRegion.Activities.Add(EActivity.CaptureTriangleRegion);
+                wfDiamondRegion.Activities.Add(EActivity.CaptureDiamondRegion);
+                wfPolygonRegion.Activities.Add(EActivity.CapturePolygonRegion);
+                wfFreeHandRegion.Activities.Add(EActivity.CaptureFreeHandRegion);
+
                 Program.Settings.Workflows1.Add(wfClipboardUpload);
                 Program.Settings.Workflows1.Add(wfFileUpload);
                 Program.Settings.Workflows1.Add(wfPrintScreen);
@@ -177,38 +177,45 @@ namespace ShareX
 
         private void EditImage(ref Image img_gse)
         {
-            if (!Greenshot.IniFile.IniConfig.IsInited)
-                Greenshot.IniFile.IniConfig.Init();
+            if (img_gse != null)
+            {
+                if (!Greenshot.IniFile.IniConfig.IsInited)
+                    Greenshot.IniFile.IniConfig.Init();
 
-            GreenshotPlugin.Core.CoreConfiguration conf = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>(); ;
-            conf.OutputFileFilenamePattern = "${title}";
-            conf.OutputFilePath = Program.ScreenshotsPath;
+                GreenshotPlugin.Core.CoreConfiguration conf = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>(); ;
+                conf.OutputFileFilenamePattern = "${title}";
+                conf.OutputFilePath = Program.ScreenshotsPath;
 
-            Greenshot.Plugin.ICapture capture = new GreenshotPlugin.Core.Capture();
-            capture.Image = img_gse;
-            ImageData imageData = TaskHelper.PrepareImageAndFilename(img_gse);
-            capture.CaptureDetails.Filename = Path.Combine(Program.ScreenshotsPath, imageData.Filename);
-            capture.CaptureDetails.Title =
-                Path.GetFileNameWithoutExtension(capture.CaptureDetails.Filename);
-            capture.CaptureDetails.AddMetaData("file", capture.CaptureDetails.Filename);
-            capture.CaptureDetails.AddMetaData("source", "file");
+                Greenshot.Plugin.ICapture capture = new GreenshotPlugin.Core.Capture();
+                capture.Image = img_gse;
+                ImageData imageData = TaskHelper.PrepareImageAndFilename(img_gse);
+                capture.CaptureDetails.Filename = Path.Combine(Program.ScreenshotsPath, imageData.Filename);
+                capture.CaptureDetails.Title =
+                    Path.GetFileNameWithoutExtension(capture.CaptureDetails.Filename);
+                capture.CaptureDetails.AddMetaData("file", capture.CaptureDetails.Filename);
+                capture.CaptureDetails.AddMetaData("source", "file");
 
-            var surface = new Greenshot.Drawing.Surface(capture);
-            var editor = new Greenshot.ImageEditorForm(surface, Program.Settings.CaptureSaveImage) { Icon = this.Icon };
+                var surface = new Greenshot.Drawing.Surface(capture);
+                var editor = new Greenshot.ImageEditorForm(surface, Program.Settings.CaptureSaveImage) { Icon = this.Icon };
 
-            editor.SetImagePath(capture.CaptureDetails.Filename);
-            editor.Visible = false; // required before ShowDialog
-            editor.ShowDialog();
+                editor.SetImagePath(capture.CaptureDetails.Filename);
+                editor.Visible = false; // required before ShowDialog
+                editor.ShowDialog();
 
-            img_gse = editor.GetImageForExport();
+                img_gse = editor.GetImageForExport();
+            }
         }
 
         private string SaveImageToFile(Image img_file_save_auto)
         {
-            using (ImageData imageData = TaskHelper.PrepareImageAndFilename(img_file_save_auto))
+            if (img_file_save_auto != null)
             {
-                return imageData.WriteToFile(Program.ScreenshotsPath);
+                using (ImageData imageData = TaskHelper.PrepareImageAndFilename(img_file_save_auto))
+                {
+                    return imageData.WriteToFile(Program.ScreenshotsPath);
+                }
             }
+            return string.Empty;
         }
 
         private void SaveImageToFileWithDialog(Image img)
