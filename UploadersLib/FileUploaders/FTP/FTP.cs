@@ -54,11 +54,11 @@ namespace UploadersLib
             switch (account.Protocol)
             {
                 case FTPProtocol.FTPS:
-                    Client.SecurityProtocol = account.FtpsSecurityProtocol;
-                    Client.ValidateServerCertificate += new EventHandler<ValidateServerCertificateEventArgs>(Client_ValidateServerCertificate);
                     if (File.Exists(account.FtpsCertLocation))
                     {
+                        Client.ValidateServerCertificate += new EventHandler<ValidateServerCertificateEventArgs>(Client_ValidateServerCertificate);
                         Client.SecurityCertificates.Add(X509Certificate.CreateFromSignedFile(account.FtpsCertLocation));
+                        Client.SecurityProtocol = account.FtpsSecurityProtocol;
                     }
                     break;
                 default:
