@@ -7,7 +7,8 @@
 
 Version 6.0.0 - 2012-06-30
 
-6.0.0 Rebranded as ShareX
+* Added magnifier to Capture Rectangle
+* Rebranded as ShareX
 
 Version 5.5.0 - 2012-03-07
 

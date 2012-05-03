@@ -85,10 +85,10 @@ namespace ShareX
         {
             if (settingsDropbox != null)
             {
-                int min = Math.Min(settingsDropbox.Workflows1.Count, Program.Settings.Workflows1.Count);
+                int min = Math.Min(settingsDropbox.Workflows1.Count, FormsHelper.Main.HotkeyList.Count);
                 for (int i = 0; i < min; i++)
                 {
-                    Program.Settings.Workflows1[i].HotkeyConfig.Tag = settingsDropbox.Workflows1[i].HotkeyConfig.Tag;
+                    FormsHelper.Main.HotkeyList[i].Tag = settingsDropbox.Workflows1[i].HotkeyConfig.Tag;
                     log.DebugFormat("Updated Workflow: {0}, ID: {1}", Program.Settings.Workflows1[i].HotkeyConfig.Description, Program.Settings.Workflows1[i].HotkeyConfig.Tag);
                 }
             }

@@ -1,0 +1,1 @@
+makecert.exe -r -n "CN=mpql" Mopsy1.cer
