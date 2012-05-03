@@ -733,7 +733,8 @@ namespace ShareX.Forms
         public OptionsWindow()
         {
             InitializeComponent();
-            this.Text = Application.ProductName + " Settings - " + Program.Settings.FilePath;
+            string path = string.IsNullOrEmpty(Program.Settings.FilePath) ? "via Dropbox Sync" : Program.Settings.FilePath;
+            this.Text = Application.ProductName + " Settings - " + path;
 
             ConfigurePanels();
             LoadSettings();

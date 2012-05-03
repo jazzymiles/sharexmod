@@ -300,7 +300,7 @@ namespace ShareX
 
         private static void OnError(Exception e)
         {
-            new ErrorForm(Application.ProductName, e, null, LogFilePath, Links.URL_ISSUES).ShowDialog();
+            new ErrorForm(Application.ProductName, e, new Logger(), LogFilePath, Links.URL_ISSUES).ShowDialog();
         }
 
         private static void SingleInstanceCallback(object sender, InstanceCallbackEventArgs args)

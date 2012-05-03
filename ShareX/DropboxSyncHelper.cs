@@ -73,6 +73,8 @@ namespace ShareX
 
         private void bwLoad_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            // FormsHelper.Main.LoadSettings();
+            // FormsHelper.Main.InitHotkeys();
             // FormsHelper.Options.LoadSettings();
         }
 
