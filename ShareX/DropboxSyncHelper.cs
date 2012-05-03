@@ -53,7 +53,6 @@ namespace ShareX
             if (settings != null)
             {
                 // override these settings from local copy
-                settings.FilePath = Program.Settings.FilePath;
                 settings.ProxySettings = Program.Settings.ProxySettings;
                 settings.ScreenshotsPath = Program.Settings.ScreenshotsPath;
                 settings.CustomHistoryPath = Program.Settings.CustomHistoryPath;

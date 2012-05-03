@@ -15,7 +15,7 @@ namespace ShareX
 {
     public partial class MainForm
     {
-        private void InitHotkeys()
+        internal void InitHotkeys()
         {
             HotkeyManager = new HotkeyManager(this);
 
@@ -98,7 +98,10 @@ namespace ShareX
             string fpImg = string.Empty;
 
             if (wf == null)
-                throw new Exception("Workflow cannot be found!");
+            {
+                log.Error("Workflow cannot be found!");
+                return;
+            }
 
             foreach (EActivity act in wf.Activities)
             {
