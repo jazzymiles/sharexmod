@@ -378,7 +378,7 @@
     <None Include="Resources\page_white_ruby.gif" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HelpersLib\HelpersLib.csproj">
+    <ProjectReference Include="..\..\..\ShareX\trunk\HelpersLib\HelpersLib.csproj">
       <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
       <Name>HelpersLib</Name>
     </ProjectReference>

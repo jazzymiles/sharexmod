@@ -54,7 +54,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Timestamp";
-            this.columnHeader1.Width = 100;
+            this.columnHeader1.Width = 120;
             // 
             // columnHeader2
             // 

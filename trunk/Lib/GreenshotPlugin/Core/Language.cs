@@ -76,7 +76,6 @@ namespace GreenshotPlugin.Core
 
             ScanFiles();
             CurrentLanguage = DEFAULT_LANGUAGE;
-            LOG.Error("Couldn't set language, installation problem?");
         }
 
         /// <summary>
