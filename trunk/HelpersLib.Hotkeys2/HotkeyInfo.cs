@@ -38,7 +38,7 @@ namespace HelpersLib.Hotkeys2
 
         public string Tag { get; set; }
 
-        public HotkeyInfo(ushort id, Keys key, Action hotkeyPress = null, string tag = "-1")
+        public HotkeyInfo(ushort id, Keys key, Action hotkeyPress = null, string tag = "")
         {
             ID = id;
             Key = key;
