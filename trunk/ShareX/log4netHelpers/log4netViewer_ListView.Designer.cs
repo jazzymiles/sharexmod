@@ -46,7 +46,7 @@
             this.myListViewLog.FullRowSelect = true;
             this.myListViewLog.Location = new System.Drawing.Point(0, 0);
             this.myListViewLog.Name = "myListViewLog";
-            this.myListViewLog.Size = new System.Drawing.Size(688, 491);
+            this.myListViewLog.Size = new System.Drawing.Size(712, 506);
             this.myListViewLog.TabIndex = 0;
             this.myListViewLog.UseCompatibleStateImageBehavior = false;
             this.myListViewLog.View = System.Windows.Forms.View.Details;
@@ -59,7 +59,7 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "Level";
-            this.columnHeader2.Width = 89;
+            this.columnHeader2.Width = 80;
             // 
             // columnHeader3
             // 
@@ -75,8 +75,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(688, 491);
+            this.ClientSize = new System.Drawing.Size(712, 506);
             this.Controls.Add(this.myListViewLog);
+            this.MinimumSize = new System.Drawing.Size(720, 540);
             this.Name = "log4netViewer_ListView";
             this.Text = "log4net Viewer";
             this.ResumeLayout(false);

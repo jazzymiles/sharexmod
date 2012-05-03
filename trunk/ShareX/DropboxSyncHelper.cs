@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using HelpersLib;
+using HelpersLib.Hotkeys2;
 using Newtonsoft.Json;
 using UploadersLib;
 using UploadersLib.FileUploaders;
@@ -61,6 +62,7 @@ namespace ShareX
 
                 Program.Settings = settings;
                 log.InfoFormat("Updated Settings using {0}", pathDropboxSettings);
+                e.Result = settings;
             }
             UploadersConfig config = fileUploader.DownloadFile<UploadersConfig>(pathDropboxUploadersConfig);
             if (config != null)
@@ -72,9 +74,24 @@ namespace ShareX
 
         private void bwLoad_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            // FormsHelper.Main.LoadSettings();
-            // FormsHelper.Main.InitHotkeys();
-            // FormsHelper.Options.LoadSettings();
+            RebuildWorkflowTags(e.Result as Settings);
+        }
+
+        /// <summary>
+        /// This method overwrites the tags read from Dropbox with the tags already registered on the system.
+        /// We do this because it is more efficient that unregistering and re-registering hotkeys.
+        /// </summary>
+        private void RebuildWorkflowTags(Settings settingsDropbox)
+        {
+            if (settingsDropbox != null)
+            {
+                int min = Math.Min(settingsDropbox.Workflows1.Count, Program.Settings.Workflows1.Count);
+                for (int i = 0; i < min; i++)
+                {
+                    Program.Settings.Workflows1[i].HotkeyConfig.Tag = settingsDropbox.Workflows1[i].HotkeyConfig.Tag;
+                    log.DebugFormat("Updated Workflow: {0}, ID: {1}", Program.Settings.Workflows1[i].HotkeyConfig.Description, Program.Settings.Workflows1[i].HotkeyConfig.Tag);
+                }
+            }
         }
 
         private void bwSave_DoWork(object sender, DoWorkEventArgs e)
