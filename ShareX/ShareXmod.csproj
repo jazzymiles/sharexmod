@@ -60,10 +60,6 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HistoryLib, Version=1.0.0.17, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ShareX\trunk\HistoryLib\bin\Release\HistoryLib.dll</HintPath>
-    </Reference>
     <Reference Include="IndexersLib">
       <HintPath>..\IndexersLib\obj\Debug\IndexersLib.dll</HintPath>
     </Reference>
@@ -226,6 +222,14 @@
       <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
       <Name>HelpersLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\ShareX\trunk\HistoryLib\HistoryLib.csproj">
+      <Project>{E7DE6237-AEA2-498B-8F56-9B392472C490}</Project>
+      <Name>HistoryLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ShareX\trunk\UploadersLib\UploadersLib.csproj">
+      <Project>{E1C94415-3424-4517-A2A1-B2FDD1F59C67}</Project>
+      <Name>UploadersLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HelpersLib.Hotkeys2\HelpersLib.Hotkeys2.csproj">
       <Project>{B791C0EF-7DFD-4F2B-B004-91F7344EE146}</Project>
       <Name>HelpersLib.Hotkeys2</Name>
@@ -237,10 +241,6 @@
     <ProjectReference Include="..\Lib\Greenshot\Greenshot.csproj">
       <Project>{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}</Project>
       <Name>Greenshot</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UploadersLib\UploadersLib.csproj">
-      <Project>{E1C94415-3424-4517-A2A1-B2FDD1F59C67}</Project>
-      <Name>UploadersLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

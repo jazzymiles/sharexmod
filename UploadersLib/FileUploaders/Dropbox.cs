@@ -134,20 +134,15 @@ namespace UploadersLib.FileUploaders
             return null;
         }
 
-        public T DownloadFile<T>(string path)
+        public string DownloadFile(string path)
         {
             if (OAuthInfo.CheckOAuth(AuthInfo))
             {
                 string url = OAuthManager.GenerateQuery(Helpers.CombineURL(URLFiles, path), null, HttpMethod.Get, AuthInfo);
 
-                string response = SendGetRequest(url);
-
-                if (!string.IsNullOrEmpty(response))
-                {
-                    return JsonConvert.DeserializeObject<T>(response);
-                }
+                return SendGetRequest(url);
             }
-            return default(T);
+            return string.Empty;
         }
 
         /// <summary>Retrieves file and folder metadata.</summary>
