@@ -13,7 +13,6 @@ namespace ShareX
     {
         private static MainForm _MainForm;
         private static OptionsWindow _OptionsWindow;
-        private static UploadersConfigForm _UploadersConfigWindow;
 
         public static MainForm Main
         {
@@ -45,21 +44,6 @@ namespace ShareX
             }
         }
 
-        public static UploadersConfigForm UploadersConfigWindow
-        {
-            get
-            {
-                if (_UploadersConfigWindow == null || _UploadersConfigWindow.IsDisposed)
-                    _UploadersConfigWindow = new UploadersConfigForm(Program.UploadersConfig, new UploadersAPIKeys()) { Icon = Resources.ShareXSmallIcon };
-
-                return _UploadersConfigWindow;
-            }
-            set
-            {
-                _UploadersConfigWindow = value;
-            }
-        }
-
         public static void ShowOptions()
         {
             Options.Show();
@@ -73,9 +57,10 @@ namespace ShareX
                 Program.UploaderSettingsResetEvent.WaitOne();
             }
 
-            UploadersConfigWindow.ShowDialog();
-            UploadersConfigWindow.Activate();
-            UploadersConfigWindow.Config.SaveAsync(Program.UploadersConfigFilePath);
+            UploadersConfigForm uploaderConfig = new UploadersConfigForm(Program.UploadersConfig, new UploadersAPIKeys()) { Icon = Resources.ShareXSmallIcon };
+            uploaderConfig.ShowDialog();
+            uploaderConfig.Activate();
+            uploaderConfig.Config.SaveAsync(Program.UploadersConfigFilePath);
         }
     }
 }
