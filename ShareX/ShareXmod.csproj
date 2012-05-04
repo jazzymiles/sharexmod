@@ -60,9 +60,6 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IndexersLib">
-      <HintPath>..\IndexersLib\obj\Debug\IndexersLib.dll</HintPath>
-    </Reference>
     <Reference Include="Interop.IWshRuntimeLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -233,6 +230,10 @@
     <ProjectReference Include="..\HelpersLib.Hotkeys2\HelpersLib.Hotkeys2.csproj">
       <Project>{B791C0EF-7DFD-4F2B-B004-91F7344EE146}</Project>
       <Name>HelpersLib.Hotkeys2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IndexersLib\IndexersLib.csproj">
+      <Project>{47CD5EEF-C12D-4CEA-B88A-3AFAEC6DDAD8}</Project>
+      <Name>IndexersLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lib\GreenshotPlugin\GreenshotPlugin.csproj">
       <Project>{5B924697-4DCD-4F98-85F1-105CB84B7341}</Project>
