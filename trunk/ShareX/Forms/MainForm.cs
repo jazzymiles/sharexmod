@@ -383,7 +383,7 @@ namespace ShareX
             if (!string.IsNullOrEmpty(errors))
             {
                 Exception e = new Exception("Upload errors: " + errors);
-                new ErrorForm(Application.ProductName, e, new Logger(), Program.LogFilePath, Links.URL_ISSUES).ShowDialog();
+                new ErrorForm(Application.ProductName, e, Program.LogFilePath, Links.URL_ISSUES).ShowDialog();
             }
         }
 
@@ -700,7 +700,7 @@ namespace ShareX
 
         private void tsmiDebugOpen_Click(object sender, EventArgs e)
         {
-            log4netHelpers.log4netViewer_ListView viewer = new log4netHelpers.log4netViewer_ListView();
+            HelpersLib.log4netHelpers.log4netViewer_ListView viewer = new HelpersLib.log4netHelpers.log4netViewer_ListView();
             viewer.Icon = this.Icon;
             viewer.Show();
         }

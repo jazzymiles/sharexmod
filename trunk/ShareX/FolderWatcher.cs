@@ -58,7 +58,7 @@ namespace ShareX
                         }
                     }
                     log.InfoFormat("Created {0}", filepathWatchFolder);
-                    Thread.Sleep(250); // experimental: prevent uploading twice
+                    Thread.Sleep(1000); // experimental: prevent uploading twice
                     UploadManager.UploadFile(filepathWatchFolder);
                     break;
                 }
