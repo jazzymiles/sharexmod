@@ -51,18 +51,12 @@ namespace GreenshotPlugin.Core
         private static List<string> unsupportedLanguageGroups = new List<string>();
         private static IDictionary<string, string> resources = new Dictionary<string, string>();
         private static string currentLanguage = null;
-        private static CoreConfiguration coreConfig = null;
 
         /// <summary>
         /// Static initializer for the language code
         /// </summary>
         static Language()
         {
-            if (!LogHelper.isInitialized)
-            {
-                LOG.Warn("Log4net hasn't been initialized yet! (Design mode?)");
-                LogHelper.InitializeLog4NET();
-            }
             if (!IniConfig.IsInited)
             {
                 LOG.Warn("IniConfig hasn't been initialized yet! (Design mode?)");

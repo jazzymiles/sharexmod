@@ -33,7 +33,6 @@ using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
 using ShareX.Forms;
-using ShareX.log4netHelpers;
 using SingleInstanceApplication;
 using UploadersLib;
 
@@ -224,7 +223,7 @@ namespace ShareX
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-                log4netHelper.Init_log4net();
+                log4netHelper.Init_log4net(LogFilePath);
 
                 log.InfoFormat("{0} {1} r{2} started", Application.ProductName, Application.ProductVersion, AppRevision);
                 log.InfoFormat("Operating system: " + Environment.OSVersion.VersionString);
@@ -300,7 +299,7 @@ namespace ShareX
 
         private static void OnError(Exception e)
         {
-            new ErrorForm(Application.ProductName, e, new Logger(), LogFilePath, Links.URL_ISSUES).ShowDialog();
+            new ErrorForm(Application.ProductName, e, LogFilePath, Links.URL_ISSUES).ShowDialog();
         }
 
         private static void SingleInstanceCallback(object sender, InstanceCallbackEventArgs args)

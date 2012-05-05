@@ -1,6 +1,7 @@
 Greenshot Image Editor Mods:
 
 - remove MainForm.cs
+- remove LogHelper.cs
 - remove GreenshotMain.cs
 - remove General and Output tabs in SettingsForm
 - remove MainForm.RegisterHotkeys();
