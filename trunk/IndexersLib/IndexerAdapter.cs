@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -392,10 +393,15 @@ namespace IndexersLib
             return false;
         }
 
+        public string GetTreeWalkerEchoLine(string myCurrentIndexFilePath, string line)
+        {
+            return "ECHO " + line + " >> " + (char)34 + myCurrentIndexFilePath + (char)34;
+        }
+
         public string GetFooterText(string myCurrentIndexFilePath, IndexingEngine myEngine, bool html)
         {
             string appName = string.Format("{0} v{1}", Application.ProductName, Application.ProductVersion);
-            string appUrl = "http://code.google.com/p/zscreen";
+            string appUrl = "http://code.google.com/p/sharexmod";
 
             string strDateTime;
 
@@ -413,26 +419,24 @@ namespace IndexersLib
                 appName = Xhtml.MakeAnchor(appUrl, appName);
             }
 
-            string footer = string.Format("Generated on {0} using {1}", strDateTime, appName);
+            StringBuilder footer = new StringBuilder();
+
             if (html)
             {
+                footer.Append(string.Format("Generated on {0} using {1}", strDateTime, appName));
+
                 if (mConfig.ShowValidXhtmlIcons)
                 {
-                    footer += GetText("valid_xhtml.txt");
+                    footer.Append(GetText("valid_xhtml.txt"));
                 }
             }
             else
             {
-                footer += "\r\nLatest version of can be downloaded from " + appUrl;
+                footer.AppendLine(GetTreeWalkerEchoLine(myCurrentIndexFilePath, string.Format("Generated on {0} using {1}", strDateTime, appName)));
+                footer.AppendLine(GetTreeWalkerEchoLine(myCurrentIndexFilePath, "Latest version of can be downloaded from " + appUrl));
             }
 
-            switch (myEngine)
-            {
-                case IndexingEngine.TreeLib:
-                    return "ECHO " + footer + " >> " + (char)34 + myCurrentIndexFilePath + (char)34;
-                default:
-                    return footer;
-            }
+            return footer.ToString();
         }
 
         public string getBlankLine(string myCurrentIndexFilePath)

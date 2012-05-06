@@ -829,9 +829,9 @@
             this.lblNameFormatPattern.AutoSize = true;
             this.lblNameFormatPattern.Location = new System.Drawing.Point(16, 48);
             this.lblNameFormatPattern.Name = "lblNameFormatPattern";
-            this.lblNameFormatPattern.Size = new System.Drawing.Size(362, 13);
+            this.lblNameFormatPattern.Size = new System.Drawing.Size(326, 13);
             this.lblNameFormatPattern.TabIndex = 1;
-            this.lblNameFormatPattern.Text = "Clipboard upload name pattern for image and text (Not image file or text file):";
+            this.lblNameFormatPattern.Text = "File naming pattern for files that do not already exist in the computer:";
             // 
             // btnNameFormatPatternHelp
             // 
