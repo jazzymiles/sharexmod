@@ -56,11 +56,10 @@ namespace ShareX
                         {
                             // check if the file is complete
                         }
+                        log.InfoFormat("Created {0}", filepathWatchFolder);
+                        UploadManager.UploadFile(filepathWatchFolder);
+                        break;
                     }
-                    log.InfoFormat("Created {0}", filepathWatchFolder);
-                    Thread.Sleep(1000); // experimental: prevent uploading twice
-                    UploadManager.UploadFile(filepathWatchFolder);
-                    break;
                 }
                 catch (System.IO.IOException ex)
                 {
