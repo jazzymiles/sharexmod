@@ -69,7 +69,7 @@ namespace ShareX
             }
             catch (Exception ex)
             {
-                log4netHelper.Log.Error(ex.ToString());
+                Log4netHelper.Log.Error(ex.ToString());
             }
             finally
             {
@@ -231,7 +231,7 @@ namespace ShareX
                 }
                 catch (Exception e)
                 {
-                    log4netHelper.Log.Error(e.ToString());
+                    Log4netHelper.Log.Error(e.ToString());
                 }
 
                 tsi.Tag = window;

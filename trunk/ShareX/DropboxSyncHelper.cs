@@ -41,7 +41,7 @@ namespace ShareX
             }
             catch (Exception e)
             {
-                log4netHelper.Log.Error("Error", e);
+                Log4netHelper.Log.Error("Error", e);
             }
             return null;
         }
@@ -64,7 +64,7 @@ namespace ShareX
                         settings.FolderMonitorPath = Program.Settings.FolderMonitorPath;
 
                         Program.Settings = settings;
-                        log4netHelper.Log.InfoFormat("Updated Settings using {0}", pathDropboxSettings);
+                        Log4netHelper.Log.InfoFormat("Updated Settings using {0}", pathDropboxSettings);
                         e.Result = settings;
                     }
                 }
@@ -79,7 +79,7 @@ namespace ShareX
                     if (config != null)
                     {
                         Program.UploadersConfig = config;
-                        log4netHelper.Log.InfoFormat("Updated Uploaders Config using {0}", pathDropboxUploadersConfig);
+                        Log4netHelper.Log.InfoFormat("Updated Uploaders Config using {0}", pathDropboxUploadersConfig);
                     }
                 }
             }
@@ -102,7 +102,7 @@ namespace ShareX
                 for (int i = 0; i < min; i++)
                 {
                     FormsHelper.Main.HotkeyList[i].Tag = settingsDropbox.Workflows1[i].HotkeyConfig.Tag;
-                    log4netHelper.Log.DebugFormat("Updated Workflow: {0}, ID: {1}", Program.Settings.Workflows1[i].HotkeyConfig.Description, Program.Settings.Workflows1[i].HotkeyConfig.Tag);
+                    Log4netHelper.Log.DebugFormat("Updated Workflow: {0}, ID: {1}", Program.Settings.Workflows1[i].HotkeyConfig.Description, Program.Settings.Workflows1[i].HotkeyConfig.Tag);
                 }
             }
         }
@@ -114,11 +114,11 @@ namespace ShareX
 
             Settings settings = cm.Clone(Program.Settings);
             dropbox.Upload(GetMemoryStream(settings), pathDropboxSettings);
-            log4netHelper.Log.InfoFormat("{0} updated.", pathDropboxSettings);
+            Log4netHelper.Log.InfoFormat("{0} updated.", pathDropboxSettings);
 
             UploadersConfig config = cm.Clone(Program.UploadersConfig);
             dropbox.Upload(GetMemoryStream(config), pathDropboxUploadersConfig);
-            log4netHelper.Log.InfoFormat("{0} updated.", pathDropboxUploadersConfig);
+            Log4netHelper.Log.InfoFormat("{0} updated.", pathDropboxUploadersConfig);
         }
 
         public void Load()
