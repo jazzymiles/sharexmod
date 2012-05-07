@@ -331,6 +331,11 @@ namespace ShareX
             tsmiRoundedRectangle_Click(sender, e);
         }
 
+        private void tsmiTrayEllipse_Click(object sender, EventArgs e)
+        {
+            tsmiEllipse_Click(sender, e);
+        }
+
         private void tsmiTrayTriangle_Click(object sender, EventArgs e)
         {
             tsmiTriangle_Click(sender, e);
@@ -349,6 +354,11 @@ namespace ShareX
         private void tsmiTrayFreeHand_Click(object sender, EventArgs e)
         {
             tsmiFreeHand_Click(sender, e);
+        }
+
+        private void tsmiSettings_Click(object sender, EventArgs e)
+        {
+            tsmiTraySettings_Click(sender, e);
         }
 
         #endregion Tray events
