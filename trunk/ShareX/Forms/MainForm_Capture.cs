@@ -114,11 +114,11 @@ namespace ShareX
                 if (configAfterCapture.SaveImageToFile)
                 {
                     ImageData imageData = TaskHelper.PrepareImageAndFilename(img);
-                    string filePath = imageData.WriteToFile(Program.ScreenshotsPath);
+                    imageData.WriteToFile(Program.ScreenshotsPath);
 
                     if (configAfterCapture.UploadImageToHost)
                     {
-                        UploadManager.UploadImageStream(imageData.ImageStream, filePath);
+                        UploadManager.UploadImageStream(imageData.ImageStream, imageData.FilePath);
                     }
                     else
                     {
