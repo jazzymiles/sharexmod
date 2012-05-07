@@ -91,7 +91,6 @@
             this.cbClipboardUploadAutoDetectURL = new System.Windows.Forms.CheckBox();
             this.lblClipboardUploadInfo = new System.Windows.Forms.Label();
             this.lblNameFormatPatternPreview = new System.Windows.Forms.Label();
-            this.lblNameFormatPattern = new System.Windows.Forms.Label();
             this.btnNameFormatPatternHelp = new System.Windows.Forms.Button();
             this.txtNameFormatPattern = new System.Windows.Forms.TextBox();
             this.tpUpload = new System.Windows.Forms.TabPage();
@@ -180,6 +179,7 @@
             this.panelDropboxSync = new System.Windows.Forms.Panel();
             this.btnDropboxSyncExport = new System.Windows.Forms.Button();
             this.btnDropboxSyncImport = new System.Windows.Forms.Button();
+            this.gbFilenamingPattern = new System.Windows.Forms.GroupBox();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -229,6 +229,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudHistoryMaxItemCount)).BeginInit();
             this.tpDropboxSync.SuspendLayout();
             this.panelDropboxSync.SuspendLayout();
+            this.gbFilenamingPattern.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpMain
@@ -242,7 +243,7 @@
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 1;
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpMain.Size = new System.Drawing.Size(696, 552);
+            this.tlpMain.Size = new System.Drawing.Size(696, 408);
             this.tlpMain.TabIndex = 0;
             // 
             // tvMain
@@ -286,7 +287,7 @@
             treeNode10,
             treeNode11,
             treeNode12});
-            this.tvMain.Size = new System.Drawing.Size(133, 546);
+            this.tvMain.Size = new System.Drawing.Size(133, 402);
             this.tvMain.TabIndex = 0;
             // 
             // tcBase
@@ -307,7 +308,7 @@
             this.tcBase.Location = new System.Drawing.Point(142, 3);
             this.tcBase.Name = "tcBase";
             this.tcBase.SelectedIndex = 0;
-            this.tcBase.Size = new System.Drawing.Size(551, 546);
+            this.tcBase.Size = new System.Drawing.Size(551, 402);
             this.tcBase.TabIndex = 1;
             this.tcBase.Visible = false;
             // 
@@ -460,7 +461,7 @@
             this.tpCapture.Location = new System.Drawing.Point(4, 22);
             this.tpCapture.Name = "tpCapture";
             this.tpCapture.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCapture.Size = new System.Drawing.Size(543, 520);
+            this.tpCapture.Size = new System.Drawing.Size(543, 376);
             this.tpCapture.TabIndex = 2;
             this.tpCapture.Text = "Capture";
             this.tpCapture.UseVisualStyleBackColor = true;
@@ -468,6 +469,7 @@
             // panelCapture
             // 
             this.panelCapture.BackColor = System.Drawing.SystemColors.Control;
+            this.panelCapture.Controls.Add(this.gbFilenamingPattern);
             this.panelCapture.Controls.Add(this.gbCaptureAfter);
             this.panelCapture.Controls.Add(this.cbCaptureShadow);
             this.panelCapture.Controls.Add(this.cbShowCursor);
@@ -475,7 +477,7 @@
             this.panelCapture.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCapture.Location = new System.Drawing.Point(3, 3);
             this.panelCapture.Name = "panelCapture";
-            this.panelCapture.Size = new System.Drawing.Size(537, 514);
+            this.panelCapture.Size = new System.Drawing.Size(537, 370);
             this.panelCapture.TabIndex = 0;
             // 
             // gbCaptureAfter
@@ -484,10 +486,10 @@
             this.gbCaptureAfter.Controls.Add(this.cbCaptureUploadImage);
             this.gbCaptureAfter.Controls.Add(this.cbCaptureSaveImage);
             this.gbCaptureAfter.Controls.Add(this.cbCaptureCopyImage);
-            this.gbCaptureAfter.Location = new System.Drawing.Point(16, 104);
+            this.gbCaptureAfter.Location = new System.Drawing.Point(11, 204);
             this.gbCaptureAfter.Name = "gbCaptureAfter";
-            this.gbCaptureAfter.Size = new System.Drawing.Size(472, 128);
-            this.gbCaptureAfter.TabIndex = 3;
+            this.gbCaptureAfter.Size = new System.Drawing.Size(517, 128);
+            this.gbCaptureAfter.TabIndex = 4;
             this.gbCaptureAfter.TabStop = false;
             this.gbCaptureAfter.Text = "After capture tasks";
             // 
@@ -777,7 +779,7 @@
             this.tpClipboardUpload.Location = new System.Drawing.Point(4, 22);
             this.tpClipboardUpload.Name = "tpClipboardUpload";
             this.tpClipboardUpload.Padding = new System.Windows.Forms.Padding(3);
-            this.tpClipboardUpload.Size = new System.Drawing.Size(543, 520);
+            this.tpClipboardUpload.Size = new System.Drawing.Size(543, 376);
             this.tpClipboardUpload.TabIndex = 5;
             this.tpClipboardUpload.Text = "Clipboard Upload";
             this.tpClipboardUpload.UseVisualStyleBackColor = true;
@@ -786,14 +788,10 @@
             // 
             this.panelClipboardUpload.Controls.Add(this.cbClipboardUploadAutoDetectURL);
             this.panelClipboardUpload.Controls.Add(this.lblClipboardUploadInfo);
-            this.panelClipboardUpload.Controls.Add(this.lblNameFormatPatternPreview);
-            this.panelClipboardUpload.Controls.Add(this.lblNameFormatPattern);
-            this.panelClipboardUpload.Controls.Add(this.btnNameFormatPatternHelp);
-            this.panelClipboardUpload.Controls.Add(this.txtNameFormatPattern);
             this.panelClipboardUpload.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelClipboardUpload.Location = new System.Drawing.Point(3, 3);
             this.panelClipboardUpload.Name = "panelClipboardUpload";
-            this.panelClipboardUpload.Size = new System.Drawing.Size(537, 514);
+            this.panelClipboardUpload.Size = new System.Drawing.Size(537, 370);
             this.panelClipboardUpload.TabIndex = 0;
             // 
             // cbClipboardUploadAutoDetectURL
@@ -813,10 +811,10 @@
             this.lblClipboardUploadInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblClipboardUploadInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblClipboardUploadInfo.ForeColor = System.Drawing.Color.White;
-            this.lblClipboardUploadInfo.Location = new System.Drawing.Point(0, 485);
+            this.lblClipboardUploadInfo.Location = new System.Drawing.Point(0, 341);
             this.lblClipboardUploadInfo.Name = "lblClipboardUploadInfo";
             this.lblClipboardUploadInfo.Size = new System.Drawing.Size(537, 29);
-            this.lblClipboardUploadInfo.TabIndex = 5;
+            this.lblClipboardUploadInfo.TabIndex = 1;
             this.lblClipboardUploadInfo.Text = "Clipboard upload automatically detects the data type and selects the upload servi" +
     "ce accordingly.";
             this.lblClipboardUploadInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -824,37 +822,28 @@
             // lblNameFormatPatternPreview
             // 
             this.lblNameFormatPatternPreview.AutoSize = true;
-            this.lblNameFormatPatternPreview.Location = new System.Drawing.Point(16, 104);
+            this.lblNameFormatPatternPreview.Location = new System.Drawing.Point(16, 56);
             this.lblNameFormatPatternPreview.Name = "lblNameFormatPatternPreview";
             this.lblNameFormatPatternPreview.Size = new System.Drawing.Size(48, 13);
-            this.lblNameFormatPatternPreview.TabIndex = 4;
+            this.lblNameFormatPatternPreview.TabIndex = 2;
             this.lblNameFormatPatternPreview.Text = "Preview:";
-            // 
-            // lblNameFormatPattern
-            // 
-            this.lblNameFormatPattern.AutoSize = true;
-            this.lblNameFormatPattern.Location = new System.Drawing.Point(16, 48);
-            this.lblNameFormatPattern.Name = "lblNameFormatPattern";
-            this.lblNameFormatPattern.Size = new System.Drawing.Size(326, 13);
-            this.lblNameFormatPattern.TabIndex = 1;
-            this.lblNameFormatPattern.Text = "File naming pattern for files that do not already exist in the computer:";
             // 
             // btnNameFormatPatternHelp
             // 
-            this.btnNameFormatPatternHelp.Location = new System.Drawing.Point(440, 72);
+            this.btnNameFormatPatternHelp.Location = new System.Drawing.Point(440, 24);
             this.btnNameFormatPatternHelp.Name = "btnNameFormatPatternHelp";
             this.btnNameFormatPatternHelp.Size = new System.Drawing.Size(24, 23);
-            this.btnNameFormatPatternHelp.TabIndex = 3;
+            this.btnNameFormatPatternHelp.TabIndex = 1;
             this.btnNameFormatPatternHelp.Text = "?";
             this.btnNameFormatPatternHelp.UseVisualStyleBackColor = true;
             this.btnNameFormatPatternHelp.Click += new System.EventHandler(this.btnNameFormatPatternHelp_Click);
             // 
             // txtNameFormatPattern
             // 
-            this.txtNameFormatPattern.Location = new System.Drawing.Point(16, 72);
+            this.txtNameFormatPattern.Location = new System.Drawing.Point(16, 24);
             this.txtNameFormatPattern.Name = "txtNameFormatPattern";
             this.txtNameFormatPattern.Size = new System.Drawing.Size(416, 20);
-            this.txtNameFormatPattern.TabIndex = 2;
+            this.txtNameFormatPattern.TabIndex = 0;
             this.txtNameFormatPattern.TextChanged += new System.EventHandler(this.txtNameFormatPattern_TextChanged);
             // 
             // tpUpload
@@ -1415,7 +1404,7 @@
             this.tcQuality.Name = "tcQuality";
             this.tcQuality.SelectedIndex = 0;
             this.tcQuality.Size = new System.Drawing.Size(512, 136);
-            this.tcQuality.TabIndex = 12;
+            this.tcQuality.TabIndex = 7;
             // 
             // tpQualityJpeg
             // 
@@ -1435,7 +1424,7 @@
             this.nudImageJPEGQuality.Location = new System.Drawing.Point(96, 12);
             this.nudImageJPEGQuality.Name = "nudImageJPEGQuality";
             this.nudImageJPEGQuality.Size = new System.Drawing.Size(56, 20);
-            this.nudImageJPEGQuality.TabIndex = 3;
+            this.nudImageJPEGQuality.TabIndex = 1;
             this.nudImageJPEGQuality.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nudImageJPEGQuality.Value = new decimal(new int[] {
             100,
@@ -1450,7 +1439,7 @@
             this.lblImageJPEGQuality.Location = new System.Drawing.Point(8, 16);
             this.lblImageJPEGQuality.Name = "lblImageJPEGQuality";
             this.lblImageJPEGQuality.Size = new System.Drawing.Size(70, 13);
-            this.lblImageJPEGQuality.TabIndex = 2;
+            this.lblImageJPEGQuality.TabIndex = 0;
             this.lblImageJPEGQuality.Text = "JPEG quality:";
             // 
             // lblImageJPEGQualityHint
@@ -1459,7 +1448,7 @@
             this.lblImageJPEGQualityHint.Location = new System.Drawing.Point(160, 16);
             this.lblImageJPEGQualityHint.Name = "lblImageJPEGQualityHint";
             this.lblImageJPEGQualityHint.Size = new System.Drawing.Size(40, 13);
-            this.lblImageJPEGQualityHint.TabIndex = 4;
+            this.lblImageJPEGQualityHint.TabIndex = 2;
             this.lblImageJPEGQualityHint.Text = "0 - 100";
             // 
             // tpQualityGif
@@ -1480,7 +1469,7 @@
             this.lblImageGIFQuality.Location = new System.Drawing.Point(8, 16);
             this.lblImageGIFQuality.Name = "lblImageGIFQuality";
             this.lblImageGIFQuality.Size = new System.Drawing.Size(60, 13);
-            this.lblImageGIFQuality.TabIndex = 5;
+            this.lblImageGIFQuality.TabIndex = 0;
             this.lblImageGIFQuality.Text = "GIF quality:";
             // 
             // cbImageGIFQuality
@@ -1495,7 +1484,7 @@
             this.cbImageGIFQuality.Location = new System.Drawing.Point(96, 12);
             this.cbImageGIFQuality.Name = "cbImageGIFQuality";
             this.cbImageGIFQuality.Size = new System.Drawing.Size(120, 21);
-            this.cbImageGIFQuality.TabIndex = 6;
+            this.cbImageGIFQuality.TabIndex = 1;
             this.cbImageGIFQuality.SelectedIndexChanged += new System.EventHandler(this.cbImageGIFQuality_SelectedIndexChanged);
             // 
             // lblImageFormat
@@ -1504,7 +1493,7 @@
             this.lblImageFormat.Location = new System.Drawing.Point(16, 40);
             this.lblImageFormat.Name = "lblImageFormat";
             this.lblImageFormat.Size = new System.Drawing.Size(71, 13);
-            this.lblImageFormat.TabIndex = 0;
+            this.lblImageFormat.TabIndex = 2;
             this.lblImageFormat.Text = "Image format:";
             // 
             // lblUseImageFormat2AfterHint
@@ -1513,7 +1502,7 @@
             this.lblUseImageFormat2AfterHint.Location = new System.Drawing.Point(256, 40);
             this.lblUseImageFormat2AfterHint.Name = "lblUseImageFormat2AfterHint";
             this.lblUseImageFormat2AfterHint.Size = new System.Drawing.Size(23, 13);
-            this.lblUseImageFormat2AfterHint.TabIndex = 9;
+            this.lblUseImageFormat2AfterHint.TabIndex = 5;
             this.lblUseImageFormat2AfterHint.Text = "KiB";
             // 
             // cbImageFormat
@@ -1529,7 +1518,7 @@
             this.cbImageFormat.Location = new System.Drawing.Point(104, 36);
             this.cbImageFormat.Name = "cbImageFormat";
             this.cbImageFormat.Size = new System.Drawing.Size(56, 21);
-            this.cbImageFormat.TabIndex = 1;
+            this.cbImageFormat.TabIndex = 3;
             this.cbImageFormat.SelectedIndexChanged += new System.EventHandler(this.cbImageFormat_SelectedIndexChanged);
             // 
             // cbImageFormat2
@@ -1545,7 +1534,7 @@
             this.cbImageFormat2.Location = new System.Drawing.Point(304, 36);
             this.cbImageFormat2.Name = "cbImageFormat2";
             this.cbImageFormat2.Size = new System.Drawing.Size(56, 21);
-            this.cbImageFormat2.TabIndex = 11;
+            this.cbImageFormat2.TabIndex = 6;
             this.cbImageFormat2.SelectedIndexChanged += new System.EventHandler(this.cbImageFormat2_SelectedIndexChanged);
             // 
             // lblImageFormat2
@@ -1554,7 +1543,7 @@
             this.lblImageFormat2.Location = new System.Drawing.Point(304, 16);
             this.lblImageFormat2.Name = "lblImageFormat2";
             this.lblImageFormat2.Size = new System.Drawing.Size(49, 13);
-            this.lblImageFormat2.TabIndex = 10;
+            this.lblImageFormat2.TabIndex = 1;
             this.lblImageFormat2.Text = "switch to";
             // 
             // nudUseImageFormat2After
@@ -1567,7 +1556,7 @@
             0});
             this.nudUseImageFormat2After.Name = "nudUseImageFormat2After";
             this.nudUseImageFormat2After.Size = new System.Drawing.Size(56, 20);
-            this.nudUseImageFormat2After.TabIndex = 8;
+            this.nudUseImageFormat2After.TabIndex = 4;
             this.nudUseImageFormat2After.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nudUseImageFormat2After.Value = new decimal(new int[] {
             5000,
@@ -1582,7 +1571,7 @@
             this.lblUseImageFormat2After.Location = new System.Drawing.Point(192, 16);
             this.lblUseImageFormat2After.Name = "lblUseImageFormat2After";
             this.lblUseImageFormat2After.Size = new System.Drawing.Size(84, 13);
-            this.lblUseImageFormat2After.TabIndex = 7;
+            this.lblUseImageFormat2After.TabIndex = 0;
             this.lblUseImageFormat2After.Text = "after (0 disables)";
             // 
             // tpPaths
@@ -1905,6 +1894,18 @@
             this.btnDropboxSyncImport.UseVisualStyleBackColor = true;
             this.btnDropboxSyncImport.Click += new System.EventHandler(this.btnDropboxSyncImport_Click);
             // 
+            // gbFilenamingPattern
+            // 
+            this.gbFilenamingPattern.Controls.Add(this.lblNameFormatPatternPreview);
+            this.gbFilenamingPattern.Controls.Add(this.txtNameFormatPattern);
+            this.gbFilenamingPattern.Controls.Add(this.btnNameFormatPatternHelp);
+            this.gbFilenamingPattern.Location = new System.Drawing.Point(11, 100);
+            this.gbFilenamingPattern.Name = "gbFilenamingPattern";
+            this.gbFilenamingPattern.Size = new System.Drawing.Size(517, 96);
+            this.gbFilenamingPattern.TabIndex = 3;
+            this.gbFilenamingPattern.TabStop = false;
+            this.gbFilenamingPattern.Text = "File naming pattern for files that do not already exist in the computer:";
+            // 
             // OptionsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1983,6 +1984,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudHistoryMaxItemCount)).EndInit();
             this.tpDropboxSync.ResumeLayout(false);
             this.panelDropboxSync.ResumeLayout(false);
+            this.gbFilenamingPattern.ResumeLayout(false);
+            this.gbFilenamingPattern.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2043,7 +2046,6 @@
         private System.Windows.Forms.CheckBox cbClipboardUploadAutoDetectURL;
         private System.Windows.Forms.Label lblClipboardUploadInfo;
         private System.Windows.Forms.Label lblNameFormatPatternPreview;
-        private System.Windows.Forms.Label lblNameFormatPattern;
         private System.Windows.Forms.Button btnNameFormatPatternHelp;
         private System.Windows.Forms.TextBox txtNameFormatPattern;
         private System.Windows.Forms.TabPage tpImageResize;
@@ -2125,5 +2127,6 @@
         private System.Windows.Forms.TabControl tcQuality;
         private System.Windows.Forms.TabPage tpQualityJpeg;
         private System.Windows.Forms.TabPage tpQualityGif;
+        private System.Windows.Forms.GroupBox gbFilenamingPattern;
     }
 }

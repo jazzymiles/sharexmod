@@ -24,6 +24,7 @@
 #endregion License Information (GPL v3)
 
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
@@ -43,6 +44,16 @@ namespace ShareX
             lblCopyright.Text = AssemblyCopyright;
 
             StringBuilder sbDesc = new StringBuilder();
+            sbDesc.AppendLine("Acknowledgements:");
+            sbDesc.AppendLine("FTP Library: http://www.starksoft.com");
+            sbDesc.AppendLine("Json.NET: http://json.codeplex.com");
+            sbDesc.AppendLine("SSH.NET: http://sshnet.codeplex.com");
+            sbDesc.AppendLine("Image Editor: http://getgreenshot.org");
+            sbDesc.AppendLine("Application Icon:  Mopquill ( www.mpql.net )");
+            sbDesc.AppendLine("Other Icons: http://p.yusukekamiyamane.com");
+
+            sbDesc.AppendLine();
+
             if (Program.LibNames != null)
             {
                 sbDesc.AppendLine("Referenced assemblies:");
@@ -51,13 +62,7 @@ namespace ShareX
                     sbDesc.AppendLine(dll);
                 }
             }
-            sbDesc.AppendLine();
-            sbDesc.AppendLine("Acknowledgements:");
-            sbDesc.AppendLine("FTP Library: http://www.starksoft.com");
-            sbDesc.AppendLine("Json.NET: http://json.codeplex.com");
-            sbDesc.AppendLine("SSH.NET: http://sshnet.codeplex.com");
-            sbDesc.AppendLine("Icons: http://p.yusukekamiyamane.com");
-            sbDesc.AppendLine("Greenshot Image Editor: http://getgreenshot.org");
+
             txtDetails.Text = sbDesc.ToString();
 
             UpdateChecker updateChecker = new UpdateChecker(Links.URL_UPDATE, Application.ProductName, new Version(Program.AssemblyVersion),
@@ -107,6 +112,11 @@ namespace ShareX
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txtDetails_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            Process.Start(e.LinkText);
         }
     }
 }
