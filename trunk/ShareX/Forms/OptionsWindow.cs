@@ -219,7 +219,7 @@ namespace ShareX.Forms
             {
                 string tag = wf.HotkeyConfig.Tag;
                 FormsHelper.Main.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
-                FormsHelper.Main.HotkeyManager.AddHotkey(wf, () => FormsHelper.Main.DoWork(tag));
+                FormsHelper.Main.HotkeyManager.AddHotkey(wf, () => FormsHelper.Main.DoWork(tag, false));
             }
 
             List<Workflow> workflowOld = new List<Workflow>();
@@ -566,6 +566,7 @@ namespace ShareX.Forms
         private void cbImageFormat2_SelectedIndexChanged(object sender, EventArgs e)
         {
             Program.Settings.ImageFormat2 = (EImageFormat)cbImageFormat2.SelectedIndex;
+            UpdateGuiQuality();
         }
 
         private void nudImageJPEGQuality_ValueChanged(object sender, EventArgs e)
@@ -581,11 +582,37 @@ namespace ShareX.Forms
         private void cbImageFormat_SelectedIndexChanged(object sender, EventArgs e)
         {
             Program.Settings.ImageFormat = (EImageFormat)cbImageFormat.SelectedIndex;
+            UpdateGuiQuality();
         }
 
         private void nudUseImageFormat2After_ValueChanged(object sender, EventArgs e)
         {
             Program.Settings.ImageSizeLimit = (int)nudUseImageFormat2After.Value;
+        }
+
+        private void UpdateGuiQuality()
+        {
+            cbImageFormat2.Enabled = nudUseImageFormat2After.Value > 0;
+
+            tcQuality.TabPages.Clear();
+            UpdateGuiQualityTabs(Program.Settings.ImageFormat);
+            UpdateGuiQualityTabs(Program.Settings.ImageFormat2);
+            tcQuality.Visible = tcQuality.TabPages.Count > 0;
+        }
+
+        private void UpdateGuiQualityTabs(EImageFormat format)
+        {
+            switch (format)
+            {
+                case EImageFormat.GIF:
+                    if (!tcQuality.TabPages.Contains(tpQualityGif))
+                        tcQuality.TabPages.Add(tpQualityGif);
+                    break;
+                case EImageFormat.JPEG:
+                    if (!tcQuality.TabPages.Contains(tpQualityJpeg))
+                        tcQuality.TabPages.Add(tpQualityJpeg);
+                    break;
+            }
         }
 
         #endregion Image Processing

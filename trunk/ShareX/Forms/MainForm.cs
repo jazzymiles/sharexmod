@@ -695,7 +695,10 @@ namespace ShareX
             trayClose = true;
             Close();
         }
-
+        private void tsmiTraySettings_Click(object sender, EventArgs e)
+        {
+            FormsHelper.ShowOptions();
+        }
         #endregion Tray events
 
         private void tsmiDebugOpen_Click(object sender, EventArgs e)
@@ -707,14 +710,5 @@ namespace ShareX
 
         #endregion Form events
 
-        private void tsmiSettings2_Click(object sender, EventArgs e)
-        {
-            tsmiSettings_Click(sender, e);
-        }
-
-        private void tsmiSettings_Click(object sender, EventArgs e)
-        {
-            FormsHelper.ShowOptions();
-        }
     }
 }

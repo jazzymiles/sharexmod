@@ -237,6 +237,7 @@
             this.Controls.Add(this.lblZScreen);
             this.Controls.Add(this.lblProductName);
             this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(602, 546);
             this.Name = "AboutForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ShareX - About";

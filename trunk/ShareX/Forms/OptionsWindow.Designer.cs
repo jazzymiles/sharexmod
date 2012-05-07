@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("General");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Hotkeys");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Clipboard");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Shapes");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Capture", new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Quality");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Resize");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Image Processing", new System.Windows.Forms.TreeNode[] {
-            treeNode6,
-            treeNode7});
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Upload");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Paths");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Proxy");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Advanced");
+            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("General");
+            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("Hotkeys");
+            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("Clipboard");
+            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("Shapes");
+            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("Capture", new System.Windows.Forms.TreeNode[] {
+            treeNode27,
+            treeNode28});
+            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("Quality");
+            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("Resize");
+            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("Image Processing", new System.Windows.Forms.TreeNode[] {
+            treeNode30,
+            treeNode31});
+            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("Upload");
+            System.Windows.Forms.TreeNode treeNode34 = new System.Windows.Forms.TreeNode("Paths");
+            System.Windows.Forms.TreeNode treeNode35 = new System.Windows.Forms.TreeNode("Proxy");
+            System.Windows.Forms.TreeNode treeNode36 = new System.Windows.Forms.TreeNode("Advanced");
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tvMain = new System.Windows.Forms.TreeView();
             this.tcBase = new System.Windows.Forms.TabControl();
@@ -108,8 +108,8 @@
             this.tpHotkeys = new System.Windows.Forms.TabPage();
             this.panelHotkeys = new System.Windows.Forms.Panel();
             this.hmHotkeys = new HelpersLib.Hotkeys2.HotkeyManagerControl();
-            this.tpImageQuality = new System.Windows.Forms.TabPage();
-            this.panelImageQuality = new System.Windows.Forms.Panel();
+            this.tpImageResize = new System.Windows.Forms.TabPage();
+            this.panelImageResize = new System.Windows.Forms.Panel();
             this.cbImageUseSmoothScaling = new System.Windows.Forms.CheckBox();
             this.cbImageKeepAspectRatio = new System.Windows.Forms.CheckBox();
             this.cbImageAutoResize = new System.Windows.Forms.CheckBox();
@@ -136,8 +136,8 @@
             this.lblImageScaleSpecificHeight = new System.Windows.Forms.Label();
             this.lblImageScaleSpecificWidth = new System.Windows.Forms.Label();
             this.nudImageScaleSpecificWidth = new System.Windows.Forms.NumericUpDown();
-            this.tpImageResize = new System.Windows.Forms.TabPage();
-            this.panelImageResize = new System.Windows.Forms.Panel();
+            this.tpImageQuality2 = new System.Windows.Forms.TabPage();
+            this.panelImageQuality = new System.Windows.Forms.Panel();
             this.lblImageFormat = new System.Windows.Forms.Label();
             this.lblUseImageFormat2AfterHint = new System.Windows.Forms.Label();
             this.cbImageFormat = new System.Windows.Forms.ComboBox();
@@ -177,6 +177,9 @@
             this.panelDropboxSync = new System.Windows.Forms.Panel();
             this.btnDropboxSyncExport = new System.Windows.Forms.Button();
             this.btnDropboxSyncImport = new System.Windows.Forms.Button();
+            this.tcQuality = new System.Windows.Forms.TabControl();
+            this.tpQualityJpeg = new System.Windows.Forms.TabPage();
+            this.tpQualityGif = new System.Windows.Forms.TabPage();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -201,8 +204,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudUploadLimit)).BeginInit();
             this.tpHotkeys.SuspendLayout();
             this.panelHotkeys.SuspendLayout();
-            this.tpImageQuality.SuspendLayout();
-            this.panelImageQuality.SuspendLayout();
+            this.tpImageResize.SuspendLayout();
+            this.panelImageResize.SuspendLayout();
             this.gbImageScaleSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudImageScalePercentageWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudImageScaleToHeight)).BeginInit();
@@ -210,8 +213,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudImageScaleToWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudImageScaleSpecificHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudImageScaleSpecificWidth)).BeginInit();
-            this.tpImageResize.SuspendLayout();
-            this.panelImageResize.SuspendLayout();
+            this.tpImageQuality2.SuspendLayout();
+            this.panelImageQuality.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudImageJPEGQuality)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudUseImageFormat2After)).BeginInit();
             this.tpPaths.SuspendLayout();
@@ -223,6 +226,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudHistoryMaxItemCount)).BeginInit();
             this.tpDropboxSync.SuspendLayout();
             this.panelDropboxSync.SuspendLayout();
+            this.tcQuality.SuspendLayout();
+            this.tpQualityJpeg.SuspendLayout();
+            this.tpQualityGif.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpMain
@@ -244,42 +250,42 @@
             this.tvMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvMain.Location = new System.Drawing.Point(3, 3);
             this.tvMain.Name = "tvMain";
-            treeNode1.Name = "tnGeneral";
-            treeNode1.Tag = "panelGeneral";
-            treeNode1.Text = "General";
-            treeNode2.Name = "tnHotkeys";
-            treeNode2.Text = "Hotkeys";
-            treeNode3.Name = "tnClipboardUpload";
-            treeNode3.Text = "Clipboard";
-            treeNode4.Name = "tnShapes";
-            treeNode4.Tag = "panelShapes";
-            treeNode4.Text = "Shapes";
-            treeNode5.Name = "tnCapture";
-            treeNode5.Tag = "panelCapture";
-            treeNode5.Text = "Capture";
-            treeNode6.Name = "tnImageQuality";
-            treeNode6.Text = "Quality";
-            treeNode7.Name = "tnImageResize";
-            treeNode7.Text = "Resize";
-            treeNode8.Name = "tnImage";
-            treeNode8.Text = "Image Processing";
-            treeNode9.Name = "tnUpload";
-            treeNode9.Text = "Upload";
-            treeNode10.Name = "tnPaths";
-            treeNode10.Text = "Paths";
-            treeNode11.Name = "tnProxy";
-            treeNode11.Text = "Proxy";
-            treeNode12.Name = "tnAdvanced";
-            treeNode12.Text = "Advanced";
+            treeNode25.Name = "tnGeneral";
+            treeNode25.Tag = "panelGeneral";
+            treeNode25.Text = "General";
+            treeNode26.Name = "tnHotkeys";
+            treeNode26.Text = "Hotkeys";
+            treeNode27.Name = "tnClipboardUpload";
+            treeNode27.Text = "Clipboard";
+            treeNode28.Name = "tnShapes";
+            treeNode28.Tag = "panelShapes";
+            treeNode28.Text = "Shapes";
+            treeNode29.Name = "tnCapture";
+            treeNode29.Tag = "panelCapture";
+            treeNode29.Text = "Capture";
+            treeNode30.Name = "tnImageQuality";
+            treeNode30.Text = "Quality";
+            treeNode31.Name = "tnImageResize";
+            treeNode31.Text = "Resize";
+            treeNode32.Name = "tnImage";
+            treeNode32.Text = "Image Processing";
+            treeNode33.Name = "tnUpload";
+            treeNode33.Text = "Upload";
+            treeNode34.Name = "tnPaths";
+            treeNode34.Text = "Paths";
+            treeNode35.Name = "tnProxy";
+            treeNode35.Text = "Proxy";
+            treeNode36.Name = "tnAdvanced";
+            treeNode36.Text = "Advanced";
             this.tvMain.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode5,
-            treeNode8,
-            treeNode9,
-            treeNode10,
-            treeNode11,
-            treeNode12});
+            treeNode25,
+            treeNode26,
+            treeNode29,
+            treeNode32,
+            treeNode33,
+            treeNode34,
+            treeNode35,
+            treeNode36});
             this.tvMain.Size = new System.Drawing.Size(133, 546);
             this.tvMain.TabIndex = 0;
             // 
@@ -293,8 +299,8 @@
             this.tcBase.Controls.Add(this.tpClipboardUpload);
             this.tcBase.Controls.Add(this.tpUpload);
             this.tcBase.Controls.Add(this.tpHotkeys);
-            this.tcBase.Controls.Add(this.tpImageQuality);
             this.tcBase.Controls.Add(this.tpImageResize);
+            this.tcBase.Controls.Add(this.tpImageQuality2);
             this.tcBase.Controls.Add(this.tpPaths);
             this.tcBase.Controls.Add(this.tpDropboxSync);
             this.tcBase.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1003,28 +1009,28 @@
             this.hmHotkeys.Size = new System.Drawing.Size(537, 514);
             this.hmHotkeys.TabIndex = 0;
             // 
-            // tpImageQuality
+            // tpImageResize
             // 
-            this.tpImageQuality.Controls.Add(this.panelImageQuality);
-            this.tpImageQuality.Location = new System.Drawing.Point(4, 22);
-            this.tpImageQuality.Name = "tpImageQuality";
-            this.tpImageQuality.Padding = new System.Windows.Forms.Padding(3);
-            this.tpImageQuality.Size = new System.Drawing.Size(543, 520);
-            this.tpImageQuality.TabIndex = 8;
-            this.tpImageQuality.Text = "Quality";
-            this.tpImageQuality.UseVisualStyleBackColor = true;
+            this.tpImageResize.Controls.Add(this.panelImageResize);
+            this.tpImageResize.Location = new System.Drawing.Point(4, 22);
+            this.tpImageResize.Name = "tpImageResize";
+            this.tpImageResize.Padding = new System.Windows.Forms.Padding(3);
+            this.tpImageResize.Size = new System.Drawing.Size(543, 520);
+            this.tpImageResize.TabIndex = 8;
+            this.tpImageResize.Text = "Resize";
+            this.tpImageResize.UseVisualStyleBackColor = true;
             // 
-            // panelImageQuality
+            // panelImageResize
             // 
-            this.panelImageQuality.Controls.Add(this.cbImageUseSmoothScaling);
-            this.panelImageQuality.Controls.Add(this.cbImageKeepAspectRatio);
-            this.panelImageQuality.Controls.Add(this.cbImageAutoResize);
-            this.panelImageQuality.Controls.Add(this.gbImageScaleSettings);
-            this.panelImageQuality.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelImageQuality.Location = new System.Drawing.Point(3, 3);
-            this.panelImageQuality.Name = "panelImageQuality";
-            this.panelImageQuality.Size = new System.Drawing.Size(537, 514);
-            this.panelImageQuality.TabIndex = 0;
+            this.panelImageResize.Controls.Add(this.cbImageUseSmoothScaling);
+            this.panelImageResize.Controls.Add(this.cbImageKeepAspectRatio);
+            this.panelImageResize.Controls.Add(this.cbImageAutoResize);
+            this.panelImageResize.Controls.Add(this.gbImageScaleSettings);
+            this.panelImageResize.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelImageResize.Location = new System.Drawing.Point(3, 3);
+            this.panelImageResize.Name = "panelImageResize";
+            this.panelImageResize.Size = new System.Drawing.Size(537, 514);
+            this.panelImageResize.TabIndex = 0;
             // 
             // cbImageUseSmoothScaling
             // 
@@ -1374,41 +1380,37 @@
             0});
             this.nudImageScaleSpecificWidth.ValueChanged += new System.EventHandler(this.nudImageScaleSpecificWidth_ValueChanged);
             // 
-            // tpImageResize
+            // tpImageQuality2
             // 
-            this.tpImageResize.Controls.Add(this.panelImageResize);
-            this.tpImageResize.Location = new System.Drawing.Point(4, 22);
-            this.tpImageResize.Name = "tpImageResize";
-            this.tpImageResize.Padding = new System.Windows.Forms.Padding(3);
-            this.tpImageResize.Size = new System.Drawing.Size(543, 520);
-            this.tpImageResize.TabIndex = 9;
-            this.tpImageResize.Text = "Resize";
-            this.tpImageResize.UseVisualStyleBackColor = true;
+            this.tpImageQuality2.Controls.Add(this.panelImageQuality);
+            this.tpImageQuality2.Location = new System.Drawing.Point(4, 22);
+            this.tpImageQuality2.Name = "tpImageQuality2";
+            this.tpImageQuality2.Padding = new System.Windows.Forms.Padding(3);
+            this.tpImageQuality2.Size = new System.Drawing.Size(543, 520);
+            this.tpImageQuality2.TabIndex = 9;
+            this.tpImageQuality2.Text = "Quality";
+            this.tpImageQuality2.UseVisualStyleBackColor = true;
             // 
-            // panelImageResize
+            // panelImageQuality
             // 
-            this.panelImageResize.Controls.Add(this.lblImageFormat);
-            this.panelImageResize.Controls.Add(this.lblUseImageFormat2AfterHint);
-            this.panelImageResize.Controls.Add(this.cbImageFormat);
-            this.panelImageResize.Controls.Add(this.lblImageJPEGQualityHint);
-            this.panelImageResize.Controls.Add(this.lblImageJPEGQuality);
-            this.panelImageResize.Controls.Add(this.cbImageGIFQuality);
-            this.panelImageResize.Controls.Add(this.lblImageGIFQuality);
-            this.panelImageResize.Controls.Add(this.cbImageFormat2);
-            this.panelImageResize.Controls.Add(this.nudImageJPEGQuality);
-            this.panelImageResize.Controls.Add(this.lblImageFormat2);
-            this.panelImageResize.Controls.Add(this.nudUseImageFormat2After);
-            this.panelImageResize.Controls.Add(this.lblUseImageFormat2After);
-            this.panelImageResize.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelImageResize.Location = new System.Drawing.Point(3, 3);
-            this.panelImageResize.Name = "panelImageResize";
-            this.panelImageResize.Size = new System.Drawing.Size(537, 514);
-            this.panelImageResize.TabIndex = 0;
+            this.panelImageQuality.Controls.Add(this.tcQuality);
+            this.panelImageQuality.Controls.Add(this.lblImageFormat);
+            this.panelImageQuality.Controls.Add(this.lblUseImageFormat2AfterHint);
+            this.panelImageQuality.Controls.Add(this.cbImageFormat);
+            this.panelImageQuality.Controls.Add(this.cbImageFormat2);
+            this.panelImageQuality.Controls.Add(this.lblImageFormat2);
+            this.panelImageQuality.Controls.Add(this.nudUseImageFormat2After);
+            this.panelImageQuality.Controls.Add(this.lblUseImageFormat2After);
+            this.panelImageQuality.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelImageQuality.Location = new System.Drawing.Point(3, 3);
+            this.panelImageQuality.Name = "panelImageQuality";
+            this.panelImageQuality.Size = new System.Drawing.Size(537, 514);
+            this.panelImageQuality.TabIndex = 0;
             // 
             // lblImageFormat
             // 
             this.lblImageFormat.AutoSize = true;
-            this.lblImageFormat.Location = new System.Drawing.Point(16, 20);
+            this.lblImageFormat.Location = new System.Drawing.Point(16, 40);
             this.lblImageFormat.Name = "lblImageFormat";
             this.lblImageFormat.Size = new System.Drawing.Size(71, 13);
             this.lblImageFormat.TabIndex = 0;
@@ -1417,11 +1419,11 @@
             // lblUseImageFormat2AfterHint
             // 
             this.lblUseImageFormat2AfterHint.AutoSize = true;
-            this.lblUseImageFormat2AfterHint.Location = new System.Drawing.Point(288, 116);
+            this.lblUseImageFormat2AfterHint.Location = new System.Drawing.Point(256, 40);
             this.lblUseImageFormat2AfterHint.Name = "lblUseImageFormat2AfterHint";
-            this.lblUseImageFormat2AfterHint.Size = new System.Drawing.Size(124, 13);
+            this.lblUseImageFormat2AfterHint.Size = new System.Drawing.Size(23, 13);
             this.lblUseImageFormat2AfterHint.TabIndex = 9;
-            this.lblUseImageFormat2AfterHint.Text = "KiB  0 - 5000 (0 disables)";
+            this.lblUseImageFormat2AfterHint.Text = "KiB";
             // 
             // cbImageFormat
             // 
@@ -1433,7 +1435,7 @@
             "GIF",
             "BMP",
             "TIFF"});
-            this.cbImageFormat.Location = new System.Drawing.Point(104, 16);
+            this.cbImageFormat.Location = new System.Drawing.Point(104, 36);
             this.cbImageFormat.Name = "cbImageFormat";
             this.cbImageFormat.Size = new System.Drawing.Size(56, 21);
             this.cbImageFormat.TabIndex = 1;
@@ -1442,7 +1444,7 @@
             // lblImageJPEGQualityHint
             // 
             this.lblImageJPEGQualityHint.AutoSize = true;
-            this.lblImageJPEGQualityHint.Location = new System.Drawing.Point(168, 52);
+            this.lblImageJPEGQualityHint.Location = new System.Drawing.Point(160, 16);
             this.lblImageJPEGQualityHint.Name = "lblImageJPEGQualityHint";
             this.lblImageJPEGQualityHint.Size = new System.Drawing.Size(40, 13);
             this.lblImageJPEGQualityHint.TabIndex = 4;
@@ -1451,7 +1453,7 @@
             // lblImageJPEGQuality
             // 
             this.lblImageJPEGQuality.AutoSize = true;
-            this.lblImageJPEGQuality.Location = new System.Drawing.Point(16, 52);
+            this.lblImageJPEGQuality.Location = new System.Drawing.Point(8, 16);
             this.lblImageJPEGQuality.Name = "lblImageJPEGQuality";
             this.lblImageJPEGQuality.Size = new System.Drawing.Size(70, 13);
             this.lblImageJPEGQuality.TabIndex = 2;
@@ -1466,7 +1468,7 @@
             "256 colors (8 bit)",
             "16 colors (4 bit)",
             "Grayscale"});
-            this.cbImageGIFQuality.Location = new System.Drawing.Point(104, 80);
+            this.cbImageGIFQuality.Location = new System.Drawing.Point(96, 12);
             this.cbImageGIFQuality.Name = "cbImageGIFQuality";
             this.cbImageGIFQuality.Size = new System.Drawing.Size(120, 21);
             this.cbImageGIFQuality.TabIndex = 6;
@@ -1475,7 +1477,7 @@
             // lblImageGIFQuality
             // 
             this.lblImageGIFQuality.AutoSize = true;
-            this.lblImageGIFQuality.Location = new System.Drawing.Point(16, 84);
+            this.lblImageGIFQuality.Location = new System.Drawing.Point(8, 16);
             this.lblImageGIFQuality.Name = "lblImageGIFQuality";
             this.lblImageGIFQuality.Size = new System.Drawing.Size(60, 13);
             this.lblImageGIFQuality.TabIndex = 5;
@@ -1491,7 +1493,7 @@
             "GIF",
             "BMP",
             "TIFF"});
-            this.cbImageFormat2.Location = new System.Drawing.Point(104, 144);
+            this.cbImageFormat2.Location = new System.Drawing.Point(304, 36);
             this.cbImageFormat2.Name = "cbImageFormat2";
             this.cbImageFormat2.Size = new System.Drawing.Size(56, 21);
             this.cbImageFormat2.TabIndex = 11;
@@ -1499,7 +1501,7 @@
             // 
             // nudImageJPEGQuality
             // 
-            this.nudImageJPEGQuality.Location = new System.Drawing.Point(104, 48);
+            this.nudImageJPEGQuality.Location = new System.Drawing.Point(96, 12);
             this.nudImageJPEGQuality.Name = "nudImageJPEGQuality";
             this.nudImageJPEGQuality.Size = new System.Drawing.Size(56, 20);
             this.nudImageJPEGQuality.TabIndex = 3;
@@ -1514,15 +1516,15 @@
             // lblImageFormat2
             // 
             this.lblImageFormat2.AutoSize = true;
-            this.lblImageFormat2.Location = new System.Drawing.Point(16, 148);
+            this.lblImageFormat2.Location = new System.Drawing.Point(304, 16);
             this.lblImageFormat2.Name = "lblImageFormat2";
-            this.lblImageFormat2.Size = new System.Drawing.Size(80, 13);
+            this.lblImageFormat2.Size = new System.Drawing.Size(49, 13);
             this.lblImageFormat2.TabIndex = 10;
-            this.lblImageFormat2.Text = "Image format 2:";
+            this.lblImageFormat2.Text = "switch to";
             // 
             // nudUseImageFormat2After
             // 
-            this.nudUseImageFormat2After.Location = new System.Drawing.Point(224, 112);
+            this.nudUseImageFormat2After.Location = new System.Drawing.Point(192, 37);
             this.nudUseImageFormat2After.Maximum = new decimal(new int[] {
             5000,
             0,
@@ -1542,11 +1544,11 @@
             // lblUseImageFormat2After
             // 
             this.lblUseImageFormat2After.AutoSize = true;
-            this.lblUseImageFormat2After.Location = new System.Drawing.Point(16, 116);
+            this.lblUseImageFormat2After.Location = new System.Drawing.Point(192, 16);
             this.lblUseImageFormat2After.Name = "lblUseImageFormat2After";
-            this.lblUseImageFormat2After.Size = new System.Drawing.Size(198, 13);
+            this.lblUseImageFormat2After.Size = new System.Drawing.Size(84, 13);
             this.lblUseImageFormat2After.TabIndex = 7;
-            this.lblUseImageFormat2After.Text = "Image size limit for use \"Image format 2\":";
+            this.lblUseImageFormat2After.Text = "after (0 disables)";
             // 
             // tpPaths
             // 
@@ -1868,6 +1870,41 @@
             this.btnDropboxSyncImport.UseVisualStyleBackColor = true;
             this.btnDropboxSyncImport.Click += new System.EventHandler(this.btnDropboxSyncImport_Click);
             // 
+            // tcQuality
+            // 
+            this.tcQuality.Controls.Add(this.tpQualityJpeg);
+            this.tcQuality.Controls.Add(this.tpQualityGif);
+            this.tcQuality.Location = new System.Drawing.Point(16, 72);
+            this.tcQuality.Name = "tcQuality";
+            this.tcQuality.SelectedIndex = 0;
+            this.tcQuality.Size = new System.Drawing.Size(512, 136);
+            this.tcQuality.TabIndex = 12;
+            // 
+            // tpQualityJpeg
+            // 
+            this.tpQualityJpeg.Controls.Add(this.nudImageJPEGQuality);
+            this.tpQualityJpeg.Controls.Add(this.lblImageJPEGQuality);
+            this.tpQualityJpeg.Controls.Add(this.lblImageJPEGQualityHint);
+            this.tpQualityJpeg.Location = new System.Drawing.Point(4, 22);
+            this.tpQualityJpeg.Name = "tpQualityJpeg";
+            this.tpQualityJpeg.Padding = new System.Windows.Forms.Padding(3);
+            this.tpQualityJpeg.Size = new System.Drawing.Size(504, 110);
+            this.tpQualityJpeg.TabIndex = 0;
+            this.tpQualityJpeg.Text = "JPEG";
+            this.tpQualityJpeg.UseVisualStyleBackColor = true;
+            // 
+            // tpQualityGif
+            // 
+            this.tpQualityGif.Controls.Add(this.lblImageGIFQuality);
+            this.tpQualityGif.Controls.Add(this.cbImageGIFQuality);
+            this.tpQualityGif.Location = new System.Drawing.Point(4, 22);
+            this.tpQualityGif.Name = "tpQualityGif";
+            this.tpQualityGif.Padding = new System.Windows.Forms.Padding(3);
+            this.tpQualityGif.Size = new System.Drawing.Size(504, 110);
+            this.tpQualityGif.TabIndex = 1;
+            this.tpQualityGif.Text = "GIF";
+            this.tpQualityGif.UseVisualStyleBackColor = true;
+            // 
             // OptionsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1912,9 +1949,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudUploadLimit)).EndInit();
             this.tpHotkeys.ResumeLayout(false);
             this.panelHotkeys.ResumeLayout(false);
-            this.tpImageQuality.ResumeLayout(false);
-            this.panelImageQuality.ResumeLayout(false);
-            this.panelImageQuality.PerformLayout();
+            this.tpImageResize.ResumeLayout(false);
+            this.panelImageResize.ResumeLayout(false);
+            this.panelImageResize.PerformLayout();
             this.gbImageScaleSettings.ResumeLayout(false);
             this.gbImageScaleSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudImageScalePercentageWidth)).EndInit();
@@ -1923,9 +1960,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudImageScaleToWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudImageScaleSpecificHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudImageScaleSpecificWidth)).EndInit();
-            this.tpImageResize.ResumeLayout(false);
-            this.panelImageResize.ResumeLayout(false);
-            this.panelImageResize.PerformLayout();
+            this.tpImageQuality2.ResumeLayout(false);
+            this.panelImageQuality.ResumeLayout(false);
+            this.panelImageQuality.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudImageJPEGQuality)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudUseImageFormat2After)).EndInit();
             this.tpPaths.ResumeLayout(false);
@@ -1941,6 +1978,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudHistoryMaxItemCount)).EndInit();
             this.tpDropboxSync.ResumeLayout(false);
             this.panelDropboxSync.ResumeLayout(false);
+            this.tcQuality.ResumeLayout(false);
+            this.tpQualityJpeg.ResumeLayout(false);
+            this.tpQualityJpeg.PerformLayout();
+            this.tpQualityGif.ResumeLayout(false);
+            this.tpQualityGif.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2004,8 +2046,8 @@
         private System.Windows.Forms.Label lblNameFormatPattern;
         private System.Windows.Forms.Button btnNameFormatPatternHelp;
         private System.Windows.Forms.TextBox txtNameFormatPattern;
-        private System.Windows.Forms.TabPage tpImageQuality;
-        private System.Windows.Forms.Panel panelImageQuality;
+        private System.Windows.Forms.TabPage tpImageResize;
+        private System.Windows.Forms.Panel panelImageResize;
         private System.Windows.Forms.CheckBox cbImageUseSmoothScaling;
         private System.Windows.Forms.CheckBox cbImageKeepAspectRatio;
         private System.Windows.Forms.CheckBox cbImageAutoResize;
@@ -2032,8 +2074,8 @@
         private System.Windows.Forms.Label lblImageScaleSpecificHeight;
         private System.Windows.Forms.Label lblImageScaleSpecificWidth;
         private System.Windows.Forms.NumericUpDown nudImageScaleSpecificWidth;
-        private System.Windows.Forms.TabPage tpImageResize;
-        private System.Windows.Forms.Panel panelImageResize;
+        private System.Windows.Forms.TabPage tpImageQuality2;
+        private System.Windows.Forms.Panel panelImageQuality;
         private System.Windows.Forms.Label lblImageFormat;
         private System.Windows.Forms.Label lblUseImageFormat2AfterHint;
         private System.Windows.Forms.ComboBox cbImageFormat;
@@ -2080,5 +2122,8 @@
         private System.Windows.Forms.GroupBox gbAfterUpload;
         private System.Windows.Forms.Button btnDropboxSyncExport;
         private System.Windows.Forms.Button btnDropboxSyncImport;
+        private System.Windows.Forms.TabControl tcQuality;
+        private System.Windows.Forms.TabPage tpQualityJpeg;
+        private System.Windows.Forms.TabPage tpQualityGif;
     }
 }

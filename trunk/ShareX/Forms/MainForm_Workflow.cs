@@ -78,7 +78,7 @@ namespace ShareX
             foreach (Workflow wf in Program.Settings.Workflows1)
             {
                 string tag = wf.HotkeyConfig.Tag;
-                HotkeyManager.AddHotkey(wf, () => DoWork(tag));
+                HotkeyManager.AddHotkey(wf, () => DoWork(tag, false));
             }
 
             string failedHotkeys;
@@ -91,7 +91,7 @@ namespace ShareX
             }
         }
 
-        public void DoWork(string tag)
+        public void DoWork(string tag, bool autoHideForm = true)
         {
             Workflow wf = Program.Settings.Workflows1.FirstOrDefault(x => x.HotkeyConfig.Tag == tag);
             Image img_wf = null;
@@ -114,37 +114,37 @@ namespace ShareX
                         UploadManager.UploadFile();
                         break;
                     case EActivity.CaptureScreen:
-                        img_wf = CaptureScreen(false);
+                        img_wf = CaptureScreen(autoHideForm);
                         break;
                     case EActivity.CaptureActiveWindow:
-                        img_wf = CaptureActiveWindow(false);
+                        img_wf = CaptureActiveWindow(autoHideForm);
                         break;
                     case EActivity.CaptureRectangleRegion:
-                        img_wf = CaptureRegion(new RectangleRegion(), false);
+                        img_wf = CaptureRegion(new RectangleRegion(), autoHideForm);
                         break;
                     case EActivity.CaptureActiveMonitor:
-                        img_wf = CaptureActiveMonitor(false);
+                        img_wf = CaptureActiveMonitor(autoHideForm);
                         break;
                     case EActivity.CaptureWindowRectangle:
-                        img_wf = WindowRectangleCapture(false);
+                        img_wf = WindowRectangleCapture(autoHideForm);
                         break;
                     case EActivity.CaptureRoundedRectangleRegion:
-                        img_wf = CaptureRegion(new RoundedRectangleRegion(), false);
+                        img_wf = CaptureRegion(new RoundedRectangleRegion(), autoHideForm);
                         break;
                     case EActivity.CaptureEllipseRegion:
-                        img_wf = CaptureRegion(new EllipseRegion(), false);
+                        img_wf = CaptureRegion(new EllipseRegion(), autoHideForm);
                         break;
                     case EActivity.CaptureTriangleRegion:
-                        img_wf = CaptureRegion(new TriangleRegion(), false);
+                        img_wf = CaptureRegion(new TriangleRegion(), autoHideForm);
                         break;
                     case EActivity.CaptureDiamondRegion:
-                        img_wf = CaptureRegion(new DiamondRegion(), false);
+                        img_wf = CaptureRegion(new DiamondRegion(), autoHideForm);
                         break;
                     case EActivity.CapturePolygonRegion:
-                        img_wf = CaptureRegion(new PolygonRegion(), false);
+                        img_wf = CaptureRegion(new PolygonRegion(), autoHideForm);
                         break;
                     case EActivity.CaptureFreeHandRegion:
-                        img_wf = CaptureRegion(new FreeHandRegion(), false);
+                        img_wf = CaptureRegion(new FreeHandRegion(), autoHideForm);
                         break;
                     case EActivity.ClipboardCopyImage:
                         CopyMultiFormatBitmapToClipboard((Image)img_wf.Clone());
