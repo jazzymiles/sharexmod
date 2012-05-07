@@ -62,6 +62,10 @@
             this.pgSettings = new System.Windows.Forms.PropertyGrid();
             this.tpCapture = new System.Windows.Forms.TabPage();
             this.panelCapture = new System.Windows.Forms.Panel();
+            this.gbFilenamingPattern = new System.Windows.Forms.GroupBox();
+            this.lblNameFormatPatternPreview = new System.Windows.Forms.Label();
+            this.txtNameFormatPattern = new System.Windows.Forms.TextBox();
+            this.btnNameFormatPatternHelp = new System.Windows.Forms.Button();
             this.gbCaptureAfter = new System.Windows.Forms.GroupBox();
             this.chkCaptureAnnotateImage = new System.Windows.Forms.CheckBox();
             this.cbCaptureUploadImage = new System.Windows.Forms.CheckBox();
@@ -90,9 +94,6 @@
             this.panelClipboardUpload = new System.Windows.Forms.Panel();
             this.cbClipboardUploadAutoDetectURL = new System.Windows.Forms.CheckBox();
             this.lblClipboardUploadInfo = new System.Windows.Forms.Label();
-            this.lblNameFormatPatternPreview = new System.Windows.Forms.Label();
-            this.btnNameFormatPatternHelp = new System.Windows.Forms.Button();
-            this.txtNameFormatPattern = new System.Windows.Forms.TextBox();
             this.tpUpload = new System.Windows.Forms.TabPage();
             this.panelUpload = new System.Windows.Forms.Panel();
             this.gbAfterUpload = new System.Windows.Forms.GroupBox();
@@ -179,7 +180,6 @@
             this.panelDropboxSync = new System.Windows.Forms.Panel();
             this.btnDropboxSyncExport = new System.Windows.Forms.Button();
             this.btnDropboxSyncImport = new System.Windows.Forms.Button();
-            this.gbFilenamingPattern = new System.Windows.Forms.GroupBox();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -189,6 +189,7 @@
             this.panelAdvanced.SuspendLayout();
             this.tpCapture.SuspendLayout();
             this.panelCapture.SuspendLayout();
+            this.gbFilenamingPattern.SuspendLayout();
             this.gbCaptureAfter.SuspendLayout();
             this.tpShapes.SuspendLayout();
             this.panelShapes.SuspendLayout();
@@ -229,7 +230,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudHistoryMaxItemCount)).BeginInit();
             this.tpDropboxSync.SuspendLayout();
             this.panelDropboxSync.SuspendLayout();
-            this.gbFilenamingPattern.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpMain
@@ -317,7 +317,7 @@
             this.tpGeneral.Controls.Add(this.panelGeneral);
             this.tpGeneral.Location = new System.Drawing.Point(4, 22);
             this.tpGeneral.Name = "tpGeneral";
-            this.tpGeneral.Size = new System.Drawing.Size(543, 520);
+            this.tpGeneral.Size = new System.Drawing.Size(543, 376);
             this.tpGeneral.TabIndex = 0;
             this.tpGeneral.Text = "General";
             this.tpGeneral.UseVisualStyleBackColor = true;
@@ -334,7 +334,7 @@
             this.panelGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelGeneral.Location = new System.Drawing.Point(0, 0);
             this.panelGeneral.Name = "panelGeneral";
-            this.panelGeneral.Size = new System.Drawing.Size(543, 520);
+            this.panelGeneral.Size = new System.Drawing.Size(543, 376);
             this.panelGeneral.TabIndex = 0;
             // 
             // gbNotifications
@@ -376,7 +376,7 @@
             this.lblGeneralInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblGeneralInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblGeneralInfo.ForeColor = System.Drawing.Color.White;
-            this.lblGeneralInfo.Location = new System.Drawing.Point(0, 491);
+            this.lblGeneralInfo.Location = new System.Drawing.Point(0, 347);
             this.lblGeneralInfo.Name = "lblGeneralInfo";
             this.lblGeneralInfo.Size = new System.Drawing.Size(543, 29);
             this.lblGeneralInfo.TabIndex = 5;
@@ -432,7 +432,7 @@
             this.tpAdvanced.Controls.Add(this.panelAdvanced);
             this.tpAdvanced.Location = new System.Drawing.Point(4, 22);
             this.tpAdvanced.Name = "tpAdvanced";
-            this.tpAdvanced.Size = new System.Drawing.Size(543, 520);
+            this.tpAdvanced.Size = new System.Drawing.Size(543, 376);
             this.tpAdvanced.TabIndex = 1;
             this.tpAdvanced.Text = "Advanced";
             this.tpAdvanced.UseVisualStyleBackColor = true;
@@ -479,6 +479,45 @@
             this.panelCapture.Name = "panelCapture";
             this.panelCapture.Size = new System.Drawing.Size(537, 370);
             this.panelCapture.TabIndex = 0;
+            // 
+            // gbFilenamingPattern
+            // 
+            this.gbFilenamingPattern.Controls.Add(this.lblNameFormatPatternPreview);
+            this.gbFilenamingPattern.Controls.Add(this.txtNameFormatPattern);
+            this.gbFilenamingPattern.Controls.Add(this.btnNameFormatPatternHelp);
+            this.gbFilenamingPattern.Location = new System.Drawing.Point(11, 100);
+            this.gbFilenamingPattern.Name = "gbFilenamingPattern";
+            this.gbFilenamingPattern.Size = new System.Drawing.Size(517, 96);
+            this.gbFilenamingPattern.TabIndex = 3;
+            this.gbFilenamingPattern.TabStop = false;
+            this.gbFilenamingPattern.Text = "File naming pattern for files that do not already exist in the computer:";
+            // 
+            // lblNameFormatPatternPreview
+            // 
+            this.lblNameFormatPatternPreview.AutoSize = true;
+            this.lblNameFormatPatternPreview.Location = new System.Drawing.Point(16, 56);
+            this.lblNameFormatPatternPreview.Name = "lblNameFormatPatternPreview";
+            this.lblNameFormatPatternPreview.Size = new System.Drawing.Size(48, 13);
+            this.lblNameFormatPatternPreview.TabIndex = 2;
+            this.lblNameFormatPatternPreview.Text = "Preview:";
+            // 
+            // txtNameFormatPattern
+            // 
+            this.txtNameFormatPattern.Location = new System.Drawing.Point(16, 24);
+            this.txtNameFormatPattern.Name = "txtNameFormatPattern";
+            this.txtNameFormatPattern.Size = new System.Drawing.Size(416, 20);
+            this.txtNameFormatPattern.TabIndex = 0;
+            this.txtNameFormatPattern.TextChanged += new System.EventHandler(this.txtNameFormatPattern_TextChanged);
+            // 
+            // btnNameFormatPatternHelp
+            // 
+            this.btnNameFormatPatternHelp.Location = new System.Drawing.Point(440, 24);
+            this.btnNameFormatPatternHelp.Name = "btnNameFormatPatternHelp";
+            this.btnNameFormatPatternHelp.Size = new System.Drawing.Size(24, 23);
+            this.btnNameFormatPatternHelp.TabIndex = 1;
+            this.btnNameFormatPatternHelp.Text = "?";
+            this.btnNameFormatPatternHelp.UseVisualStyleBackColor = true;
+            this.btnNameFormatPatternHelp.Click += new System.EventHandler(this.btnNameFormatPatternHelp_Click);
             // 
             // gbCaptureAfter
             // 
@@ -576,7 +615,7 @@
             this.tpShapes.Location = new System.Drawing.Point(4, 22);
             this.tpShapes.Name = "tpShapes";
             this.tpShapes.Padding = new System.Windows.Forms.Padding(3);
-            this.tpShapes.Size = new System.Drawing.Size(543, 520);
+            this.tpShapes.Size = new System.Drawing.Size(543, 376);
             this.tpShapes.TabIndex = 3;
             this.tpShapes.Text = "Shapes";
             this.tpShapes.UseVisualStyleBackColor = true;
@@ -737,7 +776,7 @@
             this.tpProxy.Location = new System.Drawing.Point(4, 22);
             this.tpProxy.Name = "tpProxy";
             this.tpProxy.Padding = new System.Windows.Forms.Padding(3);
-            this.tpProxy.Size = new System.Drawing.Size(543, 520);
+            this.tpProxy.Size = new System.Drawing.Size(543, 376);
             this.tpProxy.TabIndex = 4;
             this.tpProxy.Text = "Proxy";
             this.tpProxy.UseVisualStyleBackColor = true;
@@ -819,40 +858,13 @@
     "ce accordingly.";
             this.lblClipboardUploadInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblNameFormatPatternPreview
-            // 
-            this.lblNameFormatPatternPreview.AutoSize = true;
-            this.lblNameFormatPatternPreview.Location = new System.Drawing.Point(16, 56);
-            this.lblNameFormatPatternPreview.Name = "lblNameFormatPatternPreview";
-            this.lblNameFormatPatternPreview.Size = new System.Drawing.Size(48, 13);
-            this.lblNameFormatPatternPreview.TabIndex = 2;
-            this.lblNameFormatPatternPreview.Text = "Preview:";
-            // 
-            // btnNameFormatPatternHelp
-            // 
-            this.btnNameFormatPatternHelp.Location = new System.Drawing.Point(440, 24);
-            this.btnNameFormatPatternHelp.Name = "btnNameFormatPatternHelp";
-            this.btnNameFormatPatternHelp.Size = new System.Drawing.Size(24, 23);
-            this.btnNameFormatPatternHelp.TabIndex = 1;
-            this.btnNameFormatPatternHelp.Text = "?";
-            this.btnNameFormatPatternHelp.UseVisualStyleBackColor = true;
-            this.btnNameFormatPatternHelp.Click += new System.EventHandler(this.btnNameFormatPatternHelp_Click);
-            // 
-            // txtNameFormatPattern
-            // 
-            this.txtNameFormatPattern.Location = new System.Drawing.Point(16, 24);
-            this.txtNameFormatPattern.Name = "txtNameFormatPattern";
-            this.txtNameFormatPattern.Size = new System.Drawing.Size(416, 20);
-            this.txtNameFormatPattern.TabIndex = 0;
-            this.txtNameFormatPattern.TextChanged += new System.EventHandler(this.txtNameFormatPattern_TextChanged);
-            // 
             // tpUpload
             // 
             this.tpUpload.Controls.Add(this.panelUpload);
             this.tpUpload.Location = new System.Drawing.Point(4, 22);
             this.tpUpload.Name = "tpUpload";
             this.tpUpload.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUpload.Size = new System.Drawing.Size(543, 520);
+            this.tpUpload.Size = new System.Drawing.Size(543, 376);
             this.tpUpload.TabIndex = 6;
             this.tpUpload.Text = "Upload";
             this.tpUpload.UseVisualStyleBackColor = true;
@@ -976,7 +988,7 @@
             this.tpHotkeys.Location = new System.Drawing.Point(4, 22);
             this.tpHotkeys.Name = "tpHotkeys";
             this.tpHotkeys.Padding = new System.Windows.Forms.Padding(3);
-            this.tpHotkeys.Size = new System.Drawing.Size(543, 520);
+            this.tpHotkeys.Size = new System.Drawing.Size(543, 376);
             this.tpHotkeys.TabIndex = 7;
             this.tpHotkeys.Text = "Hotkeys";
             this.tpHotkeys.UseVisualStyleBackColor = true;
@@ -1004,7 +1016,7 @@
             this.tpImageResize.Location = new System.Drawing.Point(4, 22);
             this.tpImageResize.Name = "tpImageResize";
             this.tpImageResize.Padding = new System.Windows.Forms.Padding(3);
-            this.tpImageResize.Size = new System.Drawing.Size(543, 520);
+            this.tpImageResize.Size = new System.Drawing.Size(543, 376);
             this.tpImageResize.TabIndex = 8;
             this.tpImageResize.Text = "Resize";
             this.tpImageResize.UseVisualStyleBackColor = true;
@@ -1375,7 +1387,7 @@
             this.tpImageQuality2.Location = new System.Drawing.Point(4, 22);
             this.tpImageQuality2.Name = "tpImageQuality2";
             this.tpImageQuality2.Padding = new System.Windows.Forms.Padding(3);
-            this.tpImageQuality2.Size = new System.Drawing.Size(543, 520);
+            this.tpImageQuality2.Size = new System.Drawing.Size(543, 376);
             this.tpImageQuality2.TabIndex = 9;
             this.tpImageQuality2.Text = "Quality";
             this.tpImageQuality2.UseVisualStyleBackColor = true;
@@ -1580,7 +1592,7 @@
             this.tpPaths.Location = new System.Drawing.Point(4, 22);
             this.tpPaths.Name = "tpPaths";
             this.tpPaths.Padding = new System.Windows.Forms.Padding(3);
-            this.tpPaths.Size = new System.Drawing.Size(543, 520);
+            this.tpPaths.Size = new System.Drawing.Size(543, 376);
             this.tpPaths.TabIndex = 10;
             this.tpPaths.Text = "Paths";
             this.tpPaths.UseVisualStyleBackColor = true;
@@ -1859,7 +1871,7 @@
             this.tpDropboxSync.Location = new System.Drawing.Point(4, 22);
             this.tpDropboxSync.Name = "tpDropboxSync";
             this.tpDropboxSync.Padding = new System.Windows.Forms.Padding(3);
-            this.tpDropboxSync.Size = new System.Drawing.Size(543, 520);
+            this.tpDropboxSync.Size = new System.Drawing.Size(543, 376);
             this.tpDropboxSync.TabIndex = 11;
             this.tpDropboxSync.Text = "Dropbox Sync";
             this.tpDropboxSync.UseVisualStyleBackColor = true;
@@ -1894,18 +1906,6 @@
             this.btnDropboxSyncImport.UseVisualStyleBackColor = true;
             this.btnDropboxSyncImport.Click += new System.EventHandler(this.btnDropboxSyncImport_Click);
             // 
-            // gbFilenamingPattern
-            // 
-            this.gbFilenamingPattern.Controls.Add(this.lblNameFormatPatternPreview);
-            this.gbFilenamingPattern.Controls.Add(this.txtNameFormatPattern);
-            this.gbFilenamingPattern.Controls.Add(this.btnNameFormatPatternHelp);
-            this.gbFilenamingPattern.Location = new System.Drawing.Point(11, 100);
-            this.gbFilenamingPattern.Name = "gbFilenamingPattern";
-            this.gbFilenamingPattern.Size = new System.Drawing.Size(517, 96);
-            this.gbFilenamingPattern.TabIndex = 3;
-            this.gbFilenamingPattern.TabStop = false;
-            this.gbFilenamingPattern.Text = "File naming pattern for files that do not already exist in the computer:";
-            // 
             // OptionsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1930,6 +1930,8 @@
             this.tpCapture.ResumeLayout(false);
             this.panelCapture.ResumeLayout(false);
             this.panelCapture.PerformLayout();
+            this.gbFilenamingPattern.ResumeLayout(false);
+            this.gbFilenamingPattern.PerformLayout();
             this.gbCaptureAfter.ResumeLayout(false);
             this.gbCaptureAfter.PerformLayout();
             this.tpShapes.ResumeLayout(false);
@@ -1984,8 +1986,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudHistoryMaxItemCount)).EndInit();
             this.tpDropboxSync.ResumeLayout(false);
             this.panelDropboxSync.ResumeLayout(false);
-            this.gbFilenamingPattern.ResumeLayout(false);
-            this.gbFilenamingPattern.PerformLayout();
             this.ResumeLayout(false);
 
         }

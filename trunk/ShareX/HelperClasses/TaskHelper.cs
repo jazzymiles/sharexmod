@@ -122,7 +122,13 @@ namespace ShareX.HelperClasses
 
             NameParser parser = new NameParser { Picture = img, WindowText = NativeMethods.GetForegroundWindowText() };
 
-            return string.Format("{0}.{1}", parser.Convert(Program.Settings.NameFormatPattern), ext);
+            string fnwe = parser.Convert(Program.Settings.NameFormatPattern);
+            string fn = string.Format("{0}.{1}", fnwe, ext);
+            int fnweLenMax = Program.Settings.MaxFilenameLength - ext.Length - 1;
+            if (fnweLenMax > 0 && fnwe.Length > fnweLenMax)
+                fn = string.Format("{0}.{1}", fnwe.Substring(0, fnweLenMax), ext);
+
+            return fn;
         }
     }
 }

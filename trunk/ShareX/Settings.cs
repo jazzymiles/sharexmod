@@ -136,6 +136,8 @@ namespace ShareX
         [Category(HelpersLib.ComponentModelStrings.InputsWatchFolder), Description("Folder monitor path where files automatically get uploaded.")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string FolderMonitorPath { get; set; }
+        [Category(HelpersLib.ComponentModelStrings.FileNaming), DefaultValue(100), Description("Maximum file name length")]
+        public int MaxFilenameLength { get; set; }
 
         #endregion Settings Form
 
