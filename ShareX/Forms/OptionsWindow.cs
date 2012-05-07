@@ -287,7 +287,6 @@ namespace ShareX.Forms
             {
                 switch (variable.Enum)
                 {
-                    case ReplacementVariables.t:
                     case ReplacementVariables.i:
                     case ReplacementVariables.n:
                     case ReplacementVariables.link:
@@ -464,7 +463,7 @@ namespace ShareX.Forms
         private void txtNameFormatPattern_TextChanged(object sender, EventArgs e)
         {
             Program.Settings.NameFormatPattern = txtNameFormatPattern.Text;
-            lblNameFormatPatternPreview.Text = "Preview: " + new NameParser().Convert(Program.Settings.NameFormatPattern);
+            lblNameFormatPatternPreview.Text = "Preview: " + new NameParser() { WindowText = NativeMethods.GetForegroundWindowText() }.Convert(Program.Settings.NameFormatPattern);
         }
 
         private void cbClipboardUploadAutoDetectURL_CheckedChanged(object sender, EventArgs e)

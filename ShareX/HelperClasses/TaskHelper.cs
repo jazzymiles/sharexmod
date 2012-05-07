@@ -120,7 +120,7 @@ namespace ShareX.HelperClasses
                     break;
             }
 
-            NameParser parser = new NameParser { Picture = img };
+            NameParser parser = new NameParser { Picture = img, WindowText = NativeMethods.GetForegroundWindowText() };
 
             return string.Format("{0}.{1}", parser.Convert(Program.Settings.NameFormatPattern), ext);
         }

@@ -32,8 +32,9 @@ namespace ShareX.HelperClasses
     public class ImageData : IDisposable
     {
         public MemoryStream ImageStream { get; set; }
-
+        public string WindowText { get; set; }
         public string Filename { get; set; }
+        public string FilePath { get; private set; }
 
         public string WriteToFile(string folderPath)
         {
@@ -44,9 +45,9 @@ namespace ShareX.HelperClasses
                     Directory.CreateDirectory(folderPath);
                 }
 
-                string path = Path.Combine(folderPath, Filename);
-                ImageStream.WriteToFile(path);
-                return path;
+                FilePath = Path.Combine(folderPath, Filename);
+                ImageStream.WriteToFile(FilePath);
+                return FilePath;
             }
 
             return string.Empty;
