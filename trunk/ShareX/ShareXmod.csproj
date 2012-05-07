@@ -314,6 +314,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="ShareX.ico" />
+    <Content Include="sharex08.ico" />
     <None Include="Resources\Loading.gif" />
   </ItemGroup>
   <ItemGroup />
