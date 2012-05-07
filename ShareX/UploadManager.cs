@@ -348,7 +348,6 @@ namespace ShareX
                 lvi.SubItems[3].Text = string.Format("{0:N0} kB/s", info.Progress.Speed);
                 lvi.SubItems[4].Text = ProperTimeSpan(info.Progress.Elapsed);
                 lvi.SubItems[5].Text = ProperTimeSpan(info.Progress.Remaining);
-                UpdateTrayIcon();
             }
         }
 
@@ -428,69 +427,6 @@ namespace ShareX
             finally
             {
                 StartTasks();
-                UpdateTrayIcon();
-            }
-        }
-
-        public static void UpdateTrayIcon()
-        {
-            if (FormsHelper.Main.niTray.Visible)
-            {
-                lock (uploadManagerLock)
-                {
-                    if (trayIcons == null)
-                    {
-                        CacheProgressIcon();
-                    }
-
-                    IEnumerable<Task> workingTasks = Tasks.Where(x => x != null && x.IsWorking && x.Info != null && x.Info.Progress != null);
-                    Icon icon = null;
-
-                    if (workingTasks.Count() > 0)
-                    {
-                        double averageProgress = workingTasks.Average(x => x.Info.Progress.Percentage);
-                        int index = (int)(averageProgress / 100 * (trayIcons.Length - 1));
-                        icon = trayIcons.ReturnIfValidIndex(index) ?? trayIcons[0];
-                    }
-                    else
-                    {
-                        icon = trayIcons[0];
-                    }
-
-                    if (FormsHelper.Main.niTray.Icon != icon)
-                    {
-                        FormsHelper.Main.niTray.Icon = icon;
-                    }
-                }
-            }
-        }
-
-        private static void CacheProgressIcon()
-        {
-            trayIcons = new Icon[16];
-            trayIcons[0] = Resources.ShareXSmallIcon;
-            trayIcons[15] = Resources.ShareXSmallBusyIcon;
-
-            Rectangle rBackground = new Rectangle(0, 0, 16, 16);
-
-            using (Bitmap smallIcon = Resources.ShareXSmallIcon.ToBitmap())
-            using (Bitmap smallBusyIcon = Resources.ShareXSmallBusyIcon.ToBitmap())
-            {
-                for (int i = 1; i < 15; i++)
-                {
-                    Rectangle rForeground = new Rectangle(0, 0, i + 1, 16);
-
-                    using (Bitmap bmp = new Bitmap(16, 16))
-                    {
-                        using (Graphics g = Graphics.FromImage(bmp))
-                        {
-                            g.DrawImage(smallIcon, rBackground);
-                            g.DrawImage(smallBusyIcon, rForeground, rForeground, GraphicsUnit.Pixel);
-                        }
-
-                        trayIcons[i] = bmp.ToIcon();
-                    }
-                }
             }
         }
     }
