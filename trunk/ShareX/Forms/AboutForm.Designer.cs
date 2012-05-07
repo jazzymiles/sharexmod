@@ -40,8 +40,8 @@
             this.pbAU = new System.Windows.Forms.PictureBox();
             this.lblMike = new System.Windows.Forms.Label();
             this.pbLogo = new System.Windows.Forms.PictureBox();
+            this.txtDetails = new System.Windows.Forms.RichTextBox();
             this.uclUpdate = new UpdateCheckerLib.UpdateCheckerLabel();
-            this.txtDetails = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbTR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbBerkURL)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbMikeURL)).BeginInit();
@@ -191,16 +191,9 @@
             this.pbLogo.Location = new System.Drawing.Point(8, 8);
             this.pbLogo.Name = "pbLogo";
             this.pbLogo.Size = new System.Drawing.Size(264, 264);
-            this.pbLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pbLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbLogo.TabIndex = 19;
             this.pbLogo.TabStop = false;
-            // 
-            // uclUpdate
-            // 
-            this.uclUpdate.Location = new System.Drawing.Point(272, 35);
-            this.uclUpdate.Name = "uclUpdate";
-            this.uclUpdate.Size = new System.Drawing.Size(250, 24);
-            this.uclUpdate.TabIndex = 1;
             // 
             // txtDetails
             // 
@@ -208,13 +201,21 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDetails.Location = new System.Drawing.Point(8, 280);
-            this.txtDetails.Multiline = true;
             this.txtDetails.Name = "txtDetails";
             this.txtDetails.ReadOnly = true;
-            this.txtDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtDetails.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.txtDetails.Size = new System.Drawing.Size(576, 184);
             this.txtDetails.TabIndex = 6;
+            this.txtDetails.Text = "";
             this.txtDetails.WordWrap = false;
+            this.txtDetails.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.txtDetails_LinkClicked);
+            // 
+            // uclUpdate
+            // 
+            this.uclUpdate.Location = new System.Drawing.Point(272, 35);
+            this.uclUpdate.Name = "uclUpdate";
+            this.uclUpdate.Size = new System.Drawing.Size(250, 24);
+            this.uclUpdate.TabIndex = 1;
             // 
             // AboutForm
             // 
@@ -267,6 +268,6 @@
         private System.Windows.Forms.Label lblMike;
         private System.Windows.Forms.PictureBox pbLogo;
         private UpdateCheckerLib.UpdateCheckerLabel uclUpdate;
-        private System.Windows.Forms.TextBox txtDetails;
+        private System.Windows.Forms.RichTextBox txtDetails;
     }
 }
