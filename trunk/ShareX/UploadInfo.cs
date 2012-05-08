@@ -35,11 +35,9 @@ namespace ShareX
     public class UploadInfo
     {
         public int ID { get; set; }
-
         public string Status { get; set; }
-
         public TaskJob Job { get; set; }
-
+        public TaskImageJob ImageJob { get; set; }
         public ProgressManager Progress { get; set; }
 
         private string filePath;
@@ -107,6 +105,7 @@ namespace ShareX
         public UploadInfo()
         {
             Result = new UploadResult();
+            ImageJob = TaskImageJob.UploadImageToHost;
         }
 
         public HistoryItem GetHistoryItem()

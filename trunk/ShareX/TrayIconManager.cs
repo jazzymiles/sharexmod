@@ -48,7 +48,7 @@ namespace ShareX
 
         private static void bwTray_DoWork(object sender, DoWorkEventArgs e)
         {
-            RotateTrayIcon(500);
+            RotateTrayIcon(250);
         }
     }
 }

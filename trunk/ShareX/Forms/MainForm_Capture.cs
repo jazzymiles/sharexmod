@@ -101,6 +101,8 @@ namespace ShareX
                     configAfterCapture = dlg.Config;
                 }
 
+                TaskImageJob imageJob = TaskImageJob.None;
+
                 if (configAfterCapture.AnnotateImage)
                 {
                     EditImage(ref img);
@@ -108,27 +110,20 @@ namespace ShareX
 
                 if (configAfterCapture.CopyImageToClipboard)
                 {
-                    Clipboard.SetImage(img);
+                    imageJob |= TaskImageJob.CopyImageToClipboard;
                 }
 
                 if (configAfterCapture.SaveImageToFile)
                 {
-                    ImageData imageData = TaskHelper.PrepareImageAndFilename(img);
-                    imageData.WriteToFile(Program.ScreenshotsPath);
+                    imageJob |= TaskImageJob.SaveImageToFile;
+                }
 
-                    if (configAfterCapture.UploadImageToHost)
-                    {
-                        UploadManager.UploadImageStream(imageData.ImageStream, imageData.FilePath);
-                    }
-                    else
-                    {
-                        imageData.Dispose();
-                    }
-                }
-                else if (configAfterCapture.UploadImageToHost)
+                if (configAfterCapture.UploadImageToHost)
                 {
-                    UploadManager.UploadImage(img);
+                    imageJob |= TaskImageJob.UploadImageToHost;
                 }
+
+                UploadManager.DoImageWork(img, imageJob);
             }
         }
 

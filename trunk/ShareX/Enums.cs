@@ -23,6 +23,7 @@
 
 #endregion License Information (GPL v3)
 
+using System;
 using System.ComponentModel;
 
 namespace ShareX
@@ -35,6 +36,15 @@ namespace ShareX
     public enum TaskJob
     {
         DataUpload, FileUpload, ImageUpload, TextUpload, ShortenURL
+    }
+
+    [Flags]
+    public enum TaskImageJob
+    {
+        None = 0,
+        CopyImageToClipboard = 1,
+        SaveImageToFile = 2,
+        UploadImageToHost = 4
     }
 
     public enum ImageScaleType
