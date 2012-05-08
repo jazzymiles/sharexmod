@@ -416,7 +416,7 @@ namespace ShareX
 
                             if (Program.Settings.ShowClipboardOptionsWizard)
                             {
-                                WindowAfterUpload dlg = new WindowAfterUpload(info) { Icon = Resources.ShareXSmallIcon };
+                                WindowAfterUpload dlg = new WindowAfterUpload(info) { Icon = Resources.ShareX };
                                 NativeMethods.ShowWindow(dlg.Handle, (int)WindowShowStyle.ShowNoActivate);
                             }
                         }

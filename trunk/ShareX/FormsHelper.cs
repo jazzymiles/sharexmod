@@ -19,7 +19,7 @@ namespace ShareX
             get
             {
                 if (_MainForm == null || _MainForm.IsDisposed)
-                    _MainForm = new MainForm() { Icon = Resources.ShareXSmallIcon };
+                    _MainForm = new MainForm() { Icon = Resources.ShareX };
 
                 return _MainForm;
             }
@@ -34,7 +34,7 @@ namespace ShareX
             get
             {
                 if (_OptionsWindow == null || _OptionsWindow.IsDisposed)
-                    _OptionsWindow = new OptionsWindow() { Icon = Resources.ShareXSmallIcon };
+                    _OptionsWindow = new OptionsWindow() { Icon = Resources.ShareX };
 
                 return _OptionsWindow;
             }
@@ -57,7 +57,7 @@ namespace ShareX
                 Program.UploaderSettingsResetEvent.WaitOne();
             }
 
-            UploadersConfigForm uploaderConfig = new UploadersConfigForm(Program.UploadersConfig, new UploadersAPIKeys()) { Icon = Resources.ShareXSmallIcon };
+            UploadersConfigForm uploaderConfig = new UploadersConfigForm(Program.UploadersConfig, new UploadersAPIKeys()) { Icon = Resources.ShareX };
             uploaderConfig.ShowDialog();
             uploaderConfig.Activate();
             uploaderConfig.Config.SaveAsync(Program.UploadersConfigFilePath);
