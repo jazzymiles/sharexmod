@@ -238,6 +238,9 @@ namespace ShareX
             }
         }
 
+        /// <summary>
+        /// Mod: Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
+        /// </summary>
         private void DoThreadJob()
         {
             if (Info.Job == TaskJob.ImageUpload && tempImage != null && Info.ImageJob.HasFlagAny(TaskImageJob.UploadImageToHost, TaskImageJob.SaveImageToFile))
@@ -250,7 +253,7 @@ namespace ShareX
 
                     if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFile))
                     {
-                        imageData.WriteToFile(Program.ScreenshotsPath);
+                        Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
                     }
                 }
             }
