@@ -52,7 +52,6 @@ namespace ShareX
         public static List<Task> Tasks { get; private set; }
 
         private static object uploadManagerLock = new object();
-        private static Icon[] trayIcons;
 
         static UploadManager()
         {
@@ -241,6 +240,7 @@ namespace ShareX
             task.UploadCompleted += new Task.TaskEventHandler(task_UploadCompleted);
             CreateListViewItem(task.Info);
             StartTasks();
+            TrayIconManager.UpdateTrayIcon();
         }
 
         private static void StartTasks()
