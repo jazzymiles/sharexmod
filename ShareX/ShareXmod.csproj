@@ -12,8 +12,7 @@
     <AssemblyName>ShareXmod</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>ShareX.ico</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -312,6 +311,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="ShareX.ico" />
     <None Include="Resources\ShareXSmallBusyIcon2.ico" />
     <None Include="Resources\ShareXSmallBusyIcon3.ico" />
     <None Include="Resources\ShareXSmallBusyIcon4.ico" />
