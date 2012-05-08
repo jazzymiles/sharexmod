@@ -123,8 +123,9 @@ namespace ShareX.HelperClasses
             string windowText = NativeMethods.GetForegroundWindowText();
             int fnweLenMax = Program.Settings.MaxFilenameLength - ext.Length - 1;
             int wtLenMax = fnweLenMax - 20;
+
             // Truncate window text
-            if (windowText.Length > wtLenMax)
+            if (wtLenMax > 0 && windowText.Length > wtLenMax)
                 windowText = windowText.Substring(0, wtLenMax);
 
             NameParser parser = new NameParser { Picture = img, WindowText = windowText };
