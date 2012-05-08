@@ -88,9 +88,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComponentModelStrings.cs" />
-    <Compile Include="DropboxSyncHelper.cs" />
-    <Compile Include="FolderWatcher.cs" />
-    <Compile Include="FormsHelper.cs" />
+    <Compile Include="HelperClasses\DropboxSyncHelper.cs" />
+    <Compile Include="HelperClasses\FolderWatcher.cs" />
+    <Compile Include="HelperClasses\FormsHelper.cs" />
     <Compile Include="Forms\MainForm_Capture.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -193,7 +193,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Task.cs" />
-    <Compile Include="TrayIconManager.cs" />
+    <Compile Include="HelperClasses\TrayIconManager.cs" />
     <Compile Include="UploadManager.cs" />
     <Compile Include="UploadProgress.cs" />
     <Compile Include="Settings.cs" />

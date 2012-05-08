@@ -65,6 +65,9 @@ namespace ShareX.HelperClasses
 
         public static ImageData PrepareImageAndFilename(Image img)
         {
+            if (img != null)
+                Log4netHelper.Log.DebugFormat("Preparing image {0}x{1} and filename", img.Width, img.Height);
+
             ImageData imageData = new ImageData();
             EImageFormat imageFormat;
             imageData.ImageStream = TaskHelper.PrepareImage(img, out imageFormat);
