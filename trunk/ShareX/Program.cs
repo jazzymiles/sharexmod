@@ -263,7 +263,7 @@ namespace ShareX
 
         private static void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
         {
-            LibNames.Add(args.LoadedAssembly.Location);
+            LibNames.Add(string.Format("{0} - {1}", args.LoadedAssembly.FullName, args.LoadedAssembly.Location));
         }
 
         public static void LoadSettings()
