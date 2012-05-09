@@ -48,10 +48,12 @@ namespace ShareX
         CopyImageToClipboard = 2,
         [Description("Save to file")]
         SaveImageToFile = 4,
-        [Description("Save to file with dialog")]
-        SaveImageToFileWithDialog = 8,
         [Description("Upload to remote host")]
-        UploadImageToHost = 16
+        UploadImageToHost = 8,
+        [Description("Save to file with dialog")]
+        SaveImageToFileWithDialog = 16,
+        [Description("Send to Printer")]
+        Print = 32,
     }
 
     public enum ImageScaleType

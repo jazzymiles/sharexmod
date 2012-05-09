@@ -33,19 +33,44 @@ namespace ShareX.HelperClasses
     public class ImageData : IDisposable
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public EImageFormat imageFormat = EImageFormat.PNG;
-        public MemoryStream ImageStream { get; set; }
+        private EImageFormat imageFormat = EImageFormat.PNG;
+        public MemoryStream ImageStream { get; private set; }
         public Image Image = null;
         public string WindowText { get; private set; }
-        public string Filename { get; set; }
+        public string Filename { get; private set; }
         public string FilePath { get; private set; }
 
+        public bool IsPrepared
+        {
+            get
+            {
+                return ImageStream != null;
+            }
+        }
+
+        private ImageData()
+        {
+            Filename = "Require image encoding...";
+        }
+
         public ImageData(Image img, bool screenshot = false)
+            : this()
         {
             this.Image = img;
             if (screenshot)
                 this.WindowText = NativeMethods.GetForegroundWindowText();
-            this.Filename = PrepareFilename();
+            // this.Filename = PrepareFilename();
+        }
+
+        public Image ImageExported
+        {
+            get
+            {
+                if (Image != null)
+                    return (Bitmap)Image.Clone();
+
+                return null;
+            }
         }
 
         private string PrepareFilename()
@@ -102,7 +127,7 @@ namespace ShareX.HelperClasses
 
             MemoryStream stream = img.SaveImage(Program.Settings.ImageFormat);
 
-            int sizeLimit = Program.Settings.ImageSizeLimit * 1000;
+            int sizeLimit = Program.Settings.ImageSizeLimit * 1024;
             if (Program.Settings.ImageFormat != Program.Settings.ImageFormat2 && sizeLimit > 0 && stream.Length > sizeLimit)
             {
                 stream = img.SaveImage(Program.Settings.ImageFormat2);
@@ -161,6 +186,12 @@ namespace ShareX.HelperClasses
 
         public string WriteToFile(string folderPath)
         {
+            if (ImageStream == null)
+            {
+                log.Warn("ImageStream was null. Preparing image and filename.");
+                PrepareImageAndFilename();
+            }
+
             if (ImageStream != null && !string.IsNullOrEmpty(Filename) && !string.IsNullOrEmpty(folderPath))
             {
                 if (!Directory.Exists(folderPath))
