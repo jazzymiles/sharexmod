@@ -88,42 +88,21 @@ namespace ShareX
         {
             if (imageData != null)
             {
-                WizardAfterCaptureConfig configAfterCapture = new WizardAfterCaptureConfig
+                if (imageJob == TaskImageJob.None)
                 {
-                    AnnotateImage = Program.Settings.CaptureAnnotateImage,
-                    CopyImageToClipboard = Program.Settings.CaptureCopyImage,
-                    SaveImageToFile = Program.Settings.CaptureSaveImage,
-                    UploadImageToHost = Program.Settings.UploadImageToHost
-                };
+                    imageJob = Program.Settings.AfterCaptureTasks1;
+                }
 
                 if (Program.Settings.ShowAfterCaptureWizard)
                 {
-                    WindowAfterCapture dlg = new WindowAfterCapture(configAfterCapture);
+                    WindowAfterCapture dlg = new WindowAfterCapture(imageJob);
                     dlg.ShowDialog();
-                    configAfterCapture = dlg.Config;
+                    imageJob = dlg.Config;
                 }
 
-                if (configAfterCapture.AnnotateImage)
+                if (imageJob.HasFlag(TaskImageJob.AnnotateImage))
                 {
                     EditImage(ref imageData);
-                }
-
-                if (imageJob == TaskImageJob.None)
-                {
-                    if (configAfterCapture.CopyImageToClipboard)
-                    {
-                        imageJob |= TaskImageJob.CopyImageToClipboard;
-                    }
-
-                    if (configAfterCapture.SaveImageToFile)
-                    {
-                        imageJob |= TaskImageJob.SaveImageToFile;
-                    }
-
-                    if (configAfterCapture.UploadImageToHost)
-                    {
-                        imageJob |= TaskImageJob.UploadImageToHost;
-                    }
                 }
 
                 UploadManager.DoImageWork(imageData, imageJob);

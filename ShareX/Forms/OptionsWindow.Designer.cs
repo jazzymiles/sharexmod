@@ -63,15 +63,7 @@
             this.pgSettings = new System.Windows.Forms.PropertyGrid();
             this.tpCapture = new System.Windows.Forms.TabPage();
             this.panelCapture = new System.Windows.Forms.Panel();
-            this.gbFilenamingPatternImages = new System.Windows.Forms.GroupBox();
-            this.lblNameFormatPatternPreviewOther = new System.Windows.Forms.Label();
-            this.txtNameFormatPatternImages = new System.Windows.Forms.TextBox();
-            this.btnNameFormatPatternHelpImages = new System.Windows.Forms.Button();
             this.gbCaptureAfter = new System.Windows.Forms.GroupBox();
-            this.chkCaptureAnnotateImage = new System.Windows.Forms.CheckBox();
-            this.cbCaptureUploadImage = new System.Windows.Forms.CheckBox();
-            this.cbCaptureSaveImage = new System.Windows.Forms.CheckBox();
-            this.cbCaptureCopyImage = new System.Windows.Forms.CheckBox();
             this.cbCaptureShadow = new System.Windows.Forms.CheckBox();
             this.cbShowCursor = new System.Windows.Forms.CheckBox();
             this.cbCaptureTransparent = new System.Windows.Forms.CheckBox();
@@ -185,8 +177,12 @@
             this.panelFileNaming = new System.Windows.Forms.Panel();
             this.gbFilenamingPatternOthers = new System.Windows.Forms.GroupBox();
             this.txtNameFormatPatternOther = new System.Windows.Forms.TextBox();
+            this.lblNameFormatPatternPreviewOther = new System.Windows.Forms.Label();
             this.btnNameFormatPatternHelpOther = new System.Windows.Forms.Button();
+            this.gbFilenamingPatternImages = new System.Windows.Forms.GroupBox();
             this.lblNameFormatPatternPreviewImages = new System.Windows.Forms.Label();
+            this.txtNameFormatPatternImages = new System.Windows.Forms.TextBox();
+            this.btnNameFormatPatternHelpImages = new System.Windows.Forms.Button();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -196,8 +192,6 @@
             this.panelAdvanced.SuspendLayout();
             this.tpCapture.SuspendLayout();
             this.panelCapture.SuspendLayout();
-            this.gbFilenamingPatternImages.SuspendLayout();
-            this.gbCaptureAfter.SuspendLayout();
             this.tpShapes.SuspendLayout();
             this.panelShapes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudFixedShapeSizeHeight)).BeginInit();
@@ -240,6 +234,7 @@
             this.tpFileNaming.SuspendLayout();
             this.panelFileNaming.SuspendLayout();
             this.gbFilenamingPatternOthers.SuspendLayout();
+            this.gbFilenamingPatternImages.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpMain
@@ -459,7 +454,7 @@
             this.panelAdvanced.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAdvanced.Location = new System.Drawing.Point(0, 0);
             this.panelAdvanced.Name = "panelAdvanced";
-            this.panelAdvanced.Size = new System.Drawing.Size(543, 520);
+            this.panelAdvanced.Size = new System.Drawing.Size(543, 376);
             this.panelAdvanced.TabIndex = 0;
             // 
             // pgSettings
@@ -467,7 +462,7 @@
             this.pgSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgSettings.Location = new System.Drawing.Point(0, 0);
             this.pgSettings.Name = "pgSettings";
-            this.pgSettings.Size = new System.Drawing.Size(543, 520);
+            this.pgSettings.Size = new System.Drawing.Size(543, 376);
             this.pgSettings.TabIndex = 0;
             // 
             // tpCapture
@@ -494,101 +489,14 @@
             this.panelCapture.Size = new System.Drawing.Size(537, 370);
             this.panelCapture.TabIndex = 0;
             // 
-            // gbFilenamingPatternImages
-            // 
-            this.gbFilenamingPatternImages.Controls.Add(this.lblNameFormatPatternPreviewImages);
-            this.gbFilenamingPatternImages.Controls.Add(this.txtNameFormatPatternImages);
-            this.gbFilenamingPatternImages.Controls.Add(this.btnNameFormatPatternHelpImages);
-            this.gbFilenamingPatternImages.Location = new System.Drawing.Point(8, 8);
-            this.gbFilenamingPatternImages.Name = "gbFilenamingPatternImages";
-            this.gbFilenamingPatternImages.Size = new System.Drawing.Size(509, 80);
-            this.gbFilenamingPatternImages.TabIndex = 3;
-            this.gbFilenamingPatternImages.TabStop = false;
-            this.gbFilenamingPatternImages.Text = "File naming pattern for image files that do not already exist in the computer:";
-            // 
-            // lblNameFormatPatternPreviewOther
-            // 
-            this.lblNameFormatPatternPreviewOther.AutoSize = true;
-            this.lblNameFormatPatternPreviewOther.Location = new System.Drawing.Point(16, 56);
-            this.lblNameFormatPatternPreviewOther.Name = "lblNameFormatPatternPreviewOther";
-            this.lblNameFormatPatternPreviewOther.Size = new System.Drawing.Size(48, 13);
-            this.lblNameFormatPatternPreviewOther.TabIndex = 2;
-            this.lblNameFormatPatternPreviewOther.Text = "Preview:";
-            // 
-            // txtNameFormatPatternImages
-            // 
-            this.txtNameFormatPatternImages.Location = new System.Drawing.Point(16, 24);
-            this.txtNameFormatPatternImages.Name = "txtNameFormatPatternImages";
-            this.txtNameFormatPatternImages.Size = new System.Drawing.Size(416, 20);
-            this.txtNameFormatPatternImages.TabIndex = 0;
-            this.txtNameFormatPatternImages.TextChanged += new System.EventHandler(this.txtNameFormatPattern_TextChanged);
-            // 
-            // btnNameFormatPatternHelpImages
-            // 
-            this.btnNameFormatPatternHelpImages.Location = new System.Drawing.Point(440, 24);
-            this.btnNameFormatPatternHelpImages.Name = "btnNameFormatPatternHelpImages";
-            this.btnNameFormatPatternHelpImages.Size = new System.Drawing.Size(24, 23);
-            this.btnNameFormatPatternHelpImages.TabIndex = 1;
-            this.btnNameFormatPatternHelpImages.Text = "?";
-            this.btnNameFormatPatternHelpImages.UseVisualStyleBackColor = true;
-            this.btnNameFormatPatternHelpImages.Click += new System.EventHandler(this.btnNameFormatPatternHelp_Click);
-            // 
             // gbCaptureAfter
             // 
-            this.gbCaptureAfter.Controls.Add(this.chkCaptureAnnotateImage);
-            this.gbCaptureAfter.Controls.Add(this.cbCaptureUploadImage);
-            this.gbCaptureAfter.Controls.Add(this.cbCaptureSaveImage);
-            this.gbCaptureAfter.Controls.Add(this.cbCaptureCopyImage);
             this.gbCaptureAfter.Location = new System.Drawing.Point(11, 96);
             this.gbCaptureAfter.Name = "gbCaptureAfter";
-            this.gbCaptureAfter.Size = new System.Drawing.Size(517, 128);
-            this.gbCaptureAfter.TabIndex = 4;
+            this.gbCaptureAfter.Size = new System.Drawing.Size(501, 128);
+            this.gbCaptureAfter.TabIndex = 3;
             this.gbCaptureAfter.TabStop = false;
             this.gbCaptureAfter.Text = "After capture tasks";
-            // 
-            // chkCaptureAnnotateImage
-            // 
-            this.chkCaptureAnnotateImage.AutoSize = true;
-            this.chkCaptureAnnotateImage.Location = new System.Drawing.Point(16, 24);
-            this.chkCaptureAnnotateImage.Name = "chkCaptureAnnotateImage";
-            this.chkCaptureAnnotateImage.Size = new System.Drawing.Size(101, 17);
-            this.chkCaptureAnnotateImage.TabIndex = 0;
-            this.chkCaptureAnnotateImage.Text = "Annotate Image";
-            this.chkCaptureAnnotateImage.UseVisualStyleBackColor = true;
-            this.chkCaptureAnnotateImage.CheckedChanged += new System.EventHandler(this.chkCaptureAnnotateImage_CheckedChanged);
-            // 
-            // cbCaptureUploadImage
-            // 
-            this.cbCaptureUploadImage.AutoSize = true;
-            this.cbCaptureUploadImage.Location = new System.Drawing.Point(16, 96);
-            this.cbCaptureUploadImage.Name = "cbCaptureUploadImage";
-            this.cbCaptureUploadImage.Size = new System.Drawing.Size(126, 17);
-            this.cbCaptureUploadImage.TabIndex = 3;
-            this.cbCaptureUploadImage.Text = "Upload image to host";
-            this.cbCaptureUploadImage.UseVisualStyleBackColor = true;
-            this.cbCaptureUploadImage.CheckedChanged += new System.EventHandler(this.cbCaptureUploadImage_CheckedChanged);
-            // 
-            // cbCaptureSaveImage
-            // 
-            this.cbCaptureSaveImage.AutoSize = true;
-            this.cbCaptureSaveImage.Location = new System.Drawing.Point(16, 72);
-            this.cbCaptureSaveImage.Name = "cbCaptureSaveImage";
-            this.cbCaptureSaveImage.Size = new System.Drawing.Size(110, 17);
-            this.cbCaptureSaveImage.TabIndex = 2;
-            this.cbCaptureSaveImage.Text = "Save image to file";
-            this.cbCaptureSaveImage.UseVisualStyleBackColor = true;
-            this.cbCaptureSaveImage.CheckedChanged += new System.EventHandler(this.cbCaptureSaveImage_CheckedChanged);
-            // 
-            // cbCaptureCopyImage
-            // 
-            this.cbCaptureCopyImage.AutoSize = true;
-            this.cbCaptureCopyImage.Location = new System.Drawing.Point(16, 48);
-            this.cbCaptureCopyImage.Name = "cbCaptureCopyImage";
-            this.cbCaptureCopyImage.Size = new System.Drawing.Size(139, 17);
-            this.cbCaptureCopyImage.TabIndex = 1;
-            this.cbCaptureCopyImage.Text = "Copy image to clipboard\r\n";
-            this.cbCaptureCopyImage.UseVisualStyleBackColor = true;
-            this.cbCaptureCopyImage.CheckedChanged += new System.EventHandler(this.cbCaptureCopyImage_CheckedChanged);
             // 
             // cbCaptureShadow
             // 
@@ -1949,7 +1857,7 @@
             this.gbFilenamingPatternOthers.Location = new System.Drawing.Point(8, 104);
             this.gbFilenamingPatternOthers.Name = "gbFilenamingPatternOthers";
             this.gbFilenamingPatternOthers.Size = new System.Drawing.Size(509, 80);
-            this.gbFilenamingPatternOthers.TabIndex = 4;
+            this.gbFilenamingPatternOthers.TabIndex = 1;
             this.gbFilenamingPatternOthers.TabStop = false;
             this.gbFilenamingPatternOthers.Text = "File naming pattern for other files that do not already exist in the computer:";
             // 
@@ -1961,6 +1869,15 @@
             this.txtNameFormatPatternOther.TabIndex = 0;
             this.txtNameFormatPatternOther.TextChanged += new System.EventHandler(this.txtNameFormatPatternOther_TextChanged);
             // 
+            // lblNameFormatPatternPreviewOther
+            // 
+            this.lblNameFormatPatternPreviewOther.AutoSize = true;
+            this.lblNameFormatPatternPreviewOther.Location = new System.Drawing.Point(16, 56);
+            this.lblNameFormatPatternPreviewOther.Name = "lblNameFormatPatternPreviewOther";
+            this.lblNameFormatPatternPreviewOther.Size = new System.Drawing.Size(48, 13);
+            this.lblNameFormatPatternPreviewOther.TabIndex = 2;
+            this.lblNameFormatPatternPreviewOther.Text = "Preview:";
+            // 
             // btnNameFormatPatternHelpOther
             // 
             this.btnNameFormatPatternHelpOther.Location = new System.Drawing.Point(440, 24);
@@ -1971,14 +1888,44 @@
             this.btnNameFormatPatternHelpOther.UseVisualStyleBackColor = true;
             this.btnNameFormatPatternHelpOther.Click += new System.EventHandler(this.btnNameFormatPatternHelpOther_Click);
             // 
+            // gbFilenamingPatternImages
+            // 
+            this.gbFilenamingPatternImages.Controls.Add(this.lblNameFormatPatternPreviewImages);
+            this.gbFilenamingPatternImages.Controls.Add(this.txtNameFormatPatternImages);
+            this.gbFilenamingPatternImages.Controls.Add(this.btnNameFormatPatternHelpImages);
+            this.gbFilenamingPatternImages.Location = new System.Drawing.Point(8, 8);
+            this.gbFilenamingPatternImages.Name = "gbFilenamingPatternImages";
+            this.gbFilenamingPatternImages.Size = new System.Drawing.Size(509, 80);
+            this.gbFilenamingPatternImages.TabIndex = 0;
+            this.gbFilenamingPatternImages.TabStop = false;
+            this.gbFilenamingPatternImages.Text = "File naming pattern for image files that do not already exist in the computer:";
+            // 
             // lblNameFormatPatternPreviewImages
             // 
             this.lblNameFormatPatternPreviewImages.AutoSize = true;
             this.lblNameFormatPatternPreviewImages.Location = new System.Drawing.Point(16, 56);
             this.lblNameFormatPatternPreviewImages.Name = "lblNameFormatPatternPreviewImages";
             this.lblNameFormatPatternPreviewImages.Size = new System.Drawing.Size(48, 13);
-            this.lblNameFormatPatternPreviewImages.TabIndex = 3;
+            this.lblNameFormatPatternPreviewImages.TabIndex = 2;
             this.lblNameFormatPatternPreviewImages.Text = "Preview:";
+            // 
+            // txtNameFormatPatternImages
+            // 
+            this.txtNameFormatPatternImages.Location = new System.Drawing.Point(16, 24);
+            this.txtNameFormatPatternImages.Name = "txtNameFormatPatternImages";
+            this.txtNameFormatPatternImages.Size = new System.Drawing.Size(416, 20);
+            this.txtNameFormatPatternImages.TabIndex = 0;
+            this.txtNameFormatPatternImages.TextChanged += new System.EventHandler(this.txtNameFormatPattern_TextChanged);
+            // 
+            // btnNameFormatPatternHelpImages
+            // 
+            this.btnNameFormatPatternHelpImages.Location = new System.Drawing.Point(440, 24);
+            this.btnNameFormatPatternHelpImages.Name = "btnNameFormatPatternHelpImages";
+            this.btnNameFormatPatternHelpImages.Size = new System.Drawing.Size(24, 23);
+            this.btnNameFormatPatternHelpImages.TabIndex = 1;
+            this.btnNameFormatPatternHelpImages.Text = "?";
+            this.btnNameFormatPatternHelpImages.UseVisualStyleBackColor = true;
+            this.btnNameFormatPatternHelpImages.Click += new System.EventHandler(this.btnNameFormatPatternHelp_Click);
             // 
             // OptionsWindow
             // 
@@ -2004,10 +1951,6 @@
             this.tpCapture.ResumeLayout(false);
             this.panelCapture.ResumeLayout(false);
             this.panelCapture.PerformLayout();
-            this.gbFilenamingPatternImages.ResumeLayout(false);
-            this.gbFilenamingPatternImages.PerformLayout();
-            this.gbCaptureAfter.ResumeLayout(false);
-            this.gbCaptureAfter.PerformLayout();
             this.tpShapes.ResumeLayout(false);
             this.panelShapes.ResumeLayout(false);
             this.panelShapes.PerformLayout();
@@ -2064,6 +2007,8 @@
             this.panelFileNaming.ResumeLayout(false);
             this.gbFilenamingPatternOthers.ResumeLayout(false);
             this.gbFilenamingPatternOthers.PerformLayout();
+            this.gbFilenamingPatternImages.ResumeLayout(false);
+            this.gbFilenamingPatternImages.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2102,12 +2047,8 @@
         private System.Windows.Forms.TextBox txtSaveImageSubFolderPatternPreview;
         private System.Windows.Forms.Button btnBrowseScreenshotsDir;
         private System.Windows.Forms.TextBox txtScreenshotsPath;
-        private System.Windows.Forms.CheckBox chkCaptureAnnotateImage;
         private System.Windows.Forms.TextBox txtSaveImageSubFolderPattern;
         private System.Windows.Forms.Label lblSaveImageSubFolderPattern;
-        private System.Windows.Forms.CheckBox cbCaptureUploadImage;
-        private System.Windows.Forms.CheckBox cbCaptureSaveImage;
-        private System.Windows.Forms.CheckBox cbCaptureCopyImage;
         private System.Windows.Forms.CheckBox cbShapeForceWindowCapture;
         private System.Windows.Forms.CheckBox cbShapeIncludeControls;
         private System.Windows.Forms.Label lblFixedShapeSizeHeight;

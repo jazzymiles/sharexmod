@@ -195,7 +195,7 @@ namespace ShareX
                 capture.CaptureDetails.AddMetaData("source", "file");
 
                 var surface = new Greenshot.Drawing.Surface(capture);
-                var editor = new Greenshot.ImageEditorForm(surface, Program.Settings.CaptureSaveImage) { Icon = this.Icon };
+                var editor = new Greenshot.ImageEditorForm(surface, true) { Icon = this.Icon };
 
                 editor.SetImagePath(capture.CaptureDetails.Filename);
                 editor.Visible = false; // required before ShowDialog

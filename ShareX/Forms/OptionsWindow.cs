@@ -123,16 +123,15 @@ namespace ShareX.Forms
             cbBufferSize.SelectedIndex = Program.Settings.BufferSizePower.Between(0, MaxBufferSizePower);
 
             // Capture
+            LoadAfterCaptureTasksGui();
+
             cbShowCursor.Checked = Program.Settings.ShowCursor;
             cbCaptureTransparent.Checked = Program.Settings.CaptureTransparent;
             cbCaptureShadow.Enabled = Program.Settings.CaptureTransparent;
             cbCaptureShadow.Checked = Program.Settings.CaptureShadow;
-            chkCaptureAnnotateImage.Checked = Program.Settings.CaptureAnnotateImage;
-            cbCaptureCopyImage.Checked = Program.Settings.CaptureCopyImage;
-            cbCaptureSaveImage.Checked = Program.Settings.CaptureSaveImage;
+
             txtScreenshotsPath.Text = Program.ScreenshotsRootPath;
             txtSaveImageSubFolderPattern.Text = Program.Settings.SaveImageSubFolderPattern;
-            cbCaptureUploadImage.Checked = Program.Settings.UploadImageToHost;
 
             if (Program.Settings.SurfaceOptions == null) Program.Settings.SurfaceOptions = new SurfaceOptions();
             cbDrawBorder.Checked = Program.Settings.SurfaceOptions.DrawBorder;
@@ -195,6 +194,47 @@ namespace ShareX.Forms
 
             // Advanced
             pgSettings.SelectedObject = Program.Settings;
+        }
+
+        private void LoadAfterCaptureTasksGui()
+        {
+            var taskImageJobs = Enum.GetValues(typeof(TaskImageJob)).Cast<TaskImageJob>().Select(x => new
+            {
+                Description = x.GetDescription(),
+                Enum = x
+            });
+
+            int yGap = 20;
+
+            foreach (var job in taskImageJobs)
+            {
+                switch (job.Enum)
+                {
+                    case TaskImageJob.None:
+                        continue;
+                }
+
+                CheckBox chkAfterCaptureTask = new CheckBox();
+                chkAfterCaptureTask.Tag = job.Enum;
+                chkAfterCaptureTask.Text = job.Description;
+                chkAfterCaptureTask.AutoSize = true;
+                chkAfterCaptureTask.Location = new Point(16, yGap);
+                chkAfterCaptureTask.CheckedChanged += new EventHandler(chkAfterCaptureTask_CheckedChanged);
+                chkAfterCaptureTask.Checked = Program.Settings.AfterCaptureTasks1.HasFlag(job.Enum);
+                gbCaptureAfter.Controls.Add(chkAfterCaptureTask);
+                yGap += 24;
+            }
+
+            gbCaptureAfter.Height = yGap;
+        }
+
+        private void chkAfterCaptureTask_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox chkAfterCaptureTask = sender as CheckBox;
+            if (chkAfterCaptureTask.Checked)
+                Program.Settings.AfterCaptureTasks1 |= (TaskImageJob)chkAfterCaptureTask.Tag;
+            else
+                Program.Settings.AfterCaptureTasks1 &= ~(TaskImageJob)chkAfterCaptureTask.Tag;
         }
 
         private void BeforeClose()
@@ -265,6 +305,11 @@ namespace ShareX.Forms
             cbImageKeepAspectRatio.Enabled = aspectRatioEnabled;
         }
 
+        /// <summary>
+        /// Creates a menu with replacement variables
+        /// </summary>
+        /// <param name="textBox">TextBox where the replacement variables should be appended to</param>
+        /// <param name="ignoreList">List of replacement variables to be ignored</param>
         private void CreateCodesMenu(TextBox textBox, List<ReplacementVariables> ignoreList = null)
         {
             codesMenu = new ContextMenuStrip
@@ -397,25 +442,6 @@ namespace ShareX.Forms
         {
             Program.Settings.ShowCursor = cbShowCursor.Checked;
         }
-
-        #region After Capture
-
-        private void cbCaptureSaveImage_CheckedChanged(object sender, EventArgs e)
-        {
-            Program.Settings.CaptureSaveImage = cbCaptureSaveImage.Checked;
-        }
-
-        private void chkCaptureAnnotateImage_CheckedChanged(object sender, EventArgs e)
-        {
-            Program.Settings.CaptureAnnotateImage = chkCaptureAnnotateImage.Checked;
-        }
-
-        private void cbCaptureCopyImage_CheckedChanged(object sender, EventArgs e)
-        {
-            Program.Settings.CaptureCopyImage = cbCaptureCopyImage.Checked;
-        }
-
-        #endregion After Capture
 
         #region Capture / Shapes
 
@@ -633,11 +659,6 @@ namespace ShareX.Forms
         #endregion Image Processing
 
         #region Upload
-
-        private void cbCaptureUploadImage_CheckedChanged(object sender, EventArgs e)
-        {
-            Program.Settings.UploadImageToHost = cbCaptureUploadImage.Checked;
-        }
 
         private void cbBufferSize_SelectedIndexChanged(object sender, EventArgs e)
         {

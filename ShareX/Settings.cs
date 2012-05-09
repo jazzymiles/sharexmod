@@ -108,11 +108,8 @@ namespace ShareX
         public bool ShowCursor = false;
         public bool CaptureTransparent = true;
         public bool CaptureShadow = true;
-        public bool CaptureAnnotateImage = false;
-        public bool CaptureCopyImage = false;
-        public bool CaptureSaveImage = false;
+        public TaskImageJob AfterCaptureTasks1 = TaskImageJob.CopyImageToClipboard | TaskImageJob.UploadImageToHost;
         public string SaveImageSubFolderPattern = "%y-%mo";
-        public bool UploadImageToHost = true;
         public SurfaceOptions SurfaceOptions = new SurfaceOptions() { QuickCrop = true };
 
         // History
