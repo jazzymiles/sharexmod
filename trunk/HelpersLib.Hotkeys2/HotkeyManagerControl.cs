@@ -37,6 +37,16 @@ namespace HelpersLib.Hotkeys2
             InitializeComponent();
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.F2))
+            {
+                Configure();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         public void PrepareHotkeys(HotkeyManager hotkeyManager)
         {
             if (manager == null)
@@ -74,6 +84,11 @@ namespace HelpersLib.Hotkeys2
         }
 
         private void btnConfigure_Click(object sender, EventArgs e)
+        {
+            Configure();
+        }
+
+        private void Configure()
         {
             foreach (HotkeySelectionControl hksc in flpHotkeys.Controls)
             {

@@ -38,6 +38,17 @@ namespace HelpersLib.Hotkeys2
             Workflow.HotkeyConfig.Description = txtDescription.Text;
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.A))
+            {
+                ActivityAdd();
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private bool ValidateActivity(EActivity act_to_be_added, int index_to_new_act)
         {
             int index_to_capture = -1;
@@ -104,6 +115,11 @@ namespace HelpersLib.Hotkeys2
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
+        {
+            ActivityAdd();
+        }
+
+        private void ActivityAdd()
         {
             foreach (EActivity act in lbActivitiesAll.SelectedItems)
             {

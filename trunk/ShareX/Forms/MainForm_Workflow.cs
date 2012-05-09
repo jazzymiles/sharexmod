@@ -160,6 +160,9 @@ namespace ShareX
                     case EActivity.SaveToFileWithDialog:
                         tasksAfterCapture |= TaskImageJob.SaveImageToFileWithDialog;
                         break;
+                    case EActivity.Printer:
+                        tasksAfterCapture |= TaskImageJob.Print;
+                        break;
                     case EActivity.AfterCaptureTasks:
                         AfterCapture(idwf);
                         break;
