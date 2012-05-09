@@ -41,7 +41,7 @@ namespace ShareX
     {
         private delegate Image ScreenCaptureDelegate();
 
-        private new Image Capture(ScreenCaptureDelegate capture, bool autoHideForm = true)
+        private new ImageData Capture(ScreenCaptureDelegate capture, bool autoHideForm = true)
         {
             if (autoHideForm)
             {
@@ -49,16 +49,18 @@ namespace ShareX
                 Thread.Sleep(250);
             }
 
-            Image img = null;
+            ImageData imageData = null;
 
             try
             {
                 Screenshot.DrawCursor = Program.Settings.ShowCursor;
                 Screenshot.CaptureShadow = Program.Settings.CaptureShadow;
-                img = capture();
+
+                Image img = capture();
 
                 if (img != null && Program.Settings.PlaySoundAfterCapture)
                 {
+                    imageData = new ImageData(img, screenshot: true);
                     string soundPath = Path.Combine(Application.StartupPath, "Camera.wav");
 
                     if (File.Exists(soundPath))
@@ -69,7 +71,7 @@ namespace ShareX
             }
             catch (Exception ex)
             {
-                Log4netHelper.Log.Error(ex.ToString());
+                log.Error(ex.ToString());
             }
             finally
             {
@@ -79,12 +81,12 @@ namespace ShareX
                 }
             }
 
-            return img;
+            return imageData;
         }
 
-        private void AfterCapture(Image img)
+        private void AfterCapture(ImageData imageData, TaskImageJob imageJob = TaskImageJob.None)
         {
-            if (img != null)
+            if (imageData != null)
             {
                 WizardAfterCaptureConfig configAfterCapture = new WizardAfterCaptureConfig
                 {
@@ -101,38 +103,39 @@ namespace ShareX
                     configAfterCapture = dlg.Config;
                 }
 
-                TaskImageJob imageJob = TaskImageJob.None;
-
                 if (configAfterCapture.AnnotateImage)
                 {
-                    EditImage(ref img);
+                    EditImage(ref imageData);
                 }
 
-                if (configAfterCapture.CopyImageToClipboard)
+                if (imageJob == TaskImageJob.None)
                 {
-                    imageJob |= TaskImageJob.CopyImageToClipboard;
+                    if (configAfterCapture.CopyImageToClipboard)
+                    {
+                        imageJob |= TaskImageJob.CopyImageToClipboard;
+                    }
+
+                    if (configAfterCapture.SaveImageToFile)
+                    {
+                        imageJob |= TaskImageJob.SaveImageToFile;
+                    }
+
+                    if (configAfterCapture.UploadImageToHost)
+                    {
+                        imageJob |= TaskImageJob.UploadImageToHost;
+                    }
                 }
 
-                if (configAfterCapture.SaveImageToFile)
-                {
-                    imageJob |= TaskImageJob.SaveImageToFile;
-                }
-
-                if (configAfterCapture.UploadImageToHost)
-                {
-                    imageJob |= TaskImageJob.UploadImageToHost;
-                }
-
-                UploadManager.DoImageWork(img, imageJob);
+                UploadManager.DoImageWork(imageData, imageJob);
             }
         }
 
-        private Image CaptureScreen(bool autoHideForm = true)
+        private ImageData CaptureScreen(bool autoHideForm = true)
         {
             return Capture(Screenshot.CaptureFullscreen, autoHideForm);
         }
 
-        private Image CaptureActiveWindow(bool autoHideForm = true)
+        private ImageData CaptureActiveWindow(bool autoHideForm = true)
         {
             if (Program.Settings.CaptureTransparent)
             {
@@ -144,12 +147,12 @@ namespace ShareX
             }
         }
 
-        private Image CaptureActiveMonitor(bool autoHideForm = true)
+        private ImageData CaptureActiveMonitor(bool autoHideForm = true)
         {
             return Capture(Screenshot.CaptureActiveMonitor, autoHideForm);
         }
 
-        private Image CaptureWindow(IntPtr handle, bool autoHideForm = true)
+        private ImageData CaptureWindow(IntPtr handle, bool autoHideForm = true)
         {
             autoHideForm = autoHideForm && handle != this.Handle;
 
@@ -172,7 +175,7 @@ namespace ShareX
              }, autoHideForm);
         }
 
-        private Image CaptureRegion(Surface surface, bool autoHideForm = true)
+        private ImageData CaptureRegion(Surface surface, bool autoHideForm = true)
         {
             return Capture(() =>
             {
@@ -194,7 +197,7 @@ namespace ShareX
             }, autoHideForm);
         }
 
-        private Image WindowRectangleCapture(bool autoHideForm = true)
+        private ImageData WindowRectangleCapture(bool autoHideForm = true)
         {
             RectangleRegion rectangleRegion = new RectangleRegion();
             rectangleRegion.AreaManager.WindowCaptureMode = true;
@@ -226,7 +229,7 @@ namespace ShareX
                 }
                 catch (Exception e)
                 {
-                    Log4netHelper.Log.Error(e.ToString());
+                    log.Error(e.ToString());
                 }
 
                 tsi.Tag = window;

@@ -54,15 +54,12 @@ namespace ShareX
         public event TaskEventHandler UploadCompleted;
 
         public UploadInfo Info { get; private set; }
-
         public TaskStatus Status { get; private set; }
-
         public bool IsWorking { get { return Status == TaskStatus.Preparing || Status == TaskStatus.Uploading; } }
-
         public bool IsStopped { get; private set; }
 
         private Stream data;
-        private Image tempImage;
+        private ImageData imageData;
         private string tempText;
         private BackgroundWorker bw;
         private Uploader uploader;
@@ -99,12 +96,12 @@ namespace ShareX
         }
 
         // Image image -> MemoryStream data (in thread)
-        public static Task CreateImageUploaderTask(Image image, EDataType destination = EDataType.Default)
+        public static Task CreateImageUploaderTask(ImageData imageData, EDataType destination = EDataType.Default)
         {
             Task task = new Task(EDataType.Image, TaskJob.ImageUpload);
             if (destination != EDataType.Default) task.Info.UploadDestination = destination;
             task.Info.FileName = "Require image encoding...";
-            task.tempImage = image;
+            task.imageData = imageData;
             return task;
         }
 
@@ -232,29 +229,43 @@ namespace ShareX
 
         private void DoFormJob()
         {
-            if (Info.Job == TaskJob.ImageUpload && tempImage != null && Info.ImageJob.HasFlag(TaskImageJob.CopyImageToClipboard))
+            if (Info.Job == TaskJob.ImageUpload && imageData != null && Info.ImageJob.HasFlag(TaskImageJob.CopyImageToClipboard))
             {
-                Clipboard.SetImage(tempImage);
+                Clipboard.SetImage(imageData.Image);
             }
         }
 
         /// <summary>
-        /// Mod: Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
+        /// These jobs run after ImageData object has been prepared
+        /// </summary>
+        private void DoFormJobs2()
+        {
+            if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFileWithDialog))
+            {
+                FolderBrowserDialog dlg = new FolderBrowserDialog();
+                dlg.ShowNewFolderButton = true;
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    imageData.WriteToFile(dlg.SelectedPath);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Mod 01: Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
+        /// Mod 02: imageData disposes when Task disposes
         /// </summary>
         private void DoThreadJob()
         {
-            if (Info.Job == TaskJob.ImageUpload && tempImage != null && Info.ImageJob.HasFlagAny(TaskImageJob.UploadImageToHost, TaskImageJob.SaveImageToFile))
+            if (Info.Job == TaskJob.ImageUpload && imageData != null && Info.ImageJob.HasFlagAny(TaskImageJob.UploadImageToHost, TaskImageJob.SaveImageToFile))
             {
-                using (tempImage)
-                {
-                    ImageData imageData = TaskHelper.PrepareImageAndFilename(tempImage);
-                    data = imageData.ImageStream;
-                    Info.FileName = imageData.Filename;
+                imageData.PrepareImageAndFilename();
+                data = imageData.ImageStream;
+                Info.FileName = imageData.Filename;
 
-                    if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFile))
-                    {
-                        Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
-                    }
+                if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFile))
+                {
+                    Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
                 }
             }
             else if (Info.Job == TaskJob.TextUpload && !string.IsNullOrEmpty(tempText))
@@ -566,6 +577,8 @@ namespace ShareX
 
         private void OnUploadCompleted()
         {
+            DoFormJobs2();
+
             Status = TaskStatus.Completed;
 
             if (!IsStopped)
@@ -588,7 +601,7 @@ namespace ShareX
         public void Dispose()
         {
             if (data != null) data.Dispose();
-            if (tempImage != null) tempImage.Dispose();
+            if (imageData != null) imageData.Dispose();
             if (bw != null) bw.Dispose();
         }
     }
