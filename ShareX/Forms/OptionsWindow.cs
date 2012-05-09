@@ -67,11 +67,6 @@ namespace ShareX.Forms
             // Make General tab visible and nothing else
             tlpMain.Controls.RemoveAt(1);
             tlpMain.Controls.Add(panelGeneral, 1, 0);
-
-            for (int i = 0; i < tvMain.Nodes.Count; i++)
-            {
-                tvMain.NodeMouseClick += new TreeNodeMouseClickEventHandler(tvMain_NodeMouseClick);
-            }
         }
 
         private void FillTagsUsingName(TreeNodeCollection tnc)
@@ -86,10 +81,14 @@ namespace ShareX.Forms
             }
         }
 
-        private void tvMain_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void tvMain_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            TreeNode tvNode = e.Node;
-            Panel myPanel = Panels.ContainsKey(tvNode.Tag.ToString()) ? Panels[tvNode.Tag.ToString()] : new Panel();
+            ShowPanel(e.Node);
+        }
+
+        private void ShowPanel(TreeNode tn)
+        {
+            Panel myPanel = Panels.ContainsKey(tn.Tag.ToString()) ? Panels[tn.Tag.ToString()] : new Panel();
             if (tlpMain.Controls[1].Name != myPanel.Name)
             {
                 tlpMain.Controls.RemoveAt(1);
@@ -788,7 +787,7 @@ namespace ShareX.Forms
         {
             BeforeClose();
             UploadManager.UpdateProxySettings();
-            Program.Settings.SaveAsync();
+            Program.Settings.SaveAsync(Program.SettingsFilePath);
             FormsHelper.Main.ReloadConfig();
         }
 

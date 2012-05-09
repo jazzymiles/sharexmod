@@ -302,6 +302,7 @@
             treeNode13});
             this.tvMain.Size = new System.Drawing.Size(133, 402);
             this.tvMain.TabIndex = 0;
+            this.tvMain.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvMain_AfterSelect);
             // 
             // tcBase
             // 

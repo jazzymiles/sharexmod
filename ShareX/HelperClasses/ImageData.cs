@@ -24,6 +24,7 @@
 #endregion License Information (GPL v3)
 
 using System;
+using System.Drawing;
 using System.IO;
 using HelpersLib;
 
@@ -31,10 +32,132 @@ namespace ShareX.HelperClasses
 {
     public class ImageData : IDisposable
     {
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        public EImageFormat imageFormat = EImageFormat.PNG;
         public MemoryStream ImageStream { get; set; }
-        public string WindowText { get; set; }
+        public Image Image = null;
+        public string WindowText { get; private set; }
         public string Filename { get; set; }
         public string FilePath { get; private set; }
+
+        public ImageData(Image img, bool screenshot = false)
+        {
+            this.Image = img;
+            if (screenshot)
+                this.WindowText = NativeMethods.GetForegroundWindowText();
+            this.Filename = PrepareFilename();
+        }
+
+        private string PrepareFilename()
+        {
+            string ext = "png";
+
+            switch (this.imageFormat)
+            {
+                case EImageFormat.PNG:
+                    ext = "png";
+                    break;
+                case EImageFormat.JPEG:
+                    ext = "jpg";
+                    break;
+                case EImageFormat.GIF:
+                    ext = "gif";
+                    break;
+                case EImageFormat.BMP:
+                    ext = "bmp";
+                    break;
+                case EImageFormat.TIFF:
+                    ext = "tif";
+                    break;
+            }
+
+            string windowText = this.WindowText;
+            if (string.IsNullOrEmpty(windowText))
+                windowText = "Screenshot";
+            int fnweLenMax = Program.Settings.MaxFilenameLength - ext.Length - 1;
+            int wtLenMax = fnweLenMax - 20;
+
+            // Truncate window text
+            if (wtLenMax > 0 && windowText.Length > wtLenMax)
+                windowText = windowText.Substring(0, wtLenMax);
+
+            NameParser parser = new NameParser { Picture = this.Image, WindowText = windowText };
+
+            string fnwe = parser.Convert(Program.Settings.NameFormatPattern);
+            string fn = string.Format("{0}.{1}", fnwe, ext);
+
+            // Truncate file name
+            if (fnweLenMax > 0 && fnwe.Length > fnweLenMax)
+                fn = string.Format("{0}.{1}", fnwe.Substring(0, fnweLenMax), ext);
+
+            return fn;
+        }
+
+        private MemoryStream PrepareImage(Image img, out EImageFormat imageFormat)
+        {
+            if (Program.Settings.ImageAutoResize)
+            {
+                img = ResizeImage(img, Program.Settings.ImageScaleType);
+            }
+
+            MemoryStream stream = img.SaveImage(Program.Settings.ImageFormat);
+
+            int sizeLimit = Program.Settings.ImageSizeLimit * 1000;
+            if (Program.Settings.ImageFormat != Program.Settings.ImageFormat2 && sizeLimit > 0 && stream.Length > sizeLimit)
+            {
+                stream = img.SaveImage(Program.Settings.ImageFormat2);
+                imageFormat = Program.Settings.ImageFormat2;
+            }
+            else
+            {
+                imageFormat = Program.Settings.ImageFormat;
+            }
+
+            stream.Position = 0;
+
+            return stream;
+        }
+
+        private Image ResizeImage(Image img, ImageScaleType scaleType)
+        {
+            float width = 0, height = 0;
+
+            switch (scaleType)
+            {
+                case ImageScaleType.Percentage:
+                    width = img.Width * (Program.Settings.ImageScalePercentageWidth / 100f);
+                    height = img.Height * (Program.Settings.ImageScalePercentageHeight / 100f);
+                    break;
+                case ImageScaleType.Width:
+                    width = Program.Settings.ImageScaleToWidth;
+                    height = Program.Settings.ImageKeepAspectRatio ? img.Height * (width / img.Width) : img.Height;
+                    break;
+                case ImageScaleType.Height:
+                    height = Program.Settings.ImageScaleToHeight;
+                    width = Program.Settings.ImageKeepAspectRatio ? img.Width * (height / img.Height) : img.Width;
+                    break;
+                case ImageScaleType.Specific:
+                    width = Program.Settings.ImageScaleSpecificWidth;
+                    height = Program.Settings.ImageScaleSpecificHeight;
+                    break;
+            }
+
+            if (width > 0 && height > 0)
+            {
+                return CaptureHelpers.ResizeImage(img, (int)width, (int)height, Program.Settings.ImageUseSmoothScaling);
+            }
+
+            return img;
+        }
+
+        public void PrepareImageAndFilename()
+        {
+            if (Image != null)
+                log.DebugFormat("Preparing image {0}x{1} and filename", Image.Width, Image.Height);
+
+            this.ImageStream = PrepareImage(this.Image, out imageFormat);
+            this.Filename = PrepareFilename();
+        }
 
         public string WriteToFile(string folderPath)
         {
@@ -56,6 +179,7 @@ namespace ShareX.HelperClasses
         public void Dispose()
         {
             ImageStream.Dispose();
+            Image.Dispose();
         }
     }
 }

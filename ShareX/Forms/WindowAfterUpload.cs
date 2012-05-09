@@ -14,6 +14,7 @@ namespace ShareX
 {
     public partial class WindowAfterUpload : Form
     {
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private UploadInfo mUploadInfo { get; set; }
 
         public WindowAfterUpload(UploadInfo info)
@@ -24,6 +25,7 @@ namespace ShareX
 
             pbPreview.LoadingImage = ShareX.Properties.Resources.Loading;
             pbPreview.LoadImage(info.FilePath, info.Result.URL);
+            log.DebugFormat("WindowAfterUpload Filepath: {0}", info.FilePath);
 
             this.Text = File.Exists(info.FilePath) ? info.FilePath : info.FileName;
 

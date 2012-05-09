@@ -94,7 +94,7 @@ namespace ShareX
         public void DoWork(string tag, bool autoHideForm = true)
         {
             Workflow wf = Program.Settings.Workflows1.FirstOrDefault(x => x.HotkeyConfig.Tag == tag);
-            Image img_wf = null;
+            ImageData idwf = null;
             string fpImg = string.Empty;
 
             if (wf == null)
@@ -102,6 +102,8 @@ namespace ShareX
                 log.Error("Workflow cannot be found!");
                 return;
             }
+
+            TaskImageJob tasksAfterCapture = TaskImageJob.None;
 
             foreach (EActivity act in wf.Activities)
             {
@@ -114,73 +116,68 @@ namespace ShareX
                         UploadManager.UploadFile();
                         break;
                     case EActivity.CaptureScreen:
-                        img_wf = CaptureScreen(autoHideForm);
+                        idwf = CaptureScreen(autoHideForm);
                         break;
                     case EActivity.CaptureActiveWindow:
-                        img_wf = CaptureActiveWindow(autoHideForm);
+                        idwf = CaptureActiveWindow(autoHideForm);
                         break;
                     case EActivity.CaptureRectangleRegion:
-                        img_wf = CaptureRegion(new RectangleRegion(), autoHideForm);
+                        idwf = CaptureRegion(new RectangleRegion(), autoHideForm);
                         break;
                     case EActivity.CaptureActiveMonitor:
-                        img_wf = CaptureActiveMonitor(autoHideForm);
+                        idwf = CaptureActiveMonitor(autoHideForm);
                         break;
                     case EActivity.CaptureWindowRectangle:
-                        img_wf = WindowRectangleCapture(autoHideForm);
+                        idwf = WindowRectangleCapture(autoHideForm);
                         break;
                     case EActivity.CaptureRoundedRectangleRegion:
-                        img_wf = CaptureRegion(new RoundedRectangleRegion(), autoHideForm);
+                        idwf = CaptureRegion(new RoundedRectangleRegion(), autoHideForm);
                         break;
                     case EActivity.CaptureEllipseRegion:
-                        img_wf = CaptureRegion(new EllipseRegion(), autoHideForm);
+                        idwf = CaptureRegion(new EllipseRegion(), autoHideForm);
                         break;
                     case EActivity.CaptureTriangleRegion:
-                        img_wf = CaptureRegion(new TriangleRegion(), autoHideForm);
+                        idwf = CaptureRegion(new TriangleRegion(), autoHideForm);
                         break;
                     case EActivity.CaptureDiamondRegion:
-                        img_wf = CaptureRegion(new DiamondRegion(), autoHideForm);
+                        idwf = CaptureRegion(new DiamondRegion(), autoHideForm);
                         break;
                     case EActivity.CapturePolygonRegion:
-                        img_wf = CaptureRegion(new PolygonRegion(), autoHideForm);
+                        idwf = CaptureRegion(new PolygonRegion(), autoHideForm);
                         break;
                     case EActivity.CaptureFreeHandRegion:
-                        img_wf = CaptureRegion(new FreeHandRegion(), autoHideForm);
+                        idwf = CaptureRegion(new FreeHandRegion(), autoHideForm);
                         break;
                     case EActivity.ClipboardCopyImage:
-                        CopyMultiFormatBitmapToClipboard((Image)img_wf.Clone());
+                        tasksAfterCapture |= TaskImageJob.CopyImageToClipboard;
                         break;
                     case EActivity.ImageAnnotate:
-                        EditImage(ref img_wf);
+                        EditImage(ref idwf);
                         break;
                     case EActivity.SaveToFile:
-                        fpImg = SaveImageToFile(img_wf);
+                        tasksAfterCapture |= TaskImageJob.SaveImageToFile;
                         break;
                     case EActivity.SaveToFileWithDialog:
-                        SaveImageToFileWithDialog((Image)img_wf.Clone());
+                        tasksAfterCapture |= TaskImageJob.SaveImageToFileWithDialog;
                         break;
                     case EActivity.AfterCaptureTasks:
-                        AfterCapture(img_wf);
+                        AfterCapture(idwf);
                         break;
                     case EActivity.UploadToRemoteHost:
-                        if (File.Exists(fpImg))
-                        {
-                            ImageData imageData = TaskHelper.PrepareImageAndFilename(img_wf);
-                            UploadManager.UploadImageStream(imageData.ImageStream, fpImg);
-                        }
-                        else
-                        {
-                            UploadManager.UploadImage(img_wf);
-                        }
+                        tasksAfterCapture |= TaskImageJob.UploadImageToHost;
                         break;
                     default:
                         throw new Exception(string.Format("{0} is not yet implemented.", act));
                 }
             }
+
+            if (tasksAfterCapture != TaskImageJob.None)
+                AfterCapture(idwf, tasksAfterCapture);
         }
 
-        private void EditImage(ref Image img_gse)
+        private void EditImage(ref ImageData imageData_gse)
         {
-            if (img_gse != null)
+            if (imageData_gse != null)
             {
                 if (!Greenshot.IniFile.IniConfig.IsInited)
                     Greenshot.IniFile.IniConfig.Init();
@@ -190,9 +187,8 @@ namespace ShareX
                 conf.OutputFilePath = Program.ScreenshotsPath;
 
                 Greenshot.Plugin.ICapture capture = new GreenshotPlugin.Core.Capture();
-                capture.Image = img_gse;
-                ImageData imageData = TaskHelper.PrepareImageAndFilename(img_gse);
-                capture.CaptureDetails.Filename = Path.Combine(Program.ScreenshotsPath, imageData.Filename);
+                capture.Image = imageData_gse.Image;
+                capture.CaptureDetails.Filename = Path.Combine(Program.ScreenshotsPath, imageData_gse.Filename);
                 capture.CaptureDetails.Title =
                     Path.GetFileNameWithoutExtension(capture.CaptureDetails.Filename);
                 capture.CaptureDetails.AddMetaData("file", capture.CaptureDetails.Filename);
@@ -205,29 +201,7 @@ namespace ShareX
                 editor.Visible = false; // required before ShowDialog
                 editor.ShowDialog();
 
-                img_gse = editor.GetImageForExport();
-            }
-        }
-
-        private string SaveImageToFile(Image img_file_save_auto)
-        {
-            if (img_file_save_auto != null)
-            {
-                using (ImageData imageData = TaskHelper.PrepareImageAndFilename(img_file_save_auto))
-                {
-                    return imageData.WriteToFile(Program.ScreenshotsPath);
-                }
-            }
-            return string.Empty;
-        }
-
-        private void SaveImageToFileWithDialog(Image img)
-        {
-            FolderBrowserDialog dlg = new FolderBrowserDialog();
-            dlg.ShowNewFolderButton = true;
-            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                SaveImageToFile(img);
+                imageData_gse.Image = editor.GetImageForExport();
             }
         }
 

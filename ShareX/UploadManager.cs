@@ -34,6 +34,7 @@ using System.Media;
 using System.Windows.Forms;
 using HelpersLib;
 using HistoryLib;
+using ShareX.HelperClasses;
 using ShareX.Properties;
 using UploadersLib;
 using UploadersLib.HelperClasses;
@@ -192,15 +193,20 @@ namespace ShareX
 
         public static void UploadImage(Image img)
         {
+            DoImageWork(new ImageData(img), TaskImageJob.UploadImageToHost);
+        }
+
+        public static void UploadImage(ImageData img)
+        {
             DoImageWork(img, TaskImageJob.UploadImageToHost);
         }
 
-        public static void DoImageWork(Image img, TaskImageJob imageJob)
+        public static void DoImageWork(ImageData imageData, TaskImageJob imageJob)
         {
-            if (img != null)
+            if (imageData != null)
             {
                 EDataType destination = ImageUploader == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
-                Task task = Task.CreateImageUploaderTask(img, destination);
+                Task task = Task.CreateImageUploaderTask(imageData, destination);
                 task.Info.ImageJob = imageJob;
                 StartUpload(task);
             }
@@ -295,7 +301,7 @@ namespace ShareX
 
         private static void ChangeListViewItemStatus(UploadInfo info)
         {
-            if (ListViewControl != null)
+            if (ListViewControl != null && info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
             {
                 ListViewItem lvi = ListViewControl.Items[info.ID];
                 lvi.SubItems[1].Text = info.Status;
@@ -304,7 +310,7 @@ namespace ShareX
 
         private static void CreateListViewItem(UploadInfo info)
         {
-            if (ListViewControl != null)
+            if (ListViewControl != null && info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
             {
                 log.InfoFormat("Upload in queue. ID: {0}, Job: {1}, Type: {2}, Host: {3}", info.ID, info.Job, info.UploadDestination, info.UploaderHost);
 
@@ -369,7 +375,7 @@ namespace ShareX
         {
             try
             {
-                if (ListViewControl != null && info != null && info.Result != null)
+                if (ListViewControl != null && info != null && info.Result != null && info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
                 {
                     ListViewItem lvi = ListViewControl.Items[info.ID];
                     lvi.Tag = info.Result;
@@ -386,7 +392,7 @@ namespace ShareX
                     }
                     else
                     {
-                        log.InfoFormat("Upload completed. ID: {0}, Filename: {1}, URL: {2}, Duration: {3}ms", info.ID, info.FileName,
+                        log.InfoFormat("Upload completed. ID: {0}, Filename: {1}, URL: {2}, Duration: {3} ms", info.ID, info.FileName,
                             info.Result.URL, (int)info.UploadDuration.TotalMilliseconds);
 
                         lvi.SubItems[1].Text = info.Status;
