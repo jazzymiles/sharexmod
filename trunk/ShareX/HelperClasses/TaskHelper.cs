@@ -124,6 +124,8 @@ namespace ShareX.HelperClasses
             }
 
             string windowText = NativeMethods.GetForegroundWindowText();
+            if (string.IsNullOrEmpty(windowText))
+                windowText = "Screenshot";
             int fnweLenMax = Program.Settings.MaxFilenameLength - ext.Length - 1;
             int wtLenMax = fnweLenMax - 20;
 

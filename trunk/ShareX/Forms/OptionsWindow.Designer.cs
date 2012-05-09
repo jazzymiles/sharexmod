@@ -35,15 +35,16 @@
             System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Capture", new System.Windows.Forms.TreeNode[] {
             treeNode3,
             treeNode4});
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Quality");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Resize");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Image Processing", new System.Windows.Forms.TreeNode[] {
-            treeNode6,
-            treeNode7});
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Upload");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Paths");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Proxy");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Advanced");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("File Naming");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Quality");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Resize");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Image Processing", new System.Windows.Forms.TreeNode[] {
+            treeNode7,
+            treeNode8});
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Upload");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Paths");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Proxy");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Advanced");
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tvMain = new System.Windows.Forms.TreeView();
             this.tcBase = new System.Windows.Forms.TabControl();
@@ -62,10 +63,10 @@
             this.pgSettings = new System.Windows.Forms.PropertyGrid();
             this.tpCapture = new System.Windows.Forms.TabPage();
             this.panelCapture = new System.Windows.Forms.Panel();
-            this.gbFilenamingPattern = new System.Windows.Forms.GroupBox();
-            this.lblNameFormatPatternPreview = new System.Windows.Forms.Label();
-            this.txtNameFormatPattern = new System.Windows.Forms.TextBox();
-            this.btnNameFormatPatternHelp = new System.Windows.Forms.Button();
+            this.gbFilenamingPatternImages = new System.Windows.Forms.GroupBox();
+            this.lblNameFormatPatternPreviewOther = new System.Windows.Forms.Label();
+            this.txtNameFormatPatternImages = new System.Windows.Forms.TextBox();
+            this.btnNameFormatPatternHelpImages = new System.Windows.Forms.Button();
             this.gbCaptureAfter = new System.Windows.Forms.GroupBox();
             this.chkCaptureAnnotateImage = new System.Windows.Forms.CheckBox();
             this.cbCaptureUploadImage = new System.Windows.Forms.CheckBox();
@@ -180,6 +181,12 @@
             this.panelDropboxSync = new System.Windows.Forms.Panel();
             this.btnDropboxSyncExport = new System.Windows.Forms.Button();
             this.btnDropboxSyncImport = new System.Windows.Forms.Button();
+            this.tpFileNaming = new System.Windows.Forms.TabPage();
+            this.panelFileNaming = new System.Windows.Forms.Panel();
+            this.gbFilenamingPatternOthers = new System.Windows.Forms.GroupBox();
+            this.txtNameFormatPatternOther = new System.Windows.Forms.TextBox();
+            this.btnNameFormatPatternHelpOther = new System.Windows.Forms.Button();
+            this.lblNameFormatPatternPreviewImages = new System.Windows.Forms.Label();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -189,7 +196,7 @@
             this.panelAdvanced.SuspendLayout();
             this.tpCapture.SuspendLayout();
             this.panelCapture.SuspendLayout();
-            this.gbFilenamingPattern.SuspendLayout();
+            this.gbFilenamingPatternImages.SuspendLayout();
             this.gbCaptureAfter.SuspendLayout();
             this.tpShapes.SuspendLayout();
             this.panelShapes.SuspendLayout();
@@ -230,6 +237,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudHistoryMaxItemCount)).BeginInit();
             this.tpDropboxSync.SuspendLayout();
             this.panelDropboxSync.SuspendLayout();
+            this.tpFileNaming.SuspendLayout();
+            this.panelFileNaming.SuspendLayout();
+            this.gbFilenamingPatternOthers.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpMain
@@ -264,29 +274,32 @@
             treeNode5.Name = "tnCapture";
             treeNode5.Tag = "panelCapture";
             treeNode5.Text = "Capture";
-            treeNode6.Name = "tnImageQuality";
-            treeNode6.Text = "Quality";
-            treeNode7.Name = "tnImageResize";
-            treeNode7.Text = "Resize";
-            treeNode8.Name = "tnImage";
-            treeNode8.Text = "Image Processing";
-            treeNode9.Name = "tnUpload";
-            treeNode9.Text = "Upload";
-            treeNode10.Name = "tnPaths";
-            treeNode10.Text = "Paths";
-            treeNode11.Name = "tnProxy";
-            treeNode11.Text = "Proxy";
-            treeNode12.Name = "tnAdvanced";
-            treeNode12.Text = "Advanced";
+            treeNode6.Name = "tnFileNaming";
+            treeNode6.Text = "File Naming";
+            treeNode7.Name = "tnImageQuality";
+            treeNode7.Text = "Quality";
+            treeNode8.Name = "tnImageResize";
+            treeNode8.Text = "Resize";
+            treeNode9.Name = "tnImage";
+            treeNode9.Text = "Image Processing";
+            treeNode10.Name = "tnUpload";
+            treeNode10.Text = "Upload";
+            treeNode11.Name = "tnPaths";
+            treeNode11.Text = "Paths";
+            treeNode12.Name = "tnProxy";
+            treeNode12.Text = "Proxy";
+            treeNode13.Name = "tnAdvanced";
+            treeNode13.Text = "Advanced";
             this.tvMain.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
             treeNode5,
-            treeNode8,
+            treeNode6,
             treeNode9,
             treeNode10,
             treeNode11,
-            treeNode12});
+            treeNode12,
+            treeNode13});
             this.tvMain.Size = new System.Drawing.Size(133, 402);
             this.tvMain.TabIndex = 0;
             // 
@@ -304,6 +317,7 @@
             this.tcBase.Controls.Add(this.tpImageQuality2);
             this.tcBase.Controls.Add(this.tpPaths);
             this.tcBase.Controls.Add(this.tpDropboxSync);
+            this.tcBase.Controls.Add(this.tpFileNaming);
             this.tcBase.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcBase.Location = new System.Drawing.Point(142, 3);
             this.tcBase.Name = "tcBase";
@@ -469,7 +483,6 @@
             // panelCapture
             // 
             this.panelCapture.BackColor = System.Drawing.SystemColors.Control;
-            this.panelCapture.Controls.Add(this.gbFilenamingPattern);
             this.panelCapture.Controls.Add(this.gbCaptureAfter);
             this.panelCapture.Controls.Add(this.cbCaptureShadow);
             this.panelCapture.Controls.Add(this.cbShowCursor);
@@ -480,44 +493,44 @@
             this.panelCapture.Size = new System.Drawing.Size(537, 370);
             this.panelCapture.TabIndex = 0;
             // 
-            // gbFilenamingPattern
+            // gbFilenamingPatternImages
             // 
-            this.gbFilenamingPattern.Controls.Add(this.lblNameFormatPatternPreview);
-            this.gbFilenamingPattern.Controls.Add(this.txtNameFormatPattern);
-            this.gbFilenamingPattern.Controls.Add(this.btnNameFormatPatternHelp);
-            this.gbFilenamingPattern.Location = new System.Drawing.Point(11, 100);
-            this.gbFilenamingPattern.Name = "gbFilenamingPattern";
-            this.gbFilenamingPattern.Size = new System.Drawing.Size(517, 96);
-            this.gbFilenamingPattern.TabIndex = 3;
-            this.gbFilenamingPattern.TabStop = false;
-            this.gbFilenamingPattern.Text = "File naming pattern for files that do not already exist in the computer:";
+            this.gbFilenamingPatternImages.Controls.Add(this.lblNameFormatPatternPreviewImages);
+            this.gbFilenamingPatternImages.Controls.Add(this.txtNameFormatPatternImages);
+            this.gbFilenamingPatternImages.Controls.Add(this.btnNameFormatPatternHelpImages);
+            this.gbFilenamingPatternImages.Location = new System.Drawing.Point(8, 8);
+            this.gbFilenamingPatternImages.Name = "gbFilenamingPatternImages";
+            this.gbFilenamingPatternImages.Size = new System.Drawing.Size(509, 80);
+            this.gbFilenamingPatternImages.TabIndex = 3;
+            this.gbFilenamingPatternImages.TabStop = false;
+            this.gbFilenamingPatternImages.Text = "File naming pattern for image files that do not already exist in the computer:";
             // 
-            // lblNameFormatPatternPreview
+            // lblNameFormatPatternPreviewOther
             // 
-            this.lblNameFormatPatternPreview.AutoSize = true;
-            this.lblNameFormatPatternPreview.Location = new System.Drawing.Point(16, 56);
-            this.lblNameFormatPatternPreview.Name = "lblNameFormatPatternPreview";
-            this.lblNameFormatPatternPreview.Size = new System.Drawing.Size(48, 13);
-            this.lblNameFormatPatternPreview.TabIndex = 2;
-            this.lblNameFormatPatternPreview.Text = "Preview:";
+            this.lblNameFormatPatternPreviewOther.AutoSize = true;
+            this.lblNameFormatPatternPreviewOther.Location = new System.Drawing.Point(16, 56);
+            this.lblNameFormatPatternPreviewOther.Name = "lblNameFormatPatternPreviewOther";
+            this.lblNameFormatPatternPreviewOther.Size = new System.Drawing.Size(48, 13);
+            this.lblNameFormatPatternPreviewOther.TabIndex = 2;
+            this.lblNameFormatPatternPreviewOther.Text = "Preview:";
             // 
-            // txtNameFormatPattern
+            // txtNameFormatPatternImages
             // 
-            this.txtNameFormatPattern.Location = new System.Drawing.Point(16, 24);
-            this.txtNameFormatPattern.Name = "txtNameFormatPattern";
-            this.txtNameFormatPattern.Size = new System.Drawing.Size(416, 20);
-            this.txtNameFormatPattern.TabIndex = 0;
-            this.txtNameFormatPattern.TextChanged += new System.EventHandler(this.txtNameFormatPattern_TextChanged);
+            this.txtNameFormatPatternImages.Location = new System.Drawing.Point(16, 24);
+            this.txtNameFormatPatternImages.Name = "txtNameFormatPatternImages";
+            this.txtNameFormatPatternImages.Size = new System.Drawing.Size(416, 20);
+            this.txtNameFormatPatternImages.TabIndex = 0;
+            this.txtNameFormatPatternImages.TextChanged += new System.EventHandler(this.txtNameFormatPattern_TextChanged);
             // 
-            // btnNameFormatPatternHelp
+            // btnNameFormatPatternHelpImages
             // 
-            this.btnNameFormatPatternHelp.Location = new System.Drawing.Point(440, 24);
-            this.btnNameFormatPatternHelp.Name = "btnNameFormatPatternHelp";
-            this.btnNameFormatPatternHelp.Size = new System.Drawing.Size(24, 23);
-            this.btnNameFormatPatternHelp.TabIndex = 1;
-            this.btnNameFormatPatternHelp.Text = "?";
-            this.btnNameFormatPatternHelp.UseVisualStyleBackColor = true;
-            this.btnNameFormatPatternHelp.Click += new System.EventHandler(this.btnNameFormatPatternHelp_Click);
+            this.btnNameFormatPatternHelpImages.Location = new System.Drawing.Point(440, 24);
+            this.btnNameFormatPatternHelpImages.Name = "btnNameFormatPatternHelpImages";
+            this.btnNameFormatPatternHelpImages.Size = new System.Drawing.Size(24, 23);
+            this.btnNameFormatPatternHelpImages.TabIndex = 1;
+            this.btnNameFormatPatternHelpImages.Text = "?";
+            this.btnNameFormatPatternHelpImages.UseVisualStyleBackColor = true;
+            this.btnNameFormatPatternHelpImages.Click += new System.EventHandler(this.btnNameFormatPatternHelp_Click);
             // 
             // gbCaptureAfter
             // 
@@ -525,7 +538,7 @@
             this.gbCaptureAfter.Controls.Add(this.cbCaptureUploadImage);
             this.gbCaptureAfter.Controls.Add(this.cbCaptureSaveImage);
             this.gbCaptureAfter.Controls.Add(this.cbCaptureCopyImage);
-            this.gbCaptureAfter.Location = new System.Drawing.Point(11, 204);
+            this.gbCaptureAfter.Location = new System.Drawing.Point(11, 96);
             this.gbCaptureAfter.Name = "gbCaptureAfter";
             this.gbCaptureAfter.Size = new System.Drawing.Size(517, 128);
             this.gbCaptureAfter.TabIndex = 4;
@@ -788,13 +801,13 @@
             this.panelProxy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelProxy.Location = new System.Drawing.Point(3, 3);
             this.panelProxy.Name = "panelProxy";
-            this.panelProxy.Size = new System.Drawing.Size(537, 514);
+            this.panelProxy.Size = new System.Drawing.Size(537, 370);
             this.panelProxy.TabIndex = 0;
             // 
             // btnAutofillProxy
             // 
             this.btnAutofillProxy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAutofillProxy.Location = new System.Drawing.Point(452, 478);
+            this.btnAutofillProxy.Location = new System.Drawing.Point(452, 334);
             this.btnAutofillProxy.Name = "btnAutofillProxy";
             this.btnAutofillProxy.Size = new System.Drawing.Size(75, 23);
             this.btnAutofillProxy.TabIndex = 1;
@@ -808,7 +821,7 @@
             this.pgProxy.Location = new System.Drawing.Point(0, 0);
             this.pgProxy.Name = "pgProxy";
             this.pgProxy.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.pgProxy.Size = new System.Drawing.Size(537, 514);
+            this.pgProxy.Size = new System.Drawing.Size(537, 370);
             this.pgProxy.TabIndex = 0;
             this.pgProxy.ToolbarVisible = false;
             // 
@@ -881,7 +894,7 @@
             this.panelUpload.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelUpload.Location = new System.Drawing.Point(3, 3);
             this.panelUpload.Name = "panelUpload";
-            this.panelUpload.Size = new System.Drawing.Size(537, 514);
+            this.panelUpload.Size = new System.Drawing.Size(537, 370);
             this.panelUpload.TabIndex = 0;
             // 
             // gbAfterUpload
@@ -999,7 +1012,7 @@
             this.panelHotkeys.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelHotkeys.Location = new System.Drawing.Point(3, 3);
             this.panelHotkeys.Name = "panelHotkeys";
-            this.panelHotkeys.Size = new System.Drawing.Size(537, 514);
+            this.panelHotkeys.Size = new System.Drawing.Size(537, 370);
             this.panelHotkeys.TabIndex = 0;
             // 
             // hmHotkeys
@@ -1007,7 +1020,7 @@
             this.hmHotkeys.Dock = System.Windows.Forms.DockStyle.Fill;
             this.hmHotkeys.Location = new System.Drawing.Point(0, 0);
             this.hmHotkeys.Name = "hmHotkeys";
-            this.hmHotkeys.Size = new System.Drawing.Size(537, 514);
+            this.hmHotkeys.Size = new System.Drawing.Size(537, 370);
             this.hmHotkeys.TabIndex = 0;
             // 
             // tpImageResize
@@ -1030,7 +1043,7 @@
             this.panelImageResize.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelImageResize.Location = new System.Drawing.Point(3, 3);
             this.panelImageResize.Name = "panelImageResize";
-            this.panelImageResize.Size = new System.Drawing.Size(537, 514);
+            this.panelImageResize.Size = new System.Drawing.Size(537, 370);
             this.panelImageResize.TabIndex = 0;
             // 
             // cbImageUseSmoothScaling
@@ -1405,7 +1418,7 @@
             this.panelImageQuality.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelImageQuality.Location = new System.Drawing.Point(3, 3);
             this.panelImageQuality.Name = "panelImageQuality";
-            this.panelImageQuality.Size = new System.Drawing.Size(537, 514);
+            this.panelImageQuality.Size = new System.Drawing.Size(537, 370);
             this.panelImageQuality.TabIndex = 0;
             // 
             // tcQuality
@@ -1607,7 +1620,7 @@
             this.panelPaths.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelPaths.Location = new System.Drawing.Point(3, 3);
             this.panelPaths.Name = "panelPaths";
-            this.panelPaths.Size = new System.Drawing.Size(537, 514);
+            this.panelPaths.Size = new System.Drawing.Size(537, 370);
             this.panelPaths.TabIndex = 0;
             // 
             // gbPathRoot
@@ -1618,7 +1631,7 @@
             this.gbPathRoot.Controls.Add(this.btnOpenZUploaderPath);
             this.gbPathRoot.Location = new System.Drawing.Point(8, 360);
             this.gbPathRoot.Name = "gbPathRoot";
-            this.gbPathRoot.Size = new System.Drawing.Size(520, 88);
+            this.gbPathRoot.Size = new System.Drawing.Size(503, 88);
             this.gbPathRoot.TabIndex = 3;
             this.gbPathRoot.TabStop = false;
             this.gbPathRoot.Text = "Root";
@@ -1653,7 +1666,7 @@
             this.gbScreenshots.Controls.Add(this.txtScreenshotsPath);
             this.gbScreenshots.Location = new System.Drawing.Point(8, 8);
             this.gbScreenshots.Name = "gbScreenshots";
-            this.gbScreenshots.Size = new System.Drawing.Size(520, 88);
+            this.gbScreenshots.Size = new System.Drawing.Size(503, 88);
             this.gbScreenshots.TabIndex = 0;
             this.gbScreenshots.TabStop = false;
             this.gbScreenshots.Text = "Screenshots";
@@ -1688,7 +1701,7 @@
             this.btnBrowseScreenshotsDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBrowseScreenshotsDir.AutoSize = true;
             this.btnBrowseScreenshotsDir.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnBrowseScreenshotsDir.Location = new System.Drawing.Point(448, 51);
+            this.btnBrowseScreenshotsDir.Location = new System.Drawing.Point(431, 51);
             this.btnBrowseScreenshotsDir.Name = "btnBrowseScreenshotsDir";
             this.btnBrowseScreenshotsDir.Size = new System.Drawing.Size(61, 23);
             this.btnBrowseScreenshotsDir.TabIndex = 4;
@@ -1704,7 +1717,7 @@
             this.txtScreenshotsPath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystemDirectories;
             this.txtScreenshotsPath.Location = new System.Drawing.Point(16, 24);
             this.txtScreenshotsPath.Name = "txtScreenshotsPath";
-            this.txtScreenshotsPath.Size = new System.Drawing.Size(488, 20);
+            this.txtScreenshotsPath.Size = new System.Drawing.Size(471, 20);
             this.txtScreenshotsPath.TabIndex = 0;
             // 
             // gbUploadersConfig
@@ -1717,7 +1730,7 @@
             this.gbUploadersConfig.Controls.Add(this.cbUseCustomUploadersConfigPath);
             this.gbUploadersConfig.Location = new System.Drawing.Point(8, 112);
             this.gbUploadersConfig.Name = "gbUploadersConfig";
-            this.gbUploadersConfig.Size = new System.Drawing.Size(520, 80);
+            this.gbUploadersConfig.Size = new System.Drawing.Size(503, 80);
             this.gbUploadersConfig.TabIndex = 1;
             this.gbUploadersConfig.TabStop = false;
             this.gbUploadersConfig.Text = "Uploaders Config";
@@ -1727,7 +1740,7 @@
             this.btnLoadUploadersConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLoadUploadersConfig.AutoSize = true;
             this.btnLoadUploadersConfig.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnLoadUploadersConfig.Location = new System.Drawing.Point(400, 45);
+            this.btnLoadUploadersConfig.Location = new System.Drawing.Point(383, 45);
             this.btnLoadUploadersConfig.Name = "btnLoadUploadersConfig";
             this.btnLoadUploadersConfig.Size = new System.Drawing.Size(41, 23);
             this.btnLoadUploadersConfig.TabIndex = 2;
@@ -1740,7 +1753,7 @@
             this.btnBrowseCustomUploadersConfigPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBrowseCustomUploadersConfigPath.AutoSize = true;
             this.btnBrowseCustomUploadersConfigPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnBrowseCustomUploadersConfigPath.Location = new System.Drawing.Point(448, 45);
+            this.btnBrowseCustomUploadersConfigPath.Location = new System.Drawing.Point(431, 45);
             this.btnBrowseCustomUploadersConfigPath.Name = "btnBrowseCustomUploadersConfigPath";
             this.btnBrowseCustomUploadersConfigPath.Size = new System.Drawing.Size(61, 23);
             this.btnBrowseCustomUploadersConfigPath.TabIndex = 3;
@@ -1754,7 +1767,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCustomUploadersConfigPath.Location = new System.Drawing.Point(16, 48);
             this.txtCustomUploadersConfigPath.Name = "txtCustomUploadersConfigPath";
-            this.txtCustomUploadersConfigPath.Size = new System.Drawing.Size(376, 20);
+            this.txtCustomUploadersConfigPath.Size = new System.Drawing.Size(359, 20);
             this.txtCustomUploadersConfigPath.TabIndex = 1;
             this.txtCustomUploadersConfigPath.TextChanged += new System.EventHandler(this.txtCustomUploadersConfigPath_TextChanged);
             // 
@@ -1781,7 +1794,7 @@
             this.gbHistory.Controls.Add(this.cbHistorySave);
             this.gbHistory.Location = new System.Drawing.Point(8, 216);
             this.gbHistory.Name = "gbHistory";
-            this.gbHistory.Size = new System.Drawing.Size(520, 136);
+            this.gbHistory.Size = new System.Drawing.Size(503, 136);
             this.gbHistory.TabIndex = 2;
             this.gbHistory.TabStop = false;
             this.gbHistory.Text = "History";
@@ -1825,7 +1838,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBrowseCustomHistoryPath.AutoSize = true;
             this.btnBrowseCustomHistoryPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnBrowseCustomHistoryPath.Location = new System.Drawing.Point(448, 72);
+            this.btnBrowseCustomHistoryPath.Location = new System.Drawing.Point(431, 72);
             this.btnBrowseCustomHistoryPath.Name = "btnBrowseCustomHistoryPath";
             this.btnBrowseCustomHistoryPath.Size = new System.Drawing.Size(61, 23);
             this.btnBrowseCustomHistoryPath.TabIndex = 3;
@@ -1839,7 +1852,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCustomHistoryPath.Location = new System.Drawing.Point(16, 72);
             this.txtCustomHistoryPath.Name = "txtCustomHistoryPath";
-            this.txtCustomHistoryPath.Size = new System.Drawing.Size(424, 20);
+            this.txtCustomHistoryPath.Size = new System.Drawing.Size(407, 20);
             this.txtCustomHistoryPath.TabIndex = 2;
             this.txtCustomHistoryPath.TextChanged += new System.EventHandler(this.txtCustomHistoryPath_TextChanged);
             // 
@@ -1883,7 +1896,7 @@
             this.panelDropboxSync.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDropboxSync.Location = new System.Drawing.Point(3, 3);
             this.panelDropboxSync.Name = "panelDropboxSync";
-            this.panelDropboxSync.Size = new System.Drawing.Size(537, 514);
+            this.panelDropboxSync.Size = new System.Drawing.Size(537, 370);
             this.panelDropboxSync.TabIndex = 0;
             // 
             // btnDropboxSyncExport
@@ -1905,6 +1918,66 @@
             this.btnDropboxSyncImport.Text = "&Import Settings from Dropbox";
             this.btnDropboxSyncImport.UseVisualStyleBackColor = true;
             this.btnDropboxSyncImport.Click += new System.EventHandler(this.btnDropboxSyncImport_Click);
+            // 
+            // tpFileNaming
+            // 
+            this.tpFileNaming.Controls.Add(this.panelFileNaming);
+            this.tpFileNaming.Location = new System.Drawing.Point(4, 22);
+            this.tpFileNaming.Name = "tpFileNaming";
+            this.tpFileNaming.Padding = new System.Windows.Forms.Padding(3);
+            this.tpFileNaming.Size = new System.Drawing.Size(543, 376);
+            this.tpFileNaming.TabIndex = 12;
+            this.tpFileNaming.Text = "File Naming";
+            this.tpFileNaming.UseVisualStyleBackColor = true;
+            // 
+            // panelFileNaming
+            // 
+            this.panelFileNaming.Controls.Add(this.gbFilenamingPatternOthers);
+            this.panelFileNaming.Controls.Add(this.gbFilenamingPatternImages);
+            this.panelFileNaming.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelFileNaming.Location = new System.Drawing.Point(3, 3);
+            this.panelFileNaming.Name = "panelFileNaming";
+            this.panelFileNaming.Size = new System.Drawing.Size(537, 370);
+            this.panelFileNaming.TabIndex = 0;
+            // 
+            // gbFilenamingPatternOthers
+            // 
+            this.gbFilenamingPatternOthers.Controls.Add(this.txtNameFormatPatternOther);
+            this.gbFilenamingPatternOthers.Controls.Add(this.lblNameFormatPatternPreviewOther);
+            this.gbFilenamingPatternOthers.Controls.Add(this.btnNameFormatPatternHelpOther);
+            this.gbFilenamingPatternOthers.Location = new System.Drawing.Point(8, 104);
+            this.gbFilenamingPatternOthers.Name = "gbFilenamingPatternOthers";
+            this.gbFilenamingPatternOthers.Size = new System.Drawing.Size(509, 80);
+            this.gbFilenamingPatternOthers.TabIndex = 4;
+            this.gbFilenamingPatternOthers.TabStop = false;
+            this.gbFilenamingPatternOthers.Text = "File naming pattern for other files that do not already exist in the computer:";
+            // 
+            // txtNameFormatPatternOther
+            // 
+            this.txtNameFormatPatternOther.Location = new System.Drawing.Point(16, 24);
+            this.txtNameFormatPatternOther.Name = "txtNameFormatPatternOther";
+            this.txtNameFormatPatternOther.Size = new System.Drawing.Size(416, 20);
+            this.txtNameFormatPatternOther.TabIndex = 0;
+            this.txtNameFormatPatternOther.TextChanged += new System.EventHandler(this.txtNameFormatPatternOther_TextChanged);
+            // 
+            // btnNameFormatPatternHelpOther
+            // 
+            this.btnNameFormatPatternHelpOther.Location = new System.Drawing.Point(440, 24);
+            this.btnNameFormatPatternHelpOther.Name = "btnNameFormatPatternHelpOther";
+            this.btnNameFormatPatternHelpOther.Size = new System.Drawing.Size(24, 23);
+            this.btnNameFormatPatternHelpOther.TabIndex = 1;
+            this.btnNameFormatPatternHelpOther.Text = "?";
+            this.btnNameFormatPatternHelpOther.UseVisualStyleBackColor = true;
+            this.btnNameFormatPatternHelpOther.Click += new System.EventHandler(this.btnNameFormatPatternHelpOther_Click);
+            // 
+            // lblNameFormatPatternPreviewImages
+            // 
+            this.lblNameFormatPatternPreviewImages.AutoSize = true;
+            this.lblNameFormatPatternPreviewImages.Location = new System.Drawing.Point(16, 56);
+            this.lblNameFormatPatternPreviewImages.Name = "lblNameFormatPatternPreviewImages";
+            this.lblNameFormatPatternPreviewImages.Size = new System.Drawing.Size(48, 13);
+            this.lblNameFormatPatternPreviewImages.TabIndex = 3;
+            this.lblNameFormatPatternPreviewImages.Text = "Preview:";
             // 
             // OptionsWindow
             // 
@@ -1930,8 +2003,8 @@
             this.tpCapture.ResumeLayout(false);
             this.panelCapture.ResumeLayout(false);
             this.panelCapture.PerformLayout();
-            this.gbFilenamingPattern.ResumeLayout(false);
-            this.gbFilenamingPattern.PerformLayout();
+            this.gbFilenamingPatternImages.ResumeLayout(false);
+            this.gbFilenamingPatternImages.PerformLayout();
             this.gbCaptureAfter.ResumeLayout(false);
             this.gbCaptureAfter.PerformLayout();
             this.tpShapes.ResumeLayout(false);
@@ -1986,6 +2059,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudHistoryMaxItemCount)).EndInit();
             this.tpDropboxSync.ResumeLayout(false);
             this.panelDropboxSync.ResumeLayout(false);
+            this.tpFileNaming.ResumeLayout(false);
+            this.panelFileNaming.ResumeLayout(false);
+            this.gbFilenamingPatternOthers.ResumeLayout(false);
+            this.gbFilenamingPatternOthers.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2045,9 +2122,9 @@
         private HelpersLib.Hotkeys2.HotkeyManagerControl hmHotkeys;
         private System.Windows.Forms.CheckBox cbClipboardUploadAutoDetectURL;
         private System.Windows.Forms.Label lblClipboardUploadInfo;
-        private System.Windows.Forms.Label lblNameFormatPatternPreview;
-        private System.Windows.Forms.Button btnNameFormatPatternHelp;
-        private System.Windows.Forms.TextBox txtNameFormatPattern;
+        private System.Windows.Forms.Label lblNameFormatPatternPreviewOther;
+        private System.Windows.Forms.Button btnNameFormatPatternHelpImages;
+        private System.Windows.Forms.TextBox txtNameFormatPatternImages;
         private System.Windows.Forms.TabPage tpImageResize;
         private System.Windows.Forms.Panel panelImageResize;
         private System.Windows.Forms.CheckBox cbImageUseSmoothScaling;
@@ -2127,6 +2204,12 @@
         private System.Windows.Forms.TabControl tcQuality;
         private System.Windows.Forms.TabPage tpQualityJpeg;
         private System.Windows.Forms.TabPage tpQualityGif;
-        private System.Windows.Forms.GroupBox gbFilenamingPattern;
+        private System.Windows.Forms.GroupBox gbFilenamingPatternImages;
+        private System.Windows.Forms.TabPage tpFileNaming;
+        private System.Windows.Forms.Panel panelFileNaming;
+        private System.Windows.Forms.GroupBox gbFilenamingPatternOthers;
+        private System.Windows.Forms.TextBox txtNameFormatPatternOther;
+        private System.Windows.Forms.Button btnNameFormatPatternHelpOther;
+        private System.Windows.Forms.Label lblNameFormatPatternPreviewImages;
     }
 }
