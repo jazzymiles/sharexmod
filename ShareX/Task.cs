@@ -117,12 +117,12 @@ namespace ShareX
             if (Program.Settings.IndexFolderWhenPossible && Directory.Exists(text))
             {
                 bool html = destination == EDataType.File;
-                task.Info.FileName = new NameParser().Convert(Program.Settings.NameFormatPattern) + (html ? ".html" : ".log");
+                task.Info.FileName = new NameParser().Convert(Program.Settings.NameFormatPatternOther) + (html ? ".html" : ".log");
                 task.tempText = IndexersLib.QuickIndexer.Index(text, html);
             }
             else
             {
-                task.Info.FileName = new NameParser().Convert(Program.Settings.NameFormatPattern) + ".txt";
+                task.Info.FileName = new NameParser().Convert(Program.Settings.NameFormatPatternOther) + ".txt";
                 task.tempText = text;
             }
             return task;

@@ -50,8 +50,8 @@ namespace ShareX
         #region Settings Form
 
         // General
-        public bool ShowTray = true;
 
+        public bool ShowTray = true;
         public bool AutoCheckUpdate = true;
         public bool ClipboardAutoCopy = true;
         public bool URLShortenAfterUpload = false;
@@ -63,26 +63,27 @@ namespace ShareX
         public List<Workflow> Workflows1 = new List<Workflow>();
 
         // Upload
-        public bool UseCustomUploadersConfigPath = false;
 
+        public bool UseCustomUploadersConfigPath = false;
         public string CustomUploadersConfigPath = string.Empty;
         public int UploadLimit = 5;
         public int BufferSizePower = 3;
 
         // Image - Location
+
         public string ScreenshotsPath = Program.ScreenshotsRootPath;
 
         // Image - Quality
-        public EImageFormat ImageFormat = EImageFormat.PNG;
 
+        public EImageFormat ImageFormat = EImageFormat.PNG;
         public int ImageJPEGQuality = 90;
         public GIFQuality ImageGIFQuality = GIFQuality.Default;
         public int ImageSizeLimit = 512;
         public EImageFormat ImageFormat2 = EImageFormat.JPEG;
 
         // Image - Resize
-        public bool ImageAutoResize = false;
 
+        public bool ImageAutoResize = false;
         public bool ImageKeepAspectRatio = false;
         public bool ImageUseSmoothScaling = true;
         public ImageScaleType ImageScaleType = ImageScaleType.Percentage;
@@ -94,14 +95,17 @@ namespace ShareX
         public int ImageScaleSpecificHeight = 100;
 
         // Clipboard upload
+
         public bool ClipboardUploadAutoDetectURL = true;
 
         // Test: %y %mo %mon %mon2 %d %h %mi %s %ms %w %w2 %pm %rn %ra %width %height %app %ver
+
         public string NameFormatPattern = "%y-%mo-%d_%h-%mi-%s";
+        public string NameFormatPatternOther = "%y-%mo-%d_%h-%mi-%s";
 
         // Capture
-        public bool ShowCursor = false;
 
+        public bool ShowCursor = false;
         public bool CaptureTransparent = true;
         public bool CaptureShadow = true;
         public bool CaptureAnnotateImage = false;
@@ -112,16 +116,18 @@ namespace ShareX
         public SurfaceOptions SurfaceOptions = new SurfaceOptions() { QuickCrop = true };
 
         // History
-        public bool SaveHistory = true;
 
+        public bool SaveHistory = true;
         public string CustomHistoryPath = string.Empty;
         public bool UseCustomHistoryPath = false;
         public int HistoryMaxItemCount = -1;
 
         // Proxy
+
         public ProxyInfo ProxySettings = new ProxyInfo();
 
         // Advanced
+
         [Category(HelpersLib.ComponentModelStrings.App), DefaultValue(false), Description("If you have configured Dropbox, then this setting will synchronize uploaders configuration and application settings except for paths.")]
         public bool DropboxSync { get; set; }
         [Category(ComponentModelStrings.SettingsInteraction), DefaultValue(false), Description("Show after capture wizard. Dynamically choose actions after capture")]
@@ -130,7 +136,6 @@ namespace ShareX
         public bool ShowClipboardOptionsWizard { get; set; }
         [Category(ComponentModelStrings.InputsClipboard), DefaultValue(false), Description("When a folder path is in the clipboard, upload the folder index instead of the folder path as part of Clipboard Upload.")]
         public bool IndexFolderWhenPossible { get; set; }
-        // Options / Watch Folder
         [Category(HelpersLib.ComponentModelStrings.InputsWatchFolder), DefaultValue(false), Description("Automatically upload files saved in to this folder.")]
         public bool FolderMonitoring { get; set; }
         [Category(HelpersLib.ComponentModelStrings.InputsWatchFolder), Description("Folder monitor path where files automatically get uploaded.")]

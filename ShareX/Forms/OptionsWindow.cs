@@ -147,8 +147,8 @@ namespace ShareX.Forms
 
             // Clipboard upload
             cbClipboardUploadAutoDetectURL.Checked = Program.Settings.ClipboardUploadAutoDetectURL;
-            txtNameFormatPattern.Text = Program.Settings.NameFormatPattern;
-            CreateCodesMenu();
+            txtNameFormatPatternImages.Text = Program.Settings.NameFormatPattern;
+            txtNameFormatPatternOther.Text = Program.Settings.NameFormatPatternOther;
 
             // Image - Quality
             cbImageFormat.SelectedIndex = (int)Program.Settings.ImageFormat;
@@ -266,7 +266,7 @@ namespace ShareX.Forms
             cbImageKeepAspectRatio.Enabled = aspectRatioEnabled;
         }
 
-        private void CreateCodesMenu()
+        private void CreateCodesMenu(TextBox textBox, List<ReplacementVariables> ignoreList = null)
         {
             codesMenu = new ContextMenuStrip
             {
@@ -275,12 +275,16 @@ namespace ShareX.Forms
                 ShowImageMargin = false
             };
 
+            if (ignoreList == null)
+                ignoreList = new List<ReplacementVariables>();
+
             var variables = Enum.GetValues(typeof(ReplacementVariables)).Cast<ReplacementVariables>().
+                Where(x => !ignoreList.Contains(x)).
                 Select(x => new
                 {
                     Name = ReplacementExtension.Prefix + Enum.GetName(typeof(ReplacementVariables), x),
                     Description = x.GetDescription(),
-                    Enum = x
+                    Enum = x,
                 });
 
             foreach (var variable in variables)
@@ -296,7 +300,7 @@ namespace ShareX.Forms
                 }
 
                 ToolStripMenuItem tsi = new ToolStripMenuItem { Text = string.Format("{0} - {1}", variable.Name, variable.Description), Tag = variable.Name };
-                tsi.Click += (sender, e) => txtNameFormatPattern.AppendText(((ToolStripMenuItem)sender).Tag.ToString());
+                tsi.Click += (sender, e) => textBox.AppendText(((ToolStripMenuItem)sender).Tag.ToString());
                 codesMenu.Items.Add(tsi);
             }
         }
@@ -458,12 +462,24 @@ namespace ShareX.Forms
 
         #endregion Capture / Shapes
 
-        #region Capture / Clipboard
+        #region File Naming
+
+        private void btnNameFormatPatternHelp_Click(object sender, EventArgs e)
+        {
+            CreateCodesMenu(txtNameFormatPatternImages);
+            codesMenu.Show(btnNameFormatPatternHelpImages, new Point(btnNameFormatPatternHelpImages.Width + 1, 0));
+        }
+
+        private void btnNameFormatPatternHelpOther_Click(object sender, EventArgs e)
+        {
+            CreateCodesMenu(txtNameFormatPatternOther, new List<ReplacementVariables>() { ReplacementVariables.t });
+            codesMenu.Show(btnNameFormatPatternHelpImages, new Point(btnNameFormatPatternHelpOther.Width + 1, gbFilenamingPatternOthers.Location.Y - 8));
+        }
 
         private void txtNameFormatPattern_TextChanged(object sender, EventArgs e)
         {
-            Program.Settings.NameFormatPattern = txtNameFormatPattern.Text;
-            lblNameFormatPatternPreview.Text = "Preview: " + new NameParser() { WindowText = NativeMethods.GetForegroundWindowText() }.Convert(Program.Settings.NameFormatPattern);
+            Program.Settings.NameFormatPattern = txtNameFormatPatternImages.Text;
+            lblNameFormatPatternPreviewImages.Text = new NameParser() { WindowText = NativeMethods.GetForegroundWindowText() }.Convert(Program.Settings.NameFormatPattern);
         }
 
         private void cbClipboardUploadAutoDetectURL_CheckedChanged(object sender, EventArgs e)
@@ -471,16 +487,17 @@ namespace ShareX.Forms
             Program.Settings.ClipboardUploadAutoDetectURL = cbClipboardUploadAutoDetectURL.Checked;
         }
 
-        #endregion Capture / Clipboard
+        private void txtNameFormatPatternOther_TextChanged(object sender, EventArgs e)
+        {
+            Program.Settings.NameFormatPatternOther = txtNameFormatPatternOther.Text;
+            lblNameFormatPatternPreviewOther.Text = new NameParser().Convert(Program.Settings.NameFormatPatternOther);
+        }
+
+        #endregion File Naming
 
         #endregion Capture
 
         #region Image Processing
-
-        private void btnNameFormatPatternHelp_Click(object sender, EventArgs e)
-        {
-            codesMenu.Show(btnNameFormatPatternHelp, new Point(btnNameFormatPatternHelp.Width + 1, 0));
-        }
 
         private void rbImageScaleTypePercentage_CheckedChanged(object sender, EventArgs e)
         {
