@@ -1,0 +1,19 @@
+#summary All you need to know about capturing Shapes using ShareX (Draft)
+#labels Phase-Support
+
+= Introduction =
+By default, when you press *Ctrl+PrintScreen*, ShareX you will be able to draw a rectangle by 
+ * holding your primary mouse button
+ * dragging it diagonally down and 
+ * releasing it. 
+You now have a rectangle appeared on the screen, but unlike in ZScreen, the rectangle will not be disappeared once you release the button. 
+
+What happened? Keep reading. 
+
+=Features=
+==Draw multiple shapes on screen==
+
+==Move object using arrow keys==
+In ShareX
+
+==Move cursor using arrow keys==
