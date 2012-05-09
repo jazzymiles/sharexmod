@@ -243,6 +243,7 @@ namespace ShareX
             if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFileWithDialog))
             {
                 FolderBrowserDialog dlg = new FolderBrowserDialog();
+                dlg.Description = string.Format("Choose a folder to save {0}", imageData.Filename);
                 dlg.ShowNewFolderButton = true;
                 if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
@@ -260,6 +261,7 @@ namespace ShareX
             if (Info.Job == TaskJob.ImageUpload && imageData != null && Info.ImageJob.HasFlagAny(TaskImageJob.UploadImageToHost, TaskImageJob.SaveImageToFile))
             {
                 imageData.PrepareImageAndFilename();
+
                 data = imageData.ImageStream;
                 Info.FileName = imageData.Filename;
 

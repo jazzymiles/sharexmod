@@ -178,8 +178,8 @@ namespace ShareX.HelperClasses
 
         public void Dispose()
         {
-            ImageStream.Dispose();
-            Image.Dispose();
+            if (ImageStream != null) ImageStream.Dispose();
+            if (Image != null) Image.Dispose();
         }
     }
 }
