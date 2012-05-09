@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using HelpersLib;
+using ShareX.Properties;
 
 namespace ShareX
 {
@@ -17,6 +18,7 @@ namespace ShareX
         public WindowAfterCapture(TaskImageJob config)
         {
             InitializeComponent();
+            this.Icon = Resources.ShareX;
 
             Config = config;
 

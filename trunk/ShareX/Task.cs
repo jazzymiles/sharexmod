@@ -43,6 +43,8 @@ namespace ShareX
 {
     public class Task : IDisposable
     {
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public delegate void TaskEventHandler(UploadInfo info);
 
         public event TaskEventHandler UploadStarted;
@@ -100,7 +102,7 @@ namespace ShareX
         {
             Task task = new Task(EDataType.Image, TaskJob.ImageUpload);
             if (destination != EDataType.Default) task.Info.UploadDestination = destination;
-            task.Info.FileName = "Require image encoding...";
+            task.Info.FileName = imageData.Filename;
             task.imageData = imageData;
             return task;
         }
@@ -141,7 +143,7 @@ namespace ShareX
             {
                 OnUploadPreparing();
 
-                DoFormJob();
+                DoFormJobs1();
 
                 bw = new BackgroundWorker();
                 bw.WorkerReportsProgress = true;
@@ -227,8 +229,16 @@ namespace ShareX
             Info.UploadTime = DateTime.UtcNow;
         }
 
-        private void DoFormJob()
+        /// <summary>
+        /// Happens just before Image Data is prepared
+        /// </summary>
+        private void DoFormJobs1()
         {
+            if (Info.ImageJob.HasFlag(TaskImageJob.Print))
+            {
+                new PrintForm(imageData.ImageExported, ref Program.Settings.PrintSettings).Show();
+            }
+
             if (Info.Job == TaskJob.ImageUpload && imageData != null && Info.ImageJob.HasFlag(TaskImageJob.CopyImageToClipboard))
             {
                 Clipboard.SetImage(imageData.Image);

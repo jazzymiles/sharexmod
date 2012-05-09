@@ -88,9 +88,11 @@ namespace ShareX
         {
             if (imageData != null)
             {
+                log.InfoFormat("AfterCapture, Image: {0}x{1}", imageData.Image.Width, imageData.Image.Height);
+
                 if (imageJob == TaskImageJob.None)
                 {
-                    imageJob = Program.Settings.AfterCaptureTasks1;
+                    imageJob = Program.Settings.AfterCaptureTasks;
                 }
 
                 if (Program.Settings.ShowAfterCaptureWizard)

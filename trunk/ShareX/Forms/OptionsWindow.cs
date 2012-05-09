@@ -220,7 +220,7 @@ namespace ShareX.Forms
                 chkAfterCaptureTask.AutoSize = true;
                 chkAfterCaptureTask.Location = new Point(16, yGap);
                 chkAfterCaptureTask.CheckedChanged += new EventHandler(chkAfterCaptureTask_CheckedChanged);
-                chkAfterCaptureTask.Checked = Program.Settings.AfterCaptureTasks1.HasFlag(job.Enum);
+                chkAfterCaptureTask.Checked = Program.Settings.AfterCaptureTasks.HasFlag(job.Enum);
                 gbCaptureAfter.Controls.Add(chkAfterCaptureTask);
                 yGap += 24;
             }
@@ -232,9 +232,9 @@ namespace ShareX.Forms
         {
             CheckBox chkAfterCaptureTask = sender as CheckBox;
             if (chkAfterCaptureTask.Checked)
-                Program.Settings.AfterCaptureTasks1 |= (TaskImageJob)chkAfterCaptureTask.Tag;
+                Program.Settings.AfterCaptureTasks |= (TaskImageJob)chkAfterCaptureTask.Tag;
             else
-                Program.Settings.AfterCaptureTasks1 &= ~(TaskImageJob)chkAfterCaptureTask.Tag;
+                Program.Settings.AfterCaptureTasks &= ~(TaskImageJob)chkAfterCaptureTask.Tag;
         }
 
         private void BeforeClose()

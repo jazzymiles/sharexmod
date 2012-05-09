@@ -310,7 +310,7 @@ namespace ShareX
 
         private static void CreateListViewItem(UploadInfo info)
         {
-            if (ListViewControl != null && info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
+            if (ListViewControl != null)
             {
                 log.InfoFormat("Upload in queue. ID: {0}, Job: {1}, Type: {2}, Host: {3}", info.ID, info.Job, info.UploadDestination, info.UploaderHost);
 
@@ -322,7 +322,12 @@ namespace ShareX
                 lvi.SubItems.Add(string.Empty);
                 lvi.SubItems.Add(string.Empty);
                 lvi.SubItems.Add(info.DataType.ToString());
-                lvi.SubItems.Add(info.UploaderHost);
+
+                if (info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
+                    lvi.SubItems.Add(info.UploaderHost);
+                else
+                    lvi.SubItems.Add(string.Empty);
+
                 lvi.SubItems.Add(string.Empty);
                 lvi.BackColor = info.ID % 2 == 0 ? Color.White : Color.WhiteSmoke;
                 lvi.ImageIndex = 3;
@@ -375,7 +380,7 @@ namespace ShareX
         {
             try
             {
-                if (ListViewControl != null && info != null && info.Result != null && info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
+                if (ListViewControl != null && info != null && info.Result != null)
                 {
                     ListViewItem lvi = ListViewControl.Items[info.ID];
                     lvi.Tag = info.Result;

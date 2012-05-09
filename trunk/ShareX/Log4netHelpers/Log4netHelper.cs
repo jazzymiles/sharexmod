@@ -18,13 +18,13 @@ namespace HelpersLib
 {
     public static class Log4netHelper
     {
-        private static bool isLoaded = false;
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static RichTextBoxAppender rba;
         private static ListViewAppender lva;
 
         public static void Init_log4net(string fpLog)
         {
-            if (!Log.Logger.Repository.Configured)
+            if (log.Logger.Repository.Configured)
             {
                 RollingFileAppender fa = new RollingFileAppender();
                 fa.AppendToFile = true;
@@ -80,42 +80,6 @@ namespace HelpersLib
 
             BasicConfigurator.Configure(rba);
             rba.ActivateOptions();
-        }
-
-        public static ILog Log
-        {
-            get
-            {
-                System.Reflection.MethodBase method;
-                method = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod();
-                StringBuilder loggerName = new StringBuilder();
-                loggerName.AppendFormat("{0}.{1}(", method.ReflectedType.FullName, method.Name);
-
-                ParameterInfo[] parameters = method.GetParameters();
-                string[] parametersStr = new string[parameters.Length];
-
-                if (parameters.Length > 0)
-                {
-                    for (int i = 0; i < parameters.Length; i++)
-                    {
-                        parametersStr[i] = parameters[i].ToString();
-                    }
-                    loggerName.Append(String.Join(", ", parametersStr));
-                }
-
-                loggerName.Append(")");
-
-                return GetLogger(loggerName.ToString());
-            }
-        }
-
-        private static ILog GetLogger(string loggerName)
-        {
-            if (!isLoaded)
-            {
-                log4net.Config.XmlConfigurator.Configure();
-            }
-            return LogManager.GetLogger(loggerName);
         }
     }
 }
