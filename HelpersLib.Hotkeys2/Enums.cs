@@ -6,6 +6,9 @@ using System.Text;
 
 namespace HelpersLib.Hotkeys2
 {
+    /// <summary>
+    /// This Enum must not be restructured. New items must append at the end to avoid mapping to the wrong item.
+    /// </summary>
     [TypeConverter(typeof(EnumToStringUsingDescription))]
     public enum EActivity
     {
@@ -48,7 +51,9 @@ namespace HelpersLib.Hotkeys2
         [Description("Perform after capture tasks")]
         AfterCaptureTasks,
         [Description("Upload to remote host")]
-        UploadToRemoteHost
+        UploadToRemoteHost,
+        [Description("Send to printer")]
+        Printer
     }
 
     public class EnumToStringUsingDescription : TypeConverter

@@ -59,7 +59,6 @@ namespace ShareX.HelperClasses
             this.Image = img;
             if (screenshot)
                 this.WindowText = NativeMethods.GetForegroundWindowText();
-            // this.Filename = PrepareFilename();
         }
 
         public Image ImageExported
