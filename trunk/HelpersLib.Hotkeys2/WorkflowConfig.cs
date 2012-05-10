@@ -14,6 +14,10 @@ namespace HelpersLib.Hotkeys2
     {
         public Workflow Workflow { get; set; }
 
+        ListViewGroup lvgCapture = new ListViewGroup("Capture", HorizontalAlignment.Left);
+        ListViewGroup lvgAfterCapture = new ListViewGroup("After Capture", HorizontalAlignment.Left);
+        ListViewGroup lvgDestinationsImages = new ListViewGroup("Destinations - Images", HorizontalAlignment.Left);
+
         public WindowWorkflow(Workflow wf)
         {
             Workflow = wf;
@@ -22,15 +26,34 @@ namespace HelpersLib.Hotkeys2
             this.Text = "Workflow - " + wf.HotkeyConfig.Description;
             this.txtDescription.Text = wf.HotkeyConfig.Description;
 
+            lvActivitiesAll.Groups.AddRange(new[] { lvgCapture, lvgAfterCapture, lvgDestinationsImages });
+            lvActivitiesUser.Groups.AddRange(new[] { lvgCapture, lvgAfterCapture, lvgDestinationsImages });
+
             foreach (EActivity act in wf.Activities)
             {
-                this.lbActivitiesUser.Items.Add(act);
+                lvActivitiesUser.Items.Add(GetListViewItem(act));
             }
 
             foreach (EActivity act in Enum.GetValues(typeof(EActivity)))
             {
-                this.lbActivitiesAll.Items.Add(act);
+                lvActivitiesAll.Items.Add(GetListViewItem(act));
             }
+
+            lvActivitiesAll.Columns[0].Width = 240;
+            lvActivitiesUser.Columns[0].Width = 240;
+        }
+
+        private ListViewItem GetListViewItem(EActivity act)
+        {
+            ListViewItem lvi = new ListViewItem(act.GetDescription());
+            if (act.GetCategory() == lvgCapture.Header)
+                lvi.Group = lvgCapture;
+            else if (act.GetCategory() == lvgAfterCapture.Header)
+                lvi.Group = lvgAfterCapture;
+
+            lvi.Tag = act;
+            lvi.ImageKey = act.GetDescription();
+            return lvi;
         }
 
         private void txtDescription_TextChanged(object sender, EventArgs e)
@@ -49,71 +72,6 @@ namespace HelpersLib.Hotkeys2
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private bool ValidateActivity(EActivity act_to_be_added, int index_to_new_act)
-        {
-            int index_to_capture = -1;
-            bool hasCapture = false;
-            EActivity act_capture = EActivity.CaptureActiveMonitor;
-
-            foreach (EActivity act_existing in lbActivitiesUser.Items)
-            {
-                switch (act_existing)
-                {
-                    case EActivity.AfterCaptureTasks:
-                    case EActivity.ImageAnnotate:
-                    case EActivity.SaveToFile:
-                    case EActivity.SaveToFileWithDialog:
-                    case EActivity.UploadClipboard:
-                    case EActivity.UploadFile:
-                    case EActivity.UploadToRemoteHost:
-                        break;
-                    case EActivity.CaptureActiveMonitor:
-                    case EActivity.CaptureActiveWindow:
-                    case EActivity.CaptureDiamondRegion:
-                    case EActivity.CaptureEllipseRegion:
-                    case EActivity.CaptureFreeHandRegion:
-                    case EActivity.CapturePolygonRegion:
-                    case EActivity.CaptureRectangleRegion:
-                    case EActivity.CaptureRoundedRectangleRegion:
-                    case EActivity.CaptureScreen:
-                    case EActivity.CaptureTriangleRegion:
-                    case EActivity.CaptureWindowRectangle:
-                        hasCapture = true;
-                        index_to_capture = lbActivitiesUser.Items.IndexOf(act_existing);
-                        act_capture = act_existing;
-                        break;
-                    default:
-                        throw new Exception("Unhandled: " + act_existing.GetDescription());
-                }
-            }
-
-            if (act_to_be_added == EActivity.SaveToFile)
-            {
-                if (hasCapture && index_to_capture >= index_to_new_act)
-                {
-                    MessageBox.Show(string.Format("{0} must occur after {1}",
-                        EActivity.SaveToFile.GetDescription(),
-                        act_capture.GetDescription()),
-                        Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return false;
-                }
-                else if (lbActivitiesUser.Items.Contains(EActivity.UploadToRemoteHost))
-                {
-                    int index_upload_to_remote_host = lbActivitiesUser.Items.IndexOf(EActivity.UploadToRemoteHost);
-                    if (index_to_new_act > index_upload_to_remote_host)
-                    {
-                        MessageBox.Show(string.Format("{0} must occur before {1}",
-                            EActivity.SaveToFile.GetDescription(),
-                            EActivity.UploadToRemoteHost.GetDescription()),
-                            Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
         private void btnAdd_Click(object sender, EventArgs e)
         {
             ActivityAdd();
@@ -121,35 +79,24 @@ namespace HelpersLib.Hotkeys2
 
         private void ActivityAdd()
         {
-            foreach (EActivity act in lbActivitiesAll.SelectedItems)
+            foreach (ListViewItem lvi in lvActivitiesAll.SelectedItems)
             {
-                if (ValidateActivity(act, lbActivitiesUser.Items.Count))
-                    lbActivitiesUser.Items.Add(act);
-            }
-        }
-
-        private void btnInsert_Click(object sender, EventArgs e)
-        {
-            if (lbActivitiesUser.SelectedIndex > -1)
-            {
-                foreach (EActivity act in lbActivitiesAll.SelectedItems)
-                {
-                    if (ValidateActivity(act, lbActivitiesUser.SelectedIndex))
-                        lbActivitiesUser.Items.Insert(lbActivitiesUser.SelectedIndex, act);
-                }
+                EActivity act = (EActivity)lvi.Tag;
+                ListViewItem lvi2 = GetListViewItem(act);
+                lvActivitiesUser.Items.Add(lvi2);
             }
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            List<EActivity> tempActivities = new List<EActivity>();
-            foreach (EActivity act in lbActivitiesUser.SelectedItems)
+            List<ListViewItem> tempActivities = new List<ListViewItem>();
+            foreach (ListViewItem lvi in lvActivitiesUser.SelectedItems)
             {
-                tempActivities.Add(act);
+                tempActivities.Add(lvi);
             }
-            foreach (EActivity act in tempActivities)
+            foreach (ListViewItem act in tempActivities)
             {
-                lbActivitiesUser.Items.Remove(act);
+                lvActivitiesUser.Items.Remove(act);
             }
         }
 
@@ -158,8 +105,9 @@ namespace HelpersLib.Hotkeys2
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
 
             Workflow.Activities.Clear();
-            foreach (EActivity act in lbActivitiesUser.Items)
+            foreach (ListViewItem lvi in lvActivitiesUser.Items)
             {
+                EActivity act = (EActivity)lvi.Tag;
                 Workflow.Activities.Add(act);
             }
 
