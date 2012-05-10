@@ -110,6 +110,8 @@ namespace ShareX
                 if (jobs.TextUploaders.Count == 0)
                     jobs.TextUploaders.Add(UploadManager.TextUploader);
 
+                jobs.URLShortener = UploadManager.URLShortener;
+
                 if (Program.Settings.ShowAfterCaptureWizard)
                 {
                     WindowAfterCapture dlg = new WindowAfterCapture(jobs.ImageJobs);

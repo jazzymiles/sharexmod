@@ -14,9 +14,9 @@ namespace HelpersLib.Hotkeys2
     {
         public Workflow Workflow { get; set; }
 
-        ListViewGroup lvgCapture = new ListViewGroup("Capture", HorizontalAlignment.Left);
-        ListViewGroup lvgAfterCapture = new ListViewGroup("After Capture", HorizontalAlignment.Left);
-        ListViewGroup lvgDestinationsImages = new ListViewGroup("Destinations - Images", HorizontalAlignment.Left);
+        ListViewGroup lvgCapture = new ListViewGroup(ComponentModelStrings.ActivitiesCapture, HorizontalAlignment.Left);
+        ListViewGroup lvgAfterCapture = new ListViewGroup(ComponentModelStrings.ActivitiesAfterCapture, HorizontalAlignment.Left);
+        ListViewGroup lvgDestinationsImages = new ListViewGroup(ComponentModelStrings.ActivitiesUpload, HorizontalAlignment.Left);
 
         public WindowWorkflow(Workflow wf)
         {
@@ -50,6 +50,8 @@ namespace HelpersLib.Hotkeys2
                 lvi.Group = lvgCapture;
             else if (act.GetCategory() == lvgAfterCapture.Header)
                 lvi.Group = lvgAfterCapture;
+            else if (act.GetCategory() == lvgDestinationsImages.Header)
+                lvi.Group = lvgDestinationsImages;
 
             lvi.Tag = act;
             lvi.ImageKey = act.GetDescription();

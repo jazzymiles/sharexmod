@@ -81,16 +81,16 @@ namespace ShareX
                 switch (uploadDestination)
                 {
                     case EDataType.File:
-                        UploaderHost = UploadManager.FileUploader.GetDescription();
+                        UploaderHost = FileUploader.GetDescription();
                         break;
                     case EDataType.Image:
-                        UploaderHost = UploadManager.ImageUploader.GetDescription();
+                        UploaderHost = ImageUploader.GetDescription();
                         break;
                     case EDataType.Text:
-                        UploaderHost = UploadManager.TextUploader.GetDescription();
+                        UploaderHost = TextUploader.GetDescription();
                         break;
                     case EDataType.URL:
-                        UploaderHost = UploadManager.URLShortener.GetDescription();
+                        UploaderHost = URLShortener.GetDescription();
                         break;
                 }
             }
