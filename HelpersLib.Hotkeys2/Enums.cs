@@ -12,47 +12,47 @@ namespace HelpersLib.Hotkeys2
     [TypeConverter(typeof(EnumToStringUsingDescription))]
     public enum EActivity
     {
-        [Description("Capture screen")]
+        [Description("Capture screen"), Category("Capture")]
         CaptureScreen,
-        [Description("Capture active monitor")]
+        [Description("Capture active monitor"), Category("Capture")]
         CaptureActiveMonitor,
-        [Description("Capture active window")]
+        [Description("Capture active window"), Category("Capture")]
         CaptureActiveWindow,
-        [Description("Capture window or rectangle region")]
+        [Description("Capture window or rectangle region"), Category("Capture")]
         CaptureWindowRectangle,
-        [Description("Capture rectangle region")]
+        [Description("Capture rectangle region"), Category("Capture")]
         CaptureRectangleRegion,
-        [Description("Capture rounded rectangle region")]
+        [Description("Capture rounded rectangle region"), Category("Capture")]
         CaptureRoundedRectangleRegion,
-        [Description("Capture ellipse region")]
+        [Description("Capture ellipse region"), Category("Capture")]
         CaptureEllipseRegion,
-        [Description("Capture triangle region")]
+        [Description("Capture triangle region"), Category("Capture")]
         CaptureTriangleRegion,
-        [Description("Capture diamond region")]
+        [Description("Capture diamond region"), Category("Capture")]
         CaptureDiamondRegion,
-        [Description("Capture polygon region")]
+        [Description("Capture polygon region"), Category("Capture")]
         CapturePolygonRegion,
-        [Description("Capture freehand region")]
+        [Description("Capture freehand region"), Category("Capture")]
         CaptureFreeHandRegion,
 
-        [Description("Upload clipboard content")]
+        [Description("Upload clipboard content"), Category("Capture")]
         UploadClipboard,
-        [Description("Upload file")]
+        [Description("Upload file"), Category("Capture")]
         UploadFile,
 
-        [Description("Copy image to clipboard")]
+        [Description("Copy image to clipboard"), Category("After Capture")]
         ClipboardCopyImage,
-        [Description("Annotate image")]
+        [Description("Annotate image"), Category("After Capture")]
         ImageAnnotate,
-        [Description("Save to file")]
+        [Description("Save to file"), Category("After Capture")]
         SaveToFile,
-        [Description("Save to file with dialog")]
+        [Description("Save to file with dialog"), Category("After Capture")]
         SaveToFileWithDialog,
-        [Description("Perform after capture tasks")]
+        [Description("Perform after capture tasks"), Category("After Capture")]
         AfterCaptureTasks,
-        [Description("Upload to remote host")]
+        [Description("Upload to remote host"), Category("After Capture")]
         UploadToRemoteHost,
-        [Description("Send to printer")]
+        [Description("Send to printer"), Category("After Capture")]
         Printer
     }
 
