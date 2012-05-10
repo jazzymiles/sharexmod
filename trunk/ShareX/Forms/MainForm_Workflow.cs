@@ -152,7 +152,7 @@ namespace ShareX
                         jobs.ImageJobs |= TaskImageJob.CopyImageToClipboard;
                         break;
                     case EActivity.ImageAnnotate:
-                        EditImage(ref idwf);
+                        jobs.ImageJobs |= TaskImageJob.AnnotateImage;
                         break;
                     case EActivity.SaveToFile:
                         jobs.ImageJobs |= TaskImageJob.SaveImageToFile;
@@ -168,6 +168,15 @@ namespace ShareX
                         break;
                     case EActivity.UploadToRemoteHost:
                         jobs.ImageJobs |= TaskImageJob.UploadImageToHost;
+                        break;
+                    case EActivity.UploadToImageShack:
+                        jobs.ImageJobs |= TaskImageJob.UploadImageToHost;
+                        jobs.ImageUploaders.Add(UploadersLib.ImageDestination.ImageShack);
+                        break;
+                    case EActivity.UploadToDropbox:
+                        jobs.ImageJobs |= TaskImageJob.UploadImageToHost;
+                        jobs.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                        jobs.FileUploaders.Add(UploadersLib.FileDestination.Dropbox);
                         break;
                     default:
                         throw new Exception(string.Format("{0} is not yet implemented.", act));

@@ -9,51 +9,57 @@ namespace HelpersLib.Hotkeys2
     /// <summary>
     /// This Enum must not be restructured. New items must append at the end to avoid mapping to the wrong item.
     /// </summary>
+    [Flags]
     [TypeConverter(typeof(EnumToStringUsingDescription))]
     public enum EActivity
     {
-        [Description("Capture screen"), Category("Capture")]
-        CaptureScreen,
-        [Description("Capture active monitor"), Category("Capture")]
-        CaptureActiveMonitor,
-        [Description("Capture active window"), Category("Capture")]
-        CaptureActiveWindow,
-        [Description("Capture window or rectangle region"), Category("Capture")]
-        CaptureWindowRectangle,
-        [Description("Capture rectangle region"), Category("Capture")]
-        CaptureRectangleRegion,
-        [Description("Capture rounded rectangle region"), Category("Capture")]
-        CaptureRoundedRectangleRegion,
-        [Description("Capture ellipse region"), Category("Capture")]
-        CaptureEllipseRegion,
-        [Description("Capture triangle region"), Category("Capture")]
-        CaptureTriangleRegion,
-        [Description("Capture diamond region"), Category("Capture")]
-        CaptureDiamondRegion,
-        [Description("Capture polygon region"), Category("Capture")]
-        CapturePolygonRegion,
-        [Description("Capture freehand region"), Category("Capture")]
-        CaptureFreeHandRegion,
+        [Description("Capture screen"), Category(ComponentModelStrings.ActivitiesCapture)]
+        CaptureScreen = 1,
+        [Description("Capture active monitor"), Category(ComponentModelStrings.ActivitiesCapture)]
+        CaptureActiveMonitor = 2,
+        [Description("Capture active window"), Category(ComponentModelStrings.ActivitiesCapture)]
+        CaptureActiveWindow = 4,
+        [Description("Capture window or rectangle region"), Category(ComponentModelStrings.ActivitiesCapture)]
+        CaptureWindowRectangle = 8,
+        [Description("Capture rectangle region"), Category(ComponentModelStrings.ActivitiesCapture)]
+        CaptureRectangleRegion = 16,
+        [Description("Capture rounded rectangle region"), Category(ComponentModelStrings.ActivitiesCapture)]
+        CaptureRoundedRectangleRegion = 32,
+        [Description("Capture ellipse region"), Category(ComponentModelStrings.ActivitiesCapture)]
+        CaptureEllipseRegion = 64,
+        [Description("Capture triangle region"), Category(ComponentModelStrings.ActivitiesCapture)]
+        CaptureTriangleRegion = 128,
+        [Description("Capture diamond region"), Category(ComponentModelStrings.ActivitiesCapture)]
+        CaptureDiamondRegion = 256,
+        [Description("Capture polygon region"), Category(ComponentModelStrings.ActivitiesCapture)]
+        CapturePolygonRegion = 512,
+        [Description("Capture freehand region"), Category(ComponentModelStrings.ActivitiesCapture)]
+        CaptureFreeHandRegion = 1024,
 
-        [Description("Upload clipboard content"), Category("Capture")]
-        UploadClipboard,
-        [Description("Upload file"), Category("Capture")]
-        UploadFile,
+        [Description("Upload clipboard content"), Category(ComponentModelStrings.ActivitiesCapture)]
+        UploadClipboard = 2048,
+        [Description("Upload file"), Category(ComponentModelStrings.ActivitiesCapture)]
+        UploadFile = 4096,
 
-        [Description("Copy image to clipboard"), Category("After Capture")]
-        ClipboardCopyImage,
-        [Description("Annotate image"), Category("After Capture")]
-        ImageAnnotate,
-        [Description("Save to file"), Category("After Capture")]
-        SaveToFile,
-        [Description("Save to file with dialog"), Category("After Capture")]
-        SaveToFileWithDialog,
-        [Description("Perform after capture tasks"), Category("After Capture")]
-        AfterCaptureTasks,
-        [Description("Upload to remote host"), Category("After Capture")]
-        UploadToRemoteHost,
-        [Description("Send to printer"), Category("After Capture")]
-        Printer
+        [Description("Copy image to clipboard"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        ClipboardCopyImage = 8192,
+        [Description("Annotate image"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        ImageAnnotate = 16384,
+        [Description("Save to file"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        SaveToFile = 32768,
+        [Description("Save to file with dialog"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        SaveToFileWithDialog = 65536,
+        [Description("Perform after capture tasks"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        AfterCaptureTasks = 131072,
+        [Description("Upload to remote host"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        UploadToRemoteHost = 262144,
+        [Description("Send to printer"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        Printer = 524288,
+
+        [Description("Upload to ImageShack"), Category(ComponentModelStrings.ActivitiesUpload)]
+        UploadToImageShack,
+        [Description("Upload to Dropbox"), Category(ComponentModelStrings.ActivitiesUpload)]
+        UploadToDropbox
     }
 
     public class EnumToStringUsingDescription : TypeConverter

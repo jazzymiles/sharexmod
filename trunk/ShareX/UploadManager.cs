@@ -356,15 +356,24 @@ namespace ShareX
                     }
 
                     if (info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
+                    {
                         lvi.SubItems.Add(info.UploaderHost);
+                        break;
+                    }
                     else if (info.ImageJob.HasFlag(job))
                     {
                         lvi.SubItems.Add(job.GetDescription());
                         break;
                     }
+                    else
+                    {
+                        lvi.SubItems.Add(string.Empty);
+                        break;
+                    }
                 }
 
                 lvi.SubItems.Add(string.Empty);
+
                 lvi.BackColor = info.ID % 2 == 0 ? Color.White : Color.WhiteSmoke;
                 lvi.ImageIndex = 3;
                 ListViewControl.Items.Add(lvi);
