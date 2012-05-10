@@ -84,30 +84,45 @@ namespace ShareX
             return imageData;
         }
 
-        private void AfterCapture(ImageData imageData, TaskImageJob imageJob = TaskImageJob.None)
+        /// <summary>
+        /// Method to run after capturing screneshot.
+        /// </summary>
+        /// <param name="imageData">ImageData object contains Image and WindowText.</param>
+        /// <param name="jobs">AfterCaptureActivity object is null when default hotkeys are run.</param>
+        private void AfterCapture(ImageData imageData, AfterCaptureActivity jobs = null)
         {
             if (imageData != null)
             {
-                log.InfoFormat("AfterCapture, Image: {0}x{1}", imageData.Image.Width, imageData.Image.Height);
+                // AfterCaptureActivity can be null if the method is not called by a user hotkey
+                if (jobs == null)
+                    jobs = new AfterCaptureActivity();
 
-                if (imageJob == TaskImageJob.None)
-                {
-                    imageJob = Program.Settings.AfterCaptureTasks;
-                }
+                // ImageJobs can be null so default to program settings
+                if (jobs.ImageJobs == TaskImageJob.None)
+                    jobs.ImageJobs = Program.Settings.AfterCaptureTasks;
+
+                if (jobs.ImageUploaders.Count == 0)
+                    jobs.ImageUploaders.Add(UploadManager.ImageUploader);
+
+                if (jobs.FileUploaders.Count == 0)
+                    jobs.FileUploaders.Add(UploadManager.FileUploader);
+
+                if (jobs.TextUploaders.Count == 0)
+                    jobs.TextUploaders.Add(UploadManager.TextUploader);
 
                 if (Program.Settings.ShowAfterCaptureWizard)
                 {
-                    WindowAfterCapture dlg = new WindowAfterCapture(imageJob);
+                    WindowAfterCapture dlg = new WindowAfterCapture(jobs.ImageJobs);
                     dlg.ShowDialog();
-                    imageJob = dlg.Config;
+                    jobs.ImageJobs = dlg.Config;
                 }
 
-                if (imageJob.HasFlag(TaskImageJob.AnnotateImage))
+                if (jobs.ImageJobs.HasFlag(TaskImageJob.AnnotateImage))
                 {
                     EditImage(ref imageData);
                 }
 
-                UploadManager.DoImageWork(imageData, imageJob);
+                UploadManager.DoImageWork(imageData, jobs);
             }
         }
 

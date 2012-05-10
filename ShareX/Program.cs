@@ -42,6 +42,14 @@ namespace ShareX
     {
         private static readonly string ApplicationName = Application.ProductName;
 
+        #region Links
+
+        public const string URL_WEBSITE = "http://code.google.com/p/sharexmod";
+        public const string URL_ISSUES = "http://code.google.com/p/sharexmod/issues/entry";
+        public const string URL_UPDATE = "http://sharexmod.googlecode.com/svn/trunk/Update.xml";
+
+        #endregion Links
+
         #region Paths
 
         private static readonly string DefaultScreenshotsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), ApplicationName);
@@ -275,11 +283,6 @@ namespace ShareX
             log.Info("Loading Uploaders Config");
             LoadUploadersConfig();
             UploaderSettingsResetEvent.Set();
-
-            if (Program.Settings.DropboxSync)
-            {
-                new DropboxSyncHelper().Load();
-            }
         }
 
         public static void LoadUploadersConfig()
@@ -299,7 +302,7 @@ namespace ShareX
 
         private static void OnError(Exception e)
         {
-            new ErrorForm(Application.ProductName, e, new Logger(), LogFilePath, Links.URL_ISSUES).ShowDialog();
+            new ErrorForm(Application.ProductName, e, new Logger(), LogFilePath, Program.URL_ISSUES).ShowDialog();
         }
 
         private static void SingleInstanceCallback(object sender, InstanceCallbackEventArgs args)

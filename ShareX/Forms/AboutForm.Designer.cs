@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.lblProductName = new System.Windows.Forms.Label();
-            this.lblZScreen = new System.Windows.Forms.Label();
+            this.lblWebsite = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
             this.lblCopyright = new System.Windows.Forms.Label();
             this.lblBugs = new System.Windows.Forms.Label();
@@ -62,19 +62,19 @@
             this.lblProductName.Text = "ShareX 1.0.0.0";
             this.lblProductName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblZScreen
+            // lblWebsite
             // 
-            this.lblZScreen.AutoSize = true;
-            this.lblZScreen.BackColor = System.Drawing.Color.Transparent;
-            this.lblZScreen.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblZScreen.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.lblZScreen.ForeColor = System.Drawing.Color.Black;
-            this.lblZScreen.Location = new System.Drawing.Point(272, 64);
-            this.lblZScreen.Name = "lblZScreen";
-            this.lblZScreen.Size = new System.Drawing.Size(67, 13);
-            this.lblZScreen.TabIndex = 2;
-            this.lblZScreen.Text = "Project page";
-            this.lblZScreen.Click += new System.EventHandler(this.lblZScreen_Click);
+            this.lblWebsite.AutoSize = true;
+            this.lblWebsite.BackColor = System.Drawing.Color.Transparent;
+            this.lblWebsite.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblWebsite.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.lblWebsite.ForeColor = System.Drawing.Color.Black;
+            this.lblWebsite.Location = new System.Drawing.Point(272, 64);
+            this.lblWebsite.Name = "lblWebsite";
+            this.lblWebsite.Size = new System.Drawing.Size(67, 13);
+            this.lblWebsite.TabIndex = 2;
+            this.lblWebsite.Text = "Project page";
+            this.lblWebsite.Click += new System.EventHandler(this.lblWebsite_Click);
             // 
             // btnClose
             // 
@@ -235,7 +235,7 @@
             this.Controls.Add(this.lblBugs);
             this.Controls.Add(this.lblCopyright);
             this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.lblZScreen);
+            this.Controls.Add(this.lblWebsite);
             this.Controls.Add(this.lblProductName);
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(602, 546);
@@ -256,7 +256,7 @@
         #endregion Windows Form Designer generated code
 
         private System.Windows.Forms.Label lblProductName;
-        private System.Windows.Forms.Label lblZScreen;
+        private System.Windows.Forms.Label lblWebsite;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Label lblCopyright;
         private System.Windows.Forms.Label lblBugs;

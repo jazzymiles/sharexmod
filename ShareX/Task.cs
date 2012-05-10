@@ -189,10 +189,10 @@ namespace ShareX
                     switch (Info.UploadDestination)
                     {
                         case EDataType.Image:
-                            Info.Result = UploadImage(data, Info.FileName);
+                            Info.Result = UploadImage(data);
                             break;
                         case EDataType.File:
-                            Info.Result = UploadFile(data, Info.FileName);
+                            Info.Result = UploadFile(data);
                             break;
                         case EDataType.Text:
                             Info.Result = UploadText(data);
@@ -289,11 +289,17 @@ namespace ShareX
             }
         }
 
-        public UploadResult UploadImage(Stream stream, string fileName)
+        /// <summary>
+        /// Uploads an image using a stream and UploadInfo
+        /// </summary>
+        /// <param name="stream">Data stream</param>
+        /// <param name="info">UploadInfo object of the Task</param>
+        /// <returns>Returns an UploadResult object with URLs</returns>
+        public UploadResult UploadImage(Stream stream)
         {
             ImageUploader imageUploader = null;
 
-            switch (UploadManager.ImageUploader)
+            switch (Info.ImageUploader)
             {
                 case ImageDestination.ImageShack:
                     imageUploader = new ImageShackUploader(ApiKeys.ImageShackKey, Program.UploadersConfig.ImageShackAccountType,
@@ -356,7 +362,7 @@ namespace ShareX
             if (imageUploader != null)
             {
                 PrepareUploader(imageUploader);
-                return imageUploader.Upload(stream, fileName);
+                return imageUploader.Upload(stream, Info.FileName);
             }
 
             return null;
@@ -366,7 +372,7 @@ namespace ShareX
         {
             TextUploader textUploader = null;
 
-            switch (UploadManager.TextUploader)
+            switch (Info.TextUploader)
             {
                 case TextDestination.Pastebin:
                     textUploader = new PastebinUploader(ApiKeys.PastebinKey, Program.UploadersConfig.PastebinSettings);
@@ -392,11 +398,11 @@ namespace ShareX
             return null;
         }
 
-        public UploadResult UploadFile(Stream stream, string fileName)
+        public UploadResult UploadFile(Stream stream)
         {
             FileUploader fileUploader = null;
 
-            switch (UploadManager.FileUploader)
+            switch (Info.FileUploader)
             {
                 case FileDestination.Dropbox:
                     NameParser parser = new NameParser { IsFolderPath = true };
@@ -480,7 +486,7 @@ namespace ShareX
             if (fileUploader != null)
             {
                 PrepareUploader(fileUploader);
-                return fileUploader.Upload(stream, fileName);
+                return fileUploader.Upload(stream, Info.FileName);
             }
 
             return null;
