@@ -143,7 +143,7 @@ namespace ShareX
             {
                 OnUploadPreparing();
 
-                DoFormJobs1();
+                DoFormJobs();
 
                 bw = new BackgroundWorker();
                 bw.WorkerReportsProgress = true;
@@ -232,7 +232,7 @@ namespace ShareX
         /// <summary>
         /// Happens just before Image Data is prepared
         /// </summary>
-        private void DoFormJobs1()
+        private void DoFormJobs()
         {
             if (Info.ImageJob.HasFlag(TaskImageJob.Print))
             {
@@ -243,21 +243,17 @@ namespace ShareX
             {
                 Clipboard.SetImage(imageData.Image);
             }
-        }
 
-        /// <summary>
-        /// These jobs run after ImageData object has been prepared
-        /// </summary>
-        private void DoFormJobs2()
-        {
             if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFileWithDialog))
             {
-                FolderBrowserDialog dlg = new FolderBrowserDialog();
-                dlg.Description = string.Format("Choose a folder to save {0}", imageData.Filename);
-                dlg.ShowNewFolderButton = true;
-                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                using (FolderBrowserDialog dlg = new FolderBrowserDialog())
                 {
-                    imageData.WriteToFile(dlg.SelectedPath);
+                    dlg.Description = string.Format("Choose a folder to save {0}", Info.FileName);
+                    dlg.ShowNewFolderButton = true;
+                    if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        Info.FolderPath = dlg.SelectedPath;
+                    }
                 }
             }
         }
@@ -278,6 +274,12 @@ namespace ShareX
                 if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFile))
                 {
                     Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
+                }
+                if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFileWithDialog) && Directory.Exists(Info.FolderPath))
+                {
+                    string fp = imageData.WriteToFile(Info.FolderPath);
+                    if (string.IsNullOrEmpty(Info.FilePath))
+                        Info.FilePath = fp;
                 }
             }
             else if (Info.Job == TaskJob.TextUpload && !string.IsNullOrEmpty(tempText))
@@ -589,8 +591,6 @@ namespace ShareX
 
         private void OnUploadCompleted()
         {
-            DoFormJobs2();
-
             Status = TaskStatus.Completed;
 
             if (!IsStopped)

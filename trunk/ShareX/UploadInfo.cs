@@ -55,6 +55,8 @@ namespace ShareX
             }
         }
 
+        public string FolderPath { get; set; }
+
         public string FileName { get; set; }
 
         public EDataType DataType { get; set; }
