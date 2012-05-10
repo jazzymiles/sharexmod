@@ -34,6 +34,7 @@ using HelpersLib;
 using HelpersLib.Hotkeys2;
 using ScreenCapture;
 using ShareX.HelperClasses;
+using UploadersLib;
 
 namespace ShareX
 {
@@ -88,8 +89,6 @@ namespace ShareX
         {
             if (imageData != null)
             {
-                log.InfoFormat("AfterCapture, Image: {0}x{1}", imageData.Image.Width, imageData.Image.Height);
-
                 if (imageJob == TaskImageJob.None)
                 {
                     imageJob = Program.Settings.AfterCaptureTasks;
@@ -107,7 +106,12 @@ namespace ShareX
                     EditImage(ref imageData);
                 }
 
-                UploadManager.DoImageWork(imageData, imageJob);
+                AfterCaptureActivity info = new AfterCaptureActivity()
+                {
+                    ImageTasks = imageJob,
+                    ImageDestinations = new List<UploadersLib.ImageDestination>() { UploadManager.ImageUploader }
+                };
+                UploadManager.DoImageWork(imageData, info);
             }
         }
 

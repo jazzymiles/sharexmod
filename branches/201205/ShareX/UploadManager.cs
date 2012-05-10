@@ -193,22 +193,36 @@ namespace ShareX
 
         public static void UploadImage(Image img)
         {
-            DoImageWork(new ImageData(img), TaskImageJob.UploadImageToHost);
+            AfterCaptureActivity info = new AfterCaptureActivity();
+            info.ImageTasks = TaskImageJob.UploadImageToHost;
+            DoImageWork(new ImageData(img), info);
         }
 
         public static void UploadImage(ImageData img)
         {
-            DoImageWork(img, TaskImageJob.UploadImageToHost);
+            AfterCaptureActivity info = new AfterCaptureActivity();
+            info.ImageTasks = TaskImageJob.UploadImageToHost;
+            DoImageWork(img, info);
         }
 
-        public static void DoImageWork(ImageData imageData, TaskImageJob imageJob)
+        public static void DoImageWork(ImageData imageData, AfterCaptureActivity info)
         {
             if (imageData != null)
             {
-                EDataType destination = ImageUploader == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
-                Task task = Task.CreateImageUploaderTask(imageData, destination);
-                task.Info.ImageJob = imageJob;
-                StartUpload(task);
+                using (imageData)
+                {
+                    foreach (ImageDestination dest in info.ImageDestinations)
+                    {
+                        EDataType destination = dest == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
+                        IClone cm = new CloneManager();
+                        ImageData id = cm.Clone<ImageData>(imageData);
+                        id.Image = imageData.ImageExported;
+                        Task task = Task.CreateImageUploaderTask(id, destination);
+                        task.Info.AfterCaptureTasks = info;
+                        StartUpload(task);
+                        break; // TODO: ShareX 7.1 to support multiple destinations
+                    }
+                }
             }
         }
 
@@ -301,7 +315,7 @@ namespace ShareX
 
         private static void ChangeListViewItemStatus(UploadInfo info)
         {
-            if (ListViewControl != null && info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
+            if (ListViewControl != null && info.AfterCaptureTasks.ImageTasks.HasFlag(TaskImageJob.UploadImageToHost))
             {
                 ListViewItem lvi = ListViewControl.Items[info.ID];
                 lvi.SubItems[1].Text = info.Status;
@@ -323,7 +337,7 @@ namespace ShareX
                 lvi.SubItems.Add(string.Empty);
                 lvi.SubItems.Add(info.DataType.ToString());
 
-                if (info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
+                if (info.AfterCaptureTasks.ImageTasks.HasFlag(TaskImageJob.UploadImageToHost))
                     lvi.SubItems.Add(info.UploaderHost);
                 else
                     lvi.SubItems.Add(string.Empty);

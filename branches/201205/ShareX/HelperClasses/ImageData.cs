@@ -26,6 +26,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Xml.Serialization;
 using HelpersLib;
 
 namespace ShareX.HelperClasses
@@ -34,11 +35,13 @@ namespace ShareX.HelperClasses
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private EImageFormat imageFormat = EImageFormat.PNG;
-        public MemoryStream ImageStream { get; private set; }
+        [XmlIgnore]
+        public MemoryStream ImageStream { get; set; }
+        [XmlIgnore]
         public Image Image = null;
-        public string WindowText { get; private set; }
-        public string Filename { get; private set; }
-        public string FilePath { get; private set; }
+        public string WindowText { get; set; }
+        public string Filename { get; set; }
+        public string FilePath { get; set; }
 
         public bool IsPrepared
         {

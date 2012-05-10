@@ -26,8 +26,10 @@
 using System;
 using System.IO;
 using HelpersLib;
+using HelpersLib.Hotkeys2;
 using HistoryLib;
 using ShareX.HelperClasses;
+using UploadersLib;
 using UploadersLib.HelperClasses;
 
 namespace ShareX
@@ -37,7 +39,7 @@ namespace ShareX
         public int ID { get; set; }
         public string Status { get; set; }
         public TaskJob Job { get; set; }
-        public TaskImageJob ImageJob { get; set; }
+        public AfterCaptureActivity AfterCaptureTasks { get; set; }
         public ProgressManager Progress { get; set; }
 
         private string filePath;
@@ -107,7 +109,7 @@ namespace ShareX
         public UploadInfo()
         {
             Result = new UploadResult();
-            ImageJob = TaskImageJob.UploadImageToHost;
+            AfterCaptureTasks = new AfterCaptureActivity();
         }
 
         public HistoryItem GetHistoryItem()

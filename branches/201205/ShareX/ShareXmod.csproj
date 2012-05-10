@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComponentModelStrings.cs" />
+    <Compile Include="HelperClasses\AfterCaptureActivity.cs" />
     <Compile Include="HelperClasses\DropboxSyncHelper.cs" />
     <Compile Include="HelperClasses\FolderWatcher.cs" />
     <Compile Include="HelperClasses\FormsHelper.cs" />

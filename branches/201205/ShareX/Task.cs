@@ -30,6 +30,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using HelpersLib;
+using HelpersLib.Hotkeys2;
 using ShareX.HelperClasses;
 using UploadersLib;
 using UploadersLib.FileUploaders;
@@ -172,7 +173,7 @@ namespace ShareX
         {
             DoThreadJob();
 
-            if (Info.Job != TaskJob.ImageUpload || Info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
+            if (Info.Job != TaskJob.ImageUpload || Info.AfterCaptureTasks.ImageTasks.HasFlag(TaskImageJob.UploadImageToHost))
             {
                 if (Program.UploadersConfig == null)
                 {
@@ -189,10 +190,10 @@ namespace ShareX
                     switch (Info.UploadDestination)
                     {
                         case EDataType.Image:
-                            Info.Result = UploadImage(data, Info.FileName);
+                            Info.Result = UploadImage(data, Info);
                             break;
                         case EDataType.File:
-                            Info.Result = UploadFile(data, Info.FileName);
+                            Info.Result = UploadFile(data, Info);
                             break;
                         case EDataType.Text:
                             Info.Result = UploadText(data);
@@ -234,17 +235,17 @@ namespace ShareX
         /// </summary>
         private void DoFormJobs()
         {
-            if (Info.ImageJob.HasFlag(TaskImageJob.Print))
+            if (Info.AfterCaptureTasks.ImageTasks.HasFlag(TaskImageJob.Print))
             {
                 new PrintForm(imageData.ImageExported, ref Program.Settings.PrintSettings).Show();
             }
 
-            if (Info.Job == TaskJob.ImageUpload && imageData != null && Info.ImageJob.HasFlag(TaskImageJob.CopyImageToClipboard))
+            if (Info.Job == TaskJob.ImageUpload && imageData != null && Info.AfterCaptureTasks.ImageTasks.HasFlag(TaskImageJob.CopyImageToClipboard))
             {
                 Clipboard.SetImage(imageData.Image);
             }
 
-            if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFileWithDialog))
+            if (Info.AfterCaptureTasks.ImageTasks.HasFlag(TaskImageJob.SaveImageToFileWithDialog))
             {
                 using (FolderBrowserDialog dlg = new FolderBrowserDialog())
                 {
@@ -264,18 +265,18 @@ namespace ShareX
         /// </summary>
         private void DoThreadJob()
         {
-            if (Info.Job == TaskJob.ImageUpload && imageData != null && Info.ImageJob.HasFlagAny(TaskImageJob.UploadImageToHost, TaskImageJob.SaveImageToFile))
+            if (Info.Job == TaskJob.ImageUpload && imageData != null && Info.AfterCaptureTasks.ImageTasks.HasFlagAny(TaskImageJob.UploadImageToHost, TaskImageJob.SaveImageToFile))
             {
                 imageData.PrepareImageAndFilename();
 
                 data = imageData.ImageStream;
                 Info.FileName = imageData.Filename;
 
-                if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFile))
+                if (Info.AfterCaptureTasks.ImageTasks.HasFlag(TaskImageJob.SaveImageToFile))
                 {
                     Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
                 }
-                if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFileWithDialog) && Directory.Exists(Info.FolderPath))
+                if (Info.AfterCaptureTasks.ImageTasks.HasFlag(TaskImageJob.SaveImageToFileWithDialog) && Directory.Exists(Info.FolderPath))
                 {
                     string fp = imageData.WriteToFile(Info.FolderPath);
                     if (string.IsNullOrEmpty(Info.FilePath))
@@ -289,9 +290,14 @@ namespace ShareX
             }
         }
 
-        public UploadResult UploadImage(Stream stream, string fileName)
+        public UploadResult UploadImage(Stream stream, UploadInfo info)
         {
+            string fileName = info.FileName;
             ImageUploader imageUploader = null;
+
+            if (info.AfterCaptureTasks.ImageDestinations.Contains(ImageDestination.ImageShack))
+            {
+            }
 
             switch (UploadManager.ImageUploader)
             {
@@ -392,9 +398,10 @@ namespace ShareX
             return null;
         }
 
-        public UploadResult UploadFile(Stream stream, string fileName)
+        public UploadResult UploadFile(Stream stream, UploadInfo info)
         {
             FileUploader fileUploader = null;
+            string fileName = info.FileName;
 
             switch (UploadManager.FileUploader)
             {
