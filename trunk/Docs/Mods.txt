@@ -18,3 +18,4 @@ Greenshot Image Editor Mods:
 - modify ImageEditorFormFormClosing to have DialogResult result = System.Windows.Forms.DialogResult.OK;
 - add Languages
 - add log4net.dll
+- modify CreateIniLocation

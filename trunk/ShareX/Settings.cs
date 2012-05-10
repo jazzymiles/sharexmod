@@ -128,11 +128,11 @@ namespace ShareX
 
         [Category(HelpersLib.ComponentModelStrings.App), DefaultValue(false), Description("If you have configured Dropbox, then this setting will synchronize uploaders configuration and application settings except for paths.")]
         public bool DropboxSync { get; set; }
-        [Category(ComponentModelStrings.SettingsInteraction), DefaultValue(false), Description("Show after capture wizard. Dynamically choose actions after capture")]
+        [Category(ComponentModelStrings.SettingsInteraction), DefaultValue(true), Description("Show after capture wizard. Dynamically choose actions after capture")]
         public bool ShowAfterCaptureWizard { get; set; }
-        [Category(ComponentModelStrings.SettingsInteraction), DefaultValue(false), Description("Show clipboard options after host upload is completed. Dynamically choose which link format to be copied to the clipboad.")]
+        [Category(ComponentModelStrings.SettingsInteraction), DefaultValue(true), Description("Show clipboard options after host upload is completed. Dynamically choose which link format to be copied to the clipboad.")]
         public bool ShowClipboardOptionsWizard { get; set; }
-        [Category(ComponentModelStrings.InputsClipboard), DefaultValue(false), Description("When a folder path is in the clipboard, upload the folder index instead of the folder path as part of Clipboard Upload.")]
+        [Category(ComponentModelStrings.InputsClipboard), DefaultValue(true), Description("When a folder path is in the clipboard, upload the folder index instead of the folder path as part of Clipboard Upload.")]
         public bool IndexFolderWhenPossible { get; set; }
         [Category(HelpersLib.ComponentModelStrings.InputsWatchFolder), DefaultValue(false), Description("Automatically upload files saved in to this folder.")]
         public bool FolderMonitoring { get; set; }
