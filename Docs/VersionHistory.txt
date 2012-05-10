@@ -1,4 +1,4 @@
-﻿Version 7.0.0 - 2012-09-28
+﻿Version 7.0 - 2012-09-28
 
 * Log Viewer powered by log4net replaces the previous logging system
 * Dropbox synchronisation of Settings except for Paths

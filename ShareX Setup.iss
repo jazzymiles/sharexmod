@@ -21,7 +21,7 @@ ArchitecturesAllowed=x86 x64 ia64
 ArchitecturesInstallIn64BitMode=x64 ia64
 Compression=lzma/ultra64
 CreateAppDir=true
-DefaultDirName={pf}\{#MyAppName}
+DefaultDirName={userappdata}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 DirExistsWarning=no
 InfoAfterFile=Docs\VersionHistory.txt
@@ -58,7 +58,7 @@ Source: "ShareX\bin\Release\*.exe"; Excludes: *.vshost.exe; DestDir: {app}; Flag
 Source: "ShareX\bin\Release\*.pdb"; DestDir: {app}; Flags: ignoreversion
 Source: "ShareX\bin\Release\*.dll"; DestDir: {app}; Flags: ignoreversion
 Source: "ShareX\bin\Release\*.wav"; DestDir: {app}; Flags: ignoreversion
-;Source: "ShareX\bin\Release\*.xml"; DestDir: {app}; Flags: ignoreversion recursesubdirs
+Source: "ShareX\bin\Release\*.xml"; DestDir: {app}; Flags: ignoreversion recursesubdirs
 Source: "ShareX\bin\Release\*.html"; DestDir: {app}; Flags: ignoreversion recursesubdirs
 
 [Icons]
