@@ -24,7 +24,7 @@ namespace HelpersLib
 
         public static void Init_log4net(string fpLog)
         {
-            if (log.Logger.Repository.Configured)
+            if (!log.Logger.Repository.Configured)
             {
                 RollingFileAppender fa = new RollingFileAppender();
                 fa.AppendToFile = true;

@@ -59,6 +59,7 @@ namespace ShareX.HelperClasses
             this.Image = img;
             if (screenshot)
                 this.WindowText = NativeMethods.GetForegroundWindowText();
+            this.Filename = PrepareFilenameWithoutExtension();
         }
 
         public Image ImageExported
@@ -70,6 +71,23 @@ namespace ShareX.HelperClasses
 
                 return null;
             }
+        }
+
+        private string PrepareFilenameWithoutExtension()
+        {
+            string windowText = this.WindowText;
+            if (string.IsNullOrEmpty(windowText))
+                windowText = "Screenshot";
+            int fnweLenMax = Program.Settings.MaxFilenameLength - 5;
+            int wtLenMax = fnweLenMax - 20;
+
+            // Truncate window text
+            if (wtLenMax > 0 && windowText.Length > wtLenMax)
+                windowText = windowText.Substring(0, wtLenMax);
+
+            NameParser parser = new NameParser { Picture = this.Image, WindowText = windowText };
+
+            return parser.Convert(Program.Settings.NameFormatPattern);
         }
 
         private string PrepareFilename()
@@ -95,26 +113,9 @@ namespace ShareX.HelperClasses
                     break;
             }
 
-            string windowText = this.WindowText;
-            if (string.IsNullOrEmpty(windowText))
-                windowText = "Screenshot";
-            int fnweLenMax = Program.Settings.MaxFilenameLength - ext.Length - 1;
-            int wtLenMax = fnweLenMax - 20;
+            string fnwe = PrepareFilenameWithoutExtension();
 
-            // Truncate window text
-            if (wtLenMax > 0 && windowText.Length > wtLenMax)
-                windowText = windowText.Substring(0, wtLenMax);
-
-            NameParser parser = new NameParser { Picture = this.Image, WindowText = windowText };
-
-            string fnwe = parser.Convert(Program.Settings.NameFormatPattern);
-            string fn = string.Format("{0}.{1}", fnwe, ext);
-
-            // Truncate file name
-            if (fnweLenMax > 0 && fnwe.Length > fnweLenMax)
-                fn = string.Format("{0}.{1}", fnwe.Substring(0, fnweLenMax), ext);
-
-            return fn;
+            return string.Format("{0}.{1}", fnwe, ext);
         }
 
         private MemoryStream PrepareImage(Image img, out EImageFormat imageFormat)
