@@ -28,6 +28,7 @@ using System.IO;
 using HelpersLib;
 using HistoryLib;
 using ShareX.HelperClasses;
+using UploadersLib;
 using UploadersLib.HelperClasses;
 
 namespace ShareX
@@ -38,6 +39,10 @@ namespace ShareX
         public string Status { get; set; }
         public TaskJob Job { get; set; }
         public TaskImageJob ImageJob { get; set; }
+        public ImageDestination ImageUploader { get; set; }
+        public TextDestination TextUploader { get; set; }
+        public FileDestination FileUploader { get; set; }
+        public UrlShortenerType URLShortener { get; set; }
         public ProgressManager Progress { get; set; }
 
         private string filePath;

@@ -558,6 +558,7 @@ namespace ShareX
             this.chHost,
             this.chURL});
             this.lvUploads.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvUploads.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lvUploads.FullRowSelect = true;
             this.lvUploads.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvUploads.HideSelection = false;
@@ -585,7 +586,7 @@ namespace ShareX
             // chProgress
             // 
             this.chProgress.Text = "Progress";
-            this.chProgress.Width = 149;
+            this.chProgress.Width = 63;
             // 
             // chSpeed
             // 
@@ -595,12 +596,12 @@ namespace ShareX
             // chElapsed
             // 
             this.chElapsed.Text = "Elapsed";
-            this.chElapsed.Width = 50;
+            this.chElapsed.Width = 63;
             // 
             // chRemaining
             // 
             this.chRemaining.Text = "Remaining";
-            this.chRemaining.Width = 50;
+            this.chRemaining.Width = 70;
             // 
             // chUploaderType
             // 
@@ -609,13 +610,13 @@ namespace ShareX
             // 
             // chHost
             // 
-            this.chHost.Text = "Host";
-            this.chHost.Width = 100;
+            this.chHost.Text = "Destination";
+            this.chHost.Width = 115;
             // 
             // chURL
             // 
             this.chURL.Text = "URL";
-            this.chURL.Width = 225;
+            this.chURL.Width = 239;
             // 
             // niTray
             // 

@@ -57,9 +57,16 @@ namespace ShareX
         private void AfterLoadJobs()
         {
             LoadSettings();
-            InitHotkeys();
-
             ReloadConfig();
+
+            if (!Program.Settings.DropboxSync)
+            {
+                InitHotkeys();
+            }
+            else
+            {
+                new DropboxSyncHelper().InitHotkeys();
+            }
 
             if (Program.Settings.AutoCheckUpdate)
             {
@@ -258,7 +265,7 @@ namespace ShareX
 
         private void CheckUpdate()
         {
-            UpdateChecker updateChecker = new UpdateChecker(Links.URL_UPDATE, Application.ProductName, new Version(Program.AssemblyVersion),
+            UpdateChecker updateChecker = new UpdateChecker(Program.URL_UPDATE, Application.ProductName, new Version(Program.AssemblyVersion),
                 ReleaseChannelType.Stable, Uploader.ProxySettings.GetWebProxy);
             updateChecker.CheckUpdate();
 
@@ -383,7 +390,7 @@ namespace ShareX
             if (!string.IsNullOrEmpty(errors))
             {
                 Exception e = new Exception("Upload errors: " + errors);
-                new ErrorForm(Application.ProductName, e, new Logger(), Program.LogFilePath, Links.URL_ISSUES).ShowDialog();
+                new ErrorForm(Application.ProductName, e, new Logger(), Program.LogFilePath, Program.URL_ISSUES).ShowDialog();
             }
         }
 
@@ -595,7 +602,7 @@ namespace ShareX
 
         private void tsbDonate_Click(object sender, EventArgs e)
         {
-            Helpers.LoadBrowserAsync(Links.URL_DONATE_ZU);
+            Helpers.LoadBrowserAsync(Program.URL_WEBSITE);
         }
 
         private void lvUploads_SelectedIndexChanged(object sender, EventArgs e)

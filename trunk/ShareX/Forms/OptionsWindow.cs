@@ -827,7 +827,7 @@ namespace ShareX.Forms
 
         private void btnDropboxSyncImport_Click(object sender, EventArgs e)
         {
-            new DropboxSyncHelper().Load();
+            new DropboxSyncHelper().InitHotkeys();
         }
 
         private void btnDropboxSyncExport_Click(object sender, EventArgs e)

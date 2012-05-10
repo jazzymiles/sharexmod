@@ -59,6 +59,20 @@ namespace ShareX
             Tasks = new List<Task>();
         }
 
+        #region Files
+
+        public static void UploadFile()
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    UploadFile(ofd.FileName);
+                }
+            }
+        }
+
         public static void UploadFile(string path)
         {
             if (!string.IsNullOrEmpty(path))
@@ -92,17 +106,18 @@ namespace ShareX
                     }
 
                     Task task = Task.CreateFileUploaderTask(type, path, destination);
+                    task.Info.FileUploader = UploadManager.FileUploader;
                     StartUpload(task);
                 }
                 else if (Directory.Exists(path))
                 {
                     string[] files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
-                    UploadFile(files);
+                    UploadFiles(files);
                 }
             }
         }
 
-        public static void UploadFile(string[] files)
+        public static void UploadFiles(string[] files)
         {
             if (files != null && files.Length > 0)
             {
@@ -113,17 +128,50 @@ namespace ShareX
             }
         }
 
-        public static void UploadFile()
+        #endregion Files
+
+        #region Images
+
+        public static void DoImageWork(ImageData imageData, AfterCaptureActivity act)
         {
-            using (OpenFileDialog ofd = new OpenFileDialog())
+            if (imageData != null)
             {
-                ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                if (ofd.ShowDialog() == DialogResult.OK)
+                foreach (ImageDestination imageUploader in act.ImageUploaders)
                 {
-                    UploadFile(ofd.FileName);
+                    EDataType destination = imageUploader == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
+                    Task task = Task.CreateImageUploaderTask(imageData, destination);
+                    task.Info.ImageJob = act.ImageJobs;
+                    task.Info.ImageUploader = imageUploader;
+                    StartUpload(task);
+                    break; // ShareX 7.1 will support creation of multiple tasks
                 }
             }
         }
+
+        public static void UploadImage(Image img)
+        {
+            AfterCaptureActivity act = new AfterCaptureActivity() { ImageJobs = TaskImageJob.UploadImageToHost };
+            DoImageWork(new ImageData(img), act);
+        }
+
+        #endregion Images
+
+        #region Text
+
+        public static void UploadText(string text)
+        {
+            if (!string.IsNullOrEmpty(text))
+            {
+                EDataType destination = TextUploader == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
+                Task task = Task.CreateTextUploaderTask(text, destination);
+                task.Info.TextUploader = UploadManager.TextUploader;
+                StartUpload(task);
+            }
+        }
+
+        #endregion Text
+
+        #region Clipboard Upload
 
         public static void ClipboardUpload()
         {
@@ -135,7 +183,7 @@ namespace ShareX
             else if (Clipboard.ContainsFileDropList())
             {
                 string[] files = Clipboard.GetFileDropList().Cast<string>().ToArray();
-                UploadFile(files);
+                UploadFiles(files);
             }
             else if (Clipboard.ContainsText())
             {
@@ -172,12 +220,16 @@ namespace ShareX
             }
         }
 
+        #endregion Clipboard Upload
+
+        #region Drag n Drop
+
         public static void DragDropUpload(IDataObject data)
         {
             if (data.GetDataPresent(DataFormats.FileDrop, false))
             {
                 string[] files = data.GetData(DataFormats.FileDrop, false) as string[];
-                UploadFile(files);
+                UploadFiles(files);
             }
             else if (data.GetDataPresent(DataFormats.Bitmap, false))
             {
@@ -191,33 +243,13 @@ namespace ShareX
             }
         }
 
-        public static void UploadImage(Image img)
-        {
-            DoImageWork(new ImageData(img), TaskImageJob.UploadImageToHost);
-        }
+        #endregion Drag n Drop
 
-        public static void UploadImage(ImageData img)
+        public static void ShortenURL(string url)
         {
-            DoImageWork(img, TaskImageJob.UploadImageToHost);
-        }
-
-        public static void DoImageWork(ImageData imageData, TaskImageJob imageJob)
-        {
-            if (imageData != null)
+            if (!string.IsNullOrEmpty(url))
             {
-                EDataType destination = ImageUploader == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
-                Task task = Task.CreateImageUploaderTask(imageData, destination);
-                task.Info.ImageJob = imageJob;
-                StartUpload(task);
-            }
-        }
-
-        public static void UploadText(string text)
-        {
-            if (!string.IsNullOrEmpty(text))
-            {
-                EDataType destination = TextUploader == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
-                Task task = Task.CreateTextUploaderTask(text, destination);
+                Task task = Task.CreateURLShortenerTask(url);
                 StartUpload(task);
             }
         }
@@ -229,15 +261,6 @@ namespace ShareX
                 EDataType destination = ImageUploader == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
                 Task task = Task.CreateDataUploaderTask(EDataType.Image, stream, filePath, destination);
 
-                StartUpload(task);
-            }
-        }
-
-        public static void ShortenURL(string url)
-        {
-            if (!string.IsNullOrEmpty(url))
-            {
-                Task task = Task.CreateURLShortenerTask(url);
                 StartUpload(task);
             }
         }
@@ -323,10 +346,23 @@ namespace ShareX
                 lvi.SubItems.Add(string.Empty);
                 lvi.SubItems.Add(info.DataType.ToString());
 
-                if (info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
-                    lvi.SubItems.Add(info.UploaderHost);
-                else
-                    lvi.SubItems.Add(string.Empty);
+                var taskImageJobs = Enum.GetValues(typeof(TaskImageJob)).Cast<TaskImageJob>();
+                foreach (TaskImageJob job in taskImageJobs)
+                {
+                    switch (job)
+                    {
+                        case TaskImageJob.None:
+                            continue;
+                    }
+
+                    if (info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
+                        lvi.SubItems.Add(info.UploaderHost);
+                    else if (info.ImageJob.HasFlag(job))
+                    {
+                        lvi.SubItems.Add(job.GetDescription());
+                        break;
+                    }
+                }
 
                 lvi.SubItems.Add(string.Empty);
                 lvi.BackColor = info.ID % 2 == 0 ? Color.White : Color.WhiteSmoke;
@@ -336,6 +372,8 @@ namespace ShareX
                 ListViewControl.FillLastColumn();
             }
         }
+
+        #region Task Event Handler Methods
 
         private static void task_UploadPreparing(UploadInfo info)
         {
@@ -376,6 +414,10 @@ namespace ShareX
             return time;
         }
 
+        /// <summary>
+        /// Mod 01: Not just uploads, everything gets added to List e.g. Saving to file
+        /// </summary>
+        /// <param name="info">UploadInfo</param>
         private static void task_UploadCompleted(UploadInfo info)
         {
             try
@@ -446,5 +488,7 @@ namespace ShareX
                 StartTasks();
             }
         }
+
+        #endregion Task Event Handler Methods
     }
 }

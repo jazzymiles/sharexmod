@@ -65,7 +65,7 @@ namespace ShareX
 
             txtDetails.Text = sbDesc.ToString();
 
-            UpdateChecker updateChecker = new UpdateChecker(Links.URL_UPDATE, Application.ProductName, new Version(Program.AssemblyVersion),
+            UpdateChecker updateChecker = new UpdateChecker(Program.URL_UPDATE, Application.ProductName, new Version(Program.AssemblyVersion),
                 ReleaseChannelType.Stable, Uploader.ProxySettings.GetWebProxy);
             uclUpdate.CheckUpdate(updateChecker);
         }
@@ -89,14 +89,14 @@ namespace ShareX
             }
         }
 
-        private void lblZScreen_Click(object sender, EventArgs e)
+        private void lblWebsite_Click(object sender, EventArgs e)
         {
-            Helpers.LoadBrowserAsync(Links.URL_WEBSITE);
+            Helpers.LoadBrowserAsync(Program.URL_WEBSITE);
         }
 
         private void lblBugs_Click(object sender, EventArgs e)
         {
-            Helpers.LoadBrowserAsync(Links.URL_ISSUES);
+            Helpers.LoadBrowserAsync(Program.URL_ISSUES);
         }
 
         private void pbBerkURL_Click(object sender, EventArgs e)

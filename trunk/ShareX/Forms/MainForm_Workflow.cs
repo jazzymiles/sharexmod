@@ -103,7 +103,7 @@ namespace ShareX
                 return;
             }
 
-            TaskImageJob tasksAfterCapture = TaskImageJob.None;
+            AfterCaptureActivity jobs = new AfterCaptureActivity();
 
             foreach (EActivity act in wf.Activities)
             {
@@ -149,33 +149,33 @@ namespace ShareX
                         idwf = CaptureRegion(new FreeHandRegion(), autoHideForm);
                         break;
                     case EActivity.ClipboardCopyImage:
-                        tasksAfterCapture |= TaskImageJob.CopyImageToClipboard;
+                        jobs.ImageJobs |= TaskImageJob.CopyImageToClipboard;
                         break;
                     case EActivity.ImageAnnotate:
                         EditImage(ref idwf);
                         break;
                     case EActivity.SaveToFile:
-                        tasksAfterCapture |= TaskImageJob.SaveImageToFile;
+                        jobs.ImageJobs |= TaskImageJob.SaveImageToFile;
                         break;
                     case EActivity.SaveToFileWithDialog:
-                        tasksAfterCapture |= TaskImageJob.SaveImageToFileWithDialog;
+                        jobs.ImageJobs |= TaskImageJob.SaveImageToFileWithDialog;
                         break;
                     case EActivity.Printer:
-                        tasksAfterCapture |= TaskImageJob.Print;
+                        jobs.ImageJobs |= TaskImageJob.Print;
                         break;
                     case EActivity.AfterCaptureTasks:
                         AfterCapture(idwf);
                         break;
                     case EActivity.UploadToRemoteHost:
-                        tasksAfterCapture |= TaskImageJob.UploadImageToHost;
+                        jobs.ImageJobs |= TaskImageJob.UploadImageToHost;
                         break;
                     default:
                         throw new Exception(string.Format("{0} is not yet implemented.", act));
                 }
             }
 
-            if (tasksAfterCapture != TaskImageJob.None)
-                AfterCapture(idwf, tasksAfterCapture);
+            if (jobs.ImageJobs != TaskImageJob.None)
+                AfterCapture(idwf, jobs);
         }
 
         private void EditImage(ref ImageData imageData_gse)

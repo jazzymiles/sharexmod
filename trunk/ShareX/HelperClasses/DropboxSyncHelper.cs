@@ -22,10 +22,13 @@ namespace ShareX
 
         public DropboxSyncHelper()
         {
+            if (Program.UploadersConfig == null)
+                Program.UploaderSettingsResetEvent.WaitOne();
+
             dropbox = new Dropbox(Program.UploadersConfig.DropboxOAuthInfo, Application.ProductName, Program.UploadersConfig.DropboxAccountInfo);
         }
 
-        public static MemoryStream GetMemoryStream(object obj)
+        private static MemoryStream GetMemoryStream(object obj)
         {
             try
             {
@@ -88,29 +91,12 @@ namespace ShareX
 
         private void bwLoad_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            RebuildWorkflowTags(e.Result as Settings);
-        }
-
-        /// <summary>
-        /// This method overwrites the tags read from Dropbox with the tags already registered on the system.
-        /// We do this because it is more efficient that unregistering and re-registering hotkeys.
-        /// </summary>
-        private void RebuildWorkflowTags(Settings settingsDropbox)
-        {
-            if (settingsDropbox != null)
-            {
-                int min = Math.Min(settingsDropbox.Workflows1.Count, FormsHelper.Main.HotkeyList.Count);
-                for (int i = 0; i < min; i++)
-                {
-                    FormsHelper.Main.HotkeyList[i].Tag = settingsDropbox.Workflows1[i].HotkeyConfig.Tag;
-                    log.DebugFormat("Updated Workflow: {0}, ID: {1}", Program.Settings.Workflows1[i].HotkeyConfig.Description, Program.Settings.Workflows1[i].HotkeyConfig.Tag);
-                }
-            }
+            FormsHelper.Main.InitHotkeys();
         }
 
         private void bwSave_DoWork(object sender, DoWorkEventArgs e)
         {
-            // Create a copy of Settins
+            // Create a copy of Settings
             IClone cm = new CloneManager();
 
             Settings settings = cm.Clone(Program.Settings);
@@ -122,7 +108,7 @@ namespace ShareX
             log.InfoFormat("{0} updated.", pathDropboxUploadersConfig);
         }
 
-        public void Load()
+        public void InitHotkeys()
         {
             if (dropbox != null)
             {

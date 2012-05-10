@@ -61,42 +61,6 @@ namespace HelpersLib.Hotkeys2
         FreeHandRegion
     }
 
-    public enum ZScreenHotkey
-    {
-        [Description("Capture Entire Screen")]
-        EntireScreen,
-        [Description("Capture Active Monitor")]
-        ActiveMonitor,
-        [Description("Capture Active Window")]
-        ActiveWindow,
-        [Description("Capture Rectangular Region")]
-        RectangleRegion,
-        [Description("Capture Last Rectangular Region")]
-        RectangleRegionLast,
-        [Description("Capture Selected Window")]
-        SelectedWindow,
-        [Description("Capture Shape")]
-        FreehandRegion,
-        [Description("Clipboard Upload")]
-        ClipboardUpload,
-        [Description("Auto Capture")]
-        AutoCapture,
-        [Description("Drop Window")]
-        DropWindow,
-        [Description("Color Picker")]
-        ScreenColorPicker,
-        [Description("Twitter Client")]
-        TwitterClient,
-        [Description("Capture Rectangular Region to Clipboard")]
-        RectangleRegionClipboard
-    }
-
-    public enum JBirdHotkey
-    {
-        [Description("")]
-        Workflow
-    }
-
     public class HotkeyManager
     {
         public List<Workflow> Workflows = new List<Workflow>();
