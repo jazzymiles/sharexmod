@@ -158,14 +158,29 @@ namespace ShareX
 
         #region Text
 
-        public static void UploadText(string text)
+        /// <summary>
+        /// Optionally takes AfterCaptureActivity to configure task specific text uploaders
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="jobs"></param>
+        public static void UploadText(string text, AfterCaptureActivity jobs = null)
         {
+            if (jobs == null)
+            {
+                jobs = new AfterCaptureActivity();
+                jobs.TextUploaders.Add(TextUploader);
+            }
+
             if (!string.IsNullOrEmpty(text))
             {
-                EDataType destination = TextUploader == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
-                Task task = Task.CreateTextUploaderTask(text, destination);
-                task.Info.TextUploader = UploadManager.TextUploader;
-                StartUpload(task);
+                foreach (TextDestination textUploader in jobs.TextUploaders)
+                {
+                    EDataType destination = textUploader == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
+                    Task task = Task.CreateTextUploaderTask(text, destination);
+                    task.Info.TextUploader = textUploader;
+                    StartUpload(task);
+                    break; // TODO: ShareXmod 7.1 to have multiple destination support
+                }
             }
         }
 
@@ -173,7 +188,7 @@ namespace ShareX
 
         #region Clipboard Upload
 
-        public static void ClipboardUpload()
+        public static void ClipboardUpload(AfterCaptureActivity jobs = null)
         {
             if (Clipboard.ContainsImage())
             {
@@ -195,7 +210,7 @@ namespace ShareX
                 }
                 else
                 {
-                    UploadText(text);
+                    UploadText(text, jobs);
                 }
             }
         }

@@ -39,6 +39,7 @@ namespace ShareX
         public string Status { get; set; }
         public TaskJob Job { get; set; }
         public TaskImageJob ImageJob { get; set; }
+        public TaskTextJob TextJobs { get; set; }
         public ImageDestination ImageUploader { get; set; }
         public TextDestination TextUploader { get; set; }
         public FileDestination FileUploader { get; set; }
