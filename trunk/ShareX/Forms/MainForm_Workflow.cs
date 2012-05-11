@@ -172,6 +172,10 @@ namespace ShareX
                         jobs_wf.ImageJobs |= TaskImageJob.UploadImageToHost;
                         jobs_wf.ImageUploaders.Add(UploadersLib.ImageDestination.ImageShack);
                         break;
+                    case EActivity.UploadToTinyPic:
+                        // jobs_wf.ImageJobs |= TaskImageJob.UploadImageToHost;
+                        jobs_wf.ImageUploaders.Add(UploadersLib.ImageDestination.TinyPic);
+                        break;
                     case EActivity.UploadToPastebin:
                         jobs_wf.TextUploaders.Add(UploadersLib.TextDestination.Pastebin);
                         break;
@@ -190,7 +194,7 @@ namespace ShareX
 
         private void AfterHotkeyPressed(ImageData imageData, AfterCaptureActivity jobs = null)
         {
-            if (imageData != null && jobs.ImageJobs != TaskImageJob.None)
+            if (imageData != null)
                 AfterCapture(imageData, jobs);
             else if (jobs.TextJobs != TaskTextJob.None)
                 UploadManager.ClipboardUpload(jobs);

@@ -355,7 +355,7 @@ namespace ShareX
         {
             if (ListViewControl != null)
             {
-                log.InfoFormat("Upload in queue. ID: {0}, Job: {1}, Type: {2}, Host: {3}", info.ID, info.Job, info.UploadDestination, info.UploaderHost);
+                log.InfoFormat("Upload in queue. ID: {0}, Job: {1}, Type: {2}, Host: {3}", info.ID, info.Job, info.DataType.GetDescription(), info.UploadDestination);
 
                 ListViewItem lvi = new ListViewItem();
                 lvi.Text = info.FileName;
@@ -377,7 +377,7 @@ namespace ShareX
 
                     if (info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
                     {
-                        lvi.SubItems.Add(info.UploaderHost);
+                        lvi.SubItems.Add(info.UploadDestination);
                         break;
                     }
                     else if (info.ImageJob.HasFlag(job))

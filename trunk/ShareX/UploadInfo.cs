@@ -67,37 +67,25 @@ namespace ShareX
 
         public EDataType DataType { get; set; }
 
-        private EDataType uploadDestination;
-
-        public EDataType UploadDestination
+        public string UploadDestination
         {
             get
             {
-                return uploadDestination;
-            }
-            set
-            {
-                uploadDestination = value;
-
-                switch (uploadDestination)
+                switch (DataType)
                 {
                     case EDataType.File:
-                        UploaderHost = FileUploader.GetDescription();
-                        break;
+                        return FileUploader.GetDescription();
                     case EDataType.Image:
-                        UploaderHost = ImageUploader.GetDescription();
-                        break;
+                        return ImageUploader.GetDescription();
+
                     case EDataType.Text:
-                        UploaderHost = TextUploader.GetDescription();
-                        break;
+                        return TextUploader.GetDescription();
                     case EDataType.URL:
-                        UploaderHost = URLShortener.GetDescription();
-                        break;
+                        return URLShortener.GetDescription();
                 }
+                return string.Empty;
             }
         }
-
-        public string UploaderHost { get; private set; }
 
         public DateTime StartTime { get; set; }
 
@@ -124,7 +112,7 @@ namespace ShareX
                 Filepath = FilePath,
                 DateTimeUtc = UploadTime,
                 Type = UploadDestination.ToString(),
-                Host = UploaderHost,
+                Host = UploadDestination,
                 URL = Result.URL,
                 ThumbnailURL = Result.ThumbnailURL,
                 DeletionURL = Result.DeletionURL,
