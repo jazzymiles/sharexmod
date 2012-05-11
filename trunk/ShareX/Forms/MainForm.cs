@@ -725,6 +725,11 @@ namespace ShareX
 
         private void tsmiDebugOpen_Click(object sender, EventArgs e)
         {
+            ShowLog();
+        }
+
+        public void ShowLog()
+        {
             HelpersLib.log4netHelpers.log4netViewer_ListView viewer = new HelpersLib.log4netHelpers.log4netViewer_ListView();
             viewer.Icon = this.Icon;
             viewer.Show();

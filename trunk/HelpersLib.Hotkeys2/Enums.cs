@@ -60,10 +60,18 @@ namespace HelpersLib.Hotkeys2
         UploadToImageShack,
         [Description("Upload to TinyPic"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
         UploadToTinyPic,
-        [Description("Upload to Pastebin"), Category(ComponentModelStrings.ActivitiesUploadersText)]
+        [Description("Upload to Imgur"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
+        UploadToImgur,
+
+        [Description("Upload to pastebin.com"), Category(ComponentModelStrings.ActivitiesUploadersText)]
         UploadToPastebin,
+        [Description("Upload to paste2.org"), Category(ComponentModelStrings.ActivitiesUploadersText)]
+        UploadToPaste2,
+
         [Description("Upload to Dropbox"), Category(ComponentModelStrings.ActivitiesUploadersFiles)]
-        UploadToDropbox
+        UploadToDropbox,
+        [Description("Upload to Minus"), Category(ComponentModelStrings.ActivitiesUploadersFiles)]
+        UploadToMinus
     }
 
     public class EnumToStringUsingDescription : TypeConverter
