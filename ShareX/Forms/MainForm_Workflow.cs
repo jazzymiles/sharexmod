@@ -113,7 +113,7 @@ namespace ShareX
                         jobs_wf.TextJobs |= TaskTextJob.UploadToHost;
                         break;
                     case EActivity.UploadFile:
-                        UploadManager.UploadFile();
+                        jobs_wf.FileJobs |= TaskFileJob.UploadToHost;
                         break;
                     case EActivity.CaptureScreen:
                         imagedata_wf = CaptureScreen(autoHideForm);
@@ -195,6 +195,8 @@ namespace ShareX
                 AfterCapture(imageData, jobs);
             else if (jobs.TextJobs != TaskTextJob.None)
                 UploadManager.ClipboardUpload(jobs);
+            else if (jobs.FileJobs != TaskFileJob.None)
+                UploadManager.UploadFile(jobs);
         }
 
         private void EditImage(ref ImageData imageData_gse)

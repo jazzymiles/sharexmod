@@ -25,6 +25,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
@@ -43,31 +44,44 @@ namespace ShareX
             lblProductName.Text = Program.Title;
             lblCopyright.Text = AssemblyCopyright;
 
-            StringBuilder sbDesc = new StringBuilder();
-            sbDesc.AppendLine("Acknowledgements:");
-            sbDesc.AppendLine("FTP Library: http://www.starksoft.com");
-            sbDesc.AppendLine("Json.NET: http://json.codeplex.com");
-            sbDesc.AppendLine("SSH.NET: http://sshnet.codeplex.com");
-            sbDesc.AppendLine("Image Editor: http://getgreenshot.org");
-            sbDesc.AppendLine("Application Icon:  Mopquill ( www.mpql.net )");
-            sbDesc.AppendLine("Other Icons: http://p.yusukekamiyamane.com");
+            AppendBoldLine("Acknowledgements:");
+            AppendLine("FTP Library: http://www.starksoft.com");
+            AppendLine("Json.NET: http://json.codeplex.com");
+            AppendLine("SSH.NET: http://sshnet.codeplex.com");
+            AppendLine("Image Editor: http://getgreenshot.org");
+            AppendLine("Application Icon:  Mopquill ( www.mpql.net )");
+            AppendLine("Other Icons: http://p.yusukekamiyamane.com");
+            AppendLine();
 
-            sbDesc.AppendLine();
+            AppendBoldLine("Thanks to:");
+            AppendLine("Andrew Moore for introducing ZScreen.");
+            AppendLine("Brandon Zimmermann as the founder of ZScreen.");
+            AppendLine();
 
             if (Program.LibNames != null)
             {
-                sbDesc.AppendLine("Referenced assemblies:");
+                AppendBoldLine("Referenced assemblies:");
                 foreach (string dll in Program.LibNames)
                 {
-                    sbDesc.AppendLine(dll);
+                    AppendLine(dll);
                 }
             }
-
-            txtDetails.Text = sbDesc.ToString();
 
             UpdateChecker updateChecker = new UpdateChecker(Program.URL_UPDATE, Application.ProductName, new Version(Program.AssemblyVersion),
                 ReleaseChannelType.Stable, Uploader.ProxySettings.GetWebProxy);
             uclUpdate.CheckUpdate(updateChecker);
+        }
+
+        private void AppendLine(string text = "")
+        {
+            txtDetails.AppendText(text + Environment.NewLine);
+        }
+
+        private void AppendBoldLine(string text)
+        {
+            txtDetails.SelectionFont = new Font(txtDetails.SelectionFont, FontStyle.Bold);
+            txtDetails.AppendText(text + Environment.NewLine);
+            txtDetails.SelectionFont = new Font(txtDetails.SelectionFont, FontStyle.Regular);
         }
 
         private void AboutForm_Shown(object sender, EventArgs e)

@@ -149,7 +149,16 @@ namespace ShareX
 #endif
         }
 
-        private void LoadSettings()
+        private void ClearToolStripMenuItemChecks(ToolStripMenuItem tsmi)
+        {
+            foreach (ToolStripItem tsi in tsmi.DropDownItems)
+            {
+                if (tsi.GetType() == typeof(ToolStripMenuItem))
+                    ((ToolStripMenuItem)tsi).Checked = false;
+            }
+        }
+
+        public void LoadSettings()
         {
             niTray.Visible = Program.Settings.ShowTray;
 
@@ -158,6 +167,7 @@ namespace ShareX
                 Program.Settings.SelectedImageUploaderDestination = 0;
             }
 
+            ClearToolStripMenuItemChecks(tsmiImageUploaders);
             ((ToolStripMenuItem)tsmiImageUploaders.DropDownItems[Program.Settings.SelectedImageUploaderDestination]).Checked = true;
             UploadManager.ImageUploader = (ImageDestination)Program.Settings.SelectedImageUploaderDestination;
 
@@ -166,6 +176,7 @@ namespace ShareX
                 Program.Settings.SelectedFileUploaderDestination = 0;
             }
 
+            ClearToolStripMenuItemChecks(tsmiFileUploaders);
             ((ToolStripMenuItem)tsmiFileUploaders.DropDownItems[Program.Settings.SelectedFileUploaderDestination]).Checked = true;
             UploadManager.FileUploader = (FileDestination)Program.Settings.SelectedFileUploaderDestination;
 
@@ -174,6 +185,7 @@ namespace ShareX
                 Program.Settings.SelectedTextUploaderDestination = 0;
             }
 
+            ClearToolStripMenuItemChecks(tsmiTextUploaders);
             ((ToolStripMenuItem)tsmiTextUploaders.DropDownItems[Program.Settings.SelectedTextUploaderDestination]).Checked = true;
             UploadManager.TextUploader = (TextDestination)Program.Settings.SelectedTextUploaderDestination;
 
@@ -182,6 +194,7 @@ namespace ShareX
                 Program.Settings.SelectedURLShortenerDestination = 0;
             }
 
+            ClearToolStripMenuItemChecks(tsmiURLShorteners);
             ((ToolStripMenuItem)tsmiURLShorteners.DropDownItems[Program.Settings.SelectedURLShortenerDestination]).Checked = true;
             UploadManager.URLShortener = (UrlShortenerType)Program.Settings.SelectedURLShortenerDestination;
 

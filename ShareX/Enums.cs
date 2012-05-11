@@ -72,6 +72,14 @@ namespace ShareX
         Print = 32,
     }
 
+    [Flags]
+    public enum TaskFileJob
+    {
+        None = 0,
+        [Description("Upload to remote host")]
+        UploadToHost = 8,
+    }
+
     public enum ImageScaleType
     {
         Percentage, Width, Height, Specific

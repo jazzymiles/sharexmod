@@ -72,14 +72,14 @@ namespace ShareX
             }
         }
 
-        public static void UploadFile()
+        public static void UploadFile(AfterCaptureActivity jobs = null)
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    UploadFile(ofd.FileName);
+                    UploadFile(ofd.FileName, jobs);
                 }
             }
         }

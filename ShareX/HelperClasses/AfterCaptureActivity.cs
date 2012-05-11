@@ -11,6 +11,7 @@ namespace ShareX.HelperClasses
     {
         public TaskImageJob ImageJobs { get; set; }
         public TaskTextJob TextJobs { get; set; }
+        public TaskFileJob FileJobs { get; set; }
         public List<ImageDestination> ImageUploaders = new List<ImageDestination>(); // ShareX 7.1 - multiple destinations
         public List<FileDestination> FileUploaders = new List<FileDestination>();    // ShareX 7.1 - multiple destinations
         public List<TextDestination> TextUploaders = new List<TextDestination>();    // ShareX 7.1 - multiple destinations
