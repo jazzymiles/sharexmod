@@ -16,7 +16,9 @@ namespace HelpersLib.Hotkeys2
 
         ListViewGroup lvgCapture = new ListViewGroup(ComponentModelStrings.ActivitiesCapture, HorizontalAlignment.Left);
         ListViewGroup lvgAfterCapture = new ListViewGroup(ComponentModelStrings.ActivitiesAfterCapture, HorizontalAlignment.Left);
-        ListViewGroup lvgDestinationsImages = new ListViewGroup(ComponentModelStrings.ActivitiesUpload, HorizontalAlignment.Left);
+        ListViewGroup lvgUploadersImages = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersImages, HorizontalAlignment.Left);
+        ListViewGroup lvgUploadersText = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersText, HorizontalAlignment.Left);
+        ListViewGroup lvgUploadersFiles = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersFiles, HorizontalAlignment.Left);
 
         public WindowWorkflow(Workflow wf)
         {
@@ -26,8 +28,8 @@ namespace HelpersLib.Hotkeys2
             this.Text = "Workflow - " + wf.HotkeyConfig.Description;
             this.txtDescription.Text = wf.HotkeyConfig.Description;
 
-            lvActivitiesAll.Groups.AddRange(new[] { lvgCapture, lvgAfterCapture, lvgDestinationsImages });
-            lvActivitiesUser.Groups.AddRange(new[] { lvgCapture, lvgAfterCapture, lvgDestinationsImages });
+            lvActivitiesAll.Groups.AddRange(new[] { lvgCapture, lvgAfterCapture, lvgUploadersImages, lvgUploadersText, lvgUploadersFiles });
+            lvActivitiesUser.Groups.AddRange(lvActivitiesAll.Groups);
 
             foreach (EActivity act in wf.Activities)
             {
@@ -50,8 +52,12 @@ namespace HelpersLib.Hotkeys2
                 lvi.Group = lvgCapture;
             else if (act.GetCategory() == lvgAfterCapture.Header)
                 lvi.Group = lvgAfterCapture;
-            else if (act.GetCategory() == lvgDestinationsImages.Header)
-                lvi.Group = lvgDestinationsImages;
+            else if (act.GetCategory() == lvgUploadersImages.Header)
+                lvi.Group = lvgUploadersImages;
+            else if (act.GetCategory() == lvgUploadersText.Header)
+                lvi.Group = lvgUploadersText;
+            else if (act.GetCategory() == lvgUploadersFiles.Header)
+                lvi.Group = lvgUploadersFiles;
 
             lvi.Tag = act;
             lvi.ImageKey = act.GetDescription();
@@ -65,10 +71,13 @@ namespace HelpersLib.Hotkeys2
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == (Keys.A))
+            if (!txtDescription.Focused)
             {
-                ActivityAdd();
-                return true;
+                if (keyData == (Keys.A))
+                {
+                    ActivityAdd();
+                    return true;
+                }
             }
 
             return base.ProcessCmdKey(ref msg, keyData);

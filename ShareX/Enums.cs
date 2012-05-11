@@ -56,6 +56,22 @@ namespace ShareX
         Print = 32,
     }
 
+    [Flags]
+    public enum TaskTextJob
+    {
+        None = 0,
+        [Description("Copy to clipboard")]
+        CopyToClipboard = 2,
+        [Description("Save to file")]
+        SaveToFile = 4,
+        [Description("Upload to remote host")]
+        UploadToHost = 8,
+        [Description("Save to file with dialog")]
+        SaveToFileWithDialog = 16,
+        [Description("Send to Printer")]
+        Print = 32,
+    }
+
     public enum ImageScaleType
     {
         Percentage, Width, Height, Specific

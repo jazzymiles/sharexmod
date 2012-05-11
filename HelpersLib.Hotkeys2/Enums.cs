@@ -56,9 +56,13 @@ namespace HelpersLib.Hotkeys2
         [Description("Send to printer"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         Printer = 524288,
 
-        [Description("Upload to ImageShack"), Category(ComponentModelStrings.ActivitiesUpload)]
+        [Description("Upload to ImageShack"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
         UploadToImageShack,
-        [Description("Upload to Dropbox"), Category(ComponentModelStrings.ActivitiesUpload)]
+        [Description("Upload to TinyPic"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
+        UploadToTinyPic,
+        [Description("Upload to Pastebin"), Category(ComponentModelStrings.ActivitiesUploadersText)]
+        UploadToPastebin,
+        [Description("Upload to Dropbox"), Category(ComponentModelStrings.ActivitiesUploadersFiles)]
         UploadToDropbox
     }
 

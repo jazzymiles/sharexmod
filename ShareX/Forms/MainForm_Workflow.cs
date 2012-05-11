@@ -94,7 +94,7 @@ namespace ShareX
         public void DoWork(string tag, bool autoHideForm = true)
         {
             Workflow wf = Program.Settings.Workflows1.FirstOrDefault(x => x.HotkeyConfig.Tag == tag);
-            ImageData idwf = null;
+            ImageData imagedata_wf = null;
             string fpImg = string.Empty;
 
             if (wf == null)
@@ -103,88 +103,98 @@ namespace ShareX
                 return;
             }
 
-            AfterCaptureActivity jobs = new AfterCaptureActivity();
+            AfterCaptureActivity jobs_wf = new AfterCaptureActivity();
 
             foreach (EActivity act in wf.Activities)
             {
                 switch (act)
                 {
                     case EActivity.UploadClipboard:
-                        UploadManager.ClipboardUpload();
+                        jobs_wf.TextJobs |= TaskTextJob.UploadToHost;
                         break;
                     case EActivity.UploadFile:
                         UploadManager.UploadFile();
                         break;
                     case EActivity.CaptureScreen:
-                        idwf = CaptureScreen(autoHideForm);
+                        imagedata_wf = CaptureScreen(autoHideForm);
                         break;
                     case EActivity.CaptureActiveWindow:
-                        idwf = CaptureActiveWindow(autoHideForm);
+                        imagedata_wf = CaptureActiveWindow(autoHideForm);
                         break;
                     case EActivity.CaptureRectangleRegion:
-                        idwf = CaptureRegion(new RectangleRegion(), autoHideForm);
+                        imagedata_wf = CaptureRegion(new RectangleRegion(), autoHideForm);
                         break;
                     case EActivity.CaptureActiveMonitor:
-                        idwf = CaptureActiveMonitor(autoHideForm);
+                        imagedata_wf = CaptureActiveMonitor(autoHideForm);
                         break;
                     case EActivity.CaptureWindowRectangle:
-                        idwf = WindowRectangleCapture(autoHideForm);
+                        imagedata_wf = WindowRectangleCapture(autoHideForm);
                         break;
                     case EActivity.CaptureRoundedRectangleRegion:
-                        idwf = CaptureRegion(new RoundedRectangleRegion(), autoHideForm);
+                        imagedata_wf = CaptureRegion(new RoundedRectangleRegion(), autoHideForm);
                         break;
                     case EActivity.CaptureEllipseRegion:
-                        idwf = CaptureRegion(new EllipseRegion(), autoHideForm);
+                        imagedata_wf = CaptureRegion(new EllipseRegion(), autoHideForm);
                         break;
                     case EActivity.CaptureTriangleRegion:
-                        idwf = CaptureRegion(new TriangleRegion(), autoHideForm);
+                        imagedata_wf = CaptureRegion(new TriangleRegion(), autoHideForm);
                         break;
                     case EActivity.CaptureDiamondRegion:
-                        idwf = CaptureRegion(new DiamondRegion(), autoHideForm);
+                        imagedata_wf = CaptureRegion(new DiamondRegion(), autoHideForm);
                         break;
                     case EActivity.CapturePolygonRegion:
-                        idwf = CaptureRegion(new PolygonRegion(), autoHideForm);
+                        imagedata_wf = CaptureRegion(new PolygonRegion(), autoHideForm);
                         break;
                     case EActivity.CaptureFreeHandRegion:
-                        idwf = CaptureRegion(new FreeHandRegion(), autoHideForm);
+                        imagedata_wf = CaptureRegion(new FreeHandRegion(), autoHideForm);
                         break;
                     case EActivity.ClipboardCopyImage:
-                        jobs.ImageJobs |= TaskImageJob.CopyImageToClipboard;
+                        jobs_wf.ImageJobs |= TaskImageJob.CopyImageToClipboard;
                         break;
                     case EActivity.ImageAnnotate:
-                        jobs.ImageJobs |= TaskImageJob.AnnotateImage;
+                        jobs_wf.ImageJobs |= TaskImageJob.AnnotateImage;
                         break;
                     case EActivity.SaveToFile:
-                        jobs.ImageJobs |= TaskImageJob.SaveImageToFile;
+                        jobs_wf.ImageJobs |= TaskImageJob.SaveImageToFile;
                         break;
                     case EActivity.SaveToFileWithDialog:
-                        jobs.ImageJobs |= TaskImageJob.SaveImageToFileWithDialog;
+                        jobs_wf.ImageJobs |= TaskImageJob.SaveImageToFileWithDialog;
                         break;
                     case EActivity.Printer:
-                        jobs.ImageJobs |= TaskImageJob.Print;
+                        jobs_wf.ImageJobs |= TaskImageJob.Print;
                         break;
                     case EActivity.AfterCaptureTasks:
-                        AfterCapture(idwf);
+                        AfterCapture(imagedata_wf);
                         break;
                     case EActivity.UploadToRemoteHost:
-                        jobs.ImageJobs |= TaskImageJob.UploadImageToHost;
+                        jobs_wf.ImageJobs |= TaskImageJob.UploadImageToHost;
                         break;
                     case EActivity.UploadToImageShack:
-                        jobs.ImageJobs |= TaskImageJob.UploadImageToHost;
-                        jobs.ImageUploaders.Add(UploadersLib.ImageDestination.ImageShack);
+                        jobs_wf.ImageJobs |= TaskImageJob.UploadImageToHost;
+                        jobs_wf.ImageUploaders.Add(UploadersLib.ImageDestination.ImageShack);
+                        break;
+                    case EActivity.UploadToPastebin:
+                        jobs_wf.TextUploaders.Add(UploadersLib.TextDestination.Pastebin);
                         break;
                     case EActivity.UploadToDropbox:
-                        jobs.ImageJobs |= TaskImageJob.UploadImageToHost;
-                        jobs.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
-                        jobs.FileUploaders.Add(UploadersLib.FileDestination.Dropbox);
+                        jobs_wf.ImageJobs |= TaskImageJob.UploadImageToHost;
+                        jobs_wf.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                        jobs_wf.FileUploaders.Add(UploadersLib.FileDestination.Dropbox);
                         break;
                     default:
                         throw new Exception(string.Format("{0} is not yet implemented.", act));
                 }
             }
 
-            if (jobs.ImageJobs != TaskImageJob.None)
-                AfterCapture(idwf, jobs);
+            AfterHotkeyPressed(imagedata_wf, jobs_wf);
+        }
+
+        private void AfterHotkeyPressed(ImageData imageData, AfterCaptureActivity jobs = null)
+        {
+            if (imageData != null && jobs.ImageJobs != TaskImageJob.None)
+                AfterCapture(imageData, jobs);
+            else if (jobs.TextJobs != TaskTextJob.None)
+                UploadManager.ClipboardUpload(jobs);
         }
 
         private void EditImage(ref ImageData imageData_gse)

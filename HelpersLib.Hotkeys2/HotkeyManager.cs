@@ -33,7 +33,7 @@ namespace HelpersLib.Hotkeys2
 {
     public enum EHotkey
     {
-        [Description("Clipboard Upload")]
+        [Description("Clipboard Upload (Images, Text or Files)")]
         ClipboardUpload,
         [Description("File Upload")]
         FileUpload,
