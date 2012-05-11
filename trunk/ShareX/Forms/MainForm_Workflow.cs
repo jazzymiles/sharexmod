@@ -163,7 +163,7 @@ namespace ShareX
                         jobs_wf.ImageJobs |= TaskImageJob.Print;
                         break;
                     case EActivity.AfterCaptureTasks:
-                        AfterCapture(imagedata_wf);
+                        jobs_wf.ImageJobs = Program.Settings.AfterCaptureTasks;
                         break;
                     case EActivity.UploadToRemoteHost:
                         jobs_wf.ImageJobs |= TaskImageJob.UploadImageToHost;

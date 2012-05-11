@@ -355,7 +355,7 @@ namespace ShareX
         {
             if (ListViewControl != null)
             {
-                log.InfoFormat("Upload in queue. ID: {0}, Job: {1}, Type: {2}, Host: {3}", info.ID, info.Job, info.DataType.GetDescription(), info.UploadDestination);
+                log.InfoFormat("Upload in queue. ID: {0}, Job: {1}, Type: {2}, Host: {3}", info.ID, info.Job, info.DataType.GetDescription(), info.Destination);
 
                 ListViewItem lvi = new ListViewItem();
                 lvi.Text = info.FileName;
@@ -377,7 +377,7 @@ namespace ShareX
 
                     if (info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
                     {
-                        lvi.SubItems.Add(info.UploadDestination);
+                        lvi.SubItems.Add(info.Destination);
                         break;
                     }
                     else if (info.ImageJob.HasFlag(job))
@@ -427,10 +427,10 @@ namespace ShareX
             if (ListViewControl != null)
             {
                 ListViewItem lvi = ListViewControl.Items[info.ID];
-                lvi.SubItems[2].Text = string.Format("{0:N0}%  {1} / {2}", info.Progress.Percentage,
-                   ProperFileSize(info.Progress.Position), ProperFileSize(info.Progress.Length));
+                lvi.SubItems[1].Text = string.Format("{0:0.0}%", info.Progress.Percentage);
+                lvi.SubItems[2].Text = string.Format("{0} / {1}", ProperFileSize(info.Progress.Position), ProperFileSize(info.Progress.Length));
                 if (info.Progress.Speed > 0)
-                    lvi.SubItems[3].Text = string.Format("{0:N0} kB/s", info.Progress.Speed);
+                    lvi.SubItems[3].Text = string.Format("{0:0.0} kB/s", info.Progress.Speed / 1000);
                 lvi.SubItems[4].Text = ProperTimeSpan(info.Progress.Elapsed);
                 lvi.SubItems[5].Text = ProperTimeSpan(info.Progress.Remaining);
             }
