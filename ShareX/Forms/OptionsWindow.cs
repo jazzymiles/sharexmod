@@ -815,6 +815,7 @@ namespace ShareX.Forms
             BeforeClose();
             UploadManager.UpdateProxySettings();
             Program.Settings.SaveAsync(Program.SettingsFilePath);
+            Program.Settings.BackupAsync();
             FormsHelper.Main.ReloadConfig();
         }
 

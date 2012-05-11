@@ -80,7 +80,7 @@
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.ForeColor = System.Drawing.Color.Black;
-            this.btnClose.Location = new System.Drawing.Point(520, 472);
+            this.btnClose.Location = new System.Drawing.Point(530, 542);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(67, 31);
             this.btnClose.TabIndex = 8;
@@ -94,7 +94,7 @@
             this.lblCopyright.AutoSize = true;
             this.lblCopyright.BackColor = System.Drawing.Color.Transparent;
             this.lblCopyright.ForeColor = System.Drawing.Color.Black;
-            this.lblCopyright.Location = new System.Drawing.Point(8, 488);
+            this.lblCopyright.Location = new System.Drawing.Point(8, 558);
             this.lblCopyright.Name = "lblCopyright";
             this.lblCopyright.Size = new System.Drawing.Size(51, 13);
             this.lblCopyright.TabIndex = 7;
@@ -204,7 +204,7 @@
             this.txtDetails.Name = "txtDetails";
             this.txtDetails.ReadOnly = true;
             this.txtDetails.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.txtDetails.Size = new System.Drawing.Size(576, 184);
+            this.txtDetails.Size = new System.Drawing.Size(586, 254);
             this.txtDetails.TabIndex = 6;
             this.txtDetails.Text = "";
             this.txtDetails.WordWrap = false;
@@ -222,7 +222,7 @@
             this.AcceptButton = this.btnClose;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(594, 512);
+            this.ClientSize = new System.Drawing.Size(604, 582);
             this.Controls.Add(this.txtDetails);
             this.Controls.Add(this.uclUpdate);
             this.Controls.Add(this.pbLogo);
@@ -237,8 +237,7 @@
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.lblWebsite);
             this.Controls.Add(this.lblProductName);
-            this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(602, 546);
+            this.MinimumSize = new System.Drawing.Size(620, 620);
             this.Name = "AboutForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ShareX - About";

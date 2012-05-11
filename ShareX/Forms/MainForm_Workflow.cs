@@ -109,10 +109,10 @@ namespace ShareX
                 switch (act)
                 {
                     case EActivity.UploadClipboard:
-                        jobs_wf.TextJobs |= TaskTextJob.UploadToHost;
+                        jobs_wf.InputType = EInputType.Clipboard;
                         break;
                     case EActivity.UploadFile:
-                        jobs_wf.FileJobs |= TaskFileJob.UploadToHost;
+                        jobs_wf.InputType = EInputType.FileSystem;
                         break;
                     case EActivity.CaptureScreen:
                         imagedata_wf = CaptureScreen(autoHideForm);
@@ -169,23 +169,35 @@ namespace ShareX
                         jobs_wf.ImageJobs |= TaskImageJob.UploadImageToHost;
                         break;
                     case EActivity.UploadToImageShack:
-                        jobs_wf.ImageJobs |= TaskImageJob.UploadImageToHost;
                         jobs_wf.ImageUploaders.Add(UploadersLib.ImageDestination.ImageShack);
                         break;
                     case EActivity.UploadToTinyPic:
-                        // jobs_wf.ImageJobs |= TaskImageJob.UploadImageToHost;
                         jobs_wf.ImageUploaders.Add(UploadersLib.ImageDestination.TinyPic);
                         break;
+                    case EActivity.UploadToImgur:
+                        jobs_wf.ImageUploaders.Add(UploadersLib.ImageDestination.Imgur);
+                        break;
+
                     case EActivity.UploadToPastebin:
                         jobs_wf.TextUploaders.Add(UploadersLib.TextDestination.Pastebin);
                         break;
+                    case EActivity.UploadToPaste2:
+                        jobs_wf.TextUploaders.Add(UploadersLib.TextDestination.Paste2);
+                        break;
+
                     case EActivity.UploadToDropbox:
-                        jobs_wf.ImageJobs |= TaskImageJob.UploadImageToHost;
                         jobs_wf.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
                         jobs_wf.FileUploaders.Add(UploadersLib.FileDestination.Dropbox);
                         break;
+                    case EActivity.UploadToMinus:
+                        jobs_wf.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                        jobs_wf.FileUploaders.Add(UploadersLib.FileDestination.Minus);
+                        break;
+
                     default:
-                        throw new Exception(string.Format("{0} is not yet implemented.", act));
+                        ShowLog();
+                        log.ErrorFormat("{0} is not  yet implemented.", act.GetDescription());
+                        break;
                 }
             }
 
@@ -195,10 +207,13 @@ namespace ShareX
         private void AfterHotkeyPressed(ImageData imageData, AfterCaptureActivity jobs = null)
         {
             if (imageData != null)
+            {
+                jobs.ImageJobs |= TaskImageJob.UploadImageToHost;
                 AfterCapture(imageData, jobs);
-            else if (jobs.TextJobs != TaskTextJob.None)
+            }
+            else if (jobs.InputType == EInputType.Clipboard)
                 UploadManager.ClipboardUpload(jobs);
-            else if (jobs.FileJobs != TaskFileJob.None)
+            else if (jobs.InputType == EInputType.FileSystem)
                 UploadManager.UploadFile(jobs);
         }
 

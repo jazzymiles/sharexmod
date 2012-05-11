@@ -54,8 +54,8 @@ namespace ShareX
             AppendLine();
 
             AppendBoldLine("Thanks to:");
-            AppendLine("Andrew Moore for introducing ZScreen.");
-            AppendLine("Brandon Zimmermann as the founder of ZScreen.");
+            AppendLine("Andrew Moore for introducing ZScreen");
+            AppendLine("Brandon Zimmermann as the founder of ZScreen");
             AppendLine();
 
             if (Program.LibNames != null)
