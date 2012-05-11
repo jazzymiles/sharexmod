@@ -61,6 +61,17 @@ namespace ShareX
 
         #region Files
 
+        public static void UploadFiles(string[] files)
+        {
+            if (files != null && files.Length > 0)
+            {
+                foreach (string file in files)
+                {
+                    UploadFile(file);
+                }
+            }
+        }
+
         public static void UploadFile()
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
@@ -73,7 +84,7 @@ namespace ShareX
             }
         }
 
-        public static void UploadFile(string path)
+        public static void UploadFile(string path, AfterCaptureActivity jobs = null)
         {
             if (!string.IsNullOrEmpty(path))
             {
@@ -105,25 +116,21 @@ namespace ShareX
                         type = EDataType.File;
                     }
 
-                    Task task = Task.CreateFileUploaderTask(type, path, destination);
-                    task.Info.FileUploader = UploadManager.FileUploader;
-                    StartUpload(task);
+                    if (jobs == null)
+                        jobs = AfterCaptureActivity.GetNew();
+
+                    foreach (FileDestination fileUploader in jobs.FileUploaders)
+                    {
+                        Task task = Task.CreateFileUploaderTask(type, path, destination);
+                        task.Info.FileUploader = fileUploader;
+                        StartUpload(task);
+                        break;
+                    }
                 }
                 else if (Directory.Exists(path))
                 {
                     string[] files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
                     UploadFiles(files);
-                }
-            }
-        }
-
-        public static void UploadFiles(string[] files)
-        {
-            if (files != null && files.Length > 0)
-            {
-                foreach (string file in files)
-                {
-                    UploadFile(file);
                 }
             }
         }
@@ -165,11 +172,8 @@ namespace ShareX
         /// <param name="jobs"></param>
         public static void UploadText(string text, AfterCaptureActivity jobs = null)
         {
-            if (jobs == null)
-            {
-                jobs = new AfterCaptureActivity();
-                jobs.TextUploaders.Add(TextUploader);
-            }
+            if (AfterCaptureActivity.IsNullOrEmpty(jobs))
+                jobs = AfterCaptureActivity.GetNew();
 
             if (!string.IsNullOrEmpty(text))
             {
