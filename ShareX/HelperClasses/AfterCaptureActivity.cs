@@ -27,8 +27,6 @@ namespace ShareX.HelperClasses
             AfterCaptureActivity act = new AfterCaptureActivity();
             act.GetDefaults();
 
-            act.ImageJobs = Program.Settings.AfterCaptureTasks;
-
             return act;
         }
 
@@ -41,6 +39,9 @@ namespace ShareX.HelperClasses
             if (this.FileUploaders.Count == 0)
                 this.FileUploaders.Add(UploadManager.FileUploader);
             this.URLShortener = UploadManager.URLShortener;
+
+            if (this.ImageJobs == TaskImageJob.None)
+                this.ImageJobs = Program.Settings.AfterCaptureTasks;
         }
     }
 }
