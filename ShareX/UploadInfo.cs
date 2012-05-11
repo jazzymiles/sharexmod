@@ -62,22 +62,20 @@ namespace ShareX
         }
 
         public string FolderPath { get; set; }
-
         public string FileName { get; set; }
-
         public EDataType DataType { get; set; }
+        public EDataType UploadDestination { get; set; }
 
-        public string UploadDestination
+        public string Destination
         {
             get
             {
-                switch (DataType)
+                switch (UploadDestination)
                 {
                     case EDataType.File:
                         return FileUploader.GetDescription();
                     case EDataType.Image:
                         return ImageUploader.GetDescription();
-
                     case EDataType.Text:
                         return TextUploader.GetDescription();
                     case EDataType.URL:
@@ -111,8 +109,8 @@ namespace ShareX
                 Filename = FileName,
                 Filepath = FilePath,
                 DateTimeUtc = UploadTime,
-                Type = UploadDestination.ToString(),
-                Host = UploadDestination,
+                Type = Destination.ToString(),
+                Host = Destination,
                 URL = Result.URL,
                 ThumbnailURL = Result.ThumbnailURL,
                 DeletionURL = Result.DeletionURL,

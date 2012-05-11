@@ -89,6 +89,8 @@ namespace ShareX
         public static Task CreateFileUploaderTask(EDataType dataType, string filePath, EDataType destination = EDataType.Default)
         {
             Task task = new Task(dataType, TaskJob.FileUpload);
+            // task.Info.UploadDestination = destination == EDataType.Default ? EDataType.Image : destination;
+            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
             task.Info.FilePath = filePath;
             task.data = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
             return task;
@@ -98,6 +100,7 @@ namespace ShareX
         public static Task CreateImageUploaderTask(ImageData imageData, EDataType destination = EDataType.Default)
         {
             Task task = new Task(EDataType.Image, TaskJob.ImageUpload);
+            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
             task.Info.FileName = imageData.Filename;
             task.imageData = imageData;
             return task;
@@ -107,6 +110,7 @@ namespace ShareX
         public static Task CreateTextUploaderTask(string text, EDataType destination = EDataType.Default)
         {
             Task task = new Task(EDataType.Text, TaskJob.TextUpload);
+            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
 
             if (Program.Settings.IndexFolderWhenPossible && Directory.Exists(text))
             {
@@ -181,7 +185,7 @@ namespace ShareX
 
                 try
                 {
-                    switch (Info.DataType)
+                    switch (Info.UploadDestination)
                     {
                         case EDataType.Image:
                             Info.Result = UploadImage(data);

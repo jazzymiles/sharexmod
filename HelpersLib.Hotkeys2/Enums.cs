@@ -51,7 +51,7 @@ namespace HelpersLib.Hotkeys2
         SaveToFileWithDialog,
         [Description("Perform after capture tasks"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         AfterCaptureTasks,
-        [Description("Upload to remote host"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        [Description("Upload to default remote host"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         UploadToRemoteHost,
         [Description("Send to printer"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         Printer,
