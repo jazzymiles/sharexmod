@@ -67,11 +67,10 @@ namespace ShareX
 
                 foreach (Workflow wf in Program.Settings.Workflows1)
                 {
-                    // We don't want unnecessay calls to After Capture method
                     if (wf.Hotkey == EHotkey.ClipboardUpload || wf.Hotkey == EHotkey.FileUpload)
-                        continue;
-
-                    wf.Activities.Add(EActivity.AfterCaptureTasks);
+                        wf.Activities.Add(EActivity.UploadToRemoteHost);
+                    else
+                        wf.Activities.Add(EActivity.AfterCaptureTasks);
                 }
             } // if Workflows.Count == 0
 

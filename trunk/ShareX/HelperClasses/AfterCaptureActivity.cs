@@ -34,9 +34,12 @@ namespace ShareX.HelperClasses
 
         internal void GetDefaults()
         {
-            this.ImageUploaders.Add(UploadManager.ImageUploader);
-            this.TextUploaders.Add(UploadManager.TextUploader);
-            this.FileUploaders.Add(UploadManager.FileUploader);
+            if (this.ImageUploaders.Count == 0)
+                this.ImageUploaders.Add(UploadManager.ImageUploader);
+            if (this.TextUploaders.Count == 0)
+                this.TextUploaders.Add(UploadManager.TextUploader);
+            if (this.FileUploaders.Count == 0)
+                this.FileUploaders.Add(UploadManager.FileUploader);
             this.URLShortener = UploadManager.URLShortener;
         }
     }

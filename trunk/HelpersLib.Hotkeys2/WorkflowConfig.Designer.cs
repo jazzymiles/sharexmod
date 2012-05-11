@@ -181,9 +181,7 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.txtDescription);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(672, 512);
+            this.MinimumSize = new System.Drawing.Size(674, 512);
             this.Name = "WindowWorkflow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "WindowWorkflow";
