@@ -49,9 +49,15 @@ namespace HelpersLib.Hotkeys2
 
         public void PrepareHotkeys(HotkeyManager hotkeyManager)
         {
-            if (manager == null)
+            if (manager == null && hotkeyManager != null)
             {
                 manager = hotkeyManager;
+
+                flpHotkeys.Controls.Clear();
+                foreach (Control ctl in this.Controls)
+                {
+                    ctl.Enabled = true;
+                }
 
                 foreach (Workflow wf in manager.Workflows)
                 {
@@ -59,6 +65,20 @@ namespace HelpersLib.Hotkeys2
                     control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
                     flpHotkeys.Controls.Add(control);
                 }
+            }
+            else
+            {
+                foreach (Control ctl in this.Controls)
+                {
+                    ctl.Enabled = false;
+                }
+
+                flpHotkeys.Controls.Clear();
+                flpHotkeys.Controls.Add(new Label()
+                {
+                    Text = "Hotkeys are not ready yet. \n\nThis is most probably due to Dropbox Sync is still in progress.",
+                    AutoSize = true
+                });
             }
         }
 

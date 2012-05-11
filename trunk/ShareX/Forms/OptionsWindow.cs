@@ -45,8 +45,6 @@ namespace ShareX.Forms
         {
             this.tlpMain.Dock = DockStyle.Fill;
 
-            hmHotkeys.PrepareHotkeys(FormsHelper.Main.HotkeyManager);
-
             // TreeView node.Tag property will have corresponding panel.Name
             FillTagsUsingName(tvMain.Nodes);
 
@@ -98,8 +96,14 @@ namespace ShareX.Forms
 
         #endregion Configure Panels
 
-        private void LoadSettings()
+        public void LoadSettings()
         {
+            string path = string.IsNullOrEmpty(Program.Settings.FilePath) ? "via Dropbox Sync" : Program.Settings.FilePath;
+            this.Text = Application.ProductName + " Settings - " + path;
+
+            // Hotkeys
+            hmHotkeys.PrepareHotkeys(FormsHelper.Main.HotkeyManager);
+
             // General
             cbShowTray.Checked = Program.Settings.ShowTray;
             cbStartWithWindows.Checked = ShortcutHelper.CheckShortcut(Environment.SpecialFolder.Startup);
@@ -194,6 +198,8 @@ namespace ShareX.Forms
 
             // Advanced
             pgSettings.SelectedObject = Program.Settings;
+
+            loaded = true;
         }
 
         private void LoadAfterCaptureTasksGui()
@@ -796,12 +802,8 @@ namespace ShareX.Forms
         public OptionsWindow()
         {
             InitializeComponent();
-            string path = string.IsNullOrEmpty(Program.Settings.FilePath) ? "via Dropbox Sync" : Program.Settings.FilePath;
-            this.Text = Application.ProductName + " Settings - " + path;
-
             ConfigurePanels();
             LoadSettings();
-            loaded = true;
         }
 
         private void OptionsWindow_FormClosed(object sender, FormClosedEventArgs e)

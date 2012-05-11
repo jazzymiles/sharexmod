@@ -14,47 +14,47 @@ namespace HelpersLib.Hotkeys2
     public enum EActivity
     {
         [Description("Capture screen"), Category(ComponentModelStrings.ActivitiesCapture)]
-        CaptureScreen = 1,
+        CaptureScreen,
         [Description("Capture active monitor"), Category(ComponentModelStrings.ActivitiesCapture)]
-        CaptureActiveMonitor = 2,
+        CaptureActiveMonitor,
         [Description("Capture active window"), Category(ComponentModelStrings.ActivitiesCapture)]
-        CaptureActiveWindow = 4,
+        CaptureActiveWindow,
         [Description("Capture window or rectangle region"), Category(ComponentModelStrings.ActivitiesCapture)]
-        CaptureWindowRectangle = 8,
+        CaptureWindowRectangle,
         [Description("Capture rectangle region"), Category(ComponentModelStrings.ActivitiesCapture)]
-        CaptureRectangleRegion = 16,
+        CaptureRectangleRegion,
         [Description("Capture rounded rectangle region"), Category(ComponentModelStrings.ActivitiesCapture)]
-        CaptureRoundedRectangleRegion = 32,
+        CaptureRoundedRectangleRegion,
         [Description("Capture ellipse region"), Category(ComponentModelStrings.ActivitiesCapture)]
-        CaptureEllipseRegion = 64,
+        CaptureEllipseRegion,
         [Description("Capture triangle region"), Category(ComponentModelStrings.ActivitiesCapture)]
-        CaptureTriangleRegion = 128,
+        CaptureTriangleRegion,
         [Description("Capture diamond region"), Category(ComponentModelStrings.ActivitiesCapture)]
-        CaptureDiamondRegion = 256,
+        CaptureDiamondRegion,
         [Description("Capture polygon region"), Category(ComponentModelStrings.ActivitiesCapture)]
-        CapturePolygonRegion = 512,
+        CapturePolygonRegion,
         [Description("Capture freehand region"), Category(ComponentModelStrings.ActivitiesCapture)]
-        CaptureFreeHandRegion = 1024,
+        CaptureFreeHandRegion,
 
         [Description("Upload clipboard content"), Category(ComponentModelStrings.ActivitiesCapture)]
-        UploadClipboard = 2048,
+        UploadClipboard,
         [Description("Upload file"), Category(ComponentModelStrings.ActivitiesCapture)]
-        UploadFile = 4096,
+        UploadFile,
 
         [Description("Copy image to clipboard"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        ClipboardCopyImage = 8192,
+        ClipboardCopyImage,
         [Description("Annotate image"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        ImageAnnotate = 16384,
+        ImageAnnotate,
         [Description("Save to file"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        SaveToFile = 32768,
+        SaveToFile,
         [Description("Save to file with dialog"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        SaveToFileWithDialog = 65536,
+        SaveToFileWithDialog,
         [Description("Perform after capture tasks"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        AfterCaptureTasks = 131072,
+        AfterCaptureTasks,
         [Description("Upload to remote host"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        UploadToRemoteHost = 262144,
+        UploadToRemoteHost,
         [Description("Send to printer"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        Printer = 524288,
+        Printer,
 
         [Description("Upload to ImageShack"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
         UploadToImageShack,
