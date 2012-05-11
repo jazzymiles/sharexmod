@@ -49,7 +49,7 @@ namespace HelpersLib.Hotkeys2
 
         public void PrepareHotkeys(HotkeyManager hotkeyManager)
         {
-            if (manager == null && hotkeyManager != null)
+            if (hotkeyManager != null)
             {
                 manager = hotkeyManager;
 

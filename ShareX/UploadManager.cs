@@ -157,8 +157,7 @@ namespace ShareX
 
         public static void UploadImage(Image img)
         {
-            AfterCaptureActivity act = new AfterCaptureActivity() { ImageJobs = TaskImageJob.UploadImageToHost };
-            DoImageWork(new ImageData(img), act);
+            DoImageWork(new ImageData(img), AfterCaptureActivity.GetNew());
         }
 
         #endregion Images
@@ -172,8 +171,10 @@ namespace ShareX
         /// <param name="jobs"></param>
         public static void UploadText(string text, AfterCaptureActivity jobs = null)
         {
-            if (AfterCaptureActivity.IsNullOrEmpty(jobs))
+            if (jobs == null)
                 jobs = AfterCaptureActivity.GetNew();
+            else if (AfterCaptureActivity.IsNullOrEmpty(jobs))
+                jobs.GetDefaults();
 
             if (!string.IsNullOrEmpty(text))
             {
@@ -426,12 +427,32 @@ namespace ShareX
             if (ListViewControl != null)
             {
                 ListViewItem lvi = ListViewControl.Items[info.ID];
-                lvi.SubItems[2].Text = string.Format("{0:N0}%  {1:N0} KiB / {2:N0} KiB", info.Progress.Percentage,
-                    info.Progress.Position / 1024, info.Progress.Length / 1024);
-                lvi.SubItems[3].Text = string.Format("{0:N0} kB/s", info.Progress.Speed);
+                lvi.SubItems[2].Text = string.Format("{0:N0}%  {1} / {2}", info.Progress.Percentage,
+                   ProperFileSize(info.Progress.Position), ProperFileSize(info.Progress.Length));
+                if (info.Progress.Speed > 0)
+                    lvi.SubItems[3].Text = string.Format("{0:N0} kB/s", info.Progress.Speed);
                 lvi.SubItems[4].Text = ProperTimeSpan(info.Progress.Elapsed);
                 lvi.SubItems[5].Text = ProperTimeSpan(info.Progress.Remaining);
             }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="size">Size in Bytes</param>
+        /// <returns></returns>
+        private static string ProperFileSize(long size)
+        {
+            string[] suf = { "B", "KiB", "MiB", "GiB", "TiB", "PiB" };
+            int place = Convert.ToInt32(Math.Floor(Math.Log(size, 1024)));
+            double num = size / Math.Pow(1024, place);
+
+            if (place == 0)
+            {
+                return string.Format("{0} {1}", num, suf[place]);
+            }
+
+            return string.Format("{0:0.0} {1}", num, suf[place]);
         }
 
         private static string ProperTimeSpan(TimeSpan ts)

@@ -252,36 +252,40 @@ namespace ShareX.Forms
 
             #region Workflows
 
-            List<Workflow> workflowsNew = new List<Workflow>();
-            foreach (Workflow wf in FormsHelper.Main.HotkeyManager.Workflows)
+            if (FormsHelper.Main.HotkeyManager != null)
             {
-                Workflow wf2 = Program.Settings.Workflows1.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
-                if (wf2 == null)
-                    workflowsNew.Add(wf);
-            }
+                List<Workflow> workflowsNew = new List<Workflow>();
 
-            foreach (Workflow wf in workflowsNew)
-            {
-                string tag = wf.HotkeyConfig.Tag;
-                FormsHelper.Main.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
-                FormsHelper.Main.HotkeyManager.AddHotkey(wf, () => FormsHelper.Main.DoWork(tag, false));
-            }
+                foreach (Workflow wf in FormsHelper.Main.HotkeyManager.Workflows)
+                {
+                    Workflow wf2 = Program.Settings.Workflows1.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
+                    if (wf2 == null)
+                        workflowsNew.Add(wf);
+                }
 
-            List<Workflow> workflowOld = new List<Workflow>();
-            foreach (Workflow wf in Program.Settings.Workflows1)
-            {
-                Workflow wf2 = FormsHelper.Main.HotkeyManager.Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
-                if (wf2 == null)
-                    workflowOld.Add(wf);
-            }
+                foreach (Workflow wf in workflowsNew)
+                {
+                    string tag = wf.HotkeyConfig.Tag;
+                    FormsHelper.Main.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
+                    FormsHelper.Main.HotkeyManager.AddHotkey(wf, () => FormsHelper.Main.DoWork(tag, false));
+                }
 
-            foreach (Workflow wf in workflowOld)
-            {
-                FormsHelper.Main.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
-            }
+                List<Workflow> workflowOld = new List<Workflow>();
+                foreach (Workflow wf in Program.Settings.Workflows1)
+                {
+                    Workflow wf2 = FormsHelper.Main.HotkeyManager.Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
+                    if (wf2 == null)
+                        workflowOld.Add(wf);
+                }
 
-            Program.Settings.Workflows1.Clear();
-            Program.Settings.Workflows1.AddRange(FormsHelper.Main.HotkeyManager.Workflows);
+                foreach (Workflow wf in workflowOld)
+                {
+                    FormsHelper.Main.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
+                }
+
+                Program.Settings.Workflows1.Clear();
+                Program.Settings.Workflows1.AddRange(FormsHelper.Main.HotkeyManager.Workflows);
+            }
 
             #endregion Workflows
         }
