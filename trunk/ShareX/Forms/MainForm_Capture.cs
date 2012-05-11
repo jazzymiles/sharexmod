@@ -93,24 +93,10 @@ namespace ShareX
         {
             if (imageData != null)
             {
-                // AfterCaptureActivity can be null if the method is not called by a user hotkey
                 if (jobs == null)
-                    jobs = new AfterCaptureActivity();
-
-                // ImageJobs can be null so default to program settings
-                if (jobs.ImageJobs == TaskImageJob.None)
-                    jobs.ImageJobs = Program.Settings.AfterCaptureTasks;
-
-                if (jobs.ImageUploaders.Count == 0)
-                    jobs.ImageUploaders.Add(UploadManager.ImageUploader);
-
-                if (jobs.FileUploaders.Count == 0)
-                    jobs.FileUploaders.Add(UploadManager.FileUploader);
-
-                if (jobs.TextUploaders.Count == 0)
-                    jobs.TextUploaders.Add(UploadManager.TextUploader);
-
-                jobs.URLShortener = UploadManager.URLShortener;
+                    jobs = AfterCaptureActivity.GetNew();
+                else if (AfterCaptureActivity.IsNullOrEmpty(jobs))
+                    jobs.GetDefaults();
 
                 if (Program.Settings.ShowAfterCaptureWizard)
                 {
