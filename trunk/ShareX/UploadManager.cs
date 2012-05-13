@@ -359,7 +359,7 @@ namespace ShareX
         {
             if (ListViewControl != null)
             {
-                log.InfoFormat("Upload in queue. ID: {0}, Job: {1}, Type: {2}, Host: {3}", info.ID, info.Job, info.DataType.GetDescription(), info.Destination);
+                log.InfoFormat("Upload in queue. ID: {0}, Job: {1}, Type: {2}, Host: {3}", info.ID, info.Job, info.UploadDestination, info.Destination);
 
                 ListViewItem lvi = new ListViewItem();
                 lvi.Text = info.FileName;

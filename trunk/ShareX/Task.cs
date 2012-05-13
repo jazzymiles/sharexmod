@@ -73,11 +73,13 @@ namespace ShareX
             Info = new UploadInfo();
             Info.Job = job;
             Info.DataType = dataType;
+            Info.UploadDestination = dataType;
         }
 
         public static Task CreateDataUploaderTask(EDataType dataType, Stream stream, string filePath, EDataType destination = EDataType.Default)
         {
             Task task = new Task(dataType, TaskJob.DataUpload);
+            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
             task.Info.FileName = Path.GetFileName(filePath);
             task.Info.FilePath = filePath;
             task.data = stream;
@@ -88,7 +90,6 @@ namespace ShareX
         public static Task CreateFileUploaderTask(EDataType dataType, string filePath, EDataType destination = EDataType.Default)
         {
             Task task = new Task(dataType, TaskJob.FileUpload);
-            // task.Info.UploadDestination = destination == EDataType.Default ? EDataType.Image : destination;
             if (destination != EDataType.Default) task.Info.UploadDestination = destination;
             task.Info.FilePath = filePath;
             task.data = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
