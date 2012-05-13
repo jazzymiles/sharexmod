@@ -60,5 +60,24 @@ namespace ShareX
         {
             this.Close();
         }
+
+        private void btnFolderOpen_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(mUploadInfo.FilePath))
+                Helpers.OpenFolderWithFile(mUploadInfo.FilePath);
+        }
+
+        private void btnCopyImage_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(mUploadInfo.FilePath))
+                Helpers.CopyImageFileToClipboard(mUploadInfo.FilePath);
+        }
+
+        private void btnOpenLink_Click(object sender, EventArgs e)
+        {
+            string url = mUploadInfo.Result.URL;
+            if (!string.IsNullOrEmpty(url))
+                Helpers.LoadBrowserAsync(url);
+        }
     }
 }
