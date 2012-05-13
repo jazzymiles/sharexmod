@@ -63,7 +63,7 @@ namespace ShareX
         private Stream data;
         private ImageData imageData;
         private string tempText;
-        private BackgroundWorker bw;
+        private ThreadWorker threadWorker;
         private Uploader uploader;
 
         #region Constructors
@@ -142,14 +142,10 @@ namespace ShareX
             {
                 OnUploadPreparing();
 
-                DoFormJobs();
-
-                bw = new BackgroundWorker();
-                bw.WorkerReportsProgress = true;
-                bw.DoWork += new DoWorkEventHandler(UploadThread);
-                bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
-                bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
-                bw.RunWorkerAsync();
+                threadWorker = new ThreadWorker();
+                threadWorker.DoWork += ThreadDoWork;
+                threadWorker.Completed += ThreadCompleted;
+                threadWorker.Start();
             }
         }
 
@@ -167,7 +163,7 @@ namespace ShareX
             }
         }
 
-        private void UploadThread(object sender, DoWorkEventArgs e)
+        private void ThreadDoWork()
         {
             DoThreadJob();
 
@@ -181,7 +177,7 @@ namespace ShareX
                 Status = TaskStatus.Uploading;
                 Info.Status = "Uploading";
                 Info.StartTime = DateTime.UtcNow;
-                bw.ReportProgress((int)TaskProgress.ReportStarted);
+                threadWorker.InvokeAsync(OnUploadStarted);
 
                 try
                 {
@@ -200,6 +196,11 @@ namespace ShareX
                 }
                 catch (Exception ex)
                 {
+                    if (!IsStopped)
+                    {
+                        log.Error("Stopped.", ex);
+                        uploader.Errors.Add(ex.ToString());
+                    }
                     uploader.Errors.Add(ex.ToString());
                 }
                 finally
@@ -229,9 +230,43 @@ namespace ShareX
         }
 
         /// <summary>
-        /// Happens just before Image Data is prepared
+        /// Mod 01: Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
+        /// Mod 02: imageData disposes when Task disposes
         /// </summary>
-        private void DoFormJobs()
+        private void DoThreadJob()
+        {
+            if (Info.Job == TaskJob.ImageUpload && imageData != null)
+            {
+                DoBeforeImagePreparedJobs();
+
+                if (Info.ImageJob.HasFlagAny(TaskImageJob.UploadImageToHost, TaskImageJob.SaveImageToFile,
+                    TaskImageJob.SaveImageToFileWithDialog))
+                {
+                    imageData.PrepareImageAndFilename();
+
+                    data = imageData.ImageStream;
+                    Info.FileName = imageData.Filename;
+
+                    if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFile))
+                    {
+                        Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
+                    }
+                    if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFileWithDialog) && Directory.Exists(Info.FolderPath))
+                    {
+                        string fp = imageData.WriteToFile(Info.FolderPath);
+                        if (string.IsNullOrEmpty(Info.FilePath))
+                            Info.FilePath = fp;
+                    }
+                }
+            }
+            else if (Info.Job == TaskJob.TextUpload && !string.IsNullOrEmpty(tempText))
+            {
+                byte[] byteArray = Encoding.UTF8.GetBytes(tempText);
+                data = new MemoryStream(byteArray);
+            }
+        }
+
+        private void DoBeforeImagePreparedJobs()
         {
             if (Info.ImageJob.HasFlag(TaskImageJob.Print))
             {
@@ -257,34 +292,24 @@ namespace ShareX
             }
         }
 
-        /// <summary>
-        /// Mod 01: Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
-        /// Mod 02: imageData disposes when Task disposes
-        /// </summary>
-        private void DoThreadJob()
+        private void ThreadCompleted()
         {
-            if (Info.Job == TaskJob.ImageUpload && imageData != null && Info.ImageJob.HasFlagAny(TaskImageJob.UploadImageToHost, TaskImageJob.SaveImageToFile))
-            {
-                imageData.PrepareImageAndFilename();
+            OnUploadCompleted();
+        }
 
-                data = imageData.ImageStream;
-                Info.FileName = imageData.Filename;
+        private void PrepareUploader(Uploader currentUploader)
+        {
+            uploader = currentUploader;
+            uploader.BufferSize = (int)Math.Pow(2, Program.Settings.BufferSizePower) * 1024;
+            uploader.ProgressChanged += new Uploader.ProgressEventHandler(uploader_ProgressChanged);
+        }
 
-                if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFile))
-                {
-                    Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
-                }
-                if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFileWithDialog) && Directory.Exists(Info.FolderPath))
-                {
-                    string fp = imageData.WriteToFile(Info.FolderPath);
-                    if (string.IsNullOrEmpty(Info.FilePath))
-                        Info.FilePath = fp;
-                }
-            }
-            else if (Info.Job == TaskJob.TextUpload && !string.IsNullOrEmpty(tempText))
+        private void uploader_ProgressChanged(ProgressManager progress)
+        {
+            if (progress != null)
             {
-                byte[] byteArray = Encoding.UTF8.GetBytes(tempText);
-                data = new MemoryStream(byteArray);
+                Info.Progress = progress;
+                threadWorker.InvokeAsync(OnUploadProgressChanged);
             }
         }
 
@@ -451,7 +476,11 @@ namespace ShareX
 
                     if (Program.UploadersConfig.FTPAccountList.IsValidIndex(index))
                     {
-                        fileUploader = new FTPUploader(Program.UploadersConfig.FTPAccountList[index]);
+                        FTPAccount account = Program.UploadersConfig.FTPAccountList[index];
+                        if (account.Protocol == FTPProtocol.SFTP)
+                            fileUploader = new SFTP(account);
+                        else
+                            fileUploader = new FTPUploader(account);
                     }
                     break;
                 case FileDestination.Email:
@@ -532,36 +561,6 @@ namespace ShareX
             return null;
         }
 
-        private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            switch ((TaskProgress)e.ProgressPercentage)
-            {
-                case TaskProgress.ReportStarted:
-                    OnUploadStarted();
-                    break;
-                case TaskProgress.ReportProgress:
-                    ProgressManager progress = e.UserState as ProgressManager;
-                    if (progress != null)
-                    {
-                        Info.Progress = progress;
-                        OnUploadProgressChanged();
-                    }
-                    break;
-            }
-        }
-
-        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            OnUploadCompleted();
-        }
-
-        private void PrepareUploader(Uploader currentUploader)
-        {
-            uploader = currentUploader;
-            uploader.BufferSize = (int)Math.Pow(2, Program.Settings.BufferSizePower) * 1024;
-            uploader.ProgressChanged += (x) => bw.ReportProgress((int)TaskProgress.ReportProgress, x);
-        }
-
         private void OnUploadPreparing()
         {
             Status = TaskStatus.Preparing;
@@ -624,7 +623,6 @@ namespace ShareX
         {
             if (data != null) data.Dispose();
             if (imageData != null) imageData.Dispose();
-            if (bw != null) bw.Dispose();
         }
     }
 }
