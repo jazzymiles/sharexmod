@@ -93,10 +93,13 @@ namespace ShareX
         {
             if (imageData != null)
             {
-                if (jobs == null)
-                    jobs = AfterCaptureActivity.GetNew();
-                else if (AfterCaptureActivity.IsNullOrEmpty(jobs))
+                if (AfterCaptureActivity.IsEmpty(jobs))
                     jobs.GetDefaults();
+
+                //if (jobs == null)
+                //    jobs = AfterCaptureActivity.GetNew();
+                //else if (AfterCaptureActivity.IsNullOrEmpty(jobs))
+                //    jobs.GetDefaults();
 
                 if (Program.Settings.ShowAfterCaptureWizard)
                 {

@@ -56,22 +56,59 @@ namespace HelpersLib.Hotkeys2
         [Description("Send to printer"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         Printer,
 
-        [Description("Upload to ImageShack"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
+        [Description("Upload to imageshack.us"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
         UploadToImageShack,
-        [Description("Upload to TinyPic"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
+        [Description("Upload to tinypic.com"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
         UploadToTinyPic,
-        [Description("Upload to Imgur"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
+        [Description("Upload to imgur.com"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
         UploadToImgur,
+        [Description("Upload to flickr.com"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
+        UploadToFlickr,
+        [Description("Upload to photobucket.com"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
+        UploadToPhotobucket,
+        [Description("Upload to uploadscreenshot.com"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
+        UploadToUploadScreenshot,
+        [Description("Upload to twitpic.com"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
+        UploadToTwitPic,
+        [Description("Upload to twitsnaps.com"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
+        UploadToTwitSnaps,
+        [Description("Upload to yfrog.com"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
+        UploadToYfrog,
+        [Description("Upload to imm.io"), Category(ComponentModelStrings.ActivitiesUploadersImages)]
+        UploadToImmio,
 
         [Description("Upload to pastebin.com"), Category(ComponentModelStrings.ActivitiesUploadersText)]
         UploadToPastebin,
+        [Description("Upload to pastebin.ca"), Category(ComponentModelStrings.ActivitiesUploadersText)]
+        UploadToPastebinCa,
         [Description("Upload to paste2.org"), Category(ComponentModelStrings.ActivitiesUploadersText)]
         UploadToPaste2,
+        [Description("Upload to slexy.org"), Category(ComponentModelStrings.ActivitiesUploadersText)]
+        UploadToSlexy,
 
-        [Description("Upload to Dropbox"), Category(ComponentModelStrings.ActivitiesUploadersFiles)]
+        [Description("Upload to dropbox.com"), Category(ComponentModelStrings.ActivitiesUploadersFiles)]
         UploadToDropbox,
-        [Description("Upload to Minus"), Category(ComponentModelStrings.ActivitiesUploadersFiles)]
-        UploadToMinus
+        [Description("Upload to rapidshare.com"), Category(ComponentModelStrings.ActivitiesUploadersFiles)]
+        UploadToRapidShare,
+        [Description("Upload to sendspace.com"), Category(ComponentModelStrings.ActivitiesUploadersFiles)]
+        UploadToSendSpace,
+        [Description("Upload to minus.com"), Category(ComponentModelStrings.ActivitiesUploadersFiles)]
+        UploadToMinus,
+        [Description("Upload to FTP Server"), Category(ComponentModelStrings.ActivitiesUploadersFiles)]
+        UploadToFTP,
+
+        [Description("Shorten URL using goo.gl"), Category(ComponentModelStrings.ActivitiesUploadersLinks)]
+        ShortenLinkUsingGoogle,
+        [Description("Shorten URL using bit.ly"), Category(ComponentModelStrings.ActivitiesUploadersLinks)]
+        ShortenLinkUsingBitly,
+        [Description("Shorten URL using j.mp"), Category(ComponentModelStrings.ActivitiesUploadersLinks)]
+        ShortenLinkUsingJmp,
+        [Description("Shorten URL using is.gd"), Category(ComponentModelStrings.ActivitiesUploadersLinks)]
+        ShortenLinkUsingIsgd,
+        [Description("Shorten URL using tinyurl.com"), Category(ComponentModelStrings.ActivitiesUploadersLinks)]
+        ShortenLinkUsingTinyUrl,
+        [Description("Shorten URL using turl.ca"), Category(ComponentModelStrings.ActivitiesUploadersLinks)]
+        ShortenLinkUsingTurl,
     }
 
     public class EnumToStringUsingDescription : TypeConverter

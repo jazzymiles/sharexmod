@@ -169,29 +169,89 @@ namespace ShareX
                         jobs_wf.ImageJobs |= TaskImageJob.UploadImageToHost;
                         break;
                     case EActivity.UploadToImageShack:
-                        jobs_wf.ImageUploaders.Add(UploadersLib.ImageDestination.ImageShack);
+                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.ImageShack);
                         break;
                     case EActivity.UploadToTinyPic:
-                        jobs_wf.ImageUploaders.Add(UploadersLib.ImageDestination.TinyPic);
+                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.TinyPic);
                         break;
                     case EActivity.UploadToImgur:
-                        jobs_wf.ImageUploaders.Add(UploadersLib.ImageDestination.Imgur);
+                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.Imgur);
+                        break;
+                    case EActivity.UploadToFlickr:
+                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.Flickr);
+                        break;
+                    case EActivity.UploadToPhotobucket:
+                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.Photobucket);
+                        break;
+                    case EActivity.UploadToTwitPic:
+                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.Twitpic);
+                        break;
+                    case EActivity.UploadToTwitSnaps:
+                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.Twitsnaps);
+                        break;
+                    case EActivity.UploadToYfrog:
+                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.yFrog);
+                        break;
+                    case EActivity.UploadToImmio:
+                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.Immio);
                         break;
 
                     case EActivity.UploadToPastebin:
-                        jobs_wf.TextUploaders.Add(UploadersLib.TextDestination.Pastebin);
+                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.Pastebin);
+                        break;
+                    case EActivity.UploadToPastebinCa:
+                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.PastebinCA);
                         break;
                     case EActivity.UploadToPaste2:
-                        jobs_wf.TextUploaders.Add(UploadersLib.TextDestination.Paste2);
+                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.Paste2);
+                        break;
+                    case EActivity.UploadToSlexy:
+                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.Slexy);
                         break;
 
                     case EActivity.UploadToDropbox:
-                        jobs_wf.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
-                        jobs_wf.FileUploaders.Add(UploadersLib.FileDestination.Dropbox);
+                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
+                        jobs_wf.Uploaders.FileUploaders.Add(UploadersLib.FileDestination.Dropbox);
+                        break;
+                    case EActivity.UploadToRapidShare:
+                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
+                        jobs_wf.Uploaders.FileUploaders.Add(UploadersLib.FileDestination.RapidShare);
+                        break;
+                    case EActivity.UploadToSendSpace:
+                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
+                        jobs_wf.Uploaders.FileUploaders.Add(UploadersLib.FileDestination.SendSpace);
                         break;
                     case EActivity.UploadToMinus:
-                        jobs_wf.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
-                        jobs_wf.FileUploaders.Add(UploadersLib.FileDestination.Minus);
+                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
+                        jobs_wf.Uploaders.FileUploaders.Add(UploadersLib.FileDestination.Minus);
+                        break;
+                    case EActivity.UploadToFTP:
+                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
+                        jobs_wf.Uploaders.FileUploaders.Add(UploadersLib.FileDestination.FTP);
+                        break;
+
+                    case EActivity.ShortenLinkUsingGoogle:
+                        jobs_wf.Uploaders.LinkUploaders.Add(UploadersLib.UrlShortenerType.Google);
+                        break;
+                    case EActivity.ShortenLinkUsingBitly:
+                        jobs_wf.Uploaders.LinkUploaders.Add(UploadersLib.UrlShortenerType.BITLY);
+                        break;
+                    case EActivity.ShortenLinkUsingJmp:
+                        jobs_wf.Uploaders.LinkUploaders.Add(UploadersLib.UrlShortenerType.Jmp);
+                        break;
+                    case EActivity.ShortenLinkUsingIsgd:
+                        jobs_wf.Uploaders.LinkUploaders.Add(UploadersLib.UrlShortenerType.ISGD);
+                        break;
+                    case EActivity.ShortenLinkUsingTinyUrl:
+                        jobs_wf.Uploaders.LinkUploaders.Add(UploadersLib.UrlShortenerType.TINYURL);
+                        break;
+                    case EActivity.ShortenLinkUsingTurl:
+                        jobs_wf.Uploaders.LinkUploaders.Add(UploadersLib.UrlShortenerType.TURL);
                         break;
 
                     default:
