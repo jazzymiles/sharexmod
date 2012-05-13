@@ -40,10 +40,7 @@ namespace ShareX
         public TaskJob Job { get; set; }
         public TaskImageJob ImageJob { get; set; }
         public TaskTextJob TextJobs { get; set; }
-        public ImageDestination ImageUploader { get; set; }
-        public TextDestination TextUploader { get; set; }
-        public FileDestination FileUploader { get; set; }
-        public UrlShortenerType URLShortener { get; set; }
+        public DestConfig Uploaders { get; set; }
         public ProgressManager Progress { get; set; }
 
         private string filePath;
@@ -73,13 +70,13 @@ namespace ShareX
                 switch (UploadDestination)
                 {
                     case EDataType.File:
-                        return FileUploader.GetDescription();
+                        return Uploaders.ToStringFileUploaders();
                     case EDataType.Image:
-                        return ImageUploader.GetDescription();
+                        return Uploaders.ToStringImageUploaders();
                     case EDataType.Text:
-                        return TextUploader.GetDescription();
+                        return Uploaders.ToStringTextUploaders();
                     case EDataType.URL:
-                        return URLShortener.GetDescription();
+                        return Uploaders.ToStringLinkUploaders();
                 }
                 return string.Empty;
             }

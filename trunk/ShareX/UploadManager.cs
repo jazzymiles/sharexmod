@@ -84,7 +84,7 @@ namespace ShareX
             }
         }
 
-        public static void UploadFile(string path, AfterCaptureActivity jobs = null)
+        public static void UploadFile(string path, AfterCaptureActivity act = null)
         {
             if (!string.IsNullOrEmpty(path))
             {
@@ -116,13 +116,13 @@ namespace ShareX
                         type = EDataType.File;
                     }
 
-                    if (jobs == null)
-                        jobs = AfterCaptureActivity.GetNew();
+                    if (act == null)
+                        act = AfterCaptureActivity.GetNew();
 
-                    foreach (FileDestination fileUploader in jobs.FileUploaders)
+                    foreach (FileDestination fileUploader in act.Uploaders.FileUploaders)
                     {
                         Task task = Task.CreateFileUploaderTask(type, path, destination);
-                        task.Info.FileUploader = fileUploader;
+                        task.Info.Uploaders = act.Uploaders;
                         StartUpload(task);
                         break;
                     }
@@ -143,12 +143,12 @@ namespace ShareX
         {
             if (imageData != null)
             {
-                foreach (ImageDestination imageUploader in act.ImageUploaders)
+                foreach (ImageDestination imageUploader in act.Uploaders.ImageUploaders)
                 {
                     EDataType destination = imageUploader == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
                     Task task = Task.CreateImageUploaderTask(imageData, destination);
                     task.Info.ImageJob = act.ImageJobs;
-                    task.Info.ImageUploader = imageUploader;
+                    task.Info.Uploaders = act.Uploaders;
                     StartUpload(task);
                     break; // ShareX 7.1 will support creation of multiple tasks
                 }
@@ -168,24 +168,37 @@ namespace ShareX
         /// Optionally takes AfterCaptureActivity to configure task specific text uploaders
         /// </summary>
         /// <param name="text"></param>
-        /// <param name="jobs"></param>
-        public static void UploadText(string text, AfterCaptureActivity jobs = null)
+        /// <param name="act"></param>
+        public static void UploadText(string text, AfterCaptureActivity act = null)
         {
-            if (jobs == null)
-                jobs = AfterCaptureActivity.GetNew();
-            else if (AfterCaptureActivity.IsNullOrEmpty(jobs))
-                jobs.GetDefaults();
+            if (act == null)
+                act = AfterCaptureActivity.GetNew();
+            else if (AfterCaptureActivity.IsNullOrEmpty(act))
+                act.GetDefaults();
 
             if (!string.IsNullOrEmpty(text))
             {
-                foreach (TextDestination textUploader in jobs.TextUploaders)
+                foreach (TextDestination textUploader in act.Uploaders.TextUploaders)
                 {
                     EDataType destination = textUploader == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
                     Task task = Task.CreateTextUploaderTask(text, destination);
-                    task.Info.TextUploader = textUploader;
+                    task.Info.Uploaders = act.Uploaders;
                     StartUpload(task);
                     break; // TODO: ShareXmod 7.1 to have multiple destination support
                 }
+            }
+        }
+
+        public static void ShortenURL(string url, AfterCaptureActivity act = null)
+        {
+            if (act == null) act = AfterCaptureActivity.GetNew();
+            else if (AfterCaptureActivity.IsNullOrEmpty(act)) act.GetDefaults();
+
+            if (!string.IsNullOrEmpty(url))
+            {
+                Task task = Task.CreateURLShortenerTask(url);
+                task.Info.Uploaders = act.Uploaders;
+                StartUpload(task);
             }
         }
 
@@ -211,7 +224,7 @@ namespace ShareX
 
                 if (Program.Settings.ClipboardUploadAutoDetectURL && Helpers.IsValidURL(text))
                 {
-                    ShortenURL(text.Trim());
+                    ShortenURL(text.Trim(), jobs);
                 }
                 else
                 {
@@ -264,15 +277,6 @@ namespace ShareX
         }
 
         #endregion Drag n Drop
-
-        public static void ShortenURL(string url)
-        {
-            if (!string.IsNullOrEmpty(url))
-            {
-                Task task = Task.CreateURLShortenerTask(url);
-                StartUpload(task);
-            }
-        }
 
         public static void UploadImageStream(Stream stream, string filePath)
         {

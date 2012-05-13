@@ -19,6 +19,7 @@ namespace HelpersLib.Hotkeys2
         ListViewGroup lvgUploadersImages = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersImages, HorizontalAlignment.Left);
         ListViewGroup lvgUploadersText = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersText, HorizontalAlignment.Left);
         ListViewGroup lvgUploadersFiles = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersFiles, HorizontalAlignment.Left);
+        ListViewGroup lvgUploadersLinks = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersLinks, HorizontalAlignment.Left);
 
         public WindowWorkflow(Workflow wf)
         {
@@ -28,7 +29,10 @@ namespace HelpersLib.Hotkeys2
             this.Text = "Workflow - " + wf.HotkeyConfig.Description;
             this.txtDescription.Text = wf.HotkeyConfig.Description;
 
-            lvActivitiesAll.Groups.AddRange(new[] { lvgCapture, lvgAfterCapture, lvgUploadersImages, lvgUploadersText, lvgUploadersFiles });
+            lvActivitiesAll.Groups.AddRange(new[]
+            {
+                lvgCapture, lvgAfterCapture, lvgUploadersImages, lvgUploadersText, lvgUploadersFiles, lvgUploadersLinks
+            });
             lvActivitiesUser.Groups.AddRange(lvActivitiesAll.Groups);
 
             foreach (EActivity act in wf.Activities)
@@ -58,6 +62,8 @@ namespace HelpersLib.Hotkeys2
                 lvi.Group = lvgUploadersText;
             else if (act.GetCategory() == lvgUploadersFiles.Header)
                 lvi.Group = lvgUploadersFiles;
+            else if (act.GetCategory() == lvgUploadersLinks.Header)
+                lvi.Group = lvgUploadersLinks;
 
             lvi.Tag = act;
             lvi.ImageKey = act.GetDescription();

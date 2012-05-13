@@ -219,7 +219,7 @@ namespace ShareX
                 {
                     Info.Result.Errors.Add("URL is empty.");
                 }
-                else if (Program.Settings.URLShortenAfterUpload || Info.Job == TaskJob.ShortenURL)
+                else if (Program.Settings.URLShortenAfterUpload || Info.Job == TaskJob.ShortenURL || Info.Uploaders.LinkUploaders.Count > 0)
                 {
                     Info.Result.ShortenedURL = ShortenURL(Info.Result.URL);
                 }
@@ -297,8 +297,9 @@ namespace ShareX
         public UploadResult UploadImage(Stream stream)
         {
             ImageUploader imageUploader = null;
+            ImageDestination imageDestination = Info.Uploaders.ImageUploaders[0];
 
-            switch (Info.ImageUploader)
+            switch (imageDestination)
             {
                 case ImageDestination.ImageShack:
                     imageUploader = new ImageShackUploader(ApiKeys.ImageShackKey, Program.UploadersConfig.ImageShackAccountType,
@@ -370,8 +371,9 @@ namespace ShareX
         public UploadResult UploadText(Stream stream)
         {
             TextUploader textUploader = null;
+            TextDestination textDestination = Info.Uploaders.TextUploaders[0];
 
-            switch (Info.TextUploader)
+            switch (textDestination)
             {
                 case TextDestination.Pastebin:
                     textUploader = new PastebinUploader(ApiKeys.PastebinKey, Program.UploadersConfig.PastebinSettings);
@@ -401,7 +403,7 @@ namespace ShareX
         {
             FileUploader fileUploader = null;
 
-            switch (Info.FileUploader)
+            switch (Info.Uploaders.FileUploaders[0])
             {
                 case FileDestination.Dropbox:
                     NameParser parser = new NameParser { IsFolderPath = true };
@@ -495,7 +497,10 @@ namespace ShareX
         {
             URLShortener urlShortener = null;
 
-            switch (UploadManager.URLShortener)
+            if ((Info.Uploaders.LinkUploaders.Count == 0))
+                Info.Uploaders.LinkUploaders.Add(UploadManager.URLShortener);
+
+            switch (Info.Uploaders.LinkUploaders[0])
             {
                 case UrlShortenerType.BITLY:
                     urlShortener = new BitlyURLShortener(ApiKeys.BitlyLogin, ApiKeys.BitlyKey);

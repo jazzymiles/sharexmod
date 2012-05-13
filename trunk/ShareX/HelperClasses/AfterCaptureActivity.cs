@@ -12,14 +12,16 @@ namespace ShareX.HelperClasses
     {
         public TaskImageJob ImageJobs { get; set; }
         public EInputType InputType { get; set; }
-        public List<ImageDestination> ImageUploaders = new List<ImageDestination>(); // ShareX 7.1 - multiple destinations
-        public List<FileDestination> FileUploaders = new List<FileDestination>();    // ShareX 7.1 - multiple destinations
-        public List<TextDestination> TextUploaders = new List<TextDestination>();    // ShareX 7.1 - multiple destinations
-        public UrlShortenerType URLShortener = UrlShortenerType.Google;
+        public DestConfig Uploaders = new DestConfig();
 
         public static bool IsNullOrEmpty(AfterCaptureActivity act)
         {
-            return act == null || act.FileUploaders.Count == 0 || act.TextUploaders.Count == 0 || act.ImageUploaders.Count == 0;
+            return act == null || act.Uploaders.IsEmptyAny;
+        }
+
+        public static bool IsEmpty(AfterCaptureActivity act)
+        {
+            return act != null && act.Uploaders.IsEmptyAll;
         }
 
         public static AfterCaptureActivity GetNew()
@@ -32,13 +34,16 @@ namespace ShareX.HelperClasses
 
         internal void GetDefaults()
         {
-            if (this.ImageUploaders.Count == 0)
-                this.ImageUploaders.Add(UploadManager.ImageUploader);
-            if (this.TextUploaders.Count == 0)
-                this.TextUploaders.Add(UploadManager.TextUploader);
-            if (this.FileUploaders.Count == 0)
-                this.FileUploaders.Add(UploadManager.FileUploader);
-            this.URLShortener = UploadManager.URLShortener;
+            if (this.Uploaders.ImageUploaders.Count == 0)
+                this.Uploaders.ImageUploaders.Add(UploadManager.ImageUploader);
+            if (this.Uploaders.TextUploaders.Count == 0)
+                this.Uploaders.TextUploaders.Add(UploadManager.TextUploader);
+            if (this.Uploaders.FileUploaders.Count == 0)
+                this.Uploaders.FileUploaders.Add(UploadManager.FileUploader);
+
+            // LinkUploaders are only added if they are empty at ShortenURL method
+            // if (this.Uploaders.LinkUploaders.Count == 0)
+            //     this.Uploaders.LinkUploaders.Add(UploadManager.URLShortener);
 
             if (this.ImageJobs == TaskImageJob.None)
                 this.ImageJobs = Program.Settings.AfterCaptureTasks;
