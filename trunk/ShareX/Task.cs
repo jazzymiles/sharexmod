@@ -129,7 +129,7 @@ namespace ShareX
         public static Task CreateURLShortenerTask(string url)
         {
             Task task = new Task(EDataType.URL, TaskJob.ShortenURL);
-            task.Info.FileName = "URL shorten";
+            task.Info.FileName = url;
             task.Info.Result.URL = url;
             return task;
         }

@@ -83,6 +83,18 @@ namespace ShareX
         private void AfterShownJobs()
         {
             ShowActivate();
+            AfterUploadersConfigClosed();
+        }
+
+        internal void AfterUploadersConfigClosed()
+        {
+            if (Program.UploadersConfig == null)
+            {
+                Program.UploaderSettingsResetEvent.WaitOne();
+            }
+            EnableDisableToolStripMenuItems(tsmiImageUploaders);
+            EnableDisableToolStripMenuItems(tsmiTextUploaders);
+            EnableDisableToolStripMenuItems(tsmiFileUploaders);
         }
 
         public void ReloadConfig()
@@ -108,21 +120,21 @@ namespace ShareX
             niTray.Text = this.Text;
             niTray.Icon = Resources.ShareXSmallIcon;
 
-            foreach (string imageUploader in Helpers.GetEnumDescriptions<ImageDestination>())
+            foreach (ImageDestination imageUploader in Enum.GetValues(typeof(ImageDestination)))
             {
-                tsmiImageUploaders.DropDownItems.Add(new ToolStripMenuItem(imageUploader));
+                tsmiImageUploaders.DropDownItems.Add(new ToolStripMenuItem(imageUploader.GetDescription()) { Tag = imageUploader });
             }
             tsmiImageUploaders.DropDownItemClicked += new ToolStripItemClickedEventHandler(tsddbImageUploaders_DropDownItemClicked);
 
-            foreach (string fileUploader in Helpers.GetEnumDescriptions<FileDestination>())
+            foreach (FileDestination fileUploader in Enum.GetValues(typeof(FileDestination)))
             {
-                tsmiFileUploaders.DropDownItems.Add(new ToolStripMenuItem(fileUploader));
+                tsmiFileUploaders.DropDownItems.Add(new ToolStripMenuItem(fileUploader.GetDescription()) { Tag = fileUploader });
             }
             tsmiFileUploaders.DropDownItemClicked += new ToolStripItemClickedEventHandler(tsddbFileUploaders_DropDownItemClicked);
 
-            foreach (string textUploader in Helpers.GetEnumDescriptions<TextDestination>())
+            foreach (TextDestination textUploader in Enum.GetValues(typeof(TextDestination)))
             {
-                tsmiTextUploaders.DropDownItems.Add(new ToolStripMenuItem(textUploader));
+                tsmiTextUploaders.DropDownItems.Add(new ToolStripMenuItem(textUploader.GetDescription()) { Tag = textUploader });
             }
             tsmiTextUploaders.DropDownItemClicked += new ToolStripItemClickedEventHandler(tsddbTextUploaders_DropDownItemClicked);
 
@@ -155,6 +167,22 @@ namespace ShareX
             {
                 if (tsi.GetType() == typeof(ToolStripMenuItem))
                     ((ToolStripMenuItem)tsi).Checked = false;
+            }
+        }
+
+        private void EnableDisableToolStripMenuItems(ToolStripMenuItem tsmi)
+        {
+            foreach (ToolStripItem tsi in tsmi.DropDownItems)
+            {
+                if (tsi.GetType() == typeof(ToolStripMenuItem))
+                {
+                    if (tsi.Tag is ImageDestination)
+                        ((ToolStripMenuItem)tsi).Enabled = Program.UploadersConfig.IsActive(((ImageDestination)tsi.Tag));
+                    else if (tsi.Tag is TextDestination)
+                        ((ToolStripMenuItem)tsi).Enabled = Program.UploadersConfig.IsActive(((TextDestination)tsi.Tag));
+                    else if (tsi.Tag is FileDestination)
+                        ((ToolStripMenuItem)tsi).Enabled = Program.UploadersConfig.IsActive(((FileDestination)tsi.Tag));
+                }
             }
         }
 

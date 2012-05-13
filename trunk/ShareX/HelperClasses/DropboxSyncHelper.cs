@@ -52,40 +52,47 @@ namespace ShareX
 
         private void bwLoad_DoWork(object sender, DoWorkEventArgs e)
         {
-            using (MemoryStream ms = new MemoryStream())
+            try
             {
-                if (dropbox.DownloadFile(pathDropboxSettings, ms))
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    ms.Position = 0;
-                    Settings settings = Settings.Load(ms);
-                    if (settings != null)
+                    if (dropbox.DownloadFile(pathDropboxSettings, ms))
                     {
-                        // override these settings from local copy
-                        settings.ProxySettings = Program.Settings.ProxySettings;
-                        settings.ScreenshotsPath = Program.Settings.ScreenshotsPath;
-                        settings.CustomHistoryPath = Program.Settings.CustomHistoryPath;
-                        settings.CustomUploadersConfigPath = Program.Settings.CustomUploadersConfigPath;
-                        settings.FolderMonitorPath = Program.Settings.FolderMonitorPath;
+                        ms.Position = 0;
+                        Settings settings = Settings.Load(ms);
+                        if (settings != null)
+                        {
+                            // override these settings from local copy
+                            settings.ProxySettings = Program.Settings.ProxySettings;
+                            settings.ScreenshotsPath = Program.Settings.ScreenshotsPath;
+                            settings.CustomHistoryPath = Program.Settings.CustomHistoryPath;
+                            settings.CustomUploadersConfigPath = Program.Settings.CustomUploadersConfigPath;
+                            settings.FolderMonitorPath = Program.Settings.FolderMonitorPath;
 
-                        Program.Settings = settings;
-                        log.InfoFormat("Updated Settings using {0}", pathDropboxSettings);
-                        e.Result = settings;
+                            Program.Settings = settings;
+                            log.InfoFormat("Updated Settings using {0}", pathDropboxSettings);
+                            e.Result = settings;
+                        }
+                    }
+                }
+
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    if (dropbox.DownloadFile(pathDropboxUploadersConfig, ms))
+                    {
+                        ms.Position = 0;
+                        UploadersConfig config = UploadersConfig.Load(ms);
+                        if (config != null)
+                        {
+                            Program.UploadersConfig = config;
+                            log.InfoFormat("Updated Uploaders Config using {0}", pathDropboxUploadersConfig);
+                        }
                     }
                 }
             }
-
-            using (MemoryStream ms = new MemoryStream())
+            catch (Exception ex)
             {
-                if (dropbox.DownloadFile(pathDropboxUploadersConfig, ms))
-                {
-                    ms.Position = 0;
-                    UploadersConfig config = UploadersConfig.Load(ms);
-                    if (config != null)
-                    {
-                        Program.UploadersConfig = config;
-                        log.InfoFormat("Updated Uploaders Config using {0}", pathDropboxUploadersConfig);
-                    }
-                }
+                log.Error(ex.Message, ex);
             }
         }
 
