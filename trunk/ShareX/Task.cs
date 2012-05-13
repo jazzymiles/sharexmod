@@ -24,7 +24,6 @@
 #endregion License Information (GPL v3)
 
 using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -472,15 +471,22 @@ namespace ShareX
                     }
                     break;
                 case FileDestination.FTP:
-                    int index = Program.UploadersConfig.GetFtpIndex(Info.DataType);
+                    int idFtp = Program.UploadersConfig.GetFtpIndex(Info.DataType);
 
-                    if (Program.UploadersConfig.FTPAccountList.IsValidIndex(index))
+                    if (Program.UploadersConfig.FTPAccountList.IsValidIndex(idFtp))
                     {
-                        FTPAccount account = Program.UploadersConfig.FTPAccountList[index];
+                        FTPAccount account = Program.UploadersConfig.FTPAccountList[idFtp];
                         if (account.Protocol == FTPProtocol.SFTP)
                             fileUploader = new SFTP(account);
                         else
                             fileUploader = new FTPUploader(account);
+                    }
+                    break;
+                case FileDestination.SharedFolder:
+                    int idLocalhost = Program.UploadersConfig.GetLocalhostIndex(Info.DataType);
+                    if (Program.UploadersConfig.LocalhostAccountList.IsValidIndex(idLocalhost))
+                    {
+                        fileUploader = new SharedFolderUploader(Program.UploadersConfig.LocalhostAccountList[idLocalhost]);
                     }
                     break;
                 case FileDestination.Email:
