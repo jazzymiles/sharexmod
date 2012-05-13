@@ -131,6 +131,7 @@
     <Compile Include="Forms\MainForm_Workflow.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HelperClasses\ThreadWorker.cs" />
     <Compile Include="Log4netHelpers\LevelTextStyle.cs" />
     <Compile Include="Log4netHelpers\ListViewAppender.cs" />
     <Compile Include="Log4netHelpers\Log4netHelper.cs" />
