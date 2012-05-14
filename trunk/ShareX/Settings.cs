@@ -110,7 +110,7 @@ namespace ShareX
         public bool CaptureShadow = true;
         public TaskImageJob AfterCaptureTasks = TaskImageJob.CopyImageToClipboard | TaskImageJob.UploadImageToHost;
         public string SaveImageSubFolderPattern = "%y-%mo";
-        public SurfaceOptions SurfaceOptions = new SurfaceOptions() { QuickCrop = true };
+        public SurfaceOptions SurfaceOptions = new SurfaceOptions() { QuickCrop = true, IncludeControls = true };
         public PrintSettings PrintSettings = new PrintSettings();
 
         // History
