@@ -183,6 +183,7 @@
             this.lblNameFormatPatternPreviewImages = new System.Windows.Forms.Label();
             this.txtNameFormatPatternImages = new System.Windows.Forms.TextBox();
             this.btnNameFormatPatternHelpImages = new System.Windows.Forms.Button();
+            this.btnImagesOrganise = new System.Windows.Forms.Button();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -1540,7 +1541,7 @@
             this.gbPathRoot.Controls.Add(this.btnOpenZUploaderPath);
             this.gbPathRoot.Location = new System.Drawing.Point(8, 360);
             this.gbPathRoot.Name = "gbPathRoot";
-            this.gbPathRoot.Size = new System.Drawing.Size(503, 88);
+            this.gbPathRoot.Size = new System.Drawing.Size(486, 88);
             this.gbPathRoot.TabIndex = 3;
             this.gbPathRoot.TabStop = false;
             this.gbPathRoot.Text = "Root";
@@ -1568,6 +1569,7 @@
             // 
             this.gbScreenshots.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbScreenshots.Controls.Add(this.btnImagesOrganise);
             this.gbScreenshots.Controls.Add(this.txtSaveImageSubFolderPatternPreview);
             this.gbScreenshots.Controls.Add(this.lblSaveImageSubFolderPattern);
             this.gbScreenshots.Controls.Add(this.txtSaveImageSubFolderPattern);
@@ -1575,7 +1577,7 @@
             this.gbScreenshots.Controls.Add(this.txtScreenshotsPath);
             this.gbScreenshots.Location = new System.Drawing.Point(8, 8);
             this.gbScreenshots.Name = "gbScreenshots";
-            this.gbScreenshots.Size = new System.Drawing.Size(503, 88);
+            this.gbScreenshots.Size = new System.Drawing.Size(486, 88);
             this.gbScreenshots.TabIndex = 0;
             this.gbScreenshots.TabStop = false;
             this.gbScreenshots.Text = "Screenshots";
@@ -1599,7 +1601,7 @@
             // 
             // txtSaveImageSubFolderPattern
             // 
-            this.txtSaveImageSubFolderPattern.Location = new System.Drawing.Point(120, 52);
+            this.txtSaveImageSubFolderPattern.Location = new System.Drawing.Point(120, 53);
             this.txtSaveImageSubFolderPattern.Name = "txtSaveImageSubFolderPattern";
             this.txtSaveImageSubFolderPattern.Size = new System.Drawing.Size(120, 20);
             this.txtSaveImageSubFolderPattern.TabIndex = 2;
@@ -1610,7 +1612,7 @@
             this.btnBrowseScreenshotsDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBrowseScreenshotsDir.AutoSize = true;
             this.btnBrowseScreenshotsDir.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnBrowseScreenshotsDir.Location = new System.Drawing.Point(431, 51);
+            this.btnBrowseScreenshotsDir.Location = new System.Drawing.Point(414, 22);
             this.btnBrowseScreenshotsDir.Name = "btnBrowseScreenshotsDir";
             this.btnBrowseScreenshotsDir.Size = new System.Drawing.Size(61, 23);
             this.btnBrowseScreenshotsDir.TabIndex = 4;
@@ -1624,9 +1626,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtScreenshotsPath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.txtScreenshotsPath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystemDirectories;
-            this.txtScreenshotsPath.Location = new System.Drawing.Point(16, 24);
+            this.txtScreenshotsPath.Location = new System.Drawing.Point(21, 24);
             this.txtScreenshotsPath.Name = "txtScreenshotsPath";
-            this.txtScreenshotsPath.Size = new System.Drawing.Size(471, 20);
+            this.txtScreenshotsPath.Size = new System.Drawing.Size(387, 20);
             this.txtScreenshotsPath.TabIndex = 0;
             // 
             // gbUploadersConfig
@@ -1639,7 +1641,7 @@
             this.gbUploadersConfig.Controls.Add(this.cbUseCustomUploadersConfigPath);
             this.gbUploadersConfig.Location = new System.Drawing.Point(8, 112);
             this.gbUploadersConfig.Name = "gbUploadersConfig";
-            this.gbUploadersConfig.Size = new System.Drawing.Size(503, 80);
+            this.gbUploadersConfig.Size = new System.Drawing.Size(486, 80);
             this.gbUploadersConfig.TabIndex = 1;
             this.gbUploadersConfig.TabStop = false;
             this.gbUploadersConfig.Text = "Uploaders Config";
@@ -1649,7 +1651,7 @@
             this.btnLoadUploadersConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLoadUploadersConfig.AutoSize = true;
             this.btnLoadUploadersConfig.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnLoadUploadersConfig.Location = new System.Drawing.Point(383, 45);
+            this.btnLoadUploadersConfig.Location = new System.Drawing.Point(432, 16);
             this.btnLoadUploadersConfig.Name = "btnLoadUploadersConfig";
             this.btnLoadUploadersConfig.Size = new System.Drawing.Size(41, 23);
             this.btnLoadUploadersConfig.TabIndex = 2;
@@ -1662,7 +1664,7 @@
             this.btnBrowseCustomUploadersConfigPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBrowseCustomUploadersConfigPath.AutoSize = true;
             this.btnBrowseCustomUploadersConfigPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnBrowseCustomUploadersConfigPath.Location = new System.Drawing.Point(431, 45);
+            this.btnBrowseCustomUploadersConfigPath.Location = new System.Drawing.Point(414, 45);
             this.btnBrowseCustomUploadersConfigPath.Name = "btnBrowseCustomUploadersConfigPath";
             this.btnBrowseCustomUploadersConfigPath.Size = new System.Drawing.Size(61, 23);
             this.btnBrowseCustomUploadersConfigPath.TabIndex = 3;
@@ -1676,7 +1678,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCustomUploadersConfigPath.Location = new System.Drawing.Point(16, 48);
             this.txtCustomUploadersConfigPath.Name = "txtCustomUploadersConfigPath";
-            this.txtCustomUploadersConfigPath.Size = new System.Drawing.Size(359, 20);
+            this.txtCustomUploadersConfigPath.Size = new System.Drawing.Size(392, 20);
             this.txtCustomUploadersConfigPath.TabIndex = 1;
             this.txtCustomUploadersConfigPath.TextChanged += new System.EventHandler(this.txtCustomUploadersConfigPath_TextChanged);
             // 
@@ -1703,7 +1705,7 @@
             this.gbHistory.Controls.Add(this.cbHistorySave);
             this.gbHistory.Location = new System.Drawing.Point(8, 216);
             this.gbHistory.Name = "gbHistory";
-            this.gbHistory.Size = new System.Drawing.Size(503, 136);
+            this.gbHistory.Size = new System.Drawing.Size(486, 136);
             this.gbHistory.TabIndex = 2;
             this.gbHistory.TabStop = false;
             this.gbHistory.Text = "History";
@@ -1747,7 +1749,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBrowseCustomHistoryPath.AutoSize = true;
             this.btnBrowseCustomHistoryPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnBrowseCustomHistoryPath.Location = new System.Drawing.Point(431, 72);
+            this.btnBrowseCustomHistoryPath.Location = new System.Drawing.Point(414, 72);
             this.btnBrowseCustomHistoryPath.Name = "btnBrowseCustomHistoryPath";
             this.btnBrowseCustomHistoryPath.Size = new System.Drawing.Size(61, 23);
             this.btnBrowseCustomHistoryPath.TabIndex = 3;
@@ -1761,7 +1763,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCustomHistoryPath.Location = new System.Drawing.Point(16, 72);
             this.txtCustomHistoryPath.Name = "txtCustomHistoryPath";
-            this.txtCustomHistoryPath.Size = new System.Drawing.Size(407, 20);
+            this.txtCustomHistoryPath.Size = new System.Drawing.Size(390, 20);
             this.txtCustomHistoryPath.TabIndex = 2;
             this.txtCustomHistoryPath.TextChanged += new System.EventHandler(this.txtCustomHistoryPath_TextChanged);
             // 
@@ -1926,6 +1928,19 @@
             this.btnNameFormatPatternHelpImages.Text = "?";
             this.btnNameFormatPatternHelpImages.UseVisualStyleBackColor = true;
             this.btnNameFormatPatternHelpImages.Click += new System.EventHandler(this.btnNameFormatPatternHelp_Click);
+            // 
+            // btnImagesOrganise
+            // 
+            this.btnImagesOrganise.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnImagesOrganise.AutoSize = true;
+            this.btnImagesOrganise.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnImagesOrganise.Location = new System.Drawing.Point(407, 51);
+            this.btnImagesOrganise.Name = "btnImagesOrganise";
+            this.btnImagesOrganise.Size = new System.Drawing.Size(68, 23);
+            this.btnImagesOrganise.TabIndex = 5;
+            this.btnImagesOrganise.Text = "&Organise...";
+            this.btnImagesOrganise.UseVisualStyleBackColor = true;
+            this.btnImagesOrganise.Click += new System.EventHandler(this.btnImagesOrganise_Click);
             // 
             // OptionsWindow
             // 
@@ -2154,5 +2169,6 @@
         private System.Windows.Forms.TextBox txtNameFormatPatternOther;
         private System.Windows.Forms.Button btnNameFormatPatternHelpOther;
         private System.Windows.Forms.Label lblNameFormatPatternPreviewImages;
+        private System.Windows.Forms.Button btnImagesOrganise;
     }
 }

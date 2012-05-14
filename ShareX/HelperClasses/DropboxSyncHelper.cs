@@ -128,6 +128,14 @@ namespace ShareX
             }
         }
 
+        public static void SaveAsync()
+        {
+            if (Program.Settings.DropboxSync)
+            {
+                new DropboxSyncHelper().Save();
+            }
+        }
+
         public void Save()
         {
             if (dropbox != null)
