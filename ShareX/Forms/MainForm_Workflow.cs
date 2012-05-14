@@ -269,12 +269,19 @@ namespace ShareX
             if (imageData != null)
             {
                 jobs.ImageJobs |= TaskImageJob.UploadImageToHost;
+                log.Debug("After Capture initiated.");
                 AfterCapture(imageData, jobs);
             }
             else if (jobs.InputType == EInputType.Clipboard)
+            {
+                log.Debug("ClipboardUpload initiated.");
                 UploadManager.ClipboardUpload(jobs);
+            }
             else if (jobs.InputType == EInputType.FileSystem)
+            {
+                log.Debug("UploadFile initiated.");
                 UploadManager.UploadFile(jobs);
+            }
         }
 
         private void EditImage(ref ImageData imageData_gse)
