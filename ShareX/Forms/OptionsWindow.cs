@@ -718,6 +718,12 @@ namespace ShareX.Forms
 
         #region Paths
 
+        private void txtScreenshotsPath_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtScreenshotsPath.Text))
+                txtScreenshotsPath.Text = Program.ScreenshotsRootPath;
+        }
+
         private void btnImagesOrganise_Click(object sender, EventArgs e)
         {
             ManageImageFolders(txtScreenshotsPath.Text);
