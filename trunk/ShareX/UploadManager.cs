@@ -432,31 +432,12 @@ namespace ShareX
             {
                 ListViewItem lvi = ListViewControl.Items[info.ID];
                 lvi.SubItems[1].Text = string.Format("{0:0.0}%", info.Progress.Percentage);
-                lvi.SubItems[2].Text = string.Format("{0} / {1}", ProperFileSize(info.Progress.Position), ProperFileSize(info.Progress.Length));
+                lvi.SubItems[2].Text = string.Format("{0} / {1}", Helpers.ProperFileSize(info.Progress.Position), Helpers.ProperFileSize(info.Progress.Length));
                 if (info.Progress.Speed > 0)
-                    lvi.SubItems[3].Text = string.Format("{0:0.0}", ProperFileSize((long)info.Progress.Speed, "/s"));
+                    lvi.SubItems[3].Text = string.Format("{0:0.0}", Helpers.ProperFileSize((long)info.Progress.Speed, true, "/s"));
                 lvi.SubItems[4].Text = ProperTimeSpan(info.Progress.Elapsed);
                 lvi.SubItems[5].Text = ProperTimeSpan(info.Progress.Remaining);
             }
-        }
-
-        /// <summary>
-        /// Displays file size in binary units
-        /// </summary>
-        /// <param name="size">Size in Bytes</param>
-        /// <returns></returns>
-        private static string ProperFileSize(long size, string perUnit = "")
-        {
-            string[] suf = { "B", "KiB", "MiB", "GiB", "TiB", "PiB" };
-            int place = Convert.ToInt32(Math.Floor(Math.Log(size, 1024)));
-            double num = size / Math.Pow(1024, place);
-
-            if (place == 0)
-            {
-                return string.Format("{0} {1}{2}", num, suf[place], perUnit);
-            }
-
-            return string.Format("{0:0.0} {1}{2}", num, suf[place], perUnit);
         }
 
         private static string ProperTimeSpan(TimeSpan ts)
