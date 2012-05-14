@@ -435,7 +435,7 @@ namespace ShareX
                 lvi.SubItems[1].Text = string.Format("{0:0.0}%", info.Progress.Percentage);
                 lvi.SubItems[2].Text = string.Format("{0} / {1}", Helpers.ProperFileSize(info.Progress.Position, true), Helpers.ProperFileSize(info.Progress.Length, true));
                 if (info.Progress.Speed > 0)
-                    lvi.SubItems[3].Text = string.Format("{0:0.0}", Helpers.ProperFileSize((long)info.Progress.Speed, true, "/s"));
+                    lvi.SubItems[3].Text = Helpers.ProperFileSize((long)info.Progress.Speed, true, "/s");
                 lvi.SubItems[4].Text = ProperTimeSpan(info.Progress.Elapsed);
                 lvi.SubItems[5].Text = ProperTimeSpan(info.Progress.Remaining);
             }

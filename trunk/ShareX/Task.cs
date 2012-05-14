@@ -181,6 +181,8 @@ namespace ShareX
 
                 try
                 {
+                    if (data.CanSeek) data.Position = 0;
+
                     switch (Info.UploadDestination)
                     {
                         case EDataType.Image:
