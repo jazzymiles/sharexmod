@@ -775,11 +775,9 @@ namespace ShareX.Forms
                             string subDirPath = Path.Combine(rootDir, subDirName);
 
                             if (!Directory.Exists(subDirPath))
-                            {
                                 Directory.CreateDirectory(subDirPath);
-                            }
 
-                            movePath = Helpers.GetUniqueFilename(subDirName, Helpers.GetUniqueFilename(subDirPath, Path.GetFileName(image)));
+                            movePath = Helpers.GetUniqueFilePath(subDirPath, Path.GetFileName(image));
                             File.Move(image, movePath);
                         }
                     }
