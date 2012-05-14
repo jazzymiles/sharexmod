@@ -61,13 +61,13 @@ namespace ShareX
 
         #region Files
 
-        public static void UploadFiles(string[] files)
+        public static void UploadFiles(string[] files, AfterCaptureActivity jobs = null)
         {
             if (files != null && files.Length > 0)
             {
                 foreach (string file in files)
                 {
-                    UploadFile(file);
+                    UploadFile(file, jobs);
                 }
             }
         }
@@ -77,9 +77,10 @@ namespace ShareX
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                ofd.Multiselect = true;
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    UploadFile(ofd.FileName, jobs);
+                    UploadFiles(ofd.FileNames, jobs);
                 }
             }
         }
@@ -432,7 +433,7 @@ namespace ShareX
             {
                 ListViewItem lvi = ListViewControl.Items[info.ID];
                 lvi.SubItems[1].Text = string.Format("{0:0.0}%", info.Progress.Percentage);
-                lvi.SubItems[2].Text = string.Format("{0} / {1}", Helpers.ProperFileSize(info.Progress.Position), Helpers.ProperFileSize(info.Progress.Length));
+                lvi.SubItems[2].Text = string.Format("{0} / {1}", Helpers.ProperFileSize(info.Progress.Position, true), Helpers.ProperFileSize(info.Progress.Length, true));
                 if (info.Progress.Speed > 0)
                     lvi.SubItems[3].Text = string.Format("{0:0.0}", Helpers.ProperFileSize((long)info.Progress.Speed, true, "/s"));
                 lvi.SubItems[4].Text = ProperTimeSpan(info.Progress.Elapsed);
