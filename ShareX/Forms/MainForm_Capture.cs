@@ -95,9 +95,9 @@ namespace ShareX
             {
                 if (AfterCaptureActivity.IsEmpty(jobs))
                     jobs.GetDefaults();
+                else if (jobs == null)
+                    jobs = AfterCaptureActivity.GetNew();
 
-                //if (jobs == null)
-                //    jobs = AfterCaptureActivity.GetNew();
                 //else if (AfterCaptureActivity.IsNullOrEmpty(jobs))
                 //    jobs.GetDefaults();
 

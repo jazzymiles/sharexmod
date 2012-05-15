@@ -110,11 +110,11 @@ namespace HelpersLib.Hotkeys2
         [Description("Shorten URL using turl.ca"), Category(ComponentModelStrings.ActivitiesUploadersLinks)]
         ShortenLinkUsingTurl,
 
-        [Description("Show image effects studio"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
+        [Description("Open with Image Effects Studio"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
         ShowImageEffectsStudio,
-        [Description("Add a torn effect"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
+        [Description("Add torn effect"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
         ImageAnnotateAddTornEffect,
-        [Description("Add a shadow border"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
+        [Description("Add shadow border"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
         ImageAnnotateAddShadowBorder,
     }
 
