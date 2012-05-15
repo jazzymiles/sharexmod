@@ -87,6 +87,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\ImageEffectsGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ImageEffectsGUI.Designer.cs">
+      <DependentUpon>ImageEffectsGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="HelperClasses\AfterCaptureActivity.cs" />
     <Compile Include="HelperClasses\DropboxSyncHelper.cs" />
     <Compile Include="HelperClasses\FolderWatcher.cs" />
@@ -165,6 +171,9 @@
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageEffectsGUI.resx">
+      <DependentUpon>ImageEffectsGUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -226,9 +235,17 @@
       <Project>{E1C94415-3424-4517-A2A1-B2FDD1F59C67}</Project>
       <Name>UploadersLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HelpersLib.GraphicsHelper\HelpersLib.GraphicsHelper.csproj">
+      <Project>{39CBF608-D7E7-405B-BCB4-A316BB76B562}</Project>
+      <Name>HelpersLib.GraphicsHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HelpersLib.Hotkeys2\HelpersLib.Hotkeys2.csproj">
       <Project>{B791C0EF-7DFD-4F2B-B004-91F7344EE146}</Project>
       <Name>HelpersLib.Hotkeys2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImageEffects.IPlugin\ImageEffects.IPlugin.csproj">
+      <Project>{D13441B6-96E1-4D1B-8A95-58A7D6CB1E24}</Project>
+      <Name>ImageEffects.IPlugin</Name>
     </ProjectReference>
     <ProjectReference Include="..\IndexersLib\IndexersLib.csproj">
       <Project>{47CD5EEF-C12D-4CEA-B88A-3AFAEC6DDAD8}</Project>

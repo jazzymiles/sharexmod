@@ -163,11 +163,22 @@ namespace ShareX
                         jobs_wf.ImageJobs |= TaskImageJob.Print;
                         break;
                     case EActivity.AfterCaptureTasks:
-                        jobs_wf.ImageJobs = Program.Settings.AfterCaptureTasks;
+                        jobs_wf.ImageJobs |= Program.Settings.AfterCaptureTasks;
                         break;
                     case EActivity.UploadToRemoteHost:
                         jobs_wf.ImageJobs |= TaskImageJob.UploadImageToHost;
                         break;
+
+                    case EActivity.ShowImageEffectsStudio:
+                        jobs_wf.ImageJobs |= TaskImageJob.ShowImageEffectsStudio;
+                        break;
+                    case EActivity.ImageAnnotateAddTornEffect:
+                        jobs_wf.ImageJobs |= TaskImageJob.AnnotateImageAddTornEffect;
+                        break;
+                    case EActivity.ImageAnnotateAddShadowBorder:
+                        jobs_wf.ImageJobs |= TaskImageJob.AnnotateImageAddShadowBorder;
+                        break;
+
                     case EActivity.UploadToImageShack:
                         jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.ImageShack);
                         break;

@@ -29,6 +29,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using HelpersLib;
+using HelpersLib.GraphicsHelper;
 using ShareX.HelperClasses;
 using UploadersLib;
 using UploadersLib.FileUploaders;
@@ -278,6 +279,29 @@ namespace ShareX
             if (Info.Job == TaskJob.ImageUpload && imageData != null && Info.ImageJob.HasFlag(TaskImageJob.CopyImageToClipboard))
             {
                 Clipboard.SetImage(imageData.Image);
+            }
+
+            if (Info.ImageJob.HasFlag(TaskImageJob.AnnotateImageAddShadowBorder))
+            {
+                if (!Greenshot.IniFile.IniConfig.IsInited)
+                    Greenshot.IniFile.IniConfig.Init();
+
+                imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateShadow(imageData.Image, 1f, 7, new Point(7, 7), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            }
+
+            if (Info.ImageJob.HasFlag(TaskImageJob.AnnotateImageAddTornEffect))
+            {
+                if (!Greenshot.IniFile.IniConfig.IsInited)
+                    Greenshot.IniFile.IniConfig.Init();
+
+                imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateTornEdge(new Bitmap(imageData.Image));
+            }
+
+            if (Info.ImageJob.HasFlag(TaskImageJob.ShowImageEffectsStudio))
+            {
+                ImageEffectsGUI dlg = new ImageEffectsGUI(imageData.Image);
+                dlg.ShowDialog();
+                imageData.Image = dlg.GetImageForExport();
             }
 
             if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFileWithDialog))
