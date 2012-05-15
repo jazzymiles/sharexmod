@@ -54,6 +54,12 @@ namespace ShareX
         SaveImageToFileWithDialog = 16,
         [Description("Send to Printer")]
         Print = 32,
+        [Description("Show image effects studio")]
+        ShowImageEffectsStudio = 64,
+        [Description("Add torn effect")]
+        AnnotateImageAddTornEffect = 128,
+        [Description("Add shadow border")]
+        AnnotateImageAddShadowBorder = 256,
     }
 
     [Flags]

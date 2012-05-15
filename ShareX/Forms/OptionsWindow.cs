@@ -897,8 +897,6 @@ namespace ShareX.Forms
             Program.Settings.BackupAsync();
 
             FormsHelper.Main.ReloadConfig();
-
-            DropboxSyncHelper.SaveAsync();
         }
 
         private void OptionsWindow_Shown(object sender, EventArgs e)
