@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImageEffectsGUI));
             this.tvPlugins = new System.Windows.Forms.TreeView();
             this.pbPreview = new System.Windows.Forms.PictureBox();
             this.pgSettings = new System.Windows.Forms.PropertyGrid();
@@ -58,7 +59,7 @@
             this.tvPlugins.Location = new System.Drawing.Point(8, 280);
             this.tvPlugins.Name = "tvPlugins";
             this.tvPlugins.Size = new System.Drawing.Size(296, 492);
-            this.tvPlugins.TabIndex = 0;
+            this.tvPlugins.TabIndex = 4;
             // 
             // pbPreview
             // 
@@ -67,7 +68,7 @@
             this.pbPreview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbPreview.Location = new System.Drawing.Point(0, 0);
             this.pbPreview.Name = "pbPreview";
-            this.pbPreview.Size = new System.Drawing.Size(474, 492);
+            this.pbPreview.Size = new System.Drawing.Size(457, 492);
             this.pbPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbPreview.TabIndex = 1;
             this.pbPreview.TabStop = false;
@@ -89,7 +90,7 @@
             this.btnAdd.Location = new System.Drawing.Point(16, 240);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(72, 24);
-            this.btnAdd.TabIndex = 4;
+            this.btnAdd.TabIndex = 1;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -104,7 +105,7 @@
             this.lvEffects.Location = new System.Drawing.Point(8, 8);
             this.lvEffects.Name = "lvEffects";
             this.lvEffects.Size = new System.Drawing.Size(296, 264);
-            this.lvEffects.TabIndex = 5;
+            this.lvEffects.TabIndex = 0;
             this.lvEffects.UseCompatibleStateImageBehavior = false;
             this.lvEffects.View = System.Windows.Forms.View.Details;
             this.lvEffects.SelectedIndexChanged += new System.EventHandler(this.lvEffects_SelectedIndexChanged);
@@ -118,7 +119,7 @@
             this.btnRemove.Location = new System.Drawing.Point(96, 240);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(72, 24);
-            this.btnRemove.TabIndex = 7;
+            this.btnRemove.TabIndex = 2;
             this.btnRemove.Text = "Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
@@ -133,18 +134,18 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.pbPreviewZoom);
-            this.splitContainer1.Panel1.Controls.Add(this.lblPreview);
-            this.splitContainer1.Panel1.Controls.Add(this.pbPreview);
+            this.splitContainer1.Panel1.Controls.Add(this.pbDefaultZoom);
+            this.splitContainer1.Panel1.Controls.Add(this.lblDefault);
+            this.splitContainer1.Panel1.Controls.Add(this.pbDefault);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.pbDefaultZoom);
-            this.splitContainer1.Panel2.Controls.Add(this.lblDefault);
-            this.splitContainer1.Panel2.Controls.Add(this.pbDefault);
+            this.splitContainer1.Panel2.Controls.Add(this.pbPreviewZoom);
+            this.splitContainer1.Panel2.Controls.Add(this.lblPreview);
+            this.splitContainer1.Panel2.Controls.Add(this.pbPreview);
             this.splitContainer1.Size = new System.Drawing.Size(935, 492);
             this.splitContainer1.SplitterDistance = 474;
-            this.splitContainer1.TabIndex = 8;
+            this.splitContainer1.TabIndex = 5;
             // 
             // pbPreviewZoom
             // 
@@ -154,6 +155,7 @@
             this.pbPreviewZoom.Size = new System.Drawing.Size(88, 88);
             this.pbPreviewZoom.TabIndex = 3;
             this.pbPreviewZoom.TabStop = false;
+            this.pbPreviewZoom.Visible = false;
             // 
             // lblPreview
             // 
@@ -163,7 +165,7 @@
             this.lblPreview.Location = new System.Drawing.Point(8, 8);
             this.lblPreview.Name = "lblPreview";
             this.lblPreview.Size = new System.Drawing.Size(71, 13);
-            this.lblPreview.TabIndex = 2;
+            this.lblPreview.TabIndex = 0;
             this.lblPreview.Text = "Edited image:";
             // 
             // pbDefaultZoom
@@ -174,6 +176,7 @@
             this.pbDefaultZoom.Size = new System.Drawing.Size(88, 88);
             this.pbDefaultZoom.TabIndex = 4;
             this.pbDefaultZoom.TabStop = false;
+            this.pbDefaultZoom.Visible = false;
             // 
             // lblDefault
             // 
@@ -183,7 +186,7 @@
             this.lblDefault.Location = new System.Drawing.Point(5, 8);
             this.lblDefault.Name = "lblDefault";
             this.lblDefault.Size = new System.Drawing.Size(75, 13);
-            this.lblDefault.TabIndex = 3;
+            this.lblDefault.TabIndex = 0;
             this.lblDefault.Text = "Default image:";
             // 
             // pbDefault
@@ -193,7 +196,7 @@
             this.pbDefault.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbDefault.Location = new System.Drawing.Point(0, 0);
             this.pbDefault.Name = "pbDefault";
-            this.pbDefault.Size = new System.Drawing.Size(457, 492);
+            this.pbDefault.Size = new System.Drawing.Size(474, 492);
             this.pbDefault.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbDefault.TabIndex = 0;
             this.pbDefault.TabStop = false;
@@ -209,8 +212,9 @@
             this.Controls.Add(this.pgSettings);
             this.Controls.Add(this.tvPlugins);
             this.Controls.Add(this.lvEffects);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ImageEffectsGUI";
-            this.Text = "Image Effects";
+            this.Text = "Image Effects Studio";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ImageEffectsGUI_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);

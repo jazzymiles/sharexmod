@@ -126,7 +126,7 @@ namespace ShareX
 
         // Advanced
 
-        [Category(HelpersLib.ComponentModelStrings.App), DefaultValue(false), Description("If you have configured Dropbox, then this setting will synchronize uploaders configuration and application settings except for paths.")]
+        [Category(ComponentModelStrings.App), DefaultValue(false), Description("If you have configured Dropbox, then this setting will synchronize uploaders configuration and application settings except for paths.")]
         public bool DropboxSync { get; set; }
         [Category(ComponentModelStrings.SettingsInteraction), DefaultValue(true), Description("Show after capture wizard. Dynamically choose actions after capture")]
         public bool ShowAfterCaptureWizard { get; set; }
@@ -134,12 +134,12 @@ namespace ShareX
         public bool ShowClipboardOptionsWizard { get; set; }
         [Category(ComponentModelStrings.InputsClipboard), DefaultValue(true), Description("When a folder path is in the clipboard, upload the folder index instead of the folder path as part of Clipboard Upload.")]
         public bool IndexFolderWhenPossible { get; set; }
-        [Category(HelpersLib.ComponentModelStrings.InputsWatchFolder), DefaultValue(false), Description("Automatically upload files saved in to this folder.")]
+        [Category(ComponentModelStrings.InputsWatchFolder), DefaultValue(false), Description("Automatically upload files saved in to this folder.")]
         public bool FolderMonitoring { get; set; }
-        [Category(HelpersLib.ComponentModelStrings.InputsWatchFolder), Description("Folder monitor path where files automatically get uploaded.")]
+        [Category(ComponentModelStrings.InputsWatchFolder), Description("Folder monitor path where files automatically get uploaded.")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string FolderMonitorPath { get; set; }
-        [Category(HelpersLib.ComponentModelStrings.FileNaming), DefaultValue(100), Description("Maximum file name length")]
+        [Category(ComponentModelStrings.FileNaming), DefaultValue(100), Description("Maximum file name length")]
         public int MaxFilenameLength { get; set; }
 
         #endregion Settings Form
