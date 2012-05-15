@@ -46,8 +46,8 @@ namespace ShareX
 
         public static void ShowOptions()
         {
-            Options.Show();
-            Options.Activate();
+            Options.ShowDialog();
+            DropboxSyncHelper.SaveAsync();
         }
 
         public static void ShowUploadersConfig()
