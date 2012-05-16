@@ -54,22 +54,22 @@ namespace ShareX
                     {
                         using (FileStream fs = new FileStream(filepathWatchFolder, FileMode.Open, FileAccess.Read))
                         {
-                            // check if the file is complete
+                            break;
                         }
-                        log.InfoFormat("Created {0}", filepathWatchFolder);
-                        UploadManager.UploadFile(filepathWatchFolder);
-                        break;
                     }
                 }
                 catch (System.IO.IOException ex)
                 {
                     if (--retry == 0)
                     {
-                        log.WarnFormat("Unable to open file {0}", filepathWatchFolder);
+                        log.WarnFormat("Waiting for file {0}", filepathWatchFolder, ex.ToString());
                     }
                     Thread.Sleep(1000);
                 }
             }
+
+            log.InfoFormat("Created {0}", filepathWatchFolder);
+            UploadManager.UploadFile(filepathWatchFolder);
         }
     }
 }
