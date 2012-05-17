@@ -104,8 +104,14 @@ namespace ShareX
                 if (Program.Settings.ShowAfterCaptureWizard)
                 {
                     WindowAfterCapture dlg = new WindowAfterCapture(jobs.ImageJobs);
-                    dlg.ShowDialog();
-                    jobs.ImageJobs = dlg.Config;
+                    if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        jobs.ImageJobs = dlg.Config;
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
 
                 if (jobs.ImageJobs.HasFlag(TaskImageJob.AnnotateImage))
