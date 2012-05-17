@@ -47,6 +47,7 @@ namespace Gif.Components
 {
     public class NeuQuant
     {
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         protected static readonly int netsize = 256; /* number of colours used */
         /* four primes near 500 - assume no image has a length so large */
         /* that it is divisible by all four primes */
@@ -82,7 +83,7 @@ namespace Gif.Components
         protected static readonly int betashift = 10;
         protected static readonly int beta = (intbias >> betashift); /* beta = 1/1024 */
         protected static readonly int betagamma =
-			(intbias << (gammashift - betashift));
+            (intbias << (gammashift - betashift));
 
         /* defs for decreasing radius factor */
         protected static readonly int initrad = (netsize >> 3); /* for 256 cols, radius starts */
@@ -248,7 +249,7 @@ namespace Gif.Components
                 rad = 0;
             for (i = 0; i < rad; i++)
                 radpower[i] =
-					alpha * (((rad * rad - i * i) * radbias) / (rad * rad));
+                    alpha * (((rad * rad - i * i) * radbias) / (rad * rad));
 
             //fprintf(stderr,"beginning 1D learning: initial radius=%d\n", rad);
 
@@ -297,7 +298,7 @@ namespace Gif.Components
                         rad = 0;
                     for (j = 0; j < rad; j++)
                         radpower[j] =
-							alpha * (((rad * rad - j * j) * radbias) / (rad * rad));
+                            alpha * (((rad * rad - j * j) * radbias) / (rad * rad));
                 }
             }
             //fprintf(stderr,"finished 1D learning: readonly alpha=%f !\n",((float)alpha)/initalpha);
@@ -394,7 +395,7 @@ namespace Gif.Components
 
         public void Unbiasnet()
         {
-            int i, j;
+            int i;
 
             for (i = 0; i < netsize; i++)
             {
@@ -437,6 +438,7 @@ namespace Gif.Components
                     }
                     catch (Exception e)
                     {
+                        log.Error("Alterneigh", e);
                     } // prevents 1.3 miscompilation
                 }
                 if (k > lo)
@@ -450,6 +452,7 @@ namespace Gif.Components
                     }
                     catch (Exception e)
                     {
+                        log.Error("Alterneigh", e);
                     }
                 }
             }
