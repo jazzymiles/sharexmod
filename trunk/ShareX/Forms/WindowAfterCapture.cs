@@ -52,7 +52,7 @@ namespace ShareX
                 yGap += 24;
             }
 
-            this.Width = maxWidth + btnOk.Width;
+            this.Width = maxWidth + btnOk.Width * 2;
             this.Height = yGap + 60;
         }
 
@@ -68,6 +68,11 @@ namespace ShareX
         private void btnOk_Click(object sender, EventArgs e)
         {
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
         }
     }
 }
