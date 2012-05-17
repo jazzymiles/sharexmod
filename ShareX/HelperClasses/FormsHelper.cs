@@ -44,7 +44,11 @@ namespace ShareX
         public static void ShowOptions()
         {
             Options.ShowDialog();
+
             DropboxSyncHelper.SaveAsync();
+
+            Main.ReloadConfig();
+            Main.ReloadOutputsMenu();
         }
 
         public static void ShowUploadersConfig()
