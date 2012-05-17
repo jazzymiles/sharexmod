@@ -108,7 +108,7 @@ namespace ShareX
         public bool ShowCursor = false;
         public bool CaptureTransparent = true;
         public bool CaptureShadow = true;
-        public TaskImageJob AfterCaptureTasks = TaskImageJob.CopyImageToClipboard | TaskImageJob.UploadImageToHost;
+        public Subtask AfterCaptureTasks = Subtask.CopyImageToClipboard | Subtask.UploadImageToHost;
         public string SaveImageSubFolderPattern = "%y-%mo";
         public SurfaceOptions SurfaceOptions = new SurfaceOptions() { QuickCrop = true, IncludeControls = true };
         public PrintSettings PrintSettings = new PrintSettings();

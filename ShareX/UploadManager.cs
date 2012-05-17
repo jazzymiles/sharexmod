@@ -144,15 +144,13 @@ namespace ShareX
         {
             if (imageData != null)
             {
-                foreach (ImageDestination imageUploader in act.Uploaders.ImageUploaders)
-                {
-                    EDataType destination = imageUploader == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
-                    Task task = Task.CreateImageUploaderTask(imageData, destination);
-                    task.Info.ImageJob = act.ImageJobs;
-                    task.Info.Uploaders = act.Uploaders;
-                    StartUpload(task);
-                    break; // ShareX 7.1 will support creation of multiple tasks
-                }
+                EDataType destination = EDataType.Image;
+                if (act.Uploaders.ImageUploaders.Count > 0)
+                    destination = act.Uploaders.ImageUploaders[0] == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
+                Task task = Task.CreateImageUploaderTask(imageData, destination);
+                task.Info.Jobs = act.Subtasks;
+                task.Info.Uploaders = act.Uploaders;
+                StartUpload(task);
             }
         }
 
@@ -183,6 +181,7 @@ namespace ShareX
                 {
                     EDataType destination = textUploader == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
                     Task task = Task.CreateTextUploaderTask(text, destination);
+                    task.Info.Jobs = act.Subtasks;
                     task.Info.Uploaders = act.Uploaders;
                     StartUpload(task);
                     break; // TODO: ShareXmod 7.1 to have multiple destination support
@@ -349,7 +348,7 @@ namespace ShareX
 
         private static void ChangeListViewItemStatus(UploadInfo info)
         {
-            if (ListViewControl != null && info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
+            if (ListViewControl != null && info.Jobs.HasFlag(Subtask.UploadImageToHost))
             {
                 ListViewItem lvi = ListViewControl.Items[info.ID];
                 lvi.SubItems[1].Text = info.Status;
@@ -371,21 +370,21 @@ namespace ShareX
                 lvi.SubItems.Add(string.Empty);
                 lvi.SubItems.Add(info.DataType.ToString());
 
-                var taskImageJobs = Enum.GetValues(typeof(TaskImageJob)).Cast<TaskImageJob>();
-                foreach (TaskImageJob job in taskImageJobs)
+                var taskImageJobs = Enum.GetValues(typeof(Subtask)).Cast<Subtask>();
+                foreach (Subtask job in taskImageJobs)
                 {
                     switch (job)
                     {
-                        case TaskImageJob.None:
+                        case Subtask.None:
                             continue;
                     }
 
-                    if (info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
+                    if (info.Jobs.HasFlag(Subtask.UploadImageToHost))
                     {
                         lvi.SubItems.Add(info.Destination);
                         break;
                     }
-                    else if (info.ImageJob.HasFlag(job))
+                    else if (info.Jobs.HasFlag(job))
                     {
                         lvi.SubItems.Add(job.GetDescription());
                         break;

@@ -190,6 +190,35 @@ namespace ShareX
         {
             niTray.Visible = Program.Settings.ShowTray;
 
+            #region Outputs
+
+            var taskImageJobs = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new
+    {
+        Description = x.GetDescription(),
+        Enum = x
+    });
+
+            tsddbOutputs.DropDownItems.Clear();
+
+            foreach (var job in taskImageJobs)
+            {
+                switch (job.Enum)
+                {
+                    case Subtask.None:
+                        continue;
+                }
+                ToolStripMenuItem tsmi = new ToolStripMenuItem(job.Description);
+                tsmi.Checked = Program.Settings.AfterCaptureTasks.HasFlag(job.Enum);
+                tsmi.Tag = job.Enum;
+                tsmi.CheckOnClick = true;
+                tsmi.CheckedChanged += new EventHandler(tsmiAfterCaptureTask_CheckedChanged);
+                tsddbOutputs.DropDownItems.Add(tsmi);
+            }
+
+            #endregion Outputs
+
+            #region Upload Destinations
+
             if (Helpers.GetEnumLength<ImageDestination>() <= Program.Settings.SelectedImageUploaderDestination)
             {
                 Program.Settings.SelectedImageUploaderDestination = 0;
@@ -228,7 +257,18 @@ namespace ShareX
 
             UpdateUploaderMenuNames();
 
+            #endregion Upload Destinations
+
             UploadManager.UpdateProxySettings();
+        }
+
+        private void tsmiAfterCaptureTask_CheckedChanged(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+            if (tsmi.Checked)
+                Program.Settings.AfterCaptureTasks |= (Subtask)tsmi.Tag;
+            else
+                Program.Settings.AfterCaptureTasks &= ~(Subtask)tsmi.Tag;
         }
 
         private void UpdateControls()

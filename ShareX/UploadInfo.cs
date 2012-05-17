@@ -38,7 +38,7 @@ namespace ShareX
         public int ID { get; set; }
         public string Status { get; set; }
         public TaskJob Job { get; set; }
-        public TaskImageJob ImageJob { get; set; }
+        public Subtask Jobs { get; set; }
         public TaskTextJob TextJobs { get; set; }
         public DestConfig Uploaders { get; set; }
         public ProgressManager Progress { get; set; }
@@ -96,7 +96,7 @@ namespace ShareX
         public UploadInfo()
         {
             Result = new UploadResult();
-            ImageJob = TaskImageJob.UploadImageToHost;
+            Jobs = Subtask.UploadImageToHost;
         }
 
         public HistoryItem GetHistoryItem()

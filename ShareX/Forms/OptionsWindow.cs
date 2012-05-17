@@ -204,7 +204,7 @@ namespace ShareX.Forms
 
         private void LoadAfterCaptureTasksGui()
         {
-            var taskImageJobs = Enum.GetValues(typeof(TaskImageJob)).Cast<TaskImageJob>().Select(x => new
+            var taskImageJobs = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new
             {
                 Description = x.GetDescription(),
                 Enum = x
@@ -216,7 +216,7 @@ namespace ShareX.Forms
             {
                 switch (job.Enum)
                 {
-                    case TaskImageJob.None:
+                    case Subtask.None:
                         continue;
                 }
 
@@ -238,9 +238,9 @@ namespace ShareX.Forms
         {
             CheckBox chkAfterCaptureTask = sender as CheckBox;
             if (chkAfterCaptureTask.Checked)
-                Program.Settings.AfterCaptureTasks |= (TaskImageJob)chkAfterCaptureTask.Tag;
+                Program.Settings.AfterCaptureTasks |= (Subtask)chkAfterCaptureTask.Tag;
             else
-                Program.Settings.AfterCaptureTasks &= ~(TaskImageJob)chkAfterCaptureTask.Tag;
+                Program.Settings.AfterCaptureTasks &= ~(Subtask)chkAfterCaptureTask.Tag;
         }
 
         private void BeforeClose()

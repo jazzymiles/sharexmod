@@ -39,7 +39,7 @@ namespace ShareX
     }
 
     [Flags]
-    public enum TaskImageJob
+    public enum Subtask
     {
         None = 0,
         [Description("Annotate image")]
