@@ -182,19 +182,22 @@ namespace ShareX
 
                 try
                 {
-                    if (data.CanSeek) data.Position = 0;
-
-                    switch (Info.UploadDestination)
+                    if (data != null && data.CanSeek)
                     {
-                        case EDataType.Image:
-                            Info.Result = UploadImage(data);
-                            break;
-                        case EDataType.File:
-                            Info.Result = UploadFile(data);
-                            break;
-                        case EDataType.Text:
-                            Info.Result = UploadText(data);
-                            break;
+                        data.Position = 0;
+
+                        switch (Info.UploadDestination)
+                        {
+                            case EDataType.Image:
+                                Info.Result = UploadImage(data);
+                                break;
+                            case EDataType.File:
+                                Info.Result = UploadFile(data);
+                                break;
+                            case EDataType.Text:
+                                Info.Result = UploadText(data);
+                                break;
+                        }
                     }
                 }
                 catch (Exception ex)

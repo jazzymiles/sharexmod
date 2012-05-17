@@ -43,7 +43,7 @@ namespace HelpersLib.Hotkeys2
         ActiveWindow,
         [Description("Capture Active Monitor")]
         ActiveMonitor,
-        [Description("Capture Window && Rectangle")]
+        [Description("Capture Window or Rectangle")]
         WindowRectangle,
         [Description("Capture Rectangle Region")]
         RectangleRegion,
