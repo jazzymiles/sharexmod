@@ -895,8 +895,6 @@ namespace ShareX.Forms
 
             Program.Settings.SaveAsync(Program.SettingsFilePath);
             Program.Settings.BackupAsync();
-
-            FormsHelper.Main.ReloadConfig();
         }
 
         private void OptionsWindow_Shown(object sender, EventArgs e)

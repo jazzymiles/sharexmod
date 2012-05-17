@@ -256,6 +256,13 @@ namespace ShareX.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap share {
+            get {
+                object obj = ResourceManager.GetObject("share", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Icon ShareX {
             get {
                 object obj = ResourceManager.GetObject("ShareX", resourceCulture);

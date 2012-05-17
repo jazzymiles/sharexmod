@@ -67,6 +67,7 @@ namespace ShareX
             this.uploadFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsMain = new System.Windows.Forms.ToolStrip();
+            this.tsddbOutputs = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsbClipboardUpload = new System.Windows.Forms.ToolStripButton();
             this.tsbFileUpload = new System.Windows.Forms.ToolStripButton();
             this.tsbDebug = new System.Windows.Forms.ToolStripButton();
@@ -88,7 +89,6 @@ namespace ShareX
             this.tsmiURLShorteners = new System.Windows.Forms.ToolStripMenuItem();
             this.tssDestinations1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiUploadersConfig = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsddbOutputs = new System.Windows.Forms.ToolStripDropDownButton();
             this.tssMain1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbCopy = new System.Windows.Forms.ToolStripButton();
             this.tsbOpen = new System.Windows.Forms.ToolStripButton();
@@ -234,12 +234,12 @@ namespace ShareX
             this.tsMain.Dock = System.Windows.Forms.DockStyle.None;
             this.tsMain.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsddbOutputs,
             this.tsbClipboardUpload,
             this.tsbFileUpload,
             this.tsbDebug,
             this.tsddbCapture,
             this.tsddbDestinations,
-            this.tsddbOutputs,
             this.tssMain1,
             this.tsbCopy,
             this.tsbOpen,
@@ -252,17 +252,26 @@ namespace ShareX
             this.tsMain.Name = "tsMain";
             this.tsMain.Padding = new System.Windows.Forms.Padding(4, 6, 4, 4);
             this.tsMain.ShowItemToolTips = false;
-            this.tsMain.Size = new System.Drawing.Size(893, 33);
+            this.tsMain.Size = new System.Drawing.Size(929, 33);
             this.tsMain.TabIndex = 0;
             this.tsMain.Text = "toolStrip1";
+            // 
+            // tsddbOutputs
+            // 
+            this.tsddbOutputs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsddbOutputs.Image = global::ShareX.Properties.Resources.target;
+            this.tsddbOutputs.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsddbOutputs.Name = "tsddbOutputs";
+            this.tsddbOutputs.Size = new System.Drawing.Size(29, 20);
+            this.tsddbOutputs.Text = "Outputs";
             // 
             // tsbClipboardUpload
             // 
             this.tsbClipboardUpload.Image = global::ShareX.Properties.Resources.clipboard__plus;
             this.tsbClipboardUpload.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbClipboardUpload.Name = "tsbClipboardUpload";
-            this.tsbClipboardUpload.Size = new System.Drawing.Size(128, 20);
-            this.tsbClipboardUpload.Text = "Clipboard upload...";
+            this.tsbClipboardUpload.Size = new System.Drawing.Size(162, 20);
+            this.tsbClipboardUpload.Text = "Share clipboard content...";
             this.tsbClipboardUpload.Click += new System.EventHandler(this.tsbClipboardUpload_Click);
             // 
             // tsbFileUpload
@@ -270,8 +279,8 @@ namespace ShareX
             this.tsbFileUpload.Image = global::ShareX.Properties.Resources.folder__plus;
             this.tsbFileUpload.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbFileUpload.Name = "tsbFileUpload";
-            this.tsbFileUpload.Size = new System.Drawing.Size(94, 20);
-            this.tsbFileUpload.Text = "File upload...";
+            this.tsbFileUpload.Size = new System.Drawing.Size(84, 20);
+            this.tsbFileUpload.Text = "Share file...";
             this.tsbFileUpload.Click += new System.EventHandler(this.tsbFileUpload_Click);
             // 
             // tsbDebug
@@ -392,11 +401,11 @@ namespace ShareX
             this.tsmiURLShorteners,
             this.tssDestinations1,
             this.tsmiUploadersConfig});
-            this.tsddbDestinations.Image = global::ShareX.Properties.Resources.drive_globe;
+            this.tsddbDestinations.Image = global::ShareX.Properties.Resources.share;
             this.tsddbDestinations.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsddbDestinations.Name = "tsddbDestinations";
-            this.tsddbDestinations.Size = new System.Drawing.Size(74, 20);
-            this.tsddbDestinations.Text = "Upload";
+            this.tsddbDestinations.Size = new System.Drawing.Size(97, 20);
+            this.tsddbDestinations.Text = "Share using";
             // 
             // tsmiImageUploaders
             // 
@@ -439,14 +448,6 @@ namespace ShareX
             this.tsmiUploadersConfig.Size = new System.Drawing.Size(176, 22);
             this.tsmiUploadersConfig.Text = "Configuration...";
             this.tsmiUploadersConfig.Click += new System.EventHandler(this.tsddbUploadersConfig_Click);
-            // 
-            // tsddbOutputs
-            // 
-            this.tsddbOutputs.Image = global::ShareX.Properties.Resources.target;
-            this.tsddbOutputs.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsddbOutputs.Name = "tsddbOutputs";
-            this.tsddbOutputs.Size = new System.Drawing.Size(79, 20);
-            this.tsddbOutputs.Text = "Outputs";
             // 
             // tssMain1
             // 
