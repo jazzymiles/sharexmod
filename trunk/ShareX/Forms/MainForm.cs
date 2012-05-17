@@ -338,10 +338,10 @@ namespace ShareX
 
         private void UpdateUploaderMenuNames()
         {
-            tsmiImageUploaders.Text = "Images: " + UploadManager.ImageUploader.GetDescription();
-            tsmiFileUploaders.Text = "File uploader: " + UploadManager.FileUploader.GetDescription();
-            tsmiTextUploaders.Text = "Text files: " + UploadManager.TextUploader.GetDescription();
-            tsmiURLShorteners.Text = "URL shortener: " + UploadManager.URLShortener.GetDescription();
+            tsmiImageUploaders.Text = "Images using: " + UploadManager.ImageUploader.GetDescription();
+            tsmiFileUploaders.Text = "Files using: " + UploadManager.FileUploader.GetDescription();
+            tsmiTextUploaders.Text = "Text using: " + UploadManager.TextUploader.GetDescription();
+            tsmiURLShorteners.Text = "Links using: " + UploadManager.URLShortener.GetDescription();
         }
 
         private void CheckUpdate()
