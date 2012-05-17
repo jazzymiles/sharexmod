@@ -50,6 +50,8 @@ namespace Gif.Components
 {
     public class GifDecoder
     {
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /**
          * File read status: No errors.
          */
@@ -405,6 +407,7 @@ namespace Gif.Components
             catch (IOException e)
             {
                 status = STATUS_OPEN_ERROR;
+                log.Error("Reading GIF", e);
             }
 
             return status;
@@ -534,7 +537,7 @@ namespace Gif.Components
                     suffix[available] = (byte)first;
                     available++;
                     if (((available & code_mask) == 0)
-						&& (available < MaxStackSize))
+                        && (available < MaxStackSize))
                     {
                         code_size++;
                         code_mask += available;
@@ -590,6 +593,7 @@ namespace Gif.Components
             }
             catch (IOException e)
             {
+                log.Error("Reading GIF", e);
                 status = STATUS_FORMAT_ERROR;
             }
             return curByte;
@@ -620,6 +624,7 @@ namespace Gif.Components
                 }
                 catch (IOException e)
                 {
+                    log.Error("ReadBlock", e);
                 }
 
                 if (n < blockSize)
@@ -649,6 +654,7 @@ namespace Gif.Components
             }
             catch (IOException e)
             {
+                log.Error("ReadColorTable", e);
             }
             if (n < nbytes)
             {
@@ -661,9 +667,9 @@ namespace Gif.Components
                 int j = 0;
                 while (i < ncolors)
                 {
-                    int r = ((int)c[j++]) & 0xff;
-                    int g = ((int)c[j++]) & 0xff;
-                    int b = ((int)c[j++]) & 0xff;
+                    uint r = ((uint)c[j++]) & 0xff;
+                    uint g = ((uint)c[j++]) & 0xff;
+                    uint b = ((uint)c[j++]) & 0xff;
                     tab[i++] = (int)(0xff000000 | (r << 16) | (g << 8) | b);
                 }
             }
@@ -901,9 +907,6 @@ namespace Gif.Components
             lastRect = new Rectangle(ix, iy, iw, ih);
             lastImage = image;
             lastBgColor = bgColor;
-            //		int dispose = 0;
-            bool transparency = false;
-            int delay = 0;
             lct = null;
         }
 
