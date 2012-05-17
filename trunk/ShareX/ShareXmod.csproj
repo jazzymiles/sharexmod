@@ -326,6 +326,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\folder.png" />
     <None Include="Resources\share.png" />
     <None Include="Resources\target.png" />
     <None Include="Resources\ShareXSmallBusyIcon2.ico" />

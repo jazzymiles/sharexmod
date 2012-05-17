@@ -165,6 +165,13 @@ namespace ShareX.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap folder {
+            get {
+                object obj = ResourceManager.GetObject("folder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap folder__plus {
             get {
                 object obj = ResourceManager.GetObject("folder--plus", resourceCulture);

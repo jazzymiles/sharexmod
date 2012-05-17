@@ -24,6 +24,7 @@
 #endregion License Information (GPL v3)
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -325,6 +326,9 @@ namespace ShareX
                     {
                         showResponseToolStripMenuItem.Visible = true;
                     }
+
+                    showInWindowsExplorerToolStripMenuItem.Visible = File.Exists(result.LocalFilePath);
+                    shareToolStripMenuItem.Visible = File.Exists(result.LocalFilePath);
                 }
 
                 int index = lvUploads.SelectedIndices[0];
@@ -333,6 +337,8 @@ namespace ShareX
             else
             {
                 uploadFileToolStripMenuItem.Visible = true;
+                showInWindowsExplorerToolStripMenuItem.Visible = false;
+                shareToolStripMenuItem.Visible = false;
             }
         }
 
@@ -752,6 +758,30 @@ namespace ShareX
                 foreach (int index in lvUploads.SelectedIndices)
                 {
                     UploadManager.Tasks[index].Stop();
+                }
+            }
+        }
+
+        private void showInWindowsExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvUploads.SelectedIndices.Count > 0)
+            {
+                foreach (int index in lvUploads.SelectedIndices)
+                {
+                    UploadResult result = lvUploads.Items[index].Tag as UploadResult;
+                    Helpers.OpenFolderWithFile(result.LocalFilePath);
+                }
+            }
+        }
+
+        private void shareToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvUploads.SelectedIndices.Count > 0)
+            {
+                foreach (int index in lvUploads.SelectedIndices)
+                {
+                    UploadResult result = lvUploads.Items[index].Tag as UploadResult;
+                    UploadManager.UploadFile(result.LocalFilePath);
                 }
             }
         }

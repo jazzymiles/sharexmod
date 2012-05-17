@@ -44,7 +44,6 @@ namespace ShareX
         public ProgressManager Progress { get; set; }
 
         private string filePath;
-
         public string FilePath
         {
             get
@@ -54,7 +53,7 @@ namespace ShareX
             set
             {
                 filePath = value;
-                FileName = Path.GetFileName(filePath);
+                FileName = Path.GetFileName(value);
             }
         }
 
