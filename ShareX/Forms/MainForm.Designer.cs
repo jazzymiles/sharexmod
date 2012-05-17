@@ -279,8 +279,8 @@ namespace ShareX
             this.tsbFileUpload.Image = global::ShareX.Properties.Resources.folder__plus;
             this.tsbFileUpload.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbFileUpload.Name = "tsbFileUpload";
-            this.tsbFileUpload.Size = new System.Drawing.Size(84, 20);
-            this.tsbFileUpload.Text = "Share file...";
+            this.tsbFileUpload.Size = new System.Drawing.Size(89, 20);
+            this.tsbFileUpload.Text = "Share files...";
             this.tsbFileUpload.Click += new System.EventHandler(this.tsbFileUpload_Click);
             // 
             // tsbDebug
@@ -404,8 +404,8 @@ namespace ShareX
             this.tsddbDestinations.Image = global::ShareX.Properties.Resources.share;
             this.tsddbDestinations.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsddbDestinations.Name = "tsddbDestinations";
-            this.tsddbDestinations.Size = new System.Drawing.Size(97, 20);
-            this.tsddbDestinations.Text = "Share using";
+            this.tsddbDestinations.Size = new System.Drawing.Size(65, 20);
+            this.tsddbDestinations.Text = "Share";
             // 
             // tsmiImageUploaders
             // 
