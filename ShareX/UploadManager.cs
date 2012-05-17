@@ -458,6 +458,7 @@ namespace ShareX
             {
                 if (ListViewControl != null && info != null && info.Result != null)
                 {
+                    info.Result.LocalFilePath = info.FilePath;
                     ListViewItem lvi = ListViewControl.Items[info.ID];
                     lvi.Tag = info.Result;
 
