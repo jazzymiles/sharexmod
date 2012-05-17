@@ -103,10 +103,10 @@ namespace ShareX
 
                 if (Program.Settings.ShowAfterCaptureWizard)
                 {
-                    WindowAfterCapture dlg = new WindowAfterCapture(jobs.ImageJobs);
+                    WindowAfterCapture dlg = new WindowAfterCapture(jobs.Subtasks);
                     if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        jobs.ImageJobs = dlg.Config;
+                        jobs.Subtasks = dlg.Config;
                     }
                     else
                     {
@@ -114,7 +114,7 @@ namespace ShareX
                     }
                 }
 
-                if (jobs.ImageJobs.HasFlag(TaskImageJob.AnnotateImage))
+                if (jobs.Subtasks.HasFlag(Subtask.AnnotateImage))
                 {
                     EditImage(ref imageData);
                 }

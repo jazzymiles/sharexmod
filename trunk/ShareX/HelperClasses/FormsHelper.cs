@@ -33,10 +33,7 @@ namespace ShareX
         {
             get
             {
-                if (_OptionsWindow == null || _OptionsWindow.IsDisposed)
-                    _OptionsWindow = new OptionsWindow() { Icon = Resources.ShareX };
-
-                return _OptionsWindow;
+                return new OptionsWindow() { Icon = Resources.ShareX }; ;
             }
             set
             {

@@ -13,16 +13,16 @@ namespace ShareX
 {
     public partial class WindowAfterCapture : Form
     {
-        public TaskImageJob Config { get; set; }
+        public Subtask Config { get; set; }
 
-        public WindowAfterCapture(TaskImageJob config)
+        public WindowAfterCapture(Subtask config)
         {
             InitializeComponent();
             this.Icon = Resources.ShareX;
 
             Config = config;
 
-            var taskImageJobs = Enum.GetValues(typeof(TaskImageJob)).Cast<TaskImageJob>().Select(x => new
+            var taskImageJobs = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new
             {
                 Description = x.GetDescription(),
                 Enum = x
@@ -35,7 +35,7 @@ namespace ShareX
             {
                 switch (job.Enum)
                 {
-                    case TaskImageJob.None:
+                    case Subtask.None:
                         continue;
                 }
 
@@ -60,9 +60,9 @@ namespace ShareX
         {
             CheckBox chkJob = sender as CheckBox;
             if (chkJob.Checked)
-                Config |= (TaskImageJob)chkJob.Tag;
+                Config |= (Subtask)chkJob.Tag;
             else
-                Config &= ~(TaskImageJob)chkJob.Tag;
+                Config &= ~(Subtask)chkJob.Tag;
         }
 
         private void btnOk_Click(object sender, EventArgs e)

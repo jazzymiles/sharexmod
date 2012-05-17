@@ -168,7 +168,7 @@ namespace ShareX
         {
             DoThreadJob();
 
-            if (Info.Job != TaskJob.ImageUpload || Info.ImageJob.HasFlag(TaskImageJob.UploadImageToHost))
+            if (Info.Job != TaskJob.ImageUpload || Info.Jobs.HasFlag(Subtask.UploadImageToHost))
             {
                 if (Program.UploadersConfig == null)
                 {
@@ -245,19 +245,19 @@ namespace ShareX
             {
                 DoBeforeImagePreparedJobs();
 
-                if (Info.ImageJob.HasFlagAny(TaskImageJob.UploadImageToHost, TaskImageJob.SaveImageToFile,
-                    TaskImageJob.SaveImageToFileWithDialog))
+                if (Info.Jobs.HasFlagAny(Subtask.UploadImageToHost, Subtask.SaveImageToFile,
+                    Subtask.SaveImageToFileWithDialog))
                 {
                     imageData.PrepareImageAndFilename();
 
                     data = imageData.ImageStream;
                     Info.FileName = imageData.Filename;
 
-                    if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFile))
+                    if (Info.Jobs.HasFlag(Subtask.SaveImageToFile))
                     {
                         Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
                     }
-                    if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFileWithDialog) && Directory.Exists(Info.FolderPath))
+                    if (Info.Jobs.HasFlag(Subtask.SaveImageToFileWithDialog) && Directory.Exists(Info.FolderPath))
                     {
                         string fp = imageData.WriteToFile(Info.FolderPath);
                         if (string.IsNullOrEmpty(Info.FilePath))
@@ -267,19 +267,34 @@ namespace ShareX
             }
             else if (Info.Job == TaskJob.TextUpload && !string.IsNullOrEmpty(tempText))
             {
+                if (Info.Jobs.HasFlag(Subtask.Print))
+                {
+                    threadWorker.InvokeAsync(PrintText);
+                }
+
                 byte[] byteArray = Encoding.UTF8.GetBytes(tempText);
                 data = new MemoryStream(byteArray);
             }
         }
 
+        private void PrintImage()
+        {
+            new PrintForm(imageData.ImageExported, Program.Settings.PrintSettings).Show();
+        }
+
+        private void PrintText()
+        {
+            new PrintHelper(tempText) { Settings = Program.Settings.PrintSettings }.Print();
+        }
+
         private void DoBeforeImagePreparedJobs()
         {
-            if (Info.ImageJob.HasFlag(TaskImageJob.Print))
+            if (Info.Jobs.HasFlag(Subtask.Print))
             {
-                new PrintForm(imageData.ImageExported, ref Program.Settings.PrintSettings).Show();
+                threadWorker.InvokeAsync(PrintImage);
             }
 
-            if (Info.ImageJob.HasFlag(TaskImageJob.AnnotateImageAddTornEffect))
+            if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddTornEffect))
             {
                 if (!Greenshot.IniFile.IniConfig.IsInited)
                     Greenshot.IniFile.IniConfig.Init();
@@ -287,7 +302,7 @@ namespace ShareX
                 imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateTornEdge(new Bitmap(imageData.Image));
             }
 
-            if (Info.ImageJob.HasFlag(TaskImageJob.AnnotateImageAddShadowBorder))
+            if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddShadowBorder))
             {
                 if (!Greenshot.IniFile.IniConfig.IsInited)
                     Greenshot.IniFile.IniConfig.Init();
@@ -295,19 +310,19 @@ namespace ShareX
                 imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateShadow(imageData.Image, 1f, 7, new Point(7, 7), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             }
 
-            if (Info.ImageJob.HasFlag(TaskImageJob.ShowImageEffectsStudio))
+            if (Info.Jobs.HasFlag(Subtask.ShowImageEffectsStudio))
             {
                 ImageEffectsGUI dlg = new ImageEffectsGUI(imageData.Image);
                 dlg.ShowDialog();
                 imageData.Image = dlg.GetImageForExport();
             }
 
-            if (Info.Job == TaskJob.ImageUpload && imageData != null && Info.ImageJob.HasFlag(TaskImageJob.CopyImageToClipboard))
+            if (Info.Job == TaskJob.ImageUpload && imageData != null && Info.Jobs.HasFlag(Subtask.CopyImageToClipboard))
             {
                 Clipboard.SetImage(imageData.Image);
             }
 
-            if (Info.ImageJob.HasFlag(TaskImageJob.SaveImageToFileWithDialog))
+            if (Info.Jobs.HasFlag(Subtask.SaveImageToFileWithDialog))
             {
                 using (FolderBrowserDialog dlg = new FolderBrowserDialog())
                 {

@@ -148,35 +148,35 @@ namespace ShareX
                         imagedata_wf = CaptureRegion(new FreeHandRegion(), autoHideForm);
                         break;
                     case EActivity.ClipboardCopyImage:
-                        jobs_wf.ImageJobs |= TaskImageJob.CopyImageToClipboard;
+                        jobs_wf.Subtasks |= Subtask.CopyImageToClipboard;
                         break;
                     case EActivity.ImageAnnotate:
-                        jobs_wf.ImageJobs |= TaskImageJob.AnnotateImage;
+                        jobs_wf.Subtasks |= Subtask.AnnotateImage;
                         break;
                     case EActivity.SaveToFile:
-                        jobs_wf.ImageJobs |= TaskImageJob.SaveImageToFile;
+                        jobs_wf.Subtasks |= Subtask.SaveImageToFile;
                         break;
                     case EActivity.SaveToFileWithDialog:
-                        jobs_wf.ImageJobs |= TaskImageJob.SaveImageToFileWithDialog;
+                        jobs_wf.Subtasks |= Subtask.SaveImageToFileWithDialog;
                         break;
                     case EActivity.Printer:
-                        jobs_wf.ImageJobs |= TaskImageJob.Print;
+                        jobs_wf.Subtasks |= Subtask.Print;
                         break;
                     case EActivity.AfterCaptureTasks:
-                        jobs_wf.ImageJobs |= Program.Settings.AfterCaptureTasks;
+                        jobs_wf.Subtasks |= Program.Settings.AfterCaptureTasks;
                         break;
                     case EActivity.UploadToRemoteHost:
-                        jobs_wf.ImageJobs |= TaskImageJob.UploadImageToHost;
+                        jobs_wf.Subtasks |= Subtask.UploadImageToHost;
                         break;
 
                     case EActivity.ShowImageEffectsStudio:
-                        jobs_wf.ImageJobs |= TaskImageJob.ShowImageEffectsStudio;
+                        jobs_wf.Subtasks |= Subtask.ShowImageEffectsStudio;
                         break;
                     case EActivity.ImageAnnotateAddTornEffect:
-                        jobs_wf.ImageJobs |= TaskImageJob.AnnotateImageAddTornEffect;
+                        jobs_wf.Subtasks |= Subtask.AnnotateImageAddTornEffect;
                         break;
                     case EActivity.ImageAnnotateAddShadowBorder:
-                        jobs_wf.ImageJobs |= TaskImageJob.AnnotateImageAddShadowBorder;
+                        jobs_wf.Subtasks |= Subtask.AnnotateImageAddShadowBorder;
                         break;
 
                     case EActivity.UploadToImageShack:
@@ -279,12 +279,16 @@ namespace ShareX
         {
             if (imageData != null)
             {
-                jobs.ImageJobs |= TaskImageJob.UploadImageToHost;
+                if (jobs.Subtasks == Subtask.None)
+                    jobs.Subtasks |= Program.Settings.AfterCaptureTasks;
                 log.Debug("After Capture initiated.");
                 AfterCapture(imageData, jobs);
             }
             else if (jobs.InputType == EInputType.Clipboard)
             {
+                if (jobs.Subtasks == Subtask.None)
+                    jobs.Subtasks |= Program.Settings.AfterCaptureTasks;
+
                 log.Debug("ClipboardUpload initiated.");
                 UploadManager.ClipboardUpload(jobs);
             }
