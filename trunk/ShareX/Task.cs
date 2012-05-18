@@ -320,19 +320,6 @@ namespace ShareX
 
         private void DoBeforeImagePreparedJobs()
         {
-            if (Info.Jobs.HasFlag(Subtask.Print))
-            {
-                threadWorker.InvokeAsync(PrintImage);
-            }
-
-            if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddTornEffect))
-            {
-                if (!Greenshot.IniFile.IniConfig.IsInited)
-                    Greenshot.IniFile.IniConfig.Init();
-
-                imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateTornEdge(new Bitmap(imageData.Image));
-            }
-
             if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddShadowBorder))
             {
                 if (!Greenshot.IniFile.IniConfig.IsInited)
@@ -348,9 +335,22 @@ namespace ShareX
                 imageData.Image = dlg.GetImageForExport();
             }
 
+            if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddTornEffect))
+            {
+                if (!Greenshot.IniFile.IniConfig.IsInited)
+                    Greenshot.IniFile.IniConfig.Init();
+
+                imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateTornEdge(new Bitmap(imageData.Image));
+            }
+
             if (Info.Job == TaskJob.ImageUpload && imageData != null && Info.Jobs.HasFlag(Subtask.CopyImageToClipboard))
             {
                 Clipboard.SetImage(imageData.Image);
+            }
+
+            if (Info.Jobs.HasFlag(Subtask.Print))
+            {
+                threadWorker.InvokeAsync(PrintImage);
             }
 
             if (Info.Jobs.HasFlag(Subtask.SaveImageToFileWithDialog))
