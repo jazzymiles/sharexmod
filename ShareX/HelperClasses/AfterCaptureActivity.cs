@@ -27,6 +27,7 @@ namespace ShareX.HelperClasses
         public static AfterCaptureActivity GetNew()
         {
             AfterCaptureActivity act = new AfterCaptureActivity();
+            act.Subtasks = Program.Settings.AfterCaptureTasks;
             act.GetDefaults();
 
             return act;

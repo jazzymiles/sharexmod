@@ -179,15 +179,13 @@ namespace ShareX
 
             if (!string.IsNullOrEmpty(text))
             {
-                foreach (TextDestination textUploader in act.Uploaders.TextUploaders)
-                {
-                    EDataType destination = textUploader == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
-                    Task task = Task.CreateTextUploaderTask(text, destination);
-                    task.Info.Jobs = act.Subtasks;
-                    task.Info.Uploaders = act.Uploaders;
-                    StartUpload(task);
-                    break; // TODO: ShareXmod 7.1 to have multiple destination support
-                }
+                EDataType destination = EDataType.Text;
+                if (act.Uploaders.TextUploaders.Count > 0)
+                    destination = act.Uploaders.TextUploaders[0] == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
+                Task task = Task.CreateTextUploaderTask(text, destination);
+                task.Info.Jobs = act.Subtasks;
+                task.Info.Uploaders = act.Uploaders;
+                StartUpload(task);
             }
         }
 
