@@ -111,56 +111,6 @@ namespace ShareX
             }
         }
 
-        private void InitControls()
-        {
-            InitializeComponent();
-
-            this.Text = Program.Title;
-            this.Icon = Resources.ShareX;
-            niTray.Text = this.Text;
-            niTray.Icon = Resources.ShareXSmallIcon;
-
-            foreach (ImageDestination imageUploader in Enum.GetValues(typeof(ImageDestination)))
-            {
-                tsmiImageUploaders.DropDownItems.Add(new ToolStripMenuItem(imageUploader.GetDescription()) { Tag = imageUploader });
-            }
-            tsmiImageUploaders.DropDownItemClicked += new ToolStripItemClickedEventHandler(tsddbImageUploaders_DropDownItemClicked);
-
-            foreach (FileDestination fileUploader in Enum.GetValues(typeof(FileDestination)))
-            {
-                tsmiFileUploaders.DropDownItems.Add(new ToolStripMenuItem(fileUploader.GetDescription()) { Tag = fileUploader });
-            }
-            tsmiFileUploaders.DropDownItemClicked += new ToolStripItemClickedEventHandler(tsddbFileUploaders_DropDownItemClicked);
-
-            foreach (TextDestination textUploader in Enum.GetValues(typeof(TextDestination)))
-            {
-                tsmiTextUploaders.DropDownItems.Add(new ToolStripMenuItem(textUploader.GetDescription()) { Tag = textUploader });
-            }
-            tsmiTextUploaders.DropDownItemClicked += new ToolStripItemClickedEventHandler(tsddbTextUploaders_DropDownItemClicked);
-
-            foreach (string urlShortener in Helpers.GetEnumDescriptions<UrlShortenerType>())
-            {
-                tsmiURLShorteners.DropDownItems.Add(new ToolStripMenuItem(urlShortener));
-            }
-            tsmiURLShorteners.DropDownItemClicked += new ToolStripItemClickedEventHandler(tsddbURLShorteners_DropDownItemClicked);
-
-            ImageList il = new ImageList();
-            il.ColorDepth = ColorDepth.Depth32Bit;
-            il.Images.Add(Properties.Resources.navigation_090_button);
-            il.Images.Add(Properties.Resources.cross_button);
-            il.Images.Add(Properties.Resources.tick_button);
-            il.Images.Add(Properties.Resources.navigation_000_button);
-            lvUploads.SmallImageList = il;
-            lvUploads.FillLastColumn();
-
-            UploadManager.ListViewControl = lvUploads;
-
-#if DEBUG
-            // Test button: Left click uploads test image. Right click opens capture test window.
-            tsbDebug.Visible = true;
-#endif
-        }
-
         private void ClearToolStripMenuItemChecks(ToolStripMenuItem tsmi)
         {
             foreach (ToolStripItem tsi in tsmi.DropDownItems)
@@ -272,6 +222,60 @@ namespace ShareX
                 Program.Settings.AfterCaptureTasks &= ~(Subtask)tsmi.Tag;
         }
 
+        private void InitControls()
+        {
+            InitializeComponent();
+
+            this.Text = Program.Title;
+            this.Icon = Resources.ShareX;
+            niTray.Text = this.Text;
+            niTray.Icon = Resources.ShareXSmallIcon;
+
+            #region Uploaders
+
+            foreach (ImageDestination imageUploader in Enum.GetValues(typeof(ImageDestination)))
+            {
+                tsmiImageUploaders.DropDownItems.Add(new ToolStripMenuItem(imageUploader.GetDescription()) { Tag = imageUploader });
+            }
+            tsmiImageUploaders.DropDownItemClicked += new ToolStripItemClickedEventHandler(tsddbImageUploaders_DropDownItemClicked);
+
+            foreach (FileDestination fileUploader in Enum.GetValues(typeof(FileDestination)))
+            {
+                tsmiFileUploaders.DropDownItems.Add(new ToolStripMenuItem(fileUploader.GetDescription()) { Tag = fileUploader });
+            }
+            tsmiFileUploaders.DropDownItemClicked += new ToolStripItemClickedEventHandler(tsddbFileUploaders_DropDownItemClicked);
+
+            foreach (TextDestination textUploader in Enum.GetValues(typeof(TextDestination)))
+            {
+                tsmiTextUploaders.DropDownItems.Add(new ToolStripMenuItem(textUploader.GetDescription()) { Tag = textUploader });
+            }
+            tsmiTextUploaders.DropDownItemClicked += new ToolStripItemClickedEventHandler(tsddbTextUploaders_DropDownItemClicked);
+
+            foreach (string urlShortener in Helpers.GetEnumDescriptions<UrlShortenerType>())
+            {
+                tsmiURLShorteners.DropDownItems.Add(new ToolStripMenuItem(urlShortener));
+            }
+            tsmiURLShorteners.DropDownItemClicked += new ToolStripItemClickedEventHandler(tsddbURLShorteners_DropDownItemClicked);
+
+            #endregion Uploaders
+
+            ImageList il = new ImageList();
+            il.ColorDepth = ColorDepth.Depth32Bit;
+            il.Images.Add(Properties.Resources.navigation_090_button);
+            il.Images.Add(Properties.Resources.cross_button);
+            il.Images.Add(Properties.Resources.tick_button);
+            il.Images.Add(Properties.Resources.navigation_000_button);
+            lvUploads.SmallImageList = il;
+            lvUploads.FillLastColumn();
+
+            UploadManager.ListViewControl = lvUploads;
+
+#if DEBUG
+            // Test button: Left click uploads test image. Right click opens capture test window.
+            tsbDebug.Visible = true;
+#endif
+        }
+
         private void UpdateControls()
         {
             tsbCopy.Enabled = tsbOpen.Enabled = copyURLToolStripMenuItem.Visible = openURLToolStripMenuItem.Visible =
@@ -344,10 +348,23 @@ namespace ShareX
 
         private void UpdateUploaderMenuNames()
         {
-            tsmiImageUploaders.Text = "Images using: " + UploadManager.ImageUploader.GetDescription();
-            tsmiFileUploaders.Text = "Files using: " + UploadManager.FileUploader.GetDescription();
-            tsmiTextUploaders.Text = "Text using: " + UploadManager.TextUploader.GetDescription();
-            tsmiURLShorteners.Text = "Links using: " + UploadManager.URLShortener.GetDescription();
+            tsmiImageUploaders.DropDownItems[tsmiImageUploaders.DropDownItems.Count - 1].Text = UploadManager.FileUploader.GetDescription();
+            tsmiTextUploaders.DropDownItems[tsmiTextUploaders.DropDownItems.Count - 1].Text = UploadManager.FileUploader.GetDescription();
+
+            tsmiImageUploaders.Text = "Image uploader: ";
+            if (UploadManager.ImageUploader == ImageDestination.FileUploader)
+                tsmiImageUploaders.Text += UploadManager.FileUploader.GetDescription();
+            else
+                tsmiImageUploaders.Text += UploadManager.ImageUploader.GetDescription();
+
+            tsmiTextUploaders.Text = "Text uploader: ";
+            if (UploadManager.TextUploader == TextDestination.FileUploader)
+                tsmiTextUploaders.Text += UploadManager.FileUploader.GetDescription();
+            else
+                tsmiTextUploaders.Text += UploadManager.TextUploader.GetDescription();
+
+            tsmiFileUploaders.Text = "File uploader: " + UploadManager.FileUploader.GetDescription();
+            tsmiURLShorteners.Text = "URL shortener: " + UploadManager.URLShortener.GetDescription();
         }
 
         private void CheckUpdate()
@@ -614,6 +631,11 @@ namespace ShareX
                 }
             }
 
+            UpdateUploaderMenuNames();
+        }
+
+        private void tsddbDestinations_DropDownOpening(object sender, EventArgs e)
+        {
             UpdateUploaderMenuNames();
         }
 
