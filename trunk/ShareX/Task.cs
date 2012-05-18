@@ -48,11 +48,8 @@ namespace ShareX
         public delegate void TaskEventHandler(UploadInfo info);
 
         public event TaskEventHandler UploadStarted;
-
         public event TaskEventHandler UploadPreparing;
-
         public event TaskEventHandler UploadProgressChanged;
-
         public event TaskEventHandler UploadCompleted;
 
         public UploadInfo Info { get; private set; }
@@ -168,7 +165,7 @@ namespace ShareX
         {
             DoThreadJob();
 
-            if (Info.Job != TaskJob.ImageUpload || Info.Jobs.HasFlag(Subtask.UploadImageToHost))
+            if (Info.Jobs.HasFlag(Subtask.UploadImageToHost))
             {
                 if (Program.UploadersConfig == null)
                 {
@@ -272,8 +269,42 @@ namespace ShareX
                     threadWorker.InvokeAsync(PrintText);
                 }
 
+                if (Info.Jobs.HasFlag(Subtask.SaveImageToFileWithDialog))
+                {
+                    threadWorker.InvokeAsync(SaveTextToFileWithDialog);
+                }
+
                 byte[] byteArray = Encoding.UTF8.GetBytes(tempText);
                 data = new MemoryStream(byteArray);
+            }
+        }
+
+        private void SaveTextToFileWithDialog()
+        {
+            using (FolderBrowserDialog dlg = new FolderBrowserDialog())
+            {
+                dlg.Description = string.Format("Choose a folder to save {0}", Info.FileName);
+                dlg.ShowNewFolderButton = true;
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    using (StreamWriter sw = new StreamWriter(Path.Combine(dlg.SelectedPath, Info.FileName)))
+                    {
+                        sw.WriteLine(tempText);
+                    }
+                }
+            }
+        }
+
+        private void SaveImageToFileWithDialog()
+        {
+            using (FolderBrowserDialog dlg = new FolderBrowserDialog())
+            {
+                dlg.Description = string.Format("Choose a folder to save {0}", Info.FileName);
+                dlg.ShowNewFolderButton = true;
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    Info.FolderPath = dlg.SelectedPath;
+                }
             }
         }
 
@@ -324,15 +355,7 @@ namespace ShareX
 
             if (Info.Jobs.HasFlag(Subtask.SaveImageToFileWithDialog))
             {
-                using (FolderBrowserDialog dlg = new FolderBrowserDialog())
-                {
-                    dlg.Description = string.Format("Choose a folder to save {0}", Info.FileName);
-                    dlg.ShowNewFolderButton = true;
-                    if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    {
-                        Info.FolderPath = dlg.SelectedPath;
-                    }
-                }
+                threadWorker.InvokeAsync(SaveImageToFileWithDialog);
             }
         }
 
