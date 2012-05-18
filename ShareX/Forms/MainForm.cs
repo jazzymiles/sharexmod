@@ -781,7 +781,10 @@ namespace ShareX
                 foreach (int index in lvUploads.SelectedIndices)
                 {
                     UploadResult result = lvUploads.Items[index].Tag as UploadResult;
-                    UploadManager.UploadFile(result.LocalFilePath);
+                    UploadManager.UploadFile(result.LocalFilePath, new HelperClasses.AfterCaptureActivity()
+                    {
+                        Subtasks = Subtask.UploadImageToHost
+                    });
                 }
             }
         }
