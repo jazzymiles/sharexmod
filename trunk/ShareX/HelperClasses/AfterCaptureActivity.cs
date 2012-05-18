@@ -34,7 +34,7 @@ namespace ShareX.HelperClasses
 
         internal void GetDefaults()
         {
-            if (Program.Settings.AfterCaptureTasks.HasFlag(Subtask.UploadImageToHost))
+            if (this.Subtasks.HasFlag(Subtask.UploadImageToHost))
             {
                 if (this.Uploaders.ImageUploaders.Count == 0)
                     this.Uploaders.ImageUploaders.Add(UploadManager.ImageUploader);

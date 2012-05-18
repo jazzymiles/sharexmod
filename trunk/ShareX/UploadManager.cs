@@ -119,6 +119,8 @@ namespace ShareX
 
                     if (act == null)
                         act = AfterCaptureActivity.GetNew();
+                    else if (AfterCaptureActivity.IsNullOrEmpty(act))
+                        act.GetDefaults();
 
                     foreach (FileDestination fileUploader in act.Uploaders.FileUploaders)
                     {
