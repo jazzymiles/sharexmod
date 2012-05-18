@@ -281,6 +281,8 @@ namespace ShareX
             {
                 if (jobs.Subtasks == Subtask.None)
                     jobs.Subtasks |= Program.Settings.AfterCaptureTasks;
+                if (jobs.Uploaders.ImageUploaders.Count > 0)
+                    jobs.Subtasks |= Subtask.UploadImageToHost;
                 log.Debug("After Capture initiated.");
                 AfterCapture(imageData, jobs);
             }

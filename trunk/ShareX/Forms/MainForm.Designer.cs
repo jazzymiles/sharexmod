@@ -160,7 +160,7 @@ namespace ShareX
             this.shareToolStripMenuItem});
             this.cmsUploads.Name = "cmsUploads";
             this.cmsUploads.ShowItemToolTips = false;
-            this.cmsUploads.Size = new System.Drawing.Size(223, 290);
+            this.cmsUploads.Size = new System.Drawing.Size(223, 268);
             // 
             // openURLToolStripMenuItem
             // 
@@ -273,7 +273,7 @@ namespace ShareX
             this.tsMain.Name = "tsMain";
             this.tsMain.Padding = new System.Windows.Forms.Padding(4, 6, 4, 4);
             this.tsMain.ShowItemToolTips = false;
-            this.tsMain.Size = new System.Drawing.Size(863, 33);
+            this.tsMain.Size = new System.Drawing.Size(929, 33);
             this.tsMain.TabIndex = 0;
             this.tsMain.Text = "toolStrip1";
             // 
@@ -425,8 +425,9 @@ namespace ShareX
             this.tsddbDestinations.Image = global::ShareX.Properties.Resources.share;
             this.tsddbDestinations.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsddbDestinations.Name = "tsddbDestinations";
-            this.tsddbDestinations.Size = new System.Drawing.Size(65, 20);
-            this.tsddbDestinations.Text = "Share";
+            this.tsddbDestinations.Size = new System.Drawing.Size(97, 20);
+            this.tsddbDestinations.Text = "Share using";
+            this.tsddbDestinations.DropDownOpening += new System.EventHandler(this.tsddbDestinations_DropDownOpening);
             // 
             // tsmiImageUploaders
             // 
