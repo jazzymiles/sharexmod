@@ -43,7 +43,7 @@ namespace HelpersLib.Hotkeys2
 
         [Description("Copy image to clipboard"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         ClipboardCopyImage,
-        [Description("Annotate image"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        [Description("Annotate image"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
         ImageAnnotate,
         [Description("Save to file"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         SaveToFile,
@@ -51,7 +51,7 @@ namespace HelpersLib.Hotkeys2
         SaveToFileWithDialog,
         [Description("Perform after capture tasks"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         AfterCaptureTasks,
-        [Description("Upload to default remote host"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        [Description("Upload to default remote host"), Category(ComponentModelStrings.ActivitiesUploaders)]
         UploadToRemoteHost,
         [Description("Send to printer"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         Printer,
