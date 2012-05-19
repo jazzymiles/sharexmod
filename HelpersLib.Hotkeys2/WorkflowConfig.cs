@@ -17,6 +17,7 @@ namespace HelpersLib.Hotkeys2
         ListViewGroup lvgCapture = new ListViewGroup(ComponentModelStrings.ActivitiesCapture, HorizontalAlignment.Left);
         ListViewGroup lvgAfterCapture = new ListViewGroup(ComponentModelStrings.ActivitiesAfterCapture, HorizontalAlignment.Left);
         ListViewGroup lvgAfterCaptureEffects = new ListViewGroup(ComponentModelStrings.ActivitiesAfterCaptureEffects, HorizontalAlignment.Left);
+        ListViewGroup lvgUploaders = new ListViewGroup(ComponentModelStrings.ActivitiesUploaders, HorizontalAlignment.Left);
         ListViewGroup lvgUploadersImages = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersImages, HorizontalAlignment.Left);
         ListViewGroup lvgUploadersText = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersText, HorizontalAlignment.Left);
         ListViewGroup lvgUploadersFiles = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersFiles, HorizontalAlignment.Left);
@@ -33,7 +34,7 @@ namespace HelpersLib.Hotkeys2
             lvActivitiesAll.Groups.AddRange(new[]
             {
                 lvgCapture,
-                lvgAfterCapture,lvgAfterCaptureEffects,
+                lvgAfterCapture,lvgAfterCaptureEffects, lvgUploaders,
                 lvgUploadersImages, lvgUploadersText, lvgUploadersFiles, lvgUploadersLinks
             });
             lvActivitiesUser.Groups.AddRange(lvActivitiesAll.Groups);
@@ -61,6 +62,8 @@ namespace HelpersLib.Hotkeys2
                 lvi.Group = lvgAfterCapture;
             else if (act.GetCategory() == lvgAfterCaptureEffects.Header)
                 lvi.Group = lvgAfterCaptureEffects;
+            else if (act.GetCategory() == lvgUploaders.Header)
+                lvi.Group = lvgUploaders;
             else if (act.GetCategory() == lvgUploadersImages.Header)
                 lvi.Group = lvgUploadersImages;
             else if (act.GetCategory() == lvgUploadersText.Header)
