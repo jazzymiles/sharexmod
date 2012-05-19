@@ -52,6 +52,10 @@ namespace ShareX
             AppendLine("Application Icon:  Mopquill ( www.mpql.net )");
             AppendLine("Other Icons: http://p.yusukekamiyamane.com");
             AppendLine();
+            AppendBoldLine("Thanks to:");
+            AppendLine("Andrew Moore (zathman) for introducing ZScreen");
+            AppendLine("Brandon Zimmerman (rgrthat) for leading the way");
+            AppendLine();
 
             if (Program.LibNames != null)
             {
