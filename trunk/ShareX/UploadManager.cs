@@ -278,13 +278,18 @@ namespace ShareX
 
         #endregion Drag n Drop
 
-        public static void UploadImageStream(Stream stream, string filePath)
+        public static void UploadStream(Stream stream, string filePath, AfterCaptureActivity act = null, EDataType dataType = EDataType.File)
         {
             if (stream != null && stream.Length > 0 && !string.IsNullOrEmpty(filePath))
             {
-                EDataType destination = ImageUploader == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
-                Task task = Task.CreateDataUploaderTask(EDataType.Image, stream, filePath, destination);
+                if (act == null)
+                    act = AfterCaptureActivity.GetNew();
+                else if (AfterCaptureActivity.IsNullOrEmpty(act))
+                    act.GetDefaults();
 
+                EDataType destination = ImageUploader == ImageDestination.FileUploader ? EDataType.File : dataType;
+                Task task = Task.CreateDataUploaderTask(EDataType.Image, stream, filePath, destination);
+                task.Info.Uploaders = act.Uploaders;
                 StartUpload(task);
             }
         }

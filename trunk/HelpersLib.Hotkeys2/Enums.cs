@@ -112,7 +112,7 @@ namespace HelpersLib.Hotkeys2
 
         [Description("Open with Image Effects Studio"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
         ShowImageEffectsStudio,
-        [Description("Add torn effect"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
+        [Description("Add torn paper effect"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
         ImageAnnotateAddTornEffect,
         [Description("Add shadow border"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
         ImageAnnotateAddShadowBorder,

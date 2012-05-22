@@ -44,7 +44,7 @@ namespace ShareX
         None = 0,
         [Description("Annotate image")]
         AnnotateImage = 1 << 0,
-        [Description("Add torn effect")]
+        [Description("Add torn paper effect")]
         AnnotateImageAddTornEffect = 1 << 1,
         [Description("Add shadow border")]
         AnnotateImageAddShadowBorder = 1 << 2,
