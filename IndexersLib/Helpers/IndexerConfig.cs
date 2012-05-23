@@ -130,6 +130,8 @@ namespace IndexersLib
 
         public IndexerConfig()
         {
+            ApplyDefaultValues(this);
+
             IndexingEngineType = IndexingEngine.TreeNetLib;
 
             TreeShowFiles = true;
@@ -168,7 +170,7 @@ namespace IndexersLib
 
         public List<string> FolderList = null;
 
-        [Category("Engines / General"), DefaultValue(false), Description("Show footer message showing project page")]
+        [Category("Engines / General"), DefaultValue(true), Description("Show footer message showing project page")]
         public bool AddFooter { get; set; }
         [Category("Engines / General"), Description("Index file name without extension")]
         public string IndexFileNameWitoutExt { get; set; }
@@ -185,6 +187,16 @@ namespace IndexersLib
         public IndexingEngine IndexingEngineType { get; set; }
 
         #region "Methods"
+
+        public static void ApplyDefaultValues(object self)
+        {
+            foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(self))
+            {
+                DefaultValueAttribute attr = prop.Attributes[typeof(DefaultValueAttribute)] as DefaultValueAttribute;
+                if (attr == null) continue;
+                prop.SetValue(self, attr.Value);
+            }
+        }
 
         public string GetIndexFileName()
         {

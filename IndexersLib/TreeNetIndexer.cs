@@ -694,7 +694,7 @@ namespace IndexersLib
                         }
                         else
                         {
-                            treeNetLib.IndexFolderToTxt(lastDir.DirectoryPath(), sb, true);
+                            treeNetLib.IndexFolderToTxt(lastDir.DirectoryPath(), sb, mSettings.GetConfig().AddFooter);
                         }
 
                         if (mSettings.GetConfig().ZipMergedFile)
@@ -731,11 +731,11 @@ namespace IndexersLib
                         if (ext.Contains(".html"))
                         {
                             treeNetLib.mBooFirstIndexFile = true;
-                            treeNetLib.IndexRootFolderToHtml(strDirPath, sb, true);
+                            treeNetLib.IndexRootFolderToHtml(strDirPath, sb, mSettings.GetConfig().AddFooter);
                         }
                         else
                         {
-                            treeNetLib.IndexFolderToTxt(strDirPath, sb, true);
+                            treeNetLib.IndexFolderToTxt(strDirPath, sb, mSettings.GetConfig().AddFooter);
                         }
 
                         if (mSettings.GetConfig().ZipFilesInOutputDir)
