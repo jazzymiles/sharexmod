@@ -13,10 +13,9 @@ using HelpersLib;
 using HelpersLib.Hotkeys2;
 using ScreenCapture;
 
-namespace ShareX.Forms
-{
-    public partial class OptionsWindow : Form
-    {
+namespace ShareX.Forms {
+
+    public partial class OptionsWindow : Form {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private bool loaded;
         private const int MaxBufferSizePower = 12;
@@ -25,14 +24,16 @@ namespace ShareX.Forms
 
         #region General / Notifications
 
-        private void cbPlaySoundAfterCapture_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbPlaySoundAfterCapture_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.PlaySoundAfterCapture = cbPlaySoundAfterCapture.Checked;
         }
 
-        private void chkPlaySoundAfterUpload_CheckedChanged(object sender, EventArgs e)
-        {
+        private void chkPlaySoundAfterUpload_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.PlaySoundAfterUpload = chkPlaySoundAfterUpload.Checked;
+        }
+
+        private void chkShowBalloon_CheckedChanged(object sender, EventArgs e) {
+            Program.Settings.ShowBalloonAfterUpload = chkShowBalloonAfterUpload.Checked;
         }
 
         #endregion General / Notifications
@@ -41,18 +42,15 @@ namespace ShareX.Forms
 
         #region Configure Panels
 
-        private void ConfigurePanels()
-        {
+        private void ConfigurePanels() {
             this.tlpMain.Dock = DockStyle.Fill;
 
             // TreeView node.Tag property will have corresponding panel.Name
             FillTagsUsingName(tvMain.Nodes);
 
             // Load Panels to a dictionary
-            foreach (TabPage tp in tcBase.TabPages)
-            {
-                foreach (Control ctl in tp.Controls)
-                {
+            foreach (TabPage tp in tcBase.TabPages) {
+                foreach (Control ctl in tp.Controls) {
                     if (ctl.GetType() == typeof(Panel))
                         Panels.Add(ctl.Name, ctl as Panel);
                     break;
@@ -67,28 +65,22 @@ namespace ShareX.Forms
             tlpMain.Controls.Add(panelGeneral, 1, 0);
         }
 
-        private void FillTagsUsingName(TreeNodeCollection tnc)
-        {
-            foreach (TreeNode tn in tnc)
-            {
+        private void FillTagsUsingName(TreeNodeCollection tnc) {
+            foreach (TreeNode tn in tnc) {
                 tn.Tag = tn.Name.Replace("tn", "panel");
-                if (tn.Nodes.Count > 0)
-                {
+                if (tn.Nodes.Count > 0) {
                     FillTagsUsingName(tn.Nodes);
                 }
             }
         }
 
-        private void tvMain_AfterSelect(object sender, TreeViewEventArgs e)
-        {
+        private void tvMain_AfterSelect(object sender, TreeViewEventArgs e) {
             ShowPanel(e.Node);
         }
 
-        private void ShowPanel(TreeNode tn)
-        {
+        private void ShowPanel(TreeNode tn) {
             Panel myPanel = Panels.ContainsKey(tn.Tag.ToString()) ? Panels[tn.Tag.ToString()] : new Panel();
-            if (tlpMain.Controls[1].Name != myPanel.Name)
-            {
+            if (tlpMain.Controls[1].Name != myPanel.Name) {
                 tlpMain.Controls.RemoveAt(1);
                 tlpMain.Controls.Add(myPanel, 1, 0);
             }
@@ -96,8 +88,7 @@ namespace ShareX.Forms
 
         #endregion Configure Panels
 
-        public void LoadSettings()
-        {
+        public void LoadSettings() {
             string path = string.IsNullOrEmpty(Program.Settings.FilePath) ? "via Dropbox Sync" : Program.Settings.FilePath;
             this.Text = Application.ProductName + " Settings - " + path;
 
@@ -113,14 +104,14 @@ namespace ShareX.Forms
             cbURLShortenAfterUpload.Checked = Program.Settings.URLShortenAfterUpload;
             cbPlaySoundAfterCapture.Checked = Program.Settings.PlaySoundAfterCapture;
             chkPlaySoundAfterUpload.Checked = Program.Settings.PlaySoundAfterUpload;
+            chkShowBalloonAfterUpload.Checked = Program.Settings.ShowBalloonAfterUpload;
 
             // Upload
             cbUseCustomUploadersConfigPath.Checked = Program.Settings.UseCustomUploadersConfigPath;
             txtCustomUploadersConfigPath.Text = Program.Settings.CustomUploadersConfigPath;
             nudUploadLimit.Value = Program.Settings.UploadLimit;
 
-            for (int i = 0; i < MaxBufferSizePower; i++)
-            {
+            for (int i = 0; i < MaxBufferSizePower; i++) {
                 cbBufferSize.Items.Add(Math.Pow(2, i).ToString("N0"));
             }
 
@@ -164,8 +155,7 @@ namespace ShareX.Forms
             cbImageKeepAspectRatio.Checked = Program.Settings.ImageKeepAspectRatio;
             cbImageUseSmoothScaling.Checked = Program.Settings.ImageUseSmoothScaling;
 
-            switch (Program.Settings.ImageScaleType)
-            {
+            switch (Program.Settings.ImageScaleType) {
                 case ImageScaleType.Percentage:
                     rbImageScaleTypePercentage.Checked = true;
                     break;
@@ -202,20 +192,16 @@ namespace ShareX.Forms
             loaded = true;
         }
 
-        private void LoadAfterCaptureTasksGui()
-        {
-            var taskImageJobs = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new
-            {
+        private void LoadAfterCaptureTasksGui() {
+            var taskImageJobs = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new {
                 Description = x.GetDescription(),
                 Enum = x
             });
 
             int yGap = 20;
 
-            foreach (var job in taskImageJobs)
-            {
-                switch (job.Enum)
-                {
+            foreach (var job in taskImageJobs) {
+                switch (job.Enum) {
                     case Subtask.None:
                         continue;
                 }
@@ -234,8 +220,7 @@ namespace ShareX.Forms
             gbCaptureAfter.Height = yGap;
         }
 
-        private void chkAfterCaptureTask_CheckedChanged(object sender, EventArgs e)
-        {
+        private void chkAfterCaptureTask_CheckedChanged(object sender, EventArgs e) {
             CheckBox chkAfterCaptureTask = sender as CheckBox;
             if (chkAfterCaptureTask.Checked)
                 Program.Settings.AfterCaptureTasks |= (Subtask)chkAfterCaptureTask.Tag;
@@ -243,8 +228,7 @@ namespace ShareX.Forms
                 Program.Settings.AfterCaptureTasks &= ~(Subtask)chkAfterCaptureTask.Tag;
         }
 
-        private void BeforeClose()
-        {
+        private void BeforeClose() {
             string dir = txtScreenshotsPath.Text;
 
             if (Directory.Exists(dir))
@@ -252,34 +236,29 @@ namespace ShareX.Forms
 
             #region Workflows
 
-            if (FormsHelper.Main.HotkeyManager != null)
-            {
+            if (FormsHelper.Main.HotkeyManager != null) {
                 List<Workflow> workflowsNew = new List<Workflow>();
 
-                foreach (Workflow wf in FormsHelper.Main.HotkeyManager.Workflows)
-                {
+                foreach (Workflow wf in FormsHelper.Main.HotkeyManager.Workflows) {
                     Workflow wf2 = Program.Settings.Workflows1.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
                     if (wf2 == null)
                         workflowsNew.Add(wf);
                 }
 
-                foreach (Workflow wf in workflowsNew)
-                {
+                foreach (Workflow wf in workflowsNew) {
                     string tag = wf.HotkeyConfig.Tag;
                     FormsHelper.Main.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
                     FormsHelper.Main.HotkeyManager.AddHotkey(wf, () => FormsHelper.Main.DoWork(tag, false));
                 }
 
                 List<Workflow> workflowOld = new List<Workflow>();
-                foreach (Workflow wf in Program.Settings.Workflows1)
-                {
+                foreach (Workflow wf in Program.Settings.Workflows1) {
                     Workflow wf2 = FormsHelper.Main.HotkeyManager.Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
                     if (wf2 == null)
                         workflowOld.Add(wf);
                 }
 
-                foreach (Workflow wf in workflowOld)
-                {
+                foreach (Workflow wf in workflowOld) {
                     FormsHelper.Main.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
                 }
 
@@ -290,24 +269,16 @@ namespace ShareX.Forms
             #endregion Workflows
         }
 
-        private void CheckImageScaleType()
-        {
+        private void CheckImageScaleType() {
             bool aspectRatioEnabled = true;
 
-            if (rbImageScaleTypePercentage.Checked)
-            {
+            if (rbImageScaleTypePercentage.Checked) {
                 Program.Settings.ImageScaleType = ImageScaleType.Percentage;
-            }
-            else if (rbImageScaleTypeToWidth.Checked)
-            {
+            } else if (rbImageScaleTypeToWidth.Checked) {
                 Program.Settings.ImageScaleType = ImageScaleType.Width;
-            }
-            else if (rbImageScaleTypeToHeight.Checked)
-            {
+            } else if (rbImageScaleTypeToHeight.Checked) {
                 Program.Settings.ImageScaleType = ImageScaleType.Height;
-            }
-            else if (rbImageScaleTypeSpecific.Checked)
-            {
+            } else if (rbImageScaleTypeSpecific.Checked) {
                 Program.Settings.ImageScaleType = ImageScaleType.Specific;
                 aspectRatioEnabled = false;
             }
@@ -320,10 +291,8 @@ namespace ShareX.Forms
         /// </summary>
         /// <param name="textBox">TextBox where the replacement variables should be appended to</param>
         /// <param name="ignoreList">List of replacement variables to be ignored</param>
-        private void CreateCodesMenu(TextBox textBox, List<ReplacementVariables> ignoreList = null)
-        {
-            codesMenu = new ContextMenuStrip
-            {
+        private void CreateCodesMenu(TextBox textBox, List<ReplacementVariables> ignoreList = null) {
+            codesMenu = new ContextMenuStrip {
                 Font = new XFont("Lucida Console", 8),
                 Opacity = 0.8,
                 ShowImageMargin = false
@@ -334,17 +303,14 @@ namespace ShareX.Forms
 
             var variables = Enum.GetValues(typeof(ReplacementVariables)).Cast<ReplacementVariables>().
                 Where(x => !ignoreList.Contains(x)).
-                Select(x => new
-                {
+                Select(x => new {
                     Name = ReplacementExtension.Prefix + Enum.GetName(typeof(ReplacementVariables), x),
                     Description = x.GetDescription(),
                     Enum = x,
                 });
 
-            foreach (var variable in variables)
-            {
-                switch (variable.Enum)
-                {
+            foreach (var variable in variables) {
+                switch (variable.Enum) {
                     case ReplacementVariables.i:
                     case ReplacementVariables.n:
                     case ReplacementVariables.link:
@@ -359,36 +325,27 @@ namespace ShareX.Forms
             }
         }
 
-        private bool ChooseFolder(string title, TextBox tb)
-        {
-            using (OpenFileDialog ofd = new OpenFileDialog())
-            {
+        private bool ChooseFolder(string title, TextBox tb) {
+            using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = title;
 
-                try
-                {
+                try {
                     string path = tb.Text;
 
-                    if (!string.IsNullOrEmpty(path))
-                    {
+                    if (!string.IsNullOrEmpty(path)) {
                         path = Path.GetDirectoryName(path);
 
-                        if (Directory.Exists(path))
-                        {
+                        if (Directory.Exists(path)) {
                             ofd.InitialDirectory = path;
                         }
                     }
-                }
-                finally
-                {
-                    if (string.IsNullOrEmpty(ofd.InitialDirectory))
-                    {
+                } finally {
+                    if (string.IsNullOrEmpty(ofd.InitialDirectory)) {
                         ofd.InitialDirectory = Program.PersonalPath;
                     }
                 }
 
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
+                if (ofd.ShowDialog() == DialogResult.OK) {
                     tb.Text = ofd.FileName;
                     return true;
                 }
@@ -401,34 +358,27 @@ namespace ShareX.Forms
 
         #region General
 
-        private void cbStartWithWindows_CheckedChanged(object sender, EventArgs e)
-        {
-            if (loaded)
-            {
+        private void cbStartWithWindows_CheckedChanged(object sender, EventArgs e) {
+            if (loaded) {
                 ShortcutHelper.SetShortcut(cbStartWithWindows.Checked, Environment.SpecialFolder.Startup, "-silent");
             }
         }
 
-        private void cbShellContextMenu_CheckedChanged(object sender, EventArgs e)
-        {
-            if (loaded)
-            {
+        private void cbShellContextMenu_CheckedChanged(object sender, EventArgs e) {
+            if (loaded) {
                 ShortcutHelper.SetShortcut(cbShellContextMenu.Checked, Environment.SpecialFolder.SendTo);
             }
         }
 
-        private void cbShowTray_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbShowTray_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.ShowTray = cbShowTray.Checked;
 
-            if (loaded)
-            {
+            if (loaded) {
                 FormsHelper.Main.niTray.Visible = Program.Settings.ShowTray;
             }
         }
 
-        private void cbCheckUpdates_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbCheckUpdates_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.AutoCheckUpdate = cbCheckUpdates.Checked;
         }
 
@@ -436,62 +386,51 @@ namespace ShareX.Forms
 
         #region Capture
 
-        private void cbCaptureShadow_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbCaptureShadow_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.CaptureShadow = cbCaptureShadow.Checked;
         }
 
-        private void cbCaptureTransparent_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbCaptureTransparent_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.CaptureTransparent = cbCaptureTransparent.Checked;
 
             cbCaptureShadow.Enabled = Program.Settings.CaptureTransparent;
         }
 
-        private void cbShowCursor_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbShowCursor_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.ShowCursor = cbShowCursor.Checked;
         }
 
         #region Capture / Shapes
 
-        private void cbDrawCheckerboard_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbDrawCheckerboard_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.SurfaceOptions.DrawChecker = cbDrawCheckerboard.Checked;
         }
 
-        private void cbDrawBorder_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbDrawBorder_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.SurfaceOptions.DrawBorder = cbDrawBorder.Checked;
         }
 
-        private void nudFixedShapeSizeHeight_ValueChanged(object sender, EventArgs e)
-        {
+        private void nudFixedShapeSizeHeight_ValueChanged(object sender, EventArgs e) {
             Program.Settings.SurfaceOptions.FixedSize = new Size(Program.Settings.SurfaceOptions.FixedSize.Width, (int)nudFixedShapeSizeHeight.Value);
         }
 
-        private void cbQuickCrop_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbQuickCrop_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.SurfaceOptions.QuickCrop = cbQuickCrop.Checked;
         }
 
-        private void cbFixedShapeSize_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbFixedShapeSize_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.SurfaceOptions.IsFixedSize = cbFixedShapeSize.Checked;
         }
 
-        private void cbShapeForceWindowCapture_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbShapeForceWindowCapture_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.SurfaceOptions.ForceWindowCapture = cbShapeForceWindowCapture.Checked;
         }
 
-        private void cbShapeIncludeControls_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbShapeIncludeControls_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.SurfaceOptions.IncludeControls = cbShapeIncludeControls.Checked;
         }
 
-        private void nudFixedShapeSizeWidth_ValueChanged(object sender, EventArgs e)
-        {
+        private void nudFixedShapeSizeWidth_ValueChanged(object sender, EventArgs e) {
             Program.Settings.SurfaceOptions.FixedSize = new Size((int)nudFixedShapeSizeWidth.Value, Program.Settings.SurfaceOptions.FixedSize.Height);
         }
 
@@ -499,31 +438,26 @@ namespace ShareX.Forms
 
         #region File Naming
 
-        private void btnNameFormatPatternHelp_Click(object sender, EventArgs e)
-        {
+        private void btnNameFormatPatternHelp_Click(object sender, EventArgs e) {
             CreateCodesMenu(txtNameFormatPatternImages);
             codesMenu.Show(btnNameFormatPatternHelpImages, new Point(btnNameFormatPatternHelpImages.Width + 1, 0));
         }
 
-        private void btnNameFormatPatternHelpOther_Click(object sender, EventArgs e)
-        {
+        private void btnNameFormatPatternHelpOther_Click(object sender, EventArgs e) {
             CreateCodesMenu(txtNameFormatPatternOther, new List<ReplacementVariables>() { ReplacementVariables.t });
             codesMenu.Show(btnNameFormatPatternHelpImages, new Point(btnNameFormatPatternHelpOther.Width + 1, gbFilenamingPatternOthers.Location.Y - 8));
         }
 
-        private void txtNameFormatPattern_TextChanged(object sender, EventArgs e)
-        {
+        private void txtNameFormatPattern_TextChanged(object sender, EventArgs e) {
             Program.Settings.NameFormatPattern = txtNameFormatPatternImages.Text;
             lblNameFormatPatternPreviewImages.Text = new NameParser() { WindowText = NativeMethods.GetForegroundWindowText() }.Convert(Program.Settings.NameFormatPattern);
         }
 
-        private void cbClipboardUploadAutoDetectURL_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbClipboardUploadAutoDetectURL_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.ClipboardUploadAutoDetectURL = cbClipboardUploadAutoDetectURL.Checked;
         }
 
-        private void txtNameFormatPatternOther_TextChanged(object sender, EventArgs e)
-        {
+        private void txtNameFormatPatternOther_TextChanged(object sender, EventArgs e) {
             Program.Settings.NameFormatPatternOther = txtNameFormatPatternOther.Text;
             lblNameFormatPatternPreviewOther.Text = new NameParser().Convert(Program.Settings.NameFormatPatternOther);
         }
@@ -534,115 +468,93 @@ namespace ShareX.Forms
 
         #region Image Processing
 
-        private void rbImageScaleTypePercentage_CheckedChanged(object sender, EventArgs e)
-        {
+        private void rbImageScaleTypePercentage_CheckedChanged(object sender, EventArgs e) {
             CheckImageScaleType();
         }
 
-        private void nudImageScalePercentageWidth_ValueChanged(object sender, EventArgs e)
-        {
+        private void nudImageScalePercentageWidth_ValueChanged(object sender, EventArgs e) {
             Program.Settings.ImageScalePercentageWidth = (int)nudImageScalePercentageWidth.Value;
 
-            if (Program.Settings.ImageKeepAspectRatio)
-            {
+            if (Program.Settings.ImageKeepAspectRatio) {
                 nudImageScalePercentageHeight.Value = Program.Settings.ImageScalePercentageWidth;
             }
         }
 
-        private void nudImageScaleSpecificHeight_ValueChanged(object sender, EventArgs e)
-        {
+        private void nudImageScaleSpecificHeight_ValueChanged(object sender, EventArgs e) {
             Program.Settings.ImageScaleSpecificHeight = (int)nudImageScaleSpecificHeight.Value;
         }
 
-        private void rbImageScaleTypeToHeight_CheckedChanged(object sender, EventArgs e)
-        {
+        private void rbImageScaleTypeToHeight_CheckedChanged(object sender, EventArgs e) {
             CheckImageScaleType();
         }
 
-        private void nudImageScaleSpecificWidth_ValueChanged(object sender, EventArgs e)
-        {
+        private void nudImageScaleSpecificWidth_ValueChanged(object sender, EventArgs e) {
             Program.Settings.ImageScaleSpecificWidth = (int)nudImageScaleSpecificWidth.Value;
         }
 
-        private void cbImageUseSmoothScaling_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbImageUseSmoothScaling_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.ImageUseSmoothScaling = cbImageUseSmoothScaling.Checked;
         }
 
-        private void rbImageScaleTypeToWidth_CheckedChanged(object sender, EventArgs e)
-        {
+        private void rbImageScaleTypeToWidth_CheckedChanged(object sender, EventArgs e) {
             CheckImageScaleType();
         }
 
-        private void cbImageKeepAspectRatio_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbImageKeepAspectRatio_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.ImageKeepAspectRatio = cbImageKeepAspectRatio.Checked;
 
-            if (Program.Settings.ImageKeepAspectRatio)
-            {
+            if (Program.Settings.ImageKeepAspectRatio) {
                 nudImageScalePercentageHeight.Value = nudImageScalePercentageWidth.Value;
             }
         }
 
-        private void rbImageScaleTypeSpecific_CheckedChanged(object sender, EventArgs e)
-        {
+        private void rbImageScaleTypeSpecific_CheckedChanged(object sender, EventArgs e) {
             CheckImageScaleType();
         }
 
-        private void nudImageScaleToHeight_ValueChanged(object sender, EventArgs e)
-        {
+        private void nudImageScaleToHeight_ValueChanged(object sender, EventArgs e) {
             Program.Settings.ImageScaleToHeight = (int)nudImageScaleToHeight.Value;
         }
 
-        private void nudImageScalePercentageHeight_ValueChanged(object sender, EventArgs e)
-        {
+        private void nudImageScalePercentageHeight_ValueChanged(object sender, EventArgs e) {
             Program.Settings.ImageScalePercentageHeight = (int)nudImageScalePercentageHeight.Value;
 
-            if (Program.Settings.ImageKeepAspectRatio)
-            {
+            if (Program.Settings.ImageKeepAspectRatio) {
                 nudImageScalePercentageWidth.Value = Program.Settings.ImageScalePercentageHeight;
             }
         }
 
-        private void nudImageScaleToWidth_ValueChanged(object sender, EventArgs e)
-        {
+        private void nudImageScaleToWidth_ValueChanged(object sender, EventArgs e) {
             Program.Settings.ImageScaleToWidth = (int)nudImageScaleToWidth.Value;
         }
 
-        private void cbImageAutoResize_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbImageAutoResize_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.ImageAutoResize = cbImageAutoResize.Checked;
         }
 
-        private void cbImageFormat2_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private void cbImageFormat2_SelectedIndexChanged(object sender, EventArgs e) {
             Program.Settings.ImageFormat2 = (EImageFormat)cbImageFormat2.SelectedIndex;
             UpdateGuiQuality();
         }
 
-        private void nudImageJPEGQuality_ValueChanged(object sender, EventArgs e)
-        {
+        private void nudImageJPEGQuality_ValueChanged(object sender, EventArgs e) {
             Program.Settings.ImageJPEGQuality = (int)nudImageJPEGQuality.Value;
         }
 
-        private void cbImageGIFQuality_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private void cbImageGIFQuality_SelectedIndexChanged(object sender, EventArgs e) {
             Program.Settings.ImageGIFQuality = (GIFQuality)cbImageGIFQuality.SelectedIndex;
         }
 
-        private void cbImageFormat_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private void cbImageFormat_SelectedIndexChanged(object sender, EventArgs e) {
             Program.Settings.ImageFormat = (EImageFormat)cbImageFormat.SelectedIndex;
             UpdateGuiQuality();
         }
 
-        private void nudUseImageFormat2After_ValueChanged(object sender, EventArgs e)
-        {
+        private void nudUseImageFormat2After_ValueChanged(object sender, EventArgs e) {
             Program.Settings.ImageSizeLimit = (int)nudUseImageFormat2After.Value;
         }
 
-        private void UpdateGuiQuality()
-        {
+        private void UpdateGuiQuality() {
             cbImageFormat2.Enabled = nudUseImageFormat2After.Value > 0;
 
             tcQuality.TabPages.Clear();
@@ -651,10 +563,8 @@ namespace ShareX.Forms
             tcQuality.Visible = tcQuality.TabPages.Count > 0;
         }
 
-        private void UpdateGuiQualityTabs(EImageFormat format)
-        {
-            switch (format)
-            {
+        private void UpdateGuiQualityTabs(EImageFormat format) {
+            switch (format) {
                 case EImageFormat.GIF:
                     if (!tcQuality.TabPages.Contains(tpQualityGif))
                         tcQuality.TabPages.Add(tpQualityGif);
@@ -670,47 +580,39 @@ namespace ShareX.Forms
 
         #region Upload
 
-        private void cbBufferSize_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private void cbBufferSize_SelectedIndexChanged(object sender, EventArgs e) {
             Program.Settings.BufferSizePower = cbBufferSize.SelectedIndex;
             string bufferSize = (Math.Pow(2, Program.Settings.BufferSizePower) * 1024 / 1000).ToString("#,0.###");
             lblBufferSizeInfo.Text = string.Format("x {0} KiB = {1} KiB", 1.024, bufferSize);
         }
 
-        private void nudUploadLimit_ValueChanged(object sender, EventArgs e)
-        {
+        private void nudUploadLimit_ValueChanged(object sender, EventArgs e) {
             Program.Settings.UploadLimit = (int)nudUploadLimit.Value;
         }
 
-        private void txtCustomUploadersConfigPath_TextChanged(object sender, EventArgs e)
-        {
+        private void txtCustomUploadersConfigPath_TextChanged(object sender, EventArgs e) {
             Program.Settings.CustomUploadersConfigPath = txtCustomUploadersConfigPath.Text;
         }
 
-        private void cbUseCustomUploadersConfigPath_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbUseCustomUploadersConfigPath_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.UseCustomUploadersConfigPath = cbUseCustomUploadersConfigPath.Checked;
         }
 
-        private void btnBrowseCustomUploadersConfigPath_Click(object sender, EventArgs e)
-        {
+        private void btnBrowseCustomUploadersConfigPath_Click(object sender, EventArgs e) {
             ChooseFolder("ShareX - Choose uploaders config file path", txtCustomUploadersConfigPath);
             Program.Settings.CustomUploadersConfigPath = txtCustomUploadersConfigPath.Text;
             Program.LoadUploadersConfig();
         }
 
-        private void btnLoadUploadersConfig_Click(object sender, EventArgs e)
-        {
+        private void btnLoadUploadersConfig_Click(object sender, EventArgs e) {
             Program.LoadUploadersConfig();
         }
 
-        private void cbURLShortenAfterUpload_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbURLShortenAfterUpload_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.URLShortenAfterUpload = cbURLShortenAfterUpload.Checked;
         }
 
-        private void cbClipboardAutoCopy_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbClipboardAutoCopy_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.ClipboardAutoCopy = cbClipboardAutoCopy.Checked;
         }
 
@@ -718,41 +620,32 @@ namespace ShareX.Forms
 
         #region Paths
 
-        private void txtScreenshotsPath_Leave(object sender, EventArgs e)
-        {
+        private void txtScreenshotsPath_Leave(object sender, EventArgs e) {
             if (string.IsNullOrEmpty(txtScreenshotsPath.Text))
                 txtScreenshotsPath.Text = Program.ScreenshotsRootPath;
         }
 
-        private void btnImagesOrganise_Click(object sender, EventArgs e)
-        {
+        private void btnImagesOrganise_Click(object sender, EventArgs e) {
             ManageImageFolders(txtScreenshotsPath.Text);
         }
 
-        public static bool ManageImageFolders(string rootDir)
-        {
-            if (!string.IsNullOrEmpty(rootDir) && Directory.Exists(rootDir))
-            {
+        public static bool ManageImageFolders(string rootDir) {
+            if (!string.IsNullOrEmpty(rootDir) && Directory.Exists(rootDir)) {
                 string[] images = Directory.GetFiles(rootDir);
 
                 List<string> imagesList = new List<string>();
 
                 List<string> listExt = new List<string>();
-                foreach (ImageFileExtensions ext in Enum.GetValues(typeof(ImageFileExtensions)))
-                {
+                foreach (ImageFileExtensions ext in Enum.GetValues(typeof(ImageFileExtensions))) {
                     listExt.Add(ext.ToString());
                 }
-                foreach (VideoFileExtensions ext in Enum.GetValues(typeof(VideoFileExtensions)))
-                {
+                foreach (VideoFileExtensions ext in Enum.GetValues(typeof(VideoFileExtensions))) {
                     listExt.Add(ext.ToString());
                 }
 
-                foreach (string image in images)
-                {
-                    foreach (string s in listExt)
-                    {
-                        if (Path.HasExtension(image) && Path.GetExtension(image.ToLower()) == "." + s)
-                        {
+                foreach (string image in images) {
+                    foreach (string s in listExt) {
+                        if (Path.HasExtension(image) && Path.GetExtension(image.ToLower()) == "." + s) {
                             imagesList.Add(image);
                             break;
                         }
@@ -761,21 +654,17 @@ namespace ShareX.Forms
 
                 DebugHelper.WriteLine(string.Format("Found {0} images to move to sub-folders", imagesList.Count));
 
-                if (imagesList.Count > 0)
-                {
+                if (imagesList.Count > 0) {
                     if (MessageBox.Show(string.Format("{0} files found in {1}\n\nPlease wait until all the files are moved.",
-                        imagesList.Count, rootDir), Application.ProductName, MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.Cancel)
-                    {
+                        imagesList.Count, rootDir), Application.ProductName, MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.Cancel) {
                         return false;
                     }
 
                     DateTime time;
                     string movePath;
 
-                    foreach (string image in imagesList)
-                    {
-                        if (File.Exists(image))
-                        {
+                    foreach (string image in imagesList) {
+                        if (File.Exists(image)) {
                             time = File.GetLastWriteTime(image);
                             string subDirName = new NameParser(NameParserType.SaveFolder) { CustomDate = time }.Convert(Program.Settings.SaveImageSubFolderPattern);
                             string subDirPath = Path.Combine(rootDir, subDirName);
@@ -795,26 +684,21 @@ namespace ShareX.Forms
             return false;
         }
 
-        private void btnBrowseScreenshotsDir_Click(object sender, EventArgs e)
-        {
+        private void btnBrowseScreenshotsDir_Click(object sender, EventArgs e) {
             string dir = Path.Combine(txtScreenshotsPath.Text, txtSaveImageSubFolderPatternPreview.Text);
-            if (!Directory.Exists(dir))
-            {
+            if (!Directory.Exists(dir)) {
                 Directory.CreateDirectory(dir);
             }
             Process.Start(dir);
         }
 
-        private void btnOpenPersonalPath_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(Program.PersonalPath) && Directory.Exists(Program.PersonalPath))
-            {
+        private void btnOpenPersonalPath_Click(object sender, EventArgs e) {
+            if (!string.IsNullOrEmpty(Program.PersonalPath) && Directory.Exists(Program.PersonalPath)) {
                 Process.Start(Program.PersonalPath);
             }
         }
 
-        private void txtSaveImageSubFolderPattern_TextChanged(object sender, EventArgs e)
-        {
+        private void txtSaveImageSubFolderPattern_TextChanged(object sender, EventArgs e) {
             Program.Settings.SaveImageSubFolderPattern = txtSaveImageSubFolderPattern.Text;
             string subFolderName = new NameParser(NameParserType.SaveFolder).Convert(txtSaveImageSubFolderPattern.Text);
             txtSaveImageSubFolderPatternPreview.Text = subFolderName;
@@ -822,28 +706,23 @@ namespace ShareX.Forms
 
         #region History
 
-        private void btnBrowseCustomHistoryPath_Click(object sender, EventArgs e)
-        {
+        private void btnBrowseCustomHistoryPath_Click(object sender, EventArgs e) {
             ChooseFolder("ShareX - Choose history file path", txtCustomHistoryPath);
         }
 
-        private void nudHistoryMaxItemCount_ValueChanged(object sender, EventArgs e)
-        {
+        private void nudHistoryMaxItemCount_ValueChanged(object sender, EventArgs e) {
             Program.Settings.HistoryMaxItemCount = (int)nudHistoryMaxItemCount.Value;
         }
 
-        private void cbHistorySave_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbHistorySave_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.SaveHistory = cbHistorySave.Checked;
         }
 
-        private void txtCustomHistoryPath_TextChanged(object sender, EventArgs e)
-        {
+        private void txtCustomHistoryPath_TextChanged(object sender, EventArgs e) {
             Program.Settings.CustomHistoryPath = txtCustomHistoryPath.Text;
         }
 
-        private void cbUseCustomHistoryPath_CheckedChanged(object sender, EventArgs e)
-        {
+        private void cbUseCustomHistoryPath_CheckedChanged(object sender, EventArgs e) {
             Program.Settings.UseCustomHistoryPath = cbUseCustomHistoryPath.Checked;
         }
 
@@ -853,22 +732,17 @@ namespace ShareX.Forms
 
         #region Proxy
 
-        private void btnAutofillProxy_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(Program.Settings.ProxySettings.UserName))
-            {
+        private void btnAutofillProxy_Click(object sender, EventArgs e) {
+            if (string.IsNullOrEmpty(Program.Settings.ProxySettings.UserName)) {
                 Program.Settings.ProxySettings.UserName = Environment.UserName;
             }
 
             WebProxy proxy = Helpers.GetDefaultWebProxy();
-            if (proxy != null && proxy.Address != null)
-            {
-                if (string.IsNullOrEmpty(Program.Settings.ProxySettings.Host))
-                {
+            if (proxy != null && proxy.Address != null) {
+                if (string.IsNullOrEmpty(Program.Settings.ProxySettings.Host)) {
                     Program.Settings.ProxySettings.Host = proxy.Address.Host;
                 }
-                if (Program.Settings.ProxySettings.Port == 0)
-                {
+                if (Program.Settings.ProxySettings.Port == 0) {
                     Program.Settings.ProxySettings.Port = proxy.Address.Port;
                 }
             }
@@ -880,15 +754,13 @@ namespace ShareX.Forms
 
         #region Form Events
 
-        public OptionsWindow()
-        {
+        public OptionsWindow() {
             InitializeComponent();
             ConfigurePanels();
             LoadSettings();
         }
 
-        private void OptionsWindow_FormClosed(object sender, FormClosedEventArgs e)
-        {
+        private void OptionsWindow_FormClosed(object sender, FormClosedEventArgs e) {
             BeforeClose();
 
             UploadManager.UpdateProxySettings();
@@ -897,26 +769,22 @@ namespace ShareX.Forms
             Program.Settings.BackupAsync();
         }
 
-        private void OptionsWindow_Shown(object sender, EventArgs e)
-        {
+        private void OptionsWindow_Shown(object sender, EventArgs e) {
             this.BringToFront();
             this.Activate();
         }
 
-        private void OptionsWindow_Resize(object sender, EventArgs e)
-        {
+        private void OptionsWindow_Resize(object sender, EventArgs e) {
             this.Refresh();
         }
 
         #endregion Form Events
 
-        private void btnDropboxSyncImport_Click(object sender, EventArgs e)
-        {
+        private void btnDropboxSyncImport_Click(object sender, EventArgs e) {
             new DropboxSyncHelper().InitHotkeys();
         }
 
-        private void btnDropboxSyncExport_Click(object sender, EventArgs e)
-        {
+        private void btnDropboxSyncExport_Click(object sender, EventArgs e) {
             new DropboxSyncHelper().Save();
         }
     }

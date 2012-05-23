@@ -33,10 +33,9 @@ using HelpersLib.Hotkeys2;
 using ScreenCapture;
 using UploadersLib.HelperClasses;
 
-namespace ShareX
-{
-    public class Settings : SettingsBase<Settings>
-    {
+namespace ShareX {
+
+    public class Settings : SettingsBase<Settings> {
         #region Main Form
 
         public int SelectedImageUploaderDestination = 0;
@@ -57,6 +56,7 @@ namespace ShareX
         public bool URLShortenAfterUpload = false;
         public bool PlaySoundAfterCapture = true;
         public bool PlaySoundAfterUpload = true;
+        public bool ShowBalloonAfterUpload = true;
 
         // Hotkeys / Workflows
 
@@ -129,17 +129,23 @@ namespace ShareX
 
         [Category(ComponentModelStrings.App), DefaultValue(false), Description("If you have configured Dropbox, then this setting will synchronize uploaders configuration and application settings except for paths.")]
         public bool DropboxSync { get; set; }
+
         [Category(ComponentModelStrings.SettingsInteraction), DefaultValue(true), Description("Show after capture wizard. Dynamically choose actions after capture")]
         public bool ShowAfterCaptureWizard { get; set; }
+
         [Category(ComponentModelStrings.SettingsInteraction), DefaultValue(true), Description("Show clipboard options after host upload is completed. Dynamically choose which link format to be copied to the clipboad.")]
         public bool ShowClipboardOptionsWizard { get; set; }
+
         [Category(ComponentModelStrings.InputsClipboard), DefaultValue(true), Description("When a folder path is in the clipboard, upload the folder index instead of the folder path as part of Clipboard Upload.")]
         public bool IndexFolderWhenPossible { get; set; }
+
         [Category(ComponentModelStrings.InputsWatchFolder), DefaultValue(false), Description("Automatically upload files saved in to this folder.")]
         public bool FolderMonitoring { get; set; }
+
         [Category(ComponentModelStrings.InputsWatchFolder), Description("Folder monitor path where files automatically get uploaded.")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string FolderMonitorPath { get; set; }
+
         [Category(ComponentModelStrings.FileNaming), DefaultValue(100), Description("Maximum file name length")]
         public int MaxFilenameLength { get; set; }
 
@@ -147,18 +153,15 @@ namespace ShareX
 
         #region Methods
 
-        public static void ApplyDefaultValues(object self)
-        {
-            foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(self))
-            {
+        public static void ApplyDefaultValues(object self) {
+            foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(self)) {
                 DefaultValueAttribute attr = prop.Attributes[typeof(DefaultValueAttribute)] as DefaultValueAttribute;
                 if (attr == null) continue;
                 prop.SetValue(self, attr.Value);
             }
         }
 
-        public Settings()
-        {
+        public Settings() {
             ApplyDefaultValues(this);
         }
 

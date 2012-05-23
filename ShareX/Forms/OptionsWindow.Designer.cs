@@ -28,23 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("General");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Hotkeys");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Clipboard");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Shapes");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Capture", new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("File Naming");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Quality");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Resize");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Image Processing", new System.Windows.Forms.TreeNode[] {
-            treeNode7,
-            treeNode8});
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Upload");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Paths");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Proxy");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Advanced");
+            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("General");
+            System.Windows.Forms.TreeNode treeNode41 = new System.Windows.Forms.TreeNode("Hotkeys");
+            System.Windows.Forms.TreeNode treeNode42 = new System.Windows.Forms.TreeNode("Clipboard");
+            System.Windows.Forms.TreeNode treeNode43 = new System.Windows.Forms.TreeNode("Shapes");
+            System.Windows.Forms.TreeNode treeNode44 = new System.Windows.Forms.TreeNode("Capture", new System.Windows.Forms.TreeNode[] {
+            treeNode42,
+            treeNode43});
+            System.Windows.Forms.TreeNode treeNode45 = new System.Windows.Forms.TreeNode("File Naming");
+            System.Windows.Forms.TreeNode treeNode46 = new System.Windows.Forms.TreeNode("Quality");
+            System.Windows.Forms.TreeNode treeNode47 = new System.Windows.Forms.TreeNode("Resize");
+            System.Windows.Forms.TreeNode treeNode48 = new System.Windows.Forms.TreeNode("Image Processing", new System.Windows.Forms.TreeNode[] {
+            treeNode46,
+            treeNode47});
+            System.Windows.Forms.TreeNode treeNode49 = new System.Windows.Forms.TreeNode("Upload");
+            System.Windows.Forms.TreeNode treeNode50 = new System.Windows.Forms.TreeNode("Paths");
+            System.Windows.Forms.TreeNode treeNode51 = new System.Windows.Forms.TreeNode("Proxy");
+            System.Windows.Forms.TreeNode treeNode52 = new System.Windows.Forms.TreeNode("Advanced");
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tvMain = new System.Windows.Forms.TreeView();
             this.tcBase = new System.Windows.Forms.TabControl();
@@ -184,6 +184,7 @@
             this.lblNameFormatPatternPreviewImages = new System.Windows.Forms.Label();
             this.txtNameFormatPatternImages = new System.Windows.Forms.TextBox();
             this.btnNameFormatPatternHelpImages = new System.Windows.Forms.Button();
+            this.chkShowBalloonAfterUpload = new System.Windows.Forms.CheckBox();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -257,45 +258,45 @@
             this.tvMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvMain.Location = new System.Drawing.Point(3, 3);
             this.tvMain.Name = "tvMain";
-            treeNode1.Name = "tnGeneral";
-            treeNode1.Tag = "panelGeneral";
-            treeNode1.Text = "General";
-            treeNode2.Name = "tnHotkeys";
-            treeNode2.Text = "Hotkeys";
-            treeNode3.Name = "tnClipboardUpload";
-            treeNode3.Text = "Clipboard";
-            treeNode4.Name = "tnShapes";
-            treeNode4.Tag = "panelShapes";
-            treeNode4.Text = "Shapes";
-            treeNode5.Name = "tnCapture";
-            treeNode5.Tag = "panelCapture";
-            treeNode5.Text = "Capture";
-            treeNode6.Name = "tnFileNaming";
-            treeNode6.Text = "File Naming";
-            treeNode7.Name = "tnImageQuality";
-            treeNode7.Text = "Quality";
-            treeNode8.Name = "tnImageResize";
-            treeNode8.Text = "Resize";
-            treeNode9.Name = "tnImage";
-            treeNode9.Text = "Image Processing";
-            treeNode10.Name = "tnUpload";
-            treeNode10.Text = "Upload";
-            treeNode11.Name = "tnPaths";
-            treeNode11.Text = "Paths";
-            treeNode12.Name = "tnProxy";
-            treeNode12.Text = "Proxy";
-            treeNode13.Name = "tnAdvanced";
-            treeNode13.Text = "Advanced";
+            treeNode40.Name = "tnGeneral";
+            treeNode40.Tag = "panelGeneral";
+            treeNode40.Text = "General";
+            treeNode41.Name = "tnHotkeys";
+            treeNode41.Text = "Hotkeys";
+            treeNode42.Name = "tnClipboardUpload";
+            treeNode42.Text = "Clipboard";
+            treeNode43.Name = "tnShapes";
+            treeNode43.Tag = "panelShapes";
+            treeNode43.Text = "Shapes";
+            treeNode44.Name = "tnCapture";
+            treeNode44.Tag = "panelCapture";
+            treeNode44.Text = "Capture";
+            treeNode45.Name = "tnFileNaming";
+            treeNode45.Text = "File Naming";
+            treeNode46.Name = "tnImageQuality";
+            treeNode46.Text = "Quality";
+            treeNode47.Name = "tnImageResize";
+            treeNode47.Text = "Resize";
+            treeNode48.Name = "tnImage";
+            treeNode48.Text = "Image Processing";
+            treeNode49.Name = "tnUpload";
+            treeNode49.Text = "Upload";
+            treeNode50.Name = "tnPaths";
+            treeNode50.Text = "Paths";
+            treeNode51.Name = "tnProxy";
+            treeNode51.Text = "Proxy";
+            treeNode52.Name = "tnAdvanced";
+            treeNode52.Text = "Advanced";
             this.tvMain.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode5,
-            treeNode6,
-            treeNode9,
-            treeNode10,
-            treeNode11,
-            treeNode12,
-            treeNode13});
+            treeNode40,
+            treeNode41,
+            treeNode44,
+            treeNode45,
+            treeNode48,
+            treeNode49,
+            treeNode50,
+            treeNode51,
+            treeNode52});
             this.tvMain.Size = new System.Drawing.Size(133, 402);
             this.tvMain.TabIndex = 0;
             this.tvMain.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvMain_AfterSelect);
@@ -350,11 +351,12 @@
             // 
             // gbNotifications
             // 
+            this.gbNotifications.Controls.Add(this.chkShowBalloonAfterUpload);
             this.gbNotifications.Controls.Add(this.chkPlaySoundAfterUpload);
             this.gbNotifications.Controls.Add(this.cbPlaySoundAfterCapture);
             this.gbNotifications.Location = new System.Drawing.Point(16, 136);
             this.gbNotifications.Name = "gbNotifications";
-            this.gbNotifications.Size = new System.Drawing.Size(512, 80);
+            this.gbNotifications.Size = new System.Drawing.Size(512, 105);
             this.gbNotifications.TabIndex = 4;
             this.gbNotifications.TabStop = false;
             this.gbNotifications.Text = "Notifications";
@@ -621,7 +623,7 @@
             this.cbQuickCrop.Size = new System.Drawing.Size(455, 17);
             this.cbQuickCrop.TabIndex = 2;
             this.cbQuickCrop.Text = "Complete capture as soon as the mouse button is released, except when capturing p" +
-    "olygon";
+                "olygon";
             this.cbQuickCrop.UseVisualStyleBackColor = true;
             this.cbQuickCrop.CheckedChanged += new System.EventHandler(this.cbQuickCrop_CheckedChanged);
             // 
@@ -778,7 +780,7 @@
             this.lblClipboardUploadInfo.Size = new System.Drawing.Size(537, 29);
             this.lblClipboardUploadInfo.TabIndex = 1;
             this.lblClipboardUploadInfo.Text = "Clipboard upload automatically detects the data type and selects the upload servi" +
-    "ce accordingly.";
+                "ce accordingly.";
             this.lblClipboardUploadInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tpUpload
@@ -1535,8 +1537,8 @@
             // 
             // gbPathRoot
             // 
-            this.gbPathRoot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbPathRoot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gbPathRoot.Controls.Add(this.lblOpenZUploaderPath);
             this.gbPathRoot.Controls.Add(this.btnOpenZUploaderPath);
             this.gbPathRoot.Location = new System.Drawing.Point(8, 360);
@@ -1567,8 +1569,8 @@
             // 
             // gbScreenshots
             // 
-            this.gbScreenshots.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbScreenshots.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gbScreenshots.Controls.Add(this.btnImagesOrganise);
             this.gbScreenshots.Controls.Add(this.txtSaveImageSubFolderPatternPreview);
             this.gbScreenshots.Controls.Add(this.lblSaveImageSubFolderPattern);
@@ -1635,8 +1637,8 @@
             // 
             // txtScreenshotsPath
             // 
-            this.txtScreenshotsPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtScreenshotsPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtScreenshotsPath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.txtScreenshotsPath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystemDirectories;
             this.txtScreenshotsPath.Location = new System.Drawing.Point(21, 24);
@@ -1647,8 +1649,8 @@
             // 
             // gbUploadersConfig
             // 
-            this.gbUploadersConfig.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbUploadersConfig.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gbUploadersConfig.Controls.Add(this.btnLoadUploadersConfig);
             this.gbUploadersConfig.Controls.Add(this.btnBrowseCustomUploadersConfigPath);
             this.gbUploadersConfig.Controls.Add(this.txtCustomUploadersConfigPath);
@@ -1688,8 +1690,8 @@
             // 
             // txtCustomUploadersConfigPath
             // 
-            this.txtCustomUploadersConfigPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCustomUploadersConfigPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCustomUploadersConfigPath.Location = new System.Drawing.Point(16, 48);
             this.txtCustomUploadersConfigPath.Name = "txtCustomUploadersConfigPath";
             this.txtCustomUploadersConfigPath.Size = new System.Drawing.Size(375, 20);
@@ -1709,8 +1711,8 @@
             // 
             // gbHistory
             // 
-            this.gbHistory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbHistory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gbHistory.Controls.Add(this.nudHistoryMaxItemCount);
             this.gbHistory.Controls.Add(this.lblHistoryMaxItemCount);
             this.gbHistory.Controls.Add(this.btnBrowseCustomHistoryPath);
@@ -1759,8 +1761,8 @@
             // 
             // btnBrowseCustomHistoryPath
             // 
-            this.btnBrowseCustomHistoryPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBrowseCustomHistoryPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBrowseCustomHistoryPath.AutoSize = true;
             this.btnBrowseCustomHistoryPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnBrowseCustomHistoryPath.Location = new System.Drawing.Point(397, 72);
@@ -1773,8 +1775,8 @@
             // 
             // txtCustomHistoryPath
             // 
-            this.txtCustomHistoryPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCustomHistoryPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCustomHistoryPath.Location = new System.Drawing.Point(16, 72);
             this.txtCustomHistoryPath.Name = "txtCustomHistoryPath";
             this.txtCustomHistoryPath.Size = new System.Drawing.Size(373, 20);
@@ -1942,6 +1944,17 @@
             this.btnNameFormatPatternHelpImages.Text = "?";
             this.btnNameFormatPatternHelpImages.UseVisualStyleBackColor = true;
             this.btnNameFormatPatternHelpImages.Click += new System.EventHandler(this.btnNameFormatPatternHelp_Click);
+            // 
+            // chkShowBalloonAfterUpload
+            // 
+            this.chkShowBalloonAfterUpload.AutoSize = true;
+            this.chkShowBalloonAfterUpload.Location = new System.Drawing.Point(16, 71);
+            this.chkShowBalloonAfterUpload.Name = "chkShowBalloonAfterUpload";
+            this.chkShowBalloonAfterUpload.Size = new System.Drawing.Size(211, 17);
+            this.chkShowBalloonAfterUpload.TabIndex = 2;
+            this.chkShowBalloonAfterUpload.Text = "Show balloon after upload is completed";
+            this.chkShowBalloonAfterUpload.UseVisualStyleBackColor = true;
+            this.chkShowBalloonAfterUpload.CheckedChanged += new System.EventHandler(this.chkShowBalloon_CheckedChanged);
             // 
             // OptionsWindow
             // 
@@ -2171,5 +2184,6 @@
         private System.Windows.Forms.Button btnNameFormatPatternHelpOther;
         private System.Windows.Forms.Label lblNameFormatPatternPreviewImages;
         private System.Windows.Forms.Button btnImagesOrganise;
+        private System.Windows.Forms.CheckBox chkShowBalloonAfterUpload;
     }
 }
