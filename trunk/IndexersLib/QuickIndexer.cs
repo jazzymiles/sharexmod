@@ -8,16 +8,18 @@ namespace IndexersLib
 {
     public static class QuickIndexer
     {
-        public static string Index(string dir, bool html)
+        public static string Index(string dir, bool html, IndexerConfig config = null)
         {
             var settings = new IndexerAdapter();
 
-            var IndexerConfig = new IndexerConfig();
-            IndexerConfig.CollapseFolders = false;
-            IndexerConfig.FolderExpandLevel = 2;
-            settings.LoadConfig(IndexerConfig);
+            if (config == null)
+                config = new IndexerConfig();
 
-            IndexerConfig.FolderList.Clear();
+            config.CollapseFolders = false;
+            config.FolderExpandLevel = 2;
+            settings.LoadConfig(config);
+
+            config.FolderList.Clear();
 
             settings.GetConfig().SetSingleIndexPath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 html ? "temp.html" : "temp.txt"));

@@ -48,8 +48,11 @@ namespace ShareX
         public delegate void TaskEventHandler(UploadInfo info);
 
         public event TaskEventHandler UploadStarted;
+
         public event TaskEventHandler UploadPreparing;
+
         public event TaskEventHandler UploadProgressChanged;
+
         public event TaskEventHandler UploadCompleted;
 
         public UploadInfo Info { get; private set; }
@@ -114,7 +117,7 @@ namespace ShareX
             {
                 bool html = destination == EDataType.File;
                 task.Info.FileName = new NameParser().Convert(Program.Settings.NameFormatPatternOther) + (html ? ".html" : ".log");
-                task.tempText = IndexersLib.QuickIndexer.Index(text, html);
+                task.tempText = IndexersLib.QuickIndexer.Index(text, html, Program.Settings.IndexerConfig);
             }
             else
             {
