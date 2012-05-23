@@ -39,81 +39,68 @@ using ShareX.Properties;
 using UploadersLib;
 using UploadersLib.HelperClasses;
 
-namespace ShareX
-{
-    public static class UploadManager
-    {
+namespace ShareX {
+
+    public static class UploadManager {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static ImageDestination ImageUploader { get; set; }
+
         public static TextDestination TextUploader { get; set; }
+
         public static FileDestination FileUploader { get; set; }
+
         public static UrlShortenerType URLShortener { get; set; }
+
         public static MyListView ListViewControl { get; set; }
+
         public static List<Task> Tasks { get; private set; }
 
         private static object uploadManagerLock = new object();
 
-        static UploadManager()
-        {
+        static UploadManager() {
             Tasks = new List<Task>();
         }
 
         #region Files
 
-        public static void UploadFiles(string[] files, AfterCaptureActivity jobs = null)
-        {
-            if (files != null && files.Length > 0)
-            {
-                foreach (string file in files)
-                {
+        public static void UploadFiles(string[] files, AfterCaptureActivity jobs = null) {
+            if (files != null && files.Length > 0) {
+                foreach (string file in files) {
                     UploadFile(file, jobs);
                 }
             }
         }
 
-        public static void UploadFile(AfterCaptureActivity jobs = null)
-        {
-            using (OpenFileDialog ofd = new OpenFileDialog())
-            {
+        public static void UploadFile(AfterCaptureActivity jobs = null) {
+            using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 ofd.Multiselect = true;
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
+                if (ofd.ShowDialog() == DialogResult.OK) {
                     UploadFiles(ofd.FileNames, jobs);
                 }
             }
         }
 
-        public static void UploadFile(string path, AfterCaptureActivity act = null)
-        {
-            if (!string.IsNullOrEmpty(path))
-            {
-                if (File.Exists(path))
-                {
+        public static void UploadFile(string path, AfterCaptureActivity act = null) {
+            if (!string.IsNullOrEmpty(path)) {
+                if (File.Exists(path)) {
                     EDataType type;
                     EDataType destination = EDataType.Default;
 
-                    if (Helpers.IsImageFile(path))
-                    {
+                    if (Helpers.IsImageFile(path)) {
                         type = EDataType.Image;
 
-                        if (ImageUploader == ImageDestination.FileUploader)
-                        {
+                        if (ImageUploader == ImageDestination.FileUploader) {
                             destination = EDataType.File;
                         }
-                    }
-                    else if (Helpers.IsTextFile(path))
-                    {
+                    } else if (Helpers.IsTextFile(path)) {
                         type = EDataType.Text;
 
-                        if (TextUploader == TextDestination.FileUploader)
-                        {
+                        if (TextUploader == TextDestination.FileUploader) {
                             destination = EDataType.File;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         type = EDataType.File;
                     }
 
@@ -122,16 +109,13 @@ namespace ShareX
                     else if (AfterCaptureActivity.IsNullOrEmpty(act))
                         act.GetDefaults();
 
-                    foreach (FileDestination fileUploader in act.Uploaders.FileUploaders)
-                    {
+                    foreach (FileDestination fileUploader in act.Uploaders.FileUploaders) {
                         Task task = Task.CreateFileUploaderTask(type, path, destination);
                         task.Info.Uploaders = act.Uploaders;
                         StartUpload(task);
                         break;
                     }
-                }
-                else if (Directory.Exists(path))
-                {
+                } else if (Directory.Exists(path)) {
                     string[] files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
                     UploadFiles(files);
                 }
@@ -142,10 +126,8 @@ namespace ShareX
 
         #region Images
 
-        public static void DoImageWork(ImageData imageData, AfterCaptureActivity act)
-        {
-            if (imageData != null)
-            {
+        public static void DoImageWork(ImageData imageData, AfterCaptureActivity act) {
+            if (imageData != null) {
                 EDataType destination = EDataType.Image;
                 if (act.Uploaders.ImageUploaders.Count > 0)
                     destination = act.Uploaders.ImageUploaders[0] == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
@@ -156,8 +138,7 @@ namespace ShareX
             }
         }
 
-        public static void UploadImage(Image img)
-        {
+        public static void UploadImage(Image img) {
             DoImageWork(new ImageData(img), AfterCaptureActivity.GetNew());
         }
 
@@ -170,15 +151,13 @@ namespace ShareX
         /// </summary>
         /// <param name="text"></param>
         /// <param name="act"></param>
-        public static void UploadText(string text, AfterCaptureActivity act = null)
-        {
+        public static void UploadText(string text, AfterCaptureActivity act = null) {
             if (act == null)
                 act = AfterCaptureActivity.GetNew();
             else if (AfterCaptureActivity.IsNullOrEmpty(act))
                 act.GetDefaults();
 
-            if (!string.IsNullOrEmpty(text))
-            {
+            if (!string.IsNullOrEmpty(text)) {
                 EDataType destination = EDataType.Text;
                 if (act.Uploaders.TextUploaders.Count > 0)
                     destination = act.Uploaders.TextUploaders[0] == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
@@ -189,13 +168,11 @@ namespace ShareX
             }
         }
 
-        public static void ShortenURL(string url, AfterCaptureActivity act = null)
-        {
+        public static void ShortenURL(string url, AfterCaptureActivity act = null) {
             if (act == null) act = AfterCaptureActivity.GetNew();
             else if (AfterCaptureActivity.IsNullOrEmpty(act)) act.GetDefaults();
 
-            if (!string.IsNullOrEmpty(url))
-            {
+            if (!string.IsNullOrEmpty(url)) {
                 Task task = Task.CreateURLShortenerTask(url);
                 task.Info.Uploaders = act.Uploaders;
                 StartUpload(task);
@@ -206,49 +183,34 @@ namespace ShareX
 
         #region Clipboard Upload
 
-        public static void ClipboardUpload(AfterCaptureActivity jobs = null)
-        {
-            if (Clipboard.ContainsImage())
-            {
+        public static void ClipboardUpload(AfterCaptureActivity jobs = null) {
+            if (Clipboard.ContainsImage()) {
                 Image img = Clipboard.GetImage();
                 UploadImage(img);
-            }
-            else if (Clipboard.ContainsFileDropList())
-            {
+            } else if (Clipboard.ContainsFileDropList()) {
                 string[] files = Clipboard.GetFileDropList().Cast<string>().ToArray();
                 UploadFiles(files);
-            }
-            else if (Clipboard.ContainsText())
-            {
+            } else if (Clipboard.ContainsText()) {
                 string text = Clipboard.GetText();
 
-                if (Program.Settings.ClipboardUploadAutoDetectURL && Helpers.IsValidURL(text))
-                {
+                if (Program.Settings.ClipboardUploadAutoDetectURL && Helpers.IsValidURL(text)) {
                     ShortenURL(text.Trim(), jobs);
-                }
-                else
-                {
+                } else {
                     UploadText(text, jobs);
                 }
             }
         }
 
-        public static void ClipboardUploadWithContentViewer()
-        {
-            if (Program.Settings.ShowClipboardContentViewer)
-            {
-                using (ClipboardContentViewer ccv = new ClipboardContentViewer())
-                {
-                    if (ccv.ShowDialog() == DialogResult.OK && !ccv.IsClipboardEmpty)
-                    {
+        public static void ClipboardUploadWithContentViewer() {
+            if (Program.Settings.ShowClipboardContentViewer) {
+                using (ClipboardContentViewer ccv = new ClipboardContentViewer()) {
+                    if (ccv.ShowDialog() == DialogResult.OK && !ccv.IsClipboardEmpty) {
                         UploadManager.ClipboardUpload();
                     }
 
                     Program.Settings.ShowClipboardContentViewer = !ccv.DontShowThisWindow;
                 }
-            }
-            else
-            {
+            } else {
                 UploadManager.ClipboardUpload();
             }
         }
@@ -257,20 +219,14 @@ namespace ShareX
 
         #region Drag n Drop
 
-        public static void DragDropUpload(IDataObject data)
-        {
-            if (data.GetDataPresent(DataFormats.FileDrop, false))
-            {
+        public static void DragDropUpload(IDataObject data) {
+            if (data.GetDataPresent(DataFormats.FileDrop, false)) {
                 string[] files = data.GetData(DataFormats.FileDrop, false) as string[];
                 UploadFiles(files);
-            }
-            else if (data.GetDataPresent(DataFormats.Bitmap, false))
-            {
+            } else if (data.GetDataPresent(DataFormats.Bitmap, false)) {
                 Image img = data.GetData(DataFormats.Bitmap, false) as Image;
                 UploadImage(img);
-            }
-            else if (data.GetDataPresent(DataFormats.Text, false))
-            {
+            } else if (data.GetDataPresent(DataFormats.Text, false)) {
                 string text = data.GetData(DataFormats.Text, false) as string;
                 UploadText(text);
             }
@@ -278,10 +234,8 @@ namespace ShareX
 
         #endregion Drag n Drop
 
-        public static void UploadStream(Stream stream, string filePath, AfterCaptureActivity act = null, EDataType dataType = EDataType.File)
-        {
-            if (stream != null && stream.Length > 0 && !string.IsNullOrEmpty(filePath))
-            {
+        public static void UploadStream(Stream stream, string filePath, AfterCaptureActivity act = null, EDataType dataType = EDataType.File) {
+            if (stream != null && stream.Length > 0 && !string.IsNullOrEmpty(filePath)) {
                 if (act == null)
                     act = AfterCaptureActivity.GetNew();
                 else if (AfterCaptureActivity.IsNullOrEmpty(act))
@@ -294,8 +248,7 @@ namespace ShareX
             }
         }
 
-        private static void StartUpload(Task task)
-        {
+        private static void StartUpload(Task task) {
             Tasks.Add(task);
             task.Info.ID = Tasks.Count - 1;
             task.UploadPreparing += new Task.TaskEventHandler(task_UploadPreparing);
@@ -307,63 +260,49 @@ namespace ShareX
             TrayIconManager.UpdateTrayIcon();
         }
 
-        private static void StartTasks()
-        {
+        private static void StartTasks() {
             int workingTasksCount = Tasks.Count(x => x.IsWorking);
             Task[] inQueueTasks = Tasks.Where(x => x.Status == TaskStatus.InQueue).ToArray();
 
-            if (inQueueTasks.Length > 0)
-            {
+            if (inQueueTasks.Length > 0) {
                 int len;
 
-                if (Program.Settings.UploadLimit == 0)
-                {
+                if (Program.Settings.UploadLimit == 0) {
                     len = inQueueTasks.Length;
-                }
-                else
-                {
+                } else {
                     len = (Program.Settings.UploadLimit - workingTasksCount).Between(0, inQueueTasks.Length);
                 }
 
-                for (int i = 0; i < len; i++)
-                {
+                for (int i = 0; i < len; i++) {
                     inQueueTasks[i].Start();
                 }
             }
         }
 
-        public static void StopUpload(int index)
-        {
-            if (Tasks.Count < index)
-            {
+        public static void StopUpload(int index) {
+            if (Tasks.Count < index) {
                 Tasks[index].Stop();
             }
         }
 
-        public static void UpdateProxySettings()
-        {
+        public static void UpdateProxySettings() {
             ProxySettings proxy = new ProxySettings();
-            if (!string.IsNullOrEmpty(Program.Settings.ProxySettings.Host))
-            {
+            if (!string.IsNullOrEmpty(Program.Settings.ProxySettings.Host)) {
                 proxy.ProxyConfig = EProxyConfigType.ManualProxy;
             }
             proxy.ProxyActive = Program.Settings.ProxySettings;
             Uploader.ProxySettings = proxy;
         }
 
-        private static void ChangeListViewItemStatus(UploadInfo info)
-        {
-            if (ListViewControl != null && info.Jobs.HasFlag(Subtask.UploadImageToHost))
-            {
+        private static void ChangeListViewItemStatus(UploadInfo info) {
+            if (ListViewControl != null && info.Jobs.HasFlag(Subtask.UploadImageToHost)) {
                 ListViewItem lvi = ListViewControl.Items[info.ID];
                 lvi.SubItems[1].Text = info.Status;
             }
         }
 
-        private static void CreateListViewItem(UploadInfo info)
-        {
-            if (ListViewControl != null)
-            {
+        private static void CreateListViewItem(UploadInfo info) {
+            if (ListViewControl != null) {
                 log.InfoFormat("Upload in queue. ID: {0}, Job: {1}, Type: {2}, Host: {3}", info.ID, info.Job, info.UploadDestination, info.Destination);
 
                 ListViewItem lvi = new ListViewItem();
@@ -376,26 +315,19 @@ namespace ShareX
                 lvi.SubItems.Add(info.DataType.ToString());
 
                 var taskImageJobs = Enum.GetValues(typeof(Subtask)).Cast<Subtask>();
-                foreach (Subtask job in taskImageJobs)
-                {
-                    switch (job)
-                    {
+                foreach (Subtask job in taskImageJobs) {
+                    switch (job) {
                         case Subtask.None:
                             continue;
                     }
 
-                    if (info.Jobs.HasFlag(Subtask.UploadImageToHost))
-                    {
+                    if (info.Jobs.HasFlag(Subtask.UploadImageToHost)) {
                         lvi.SubItems.Add(info.Destination);
                         break;
-                    }
-                    else if (info.Jobs.HasFlag(job))
-                    {
+                    } else if (info.Jobs.HasFlag(job)) {
                         lvi.SubItems.Add(job.GetDescription());
                         break;
-                    }
-                    else
-                    {
+                    } else {
                         lvi.SubItems.Add(string.Empty);
                         break;
                     }
@@ -413,14 +345,12 @@ namespace ShareX
 
         #region Task Event Handler Methods
 
-        private static void task_UploadPreparing(UploadInfo info)
-        {
+        private static void task_UploadPreparing(UploadInfo info) {
             log.Info(string.Format("Upload preparing. ID: {0}", info.ID));
             ChangeListViewItemStatus(info);
         }
 
-        private static void task_UploadStarted(UploadInfo info)
-        {
+        private static void task_UploadStarted(UploadInfo info) {
             string status = string.Format("Upload started. ID: {0}, Filename: {1}", info.ID, info.FileName);
             if (!string.IsNullOrEmpty(info.FilePath)) status += ", Filepath: " + info.FilePath;
             log.Info(status);
@@ -431,10 +361,8 @@ namespace ShareX
             lvi.ImageIndex = 0;
         }
 
-        private static void task_UploadProgressChanged(UploadInfo info)
-        {
-            if (ListViewControl != null)
-            {
+        private static void task_UploadProgressChanged(UploadInfo info) {
+            if (ListViewControl != null) {
                 ListViewItem lvi = ListViewControl.Items[info.ID];
                 lvi.SubItems[1].Text = string.Format("{0:0.0}%", info.Progress.Percentage);
                 lvi.SubItems[2].Text = string.Format("{0} / {1}", Helpers.ProperFileSize(info.Progress.Position, "", true), Helpers.ProperFileSize(info.Progress.Length, "", true));
@@ -445,8 +373,7 @@ namespace ShareX
             }
         }
 
-        private static string ProperTimeSpan(TimeSpan ts)
-        {
+        private static string ProperTimeSpan(TimeSpan ts) {
             string time = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds);
             int hours = (int)ts.TotalHours;
             if (hours > 0) time = hours + ":" + time;
@@ -457,18 +384,14 @@ namespace ShareX
         /// Mod 01: Not just uploads, everything gets added to List e.g. Saving to file
         /// </summary>
         /// <param name="info">UploadInfo</param>
-        private static void task_UploadCompleted(UploadInfo info)
-        {
-            try
-            {
-                if (ListViewControl != null && info != null && info.Result != null)
-                {
+        private static void task_UploadCompleted(UploadInfo info) {
+            try {
+                if (ListViewControl != null && info != null && info.Result != null) {
                     info.Result.LocalFilePath = info.FilePath;
                     ListViewItem lvi = ListViewControl.Items[info.ID];
                     lvi.Tag = info.Result;
 
-                    if (info.Result.IsError)
-                    {
+                    if (info.Result.IsError) {
                         string errors = string.Join("\r\n\r\n", info.Result.Errors.ToArray());
 
                         log.ErrorFormat("Upload failed. ID: {0}, Filename: {1}, Errors:\r\n{2}", info.ID, info.FileName, errors);
@@ -476,55 +399,45 @@ namespace ShareX
                         lvi.SubItems[1].Text = "Error";
                         lvi.SubItems[8].Text = string.Empty;
                         lvi.ImageIndex = 1;
-                    }
-                    else
-                    {
+                    } else {
                         log.InfoFormat("Upload completed. ID: {0}, Filename: {1}, URL: {2}, Duration: {3} ms", info.ID, info.FileName,
                             info.Result.URL, (int)info.UploadDuration.TotalMilliseconds);
 
                         lvi.SubItems[1].Text = info.Status;
                         lvi.ImageIndex = 2;
 
-                        if (!string.IsNullOrEmpty(info.Result.URL))
-                        {
+                        if (!string.IsNullOrEmpty(info.Result.URL)) {
                             string url = string.IsNullOrEmpty(info.Result.ShortenedURL) ? info.Result.URL : info.Result.ShortenedURL;
 
                             lvi.SubItems[8].Text = url;
 
-                            if (Program.Settings.ClipboardAutoCopy)
-                            {
+                            if (Program.Settings.ClipboardAutoCopy) {
                                 Helpers.CopyTextSafely(url);
                             }
 
-                            if (Program.Settings.SaveHistory)
-                            {
+                            if (Program.Settings.SaveHistory) {
                                 HistoryManager.AddHistoryItemAsync(Program.HistoryFilePath, info.GetHistoryItem());
                             }
 
-                            if (FormsHelper.Main.niTray.Visible)
-                            {
+                            if (FormsHelper.Main.niTray.Visible && Program.Settings.ShowBalloonAfterUpload) {
                                 FormsHelper.Main.niTray.Tag = url;
                                 FormsHelper.Main.niTray.ShowBalloonTip(5000, "ShareX - Upload completed", url, ToolTipIcon.Info);
                             }
 
-                            if (Program.Settings.ShowClipboardOptionsWizard)
-                            {
+                            if (Program.Settings.ShowClipboardOptionsWizard) {
                                 WindowAfterUpload dlg = new WindowAfterUpload(info) { Icon = Resources.ShareX };
                                 NativeMethods.ShowWindow(dlg.Handle, (int)WindowShowStyle.ShowNoActivate);
                             }
                         }
                     }
 
-                    if (Program.Settings.PlaySoundAfterUpload)
-                    {
+                    if (Program.Settings.PlaySoundAfterUpload) {
                         SystemSounds.Exclamation.Play();
                     }
 
                     lvi.EnsureVisible();
                 }
-            }
-            finally
-            {
+            } finally {
                 StartTasks();
             }
         }
