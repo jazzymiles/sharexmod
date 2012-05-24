@@ -491,12 +491,12 @@ namespace ShareX
                         lvi.SubItems[1].Text = info.Status;
                         lvi.ImageIndex = 2;
 
+                        string url = string.IsNullOrEmpty(info.Result.ShortenedURL) ? info.Result.URL : info.Result.ShortenedURL;
+
+                        lvi.SubItems[8].Text = !string.IsNullOrEmpty(url) ? url : info.FilePath;
+
                         if (!string.IsNullOrEmpty(info.Result.URL))
                         {
-                            string url = string.IsNullOrEmpty(info.Result.ShortenedURL) ? info.Result.URL : info.Result.ShortenedURL;
-
-                            lvi.SubItems[8].Text = url;
-
                             if (Program.Settings.ClipboardAutoCopy)
                             {
                                 Helpers.CopyTextSafely(url);
