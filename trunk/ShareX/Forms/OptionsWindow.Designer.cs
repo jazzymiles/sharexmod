@@ -44,9 +44,11 @@
             System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Upload");
             System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Paths");
             System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Proxy");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Uploader Config");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Advanced", new System.Windows.Forms.TreeNode[] {
-            treeNode13});
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Shapes");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Uploader Config");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Advanced", new System.Windows.Forms.TreeNode[] {
+            treeNode13,
+            treeNode14});
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tvMain = new System.Windows.Forms.TreeView();
             this.tcBase = new System.Windows.Forms.TabControl();
@@ -190,6 +192,9 @@
             this.tpUploaderConfig = new System.Windows.Forms.TabPage();
             this.panelUploaderConfig = new System.Windows.Forms.Panel();
             this.pgUploaderConfig = new System.Windows.Forms.PropertyGrid();
+            this.tpShapes2 = new System.Windows.Forms.TabPage();
+            this.panelShapes2 = new System.Windows.Forms.Panel();
+            this.pgShapes = new System.Windows.Forms.PropertyGrid();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -244,6 +249,8 @@
             this.gbFilenamingPatternImages.SuspendLayout();
             this.tpUploaderConfig.SuspendLayout();
             this.panelUploaderConfig.SuspendLayout();
+            this.tpShapes2.SuspendLayout();
+            this.panelShapes2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpMain
@@ -292,10 +299,12 @@
             treeNode11.Text = "Paths";
             treeNode12.Name = "tnProxy";
             treeNode12.Text = "Proxy";
-            treeNode13.Name = "tnUploaderConfig";
-            treeNode13.Text = "Uploader Config";
-            treeNode14.Name = "tnAdvanced";
-            treeNode14.Text = "Advanced";
+            treeNode13.Name = "tnShapes2";
+            treeNode13.Text = "Shapes";
+            treeNode14.Name = "tnUploaderConfig";
+            treeNode14.Text = "Uploader Config";
+            treeNode15.Name = "tnAdvanced";
+            treeNode15.Text = "Advanced";
             this.tvMain.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
@@ -305,7 +314,7 @@
             treeNode10,
             treeNode11,
             treeNode12,
-            treeNode14});
+            treeNode15});
             this.tvMain.Size = new System.Drawing.Size(133, 402);
             this.tvMain.TabIndex = 0;
             this.tvMain.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvMain_AfterSelect);
@@ -326,6 +335,7 @@
             this.tcBase.Controls.Add(this.tpDropboxSync);
             this.tcBase.Controls.Add(this.tpFileNaming);
             this.tcBase.Controls.Add(this.tpUploaderConfig);
+            this.tcBase.Controls.Add(this.tpShapes2);
             this.tcBase.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcBase.Location = new System.Drawing.Point(142, 3);
             this.tcBase.Name = "tcBase";
@@ -1564,7 +1574,7 @@
             this.gbPathRoot.Controls.Add(this.btnOpenZUploaderPath);
             this.gbPathRoot.Location = new System.Drawing.Point(8, 360);
             this.gbPathRoot.Name = "gbPathRoot";
-            this.gbPathRoot.Size = new System.Drawing.Size(452, 88);
+            this.gbPathRoot.Size = new System.Drawing.Size(435, 88);
             this.gbPathRoot.TabIndex = 3;
             this.gbPathRoot.TabStop = false;
             this.gbPathRoot.Text = "Root";
@@ -1600,7 +1610,7 @@
             this.gbScreenshots.Controls.Add(this.txtScreenshotsPath);
             this.gbScreenshots.Location = new System.Drawing.Point(8, 8);
             this.gbScreenshots.Name = "gbScreenshots";
-            this.gbScreenshots.Size = new System.Drawing.Size(452, 88);
+            this.gbScreenshots.Size = new System.Drawing.Size(435, 88);
             this.gbScreenshots.TabIndex = 0;
             this.gbScreenshots.TabStop = false;
             this.gbScreenshots.Text = "Screenshots";
@@ -1678,7 +1688,7 @@
             this.gbUploadersConfig.Controls.Add(this.cbUseCustomUploadersConfigPath);
             this.gbUploadersConfig.Location = new System.Drawing.Point(8, 112);
             this.gbUploadersConfig.Name = "gbUploadersConfig";
-            this.gbUploadersConfig.Size = new System.Drawing.Size(452, 80);
+            this.gbUploadersConfig.Size = new System.Drawing.Size(435, 80);
             this.gbUploadersConfig.TabIndex = 1;
             this.gbUploadersConfig.TabStop = false;
             this.gbUploadersConfig.Text = "Uploaders Config";
@@ -1742,7 +1752,7 @@
             this.gbHistory.Controls.Add(this.cbHistorySave);
             this.gbHistory.Location = new System.Drawing.Point(8, 216);
             this.gbHistory.Name = "gbHistory";
-            this.gbHistory.Size = new System.Drawing.Size(452, 136);
+            this.gbHistory.Size = new System.Drawing.Size(435, 136);
             this.gbHistory.TabIndex = 2;
             this.gbHistory.TabStop = false;
             this.gbHistory.Text = "History";
@@ -1994,6 +2004,34 @@
             this.pgUploaderConfig.Size = new System.Drawing.Size(537, 370);
             this.pgUploaderConfig.TabIndex = 1;
             // 
+            // tpShapes2
+            // 
+            this.tpShapes2.Controls.Add(this.panelShapes2);
+            this.tpShapes2.Location = new System.Drawing.Point(4, 22);
+            this.tpShapes2.Name = "tpShapes2";
+            this.tpShapes2.Padding = new System.Windows.Forms.Padding(3);
+            this.tpShapes2.Size = new System.Drawing.Size(543, 376);
+            this.tpShapes2.TabIndex = 14;
+            this.tpShapes2.Text = "Shapes";
+            this.tpShapes2.UseVisualStyleBackColor = true;
+            // 
+            // panelShapes2
+            // 
+            this.panelShapes2.Controls.Add(this.pgShapes);
+            this.panelShapes2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelShapes2.Location = new System.Drawing.Point(3, 3);
+            this.panelShapes2.Name = "panelShapes2";
+            this.panelShapes2.Size = new System.Drawing.Size(537, 370);
+            this.panelShapes2.TabIndex = 0;
+            // 
+            // pgShapes
+            // 
+            this.pgShapes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pgShapes.Location = new System.Drawing.Point(0, 0);
+            this.pgShapes.Name = "pgShapes";
+            this.pgShapes.Size = new System.Drawing.Size(537, 370);
+            this.pgShapes.TabIndex = 2;
+            // 
             // OptionsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2079,6 +2117,8 @@
             this.gbFilenamingPatternImages.PerformLayout();
             this.tpUploaderConfig.ResumeLayout(false);
             this.panelUploaderConfig.ResumeLayout(false);
+            this.tpShapes2.ResumeLayout(false);
+            this.panelShapes2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2228,5 +2268,8 @@
         private System.Windows.Forms.TabPage tpUploaderConfig;
         private System.Windows.Forms.Panel panelUploaderConfig;
         private System.Windows.Forms.PropertyGrid pgUploaderConfig;
+        private System.Windows.Forms.TabPage tpShapes2;
+        private System.Windows.Forms.Panel panelShapes2;
+        private System.Windows.Forms.PropertyGrid pgShapes;
     }
 }
