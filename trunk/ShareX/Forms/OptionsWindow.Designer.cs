@@ -2040,7 +2040,7 @@
             this.Controls.Add(this.tlpMain);
             this.MinimumSize = new System.Drawing.Size(720, 600);
             this.Name = "OptionsWindow";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "OptionsWindow";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OptionsWindow_FormClosed);
             this.Shown += new System.EventHandler(this.OptionsWindow_Shown);

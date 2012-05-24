@@ -48,17 +48,18 @@ namespace ShareX
             AppendLine("Josh Lovins (thedeathly)");
             AppendLine();
 
+            AppendBoldLine("Thanks to:");
+            AppendLine("Andrew Moore (zathman) for introducing ZScreen");
+            AppendLine("Brandon Zimmerman (rgrthat) for leading the way");
+            AppendLine("Mopquill ( www.mpql.net ) for the application icon");
+            AppendLine();
+
             AppendBoldLine("Acknowledgements:");
             AppendLine("FTP Library: http://www.starksoft.com");
             AppendLine("Json.NET: http://json.codeplex.com");
             AppendLine("SSH.NET: http://sshnet.codeplex.com");
             AppendLine("Image Editor: http://getgreenshot.org");
-            AppendLine("Application Icon:  Mopquill ( www.mpql.net )");
-            AppendLine("Other Icons: http://p.yusukekamiyamane.com");
-            AppendLine();
-            AppendBoldLine("Thanks to:");
-            AppendLine("Andrew Moore (zathman) for introducing ZScreen");
-            AppendLine("Brandon Zimmerman (rgrthat) for leading the way");
+            AppendLine("Menu Icons: http://p.yusukekamiyamane.com");
             AppendLine();
 
             if (Program.LibNames != null)
