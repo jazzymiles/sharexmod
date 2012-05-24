@@ -43,6 +43,7 @@ namespace ShareX
     public partial class MainForm : HelpersLib.Hotkeys2.HotkeyForm
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public bool IsReady { get; private set; }
 
         public HotkeyManager HotkeyManager { get; private set; }
@@ -63,8 +64,7 @@ namespace ShareX
             if (!Program.Settings.DropboxSync)
             {
                 InitHotkeys();
-            }
-            else
+            } else
             {
                 new DropboxSyncHelper().InitHotkeys();
             }
@@ -104,8 +104,7 @@ namespace ShareX
             if (Program.Settings.FolderMonitoring)
             {
                 folderWatcher.StartWatching();
-            }
-            else
+            } else
             {
                 folderWatcher.StopWatching();
             }
@@ -139,6 +138,11 @@ namespace ShareX
         public void LoadSettings()
         {
             niTray.Visible = Program.Settings.ShowTray;
+
+            for (int x = 0; x < Program.Settings.ColumnWidths.Length; x++)
+            {
+                lvUploads.Columns[x].Width = Program.Settings.ColumnWidths[x];
+            }
 
             ReloadOutputsMenu();
 
@@ -270,6 +274,8 @@ namespace ShareX
 
             UploadManager.ListViewControl = lvUploads;
 
+            lvUploads.ColumnWidthChanged += new ColumnWidthChangedEventHandler(lvUploads_ColumnWidthChanged);
+
 #if DEBUG
             // Test button: Left click uploads test image. Right click opens capture test window.
             tsbDebug.Visible = true;
@@ -298,8 +304,7 @@ namespace ShareX
                         if (itemsCount > 1)
                         {
                             copyURLToolStripMenuItem.Text = string.Format("Copy URLs ({0})", itemsCount);
-                        }
-                        else
+                        } else
                         {
                             copyURLToolStripMenuItem.Text = "Copy URL";
                         }
@@ -337,8 +342,7 @@ namespace ShareX
 
                 int index = lvUploads.SelectedIndices[0];
                 stopUploadToolStripMenuItem.Visible = UploadManager.Tasks[index].Status != TaskStatus.Completed;
-            }
-            else
+            } else
             {
                 uploadFileToolStripMenuItem.Visible = true;
                 showInWindowsExplorerToolStripMenuItem.Visible = false;
@@ -394,8 +398,7 @@ namespace ShareX
                     if (args[i].Equals("-clipboardupload", StringComparison.InvariantCultureIgnoreCase))
                     {
                         UploadManager.ClipboardUpload();
-                    }
-                    else if (args[i][0] != '-')
+                    } else if (args[i][0] != '-')
                     {
                         UploadManager.UploadFile(args[i]);
                     }
@@ -585,8 +588,7 @@ namespace ShareX
                 e.Data.GetDataPresent(DataFormats.Text, false))
             {
                 e.Effect = DragDropEffects.Copy;
-            }
-            else
+            } else
             {
                 e.Effect = DragDropEffects.None;
             }
@@ -612,8 +614,7 @@ namespace ShareX
             if (e.Button == MouseButtons.Left)
             {
                 UploadManager.UploadImage(Resources.ShareXLogo);
-            }
-            else if (e.Button == MouseButtons.Right)
+            } else if (e.Button == MouseButtons.Right)
             {
                 new RegionCapturePreview(Program.Settings.SurfaceOptions).Show();
             }
@@ -856,6 +857,11 @@ namespace ShareX
             HelpersLib.log4netHelpers.log4netViewer_ListView viewer = new HelpersLib.log4netHelpers.log4netViewer_ListView();
             viewer.Icon = this.Icon;
             viewer.Show();
+        }
+
+        private void lvUploads_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
+        {
+            Program.Settings.ColumnWidths[e.ColumnIndex] = lvUploads.Columns[e.ColumnIndex].Width;
         }
 
         #endregion Form events
