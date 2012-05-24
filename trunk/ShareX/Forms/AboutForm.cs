@@ -44,6 +44,10 @@ namespace ShareX
             lblProductName.Text = Program.Title;
             lblCopyright.Text = AssemblyCopyright;
 
+            AppendBoldLine("Committers:");
+            AppendLine("Josh Lovins (thedeathly)");
+            AppendLine();
+
             AppendBoldLine("Acknowledgements:");
             AppendLine("FTP Library: http://www.starksoft.com");
             AppendLine("Json.NET: http://json.codeplex.com");
