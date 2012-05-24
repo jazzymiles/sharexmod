@@ -32,8 +32,10 @@ using System.Threading;
 using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
+using HelpersLibWatermark;
 using ScreenCapture;
 using ShareX.HelperClasses;
+using ShareX.Properties;
 
 namespace ShareX
 {
@@ -350,6 +352,15 @@ namespace ShareX
         private void tsmiSettings_Click(object sender, EventArgs e)
         {
             tsmiTraySettings_Click(sender, e);
+        }
+
+        private void tsmiWatermark_Click(object sender, EventArgs e)
+        {
+            WatermarkUI ui = new WatermarkUI(Resources.ShareXLogo, Program.Settings.ConfigWatermark)
+            {
+                Icon = this.Icon
+            };
+            ui.Show();
         }
 
         #endregion Tray events
