@@ -48,18 +48,20 @@ namespace ShareX
         AnnotateImageAddTornEffect = 1 << 1,
         [Description("Add shadow border")]
         AnnotateImageAddShadowBorder = 1 << 2,
+        [Description("Add watermark")]
+        AddWatermark = 1 << 3,
         [Description("Show image effects studio")]
-        ShowImageEffectsStudio = 1 << 3,
+        ShowImageEffectsStudio = 1 << 4,
         [Description("Copy image to clipboard")]
-        CopyImageToClipboard = 1 << 4,
+        CopyImageToClipboard = 1 << 5,
         [Description("Save to file")]
-        SaveImageToFile = 1 << 5,
+        SaveImageToFile = 1 << 6,
         [Description("Upload to remote host")]
-        UploadImageToHost = 1 << 6,
+        UploadImageToHost = 1 << 7,
         [Description("Save to file with dialog")]
-        SaveImageToFileWithDialog = 1 << 7,
+        SaveImageToFileWithDialog = 1 << 8,
         [Description("Send to Printer")]
-        Print = 1 << 8,
+        Print = 1 << 9,
     }
 
     [Flags]

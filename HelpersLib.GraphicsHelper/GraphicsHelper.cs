@@ -883,5 +883,106 @@ namespace HelpersLib.GraphicsHelper
                 g.SetClip(region, CombineMode.Exclude);
             }
         }
+
+        public static GraphicsPath GetRoundedRectangle(RectangleF baseRect, float radius)
+        {
+            if (radius <= 0.0f)
+            {
+                GraphicsPath mPath = new GraphicsPath();
+                mPath.AddRectangle(baseRect);
+                mPath.CloseFigure();
+                return mPath;
+            }
+
+            // if the corner radius is greater than or equal to
+            // half the width, or height (whichever is shorter)
+            // then return a capsule instead of a lozenge
+            if (radius >= (Math.Min(baseRect.Width, baseRect.Height) / 2.0f))
+            {
+                return GetCapsule(baseRect);
+            }
+
+            // create the arc for the rectangle sides and declare
+            // a graphics path object for the drawing
+            float diameter = radius * 2.0F;
+            SizeF sizeF = new SizeF(diameter, diameter);
+            RectangleF arc = new RectangleF(baseRect.Location, sizeF);
+            GraphicsPath path = new GraphicsPath();
+
+            // top left arc
+            path.AddArc(arc, 180, 90);
+
+            // top right arc
+            arc.X = baseRect.Right - diameter;
+            path.AddArc(arc, 270, 90);
+
+            // bottom right arc
+            arc.Y = baseRect.Bottom - diameter;
+            path.AddArc(arc, 0, 90);
+
+            // bottom left arc
+            arc.X = baseRect.Left;
+            path.AddArc(arc, 90, 90);
+
+            path.CloseFigure();
+
+            return path;
+        }
+
+        public static GraphicsPath GetCapsule(RectangleF baseRect)
+        {
+            float diameter;
+            RectangleF arc;
+            GraphicsPath path = new GraphicsPath();
+
+            try
+            {
+                if (baseRect.Width > baseRect.Height)
+                {
+                    // return horizontal capsule
+                    diameter = baseRect.Height;
+                    SizeF sizeF = new SizeF(diameter, diameter);
+                    arc = new RectangleF(baseRect.Location, sizeF);
+                    path.AddArc(arc, 90, 180);
+                    arc.X = baseRect.Right - diameter;
+                    path.AddArc(arc, 270, 180);
+                }
+                else if (baseRect.Width < baseRect.Height)
+                {
+                    // return vertical capsule
+                    diameter = baseRect.Width;
+                    SizeF sizeF = new SizeF(diameter, diameter);
+                    arc = new RectangleF(baseRect.Location, sizeF);
+                    path.AddArc(arc, 180, 180);
+                    arc.Y = baseRect.Bottom - diameter;
+                    path.AddArc(arc, 0, 180);
+                }
+                else
+                {
+                    // return circle
+                    path.AddEllipse(baseRect);
+                }
+            }
+            catch
+            {
+                path.AddEllipse(baseRect);
+            }
+            finally
+            {
+                path.CloseFigure();
+            }
+
+            return path;
+        }
+
+        public static GraphicsPath GetTriangle(Rectangle baseRect)
+        {
+            GraphicsPath path = new GraphicsPath();
+            Point pt1 = new Point(baseRect.X + baseRect.Width / 2, baseRect.Y);
+            Point pt2 = new Point(baseRect.X, baseRect.Y + baseRect.Height);
+            Point pt3 = new Point(baseRect.X + baseRect.Width, baseRect.Y + baseRect.Height);
+            path.AddPolygon(new Point[] { pt1, pt2, pt3 });
+            return path;
+        }
     }
 }

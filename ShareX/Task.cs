@@ -49,8 +49,11 @@ namespace ShareX
         public delegate void TaskEventHandler(UploadInfo info);
 
         public event TaskEventHandler UploadStarted;
+
         public event TaskEventHandler UploadPreparing;
+
         public event TaskEventHandler UploadProgressChanged;
+
         public event TaskEventHandler UploadCompleted;
 
         public Workflow Workflow = new Workflow();
@@ -116,7 +119,7 @@ namespace ShareX
             {
                 bool html = destination == EDataType.File;
                 task.Info.FileName = new NameParser().Convert(Program.Settings.NameFormatPatternOther) + (html ? ".html" : ".log");
-                task.tempText = IndexersLib.QuickIndexer.Index(text, html, Program.Settings.IndexerConfig);
+                task.tempText = IndexersLib.QuickIndexer.Index(text, html, Program.Settings.ConfigIndexer);
             }
             else
             {
@@ -322,6 +325,14 @@ namespace ShareX
 
         private void DoBeforeImagePreparedJobs()
         {
+            if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddTornEffect))
+            {
+                if (!Greenshot.IniFile.IniConfig.IsInited)
+                    Greenshot.IniFile.IniConfig.Init();
+
+                imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateTornEdge(new Bitmap(imageData.Image));
+            }
+
             if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddShadowBorder))
             {
                 if (!Greenshot.IniFile.IniConfig.IsInited)
@@ -330,19 +341,16 @@ namespace ShareX
                 imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateShadow(imageData.Image, 1f, 7, new Point(7, 7), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             }
 
+            if (Info.Jobs.HasFlag(Subtask.AddWatermark))
+            {
+                imageData.Image = new HelpersLibWatermark.WatermarkEffects(Program.Settings.ConfigWatermark).ApplyWatermark(imageData.Image);
+            }
+
             if (Info.Jobs.HasFlag(Subtask.ShowImageEffectsStudio))
             {
                 ImageEffectsGUI dlg = new ImageEffectsGUI(imageData.Image);
                 dlg.ShowDialog();
                 imageData.Image = dlg.GetImageForExport();
-            }
-
-            if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddTornEffect))
-            {
-                if (!Greenshot.IniFile.IniConfig.IsInited)
-                    Greenshot.IniFile.IniConfig.Init();
-
-                imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateTornEdge(new Bitmap(imageData.Image));
             }
 
             if (Info.Job == TaskJob.ImageUpload && imageData != null && Info.Jobs.HasFlag(Subtask.CopyImageToClipboard))

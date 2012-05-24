@@ -100,6 +100,26 @@
     <Compile Include="BitmapCache.cs" />
     <Compile Include="ColorBgra.cs" />
     <Compile Include="ColorMatrixMgr.cs" />
+    <Compile Include="Colors\ColorBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Colors\ColorPicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Colors\ColorSlider.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Colors\ColorUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Colors\DialogColor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Colors\DialogColor.designer.cs">
+      <DependentUpon>DialogColor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Colors\Helpers.cs" />
+    <Compile Include="Colors\MyColors.cs" />
     <Compile Include="GraphicsHelper.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="ImageEffectsHelper.cs" />
@@ -113,11 +133,36 @@
     <Compile Include="Apng\Apng.cs" />
     <Compile Include="Apng\ApngBasicWrapper.cs" />
     <Compile Include="Apng\Frame.cs" />
+    <Compile Include="Watermark\GradientMaker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Watermark\GradientMaker.designer.cs">
+      <DependentUpon>GradientMaker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Watermark\GradientStop.cs" />
+    <Compile Include="Watermark\WatermarkConfig.cs" />
+    <Compile Include="Watermark\WatermarkEffects.cs" />
+    <Compile Include="Watermark\WatermarkHelper.cs" />
+    <Compile Include="Watermark\WatermarkUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Watermark\WatermarkUI.Designer.cs">
+      <DependentUpon>WatermarkUI.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Colors\DialogColor.resx">
+      <DependentUpon>DialogColor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Watermark\GradientMaker.resx">
+      <DependentUpon>GradientMaker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Watermark\WatermarkUI.resx">
+      <DependentUpon>WatermarkUI.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +217,12 @@
       <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
       <Name>HelpersLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Colors\Cursor.cur" />
+    <Content Include="Colors\cursor.png" />
+    <None Include="Resources\ShareXLogo.png" />
+    <None Include="Resources\cursor.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
