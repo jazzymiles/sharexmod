@@ -33,7 +33,10 @@ namespace ShareX
         {
             get
             {
-                return new OptionsWindow() { Icon = Resources.ShareX }; ;
+                if (_OptionsWindow == null || _OptionsWindow.IsDisposed)
+                    _OptionsWindow = new OptionsWindow() { Icon = Resources.ShareX };
+
+                return _OptionsWindow;
             }
             set
             {
@@ -65,6 +68,13 @@ namespace ShareX
 
             Main.AfterUploadersConfigClosed();
             DropboxSyncHelper.SaveAsync();
+        }
+
+        public static void ShowLog()
+        {
+            HelpersLib.log4netHelpers.log4netViewer_ListView viewer = new HelpersLib.log4netHelpers.log4netViewer_ListView();
+            viewer.Icon = Resources.ShareX;
+            viewer.Show();
         }
     }
 }

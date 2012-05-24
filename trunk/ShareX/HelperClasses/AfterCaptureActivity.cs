@@ -12,16 +12,17 @@ namespace ShareX.HelperClasses
     {
         public Subtask Subtasks { get; set; }
         public EInputType InputType { get; set; }
-        public DestConfig Uploaders = new DestConfig();
+        public DestConfig DestConfig = new DestConfig();
+        public Workflow Workflow { get; set; }
 
         public static bool IsNullOrEmpty(AfterCaptureActivity act)
         {
-            return act == null || act.Uploaders.IsEmptyAny;
+            return act == null || act.DestConfig.IsEmptyAny;
         }
 
         public static bool IsEmpty(AfterCaptureActivity act)
         {
-            return act != null && act.Uploaders.IsEmptyAll;
+            return act != null && act.DestConfig.IsEmptyAll;
         }
 
         public static AfterCaptureActivity GetNew()
@@ -37,12 +38,12 @@ namespace ShareX.HelperClasses
         {
             if (this.Subtasks.HasFlag(Subtask.UploadImageToHost))
             {
-                if (this.Uploaders.ImageUploaders.Count == 0)
-                    this.Uploaders.ImageUploaders.Add(UploadManager.ImageUploader);
-                if (this.Uploaders.TextUploaders.Count == 0)
-                    this.Uploaders.TextUploaders.Add(UploadManager.TextUploader);
-                if (this.Uploaders.FileUploaders.Count == 0)
-                    this.Uploaders.FileUploaders.Add(UploadManager.FileUploader);
+                if (this.DestConfig.ImageUploaders.Count == 0)
+                    this.DestConfig.ImageUploaders.Add(UploadManager.ImageUploader);
+                if (this.DestConfig.TextUploaders.Count == 0)
+                    this.DestConfig.TextUploaders.Add(UploadManager.TextUploader);
+                if (this.DestConfig.FileUploaders.Count == 0)
+                    this.DestConfig.FileUploaders.Add(UploadManager.FileUploader);
             }
 
             // LinkUploaders are only added if they are empty at ShortenURL method

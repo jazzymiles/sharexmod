@@ -40,8 +40,15 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.tcWorkflow = new System.Windows.Forms.TabControl();
+            this.tpActivities = new System.Windows.Forms.TabPage();
+            this.tpSettings = new System.Windows.Forms.TabPage();
+            this.pgSettings = new System.Windows.Forms.PropertyGrid();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.tcWorkflow.SuspendLayout();
+            this.tpActivities.SuspendLayout();
+            this.tpSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtDescription
@@ -52,7 +59,7 @@
             this.txtDescription.Location = new System.Drawing.Point(8, 8);
             this.txtDescription.MaxLength = 100;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(647, 23);
+            this.txtDescription.Size = new System.Drawing.Size(653, 23);
             this.txtDescription.TabIndex = 0;
             this.txtDescription.Text = "New workflow";
             this.txtDescription.TextChanged += new System.EventHandler(this.txtDescription_TextChanged);
@@ -80,7 +87,7 @@
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Location = new System.Drawing.Point(583, 445);
+            this.btnOk.Location = new System.Drawing.Point(582, 448);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(74, 22);
             this.btnOk.TabIndex = 3;
@@ -92,7 +99,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(503, 445);
+            this.btnCancel.Location = new System.Drawing.Point(502, 448);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(74, 22);
             this.btnCancel.TabIndex = 2;
@@ -110,7 +117,7 @@
             this.lvActivitiesAll.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lvActivitiesAll.Location = new System.Drawing.Point(3, 3);
             this.lvActivitiesAll.Name = "lvActivitiesAll";
-            this.lvActivitiesAll.Size = new System.Drawing.Size(261, 391);
+            this.lvActivitiesAll.Size = new System.Drawing.Size(258, 362);
             this.lvActivitiesAll.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvActivitiesAll.TabIndex = 0;
             this.lvActivitiesAll.UseCompatibleStateImageBehavior = false;
@@ -129,9 +136,9 @@
             this.lvActivitiesUser.FullRowSelect = true;
             this.lvActivitiesUser.GridLines = true;
             this.lvActivitiesUser.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.lvActivitiesUser.Location = new System.Drawing.Point(382, 3);
+            this.lvActivitiesUser.Location = new System.Drawing.Point(379, 3);
             this.lvActivitiesUser.Name = "lvActivitiesUser";
-            this.lvActivitiesUser.Size = new System.Drawing.Size(262, 391);
+            this.lvActivitiesUser.Size = new System.Drawing.Size(258, 362);
             this.lvActivitiesUser.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvActivitiesUser.TabIndex = 2;
             this.lvActivitiesUser.UseCompatibleStateImageBehavior = false;
@@ -144,9 +151,6 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 112F));
@@ -154,11 +158,12 @@
             this.tableLayoutPanel1.Controls.Add(this.lvActivitiesAll, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.lvActivitiesUser, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(8, 40);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(647, 397);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(640, 368);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // flowLayoutPanel1
@@ -167,10 +172,50 @@
             this.flowLayoutPanel1.Controls.Add(this.btnRemove);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(270, 3);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(267, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(106, 391);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(106, 362);
             this.flowLayoutPanel1.TabIndex = 1;
+            // 
+            // tcWorkflow
+            // 
+            this.tcWorkflow.Controls.Add(this.tpActivities);
+            this.tcWorkflow.Controls.Add(this.tpSettings);
+            this.tcWorkflow.Location = new System.Drawing.Point(8, 40);
+            this.tcWorkflow.Name = "tcWorkflow";
+            this.tcWorkflow.SelectedIndex = 0;
+            this.tcWorkflow.Size = new System.Drawing.Size(654, 400);
+            this.tcWorkflow.TabIndex = 4;
+            // 
+            // tpActivities
+            // 
+            this.tpActivities.Controls.Add(this.tableLayoutPanel1);
+            this.tpActivities.Location = new System.Drawing.Point(4, 22);
+            this.tpActivities.Name = "tpActivities";
+            this.tpActivities.Padding = new System.Windows.Forms.Padding(3);
+            this.tpActivities.Size = new System.Drawing.Size(646, 374);
+            this.tpActivities.TabIndex = 0;
+            this.tpActivities.Text = "Activities";
+            this.tpActivities.UseVisualStyleBackColor = true;
+            // 
+            // tpSettings
+            // 
+            this.tpSettings.Controls.Add(this.pgSettings);
+            this.tpSettings.Location = new System.Drawing.Point(4, 22);
+            this.tpSettings.Name = "tpSettings";
+            this.tpSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSettings.Size = new System.Drawing.Size(642, 374);
+            this.tpSettings.TabIndex = 1;
+            this.tpSettings.Text = "Settings";
+            this.tpSettings.UseVisualStyleBackColor = true;
+            // 
+            // pgSettings
+            // 
+            this.pgSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pgSettings.Location = new System.Drawing.Point(3, 3);
+            this.pgSettings.Name = "pgSettings";
+            this.pgSettings.Size = new System.Drawing.Size(636, 368);
+            this.pgSettings.TabIndex = 2;
             // 
             // WindowWorkflow
             // 
@@ -178,18 +223,21 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(666, 480);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.ClientSize = new System.Drawing.Size(672, 480);
+            this.Controls.Add(this.tcWorkflow);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.txtDescription);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(674, 512);
+            this.MinimumSize = new System.Drawing.Size(680, 512);
             this.Name = "WindowWorkflow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "WindowWorkflow";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.tcWorkflow.ResumeLayout(false);
+            this.tpActivities.ResumeLayout(false);
+            this.tpSettings.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -208,6 +256,10 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.TabControl tcWorkflow;
+        private System.Windows.Forms.TabPage tpActivities;
+        private System.Windows.Forms.TabPage tpSettings;
+        private System.Windows.Forms.PropertyGrid pgSettings;
 
     }
 }

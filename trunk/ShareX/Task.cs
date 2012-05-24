@@ -30,6 +30,7 @@ using System.Text;
 using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.GraphicsHelper;
+using HelpersLib.Hotkeys2;
 using ShareX.HelperClasses;
 using UploadersLib;
 using UploadersLib.FileUploaders;
@@ -48,13 +49,11 @@ namespace ShareX
         public delegate void TaskEventHandler(UploadInfo info);
 
         public event TaskEventHandler UploadStarted;
-
         public event TaskEventHandler UploadPreparing;
-
         public event TaskEventHandler UploadProgressChanged;
-
         public event TaskEventHandler UploadCompleted;
 
+        public Workflow Workflow = new Workflow();
         public UploadInfo Info { get; private set; }
         public TaskStatus Status { get; private set; }
         public bool IsWorking { get { return Status == TaskStatus.Preparing || Status == TaskStatus.Uploading; } }
@@ -226,7 +225,7 @@ namespace ShareX
                 {
                     Info.Result.Errors.Add("URL is empty.");
                 }
-                else if (Program.Settings.URLShortenAfterUpload || Info.Job == TaskJob.ShortenURL || Info.Uploaders.LinkUploaders.Count > 0)
+                else if (Program.Settings.URLShortenAfterUpload || Info.Job == TaskJob.ShortenURL || Info.DestConfig.LinkUploaders.Count > 0)
                 {
                     Info.Result.ShortenedURL = ShortenURL(Info.Result.URL);
                 }
@@ -392,7 +391,7 @@ namespace ShareX
         public UploadResult UploadImage(Stream stream)
         {
             ImageUploader imageUploader = null;
-            ImageDestination imageDestination = Info.Uploaders.ImageUploaders[0];
+            ImageDestination imageDestination = Info.DestConfig.ImageUploaders[0];
 
             switch (imageDestination)
             {
@@ -466,21 +465,32 @@ namespace ShareX
         public UploadResult UploadText(Stream stream)
         {
             TextUploader textUploader = null;
-            TextDestination textDestination = Info.Uploaders.TextUploaders[0];
+            TextDestination textDestination = Info.DestConfig.TextUploaders[0];
 
             switch (textDestination)
             {
                 case TextDestination.Pastebin:
-                    textUploader = new PastebinUploader(ApiKeys.PastebinKey, Program.UploadersConfig.PastebinSettings);
+                    PastebinSettings pastebinSettings = Program.UploadersConfig.PastebinSettings;
+                    pastebinSettings.TextFormat = Workflow.TextFormat;
+                    textUploader = new PastebinUploader(ApiKeys.PastebinKey, pastebinSettings);
                     break;
                 case TextDestination.PastebinCA:
-                    textUploader = new PastebinCaUploader(ApiKeys.PastebinCaKey);
+                    textUploader = new PastebinCaUploader(ApiKeys.PastebinCaKey, new PastebinCaSettings()
+                    {
+                        TextFormat = Workflow.TextFormat
+                    });
                     break;
                 case TextDestination.Paste2:
-                    textUploader = new Paste2Uploader();
+                    textUploader = new Paste2Uploader(new Paste2Settings()
+                    {
+                        TextFormat = Workflow.TextFormat
+                    });
                     break;
                 case TextDestination.Slexy:
-                    textUploader = new SlexyUploader();
+                    textUploader = new SlexyUploader(new SlexySettings()
+                    {
+                        TextFormat = Workflow.TextFormat
+                    });
                     break;
             }
 
@@ -498,7 +508,7 @@ namespace ShareX
         {
             FileUploader fileUploader = null;
 
-            switch (Info.Uploaders.FileUploaders[0])
+            switch (Info.DestConfig.FileUploaders[0])
             {
                 case FileDestination.Dropbox:
                     NameParser parser = new NameParser { IsFolderPath = true };
@@ -603,10 +613,10 @@ namespace ShareX
         {
             URLShortener urlShortener = null;
 
-            if ((Info.Uploaders.LinkUploaders.Count == 0))
-                Info.Uploaders.LinkUploaders.Add(UploadManager.URLShortener);
+            if ((Info.DestConfig.LinkUploaders.Count == 0))
+                Info.DestConfig.LinkUploaders.Add(UploadManager.URLShortener);
 
-            switch (Info.Uploaders.LinkUploaders[0])
+            switch (Info.DestConfig.LinkUploaders[0])
             {
                 case UrlShortenerType.BITLY:
                     urlShortener = new BitlyURLShortener(ApiKeys.BitlyLogin, ApiKeys.BitlyKey);

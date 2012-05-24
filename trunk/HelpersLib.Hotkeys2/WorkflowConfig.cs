@@ -29,6 +29,7 @@ namespace HelpersLib.Hotkeys2
             InitializeComponent();
 
             this.Text = "Workflow - " + wf.HotkeyConfig.Description;
+            this.pgSettings.SelectedObject = wf;
             this.txtDescription.Text = wf.HotkeyConfig.Description;
 
             lvActivitiesAll.Groups.AddRange(new[]
@@ -87,7 +88,7 @@ namespace HelpersLib.Hotkeys2
         {
             if (!txtDescription.Focused)
             {
-                if (keyData == (Keys.A))
+                if (keyData == (Keys.ShiftKey | Keys.A))
                 {
                     ActivityAdd();
                     return true;
