@@ -205,6 +205,7 @@ namespace ShareX.Forms
             // Advanced
             pgSettings.SelectedObject = Program.Settings;
             pgUploaderConfig.SelectedObject = Program.UploadersConfig;
+            pgShapes.SelectedObject = Program.Settings.SurfaceOptions;
 
             loaded = true;
         }
