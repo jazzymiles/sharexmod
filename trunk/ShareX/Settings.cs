@@ -33,9 +33,10 @@ using HelpersLib.Hotkeys2;
 using ScreenCapture;
 using UploadersLib.HelperClasses;
 
-namespace ShareX {
-
-    public class Settings : SettingsBase<Settings> {
+namespace ShareX
+{
+    public class Settings : SettingsBase<Settings>
+    {
         #region Main Form
 
         public int SelectedImageUploaderDestination = 0;
@@ -125,6 +126,10 @@ namespace ShareX {
 
         public ProxyInfo ProxySettings = new ProxyInfo();
 
+        // Column Headers
+
+        public int[] ColumnWidths = { 150, 75, 47, 65, 63, 70, 50, 102, 239 };
+
         // Advanced
 
         [Category(ComponentModelStrings.App), DefaultValue(false), Description("If you have configured Dropbox, then this setting will synchronize uploaders configuration and application settings except for paths.")]
@@ -153,15 +158,18 @@ namespace ShareX {
 
         #region Methods
 
-        public static void ApplyDefaultValues(object self) {
-            foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(self)) {
+        public static void ApplyDefaultValues(object self)
+        {
+            foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(self))
+            {
                 DefaultValueAttribute attr = prop.Attributes[typeof(DefaultValueAttribute)] as DefaultValueAttribute;
                 if (attr == null) continue;
                 prop.SetValue(self, attr.Value);
             }
         }
 
-        public Settings() {
+        public Settings()
+        {
             ApplyDefaultValues(this);
         }
 
