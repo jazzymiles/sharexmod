@@ -128,6 +128,7 @@ namespace HelpersLib.Hotkeys2
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
+            bool userError = false;
             foreach (HotkeySelectionControl hksc in flpHotkeys.Controls)
             {
                 if (hksc.Checked)
@@ -144,11 +145,14 @@ namespace HelpersLib.Hotkeys2
                     }
                     else
                     {
-                        MessageBox.Show("You can only remove user generated workflows. \n\nYou can configure application generated workflows.",
-                            Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        userError = true;
                     }
                 }
             }
+
+            if (userError)
+                MessageBox.Show("You can only remove user generated workflows. \n\nYou can configure application generated workflows.",
+                    Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 }
