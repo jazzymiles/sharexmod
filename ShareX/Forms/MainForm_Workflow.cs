@@ -88,6 +88,8 @@ namespace ShareX
                     "\r\n\r\nPlease select a different hotkey or quit the conflicting application and reopen ShareX.",
                     "Hotkey register failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
+            log.Info("Initialized hotkeys.");
         }
 
         public void DoWork(string tag, bool autoHideForm = true)
@@ -103,6 +105,7 @@ namespace ShareX
             }
 
             AfterCaptureActivity jobs_wf = new AfterCaptureActivity();
+            jobs_wf.Workflow = wf;
 
             foreach (EActivity act in wf.Activities)
             {
@@ -180,93 +183,93 @@ namespace ShareX
                         break;
 
                     case EActivity.UploadToImageShack:
-                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.ImageShack);
+                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.ImageShack);
                         break;
                     case EActivity.UploadToTinyPic:
-                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.TinyPic);
+                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.TinyPic);
                         break;
                     case EActivity.UploadToImgur:
-                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.Imgur);
+                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.Imgur);
                         break;
                     case EActivity.UploadToFlickr:
-                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.Flickr);
+                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.Flickr);
                         break;
                     case EActivity.UploadToPhotobucket:
-                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.Photobucket);
+                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.Photobucket);
                         break;
                     case EActivity.UploadToTwitPic:
-                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.Twitpic);
+                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.Twitpic);
                         break;
                     case EActivity.UploadToTwitSnaps:
-                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.Twitsnaps);
+                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.Twitsnaps);
                         break;
                     case EActivity.UploadToYfrog:
-                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.yFrog);
+                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.yFrog);
                         break;
                     case EActivity.UploadToImmio:
-                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.Immio);
+                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.Immio);
                         break;
 
                     case EActivity.UploadToPastebin:
-                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.Pastebin);
+                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.Pastebin);
                         break;
                     case EActivity.UploadToPastebinCa:
-                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.PastebinCA);
+                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.PastebinCA);
                         break;
                     case EActivity.UploadToPaste2:
-                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.Paste2);
+                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.Paste2);
                         break;
                     case EActivity.UploadToSlexy:
-                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.Slexy);
+                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.Slexy);
                         break;
 
                     case EActivity.UploadToDropbox:
-                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
-                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
-                        jobs_wf.Uploaders.FileUploaders.Add(UploadersLib.FileDestination.Dropbox);
+                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
+                        jobs_wf.DestConfig.FileUploaders.Add(UploadersLib.FileDestination.Dropbox);
                         break;
                     case EActivity.UploadToRapidShare:
-                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
-                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
-                        jobs_wf.Uploaders.FileUploaders.Add(UploadersLib.FileDestination.RapidShare);
+                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
+                        jobs_wf.DestConfig.FileUploaders.Add(UploadersLib.FileDestination.RapidShare);
                         break;
                     case EActivity.UploadToSendSpace:
-                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
-                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
-                        jobs_wf.Uploaders.FileUploaders.Add(UploadersLib.FileDestination.SendSpace);
+                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
+                        jobs_wf.DestConfig.FileUploaders.Add(UploadersLib.FileDestination.SendSpace);
                         break;
                     case EActivity.UploadToMinus:
-                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
-                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
-                        jobs_wf.Uploaders.FileUploaders.Add(UploadersLib.FileDestination.Minus);
+                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
+                        jobs_wf.DestConfig.FileUploaders.Add(UploadersLib.FileDestination.Minus);
                         break;
                     case EActivity.UploadToFTP:
-                        jobs_wf.Uploaders.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
-                        jobs_wf.Uploaders.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
-                        jobs_wf.Uploaders.FileUploaders.Add(UploadersLib.FileDestination.FTP);
+                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
+                        jobs_wf.DestConfig.FileUploaders.Add(UploadersLib.FileDestination.FTP);
                         break;
 
                     case EActivity.ShortenLinkUsingGoogle:
-                        jobs_wf.Uploaders.LinkUploaders.Add(UploadersLib.UrlShortenerType.Google);
+                        jobs_wf.DestConfig.LinkUploaders.Add(UploadersLib.UrlShortenerType.Google);
                         break;
                     case EActivity.ShortenLinkUsingBitly:
-                        jobs_wf.Uploaders.LinkUploaders.Add(UploadersLib.UrlShortenerType.BITLY);
+                        jobs_wf.DestConfig.LinkUploaders.Add(UploadersLib.UrlShortenerType.BITLY);
                         break;
                     case EActivity.ShortenLinkUsingJmp:
-                        jobs_wf.Uploaders.LinkUploaders.Add(UploadersLib.UrlShortenerType.Jmp);
+                        jobs_wf.DestConfig.LinkUploaders.Add(UploadersLib.UrlShortenerType.Jmp);
                         break;
                     case EActivity.ShortenLinkUsingIsgd:
-                        jobs_wf.Uploaders.LinkUploaders.Add(UploadersLib.UrlShortenerType.ISGD);
+                        jobs_wf.DestConfig.LinkUploaders.Add(UploadersLib.UrlShortenerType.ISGD);
                         break;
                     case EActivity.ShortenLinkUsingTinyUrl:
-                        jobs_wf.Uploaders.LinkUploaders.Add(UploadersLib.UrlShortenerType.TINYURL);
+                        jobs_wf.DestConfig.LinkUploaders.Add(UploadersLib.UrlShortenerType.TINYURL);
                         break;
                     case EActivity.ShortenLinkUsingTurl:
-                        jobs_wf.Uploaders.LinkUploaders.Add(UploadersLib.UrlShortenerType.TURL);
+                        jobs_wf.DestConfig.LinkUploaders.Add(UploadersLib.UrlShortenerType.TURL);
                         break;
 
                     default:
-                        ShowLog();
+                        FormsHelper.ShowLog();
                         log.ErrorFormat("{0} is not  yet implemented.", act.GetDescription());
                         break;
                 }
@@ -281,7 +284,7 @@ namespace ShareX
             {
                 if (jobs.Subtasks == Subtask.None)
                     jobs.Subtasks |= Program.Settings.AfterCaptureTasks;
-                if (jobs.Uploaders.ImageUploaders.Count > 0)
+                if (jobs.DestConfig.ImageUploaders.Count > 0)
                     jobs.Subtasks |= Subtask.UploadImageToHost;
                 log.Debug("After Capture initiated.");
                 AfterCapture(imageData, jobs);

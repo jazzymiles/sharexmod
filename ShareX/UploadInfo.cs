@@ -39,8 +39,7 @@ namespace ShareX
         public string Status { get; set; }
         public TaskJob Job { get; set; }
         public Subtask Jobs { get; set; }
-        public TaskTextJob TextJobs { get; set; }
-        public DestConfig Uploaders { get; set; }
+        public DestConfig DestConfig { get; set; }
         public ProgressManager Progress { get; set; }
 
         private string filePath;
@@ -69,13 +68,13 @@ namespace ShareX
                 switch (UploadDestination)
                 {
                     case EDataType.File:
-                        return Uploaders.ToStringFileUploaders();
+                        return DestConfig.ToStringFileUploaders();
                     case EDataType.Image:
-                        return Uploaders.ToStringImageUploaders();
+                        return DestConfig.ToStringImageUploaders();
                     case EDataType.Text:
-                        return Uploaders.ToStringTextUploaders();
+                        return DestConfig.ToStringTextUploaders();
                     case EDataType.URL:
-                        return Uploaders.ToStringLinkUploaders();
+                        return DestConfig.ToStringLinkUploaders();
                 }
                 return string.Empty;
             }

@@ -256,6 +256,9 @@ namespace ShareX
 
                 Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+#if DEBUG
+                FormsHelper.ShowLog();
+#endif
                 Application.Run(FormsHelper.Main);
 
                 UploadersConfig.Save(UploadersConfigFilePath);

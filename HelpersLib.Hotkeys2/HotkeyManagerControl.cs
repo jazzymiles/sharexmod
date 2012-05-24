@@ -30,6 +30,7 @@ namespace HelpersLib.Hotkeys2
 {
     public partial class HotkeyManagerControl : UserControl
     {
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private HotkeyManager manager;
 
         public HotkeyManagerControl()
@@ -52,6 +53,7 @@ namespace HelpersLib.Hotkeys2
             if (hotkeyManager != null)
             {
                 manager = hotkeyManager;
+                log.DebugFormat("{0} hotkeys are ready.", manager.Workflows.Count);
 
                 flpHotkeys.Controls.Clear();
                 foreach (Control ctl in this.Controls)
@@ -68,6 +70,7 @@ namespace HelpersLib.Hotkeys2
             }
             else
             {
+                log.Debug("Hotkeys are not ready yet.");
                 foreach (Control ctl in this.Controls)
                 {
                     ctl.Enabled = false;

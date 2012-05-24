@@ -892,7 +892,6 @@ namespace ShareX.Forms
         {
             InitializeComponent();
             ConfigurePanels();
-            LoadSettings();
         }
 
         private void OptionsWindow_FormClosed(object sender, FormClosedEventArgs e)
@@ -909,6 +908,7 @@ namespace ShareX.Forms
         {
             this.BringToFront();
             this.Activate();
+            LoadSettings();
         }
 
         private void OptionsWindow_Resize(object sender, EventArgs e)
