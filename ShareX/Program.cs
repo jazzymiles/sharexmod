@@ -258,6 +258,7 @@ namespace ShareX
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
                 Application.Run(FormsHelper.Main);
 
+                UploadersConfig.Save(UploadersConfigFilePath);
                 Settings.Save(SettingsFilePath);
                 Settings.Backup(SettingsFilePath);
 
