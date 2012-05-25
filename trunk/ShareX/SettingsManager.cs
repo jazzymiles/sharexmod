@@ -21,7 +21,7 @@ namespace ShareX
 
         public static Settings ConfigCore { get; internal set; }
         internal static readonly string ConfigCoreFileName = ApplicationName + "Settings.json";
-        public static string ConfigCoreFilePath
+        private static string ConfigCoreFilePath
         {
             get
             {
@@ -30,8 +30,8 @@ namespace ShareX
         }
 
         public static UserConfig ConfigUser { get; internal set; }
-        private static readonly string ConfigUserFileName = ApplicationName + "UserConfig.json";
-        public static string ConfigUserFilePath
+        internal static readonly string ConfigUserFileName = ApplicationName + "UserConfig.json";
+        private static string ConfigUserFilePath
         {
             get
             {
@@ -41,7 +41,7 @@ namespace ShareX
 
         public static UploadersConfig ConfigUploaders { get; internal set; }
         internal static readonly string ConfigUploadersFileName = "UploadersConfig.json";
-        public static string ConfigUploadersFilePath
+        private static string ConfigUploadersFilePath
         {
             get
             {
@@ -56,8 +56,8 @@ namespace ShareX
         }
 
         public static WorkflowsConfig ConfigWorkflows { get; internal set; }
-        private static readonly string ConfigWorkflowsFileName = ApplicationName + "WorkflowsConfig.json";
-        public static string ConfigWorkflowsFilePath
+        internal static readonly string ConfigWorkflowsFileName = ApplicationName + "WorkflowsConfig.json";
+        private static string ConfigWorkflowsFilePath
         {
             get
             {
@@ -67,9 +67,8 @@ namespace ShareX
 
         public static void SaveAsync()
         {
-            ConfigUploaders.SaveAsync(ConfigUploadersFilePath);
-            ConfigCore.SaveAsync(ConfigCoreFilePath);
-            ConfigCore.BackupAsync(ConfigCoreFilePath);
+            SaveCoreConfigAsync();
+            SaveUploadersConfigAsync();
         }
 
         public static void Save()
@@ -82,12 +81,15 @@ namespace ShareX
                 ConfigCore.Workflows1.Clear();
                 ConfigWorkflows.Save(ConfigWorkflowsFilePath);
             }
+
             ConfigUploaders.Save(ConfigUploadersFilePath);
             ConfigCore.Save(ConfigCoreFilePath);
             ConfigCore.Backup(ConfigCoreFilePath);
+
+            ConfigUser.Save(ConfigUserFilePath);
         }
 
-        public static void Load()
+        public static void LoadCoreConfig()
         {
             log.Info("Loading workflows.");
             ConfigWorkflows = WorkflowsConfig.Load(ConfigWorkflowsFilePath);
@@ -101,9 +103,26 @@ namespace ShareX
             UploaderSettingsResetEvent.Set();
         }
 
+        public static void LoadUserConfig()
+        {
+            log.Info("Loading user config");
+            ConfigUser = UserConfig.Load(ConfigUserFilePath);
+        }
+
+        public static void SaveCoreConfigAsync()
+        {
+            ConfigCore.SaveAsync(ConfigCoreFilePath);
+            ConfigCore.BackupAsync(ConfigCoreFilePath);
+        }
+
         public static void LoadUploadersConfig()
         {
             SettingsManager.ConfigUploaders = UploadersConfig.Load(ConfigUploadersFilePath);
+        }
+
+        public static void SaveUploadersConfigAsync()
+        {
+            ConfigUploaders.SaveAsync(SettingsManager.ConfigUploadersFilePath);
         }
     }
 }

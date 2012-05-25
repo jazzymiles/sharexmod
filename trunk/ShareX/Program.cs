@@ -216,7 +216,8 @@ namespace ShareX
 
                 SettingsManager.SettingsResetEvent = new ManualResetEvent(false);
                 SettingsManager.UploaderSettingsResetEvent = new ManualResetEvent(false);
-                ThreadPool.QueueUserWorkItem(state => SettingsManager.Load());
+                ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadCoreConfig());
+                ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadUserConfig());
 
                 log.InfoFormat("new FormsHelper.mainForm() started");
                 FormsHelper.Main = new MainForm();

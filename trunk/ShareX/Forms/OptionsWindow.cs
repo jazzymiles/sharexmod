@@ -900,8 +900,7 @@ namespace ShareX.Forms
 
             UploadManager.UpdateProxySettings();
 
-            SettingsManager.ConfigCore.SaveAsync(SettingsManager.ConfigCoreFilePath);
-            SettingsManager.ConfigCore.BackupAsync(SettingsManager.ConfigCoreFilePath);
+            SettingsManager.SaveCoreConfigAsync();
         }
 
         private void OptionsWindow_Shown(object sender, EventArgs e)

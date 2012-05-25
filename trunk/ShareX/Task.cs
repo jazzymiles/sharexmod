@@ -119,7 +119,7 @@ namespace ShareX
             {
                 bool html = destination == EDataType.File;
                 task.Info.FileName = new NameParser().Convert(SettingsManager.ConfigCore.NameFormatPatternOther) + (html ? ".html" : ".log");
-                task.tempText = IndexersLib.QuickIndexer.Index(text, html, SettingsManager.ConfigCore.ConfigIndexer);
+                task.tempText = IndexersLib.QuickIndexer.Index(text, html, SettingsManager.ConfigUser.ConfigIndexer);
             }
             else
             {
@@ -315,12 +315,12 @@ namespace ShareX
 
         private void PrintImage()
         {
-            new PrintForm(imageData.ImageExported, SettingsManager.ConfigCore.PrintSettings).Show();
+            new PrintForm(imageData.ImageExported, SettingsManager.ConfigUser.PrintSettings).Show();
         }
 
         private void PrintText()
         {
-            new PrintHelper(tempText) { Settings = SettingsManager.ConfigCore.PrintSettings }.Print();
+            new PrintHelper(tempText) { Settings = SettingsManager.ConfigUser.PrintSettings }.Print();
         }
 
         private void DoBeforeImagePreparedJobs()
@@ -343,7 +343,7 @@ namespace ShareX
 
             if (Info.Jobs.HasFlag(Subtask.AddWatermark))
             {
-                imageData.Image = new HelpersLibWatermark.WatermarkEffects(SettingsManager.ConfigCore.ConfigWatermark).ApplyWatermark(imageData.Image);
+                imageData.Image = new HelpersLibWatermark.WatermarkEffects(SettingsManager.ConfigUser.ConfigWatermark).ApplyWatermark(imageData.Image);
             }
 
             if (Info.Jobs.HasFlag(Subtask.ShowImageEffectsStudio))

@@ -112,9 +112,6 @@ namespace ShareX
         public Subtask AfterCaptureTasks = Subtask.CopyImageToClipboard | Subtask.UploadImageToHost;
         public string SaveImageSubFolderPattern = "%y-%mo";
         public SurfaceOptions SurfaceOptions = new SurfaceOptions() { QuickCrop = true, IncludeControls = true };
-        public PrintSettings PrintSettings = new PrintSettings();
-        public IndexersLib.IndexerConfig ConfigIndexer = new IndexersLib.IndexerConfig();
-        public HelpersLibWatermark.WatermarkConfig ConfigWatermark = new HelpersLibWatermark.WatermarkConfig();
 
         // History
 

@@ -99,6 +99,7 @@ namespace ShareX
             this.tsddbSettings = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsmiDebugOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiWatermark = new System.Windows.Forms.ToolStripMenuItem();
             this.tsbAbout = new System.Windows.Forms.ToolStripButton();
             this.tsbDonate = new System.Windows.Forms.ToolStripButton();
             this.tscMain = new System.Windows.Forms.ToolStripContainer();
@@ -135,7 +136,7 @@ namespace ShareX
             this.tsmiTrayDonate = new System.Windows.Forms.ToolStripMenuItem();
             this.tssTray2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiTrayExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiWatermark = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsUploads.SuspendLayout();
             this.tsMain.SuspendLayout();
             this.tscMain.ContentPanel.SuspendLayout();
@@ -516,6 +517,7 @@ namespace ShareX
             this.tsddbSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiDebugOpen,
             this.tsmiSettings,
+            this.toolStripSeparator1,
             this.tsmiWatermark});
             this.tsddbSettings.Image = global::ShareX.Properties.Resources.application_form;
             this.tsddbSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -539,6 +541,13 @@ namespace ShareX
             this.tsmiSettings.Size = new System.Drawing.Size(176, 22);
             this.tsmiSettings.Text = "Configuration...";
             this.tsmiSettings.Click += new System.EventHandler(this.tsmiSettings_Click);
+            // 
+            // tsmiWatermark
+            // 
+            this.tsmiWatermark.Name = "tsmiWatermark";
+            this.tsmiWatermark.Size = new System.Drawing.Size(176, 22);
+            this.tsmiWatermark.Text = "Watermark...";
+            this.tsmiWatermark.Click += new System.EventHandler(this.tsmiWatermark_Click);
             // 
             // tsbAbout
             // 
@@ -849,12 +858,10 @@ namespace ShareX
             this.tsmiTrayExit.Text = "Exit";
             this.tsmiTrayExit.Click += new System.EventHandler(this.tsmiTrayExit_Click);
             // 
-            // tsmiWatermark
+            // toolStripSeparator1
             // 
-            this.tsmiWatermark.Name = "tsmiWatermark";
-            this.tsmiWatermark.Size = new System.Drawing.Size(176, 22);
-            this.tsmiWatermark.Text = "Watermark...";
-            this.tsmiWatermark.Click += new System.EventHandler(this.tsmiWatermark_Click);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(173, 6);
             // 
             // MainForm
             // 
@@ -970,5 +977,6 @@ namespace ShareX
         private System.Windows.Forms.ToolStripMenuItem showInWindowsExplorerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem shareToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tsmiWatermark;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
