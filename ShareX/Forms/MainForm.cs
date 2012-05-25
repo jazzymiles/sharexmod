@@ -61,15 +61,16 @@ namespace ShareX
             LoadSettings();
             ReloadConfig();
 
-            if (!Program.Settings.DropboxSync)
+            if (!SettingsManager.ConfigCore.DropboxSync)
             {
                 InitHotkeys();
-            } else
+            }
+            else
             {
                 new DropboxSyncHelper().InitHotkeys();
             }
 
-            if (Program.Settings.AutoCheckUpdate)
+            if (SettingsManager.ConfigCore.AutoCheckUpdate)
             {
                 new Thread(CheckUpdate).Start();
             }
@@ -89,8 +90,8 @@ namespace ShareX
 
         internal void AfterUploadersConfigClosed()
         {
-            if (Program.UploadersConfig == null)
-                Program.UploaderSettingsResetEvent.WaitOne();
+            if (SettingsManager.ConfigUploaders == null)
+                SettingsManager.UploaderSettingsResetEvent.WaitOne();
 
             EnableDisableToolStripMenuItems(tsmiImageUploaders);
             EnableDisableToolStripMenuItems(tsmiTextUploaders);
@@ -100,11 +101,12 @@ namespace ShareX
         public void ReloadConfig()
         {
             FolderWatcher folderWatcher = new FolderWatcher(this);
-            folderWatcher.FolderPath = Program.Settings.FolderMonitorPath;
-            if (Program.Settings.FolderMonitoring)
+            folderWatcher.FolderPath = SettingsManager.ConfigCore.FolderMonitorPath;
+            if (SettingsManager.ConfigCore.FolderMonitoring)
             {
                 folderWatcher.StartWatching();
-            } else
+            }
+            else
             {
                 folderWatcher.StopWatching();
             }
@@ -126,63 +128,63 @@ namespace ShareX
                 if (tsi.GetType() == typeof(ToolStripMenuItem))
                 {
                     if (tsi.Tag is ImageDestination)
-                        ((ToolStripMenuItem)tsi).Enabled = Program.UploadersConfig.IsActive(((ImageDestination)tsi.Tag));
+                        ((ToolStripMenuItem)tsi).Enabled = SettingsManager.ConfigUploaders.IsActive(((ImageDestination)tsi.Tag));
                     else if (tsi.Tag is TextDestination)
-                        ((ToolStripMenuItem)tsi).Enabled = Program.UploadersConfig.IsActive(((TextDestination)tsi.Tag));
+                        ((ToolStripMenuItem)tsi).Enabled = SettingsManager.ConfigUploaders.IsActive(((TextDestination)tsi.Tag));
                     else if (tsi.Tag is FileDestination)
-                        ((ToolStripMenuItem)tsi).Enabled = Program.UploadersConfig.IsActive(((FileDestination)tsi.Tag));
+                        ((ToolStripMenuItem)tsi).Enabled = SettingsManager.ConfigUploaders.IsActive(((FileDestination)tsi.Tag));
                 }
             }
         }
 
         public void LoadSettings()
         {
-            niTray.Visible = Program.Settings.ShowTray;
+            niTray.Visible = SettingsManager.ConfigCore.ShowTray;
 
-            for (int x = 0; x < Program.Settings.ColumnWidths.Length; x++)
+            for (int x = 0; x < SettingsManager.ConfigCore.ColumnWidths.Length; x++)
             {
-                lvUploads.Columns[x].Width = Program.Settings.ColumnWidths[x];
+                lvUploads.Columns[x].Width = SettingsManager.ConfigCore.ColumnWidths[x];
             }
 
             ReloadOutputsMenu();
 
             #region Upload Destinations
 
-            if (Helpers.GetEnumLength<ImageDestination>() <= Program.Settings.SelectedImageUploaderDestination)
+            if (Helpers.GetEnumLength<ImageDestination>() <= SettingsManager.ConfigCore.SelectedImageUploaderDestination)
             {
-                Program.Settings.SelectedImageUploaderDestination = 0;
+                SettingsManager.ConfigCore.SelectedImageUploaderDestination = 0;
             }
 
             ClearToolStripMenuItemChecks(tsmiImageUploaders);
-            ((ToolStripMenuItem)tsmiImageUploaders.DropDownItems[Program.Settings.SelectedImageUploaderDestination]).Checked = true;
-            UploadManager.ImageUploader = (ImageDestination)Program.Settings.SelectedImageUploaderDestination;
+            ((ToolStripMenuItem)tsmiImageUploaders.DropDownItems[SettingsManager.ConfigCore.SelectedImageUploaderDestination]).Checked = true;
+            UploadManager.ImageUploader = (ImageDestination)SettingsManager.ConfigCore.SelectedImageUploaderDestination;
 
-            if (Helpers.GetEnumLength<FileDestination>() <= Program.Settings.SelectedFileUploaderDestination)
+            if (Helpers.GetEnumLength<FileDestination>() <= SettingsManager.ConfigCore.SelectedFileUploaderDestination)
             {
-                Program.Settings.SelectedFileUploaderDestination = 0;
+                SettingsManager.ConfigCore.SelectedFileUploaderDestination = 0;
             }
 
             ClearToolStripMenuItemChecks(tsmiFileUploaders);
-            ((ToolStripMenuItem)tsmiFileUploaders.DropDownItems[Program.Settings.SelectedFileUploaderDestination]).Checked = true;
-            UploadManager.FileUploader = (FileDestination)Program.Settings.SelectedFileUploaderDestination;
+            ((ToolStripMenuItem)tsmiFileUploaders.DropDownItems[SettingsManager.ConfigCore.SelectedFileUploaderDestination]).Checked = true;
+            UploadManager.FileUploader = (FileDestination)SettingsManager.ConfigCore.SelectedFileUploaderDestination;
 
-            if (Helpers.GetEnumLength<TextDestination>() <= Program.Settings.SelectedTextUploaderDestination)
+            if (Helpers.GetEnumLength<TextDestination>() <= SettingsManager.ConfigCore.SelectedTextUploaderDestination)
             {
-                Program.Settings.SelectedTextUploaderDestination = 0;
+                SettingsManager.ConfigCore.SelectedTextUploaderDestination = 0;
             }
 
             ClearToolStripMenuItemChecks(tsmiTextUploaders);
-            ((ToolStripMenuItem)tsmiTextUploaders.DropDownItems[Program.Settings.SelectedTextUploaderDestination]).Checked = true;
-            UploadManager.TextUploader = (TextDestination)Program.Settings.SelectedTextUploaderDestination;
+            ((ToolStripMenuItem)tsmiTextUploaders.DropDownItems[SettingsManager.ConfigCore.SelectedTextUploaderDestination]).Checked = true;
+            UploadManager.TextUploader = (TextDestination)SettingsManager.ConfigCore.SelectedTextUploaderDestination;
 
-            if (Helpers.GetEnumLength<UrlShortenerType>() <= Program.Settings.SelectedURLShortenerDestination)
+            if (Helpers.GetEnumLength<UrlShortenerType>() <= SettingsManager.ConfigCore.SelectedURLShortenerDestination)
             {
-                Program.Settings.SelectedURLShortenerDestination = 0;
+                SettingsManager.ConfigCore.SelectedURLShortenerDestination = 0;
             }
 
             ClearToolStripMenuItemChecks(tsmiURLShorteners);
-            ((ToolStripMenuItem)tsmiURLShorteners.DropDownItems[Program.Settings.SelectedURLShortenerDestination]).Checked = true;
-            UploadManager.URLShortener = (UrlShortenerType)Program.Settings.SelectedURLShortenerDestination;
+            ((ToolStripMenuItem)tsmiURLShorteners.DropDownItems[SettingsManager.ConfigCore.SelectedURLShortenerDestination]).Checked = true;
+            UploadManager.URLShortener = (UrlShortenerType)SettingsManager.ConfigCore.SelectedURLShortenerDestination;
 
             UpdateUploaderMenuNames();
 
@@ -209,7 +211,7 @@ namespace ShareX
                         continue;
                 }
                 ToolStripMenuItem tsmi = new ToolStripMenuItem(job.Description);
-                tsmi.Checked = Program.Settings.AfterCaptureTasks.HasFlag(job.Enum);
+                tsmi.Checked = SettingsManager.ConfigCore.AfterCaptureTasks.HasFlag(job.Enum);
                 tsmi.Tag = job.Enum;
                 tsmi.CheckOnClick = true;
                 tsmi.CheckedChanged += new EventHandler(tsmiAfterCaptureTask_CheckedChanged);
@@ -221,9 +223,9 @@ namespace ShareX
         {
             ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
             if (tsmi.Checked)
-                Program.Settings.AfterCaptureTasks |= (Subtask)tsmi.Tag;
+                SettingsManager.ConfigCore.AfterCaptureTasks |= (Subtask)tsmi.Tag;
             else
-                Program.Settings.AfterCaptureTasks &= ~(Subtask)tsmi.Tag;
+                SettingsManager.ConfigCore.AfterCaptureTasks &= ~(Subtask)tsmi.Tag;
         }
 
         private void InitControls()
@@ -304,7 +306,8 @@ namespace ShareX
                         if (itemsCount > 1)
                         {
                             copyURLToolStripMenuItem.Text = string.Format("Copy URLs ({0})", itemsCount);
-                        } else
+                        }
+                        else
                         {
                             copyURLToolStripMenuItem.Text = "Copy URL";
                         }
@@ -342,7 +345,8 @@ namespace ShareX
 
                 int index = lvUploads.SelectedIndices[0];
                 stopUploadToolStripMenuItem.Visible = UploadManager.Tasks[index].Status != TaskStatus.Completed;
-            } else
+            }
+            else
             {
                 uploadFileToolStripMenuItem.Visible = true;
                 showInWindowsExplorerToolStripMenuItem.Visible = false;
@@ -398,7 +402,8 @@ namespace ShareX
                     if (args[i].Equals("-clipboardupload", StringComparison.InvariantCultureIgnoreCase))
                     {
                         UploadManager.ClipboardUpload();
-                    } else if (args[i][0] != '-')
+                    }
+                    else if (args[i][0] != '-')
                     {
                         UploadManager.UploadFile(args[i]);
                     }
@@ -545,7 +550,7 @@ namespace ShareX
         {
             if (value && !IsHandleCreated)
             {
-                if (Program.IsSilentRun && Program.Settings.ShowTray)
+                if (Program.IsSilentRun && SettingsManager.ConfigCore.ShowTray)
                 {
                     CreateHandle();
                     value = false;
@@ -569,12 +574,12 @@ namespace ShareX
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.UserClosing && Program.Settings.ShowTray && !trayClose)
+            if (e.CloseReason == CloseReason.UserClosing && SettingsManager.ConfigCore.ShowTray && !trayClose)
             {
                 e.Cancel = true;
                 Hide();
 
-                if (Program.Settings.DropboxSync)
+                if (SettingsManager.ConfigCore.DropboxSync)
                 {
                     new DropboxSyncHelper().Save();
                 }
@@ -588,7 +593,8 @@ namespace ShareX
                 e.Data.GetDataPresent(DataFormats.Text, false))
             {
                 e.Effect = DragDropEffects.Copy;
-            } else
+            }
+            else
             {
                 e.Effect = DragDropEffects.None;
             }
@@ -614,9 +620,10 @@ namespace ShareX
             if (e.Button == MouseButtons.Left)
             {
                 UploadManager.UploadImage(Resources.ShareXLogo);
-            } else if (e.Button == MouseButtons.Right)
+            }
+            else if (e.Button == MouseButtons.Right)
             {
-                new RegionCapturePreview(Program.Settings.SurfaceOptions).Show();
+                new RegionCapturePreview(SettingsManager.ConfigCore.SurfaceOptions).Show();
             }
         }
 
@@ -627,7 +634,7 @@ namespace ShareX
                 ToolStripMenuItem tsmi = (ToolStripMenuItem)tsmiImageUploaders.DropDownItems[i];
                 if (tsmi.Checked = tsmi == e.ClickedItem)
                 {
-                    Program.Settings.SelectedImageUploaderDestination = i;
+                    SettingsManager.ConfigCore.SelectedImageUploaderDestination = i;
                     UploadManager.ImageUploader = (ImageDestination)i;
                 }
             }
@@ -647,7 +654,7 @@ namespace ShareX
                 ToolStripMenuItem tsmi = (ToolStripMenuItem)tsmiFileUploaders.DropDownItems[i];
                 if (tsmi.Checked = tsmi == e.ClickedItem)
                 {
-                    Program.Settings.SelectedFileUploaderDestination = i;
+                    SettingsManager.ConfigCore.SelectedFileUploaderDestination = i;
                     UploadManager.FileUploader = (FileDestination)i;
                 }
             }
@@ -662,7 +669,7 @@ namespace ShareX
                 ToolStripMenuItem tsmi = (ToolStripMenuItem)tsmiTextUploaders.DropDownItems[i];
                 if (tsmi.Checked = tsmi == e.ClickedItem)
                 {
-                    Program.Settings.SelectedTextUploaderDestination = i;
+                    SettingsManager.ConfigCore.SelectedTextUploaderDestination = i;
                     UploadManager.TextUploader = (TextDestination)i;
                 }
             }
@@ -677,7 +684,7 @@ namespace ShareX
                 ToolStripMenuItem tsmi = (ToolStripMenuItem)tsmiURLShorteners.DropDownItems[i];
                 if (tsmi.Checked = tsmi == e.ClickedItem)
                 {
-                    Program.Settings.SelectedURLShortenerDestination = i;
+                    SettingsManager.ConfigCore.SelectedURLShortenerDestination = i;
                     UploadManager.URLShortener = (UrlShortenerType)i;
                 }
             }
@@ -702,7 +709,7 @@ namespace ShareX
 
         private void tsbHistory_Click(object sender, EventArgs e)
         {
-            new HistoryForm(Program.HistoryFilePath, Program.Settings.HistoryMaxItemCount, "ShareX - History").ShowDialog();
+            new HistoryForm(Program.HistoryFilePath, SettingsManager.ConfigCore.HistoryMaxItemCount, "ShareX - History").ShowDialog();
         }
 
         private void tsbAbout_Click(object sender, EventArgs e)
@@ -854,11 +861,9 @@ namespace ShareX
 
         private void lvUploads_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
         {
-            Program.Settings.ColumnWidths[e.ColumnIndex] = lvUploads.Columns[e.ColumnIndex].Width;
+            SettingsManager.ConfigCore.ColumnWidths[e.ColumnIndex] = lvUploads.Columns[e.ColumnIndex].Width;
         }
 
         #endregion Form events
-
-
     }
 }

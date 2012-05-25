@@ -228,7 +228,7 @@ namespace ShareX
             {
                 string text = Clipboard.GetText();
 
-                if (Program.Settings.ClipboardUploadAutoDetectURL && Helpers.IsValidURL(text))
+                if (SettingsManager.ConfigCore.ClipboardUploadAutoDetectURL && Helpers.IsValidURL(text))
                 {
                     ShortenURL(text.Trim(), jobs);
                 }
@@ -241,7 +241,7 @@ namespace ShareX
 
         public static void ClipboardUploadWithContentViewer()
         {
-            if (Program.Settings.ShowClipboardContentViewer)
+            if (SettingsManager.ConfigCore.ShowClipboardContentViewer)
             {
                 using (ClipboardContentViewer ccv = new ClipboardContentViewer())
                 {
@@ -250,7 +250,7 @@ namespace ShareX
                         UploadManager.ClipboardUpload();
                     }
 
-                    Program.Settings.ShowClipboardContentViewer = !ccv.DontShowThisWindow;
+                    SettingsManager.ConfigCore.ShowClipboardContentViewer = !ccv.DontShowThisWindow;
                 }
             }
             else
@@ -322,13 +322,13 @@ namespace ShareX
             {
                 int len;
 
-                if (Program.Settings.UploadLimit == 0)
+                if (SettingsManager.ConfigCore.UploadLimit == 0)
                 {
                     len = inQueueTasks.Length;
                 }
                 else
                 {
-                    len = (Program.Settings.UploadLimit - workingTasksCount).Between(0, inQueueTasks.Length);
+                    len = (SettingsManager.ConfigCore.UploadLimit - workingTasksCount).Between(0, inQueueTasks.Length);
                 }
 
                 for (int i = 0; i < len; i++)
@@ -349,11 +349,11 @@ namespace ShareX
         public static void UpdateProxySettings()
         {
             ProxySettings proxy = new ProxySettings();
-            if (!string.IsNullOrEmpty(Program.Settings.ProxySettings.Host))
+            if (!string.IsNullOrEmpty(SettingsManager.ConfigCore.ProxySettings.Host))
             {
                 proxy.ProxyConfig = EProxyConfigType.ManualProxy;
             }
-            proxy.ProxyActive = Program.Settings.ProxySettings;
+            proxy.ProxyActive = SettingsManager.ConfigCore.ProxySettings;
             Uploader.ProxySettings = proxy;
         }
 
@@ -497,23 +497,23 @@ namespace ShareX
 
                         if (!string.IsNullOrEmpty(info.Result.URL))
                         {
-                            if (Program.Settings.ClipboardAutoCopy)
+                            if (SettingsManager.ConfigCore.ClipboardAutoCopy)
                             {
                                 Helpers.CopyTextSafely(url);
                             }
 
-                            if (Program.Settings.SaveHistory)
+                            if (SettingsManager.ConfigCore.SaveHistory)
                             {
                                 HistoryManager.AddHistoryItemAsync(Program.HistoryFilePath, info.GetHistoryItem());
                             }
 
-                            if (FormsHelper.Main.niTray.Visible && Program.Settings.ShowBalloonAfterUpload)
+                            if (FormsHelper.Main.niTray.Visible && SettingsManager.ConfigCore.ShowBalloonAfterUpload)
                             {
                                 FormsHelper.Main.niTray.Tag = url;
                                 FormsHelper.Main.niTray.ShowBalloonTip(5000, "ShareX - Upload completed", url, ToolTipIcon.Info);
                             }
 
-                            if (Program.Settings.ShowClipboardOptionsWizard)
+                            if (SettingsManager.ConfigCore.ShowClipboardOptionsWizard)
                             {
                                 WindowAfterUpload dlg = new WindowAfterUpload(info) { Icon = Resources.ShareX };
                                 NativeMethods.ShowWindow(dlg.Handle, (int)WindowShowStyle.ShowNoActivate);
@@ -521,7 +521,7 @@ namespace ShareX
                         }
                     }
 
-                    if (Program.Settings.PlaySoundAfterUpload)
+                    if (SettingsManager.ConfigCore.PlaySoundAfterUpload)
                     {
                         SystemSounds.Exclamation.Play();
                     }

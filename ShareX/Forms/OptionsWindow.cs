@@ -27,17 +27,17 @@ namespace ShareX.Forms
 
         private void cbPlaySoundAfterCapture_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.PlaySoundAfterCapture = cbPlaySoundAfterCapture.Checked;
+            SettingsManager.ConfigCore.PlaySoundAfterCapture = cbPlaySoundAfterCapture.Checked;
         }
 
         private void chkPlaySoundAfterUpload_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.PlaySoundAfterUpload = chkPlaySoundAfterUpload.Checked;
+            SettingsManager.ConfigCore.PlaySoundAfterUpload = chkPlaySoundAfterUpload.Checked;
         }
 
         private void chkShowBalloon_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.ShowBalloonAfterUpload = chkShowBalloonAfterUpload.Checked;
+            SettingsManager.ConfigCore.ShowBalloonAfterUpload = chkShowBalloonAfterUpload.Checked;
         }
 
         #endregion General / Notifications
@@ -103,74 +103,74 @@ namespace ShareX.Forms
 
         public void LoadSettings()
         {
-            string path = string.IsNullOrEmpty(Program.Settings.FilePath) ? "via Dropbox Sync" : Program.Settings.FilePath;
+            string path = string.IsNullOrEmpty(SettingsManager.ConfigCore.FilePath) ? "via Dropbox Sync" : SettingsManager.ConfigCore.FilePath;
             this.Text = Application.ProductName + " Settings - " + path;
 
             // Hotkeys
             hmHotkeys.PrepareHotkeys(FormsHelper.Main.HotkeyManager);
 
             // General
-            cbShowTray.Checked = Program.Settings.ShowTray;
+            cbShowTray.Checked = SettingsManager.ConfigCore.ShowTray;
             cbStartWithWindows.Checked = ShortcutHelper.CheckShortcut(Environment.SpecialFolder.Startup);
             cbShellContextMenu.Checked = ShortcutHelper.CheckShortcut(Environment.SpecialFolder.SendTo);
-            cbCheckUpdates.Checked = Program.Settings.AutoCheckUpdate;
-            cbClipboardAutoCopy.Checked = Program.Settings.ClipboardAutoCopy;
-            cbURLShortenAfterUpload.Checked = Program.Settings.URLShortenAfterUpload;
-            cbPlaySoundAfterCapture.Checked = Program.Settings.PlaySoundAfterCapture;
-            chkPlaySoundAfterUpload.Checked = Program.Settings.PlaySoundAfterUpload;
-            chkShowBalloonAfterUpload.Checked = Program.Settings.ShowBalloonAfterUpload;
+            cbCheckUpdates.Checked = SettingsManager.ConfigCore.AutoCheckUpdate;
+            cbClipboardAutoCopy.Checked = SettingsManager.ConfigCore.ClipboardAutoCopy;
+            cbURLShortenAfterUpload.Checked = SettingsManager.ConfigCore.URLShortenAfterUpload;
+            cbPlaySoundAfterCapture.Checked = SettingsManager.ConfigCore.PlaySoundAfterCapture;
+            chkPlaySoundAfterUpload.Checked = SettingsManager.ConfigCore.PlaySoundAfterUpload;
+            chkShowBalloonAfterUpload.Checked = SettingsManager.ConfigCore.ShowBalloonAfterUpload;
 
             // Upload
-            cbUseCustomUploadersConfigPath.Checked = Program.Settings.UseCustomUploadersConfigPath;
-            txtCustomUploadersConfigPath.Text = Program.Settings.CustomUploadersConfigPath;
-            nudUploadLimit.Value = Program.Settings.UploadLimit;
+            cbUseCustomUploadersConfigPath.Checked = SettingsManager.ConfigCore.UseCustomUploadersConfigPath;
+            txtCustomUploadersConfigPath.Text = SettingsManager.ConfigCore.CustomUploadersConfigPath;
+            nudUploadLimit.Value = SettingsManager.ConfigCore.UploadLimit;
 
             for (int i = 0; i < MaxBufferSizePower; i++)
             {
                 cbBufferSize.Items.Add(Math.Pow(2, i).ToString("N0"));
             }
 
-            cbBufferSize.SelectedIndex = Program.Settings.BufferSizePower.Between(0, MaxBufferSizePower);
+            cbBufferSize.SelectedIndex = SettingsManager.ConfigCore.BufferSizePower.Between(0, MaxBufferSizePower);
 
             // Capture
             LoadAfterCaptureTasksGui();
 
-            cbShowCursor.Checked = Program.Settings.ShowCursor;
-            cbCaptureTransparent.Checked = Program.Settings.CaptureTransparent;
-            cbCaptureShadow.Enabled = Program.Settings.CaptureTransparent;
-            cbCaptureShadow.Checked = Program.Settings.CaptureShadow;
+            cbShowCursor.Checked = SettingsManager.ConfigCore.ShowCursor;
+            cbCaptureTransparent.Checked = SettingsManager.ConfigCore.CaptureTransparent;
+            cbCaptureShadow.Enabled = SettingsManager.ConfigCore.CaptureTransparent;
+            cbCaptureShadow.Checked = SettingsManager.ConfigCore.CaptureShadow;
 
             txtScreenshotsPath.Text = Program.ScreenshotsRootPath;
-            txtSaveImageSubFolderPattern.Text = Program.Settings.SaveImageSubFolderPattern;
+            txtSaveImageSubFolderPattern.Text = SettingsManager.ConfigCore.SaveImageSubFolderPattern;
 
-            if (Program.Settings.SurfaceOptions == null) Program.Settings.SurfaceOptions = new SurfaceOptions();
-            cbDrawBorder.Checked = Program.Settings.SurfaceOptions.DrawBorder;
-            cbDrawCheckerboard.Checked = Program.Settings.SurfaceOptions.DrawChecker;
-            cbQuickCrop.Checked = Program.Settings.SurfaceOptions.QuickCrop;
-            cbFixedShapeSize.Checked = Program.Settings.SurfaceOptions.IsFixedSize;
-            nudFixedShapeSizeWidth.Value = Program.Settings.SurfaceOptions.FixedSize.Width;
-            nudFixedShapeSizeHeight.Value = Program.Settings.SurfaceOptions.FixedSize.Height;
-            cbShapeIncludeControls.Checked = Program.Settings.SurfaceOptions.IncludeControls;
-            cbShapeForceWindowCapture.Checked = Program.Settings.SurfaceOptions.ForceWindowCapture;
+            if (SettingsManager.ConfigCore.SurfaceOptions == null) SettingsManager.ConfigCore.SurfaceOptions = new SurfaceOptions();
+            cbDrawBorder.Checked = SettingsManager.ConfigCore.SurfaceOptions.DrawBorder;
+            cbDrawCheckerboard.Checked = SettingsManager.ConfigCore.SurfaceOptions.DrawChecker;
+            cbQuickCrop.Checked = SettingsManager.ConfigCore.SurfaceOptions.QuickCrop;
+            cbFixedShapeSize.Checked = SettingsManager.ConfigCore.SurfaceOptions.IsFixedSize;
+            nudFixedShapeSizeWidth.Value = SettingsManager.ConfigCore.SurfaceOptions.FixedSize.Width;
+            nudFixedShapeSizeHeight.Value = SettingsManager.ConfigCore.SurfaceOptions.FixedSize.Height;
+            cbShapeIncludeControls.Checked = SettingsManager.ConfigCore.SurfaceOptions.IncludeControls;
+            cbShapeForceWindowCapture.Checked = SettingsManager.ConfigCore.SurfaceOptions.ForceWindowCapture;
 
             // Clipboard upload
-            cbClipboardUploadAutoDetectURL.Checked = Program.Settings.ClipboardUploadAutoDetectURL;
-            txtNameFormatPatternImages.Text = Program.Settings.NameFormatPattern;
-            txtNameFormatPatternOther.Text = Program.Settings.NameFormatPatternOther;
+            cbClipboardUploadAutoDetectURL.Checked = SettingsManager.ConfigCore.ClipboardUploadAutoDetectURL;
+            txtNameFormatPatternImages.Text = SettingsManager.ConfigCore.NameFormatPattern;
+            txtNameFormatPatternOther.Text = SettingsManager.ConfigCore.NameFormatPatternOther;
 
             // Image - Quality
-            cbImageFormat.SelectedIndex = (int)Program.Settings.ImageFormat;
-            nudImageJPEGQuality.Value = Program.Settings.ImageJPEGQuality;
-            cbImageGIFQuality.SelectedIndex = (int)Program.Settings.ImageGIFQuality;
-            nudUseImageFormat2After.Value = Program.Settings.ImageSizeLimit;
-            cbImageFormat2.SelectedIndex = (int)Program.Settings.ImageFormat2;
+            cbImageFormat.SelectedIndex = (int)SettingsManager.ConfigCore.ImageFormat;
+            nudImageJPEGQuality.Value = SettingsManager.ConfigCore.ImageJPEGQuality;
+            cbImageGIFQuality.SelectedIndex = (int)SettingsManager.ConfigCore.ImageGIFQuality;
+            nudUseImageFormat2After.Value = SettingsManager.ConfigCore.ImageSizeLimit;
+            cbImageFormat2.SelectedIndex = (int)SettingsManager.ConfigCore.ImageFormat2;
 
             // Image - Resize
-            cbImageAutoResize.Checked = Program.Settings.ImageAutoResize;
-            cbImageKeepAspectRatio.Checked = Program.Settings.ImageKeepAspectRatio;
-            cbImageUseSmoothScaling.Checked = Program.Settings.ImageUseSmoothScaling;
+            cbImageAutoResize.Checked = SettingsManager.ConfigCore.ImageAutoResize;
+            cbImageKeepAspectRatio.Checked = SettingsManager.ConfigCore.ImageKeepAspectRatio;
+            cbImageUseSmoothScaling.Checked = SettingsManager.ConfigCore.ImageUseSmoothScaling;
 
-            switch (Program.Settings.ImageScaleType)
+            switch (SettingsManager.ConfigCore.ImageScaleType)
             {
                 case ImageScaleType.Percentage:
                     rbImageScaleTypePercentage.Checked = true;
@@ -186,26 +186,26 @@ namespace ShareX.Forms
                     break;
             }
 
-            nudImageScalePercentageWidth.Value = Program.Settings.ImageScalePercentageWidth;
-            nudImageScalePercentageHeight.Value = Program.Settings.ImageScalePercentageHeight;
-            nudImageScaleToWidth.Value = Program.Settings.ImageScaleToWidth;
-            nudImageScaleToHeight.Value = Program.Settings.ImageScaleToHeight;
-            nudImageScaleSpecificWidth.Value = Program.Settings.ImageScaleSpecificWidth;
-            nudImageScaleSpecificHeight.Value = Program.Settings.ImageScaleSpecificHeight;
+            nudImageScalePercentageWidth.Value = SettingsManager.ConfigCore.ImageScalePercentageWidth;
+            nudImageScalePercentageHeight.Value = SettingsManager.ConfigCore.ImageScalePercentageHeight;
+            nudImageScaleToWidth.Value = SettingsManager.ConfigCore.ImageScaleToWidth;
+            nudImageScaleToHeight.Value = SettingsManager.ConfigCore.ImageScaleToHeight;
+            nudImageScaleSpecificWidth.Value = SettingsManager.ConfigCore.ImageScaleSpecificWidth;
+            nudImageScaleSpecificHeight.Value = SettingsManager.ConfigCore.ImageScaleSpecificHeight;
 
             // History
-            cbHistorySave.Checked = Program.Settings.SaveHistory;
-            cbUseCustomHistoryPath.Checked = Program.Settings.UseCustomHistoryPath;
-            txtCustomHistoryPath.Text = Program.Settings.CustomHistoryPath;
-            nudHistoryMaxItemCount.Value = Program.Settings.HistoryMaxItemCount;
+            cbHistorySave.Checked = SettingsManager.ConfigCore.SaveHistory;
+            cbUseCustomHistoryPath.Checked = SettingsManager.ConfigCore.UseCustomHistoryPath;
+            txtCustomHistoryPath.Text = SettingsManager.ConfigCore.CustomHistoryPath;
+            nudHistoryMaxItemCount.Value = SettingsManager.ConfigCore.HistoryMaxItemCount;
 
             // Proxy
-            pgProxy.SelectedObject = Program.Settings.ProxySettings;
+            pgProxy.SelectedObject = SettingsManager.ConfigCore.ProxySettings;
 
             // Advanced
-            pgSettings.SelectedObject = Program.Settings;
-            pgUploaderConfig.SelectedObject = Program.UploadersConfig;
-            pgShapes.SelectedObject = Program.Settings.SurfaceOptions;
+            pgSettings.SelectedObject = SettingsManager.ConfigCore;
+            pgUploaderConfig.SelectedObject = SettingsManager.ConfigUploaders;
+            pgShapes.SelectedObject = SettingsManager.ConfigCore.SurfaceOptions;
 
             loaded = true;
         }
@@ -234,7 +234,7 @@ namespace ShareX.Forms
                 chkAfterCaptureTask.AutoSize = true;
                 chkAfterCaptureTask.Location = new Point(16, yGap);
                 chkAfterCaptureTask.CheckedChanged += new EventHandler(chkAfterCaptureTask_CheckedChanged);
-                chkAfterCaptureTask.Checked = Program.Settings.AfterCaptureTasks.HasFlag(job.Enum);
+                chkAfterCaptureTask.Checked = SettingsManager.ConfigCore.AfterCaptureTasks.HasFlag(job.Enum);
                 gbCaptureAfter.Controls.Add(chkAfterCaptureTask);
                 yGap += 24;
             }
@@ -246,9 +246,9 @@ namespace ShareX.Forms
         {
             CheckBox chkAfterCaptureTask = sender as CheckBox;
             if (chkAfterCaptureTask.Checked)
-                Program.Settings.AfterCaptureTasks |= (Subtask)chkAfterCaptureTask.Tag;
+                SettingsManager.ConfigCore.AfterCaptureTasks |= (Subtask)chkAfterCaptureTask.Tag;
             else
-                Program.Settings.AfterCaptureTasks &= ~(Subtask)chkAfterCaptureTask.Tag;
+                SettingsManager.ConfigCore.AfterCaptureTasks &= ~(Subtask)chkAfterCaptureTask.Tag;
         }
 
         private void BeforeClose()
@@ -256,7 +256,7 @@ namespace ShareX.Forms
             string dir = txtScreenshotsPath.Text;
 
             if (Directory.Exists(dir))
-                Program.Settings.ScreenshotsPath = dir;
+                SettingsManager.ConfigCore.ScreenshotsPath = dir;
 
             #region Workflows
 
@@ -266,7 +266,7 @@ namespace ShareX.Forms
 
                 foreach (Workflow wf in FormsHelper.Main.HotkeyManager.Workflows)
                 {
-                    Workflow wf2 = Program.Settings.Workflows1.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
+                    Workflow wf2 = SettingsManager.ConfigWorkflows.Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
                     if (wf2 == null)
                         workflowsNew.Add(wf);
                 }
@@ -279,7 +279,7 @@ namespace ShareX.Forms
                 }
 
                 List<Workflow> workflowOld = new List<Workflow>();
-                foreach (Workflow wf in Program.Settings.Workflows1)
+                foreach (Workflow wf in SettingsManager.ConfigWorkflows.Workflows)
                 {
                     Workflow wf2 = FormsHelper.Main.HotkeyManager.Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
                     if (wf2 == null)
@@ -291,8 +291,8 @@ namespace ShareX.Forms
                     FormsHelper.Main.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
                 }
 
-                Program.Settings.Workflows1.Clear();
-                Program.Settings.Workflows1.AddRange(FormsHelper.Main.HotkeyManager.Workflows);
+                SettingsManager.ConfigWorkflows.Workflows.Clear();
+                SettingsManager.ConfigWorkflows.Workflows.AddRange(FormsHelper.Main.HotkeyManager.Workflows);
             }
 
             #endregion Workflows
@@ -304,19 +304,19 @@ namespace ShareX.Forms
 
             if (rbImageScaleTypePercentage.Checked)
             {
-                Program.Settings.ImageScaleType = ImageScaleType.Percentage;
+                SettingsManager.ConfigCore.ImageScaleType = ImageScaleType.Percentage;
             }
             else if (rbImageScaleTypeToWidth.Checked)
             {
-                Program.Settings.ImageScaleType = ImageScaleType.Width;
+                SettingsManager.ConfigCore.ImageScaleType = ImageScaleType.Width;
             }
             else if (rbImageScaleTypeToHeight.Checked)
             {
-                Program.Settings.ImageScaleType = ImageScaleType.Height;
+                SettingsManager.ConfigCore.ImageScaleType = ImageScaleType.Height;
             }
             else if (rbImageScaleTypeSpecific.Checked)
             {
-                Program.Settings.ImageScaleType = ImageScaleType.Specific;
+                SettingsManager.ConfigCore.ImageScaleType = ImageScaleType.Specific;
                 aspectRatioEnabled = false;
             }
 
@@ -427,17 +427,17 @@ namespace ShareX.Forms
 
         private void cbShowTray_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.ShowTray = cbShowTray.Checked;
+            SettingsManager.ConfigCore.ShowTray = cbShowTray.Checked;
 
             if (loaded)
             {
-                FormsHelper.Main.niTray.Visible = Program.Settings.ShowTray;
+                FormsHelper.Main.niTray.Visible = SettingsManager.ConfigCore.ShowTray;
             }
         }
 
         private void cbCheckUpdates_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.AutoCheckUpdate = cbCheckUpdates.Checked;
+            SettingsManager.ConfigCore.AutoCheckUpdate = cbCheckUpdates.Checked;
         }
 
         #endregion General
@@ -446,61 +446,61 @@ namespace ShareX.Forms
 
         private void cbCaptureShadow_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.CaptureShadow = cbCaptureShadow.Checked;
+            SettingsManager.ConfigCore.CaptureShadow = cbCaptureShadow.Checked;
         }
 
         private void cbCaptureTransparent_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.CaptureTransparent = cbCaptureTransparent.Checked;
+            SettingsManager.ConfigCore.CaptureTransparent = cbCaptureTransparent.Checked;
 
-            cbCaptureShadow.Enabled = Program.Settings.CaptureTransparent;
+            cbCaptureShadow.Enabled = SettingsManager.ConfigCore.CaptureTransparent;
         }
 
         private void cbShowCursor_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.ShowCursor = cbShowCursor.Checked;
+            SettingsManager.ConfigCore.ShowCursor = cbShowCursor.Checked;
         }
 
         #region Capture / Shapes
 
         private void cbDrawCheckerboard_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.SurfaceOptions.DrawChecker = cbDrawCheckerboard.Checked;
+            SettingsManager.ConfigCore.SurfaceOptions.DrawChecker = cbDrawCheckerboard.Checked;
         }
 
         private void cbDrawBorder_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.SurfaceOptions.DrawBorder = cbDrawBorder.Checked;
+            SettingsManager.ConfigCore.SurfaceOptions.DrawBorder = cbDrawBorder.Checked;
         }
 
         private void nudFixedShapeSizeHeight_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.SurfaceOptions.FixedSize = new Size(Program.Settings.SurfaceOptions.FixedSize.Width, (int)nudFixedShapeSizeHeight.Value);
+            SettingsManager.ConfigCore.SurfaceOptions.FixedSize = new Size(SettingsManager.ConfigCore.SurfaceOptions.FixedSize.Width, (int)nudFixedShapeSizeHeight.Value);
         }
 
         private void cbQuickCrop_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.SurfaceOptions.QuickCrop = cbQuickCrop.Checked;
+            SettingsManager.ConfigCore.SurfaceOptions.QuickCrop = cbQuickCrop.Checked;
         }
 
         private void cbFixedShapeSize_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.SurfaceOptions.IsFixedSize = cbFixedShapeSize.Checked;
+            SettingsManager.ConfigCore.SurfaceOptions.IsFixedSize = cbFixedShapeSize.Checked;
         }
 
         private void cbShapeForceWindowCapture_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.SurfaceOptions.ForceWindowCapture = cbShapeForceWindowCapture.Checked;
+            SettingsManager.ConfigCore.SurfaceOptions.ForceWindowCapture = cbShapeForceWindowCapture.Checked;
         }
 
         private void cbShapeIncludeControls_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.SurfaceOptions.IncludeControls = cbShapeIncludeControls.Checked;
+            SettingsManager.ConfigCore.SurfaceOptions.IncludeControls = cbShapeIncludeControls.Checked;
         }
 
         private void nudFixedShapeSizeWidth_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.SurfaceOptions.FixedSize = new Size((int)nudFixedShapeSizeWidth.Value, Program.Settings.SurfaceOptions.FixedSize.Height);
+            SettingsManager.ConfigCore.SurfaceOptions.FixedSize = new Size((int)nudFixedShapeSizeWidth.Value, SettingsManager.ConfigCore.SurfaceOptions.FixedSize.Height);
         }
 
         #endregion Capture / Shapes
@@ -521,19 +521,19 @@ namespace ShareX.Forms
 
         private void txtNameFormatPattern_TextChanged(object sender, EventArgs e)
         {
-            Program.Settings.NameFormatPattern = txtNameFormatPatternImages.Text;
-            lblNameFormatPatternPreviewImages.Text = new NameParser() { WindowText = NativeMethods.GetForegroundWindowText() }.Convert(Program.Settings.NameFormatPattern);
+            SettingsManager.ConfigCore.NameFormatPattern = txtNameFormatPatternImages.Text;
+            lblNameFormatPatternPreviewImages.Text = new NameParser() { WindowText = NativeMethods.GetForegroundWindowText() }.Convert(SettingsManager.ConfigCore.NameFormatPattern);
         }
 
         private void cbClipboardUploadAutoDetectURL_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.ClipboardUploadAutoDetectURL = cbClipboardUploadAutoDetectURL.Checked;
+            SettingsManager.ConfigCore.ClipboardUploadAutoDetectURL = cbClipboardUploadAutoDetectURL.Checked;
         }
 
         private void txtNameFormatPatternOther_TextChanged(object sender, EventArgs e)
         {
-            Program.Settings.NameFormatPatternOther = txtNameFormatPatternOther.Text;
-            lblNameFormatPatternPreviewOther.Text = new NameParser().Convert(Program.Settings.NameFormatPatternOther);
+            SettingsManager.ConfigCore.NameFormatPatternOther = txtNameFormatPatternOther.Text;
+            lblNameFormatPatternPreviewOther.Text = new NameParser().Convert(SettingsManager.ConfigCore.NameFormatPatternOther);
         }
 
         #endregion File Naming
@@ -549,17 +549,17 @@ namespace ShareX.Forms
 
         private void nudImageScalePercentageWidth_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageScalePercentageWidth = (int)nudImageScalePercentageWidth.Value;
+            SettingsManager.ConfigCore.ImageScalePercentageWidth = (int)nudImageScalePercentageWidth.Value;
 
-            if (Program.Settings.ImageKeepAspectRatio)
+            if (SettingsManager.ConfigCore.ImageKeepAspectRatio)
             {
-                nudImageScalePercentageHeight.Value = Program.Settings.ImageScalePercentageWidth;
+                nudImageScalePercentageHeight.Value = SettingsManager.ConfigCore.ImageScalePercentageWidth;
             }
         }
 
         private void nudImageScaleSpecificHeight_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageScaleSpecificHeight = (int)nudImageScaleSpecificHeight.Value;
+            SettingsManager.ConfigCore.ImageScaleSpecificHeight = (int)nudImageScaleSpecificHeight.Value;
         }
 
         private void rbImageScaleTypeToHeight_CheckedChanged(object sender, EventArgs e)
@@ -569,12 +569,12 @@ namespace ShareX.Forms
 
         private void nudImageScaleSpecificWidth_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageScaleSpecificWidth = (int)nudImageScaleSpecificWidth.Value;
+            SettingsManager.ConfigCore.ImageScaleSpecificWidth = (int)nudImageScaleSpecificWidth.Value;
         }
 
         private void cbImageUseSmoothScaling_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageUseSmoothScaling = cbImageUseSmoothScaling.Checked;
+            SettingsManager.ConfigCore.ImageUseSmoothScaling = cbImageUseSmoothScaling.Checked;
         }
 
         private void rbImageScaleTypeToWidth_CheckedChanged(object sender, EventArgs e)
@@ -584,9 +584,9 @@ namespace ShareX.Forms
 
         private void cbImageKeepAspectRatio_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageKeepAspectRatio = cbImageKeepAspectRatio.Checked;
+            SettingsManager.ConfigCore.ImageKeepAspectRatio = cbImageKeepAspectRatio.Checked;
 
-            if (Program.Settings.ImageKeepAspectRatio)
+            if (SettingsManager.ConfigCore.ImageKeepAspectRatio)
             {
                 nudImageScalePercentageHeight.Value = nudImageScalePercentageWidth.Value;
             }
@@ -599,54 +599,54 @@ namespace ShareX.Forms
 
         private void nudImageScaleToHeight_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageScaleToHeight = (int)nudImageScaleToHeight.Value;
+            SettingsManager.ConfigCore.ImageScaleToHeight = (int)nudImageScaleToHeight.Value;
         }
 
         private void nudImageScalePercentageHeight_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageScalePercentageHeight = (int)nudImageScalePercentageHeight.Value;
+            SettingsManager.ConfigCore.ImageScalePercentageHeight = (int)nudImageScalePercentageHeight.Value;
 
-            if (Program.Settings.ImageKeepAspectRatio)
+            if (SettingsManager.ConfigCore.ImageKeepAspectRatio)
             {
-                nudImageScalePercentageWidth.Value = Program.Settings.ImageScalePercentageHeight;
+                nudImageScalePercentageWidth.Value = SettingsManager.ConfigCore.ImageScalePercentageHeight;
             }
         }
 
         private void nudImageScaleToWidth_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageScaleToWidth = (int)nudImageScaleToWidth.Value;
+            SettingsManager.ConfigCore.ImageScaleToWidth = (int)nudImageScaleToWidth.Value;
         }
 
         private void cbImageAutoResize_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageAutoResize = cbImageAutoResize.Checked;
+            SettingsManager.ConfigCore.ImageAutoResize = cbImageAutoResize.Checked;
         }
 
         private void cbImageFormat2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageFormat2 = (EImageFormat)cbImageFormat2.SelectedIndex;
+            SettingsManager.ConfigCore.ImageFormat2 = (EImageFormat)cbImageFormat2.SelectedIndex;
             UpdateGuiQuality();
         }
 
         private void nudImageJPEGQuality_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageJPEGQuality = (int)nudImageJPEGQuality.Value;
+            SettingsManager.ConfigCore.ImageJPEGQuality = (int)nudImageJPEGQuality.Value;
         }
 
         private void cbImageGIFQuality_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageGIFQuality = (GIFQuality)cbImageGIFQuality.SelectedIndex;
+            SettingsManager.ConfigCore.ImageGIFQuality = (GIFQuality)cbImageGIFQuality.SelectedIndex;
         }
 
         private void cbImageFormat_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageFormat = (EImageFormat)cbImageFormat.SelectedIndex;
+            SettingsManager.ConfigCore.ImageFormat = (EImageFormat)cbImageFormat.SelectedIndex;
             UpdateGuiQuality();
         }
 
         private void nudUseImageFormat2After_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageSizeLimit = (int)nudUseImageFormat2After.Value;
+            SettingsManager.ConfigCore.ImageSizeLimit = (int)nudUseImageFormat2After.Value;
         }
 
         private void UpdateGuiQuality()
@@ -654,8 +654,8 @@ namespace ShareX.Forms
             cbImageFormat2.Enabled = nudUseImageFormat2After.Value > 0;
 
             tcQuality.TabPages.Clear();
-            UpdateGuiQualityTabs(Program.Settings.ImageFormat);
-            UpdateGuiQualityTabs(Program.Settings.ImageFormat2);
+            UpdateGuiQualityTabs(SettingsManager.ConfigCore.ImageFormat);
+            UpdateGuiQualityTabs(SettingsManager.ConfigCore.ImageFormat2);
             tcQuality.Visible = tcQuality.TabPages.Count > 0;
         }
 
@@ -680,46 +680,46 @@ namespace ShareX.Forms
 
         private void cbBufferSize_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.Settings.BufferSizePower = cbBufferSize.SelectedIndex;
-            string bufferSize = (Math.Pow(2, Program.Settings.BufferSizePower) * 1024 / 1000).ToString("#,0.###");
+            SettingsManager.ConfigCore.BufferSizePower = cbBufferSize.SelectedIndex;
+            string bufferSize = (Math.Pow(2, SettingsManager.ConfigCore.BufferSizePower) * 1024 / 1000).ToString("#,0.###");
             lblBufferSizeInfo.Text = string.Format("x {0} KiB = {1} KiB", 1.024, bufferSize);
         }
 
         private void nudUploadLimit_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.UploadLimit = (int)nudUploadLimit.Value;
+            SettingsManager.ConfigCore.UploadLimit = (int)nudUploadLimit.Value;
         }
 
         private void txtCustomUploadersConfigPath_TextChanged(object sender, EventArgs e)
         {
-            Program.Settings.CustomUploadersConfigPath = txtCustomUploadersConfigPath.Text;
+            SettingsManager.ConfigCore.CustomUploadersConfigPath = txtCustomUploadersConfigPath.Text;
         }
 
         private void cbUseCustomUploadersConfigPath_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.UseCustomUploadersConfigPath = cbUseCustomUploadersConfigPath.Checked;
+            SettingsManager.ConfigCore.UseCustomUploadersConfigPath = cbUseCustomUploadersConfigPath.Checked;
         }
 
         private void btnBrowseCustomUploadersConfigPath_Click(object sender, EventArgs e)
         {
             ChooseFolder("ShareX - Choose uploaders config file path", txtCustomUploadersConfigPath);
-            Program.Settings.CustomUploadersConfigPath = txtCustomUploadersConfigPath.Text;
-            Program.LoadUploadersConfig();
+            SettingsManager.ConfigCore.CustomUploadersConfigPath = txtCustomUploadersConfigPath.Text;
+            SettingsManager.LoadUploadersConfig();
         }
 
         private void btnLoadUploadersConfig_Click(object sender, EventArgs e)
         {
-            Program.LoadUploadersConfig();
+            SettingsManager.LoadUploadersConfig();
         }
 
         private void cbURLShortenAfterUpload_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.URLShortenAfterUpload = cbURLShortenAfterUpload.Checked;
+            SettingsManager.ConfigCore.URLShortenAfterUpload = cbURLShortenAfterUpload.Checked;
         }
 
         private void cbClipboardAutoCopy_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.ClipboardAutoCopy = cbClipboardAutoCopy.Checked;
+            SettingsManager.ConfigCore.ClipboardAutoCopy = cbClipboardAutoCopy.Checked;
         }
 
         #endregion Upload
@@ -785,7 +785,7 @@ namespace ShareX.Forms
                         if (File.Exists(image))
                         {
                             time = File.GetLastWriteTime(image);
-                            string subDirName = new NameParser(NameParserType.SaveFolder) { CustomDate = time }.Convert(Program.Settings.SaveImageSubFolderPattern);
+                            string subDirName = new NameParser(NameParserType.SaveFolder) { CustomDate = time }.Convert(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
                             string subDirPath = Path.Combine(rootDir, subDirName);
 
                             if (!Directory.Exists(subDirPath))
@@ -823,7 +823,7 @@ namespace ShareX.Forms
 
         private void txtSaveImageSubFolderPattern_TextChanged(object sender, EventArgs e)
         {
-            Program.Settings.SaveImageSubFolderPattern = txtSaveImageSubFolderPattern.Text;
+            SettingsManager.ConfigCore.SaveImageSubFolderPattern = txtSaveImageSubFolderPattern.Text;
             string subFolderName = new NameParser(NameParserType.SaveFolder).Convert(txtSaveImageSubFolderPattern.Text);
             txtSaveImageSubFolderPatternPreview.Text = subFolderName;
         }
@@ -837,22 +837,22 @@ namespace ShareX.Forms
 
         private void nudHistoryMaxItemCount_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.HistoryMaxItemCount = (int)nudHistoryMaxItemCount.Value;
+            SettingsManager.ConfigCore.HistoryMaxItemCount = (int)nudHistoryMaxItemCount.Value;
         }
 
         private void cbHistorySave_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.SaveHistory = cbHistorySave.Checked;
+            SettingsManager.ConfigCore.SaveHistory = cbHistorySave.Checked;
         }
 
         private void txtCustomHistoryPath_TextChanged(object sender, EventArgs e)
         {
-            Program.Settings.CustomHistoryPath = txtCustomHistoryPath.Text;
+            SettingsManager.ConfigCore.CustomHistoryPath = txtCustomHistoryPath.Text;
         }
 
         private void cbUseCustomHistoryPath_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.UseCustomHistoryPath = cbUseCustomHistoryPath.Checked;
+            SettingsManager.ConfigCore.UseCustomHistoryPath = cbUseCustomHistoryPath.Checked;
         }
 
         #endregion History
@@ -863,25 +863,25 @@ namespace ShareX.Forms
 
         private void btnAutofillProxy_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(Program.Settings.ProxySettings.UserName))
+            if (string.IsNullOrEmpty(SettingsManager.ConfigCore.ProxySettings.UserName))
             {
-                Program.Settings.ProxySettings.UserName = Environment.UserName;
+                SettingsManager.ConfigCore.ProxySettings.UserName = Environment.UserName;
             }
 
             WebProxy proxy = Helpers.GetDefaultWebProxy();
             if (proxy != null && proxy.Address != null)
             {
-                if (string.IsNullOrEmpty(Program.Settings.ProxySettings.Host))
+                if (string.IsNullOrEmpty(SettingsManager.ConfigCore.ProxySettings.Host))
                 {
-                    Program.Settings.ProxySettings.Host = proxy.Address.Host;
+                    SettingsManager.ConfigCore.ProxySettings.Host = proxy.Address.Host;
                 }
-                if (Program.Settings.ProxySettings.Port == 0)
+                if (SettingsManager.ConfigCore.ProxySettings.Port == 0)
                 {
-                    Program.Settings.ProxySettings.Port = proxy.Address.Port;
+                    SettingsManager.ConfigCore.ProxySettings.Port = proxy.Address.Port;
                 }
             }
 
-            pgProxy.SelectedObject = Program.Settings.ProxySettings;
+            pgProxy.SelectedObject = SettingsManager.ConfigCore.ProxySettings;
         }
 
         #endregion Proxy
@@ -900,8 +900,8 @@ namespace ShareX.Forms
 
             UploadManager.UpdateProxySettings();
 
-            Program.Settings.SaveAsync(Program.SettingsFilePath);
-            Program.Settings.BackupAsync();
+            SettingsManager.ConfigCore.SaveAsync(SettingsManager.ConfigCoreFilePath);
+            SettingsManager.ConfigCore.BackupAsync(SettingsManager.ConfigCoreFilePath);
         }
 
         private void OptionsWindow_Shown(object sender, EventArgs e)

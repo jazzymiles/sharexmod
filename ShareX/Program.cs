@@ -57,9 +57,7 @@ namespace ShareX
         private static readonly string DefaultPersonalPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ApplicationName);
         private static readonly string PortablePersonalPath = Path.Combine(Application.StartupPath, ApplicationName);
 
-        internal static readonly string SettingsFileName = ApplicationName + "Settings.json";
         private static readonly string HistoryFileName = "UploadersHistory.xml";
-        internal static readonly string UploadersConfigFileName = "UploadersConfig.json";
         private static readonly string LogFileName = ApplicationName + "Log-{0}-{1}.txt";
 
         public static string PersonalPath
@@ -75,37 +73,17 @@ namespace ShareX
             }
         }
 
-        public static string SettingsFilePath
-        {
-            get
-            {
-                return Path.Combine(PersonalPath, SettingsFileName);
-            }
-        }
-
         public static string HistoryFilePath
         {
             get
             {
-                if (Settings != null && Settings.UseCustomHistoryPath && !string.IsNullOrEmpty(Settings.CustomHistoryPath))
+                if (SettingsManager.ConfigCore != null && SettingsManager.ConfigCore.UseCustomHistoryPath &&
+                    !string.IsNullOrEmpty(SettingsManager.ConfigCore.CustomHistoryPath))
                 {
-                    return Settings.CustomHistoryPath;
+                    return SettingsManager.ConfigCore.CustomHistoryPath;
                 }
 
                 return Path.Combine(PersonalPath, HistoryFileName);
-            }
-        }
-
-        public static string UploadersConfigFilePath
-        {
-            get
-            {
-                if (Settings != null && Settings.UseCustomUploadersConfigPath && !string.IsNullOrEmpty(Settings.CustomUploadersConfigPath))
-                {
-                    return Settings.CustomUploadersConfigPath;
-                }
-
-                return Path.Combine(PersonalPath, UploadersConfigFileName);
             }
         }
 
@@ -122,9 +100,9 @@ namespace ShareX
         {
             get
             {
-                if (Settings != null && Directory.Exists(Settings.ScreenshotsPath))
+                if (SettingsManager.ConfigCore != null && Directory.Exists(SettingsManager.ConfigCore.ScreenshotsPath))
                 {
-                    return Settings.ScreenshotsPath;
+                    return SettingsManager.ConfigCore.ScreenshotsPath;
                 }
                 else
                 {
@@ -137,7 +115,7 @@ namespace ShareX
         {
             get
             {
-                string subFolderName = new NameParser(NameParserType.SaveFolder).Convert(Settings.SaveImageSubFolderPattern);
+                string subFolderName = new NameParser(NameParserType.SaveFolder).Convert(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
                 return Path.Combine(ScreenshotsRootPath, subFolderName);
             }
         }
@@ -162,8 +140,6 @@ namespace ShareX
 
         #endregion Hotkeys / Workflows
 
-        public static Settings Settings { get; internal set; }
-        public static UploadersConfig UploadersConfig { get; internal set; }
         public static bool IsMultiInstance { get; private set; }
         public static bool IsPortable { get; private set; }
         public static bool IsSilentRun { get; private set; }
@@ -195,9 +171,6 @@ namespace ShareX
                 return Assembly.GetExecutingAssembly().GetName().Version.ToString();
             }
         }
-
-        public static ManualResetEvent SettingsResetEvent;
-        public static ManualResetEvent UploaderSettingsResetEvent;
 
         public static List<string> LibNames = new List<string>();
 
@@ -241,29 +214,24 @@ namespace ShareX
                 log.InfoFormat("IsSilentRun: " + IsSilentRun);
                 log.InfoFormat("IsPortable: " + IsPortable);
 
-                SettingsResetEvent = new ManualResetEvent(false);
-                UploaderSettingsResetEvent = new ManualResetEvent(false);
-                ThreadPool.QueueUserWorkItem(state => LoadSettings());
+                SettingsManager.SettingsResetEvent = new ManualResetEvent(false);
+                SettingsManager.UploaderSettingsResetEvent = new ManualResetEvent(false);
+                ThreadPool.QueueUserWorkItem(state => SettingsManager.Load());
 
                 log.InfoFormat("new FormsHelper.mainForm() started");
                 FormsHelper.Main = new MainForm();
                 log.InfoFormat("new FormsHelper.mainForm() finished");
 
-                if (Settings == null)
-                {
-                    SettingsResetEvent.WaitOne();
-                }
-
-                Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
-                AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+                if (SettingsManager.ConfigCore == null)
+                    SettingsManager.SettingsResetEvent.WaitOne();
 #if DEBUG
                 FormsHelper.ShowLog();
 #endif
+                Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
+                AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
                 Application.Run(FormsHelper.Main);
 
-                UploadersConfig.Save(UploadersConfigFilePath);
-                Settings.Save(SettingsFilePath);
-                Settings.Backup(SettingsFilePath);
+                SettingsManager.Save();
 
                 log.Info("ShareX closing");
             }
@@ -279,22 +247,6 @@ namespace ShareX
         private static void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
         {
             LibNames.Add(string.Format("{0} - {1}", args.LoadedAssembly.FullName, args.LoadedAssembly.Location));
-        }
-
-        public static void LoadSettings()
-        {
-            log.Info("Loading Settings");
-            Settings = Settings.Load(SettingsFilePath);
-            SettingsResetEvent.Set();
-
-            log.Info("Loading Uploaders Config");
-            LoadUploadersConfig();
-            UploaderSettingsResetEvent.Set();
-        }
-
-        public static void LoadUploadersConfig()
-        {
-            UploadersConfig = UploadersConfig.Load(UploadersConfigFilePath);
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)

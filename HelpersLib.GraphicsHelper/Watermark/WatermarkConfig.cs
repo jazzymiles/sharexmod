@@ -8,6 +8,8 @@ namespace HelpersLibWatermark
 {
     public class WatermarkConfig
     {
+        public WatermarkConfig() { }
+
         public GradientMakerSettings GradientMakerOptions = new GradientMakerSettings();
         public bool WatermarkAddReflection = false;
         public bool WatermarkAutoHide = true;
