@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
 using Newtonsoft.Json;
+using ShareX.SettingsHelpers;
 using UploadersLib;
 using UploadersLib.FileUploaders;
 
@@ -17,8 +18,11 @@ namespace ShareX
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         Dropbox dropbox = null;
+
         string pathDropboxSettings = Helpers.CombineURL(Application.ProductName, SettingsManager.ConfigCoreFileName);
         string pathDropboxUploadersConfig = Helpers.CombineURL(Application.ProductName, SettingsManager.ConfigUploadersFileName);
+        string pathDropboxWorkflowsConfig = Helpers.CombineURL(Application.ProductName, SettingsManager.ConfigWorkflowsFileName);
+        string pathDropboxUserConfig = Helpers.CombineURL(Application.ProductName, SettingsManager.ConfigUserFileName);
 
         public DropboxSyncHelper()
         {
@@ -26,6 +30,136 @@ namespace ShareX
                 SettingsManager.UploaderSettingsResetEvent.WaitOne();
 
             dropbox = new Dropbox(SettingsManager.ConfigUploaders.DropboxOAuthInfo, Application.ProductName, SettingsManager.ConfigUploaders.DropboxAccountInfo);
+        }
+
+        public void InitHotkeys()
+        {
+            if (dropbox != null)
+            {
+                BackgroundWorker bwLoadWorkflows = new BackgroundWorker();
+                bwLoadWorkflows.DoWork += new DoWorkEventHandler(bwLoadWorkflows_DoWork);
+                bwLoadWorkflows.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bwLoadWorkflows_RunWorkerCompleted);
+                bwLoadWorkflows.RunWorkerAsync();
+
+                BackgroundWorker bwLoadUser = new BackgroundWorker();
+                bwLoadUser.DoWork += new DoWorkEventHandler(bwLoadUser_DoWork);
+                bwLoadUser.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bwLoadUser_RunWorkerCompleted);
+                bwLoadUser.RunWorkerAsync();
+            }
+        }
+
+        private void bwLoadUser_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            FormsHelper.Main.LoadSettings();
+        }
+
+        private void bwLoadUser_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                UploadersConfig dbConfigUploaders = Load<UploadersConfig>(pathDropboxUploadersConfig);
+                if (dbConfigUploaders != null)
+                    SettingsManager.ConfigUploaders = dbConfigUploaders;
+
+                UserConfig dbConfigUser = Load<UserConfig>(pathDropboxUserConfig);
+                if (dbConfigUser != null)
+                    SettingsManager.ConfigUser = dbConfigUser;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message, ex);
+            }
+        }
+
+        private void bwLoadWorkflows_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                WorkflowsConfig dbWorkflows = Load<WorkflowsConfig>(pathDropboxWorkflowsConfig);
+                if (dbWorkflows != null)
+                    SettingsManager.ConfigWorkflows = dbWorkflows;
+
+                Settings dbSettings = Load<Settings>(pathDropboxSettings);
+                if (dbSettings != null)
+                {
+                    // override these settings from local copy
+                    dbSettings.ProxySettings = SettingsManager.ConfigCore.ProxySettings;
+                    dbSettings.ScreenshotsPath = SettingsManager.ConfigCore.ScreenshotsPath;
+                    dbSettings.CustomHistoryPath = SettingsManager.ConfigCore.CustomHistoryPath;
+                    dbSettings.CustomUploadersConfigPath = SettingsManager.ConfigCore.CustomUploadersConfigPath;
+                    dbSettings.FolderMonitorPath = SettingsManager.ConfigCore.FolderMonitorPath;
+                    SettingsManager.ConfigCore = dbSettings;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message, ex);
+            }
+        }
+
+        private void bwLoadWorkflows_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            FormsHelper.Main.InitHotkeys();
+            FormsHelper.Options.LoadSettings();
+        }
+
+        public T Load<T>(string path)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                if (dropbox.DownloadFile(path, ms))
+                {
+                    ms.Position = 0;
+                    Object tmp = SettingsHelper.Load<T>(ms, SerializationType.Json);
+                    if (tmp != null)
+                    {
+                        log.InfoFormat("Loaded {0}", path);
+                        return (T)tmp;
+                    }
+                }
+            }
+
+            return default(T);
+        }
+
+        public void Save()
+        {
+            if (dropbox != null)
+            {
+                BackgroundWorker bwSave = new BackgroundWorker();
+                bwSave.DoWork += new DoWorkEventHandler(bwSave_DoWork);
+                bwSave.RunWorkerAsync();
+            }
+        }
+
+        public static void SaveAsync()
+        {
+            if (SettingsManager.ConfigCore.DropboxSync)
+            {
+                new DropboxSyncHelper().Save();
+            }
+        }
+
+        private void bwSave_DoWork(object sender, DoWorkEventArgs e)
+        {
+            // Create a copy of Settings
+            IClone cm = new CloneManager();
+
+            WorkflowsConfig configWorkflow = cm.Clone(SettingsManager.ConfigWorkflows);
+            dropbox.Upload(GetMemoryStream(configWorkflow), pathDropboxWorkflowsConfig);
+            log.InfoFormat("Updated {0}", pathDropboxWorkflowsConfig);
+
+            Settings configCore = cm.Clone(SettingsManager.ConfigCore);
+            dropbox.Upload(GetMemoryStream(configCore), pathDropboxSettings);
+            log.InfoFormat("Updated {0}", pathDropboxSettings);
+
+            UploadersConfig configUploaders = cm.Clone(SettingsManager.ConfigUploaders);
+            dropbox.Upload(GetMemoryStream(configUploaders), pathDropboxUploadersConfig);
+            log.InfoFormat("Updated {0}", pathDropboxUploadersConfig);
+
+            UserConfig configUser = cm.Clone(SettingsManager.ConfigUser);
+            dropbox.Upload(GetMemoryStream(configUser), pathDropboxUserConfig);
+            log.InfoFormat("Updated {0}", pathDropboxUserConfig);
         }
 
         private static MemoryStream GetMemoryStream(object obj)
@@ -48,101 +182,6 @@ namespace ShareX
                 log.Error("Error", e);
             }
             return null;
-        }
-
-        private void bwLoad_DoWork(object sender, DoWorkEventArgs e)
-        {
-            try
-            {
-                Settings dbSettings = Load<Settings>(pathDropboxSettings);
-                if (dbSettings != null)
-                {
-                    // override these settings from local copy
-                    dbSettings.ProxySettings = SettingsManager.ConfigCore.ProxySettings;
-                    dbSettings.ScreenshotsPath = SettingsManager.ConfigCore.ScreenshotsPath;
-                    dbSettings.CustomHistoryPath = SettingsManager.ConfigCore.CustomHistoryPath;
-                    dbSettings.CustomUploadersConfigPath = SettingsManager.ConfigCore.CustomUploadersConfigPath;
-                    dbSettings.FolderMonitorPath = SettingsManager.ConfigCore.FolderMonitorPath;
-                    SettingsManager.ConfigCore = dbSettings;
-                }
-
-                UploadersConfig dbConfigUploaders = Load<UploadersConfig>(pathDropboxUploadersConfig);
-                if (dbConfigUploaders != null)
-                    SettingsManager.ConfigUploaders = dbConfigUploaders;
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex.Message, ex);
-            }
-        }
-
-        public T Load<T>(string path)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                if (dropbox.DownloadFile(path, ms))
-                {
-                    ms.Position = 0;
-                    Object tmp = SettingsHelper.Load<T>(ms, SerializationType.Json);
-                    if (tmp != null)
-                    {
-                        log.InfoFormat("Loaded {0}", pathDropboxUploadersConfig);
-                        return (T)tmp;
-                    }
-                }
-            }
-
-            return default(T);
-        }
-
-        private void bwLoad_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            FormsHelper.Main.LoadSettings();
-            FormsHelper.Main.InitHotkeys();
-            FormsHelper.Options.LoadSettings();
-        }
-
-        private void bwSave_DoWork(object sender, DoWorkEventArgs e)
-        {
-            // Create a copy of Settings
-            IClone cm = new CloneManager();
-
-            Settings settings = cm.Clone(SettingsManager.ConfigCore);
-            dropbox.Upload(GetMemoryStream(settings), pathDropboxSettings);
-            log.InfoFormat("{0} updated.", pathDropboxSettings);
-
-            UploadersConfig config = cm.Clone(SettingsManager.ConfigUploaders);
-            dropbox.Upload(GetMemoryStream(config), pathDropboxUploadersConfig);
-            log.InfoFormat("{0} updated.", pathDropboxUploadersConfig);
-        }
-
-        public void InitHotkeys()
-        {
-            if (dropbox != null)
-            {
-                BackgroundWorker bwLoad = new BackgroundWorker();
-                bwLoad.DoWork += new DoWorkEventHandler(bwLoad_DoWork);
-                bwLoad.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bwLoad_RunWorkerCompleted);
-                bwLoad.RunWorkerAsync();
-            }
-        }
-
-        public static void SaveAsync()
-        {
-            if (SettingsManager.ConfigCore.DropboxSync)
-            {
-                new DropboxSyncHelper().Save();
-            }
-        }
-
-        public void Save()
-        {
-            if (dropbox != null)
-            {
-                BackgroundWorker bwSave = new BackgroundWorker();
-                bwSave.DoWork += new DoWorkEventHandler(bwSave_DoWork);
-                bwSave.RunWorkerAsync();
-            }
         }
     }
 }
