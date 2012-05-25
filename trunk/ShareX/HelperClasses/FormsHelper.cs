@@ -46,7 +46,13 @@ namespace ShareX
 
         public static void ShowOptions()
         {
-            Options.ShowDialog();
+            if (_OptionsWindow != null && !_OptionsWindow.IsDisposed)
+            {
+                _OptionsWindow.Show();
+                _OptionsWindow.Focus();
+            }
+            else
+                Options.ShowDialog();
 
             DropboxSyncHelper.SaveAsync();
 
