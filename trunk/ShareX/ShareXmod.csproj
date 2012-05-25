@@ -199,10 +199,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SettingsHelpers\UserConfig.cs" />
+    <Compile Include="SettingsManager.cs" />
+    <Compile Include="SettingsHelpers\WorkflowsConfig.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="HelperClasses\TrayIconManager.cs" />
     <Compile Include="UploadManager.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="SettingsHelpers\Settings.cs" />
     <Compile Include="UploadInfo.cs" />
     <EmbeddedResource Include="Forms\WindowAfterCapture.resx">
       <DependentUpon>WindowAfterCapture.cs</DependentUpon>

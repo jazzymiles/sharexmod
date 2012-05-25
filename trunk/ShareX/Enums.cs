@@ -43,25 +43,25 @@ namespace ShareX
     {
         None = 0,
         [Description("Annotate image")]
-        AnnotateImage = 1 << 0,
+        AnnotateImage = 2 << 0,
         [Description("Add torn paper effect")]
-        AnnotateImageAddTornEffect = 1 << 1,
+        AnnotateImageAddTornEffect = 2 << 1,
         [Description("Add shadow border")]
-        AnnotateImageAddShadowBorder = 1 << 2,
+        AnnotateImageAddShadowBorder = 2 << 2,
         [Description("Add watermark")]
-        AddWatermark = 1 << 3,
+        AddWatermark = 2 << 3,
         [Description("Show image effects studio")]
-        ShowImageEffectsStudio = 1 << 4,
+        ShowImageEffectsStudio = 2 << 4,
         [Description("Copy image to clipboard")]
-        CopyImageToClipboard = 1 << 5,
+        CopyImageToClipboard = 2 << 5,
         [Description("Save to file")]
-        SaveImageToFile = 1 << 6,
+        SaveImageToFile = 2 << 6,
         [Description("Upload to remote host")]
-        UploadImageToHost = 1 << 7,
+        UploadImageToHost = 2 << 7,
         [Description("Save to file with dialog")]
-        SaveImageToFileWithDialog = 1 << 8,
+        SaveImageToFileWithDialog = 2 << 8,
         [Description("Send to Printer")]
-        Print = 1 << 9,
+        Print = 2 << 9,
     }
 
     [Flags]

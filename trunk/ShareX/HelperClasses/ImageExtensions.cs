@@ -43,10 +43,10 @@ namespace ShareX
                     img.Save(stream, ImageFormat.Png);
                     break;
                 case EImageFormat.JPEG:
-                    img.SaveJPG(stream, Program.Settings.ImageJPEGQuality, true);
+                    img.SaveJPG(stream, SettingsManager.ConfigCore.ImageJPEGQuality, true);
                     break;
                 case EImageFormat.GIF:
-                    img.SaveGIF(stream, Program.Settings.ImageGIFQuality);
+                    img.SaveGIF(stream, SettingsManager.ConfigCore.ImageGIFQuality);
                     break;
                 case EImageFormat.BMP:
                     img.Save(stream, ImageFormat.Bmp);

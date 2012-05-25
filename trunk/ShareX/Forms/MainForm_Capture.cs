@@ -55,12 +55,12 @@ namespace ShareX
 
             try
             {
-                Screenshot.DrawCursor = Program.Settings.ShowCursor;
-                Screenshot.CaptureShadow = Program.Settings.CaptureShadow;
+                Screenshot.DrawCursor = SettingsManager.ConfigCore.ShowCursor;
+                Screenshot.CaptureShadow = SettingsManager.ConfigCore.CaptureShadow;
 
                 Image img = capture();
 
-                if (img != null && Program.Settings.PlaySoundAfterCapture)
+                if (img != null && SettingsManager.ConfigCore.PlaySoundAfterCapture)
                 {
                     imageData = new ImageData(img, screenshot: true);
                     string soundPath = Path.Combine(Application.StartupPath, "Camera.wav");
@@ -103,7 +103,7 @@ namespace ShareX
                 //else if (AfterCaptureActivity.IsNullOrEmpty(jobs))
                 //    jobs.GetDefaults();
 
-                if (Program.Settings.ShowAfterCaptureWizard)
+                if (SettingsManager.ConfigCore.ShowAfterCaptureWizard)
                 {
                     WindowAfterCapture dlg = new WindowAfterCapture(jobs.Subtasks);
                     if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -132,7 +132,7 @@ namespace ShareX
 
         private ImageData CaptureActiveWindow(bool autoHideForm = true)
         {
-            if (Program.Settings.CaptureTransparent)
+            if (SettingsManager.ConfigCore.CaptureTransparent)
             {
                 return Capture(Screenshot.CaptureActiveWindowTransparent, autoHideForm);
             }
@@ -161,7 +161,7 @@ namespace ShareX
                  NativeMethods.SetForegroundWindow(handle);
                  Thread.Sleep(250);
 
-                 if (Program.Settings.CaptureTransparent)
+                 if (SettingsManager.ConfigCore.CaptureTransparent)
                  {
                      return Screenshot.CaptureWindowTransparent(handle);
                  }
@@ -177,7 +177,7 @@ namespace ShareX
                 Image img = null;
                 Image screenshot = Screenshot.CaptureFullscreen();
 
-                surface.Config = Program.Settings.SurfaceOptions;
+                surface.Config = SettingsManager.ConfigCore.SurfaceOptions;
                 surface.SurfaceImage = screenshot;
                 surface.Prepare();
 
@@ -356,7 +356,7 @@ namespace ShareX
 
         private void tsmiWatermark_Click(object sender, EventArgs e)
         {
-            WatermarkUI ui = new WatermarkUI(Resources.ShareXLogo, Program.Settings.ConfigWatermark)
+            WatermarkUI ui = new WatermarkUI(Resources.ShareXLogo, SettingsManager.ConfigCore.ConfigWatermark)
             {
                 Icon = this.Icon
             };

@@ -38,7 +38,7 @@ namespace HelpersLibWatermark
 
             byte alpha;
             int nOffset = bmData.Stride - b.Width * 4;
-            transparency.Mid(0, 255);
+            transparency.Between(0, 255);
 
             unsafe
             {

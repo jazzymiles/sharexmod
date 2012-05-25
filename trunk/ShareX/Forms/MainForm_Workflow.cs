@@ -19,7 +19,12 @@ namespace ShareX
         {
             HotkeyManager = new HotkeyManager(this);
 
-            if (Program.Settings.Workflows1.Count == 0)
+            // Todo: Review after 2012-06-15 - remove ConfigCore.Workflows
+
+            if (SettingsManager.ConfigWorkflows.Workflows.Count == 0)
+                SettingsManager.ConfigWorkflows.Workflows.AddRange(SettingsManager.ConfigCore.Workflows1);
+
+            if (SettingsManager.ConfigWorkflows.Workflows.Count == 0)
             {
                 Workflow wfClipboardUpload = new Workflow(EHotkey.ClipboardUpload, Program.HotkeyClipboardUpload);
                 Workflow wfFileUpload = new Workflow(EHotkey.FileUpload, Program.HotkeyFileUpload);
@@ -51,21 +56,21 @@ namespace ShareX
                 wfPolygonRegion.Activities.Add(EActivity.CapturePolygonRegion);
                 wfFreeHandRegion.Activities.Add(EActivity.CaptureFreeHandRegion);
 
-                Program.Settings.Workflows1.Add(wfClipboardUpload);
-                Program.Settings.Workflows1.Add(wfFileUpload);
-                Program.Settings.Workflows1.Add(wfPrintScreen);
-                Program.Settings.Workflows1.Add(wfActiveWindow);
-                Program.Settings.Workflows1.Add(wfActiveMonitor);
-                Program.Settings.Workflows1.Add(wfWindowRectangle);
-                Program.Settings.Workflows1.Add(wfRectangleRegion);
-                Program.Settings.Workflows1.Add(wfRoundedRectangleRegion);
-                Program.Settings.Workflows1.Add(wfEllipseRegion);
-                Program.Settings.Workflows1.Add(wfTriangleRegion);
-                Program.Settings.Workflows1.Add(wfDiamondRegion);
-                Program.Settings.Workflows1.Add(wfPolygonRegion);
-                Program.Settings.Workflows1.Add(wfFreeHandRegion);
+                SettingsManager.ConfigWorkflows.Workflows.Add(wfClipboardUpload);
+                SettingsManager.ConfigWorkflows.Workflows.Add(wfFileUpload);
+                SettingsManager.ConfigWorkflows.Workflows.Add(wfPrintScreen);
+                SettingsManager.ConfigWorkflows.Workflows.Add(wfActiveWindow);
+                SettingsManager.ConfigWorkflows.Workflows.Add(wfActiveMonitor);
+                SettingsManager.ConfigWorkflows.Workflows.Add(wfWindowRectangle);
+                SettingsManager.ConfigWorkflows.Workflows.Add(wfRectangleRegion);
+                SettingsManager.ConfigWorkflows.Workflows.Add(wfRoundedRectangleRegion);
+                SettingsManager.ConfigWorkflows.Workflows.Add(wfEllipseRegion);
+                SettingsManager.ConfigWorkflows.Workflows.Add(wfTriangleRegion);
+                SettingsManager.ConfigWorkflows.Workflows.Add(wfDiamondRegion);
+                SettingsManager.ConfigWorkflows.Workflows.Add(wfPolygonRegion);
+                SettingsManager.ConfigWorkflows.Workflows.Add(wfFreeHandRegion);
 
-                foreach (Workflow wf in Program.Settings.Workflows1)
+                foreach (Workflow wf in SettingsManager.ConfigWorkflows.Workflows)
                 {
                     if (wf.Hotkey == EHotkey.ClipboardUpload || wf.Hotkey == EHotkey.FileUpload)
                         wf.Activities.Add(EActivity.UploadToRemoteHost);
@@ -74,7 +79,7 @@ namespace ShareX
                 }
             } // if Workflows.Count == 0
 
-            foreach (Workflow wf in Program.Settings.Workflows1)
+            foreach (Workflow wf in SettingsManager.ConfigWorkflows.Workflows)
             {
                 string tag = wf.HotkeyConfig.Tag;
                 HotkeyManager.AddHotkey(wf, () => DoWork(tag, false));
@@ -94,7 +99,7 @@ namespace ShareX
 
         public void DoWork(string tag, bool autoHideForm = true)
         {
-            Workflow wf = Program.Settings.Workflows1.FirstOrDefault(x => x.HotkeyConfig.Tag == tag);
+            Workflow wf = SettingsManager.ConfigWorkflows.Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == tag);
             ImageData imagedata_wf = null;
             string fpImg = string.Empty;
 
@@ -166,7 +171,7 @@ namespace ShareX
                         jobs_wf.Subtasks |= Subtask.Print;
                         break;
                     case EActivity.AfterCaptureTasks:
-                        jobs_wf.Subtasks |= Program.Settings.AfterCaptureTasks;
+                        jobs_wf.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
                         break;
                     case EActivity.UploadToRemoteHost:
                         jobs_wf.Subtasks |= Subtask.UploadImageToHost;
@@ -283,7 +288,7 @@ namespace ShareX
             if (imageData != null)
             {
                 if (jobs.Subtasks == Subtask.None)
-                    jobs.Subtasks |= Program.Settings.AfterCaptureTasks;
+                    jobs.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
                 if (jobs.DestConfig.ImageUploaders.Count > 0)
                     jobs.Subtasks |= Subtask.UploadImageToHost;
                 log.Debug("After Capture initiated.");
@@ -292,7 +297,7 @@ namespace ShareX
             else if (jobs.InputType == EInputType.Clipboard)
             {
                 if (jobs.Subtasks == Subtask.None)
-                    jobs.Subtasks |= Program.Settings.AfterCaptureTasks;
+                    jobs.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
 
                 log.Debug("ClipboardUpload initiated.");
                 UploadManager.ClipboardUpload(jobs);
@@ -341,7 +346,7 @@ namespace ShareX
 
         private Workflow FindAppWorkflowByHotkey(EHotkey hotkey)
         {
-            return Program.Settings.Workflows1.FirstOrDefault(x => x.Hotkey == hotkey);
+            return SettingsManager.ConfigWorkflows.Workflows.FirstOrDefault(x => x.Hotkey == hotkey);
         }
     }
 }

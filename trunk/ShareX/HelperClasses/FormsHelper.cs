@@ -56,15 +56,15 @@ namespace ShareX
 
         public static void ShowUploadersConfig()
         {
-            if (Program.UploadersConfig == null)
+            if (SettingsManager.ConfigUploaders == null)
             {
-                Program.UploaderSettingsResetEvent.WaitOne();
+                SettingsManager.UploaderSettingsResetEvent.WaitOne();
             }
 
-            UploadersConfigForm uploaderConfig = new UploadersConfigForm(Program.UploadersConfig, new UploadersAPIKeys()) { Icon = Resources.ShareX };
+            UploadersConfigForm uploaderConfig = new UploadersConfigForm(SettingsManager.ConfigUploaders, new UploadersAPIKeys()) { Icon = Resources.ShareX };
             uploaderConfig.ShowDialog();
             uploaderConfig.Activate();
-            uploaderConfig.Config.SaveAsync(Program.UploadersConfigFilePath);
+            uploaderConfig.Config.SaveAsync(SettingsManager.ConfigUploadersFilePath);
 
             Main.AfterUploadersConfigClosed();
             DropboxSyncHelper.SaveAsync();
