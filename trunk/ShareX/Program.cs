@@ -103,7 +103,8 @@ namespace ShareX
                 if (SettingsManager.ConfigCore != null && Directory.Exists(SettingsManager.ConfigCore.ScreenshotsPath))
                 {
                     return SettingsManager.ConfigCore.ScreenshotsPath;
-                } else
+                }
+                else
                 {
                     return DefaultScreenshotsPath;
                 }
@@ -233,17 +234,18 @@ namespace ShareX
 
                 if (SettingsManager.ConfigCore == null)
                     SettingsManager.SettingsResetEvent.WaitOne();
+                Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
+                AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 #if DEBUG
                 FormsHelper.ShowLog();
 #endif
-                Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
-                AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
                 Application.Run(FormsHelper.Main);
 
                 SettingsManager.Save();
 
                 log.Info("ShareX closing");
-            } finally
+            }
+            finally
             {
                 if (mutex != null)
                 {

@@ -117,7 +117,9 @@ namespace ShareX
 
         public static void LoadUploadersConfig()
         {
-            SettingsManager.ConfigUploaders = UploadersConfig.Load(ConfigUploadersFilePath);
+            ConfigUploaders = UploadersConfig.Load(ConfigUploadersFilePath);
+            if (ConfigUploaders.PasswordsSecureUsingEncryption)
+                ConfigUploaders.CryptPasswords(false);
         }
 
         public static void SaveUploadersConfigAsync()
