@@ -148,6 +148,8 @@ namespace ShareX
 
         public static bool IsHotkeysAllowed { get; private set; }
 
+        public static bool IsDebug { get; private set; }
+
         public static Stopwatch StartTimer { get; private set; }
 
         private static log4net.ILog log = null;
@@ -208,6 +210,7 @@ namespace ShareX
 
                 IsPortable = Directory.Exists(PortablePersonalPath);
 
+                IsDebug = CLIHelper.CheckArgs(args, "d", "debug");
                 IsHotkeysAllowed = !CLIHelper.CheckArgs(args, "nohotkeys");
 
                 Application.EnableVisualStyles();
@@ -221,12 +224,17 @@ namespace ShareX
                 log.InfoFormat("IsMultiInstance: " + IsMultiInstance);
                 log.InfoFormat("IsSilentRun: " + IsSilentRun);
                 log.InfoFormat("IsPortable: " + IsPortable);
+                log.InfoFormat("IsDebug: " + IsDebug);
                 log.InfoFormat("IsHotkeysEnabled: " + IsHotkeysAllowed);
 
                 SettingsManager.SettingsResetEvent = new ManualResetEvent(false);
                 SettingsManager.UploaderSettingsResetEvent = new ManualResetEvent(false);
                 ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadCoreConfig());
                 ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadUserConfig());
+
+#if DEBUG
+                IsDebug = true;
+#endif
 
                 log.InfoFormat("new FormsHelper.mainForm() started");
                 FormsHelper.Main = new MainForm();

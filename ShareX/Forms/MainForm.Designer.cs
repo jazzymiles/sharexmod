@@ -72,7 +72,10 @@ namespace ShareX
             this.tsddbOutputs = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsbClipboardUpload = new System.Windows.Forms.ToolStripButton();
             this.tsbFileUpload = new System.Windows.Forms.ToolStripButton();
-            this.tsbDebug = new System.Windows.Forms.ToolStripButton();
+            this.tsbDebug = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsmiTestImageUpload = new System.Windows.Forms.ToolStripMenuItem();
+	        this.tsmiTestTextUpload = new System.Windows.Forms.ToolStripMenuItem();
+	        this.tsmiTestShapeCapture = new System.Windows.Forms.ToolStripMenuItem();
             this.tsddbCapture = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsmiFullscreen = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiWindow = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,6 +102,7 @@ namespace ShareX
             this.tsddbSettings = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsmiDebugOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiWatermark = new System.Windows.Forms.ToolStripMenuItem();
             this.tsbAbout = new System.Windows.Forms.ToolStripButton();
             this.tsbDonate = new System.Windows.Forms.ToolStripButton();
@@ -136,7 +140,6 @@ namespace ShareX
             this.tsmiTrayDonate = new System.Windows.Forms.ToolStripMenuItem();
             this.tssTray2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiTrayExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsUploads.SuspendLayout();
             this.tsMain.SuspendLayout();
             this.tscMain.ContentPanel.SuspendLayout();
@@ -264,8 +267,8 @@ namespace ShareX
             this.tsddbCapture,
             this.tsddbDestinations,
             this.tssMain1,
-            this.tsbCopy,
             this.tsbOpen,
+            this.tsbCopy,
             this.tssMain2,
             this.tsbHistory,
             this.tsddbSettings,
@@ -275,7 +278,7 @@ namespace ShareX
             this.tsMain.Name = "tsMain";
             this.tsMain.Padding = new System.Windows.Forms.Padding(4, 6, 4, 4);
             this.tsMain.ShowItemToolTips = false;
-            this.tsMain.Size = new System.Drawing.Size(937, 33);
+            this.tsMain.Size = new System.Drawing.Size(895, 33);
             this.tsMain.TabIndex = 0;
             this.tsMain.Text = "toolStrip1";
             // 
@@ -308,13 +311,37 @@ namespace ShareX
             // 
             // tsbDebug
             // 
+            this.tsbDebug.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiTestImageUpload,
+            this.tsmiTestTextUpload,
+            this.tsmiTestShapeCapture});
             this.tsbDebug.Image = global::ShareX.Properties.Resources.gear;
             this.tsbDebug.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbDebug.Name = "tsbDebug";
-            this.tsbDebug.Size = new System.Drawing.Size(49, 20);
+            this.tsbDebug.Size = new System.Drawing.Size(58, 20);
             this.tsbDebug.Text = "Test";
             this.tsbDebug.Visible = false;
-            this.tsbDebug.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tsbDebug_MouseUp);
+            //
+	        // tsmiTestImageUpload
+	        //
+	        this.tsmiTestImageUpload.Name = "tsmiTestImageUpload";
+	        this.tsmiTestImageUpload.Size = new System.Drawing.Size(173, 22);
+	        this.tsmiTestImageUpload.Text = "Test image upload";
+	        this.tsmiTestImageUpload.Click += new System.EventHandler(this.tsmiTestImageUpload_Click);
+	        //
+	        // tsmiTestTextUpload
+	        //
+	        this.tsmiTestTextUpload.Name = "tsmiTestTextUpload";
+	        this.tsmiTestTextUpload.Size = new System.Drawing.Size(173, 22);
+	        this.tsmiTestTextUpload.Text = "Test text upload";
+	        this.tsmiTestTextUpload.Click += new System.EventHandler(this.tsmiTestTextUpload_Click);
+	        //
+	        // tsmiTestShapeCapture
+	        //
+	        this.tsmiTestShapeCapture.Name = "tsmiTestShapeCapture";
+	        this.tsmiTestShapeCapture.Size = new System.Drawing.Size(173, 22);
+	        this.tsmiTestShapeCapture.Text = "Test shape capture";
+	        this.tsmiTestShapeCapture.Click += new System.EventHandler(this.tsmiTestShapeCapture_Click);
             // 
             // tsddbCapture
             // 
@@ -541,6 +568,11 @@ namespace ShareX
             this.tsmiSettings.Size = new System.Drawing.Size(176, 22);
             this.tsmiSettings.Text = "Configuration...";
             this.tsmiSettings.Click += new System.EventHandler(this.tsmiSettings_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(173, 6);
             // 
             // tsmiWatermark
             // 
@@ -858,11 +890,6 @@ namespace ShareX
             this.tsmiTrayExit.Text = "Exit";
             this.tsmiTrayExit.Click += new System.EventHandler(this.tsmiTrayExit_Click);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(173, 6);
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -941,7 +968,6 @@ namespace ShareX
         private System.Windows.Forms.ToolStripMenuItem tsmiTrayFileUpload;
         private System.Windows.Forms.ToolStripSeparator tssTray1;
         public System.Windows.Forms.NotifyIcon niTray;
-        private System.Windows.Forms.ToolStripButton tsbDebug;
         private System.Windows.Forms.ToolStripDropDownButton tsddbCapture;
         private System.Windows.Forms.ToolStripMenuItem tsmiFullscreen;
         private System.Windows.Forms.ToolStripMenuItem tsmiRectangle;
@@ -978,5 +1004,9 @@ namespace ShareX
         private System.Windows.Forms.ToolStripMenuItem shareToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tsmiWatermark;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripDropDownButton tsbDebug;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTestImageUpload;    
+        private System.Windows.Forms.ToolStripMenuItem tsmiTestTextUpload;	  
+        private System.Windows.Forms.ToolStripMenuItem tsmiTestShapeCapture;
     }
 }
