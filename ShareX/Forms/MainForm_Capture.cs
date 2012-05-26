@@ -235,7 +235,7 @@ namespace ShareX
 
         private void tsmiFullscreen_Click(object sender, EventArgs e)
         {
-            DoWork(FindTagByHotkey(EHotkey.FullScreen));
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.FullScreen));
         }
 
         private void tsddbCapture_DropDownOpening(object sender, EventArgs e)
@@ -252,42 +252,42 @@ namespace ShareX
 
         private void tsmiWindowRectangle_Click(object sender, EventArgs e)
         {
-            DoWork(FindTagByHotkey(EHotkey.WindowRectangle));
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.WindowRectangle));
         }
 
         private void tsmiRectangle_Click(object sender, EventArgs e)
         {
-            DoWork(FindTagByHotkey(EHotkey.RectangleRegion));
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.RectangleRegion));
         }
 
         private void tsmiRoundedRectangle_Click(object sender, EventArgs e)
         {
-            DoWork(FindTagByHotkey(EHotkey.RoundedRectangleRegion));
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.RoundedRectangleRegion));
         }
 
         private void tsmiEllipse_Click(object sender, EventArgs e)
         {
-            DoWork(FindTagByHotkey(EHotkey.EllipseRegion));
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.EllipseRegion));
         }
 
         private void tsmiTriangle_Click(object sender, EventArgs e)
         {
-            DoWork(FindTagByHotkey(EHotkey.TriangleRegion));
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.TriangleRegion));
         }
 
         private void tsmiDiamond_Click(object sender, EventArgs e)
         {
-            DoWork(FindTagByHotkey(EHotkey.DiamondRegion));
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.DiamondRegion));
         }
 
         private void tsmiPolygon_Click(object sender, EventArgs e)
         {
-            DoWork(FindTagByHotkey(EHotkey.PolygonRegion));
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.PolygonRegion));
         }
 
         private void tsmiFreeHand_Click(object sender, EventArgs e)
         {
-            DoWork(FindTagByHotkey(EHotkey.FreeHandRegion));
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.FreeHandRegion));
         }
 
         #endregion Menu events

@@ -107,7 +107,8 @@ namespace ShareX
                         {
                             destination = EDataType.File;
                         }
-                    } else if (Helpers.IsTextFile(path))
+                    }
+                    else if (Helpers.IsTextFile(path))
                     {
                         type = EDataType.Text;
 
@@ -115,7 +116,8 @@ namespace ShareX
                         {
                             destination = EDataType.File;
                         }
-                    } else
+                    }
+                    else
                     {
                         type = EDataType.File;
                     }
@@ -132,7 +134,8 @@ namespace ShareX
                         StartUpload(task);
                         break;
                     }
-                } else if (Directory.Exists(path))
+                }
+                else if (Directory.Exists(path))
                 {
                     string[] files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
                     UploadFiles(files);
@@ -215,18 +218,21 @@ namespace ShareX
             {
                 Image img = Clipboard.GetImage();
                 UploadImage(img);
-            } else if (Clipboard.ContainsFileDropList())
+            }
+            else if (Clipboard.ContainsFileDropList())
             {
                 string[] files = Clipboard.GetFileDropList().Cast<string>().ToArray();
                 UploadFiles(files);
-            } else if (Clipboard.ContainsText())
+            }
+            else if (Clipboard.ContainsText())
             {
                 string text = Clipboard.GetText();
 
                 if (SettingsManager.ConfigCore.ClipboardUploadAutoDetectURL && Helpers.IsValidURL(text))
                 {
                     ShortenURL(text.Trim(), jobs);
-                } else
+                }
+                else
                 {
                     UploadText(text, jobs);
                 }
@@ -246,7 +252,8 @@ namespace ShareX
 
                     SettingsManager.ConfigCore.ShowClipboardContentViewer = !ccv.DontShowThisWindow;
                 }
-            } else
+            }
+            else
             {
                 UploadManager.ClipboardUpload();
             }
@@ -262,11 +269,13 @@ namespace ShareX
             {
                 string[] files = data.GetData(DataFormats.FileDrop, false) as string[];
                 UploadFiles(files);
-            } else if (data.GetDataPresent(DataFormats.Bitmap, false))
+            }
+            else if (data.GetDataPresent(DataFormats.Bitmap, false))
             {
                 Image img = data.GetData(DataFormats.Bitmap, false) as Image;
                 UploadImage(img);
-            } else if (data.GetDataPresent(DataFormats.Text, false))
+            }
+            else if (data.GetDataPresent(DataFormats.Text, false))
             {
                 string text = data.GetData(DataFormats.Text, false) as string;
                 UploadText(text);
@@ -316,7 +325,8 @@ namespace ShareX
                 if (SettingsManager.ConfigCore.UploadLimit == 0)
                 {
                     len = inQueueTasks.Length;
-                } else
+                }
+                else
                 {
                     len = (SettingsManager.ConfigCore.UploadLimit - workingTasksCount).Between(0, inQueueTasks.Length);
                 }
@@ -384,11 +394,13 @@ namespace ShareX
                     {
                         lvi.SubItems.Add(info.Destination);
                         break;
-                    } else if (info.Jobs.HasFlag(job))
+                    }
+                    else if (info.Jobs.HasFlag(job))
                     {
                         lvi.SubItems.Add(job.GetDescription());
                         break;
-                    } else
+                    }
+                    else
                     {
                         lvi.SubItems.Add(string.Empty);
                         break;
@@ -473,7 +485,8 @@ namespace ShareX
 
                         if (SettingsManager.ConfigCore.PlaySoundAfterUpload)
                             SystemSounds.Asterisk.Play();
-                    } else
+                    }
+                    else
                     {
                         log.InfoFormat("Upload completed. ID: {0}, Filename: {1}, URL: {2}, Duration: {3} ms", info.ID, info.FileName,
                             info.Result.URL, (int)info.UploadDuration.TotalMilliseconds);
@@ -509,16 +522,15 @@ namespace ShareX
                                 NativeMethods.ShowWindow(dlg.Handle, (int)WindowShowStyle.ShowNoActivate);
                             }
                         }
-                    }
 
-                    if (SettingsManager.ConfigCore.PlaySoundAfterUpload)
-                    {
-                        SystemSounds.Exclamation.Play();
+                        if (SettingsManager.ConfigCore.PlaySoundAfterUpload)
+                            SystemSounds.Exclamation.Play();
                     }
 
                     lvi.EnsureVisible();
                 }
-            } finally
+            }
+            finally
             {
                 StartTasks();
             }

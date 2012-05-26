@@ -26,21 +26,21 @@ namespace ShareX
 
             if (SettingsManager.ConfigWorkflows.Workflows.Count == 0)
             {
-                Workflow wfClipboardUpload = new Workflow(EHotkey.ClipboardUpload, Program.HotkeyClipboardUpload);
-                Workflow wfFileUpload = new Workflow(EHotkey.FileUpload, Program.HotkeyFileUpload);
+                Workflow wfClipboardUpload = new Workflow(HelpersLib.Hotkeys2.EHotkey.ClipboardUpload, Program.HotkeyClipboardUpload);
+                Workflow wfFileUpload = new Workflow(HelpersLib.Hotkeys2.EHotkey.FileUpload, Program.HotkeyFileUpload);
 
-                Workflow wfPrintScreen = new Workflow(EHotkey.FullScreen, Program.HotkeyPrintScreen);
-                Workflow wfActiveMonitor = new Workflow(EHotkey.ActiveMonitor, Program.HotkeyActiveMonitor);
-                Workflow wfActiveWindow = new Workflow(EHotkey.ActiveWindow, Program.HotkeyActiveWindow);
-                Workflow wfWindowRectangle = new Workflow(EHotkey.WindowRectangle, Program.HotkeyWindowRectangle);
+                Workflow wfPrintScreen = new Workflow(HelpersLib.Hotkeys2.EHotkey.FullScreen, Program.HotkeyPrintScreen);
+                Workflow wfActiveMonitor = new Workflow(HelpersLib.Hotkeys2.EHotkey.ActiveMonitor, Program.HotkeyActiveMonitor);
+                Workflow wfActiveWindow = new Workflow(HelpersLib.Hotkeys2.EHotkey.ActiveWindow, Program.HotkeyActiveWindow);
+                Workflow wfWindowRectangle = new Workflow(HelpersLib.Hotkeys2.EHotkey.WindowRectangle, Program.HotkeyWindowRectangle);
 
-                Workflow wfRectangleRegion = new Workflow(EHotkey.RectangleRegion, Program.HotkeyRectangleRegion);
-                Workflow wfRoundedRectangleRegion = new Workflow(EHotkey.RoundedRectangleRegion, new HotkeySetting());
-                Workflow wfEllipseRegion = new Workflow(EHotkey.EllipseRegion, new HotkeySetting());
-                Workflow wfTriangleRegion = new Workflow(EHotkey.TriangleRegion, new HotkeySetting());
-                Workflow wfDiamondRegion = new Workflow(EHotkey.DiamondRegion, new HotkeySetting());
-                Workflow wfPolygonRegion = new Workflow(EHotkey.PolygonRegion, new HotkeySetting());
-                Workflow wfFreeHandRegion = new Workflow(EHotkey.FreeHandRegion, new HotkeySetting());
+                Workflow wfRectangleRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.RectangleRegion, Program.HotkeyRectangleRegion);
+                Workflow wfRoundedRectangleRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.RoundedRectangleRegion, new HotkeySetting());
+                Workflow wfEllipseRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.EllipseRegion, new HotkeySetting());
+                Workflow wfTriangleRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.TriangleRegion, new HotkeySetting());
+                Workflow wfDiamondRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.DiamondRegion, new HotkeySetting());
+                Workflow wfPolygonRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.PolygonRegion, new HotkeySetting());
+                Workflow wfFreeHandRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.FreeHandRegion, new HotkeySetting());
 
                 wfClipboardUpload.Activities.Add(EActivity.UploadClipboard);
                 wfFileUpload.Activities.Add(EActivity.UploadFile);
@@ -72,7 +72,7 @@ namespace ShareX
 
                 foreach (Workflow wf in SettingsManager.ConfigWorkflows.Workflows)
                 {
-                    if (wf.Hotkey == EHotkey.ClipboardUpload || wf.Hotkey == EHotkey.FileUpload)
+                    if (wf.Hotkey == HelpersLib.Hotkeys2.EHotkey.ClipboardUpload || wf.Hotkey == HelpersLib.Hotkeys2.EHotkey.FileUpload)
                         wf.Activities.Add(EActivity.UploadToRemoteHost);
                     else
                         wf.Activities.Add(EActivity.AfterCaptureTasks);
@@ -341,12 +341,12 @@ namespace ShareX
             }
         }
 
-        private string FindTagByHotkey(EHotkey hotkey)
+        private string FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey hotkey)
         {
             return FindAppWorkflowByHotkey(hotkey).HotkeyConfig.Tag;
         }
 
-        private Workflow FindAppWorkflowByHotkey(EHotkey hotkey)
+        private Workflow FindAppWorkflowByHotkey(HelpersLib.Hotkeys2.EHotkey hotkey)
         {
             return SettingsManager.ConfigWorkflows.Workflows.FirstOrDefault(x => x.Hotkey == hotkey);
         }

@@ -64,7 +64,8 @@ namespace ShareX
             if (Program.IsHotkeysAllowed && !SettingsManager.ConfigCore.DropboxSync)
             {
                 InitHotkeys();
-            } else
+            }
+            else
             {
                 new DropboxSyncHelper().InitHotkeys();
             }
@@ -104,7 +105,8 @@ namespace ShareX
             if (SettingsManager.ConfigCore.FolderMonitoring)
             {
                 folderWatcher.StartWatching();
-            } else
+            }
+            else
             {
                 folderWatcher.StopWatching();
             }
@@ -302,7 +304,8 @@ namespace ShareX
                         if (itemsCount > 1)
                         {
                             copyURLToolStripMenuItem.Text = string.Format("Copy URLs ({0})", itemsCount);
-                        } else
+                        }
+                        else
                         {
                             copyURLToolStripMenuItem.Text = "Copy URL";
                         }
@@ -340,7 +343,8 @@ namespace ShareX
 
                 int index = lvUploads.SelectedIndices[0];
                 stopUploadToolStripMenuItem.Visible = UploadManager.Tasks[index].Status != TaskStatus.Completed;
-            } else
+            }
+            else
             {
                 uploadFileToolStripMenuItem.Visible = true;
                 showInWindowsExplorerToolStripMenuItem.Visible = false;
@@ -396,7 +400,8 @@ namespace ShareX
                     if (args[i].Equals("-clipboardupload", StringComparison.InvariantCultureIgnoreCase))
                     {
                         UploadManager.ClipboardUpload();
-                    } else if (args[i][0] != '-')
+                    }
+                    else if (args[i][0] != '-')
                     {
                         UploadManager.UploadFile(args[i]);
                     }
@@ -586,7 +591,8 @@ namespace ShareX
                 e.Data.GetDataPresent(DataFormats.Text, false))
             {
                 e.Effect = DragDropEffects.Copy;
-            } else
+            }
+            else
             {
                 e.Effect = DragDropEffects.None;
             }
@@ -616,10 +622,12 @@ namespace ShareX
         {
             UploadManager.UploadText(Application.ProductName + " - text upload test");
         }
+
         private void tsmiTestShapeCapture_Click(object sender, EventArgs e)
         {
             new RegionCapturePreview(SettingsManager.ConfigCore.SurfaceOptions).Show();
         }
+
         private void tsddbImageUploaders_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             for (int i = 0; i < tsmiImageUploaders.DropDownItems.Count; i++)
