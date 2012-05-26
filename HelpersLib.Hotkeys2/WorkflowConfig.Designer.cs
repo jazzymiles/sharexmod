@@ -207,7 +207,7 @@
             this.tpSettings.Location = new System.Drawing.Point(4, 22);
             this.tpSettings.Name = "tpSettings";
             this.tpSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSettings.Size = new System.Drawing.Size(646, 374);
+            this.tpSettings.Size = new System.Drawing.Size(654, 374);
             this.tpSettings.TabIndex = 1;
             this.tpSettings.Text = "Settings";
             this.tpSettings.UseVisualStyleBackColor = true;
@@ -217,8 +217,9 @@
             this.pgSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgSettings.Location = new System.Drawing.Point(3, 3);
             this.pgSettings.Name = "pgSettings";
-            this.pgSettings.Size = new System.Drawing.Size(636, 368);
+            this.pgSettings.Size = new System.Drawing.Size(648, 368);
             this.pgSettings.TabIndex = 0;
+            this.pgSettings.ToolbarVisible = false;
             // 
             // WindowWorkflow
             // 

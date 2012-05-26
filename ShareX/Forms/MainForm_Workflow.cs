@@ -227,7 +227,9 @@ namespace ShareX
                     case EActivity.UploadToSlexy:
                         jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.Slexy);
                         break;
-
+                    case EActivity.UploadToPastee:
+                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.Pastee);
+                        break;
                     case EActivity.UploadToDropbox:
                         jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
                         jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);

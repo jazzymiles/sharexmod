@@ -85,6 +85,8 @@ namespace HelpersLib.Hotkeys2
         UploadToPaste2,
         [Description("Upload to slexy.org"), Category(ComponentModelStrings.ActivitiesUploadersText)]
         UploadToSlexy,
+        [Description("Upload to pastee.org"), Category(ComponentModelStrings.ActivitiesUploadersText)]
+        UploadToPastee,
 
         [Description("Upload to dropbox.com"), Category(ComponentModelStrings.ActivitiesUploadersFiles)]
         UploadToDropbox,

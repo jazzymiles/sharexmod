@@ -50,7 +50,7 @@ namespace ShareX
 
         private void bwLoadUser_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            FormsHelper.Main.LoadSettings();
+            //  FormsHelper.Main.LoadSettings();
         }
 
         private void bwLoadUser_DoWork(object sender, DoWorkEventArgs e)
@@ -143,23 +143,17 @@ namespace ShareX
         private void bwSave_DoWork(object sender, DoWorkEventArgs e)
         {
             // Create a copy of Settings
-            IClone cm = new CloneManager();
+            if (dropbox.Upload(GetMemoryStream(SettingsManager.ConfigWorkflows), pathDropboxWorkflowsConfig) != null)
+                log.InfoFormat("Updated {0}", pathDropboxWorkflowsConfig);
 
-            WorkflowsConfig configWorkflow = cm.Clone(SettingsManager.ConfigWorkflows);
-            dropbox.Upload(GetMemoryStream(configWorkflow), pathDropboxWorkflowsConfig);
-            log.InfoFormat("Updated {0}", pathDropboxWorkflowsConfig);
+            if (dropbox.Upload(GetMemoryStream(SettingsManager.ConfigCore), pathDropboxSettings) != null)
+                log.InfoFormat("Updated {0}", pathDropboxSettings);
 
-            Settings configCore = cm.Clone(SettingsManager.ConfigCore);
-            dropbox.Upload(GetMemoryStream(configCore), pathDropboxSettings);
-            log.InfoFormat("Updated {0}", pathDropboxSettings);
+            if (dropbox.Upload(GetMemoryStream(SettingsManager.ConfigUploaders), pathDropboxUploadersConfig) != null)
+                log.InfoFormat("Updated {0}", pathDropboxUploadersConfig);
 
-            UploadersConfig configUploaders = cm.Clone(SettingsManager.ConfigUploaders);
-            dropbox.Upload(GetMemoryStream(configUploaders), pathDropboxUploadersConfig);
-            log.InfoFormat("Updated {0}", pathDropboxUploadersConfig);
-
-            UserConfig configUser = cm.Clone(SettingsManager.ConfigUser);
-            dropbox.Upload(GetMemoryStream(configUser), pathDropboxUserConfig);
-            log.InfoFormat("Updated {0}", pathDropboxUserConfig);
+            if (dropbox.Upload(GetMemoryStream(SettingsManager.ConfigUser), pathDropboxUserConfig) != null)
+                log.InfoFormat("Updated {0}", pathDropboxUserConfig);
         }
 
         private static MemoryStream GetMemoryStream(object obj)
