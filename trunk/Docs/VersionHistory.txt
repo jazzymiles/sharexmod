@@ -1,5 +1,6 @@
 ﻿Version 7.0 - 2012-09-28
 
+* Added pastee.org Text Uploader support
 * Ability to add torn paper effect as part of After Capture Tasks
 * Log Viewer powered by log4net replaces the previous logging system
 * Dropbox synchronisation of Settings except for Paths

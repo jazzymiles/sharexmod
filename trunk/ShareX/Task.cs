@@ -27,6 +27,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.GraphicsHelper;
@@ -148,7 +149,7 @@ namespace ShareX
                 threadWorker = new ThreadWorker();
                 threadWorker.DoWork += ThreadDoWork;
                 threadWorker.Completed += ThreadCompleted;
-                threadWorker.Start();
+                threadWorker.Start(ApartmentState.STA);
             }
         }
 
@@ -499,6 +500,9 @@ namespace ShareX
                     {
                         TextFormat = Workflow.TextFormat
                     });
+                    break;
+                case TextDestination.Pastee:
+                    textUploader = new Pastee() { Lexer = Workflow.TextFormat };
                     break;
             }
 
