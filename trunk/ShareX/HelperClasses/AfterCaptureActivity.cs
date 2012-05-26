@@ -28,6 +28,7 @@ namespace ShareX.HelperClasses
         public static AfterCaptureActivity GetNew()
         {
             AfterCaptureActivity act = new AfterCaptureActivity();
+            act.Workflow = new Workflow();
             act.Subtasks = SettingsManager.ConfigCore.AfterCaptureSubtasks;
             act.GetDefaults();
 
