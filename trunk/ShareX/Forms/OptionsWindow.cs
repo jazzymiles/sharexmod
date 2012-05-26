@@ -107,7 +107,14 @@ namespace ShareX.Forms
             this.Text = Application.ProductName + " Settings - " + path;
 
             // Hotkeys
-            hmHotkeys.PrepareHotkeys(FormsHelper.Main.HotkeyManager);
+            if (Program.IsHotkeysAllowed)
+            {
+                hmHotkeys.PrepareHotkeys(FormsHelper.Main.HotkeyManager);
+            } else
+            {
+                tcBase.TabPages.Remove(tpHotkeys);
+                tvMain.Nodes.Remove(tvMain.Nodes[1]);
+            }
 
             // General
             cbShowTray.Checked = SettingsManager.ConfigCore.ShowTray;
@@ -305,16 +312,13 @@ namespace ShareX.Forms
             if (rbImageScaleTypePercentage.Checked)
             {
                 SettingsManager.ConfigCore.ImageScaleType = ImageScaleType.Percentage;
-            }
-            else if (rbImageScaleTypeToWidth.Checked)
+            } else if (rbImageScaleTypeToWidth.Checked)
             {
                 SettingsManager.ConfigCore.ImageScaleType = ImageScaleType.Width;
-            }
-            else if (rbImageScaleTypeToHeight.Checked)
+            } else if (rbImageScaleTypeToHeight.Checked)
             {
                 SettingsManager.ConfigCore.ImageScaleType = ImageScaleType.Height;
-            }
-            else if (rbImageScaleTypeSpecific.Checked)
+            } else if (rbImageScaleTypeSpecific.Checked)
             {
                 SettingsManager.ConfigCore.ImageScaleType = ImageScaleType.Specific;
                 aspectRatioEnabled = false;
@@ -386,8 +390,7 @@ namespace ShareX.Forms
                             ofd.InitialDirectory = path;
                         }
                     }
-                }
-                finally
+                } finally
                 {
                     if (string.IsNullOrEmpty(ofd.InitialDirectory))
                     {

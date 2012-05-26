@@ -34,7 +34,7 @@ namespace ShareX
 
         public void InitHotkeys()
         {
-            if (dropbox != null)
+            if (dropbox != null && Program.IsHotkeysAllowed)
             {
                 BackgroundWorker bwLoadWorkflows = new BackgroundWorker();
                 bwLoadWorkflows.DoWork += new DoWorkEventHandler(bwLoadWorkflows_DoWork);
@@ -64,8 +64,7 @@ namespace ShareX
                 UserConfig dbConfigUser = Load<UserConfig>(pathDropboxUserConfig);
                 if (dbConfigUser != null)
                     SettingsManager.ConfigUser = dbConfigUser;
-            }
-            catch (Exception ex)
+            } catch (Exception ex)
             {
                 log.Error(ex.Message, ex);
             }
@@ -90,8 +89,7 @@ namespace ShareX
                     dbSettings.FolderMonitorPath = SettingsManager.ConfigCore.FolderMonitorPath;
                     SettingsManager.ConfigCore = dbSettings;
                 }
-            }
-            catch (Exception ex)
+            } catch (Exception ex)
             {
                 log.Error(ex.Message, ex);
             }
@@ -170,8 +168,7 @@ namespace ShareX
                     jsonWriter.Flush();
                     return ms;
                 }
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 log.Error("Error", e);
             }

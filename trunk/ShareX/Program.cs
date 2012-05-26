@@ -103,8 +103,7 @@ namespace ShareX
                 if (SettingsManager.ConfigCore != null && Directory.Exists(SettingsManager.ConfigCore.ScreenshotsPath))
                 {
                     return SettingsManager.ConfigCore.ScreenshotsPath;
-                }
-                else
+                } else
                 {
                     return DefaultScreenshotsPath;
                 }
@@ -141,9 +140,15 @@ namespace ShareX
         #endregion Hotkeys / Workflows
 
         public static bool IsMultiInstance { get; private set; }
+
         public static bool IsPortable { get; private set; }
+
         public static bool IsSilentRun { get; private set; }
+
+        public static bool IsHotkeysAllowed { get; private set; }
+
         public static Stopwatch StartTimer { get; private set; }
+
         private static log4net.ILog log = null;
 
         public static string Title
@@ -202,6 +207,8 @@ namespace ShareX
 
                 IsPortable = Directory.Exists(PortablePersonalPath);
 
+                IsHotkeysAllowed = !CLIHelper.CheckArgs(args, "nohotkeys");
+
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -213,6 +220,7 @@ namespace ShareX
                 log.InfoFormat("IsMultiInstance: " + IsMultiInstance);
                 log.InfoFormat("IsSilentRun: " + IsSilentRun);
                 log.InfoFormat("IsPortable: " + IsPortable);
+                log.InfoFormat("IsHotkeysEnabled: " + IsHotkeysAllowed);
 
                 SettingsManager.SettingsResetEvent = new ManualResetEvent(false);
                 SettingsManager.UploaderSettingsResetEvent = new ManualResetEvent(false);
@@ -235,8 +243,7 @@ namespace ShareX
                 SettingsManager.Save();
 
                 log.Info("ShareX closing");
-            }
-            finally
+            } finally
             {
                 if (mutex != null)
                 {
