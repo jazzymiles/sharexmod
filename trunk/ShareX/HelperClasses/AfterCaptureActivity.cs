@@ -28,7 +28,7 @@ namespace ShareX.HelperClasses
         public static AfterCaptureActivity GetNew()
         {
             AfterCaptureActivity act = new AfterCaptureActivity();
-            act.Subtasks = SettingsManager.ConfigCore.AfterCaptureTasks;
+            act.Subtasks = SettingsManager.ConfigCore.AfterCaptureSubtasks;
             act.GetDefaults();
 
             return act;
@@ -51,7 +51,7 @@ namespace ShareX.HelperClasses
             //     this.Uploaders.LinkUploaders.Add(UploadManager.URLShortener);
 
             if (this.Subtasks == Subtask.None)
-                this.Subtasks = SettingsManager.ConfigCore.AfterCaptureTasks;
+                this.Subtasks = SettingsManager.ConfigCore.AfterCaptureSubtasks;
         }
     }
 }

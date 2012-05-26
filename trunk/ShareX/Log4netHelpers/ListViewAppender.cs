@@ -75,7 +75,7 @@ namespace HelpersLib
             lvi.Text = loggingEvent.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss");
             // lvi.SubItems.Add(loggingEvent.UserName);
             lvi.SubItems.Add(loggingEvent.Level.DisplayName);
-            lvi.SubItems.Add(loggingEvent.LoggerName);
+            lvi.SubItems.Add(string.Format("{0} [{1}]", loggingEvent.LoggerName, loggingEvent.ThreadName));
             // lvi.SubItems.Add(string.Format("{0}.{1}.{2}", loggingEvent.LocationInformation.ClassName, loggingEvent.LocationInformation.MethodName, loggingEvent.LocationInformation.LineNumber));
             lvi.SubItems.Add(loggingEvent.RenderedMessage);
             _listView.Items.Add(lvi);

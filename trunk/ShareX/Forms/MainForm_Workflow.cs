@@ -171,7 +171,7 @@ namespace ShareX
                         jobs_wf.Subtasks |= Subtask.Print;
                         break;
                     case EActivity.AfterCaptureTasks:
-                        jobs_wf.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
+                        jobs_wf.Subtasks |= SettingsManager.ConfigCore.AfterCaptureSubtasks;
                         break;
                     case EActivity.UploadToRemoteHost:
                         jobs_wf.Subtasks |= Subtask.UploadImageToHost;
@@ -290,7 +290,7 @@ namespace ShareX
             if (imageData != null)
             {
                 if (jobs.Subtasks == Subtask.None)
-                    jobs.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
+                    jobs.Subtasks |= SettingsManager.ConfigCore.AfterCaptureSubtasks;
                 if (jobs.DestConfig.ImageUploaders.Count > 0)
                     jobs.Subtasks |= Subtask.UploadImageToHost;
                 log.Debug("After Capture initiated.");
@@ -299,7 +299,7 @@ namespace ShareX
             else if (jobs.InputType == EInputType.Clipboard)
             {
                 if (jobs.Subtasks == Subtask.None)
-                    jobs.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
+                    jobs.Subtasks |= SettingsManager.ConfigCore.AfterCaptureSubtasks;
 
                 log.Debug("ClipboardUpload initiated.");
                 UploadManager.ClipboardUpload(jobs);

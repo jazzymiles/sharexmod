@@ -211,7 +211,7 @@ namespace ShareX
                         continue;
                 }
                 ToolStripMenuItem tsmi = new ToolStripMenuItem(job.Description);
-                tsmi.Checked = SettingsManager.ConfigCore.AfterCaptureTasks.HasFlag(job.Enum);
+                tsmi.Checked = SettingsManager.ConfigCore.AfterCaptureSubtasks.HasFlag(job.Enum);
                 tsmi.Tag = job.Enum;
                 tsmi.CheckOnClick = true;
                 tsmi.CheckedChanged += new EventHandler(tsmiAfterCaptureTask_CheckedChanged);
@@ -223,9 +223,9 @@ namespace ShareX
         {
             ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
             if (tsmi.Checked)
-                SettingsManager.ConfigCore.AfterCaptureTasks |= (Subtask)tsmi.Tag;
+                SettingsManager.ConfigCore.AfterCaptureSubtasks |= (Subtask)tsmi.Tag;
             else
-                SettingsManager.ConfigCore.AfterCaptureTasks &= ~(Subtask)tsmi.Tag;
+                SettingsManager.ConfigCore.AfterCaptureSubtasks &= ~(Subtask)tsmi.Tag;
         }
 
         private void InitControls()
