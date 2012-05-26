@@ -1,5 +1,6 @@
 ﻿Version 7.0 - 2012-09-28
 
+* New command line argument -nohotkeys to load without regisering hotkeys
 * Added pastee.org Text Uploader support
 * Ability to add torn paper effect as part of After Capture Tasks
 * Log Viewer powered by log4net replaces the previous logging system
@@ -9,6 +10,7 @@
 
 Version 6.0.0 - 2012-06-15
 
+* New command line argument -nohotkeys to load without regisering hotkeys
 * Proportional resizing of shapes while holding shift key
 * Added shortcut to "Send To" without using registry
 * Cursor can be moved using arrow keys during a shapes capture
