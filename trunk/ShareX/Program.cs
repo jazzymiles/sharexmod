@@ -203,12 +203,12 @@ namespace ShareX
 
                 IsSilentRun = CLIHelper.CheckArgs(args, "s", "silent");
 
-                if (CLIHelper.CheckArgs(args, "p", "portable") && !Directory.Exists(PortablePersonalPath))
+                IsPortable = CLIHelper.CheckArgs(args, "p", "portable");
+
+                if (IsPortable && !Directory.Exists(PortablePersonalPath))
                 {
                     Directory.CreateDirectory(PortablePersonalPath);
                 }
-
-                IsPortable = Directory.Exists(PortablePersonalPath);
 
                 IsDebug = CLIHelper.CheckArgs(args, "d", "debug");
                 IsHotkeysAllowed = !CLIHelper.CheckArgs(args, "nohotkeys");
@@ -231,11 +231,9 @@ namespace ShareX
                 SettingsManager.UploaderSettingsResetEvent = new ManualResetEvent(false);
                 ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadCoreConfig());
                 ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadUserConfig());
-
 #if DEBUG
                 IsDebug = true;
 #endif
-
                 log.InfoFormat("new FormsHelper.mainForm() started");
                 FormsHelper.Main = new MainForm();
                 log.InfoFormat("new FormsHelper.mainForm() finished");
