@@ -229,7 +229,9 @@ namespace ShareX
 
                 SettingsManager.SettingsResetEvent = new ManualResetEvent(false);
                 SettingsManager.UploaderSettingsResetEvent = new ManualResetEvent(false);
+                ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadWorkflows());
                 ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadCoreConfig());
+                ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadUploadersConfig());
                 ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadUserConfig());
 #if DEBUG
                 IsDebug = true;

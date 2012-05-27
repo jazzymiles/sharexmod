@@ -32,9 +32,9 @@ namespace ShareX
             dropbox = new Dropbox(SettingsManager.ConfigUploaders.DropboxOAuthInfo, Application.ProductName, SettingsManager.ConfigUploaders.DropboxAccountInfo);
         }
 
-        public void InitHotkeys()
+        public void Sync()
         {
-            if (dropbox != null && Program.IsHotkeysAllowed)
+            if (dropbox != null)
             {
                 BackgroundWorker bwLoad = new BackgroundWorker();
                 bwLoad.DoWork += new DoWorkEventHandler(bwLoad_DoWork);
@@ -80,7 +80,8 @@ namespace ShareX
         private void bwLoad_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             FormsHelper.Main.LoadSettings();
-            FormsHelper.Main.InitHotkeys();
+            if (Program.IsHotkeysAllowed)
+                FormsHelper.Main.InitHotkeys();
             FormsHelper.Options.LoadSettings();
         }
 

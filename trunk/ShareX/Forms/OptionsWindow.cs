@@ -111,10 +111,9 @@ namespace ShareX.Forms
             {
                 hmHotkeys.PrepareHotkeys(FormsHelper.Main.HotkeyManager);
             }
-            else
+            else if (tvMain.Nodes.ContainsKey("tnHotkeys"))
             {
-                tcBase.TabPages.Remove(tpHotkeys);
-                tvMain.Nodes.Remove(tvMain.Nodes[1]);
+                tvMain.Nodes.Remove(tvMain.Nodes["tnHotkeys"]);
             }
 
             // General
@@ -927,7 +926,7 @@ namespace ShareX.Forms
 
         private void btnDropboxSyncImport_Click(object sender, EventArgs e)
         {
-            new DropboxSyncHelper().InitHotkeys();
+            new DropboxSyncHelper().Sync();
         }
 
         private void btnDropboxSyncExport_Click(object sender, EventArgs e)

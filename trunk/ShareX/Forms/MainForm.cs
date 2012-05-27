@@ -65,7 +65,7 @@ namespace ShareX
                 InitHotkeys();
 
             if (SettingsManager.ConfigCore.DropboxSync)
-                new DropboxSyncHelper().InitHotkeys();
+                new DropboxSyncHelper().Sync();
 
             if (SettingsManager.ConfigCore.AutoCheckUpdate)
             {

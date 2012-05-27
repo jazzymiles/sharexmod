@@ -67,8 +67,10 @@ namespace ShareX
 
         public static void SaveAsync()
         {
+            ConfigWorkflows.SaveAsync(ConfigWorkflowsFilePath);
             SaveCoreConfigAsync();
             SaveUploadersConfigAsync();
+            ConfigUser.SaveAsync(ConfigUserFilePath);
         }
 
         public static void Save()
@@ -79,28 +81,31 @@ namespace ShareX
                 ConfigWorkflows = new WorkflowsConfig();
                 ConfigWorkflows.Workflows.AddRange(ConfigCore.Workflows1);
                 ConfigCore.Workflows1.Clear();
-                ConfigWorkflows.Save(ConfigWorkflowsFilePath);
             }
 
+            ConfigWorkflows.Save(ConfigWorkflowsFilePath);
             ConfigUploaders.Save(ConfigUploadersFilePath);
+            SaveCoreConfig();
+            ConfigUser.Save(ConfigUserFilePath);
+        }
+
+        public static void SaveCoreConfig()
+        {
             ConfigCore.Save(ConfigCoreFilePath);
             ConfigCore.Backup(ConfigCoreFilePath);
+        }
 
-            ConfigUser.Save(ConfigUserFilePath);
+        public static void LoadWorkflows()
+        {
+            log.Info("Loading workflows config");
+            ConfigWorkflows = WorkflowsConfig.Load(ConfigWorkflowsFilePath);
         }
 
         public static void LoadCoreConfig()
         {
-            log.Info("Loading workflows.");
-            ConfigWorkflows = WorkflowsConfig.Load(ConfigWorkflowsFilePath);
-
-            log.Info("Loading Settings");
+            log.Info("Loading core config");
             SettingsManager.ConfigCore = Settings.Load(ConfigCoreFilePath);
             SettingsResetEvent.Set();
-
-            log.Info("Loading Uploaders Config");
-            LoadUploadersConfig();
-            UploaderSettingsResetEvent.Set();
         }
 
         public static void LoadUserConfig()
@@ -109,17 +114,19 @@ namespace ShareX
             ConfigUser = UserConfig.Load(ConfigUserFilePath);
         }
 
+        public static void LoadUploadersConfig()
+        {
+            log.Info("Loading uploaders config");
+            ConfigUploaders = UploadersConfig.Load(ConfigUploadersFilePath);
+            if (ConfigUploaders.PasswordsSecureUsingEncryption)
+                ConfigUploaders.CryptPasswords(false);
+            //   UploaderSettingsResetEvent.Set();
+        }
+
         public static void SaveCoreConfigAsync()
         {
             ConfigCore.SaveAsync(ConfigCoreFilePath);
             ConfigCore.BackupAsync(ConfigCoreFilePath);
-        }
-
-        public static void LoadUploadersConfig()
-        {
-            ConfigUploaders = UploadersConfig.Load(ConfigUploadersFilePath);
-            if (ConfigUploaders.PasswordsSecureUsingEncryption)
-                ConfigUploaders.CryptPasswords(false);
         }
 
         public static void SaveUploadersConfigAsync()
