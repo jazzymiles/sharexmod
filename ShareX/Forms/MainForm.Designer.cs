@@ -74,8 +74,8 @@ namespace ShareX
             this.tsbFileUpload = new System.Windows.Forms.ToolStripButton();
             this.tsbDebug = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsmiTestImageUpload = new System.Windows.Forms.ToolStripMenuItem();
-	        this.tsmiTestTextUpload = new System.Windows.Forms.ToolStripMenuItem();
-	        this.tsmiTestShapeCapture = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTestTextUpload = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTestShapeCapture = new System.Windows.Forms.ToolStripMenuItem();
             this.tsddbCapture = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsmiFullscreen = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiWindow = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,8 +95,8 @@ namespace ShareX
             this.tssDestinations1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiUploadersConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.tssMain1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsbCopy = new System.Windows.Forms.ToolStripButton();
             this.tsbOpen = new System.Windows.Forms.ToolStripButton();
+            this.tsbCopy = new System.Windows.Forms.ToolStripButton();
             this.tssMain2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbHistory = new System.Windows.Forms.ToolStripButton();
             this.tsddbSettings = new System.Windows.Forms.ToolStripDropDownButton();
@@ -170,6 +170,7 @@ namespace ShareX
             // openURLToolStripMenuItem
             // 
             this.openURLToolStripMenuItem.Name = "openURLToolStripMenuItem";
+            this.openURLToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openURLToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
             this.openURLToolStripMenuItem.Text = "Open URL";
             this.openURLToolStripMenuItem.Click += new System.EventHandler(this.openURLToolStripMenuItem_Click);
@@ -177,6 +178,7 @@ namespace ShareX
             // copyURLToolStripMenuItem
             // 
             this.copyURLToolStripMenuItem.Name = "copyURLToolStripMenuItem";
+            this.copyURLToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.copyURLToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
             this.copyURLToolStripMenuItem.Text = "Copy URL";
             this.copyURLToolStripMenuItem.Click += new System.EventHandler(this.copyURLToolStripMenuItem_Click);
@@ -321,27 +323,27 @@ namespace ShareX
             this.tsbDebug.Size = new System.Drawing.Size(58, 20);
             this.tsbDebug.Text = "Test";
             this.tsbDebug.Visible = false;
-            //
-	        // tsmiTestImageUpload
-	        //
-	        this.tsmiTestImageUpload.Name = "tsmiTestImageUpload";
-	        this.tsmiTestImageUpload.Size = new System.Drawing.Size(173, 22);
-	        this.tsmiTestImageUpload.Text = "Test image upload";
-	        this.tsmiTestImageUpload.Click += new System.EventHandler(this.tsmiTestImageUpload_Click);
-	        //
-	        // tsmiTestTextUpload
-	        //
-	        this.tsmiTestTextUpload.Name = "tsmiTestTextUpload";
-	        this.tsmiTestTextUpload.Size = new System.Drawing.Size(173, 22);
-	        this.tsmiTestTextUpload.Text = "Test text upload";
-	        this.tsmiTestTextUpload.Click += new System.EventHandler(this.tsmiTestTextUpload_Click);
-	        //
-	        // tsmiTestShapeCapture
-	        //
-	        this.tsmiTestShapeCapture.Name = "tsmiTestShapeCapture";
-	        this.tsmiTestShapeCapture.Size = new System.Drawing.Size(173, 22);
-	        this.tsmiTestShapeCapture.Text = "Test shape capture";
-	        this.tsmiTestShapeCapture.Click += new System.EventHandler(this.tsmiTestShapeCapture_Click);
+            // 
+            // tsmiTestImageUpload
+            // 
+            this.tsmiTestImageUpload.Name = "tsmiTestImageUpload";
+            this.tsmiTestImageUpload.Size = new System.Drawing.Size(173, 22);
+            this.tsmiTestImageUpload.Text = "Test image upload";
+            this.tsmiTestImageUpload.Click += new System.EventHandler(this.tsmiTestImageUpload_Click);
+            // 
+            // tsmiTestTextUpload
+            // 
+            this.tsmiTestTextUpload.Name = "tsmiTestTextUpload";
+            this.tsmiTestTextUpload.Size = new System.Drawing.Size(173, 22);
+            this.tsmiTestTextUpload.Text = "Test text upload";
+            this.tsmiTestTextUpload.Click += new System.EventHandler(this.tsmiTestTextUpload_Click);
+            // 
+            // tsmiTestShapeCapture
+            // 
+            this.tsmiTestShapeCapture.Name = "tsmiTestShapeCapture";
+            this.tsmiTestShapeCapture.Size = new System.Drawing.Size(173, 22);
+            this.tsmiTestShapeCapture.Text = "Test shape capture";
+            this.tsmiTestShapeCapture.Click += new System.EventHandler(this.tsmiTestShapeCapture_Click);
             // 
             // tsddbCapture
             // 
@@ -506,15 +508,6 @@ namespace ShareX
             this.tssMain1.Name = "tssMain1";
             this.tssMain1.Size = new System.Drawing.Size(6, 23);
             // 
-            // tsbCopy
-            // 
-            this.tsbCopy.Image = global::ShareX.Properties.Resources.document_copy;
-            this.tsbCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbCopy.Name = "tsbCopy";
-            this.tsbCopy.Size = new System.Drawing.Size(55, 20);
-            this.tsbCopy.Text = "Copy";
-            this.tsbCopy.Click += new System.EventHandler(this.tsbCopy_Click);
-            // 
             // tsbOpen
             // 
             this.tsbOpen.Image = global::ShareX.Properties.Resources.document__arrow;
@@ -523,6 +516,15 @@ namespace ShareX
             this.tsbOpen.Size = new System.Drawing.Size(56, 20);
             this.tsbOpen.Text = "Open";
             this.tsbOpen.Click += new System.EventHandler(this.tsbOpen_Click);
+            // 
+            // tsbCopy
+            // 
+            this.tsbCopy.Image = global::ShareX.Properties.Resources.document_copy;
+            this.tsbCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbCopy.Name = "tsbCopy";
+            this.tsbCopy.Size = new System.Drawing.Size(55, 20);
+            this.tsbCopy.Text = "Copy";
+            this.tsbCopy.Click += new System.EventHandler(this.tsbCopy_Click);
             // 
             // tssMain2
             // 
