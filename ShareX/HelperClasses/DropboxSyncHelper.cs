@@ -36,42 +36,14 @@ namespace ShareX
         {
             if (dropbox != null && Program.IsHotkeysAllowed)
             {
-                BackgroundWorker bwLoadWorkflows = new BackgroundWorker();
-                bwLoadWorkflows.DoWork += new DoWorkEventHandler(bwLoadWorkflows_DoWork);
-                bwLoadWorkflows.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bwLoadWorkflows_RunWorkerCompleted);
-                bwLoadWorkflows.RunWorkerAsync();
-
-                BackgroundWorker bwLoadUser = new BackgroundWorker();
-                bwLoadUser.DoWork += new DoWorkEventHandler(bwLoadUser_DoWork);
-                bwLoadUser.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bwLoadUser_RunWorkerCompleted);
-                bwLoadUser.RunWorkerAsync();
+                BackgroundWorker bwLoad = new BackgroundWorker();
+                bwLoad.DoWork += new DoWorkEventHandler(bwLoad_DoWork);
+                bwLoad.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bwLoad_RunWorkerCompleted);
+                bwLoad.RunWorkerAsync();
             }
         }
 
-        private void bwLoadUser_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            //  FormsHelper.Main.LoadSettings();
-        }
-
-        private void bwLoadUser_DoWork(object sender, DoWorkEventArgs e)
-        {
-            try
-            {
-                UploadersConfig dbConfigUploaders = Load<UploadersConfig>(pathDropboxUploadersConfig);
-                if (dbConfigUploaders != null)
-                    SettingsManager.ConfigUploaders = dbConfigUploaders;
-
-                UserConfig dbConfigUser = Load<UserConfig>(pathDropboxUserConfig);
-                if (dbConfigUser != null)
-                    SettingsManager.ConfigUser = dbConfigUser;
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex.Message, ex);
-            }
-        }
-
-        private void bwLoadWorkflows_DoWork(object sender, DoWorkEventArgs e)
+        private void bwLoad_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -90,6 +62,14 @@ namespace ShareX
                     dbSettings.FolderMonitorPath = SettingsManager.ConfigCore.FolderMonitorPath;
                     SettingsManager.ConfigCore = dbSettings;
                 }
+
+                UploadersConfig dbConfigUploaders = Load<UploadersConfig>(pathDropboxUploadersConfig);
+                if (dbConfigUploaders != null)
+                    SettingsManager.ConfigUploaders = dbConfigUploaders;
+
+                UserConfig dbConfigUser = Load<UserConfig>(pathDropboxUserConfig);
+                if (dbConfigUser != null)
+                    SettingsManager.ConfigUser = dbConfigUser;
             }
             catch (Exception ex)
             {
@@ -97,8 +77,9 @@ namespace ShareX
             }
         }
 
-        private void bwLoadWorkflows_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void bwLoad_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            FormsHelper.Main.LoadSettings();
             FormsHelper.Main.InitHotkeys();
             FormsHelper.Options.LoadSettings();
         }

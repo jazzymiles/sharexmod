@@ -35,6 +35,8 @@ namespace HelpersLib.Hotkeys2
 {
     public class HotkeyForm : Form
     {
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public List<HotkeyInfo> HotkeyList { get; private set; }
 
         public bool IgnoreHotkeys { get; set; }
@@ -66,8 +68,18 @@ namespace HelpersLib.Hotkeys2
 
             if (IsHotkeyExist(hotkey))
             {
-                DebugHelper.WriteLine("Hotkey already exist: " + keyInfo);
-                return HotkeyStatus.Failed;
+                HotkeyInfo hki = HotkeyList.FirstOrDefault(x => x.Tag == tag);
+                if (hki != null)
+                {
+                    hki.HotkeyPress = hotkeyPress;
+                    log.DebugFormat("Updated key binding for {0}", tag);
+                    return HotkeyStatus.Registered;
+                }
+                else
+                {
+                    log.Debug("Hotkey already exist: " + keyInfo);
+                    return HotkeyStatus.Failed;
+                }
             }
 
             string atomName = Thread.CurrentThread.ManagedThreadId.ToString("X8") + (int)hotkey;

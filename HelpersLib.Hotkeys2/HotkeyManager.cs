@@ -74,10 +74,6 @@ namespace HelpersLib.Hotkeys2
 
         public void AddHotkey(Workflow wf, Action action, ToolStripMenuItem menuItem = null)
         {
-            Workflow wfOld = Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
-            if (wfOld != null)
-                Workflows.Remove(wfOld);
-
             wf.HotkeyConfig.Action = action;
             wf.HotkeyConfig.MenuItem = menuItem;
 

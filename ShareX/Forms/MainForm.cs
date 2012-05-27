@@ -61,14 +61,11 @@ namespace ShareX
             LoadSettings();
             ReloadConfig();
 
-            if (Program.IsHotkeysAllowed && !SettingsManager.ConfigCore.DropboxSync)
-            {
+            if (Program.IsHotkeysAllowed)
                 InitHotkeys();
-            }
-            else
-            {
+
+            if (SettingsManager.ConfigCore.DropboxSync)
                 new DropboxSyncHelper().InitHotkeys();
-            }
 
             if (SettingsManager.ConfigCore.AutoCheckUpdate)
             {
