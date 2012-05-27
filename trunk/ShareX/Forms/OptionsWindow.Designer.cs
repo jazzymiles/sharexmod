@@ -2029,6 +2029,7 @@
             this.pgShapes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgShapes.Location = new System.Drawing.Point(0, 0);
             this.pgShapes.Name = "pgShapes";
+            this.pgShapes.PropertySort = System.Windows.Forms.PropertySort.Categorized;
             this.pgShapes.Size = new System.Drawing.Size(537, 370);
             this.pgShapes.TabIndex = 2;
             // 
