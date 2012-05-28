@@ -57,7 +57,7 @@ namespace ShareX
 
         public event TaskEventHandler UploadCompleted;
 
-        public Workflow Workflow = new Workflow();
+        private Workflow Workflow = new Workflow();
         public UploadInfo Info { get; private set; }
         public TaskStatus Status { get; private set; }
         public bool IsWorking { get { return Status == TaskStatus.Preparing || Status == TaskStatus.Uploading; } }
@@ -78,6 +78,12 @@ namespace ShareX
             Info.Job = job;
             Info.DataType = dataType;
             Info.UploadDestination = dataType;
+        }
+
+        public void SetWorkflow(Workflow wf)
+        {
+            this.Workflow = wf;
+            this.Info.SetDestination(wf.DestConfig);
         }
 
         public static Task CreateDataUploaderTask(EDataType dataType, Stream stream, string filePath, EDataType destination = EDataType.Default)
@@ -229,7 +235,7 @@ namespace ShareX
                 {
                     Info.Result.Errors.Add("URL is empty.");
                 }
-                else if (SettingsManager.ConfigCore.URLShortenAfterUpload || Info.Job == TaskJob.ShortenURL || Info.DestConfig.LinkUploaders.Count > 0)
+                else if (SettingsManager.ConfigCore.URLShortenAfterUpload || Info.Job == TaskJob.ShortenURL || Workflow.DestConfig.LinkUploaders.Count > 0)
                 {
                     Info.Result.ShortenedURL = ShortenURL(Info.Result.URL);
                 }
@@ -400,7 +406,7 @@ namespace ShareX
         public UploadResult UploadImage(Stream stream)
         {
             ImageUploader imageUploader = null;
-            ImageDestination imageDestination = Info.DestConfig.ImageUploaders[0];
+            ImageDestination imageDestination = Workflow.DestConfig.ImageUploaders[0];
 
             switch (imageDestination)
             {
@@ -474,7 +480,7 @@ namespace ShareX
         public UploadResult UploadText(Stream stream)
         {
             TextUploader textUploader = null;
-            TextDestination textDestination = Info.DestConfig.TextUploaders[0];
+            TextDestination textDestination = Workflow.DestConfig.TextUploaders[0];
 
             switch (textDestination)
             {
@@ -520,7 +526,7 @@ namespace ShareX
         {
             FileUploader fileUploader = null;
 
-            switch (Info.DestConfig.FileUploaders[0])
+            switch (Workflow.DestConfig.FileUploaders[0])
             {
                 case FileDestination.Dropbox:
                     NameParser parser = new NameParser { IsFolderPath = true };
@@ -625,10 +631,10 @@ namespace ShareX
         {
             URLShortener urlShortener = null;
 
-            if ((Info.DestConfig.LinkUploaders.Count == 0))
-                Info.DestConfig.LinkUploaders.Add(UploadManager.URLShortener);
+            if ((Workflow.DestConfig.LinkUploaders.Count == 0))
+                Workflow.DestConfig.LinkUploaders.Add(UploadManager.URLShortener);
 
-            switch (Info.DestConfig.LinkUploaders[0])
+            switch (Workflow.DestConfig.LinkUploaders[0])
             {
                 case UrlShortenerType.BITLY:
                     urlShortener = new BitlyURLShortener(ApiKeys.BitlyLogin, ApiKeys.BitlyKey);

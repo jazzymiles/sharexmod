@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using HelpersLib.Hotkeys2;
+using UploadersLib;
 
 namespace HelpersLib.Hotkeys2
 {
@@ -12,6 +13,7 @@ namespace HelpersLib.Hotkeys2
         public EHotkey Hotkey;
         public HotkeySetting HotkeyConfig = new HotkeySetting();
         public List<EActivity> Activities = new List<EActivity>();
+        public DestConfig DestConfig = new DestConfig();
 
         [Category(ComponentModelStrings.ActivitiesUploadersText), DefaultValue("text"), Description("Text format e.g. csharp, cpp, etc.")]
         public string TextFormat { get; set; }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using HelpersLib;
+using UploadersLib;
 
 namespace HelpersLib.Hotkeys2
 {
@@ -40,18 +41,99 @@ namespace HelpersLib.Hotkeys2
             });
             lvActivitiesUser.Groups.AddRange(lvActivitiesAll.Groups);
 
-            foreach (EActivity act in wf.Activities)
+            FillListActivitiesAll();
+            FillListActivitiesUser();
+
+            lvActivitiesAll.Columns[0].Width = 240;
+            lvActivitiesUser.Columns[0].Width = 240;
+        }
+
+        private void FillListActivitiesUser()
+        {
+            foreach (ImageDestination uploader in Workflow.DestConfig.ImageUploaders)
+            {
+                lvActivitiesUser.Items.Add(GetListViewItem(uploader));
+            }
+
+            foreach (TextDestination uploader in Workflow.DestConfig.TextUploaders)
+            {
+                lvActivitiesUser.Items.Add(GetListViewItem(uploader));
+            }
+
+            foreach (UrlShortenerType uploader in Workflow.DestConfig.LinkUploaders)
+            {
+                lvActivitiesUser.Items.Add(GetListViewItem(uploader));
+            }
+
+            foreach (FileDestination uploader in Workflow.DestConfig.FileUploaders)
+            {
+                lvActivitiesUser.Items.Add(GetListViewItem(uploader));
+            }
+
+            foreach (EActivity act in Workflow.Activities)
             {
                 lvActivitiesUser.Items.Add(GetListViewItem(act));
+            }
+        }
+
+        private void FillListActivitiesAll()
+        {
+            foreach (ImageDestination uploader in Enum.GetValues(typeof(ImageDestination)))
+            {
+                lvActivitiesAll.Items.Add(GetListViewItem(uploader));
+            }
+
+            foreach (TextDestination uploader in Enum.GetValues(typeof(TextDestination)))
+            {
+                lvActivitiesAll.Items.Add(GetListViewItem(uploader));
+            }
+
+            foreach (FileDestination uploader in Enum.GetValues(typeof(FileDestination)))
+            {
+                lvActivitiesAll.Items.Add(GetListViewItem(uploader));
+            }
+
+            foreach (UrlShortenerType uploader in Enum.GetValues(typeof(UrlShortenerType)))
+            {
+                lvActivitiesAll.Items.Add(GetListViewItem(uploader));
             }
 
             foreach (EActivity act in Enum.GetValues(typeof(EActivity)))
             {
                 lvActivitiesAll.Items.Add(GetListViewItem(act));
             }
+        }
 
-            lvActivitiesAll.Columns[0].Width = 240;
-            lvActivitiesUser.Columns[0].Width = 240;
+        private ListViewItem GetListViewItem(UrlShortenerType dest)
+        {
+            ListViewItem lvi = new ListViewItem(dest.GetDescription());
+            lvi.Group = lvgUploadersLinks;
+            lvi.Tag = dest;
+            return lvi;
+        }
+
+        private ListViewItem GetListViewItem(TextDestination dest)
+        {
+            ListViewItem lvi = new ListViewItem(dest.GetDescription());
+            lvi.Group = lvgUploadersText;
+            lvi.Tag = dest;
+            return lvi;
+        }
+
+        private ListViewItem GetListViewItem(ImageDestination dest)
+        {
+            ListViewItem lvi = new ListViewItem(dest.GetDescription());
+            lvi.Group = lvgUploadersImages;
+            lvi.Tag = dest;
+            return lvi;
+        }
+
+        private ListViewItem GetListViewItem(FileDestination dest)
+        {
+            ListViewItem lvi = new ListViewItem(dest.GetDescription());
+            lvi.Group = lvgUploadersFiles;
+            lvi.Tag = dest;
+            return lvi;
         }
 
         private ListViewItem GetListViewItem(EActivity act)
@@ -107,8 +189,11 @@ namespace HelpersLib.Hotkeys2
         {
             foreach (ListViewItem lvi in lvActivitiesAll.SelectedItems)
             {
-                EActivity act = (EActivity)lvi.Tag;
-                ListViewItem lvi2 = GetListViewItem(act);
+                ListViewItem lvi2 = new ListViewItem();
+                if (lvi.Tag.GetType() == typeof(FileDestination))
+                    lvi2 = GetListViewItem((FileDestination)lvi.Tag);
+                else if (lvi.Tag.GetType() == typeof(EActivity))
+                    lvi2 = GetListViewItem((EActivity)lvi.Tag);
                 lvActivitiesUser.Items.Add(lvi2);
             }
         }
@@ -133,8 +218,10 @@ namespace HelpersLib.Hotkeys2
             Workflow.Activities.Clear();
             foreach (ListViewItem lvi in lvActivitiesUser.Items)
             {
-                EActivity act = (EActivity)lvi.Tag;
-                Workflow.Activities.Add(act);
+                if (lvi.Tag.GetType() == typeof(FileDestination))
+                    Workflow.DestConfig.FileUploaders.Add((FileDestination)lvi.Tag);
+                else if (lvi.Tag.GetType() == typeof(EActivity))
+                    Workflow.Activities.Add((EActivity)lvi.Tag);
             }
 
             this.Close();
