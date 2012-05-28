@@ -49,7 +49,7 @@ namespace HelpersLib.Hotkeys2
         SaveToFile,
         [Description("Save to file with dialog"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         SaveToFileWithDialog,
-        [Description("Perform after capture tasks"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        [Description("Perform after capture tasks"), Category(ComponentModelStrings.ActivitiesUploaders)]
         AfterCaptureTasks,
         [Description("Upload to default remote host"), Category(ComponentModelStrings.ActivitiesUploaders)]
         UploadToRemoteHost,

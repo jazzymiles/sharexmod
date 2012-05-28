@@ -27,7 +27,7 @@ namespace ShareX
         public DropboxSyncHelper()
         {
             if (SettingsManager.ConfigUploaders == null)
-                SettingsManager.UploaderSettingsResetEvent.WaitOne();
+                SettingsManager.LoadUploadersConfig();
 
             dropbox = new Dropbox(SettingsManager.ConfigUploaders.DropboxOAuthInfo, Application.ProductName, SettingsManager.ConfigUploaders.DropboxAccountInfo);
         }

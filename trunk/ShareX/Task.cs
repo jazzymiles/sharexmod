@@ -486,29 +486,29 @@ namespace ShareX
             {
                 case TextDestination.Pastebin:
                     PastebinSettings pastebinSettings = SettingsManager.ConfigUploaders.PastebinSettings;
-                    pastebinSettings.TextFormat = Workflow.TextFormat;
+                    pastebinSettings.TextFormat = Workflow.DestConfig.TextFormat;
                     textUploader = new PastebinUploader(ApiKeys.PastebinKey, pastebinSettings);
                     break;
                 case TextDestination.PastebinCA:
                     textUploader = new PastebinCaUploader(ApiKeys.PastebinCaKey, new PastebinCaSettings()
                     {
-                        TextFormat = Workflow.TextFormat
+                        TextFormat = Workflow.DestConfig.TextFormat
                     });
                     break;
                 case TextDestination.Paste2:
                     textUploader = new Paste2Uploader(new Paste2Settings()
                     {
-                        TextFormat = Workflow.TextFormat
+                        TextFormat = Workflow.DestConfig.TextFormat
                     });
                     break;
                 case TextDestination.Slexy:
                     textUploader = new SlexyUploader(new SlexySettings()
                     {
-                        TextFormat = Workflow.TextFormat
+                        TextFormat = Workflow.DestConfig.TextFormat
                     });
                     break;
                 case TextDestination.Pastee:
-                    textUploader = new Pastee() { Lexer = Workflow.TextFormat };
+                    textUploader = new Pastee() { Lexer = Workflow.DestConfig.TextFormat };
                     break;
             }
 

@@ -88,7 +88,7 @@ namespace ShareX
         internal void AfterUploadersConfigClosed()
         {
             if (SettingsManager.ConfigUploaders == null)
-                SettingsManager.UploaderSettingsResetEvent.WaitOne();
+                SettingsManager.LoadUploadersConfig();
 
             EnableDisableToolStripMenuItems(tsmiImageUploaders);
             EnableDisableToolStripMenuItems(tsmiTextUploaders);

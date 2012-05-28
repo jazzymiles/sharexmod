@@ -15,9 +15,6 @@ namespace HelpersLib.Hotkeys2
         public List<EActivity> Activities = new List<EActivity>();
         public DestConfig DestConfig = new DestConfig();
 
-        [Category(ComponentModelStrings.ActivitiesUploadersText), DefaultValue("text"), Description("Text format e.g. csharp, cpp, etc.")]
-        public string TextFormat { get; set; }
-
         public Workflow()
         {
             ApplyDefaultValues(this);

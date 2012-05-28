@@ -30,7 +30,7 @@ namespace HelpersLib.Hotkeys2
             InitializeComponent();
 
             this.Text = "Workflow - " + wf.HotkeyConfig.Description;
-            this.pgSettings.SelectedObject = wf;
+            this.pgSettings.SelectedObject = wf.DestConfig;
             this.txtDescription.Text = wf.HotkeyConfig.Description;
 
             lvActivitiesAll.Groups.AddRange(new[]
@@ -215,11 +215,22 @@ namespace HelpersLib.Hotkeys2
         {
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
 
+            Workflow.DestConfig.ImageUploaders.Clear();
+            Workflow.DestConfig.TextUploaders.Clear();
+            Workflow.DestConfig.FileUploaders.Clear();
+            Workflow.DestConfig.LinkUploaders.Clear();
             Workflow.Activities.Clear();
+
             foreach (ListViewItem lvi in lvActivitiesUser.Items)
             {
+                if (lvi.Tag.GetType() == typeof(ImageDestination))
+                    Workflow.DestConfig.ImageUploaders.Add((ImageDestination)lvi.Tag);
+                if (lvi.Tag.GetType() == typeof(TextDestination))
+                    Workflow.DestConfig.TextUploaders.Add((TextDestination)lvi.Tag);
                 if (lvi.Tag.GetType() == typeof(FileDestination))
                     Workflow.DestConfig.FileUploaders.Add((FileDestination)lvi.Tag);
+                if (lvi.Tag.GetType() == typeof(UrlShortenerType))
+                    Workflow.DestConfig.LinkUploaders.Add((UrlShortenerType)lvi.Tag);
                 else if (lvi.Tag.GetType() == typeof(EActivity))
                     Workflow.Activities.Add((EActivity)lvi.Tag);
             }
