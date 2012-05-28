@@ -112,6 +112,14 @@ namespace ShareX
             AfterCaptureActivity jobs_wf = new AfterCaptureActivity();
             jobs_wf.Workflow = wf;
 
+            if (jobs_wf.Workflow.DestConfig.FileUploaders.Count > 0)
+            {
+                if (jobs_wf.Workflow.DestConfig.ImageUploaders.Count == 0)
+                    jobs_wf.Workflow.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                if (jobs_wf.Workflow.DestConfig.TextUploaders.Count == 0)
+                    jobs_wf.Workflow.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
+            }
+
             foreach (EActivity act in wf.Activities)
             {
                 switch (act)
@@ -187,97 +195,9 @@ namespace ShareX
                         jobs_wf.Subtasks |= Subtask.AnnotateImageAddShadowBorder;
                         break;
 
-                    case EActivity.UploadToImageShack:
-                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.ImageShack);
-                        break;
-                    case EActivity.UploadToTinyPic:
-                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.TinyPic);
-                        break;
-                    case EActivity.UploadToImgur:
-                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.Imgur);
-                        break;
-                    case EActivity.UploadToFlickr:
-                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.Flickr);
-                        break;
-                    case EActivity.UploadToPhotobucket:
-                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.Photobucket);
-                        break;
-                    case EActivity.UploadToTwitPic:
-                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.Twitpic);
-                        break;
-                    case EActivity.UploadToTwitSnaps:
-                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.Twitsnaps);
-                        break;
-                    case EActivity.UploadToYfrog:
-                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.yFrog);
-                        break;
-                    case EActivity.UploadToImmio:
-                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.Immio);
-                        break;
-
-                    case EActivity.UploadToPastebin:
-                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.Pastebin);
-                        break;
-                    case EActivity.UploadToPastebinCa:
-                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.PastebinCA);
-                        break;
-                    case EActivity.UploadToPaste2:
-                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.Paste2);
-                        break;
-                    case EActivity.UploadToSlexy:
-                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.Slexy);
-                        break;
-                    case EActivity.UploadToPastee:
-                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.Pastee);
-                        break;
-                    case EActivity.UploadToDropbox:
-                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
-                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
-                        jobs_wf.DestConfig.FileUploaders.Add(UploadersLib.FileDestination.Dropbox);
-                        break;
-                    case EActivity.UploadToRapidShare:
-                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
-                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
-                        jobs_wf.DestConfig.FileUploaders.Add(UploadersLib.FileDestination.RapidShare);
-                        break;
-                    case EActivity.UploadToSendSpace:
-                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
-                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
-                        jobs_wf.DestConfig.FileUploaders.Add(UploadersLib.FileDestination.SendSpace);
-                        break;
-                    case EActivity.UploadToMinus:
-                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
-                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
-                        jobs_wf.DestConfig.FileUploaders.Add(UploadersLib.FileDestination.Minus);
-                        break;
-                    case EActivity.UploadToFTP:
-                        jobs_wf.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
-                        jobs_wf.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
-                        jobs_wf.DestConfig.FileUploaders.Add(UploadersLib.FileDestination.FTP);
-                        break;
-
-                    case EActivity.ShortenLinkUsingGoogle:
-                        jobs_wf.DestConfig.LinkUploaders.Add(UploadersLib.UrlShortenerType.Google);
-                        break;
-                    case EActivity.ShortenLinkUsingBitly:
-                        jobs_wf.DestConfig.LinkUploaders.Add(UploadersLib.UrlShortenerType.BITLY);
-                        break;
-                    case EActivity.ShortenLinkUsingJmp:
-                        jobs_wf.DestConfig.LinkUploaders.Add(UploadersLib.UrlShortenerType.Jmp);
-                        break;
-                    case EActivity.ShortenLinkUsingIsgd:
-                        jobs_wf.DestConfig.LinkUploaders.Add(UploadersLib.UrlShortenerType.ISGD);
-                        break;
-                    case EActivity.ShortenLinkUsingTinyUrl:
-                        jobs_wf.DestConfig.LinkUploaders.Add(UploadersLib.UrlShortenerType.TINYURL);
-                        break;
-                    case EActivity.ShortenLinkUsingTurl:
-                        jobs_wf.DestConfig.LinkUploaders.Add(UploadersLib.UrlShortenerType.TURL);
-                        break;
-
                     default:
                         FormsHelper.ShowLog();
-                        log.ErrorFormat("{0} is not  yet implemented.", act.GetDescription());
+                        log.ErrorFormat("{0} is not  yet implemented.", act.ToString());
                         break;
                 }
             }
@@ -285,29 +205,29 @@ namespace ShareX
             AfterHotkeyPressed(imagedata_wf, jobs_wf);
         }
 
-        private void AfterHotkeyPressed(ImageData imageData, AfterCaptureActivity jobs = null)
+        private void AfterHotkeyPressed(ImageData imageData, AfterCaptureActivity act = null)
         {
             if (imageData != null)
             {
-                if (jobs.Subtasks == Subtask.None)
-                    jobs.Subtasks |= SettingsManager.ConfigCore.AfterCaptureSubtasks;
-                if (jobs.DestConfig.ImageUploaders.Count > 0)
-                    jobs.Subtasks |= Subtask.UploadImageToHost;
+                if (act.Subtasks == Subtask.None)
+                    act.Subtasks |= SettingsManager.ConfigCore.AfterCaptureSubtasks;
+                if (act.Workflow.DestConfig.ImageUploaders.Count > 0)
+                    act.Subtasks |= Subtask.UploadImageToHost;
                 log.Debug("After Capture initiated.");
-                AfterCapture(imageData, jobs);
+                AfterCapture(imageData, act);
             }
-            else if (jobs.InputType == EInputType.Clipboard)
+            else if (act.InputType == EInputType.Clipboard)
             {
-                if (jobs.Subtasks == Subtask.None)
-                    jobs.Subtasks |= SettingsManager.ConfigCore.AfterCaptureSubtasks;
+                if (act.Subtasks == Subtask.None)
+                    act.Subtasks |= SettingsManager.ConfigCore.AfterCaptureSubtasks;
 
                 log.Debug("ClipboardUpload initiated.");
-                UploadManager.ClipboardUpload(jobs);
+                UploadManager.ClipboardUpload(act);
             }
-            else if (jobs.InputType == EInputType.FileSystem)
+            else if (act.InputType == EInputType.FileSystem)
             {
                 log.Debug("UploadFile initiated.");
-                UploadManager.UploadFile(jobs);
+                UploadManager.UploadFile(act);
             }
         }
 

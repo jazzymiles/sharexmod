@@ -127,10 +127,11 @@ namespace ShareX
                     else if (AfterCaptureActivity.IsNullOrEmpty(act))
                         act.GetDefaults();
 
-                    foreach (FileDestination fileUploader in act.DestConfig.FileUploaders)
+                    foreach (FileDestination fileUploader in act.Workflow.DestConfig.FileUploaders)
                     {
                         Task task = Task.CreateFileUploaderTask(type, path, destination);
-                        task.Info.DestConfig = act.DestConfig;
+                        task.SetWorkflow(act.Workflow);
+
                         StartUpload(task);
                         break;
                     }
@@ -152,11 +153,11 @@ namespace ShareX
             if (imageData != null)
             {
                 EDataType destination = EDataType.Image;
-                if (act.DestConfig.ImageUploaders.Count > 0)
-                    destination = act.DestConfig.ImageUploaders[0] == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
+                if (act.Workflow.DestConfig.ImageUploaders.Count > 0)
+                    destination = act.Workflow.DestConfig.ImageUploaders[0] == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
                 Task task = Task.CreateImageUploaderTask(imageData, destination);
                 task.Info.Jobs = act.Subtasks;
-                task.Info.DestConfig = act.DestConfig;
+                task.SetWorkflow(act.Workflow);
                 StartUpload(task);
             }
         }
@@ -185,12 +186,11 @@ namespace ShareX
             if (!string.IsNullOrEmpty(text))
             {
                 EDataType destination = EDataType.Text;
-                if (act.DestConfig.TextUploaders.Count > 0)
-                    destination = act.DestConfig.TextUploaders[0] == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
+                if (act.Workflow.DestConfig.TextUploaders.Count > 0)
+                    destination = act.Workflow.DestConfig.TextUploaders[0] == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
                 Task task = Task.CreateTextUploaderTask(text, destination);
                 task.Info.Jobs = act.Subtasks;
-                task.Info.DestConfig = act.DestConfig;
-                task.Workflow = act.Workflow;
+                task.SetWorkflow(act.Workflow);
                 StartUpload(task);
             }
         }
@@ -203,7 +203,7 @@ namespace ShareX
             if (!string.IsNullOrEmpty(url))
             {
                 Task task = Task.CreateURLShortenerTask(url);
-                task.Info.DestConfig = act.DestConfig;
+                task.SetWorkflow(act.Workflow);
                 StartUpload(task);
             }
         }
@@ -295,7 +295,7 @@ namespace ShareX
 
                 EDataType destination = ImageUploader == ImageDestination.FileUploader ? EDataType.File : dataType;
                 Task task = Task.CreateDataUploaderTask(EDataType.Image, stream, filePath, destination);
-                task.Info.DestConfig = act.DestConfig;
+                task.SetWorkflow(act.Workflow);
                 StartUpload(task);
             }
         }
