@@ -10,6 +10,7 @@ using HelpersLib;
 using HelpersLib.Hotkeys2;
 using ScreenCapture;
 using ShareX.HelperClasses;
+using UploadersLib;
 
 namespace ShareX
 {
@@ -18,11 +19,6 @@ namespace ShareX
         internal void InitHotkeys()
         {
             HotkeyManager = new HotkeyManager(this);
-
-            // Todo: Review after 2012-06-15 - remove ConfigCore.Workflows
-
-            if (SettingsManager.ConfigWorkflows.Workflows.Count == 0)
-                SettingsManager.ConfigWorkflows.Workflows.AddRange(SettingsManager.ConfigCore.Workflows1);
 
             if (SettingsManager.ConfigWorkflows.Workflows.Count == 0)
             {
@@ -110,17 +106,11 @@ namespace ShareX
             }
 
             AfterCaptureActivity jobs_wf = new AfterCaptureActivity();
-            jobs_wf.Workflow = wf;
+            jobs_wf.Workflow = new Workflow();
+            jobs_wf.Workflow.Activities = wf.Activities;
+            jobs_wf.Workflow.DestConfig = Helpers.Clone(wf.DestConfig) as DestConfig;
 
-            if (jobs_wf.Workflow.DestConfig.FileUploaders.Count > 0)
-            {
-                if (jobs_wf.Workflow.DestConfig.ImageUploaders.Count == 0)
-                    jobs_wf.Workflow.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
-                if (jobs_wf.Workflow.DestConfig.TextUploaders.Count == 0)
-                    jobs_wf.Workflow.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
-            }
-
-            foreach (EActivity act in wf.Activities)
+            foreach (EActivity act in jobs_wf.Workflow.Activities)
             {
                 switch (act)
                 {
@@ -207,6 +197,14 @@ namespace ShareX
 
         private void AfterHotkeyPressed(ImageData imageData, AfterCaptureActivity act = null)
         {
+            if (act.Workflow.DestConfig.FileUploaders.Count > 0)
+            {
+                if (act.Workflow.DestConfig.ImageUploaders.Count == 0)
+                    act.Workflow.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                if (act.Workflow.DestConfig.TextUploaders.Count == 0)
+                    act.Workflow.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
+            }
+
             if (imageData != null)
             {
                 if (act.Subtasks == Subtask.None)

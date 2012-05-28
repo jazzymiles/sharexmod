@@ -75,14 +75,6 @@ namespace ShareX
 
         public static void Save()
         {
-            // This code should be removed after 2012-06-15
-            if (ConfigCore.Workflows1.Count > 0)
-            {
-                ConfigWorkflows = new WorkflowsConfig();
-                ConfigWorkflows.Workflows.AddRange(ConfigCore.Workflows1);
-                ConfigCore.Workflows1.Clear();
-            }
-
             ConfigWorkflows.Save(ConfigWorkflowsFilePath);
             ConfigUploaders.Save(ConfigUploadersFilePath);
             SaveCoreConfig();
