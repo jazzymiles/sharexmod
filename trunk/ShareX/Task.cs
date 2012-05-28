@@ -259,7 +259,6 @@ namespace ShareX
                 {
                     imageData.PrepareImageAndFilename();
 
-                    data = imageData.ImageStream;
                     Info.FileName = imageData.Filename;
 
                     if (Info.Jobs.HasFlag(Subtask.SaveImageToFile))
@@ -272,6 +271,11 @@ namespace ShareX
                         if (string.IsNullOrEmpty(Info.FilePath))
                             Info.FilePath = fp;
                     }
+
+                    if (File.Exists(Info.FilePath))
+                        data = new FileStream(Info.FilePath, FileMode.Open, FileAccess.Read);
+                    else
+                        data = imageData.ImageStream;
                 }
             }
             else if (Info.Job == TaskJob.TextUpload && !string.IsNullOrEmpty(tempText))
