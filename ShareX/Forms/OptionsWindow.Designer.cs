@@ -28,27 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("General");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Hotkeys");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Clipboard");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Shapes");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Capture", new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("File Naming");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Quality");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Resize");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Image Processing", new System.Windows.Forms.TreeNode[] {
-            treeNode7,
-            treeNode8});
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Upload");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Paths");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Proxy");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Shapes");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Uploader Config");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Advanced", new System.Windows.Forms.TreeNode[] {
-            treeNode13,
-            treeNode14});
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("General");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Hotkeys");
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Clipboard");
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Shapes");
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Capture", new System.Windows.Forms.TreeNode[] {
+            treeNode18,
+            treeNode19});
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("File Naming");
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Quality");
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("Resize");
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Image Processing", new System.Windows.Forms.TreeNode[] {
+            treeNode22,
+            treeNode23});
+            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("Upload");
+            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("Paths");
+            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("Proxy");
+            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("Shapes");
+            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("Uploader Config");
+            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("Advanced", new System.Windows.Forms.TreeNode[] {
+            treeNode28,
+            treeNode29});
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tvMain = new System.Windows.Forms.TreeView();
             this.tcBase = new System.Windows.Forms.TabControl();
@@ -272,49 +272,49 @@
             this.tvMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvMain.Location = new System.Drawing.Point(3, 3);
             this.tvMain.Name = "tvMain";
-            treeNode1.Name = "tnGeneral";
-            treeNode1.Tag = "panelGeneral";
-            treeNode1.Text = "General";
-            treeNode2.Name = "tnHotkeys";
-            treeNode2.Text = "Hotkeys";
-            treeNode3.Name = "tnClipboardUpload";
-            treeNode3.Text = "Clipboard";
-            treeNode4.Name = "tnShapes";
-            treeNode4.Tag = "panelShapes";
-            treeNode4.Text = "Shapes";
-            treeNode5.Name = "tnCapture";
-            treeNode5.Tag = "panelCapture";
-            treeNode5.Text = "Capture";
-            treeNode6.Name = "tnFileNaming";
-            treeNode6.Text = "File Naming";
-            treeNode7.Name = "tnImageQuality";
-            treeNode7.Text = "Quality";
-            treeNode8.Name = "tnImageResize";
-            treeNode8.Text = "Resize";
-            treeNode9.Name = "tnImage";
-            treeNode9.Text = "Image Processing";
-            treeNode10.Name = "tnUpload";
-            treeNode10.Text = "Upload";
-            treeNode11.Name = "tnPaths";
-            treeNode11.Text = "Paths";
-            treeNode12.Name = "tnProxy";
-            treeNode12.Text = "Proxy";
-            treeNode13.Name = "tnShapes2";
-            treeNode13.Text = "Shapes";
-            treeNode14.Name = "tnUploaderConfig";
-            treeNode14.Text = "Uploader Config";
-            treeNode15.Name = "tnAdvanced";
-            treeNode15.Text = "Advanced";
+            treeNode16.Name = "tnGeneral";
+            treeNode16.Tag = "panelGeneral";
+            treeNode16.Text = "General";
+            treeNode17.Name = "tnHotkeys";
+            treeNode17.Text = "Hotkeys";
+            treeNode18.Name = "tnClipboardUpload";
+            treeNode18.Text = "Clipboard";
+            treeNode19.Name = "tnShapes";
+            treeNode19.Tag = "panelShapes";
+            treeNode19.Text = "Shapes";
+            treeNode20.Name = "tnCapture";
+            treeNode20.Tag = "panelCapture";
+            treeNode20.Text = "Capture";
+            treeNode21.Name = "tnFileNaming";
+            treeNode21.Text = "File Naming";
+            treeNode22.Name = "tnImageQuality";
+            treeNode22.Text = "Quality";
+            treeNode23.Name = "tnImageResize";
+            treeNode23.Text = "Resize";
+            treeNode24.Name = "tnImage";
+            treeNode24.Text = "Image Processing";
+            treeNode25.Name = "tnUpload";
+            treeNode25.Text = "Upload";
+            treeNode26.Name = "tnPaths";
+            treeNode26.Text = "Paths";
+            treeNode27.Name = "tnProxy";
+            treeNode27.Text = "Proxy";
+            treeNode28.Name = "tnShapes2";
+            treeNode28.Text = "Shapes";
+            treeNode29.Name = "tnUploaderConfig";
+            treeNode29.Text = "Uploader Config";
+            treeNode30.Name = "tnAdvanced";
+            treeNode30.Text = "Advanced";
             this.tvMain.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode5,
-            treeNode6,
-            treeNode9,
-            treeNode10,
-            treeNode11,
-            treeNode12,
-            treeNode15});
+            treeNode16,
+            treeNode17,
+            treeNode20,
+            treeNode21,
+            treeNode24,
+            treeNode25,
+            treeNode26,
+            treeNode27,
+            treeNode30});
             this.tvMain.Size = new System.Drawing.Size(133, 402);
             this.tvMain.TabIndex = 0;
             this.tvMain.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvMain_AfterSelect);
@@ -2029,9 +2029,10 @@
             this.pgShapes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgShapes.Location = new System.Drawing.Point(0, 0);
             this.pgShapes.Name = "pgShapes";
-            this.pgShapes.PropertySort = System.Windows.Forms.PropertySort.Categorized;
+            this.pgShapes.PropertySort = System.Windows.Forms.PropertySort.NoSort;
             this.pgShapes.Size = new System.Drawing.Size(537, 370);
             this.pgShapes.TabIndex = 2;
+            this.pgShapes.ToolbarVisible = false;
             // 
             // OptionsWindow
             // 

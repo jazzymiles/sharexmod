@@ -244,9 +244,10 @@ namespace ShareX
                     SettingsManager.SettingsResetEvent.WaitOne();
                 Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-#if DEBUG
-                FormsHelper.ShowLog();
-#endif
+
+                if (IsDebug)
+                    FormsHelper.ShowLog();
+
                 Application.Run(FormsHelper.Main);
 
                 SettingsManager.Save();
