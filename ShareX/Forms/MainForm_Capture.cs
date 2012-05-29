@@ -356,7 +356,7 @@ namespace ShareX
 
         private void tsmiWatermark_Click(object sender, EventArgs e)
         {
-            WatermarkUI ui = new WatermarkUI(Resources.ShareXLogo, SettingsManager.ConfigUser.ConfigWatermark)
+            WatermarkUI ui = new WatermarkUI(SettingsManager.ConfigUser.ConfigWatermark)
             {
                 Icon = this.Icon
             };

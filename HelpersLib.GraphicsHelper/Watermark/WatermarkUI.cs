@@ -25,10 +25,10 @@ namespace HelpersLibWatermark
 
         #region 1 Constructors
 
-        public WatermarkUI(Image img, WatermarkConfig cfg = null)
+        public WatermarkUI(WatermarkConfig cfg = null)
         {
             InitializeComponent();
-            backgroundImage = (Bitmap)img.Clone();
+            backgroundImage = Resources.WatermarkTest;
 
             if (cfg == null)
                 config = new WatermarkConfig();

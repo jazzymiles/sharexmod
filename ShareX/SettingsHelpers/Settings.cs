@@ -59,6 +59,8 @@ namespace ShareX
         public bool PlaySoundAfterUpload = true;
         public bool ShowBalloonAfterUpload = true;
 
+        public List<Workflow> Workflows1 = new List<Workflow>();
+
         // Upload
 
         public bool UseCustomUploadersConfigPath = false;

@@ -58,7 +58,7 @@ namespace ShareX
         private static readonly string PortablePersonalPath = Path.Combine(Application.StartupPath, ApplicationName);
 
         private static readonly string HistoryFileName = "UploadersHistory.xml";
-        private static readonly string LogFileName = ApplicationName + "Log-{0}-{1}.txt";
+        private static readonly string LogFileName = ApplicationName + "Log-{0}.log";
 
         public static string PersonalPath
         {
@@ -92,7 +92,7 @@ namespace ShareX
             get
             {
                 DateTime now = FastDateTime.Now;
-                return Path.Combine(PersonalPath, string.Format(LogFileName, now.Year, now.Month));
+                return Path.Combine(PersonalPath, string.Format(LogFileName, now.ToString("yyyy-MM")));
             }
         }
 
@@ -252,7 +252,7 @@ namespace ShareX
 
                 SettingsManager.Save();
 
-                log.Info("ShareX closing");
+                log.Info("ShareX closing\n");
             }
             finally
             {

@@ -72,7 +72,6 @@ namespace HelpersLib.Hotkeys2
                 if (hki != null)
                 {
                     hki.HotkeyPress = hotkeyPress;
-                    log.DebugFormat("Updated key binding for {0}", tag);
                     return HotkeyStatus.Registered;
                 }
                 else

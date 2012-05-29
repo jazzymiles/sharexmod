@@ -495,16 +495,18 @@ namespace ShareX
                         lvi.ImageIndex = 2;
 
                         string url = string.IsNullOrEmpty(info.Result.ShortenedURL) ? info.Result.URL : info.Result.ShortenedURL;
+                        if (string.IsNullOrEmpty(url))
+                            url = info.FilePath;
 
-                        lvi.SubItems[8].Text = !string.IsNullOrEmpty(url) ? url : info.FilePath;
+                        lvi.SubItems[8].Text = url;
+
+                        if (SettingsManager.ConfigCore.ClipboardAutoCopy)
+                        {
+                            Helpers.CopyTextSafely(url);
+                        }
 
                         if (!string.IsNullOrEmpty(info.Result.URL))
                         {
-                            if (SettingsManager.ConfigCore.ClipboardAutoCopy)
-                            {
-                                Helpers.CopyTextSafely(url);
-                            }
-
                             if (SettingsManager.ConfigCore.SaveHistory)
                             {
                                 HistoryManager.AddHistoryItemAsync(Program.HistoryFilePath, info.GetHistoryItem());

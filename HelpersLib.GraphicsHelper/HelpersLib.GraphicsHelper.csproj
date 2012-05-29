@@ -221,7 +221,7 @@
   <ItemGroup>
     <Content Include="Colors\Cursor.cur" />
     <Content Include="Colors\cursor.png" />
-    <None Include="Resources\ShareXLogo.png" />
+    <None Include="Resources\WatermarkTest.png" />
     <None Include="Resources\cursor.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
