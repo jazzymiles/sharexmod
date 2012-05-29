@@ -136,5 +136,12 @@ namespace HelpersLib.GraphicsHelper.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap WatermarkTest {
+            get {
+                object obj = ResourceManager.GetObject("WatermarkTest", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

@@ -97,6 +97,13 @@ namespace ShareX
         {
             log.Info("Loading core config");
             SettingsManager.ConfigCore = Settings.Load(ConfigCoreFilePath);
+            if (ConfigCore.Workflows1.Count > 0)
+            {
+                WorkflowsConfig oldWorkflow = new WorkflowsConfig();
+                oldWorkflow.Workflows = ConfigCore.Workflows1;
+                oldWorkflow.Save(ConfigWorkflowsFilePath + ".old");
+                ConfigCore.Workflows1.Clear();
+            }
             SettingsResetEvent.Set();
         }
 

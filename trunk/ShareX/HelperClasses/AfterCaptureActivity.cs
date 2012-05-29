@@ -12,7 +12,7 @@ namespace ShareX.HelperClasses
     {
         public Subtask Subtasks { get; set; }
         public EInputType InputType { get; set; }
-        public Workflow Workflow { get; set; }
+        public Workflow Workflow = new Workflow();
 
         public static bool IsNullOrEmpty(AfterCaptureActivity act)
         {
