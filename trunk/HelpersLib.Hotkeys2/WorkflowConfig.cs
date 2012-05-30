@@ -34,7 +34,7 @@ namespace HelpersLib.Hotkeys2
 
             this.pgSettings.SelectedObject = wf.Settings.DestConfig;
 
-            foreach (FileAction fileAction in Workflow.Settings.FileActions)
+            foreach (FileAction fileAction in Workflow.Settings.ExternalPrograms)
             {
                 AddFileAction(fileAction);
             }
@@ -226,24 +226,25 @@ namespace HelpersLib.Hotkeys2
             foreach (ListViewItem lvi in lvActivitiesUser.Items)
             {
                 if (lvi.Tag.GetType() == typeof(EActivity) && (EActivity)lvi.Tag == EActivity.UploadClipboard)
-                {
                     showSettings = true;
-                }
                 else if (lvi.Tag.GetType() == typeof(TextDestination))
-                {
-                    if (!tcWorkflow.TabPages.Contains(tpSettings))
-                        showSettings = true;
-                }
-                else if (lvi.Tag.GetType() == typeof(EActivity) && (EActivity)lvi.Tag == EActivity.RunExternalProgram)
-                {
+                    showSettings = true;
+
+                if (lvi.Tag.GetType() == typeof(EActivity) && (EActivity)lvi.Tag == EActivity.RunExternalProgram)
                     showExternalPrograms = true;
-                }
             }
 
             if (showSettings)
-                tcWorkflow.TabPages.Add(tpSettings);
+                if (!tcWorkflow.TabPages.Contains(tpSettings))
+                    tcWorkflow.TabPages.Add(tpSettings);
+                else
+                    tcWorkflow.TabPages.Remove(tpSettings);
+
             if (showExternalPrograms)
-                tcWorkflow.TabPages.Add(tpActions);
+                if (!tcWorkflow.TabPages.Contains(tpActions))
+                    tcWorkflow.TabPages.Add(tpActions);
+                else
+                    tcWorkflow.TabPages.Remove(tpActions);
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
@@ -257,6 +258,7 @@ namespace HelpersLib.Hotkeys2
             {
                 lvActivitiesUser.Items.Remove(act);
             }
+            UpdateTabsVisibility();
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -307,7 +309,7 @@ namespace HelpersLib.Hotkeys2
                 ListViewItem lvi = lvActions.SelectedItems[0];
                 FileAction fileAction = lvi.Tag as FileAction;
 
-                Workflow.Settings.FileActions.Remove(fileAction);
+                Workflow.Settings.ExternalPrograms.Remove(fileAction);
                 lvActions.Items.Remove(lvi);
             }
         }
@@ -339,7 +341,7 @@ namespace HelpersLib.Hotkeys2
                 {
                     FileAction fileAction = form.FileAction;
                     fileAction.IsActive = true;
-                    Workflow.Settings.FileActions.Add(fileAction);
+                    Workflow.Settings.ExternalPrograms.Add(fileAction);
                     AddFileAction(fileAction);
                 }
             }

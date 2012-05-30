@@ -273,7 +273,7 @@ namespace ShareX
                             Info.FilePath = fp;
                     }
 
-                    var actions = Workflow.Settings.FileActions.Where(x => x.IsActive);
+                    var actions = Workflow.Settings.ExternalPrograms.Where(x => x.IsActive);
                     if (actions.Count() > 0)
                     {
                         if (data != null)
