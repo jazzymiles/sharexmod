@@ -14,7 +14,15 @@ namespace HelpersLib.Hotkeys2
         public DestConfig DestConfig = new DestConfig();
         public List<FileAction> ExternalPrograms = new List<FileAction>();
 
-        public WorkflowSettings()
+        public void Clear()
+        {
+            DestConfig.ImageUploaders.Clear();
+            DestConfig.TextUploaders.Clear();
+            DestConfig.FileUploaders.Clear();
+            DestConfig.LinkUploaders.Clear();
+        }
+
+        public void GetDefaults()
         {
             if (ExternalPrograms.Count == 0)
             {
@@ -25,14 +33,6 @@ namespace HelpersLib.Hotkeys2
                 SoftwareCheck("XnView", "xnview.exe");
                 SoftwareCheck("Picasa", "PicasaPhotoViewer.exe");
             }
-        }
-
-        public void Clear()
-        {
-            DestConfig.ImageUploaders.Clear();
-            DestConfig.TextUploaders.Clear();
-            DestConfig.FileUploaders.Clear();
-            DestConfig.LinkUploaders.Clear();
         }
 
         /// <summary>Registry path: HKEY_CLASSES_ROOT\Applications\{fileName}\shell\{command}\command</summary>
