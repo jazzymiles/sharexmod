@@ -127,7 +127,7 @@ namespace ShareX
                     else if (AfterCaptureActivity.IsNullOrEmpty(act))
                         act.GetDefaults();
 
-                    foreach (FileDestination fileUploader in act.Workflow.DestConfig.FileUploaders)
+                    foreach (FileDestination fileUploader in act.Workflow.Settings.DestConfig.FileUploaders)
                     {
                         Task task = Task.CreateFileUploaderTask(type, path, destination);
                         task.SetWorkflow(act.Workflow);
@@ -153,8 +153,8 @@ namespace ShareX
             if (imageData != null)
             {
                 EDataType destination = EDataType.Image;
-                if (act.Workflow.DestConfig.ImageUploaders.Count > 0)
-                    destination = act.Workflow.DestConfig.ImageUploaders[0] == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
+                if (act.Workflow.Settings.DestConfig.ImageUploaders.Count > 0)
+                    destination = act.Workflow.Settings.DestConfig.ImageUploaders[0] == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
                 Task task = Task.CreateImageUploaderTask(imageData, destination);
                 task.Info.Jobs = act.Subtasks;
                 task.SetWorkflow(act.Workflow);
@@ -186,8 +186,8 @@ namespace ShareX
             if (!string.IsNullOrEmpty(text))
             {
                 EDataType destination = EDataType.Text;
-                if (act.Workflow.DestConfig.TextUploaders.Count > 0)
-                    destination = act.Workflow.DestConfig.TextUploaders[0] == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
+                if (act.Workflow.Settings.DestConfig.TextUploaders.Count > 0)
+                    destination = act.Workflow.Settings.DestConfig.TextUploaders[0] == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
                 Task task = Task.CreateTextUploaderTask(text, destination);
                 task.Info.Jobs = act.Subtasks;
                 task.SetWorkflow(act.Workflow);

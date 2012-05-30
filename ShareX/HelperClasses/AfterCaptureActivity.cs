@@ -16,12 +16,12 @@ namespace ShareX.HelperClasses
 
         public static bool IsNullOrEmpty(AfterCaptureActivity act)
         {
-            return act == null || act.Workflow.DestConfig.IsEmptyAny;
+            return act == null || act.Workflow.Settings.DestConfig.IsEmptyAny;
         }
 
         public static bool IsEmpty(AfterCaptureActivity act)
         {
-            return act != null && act.Workflow.DestConfig.IsEmptyAll;
+            return act != null && act.Workflow.Settings.DestConfig.IsEmptyAll;
         }
 
         public static AfterCaptureActivity GetNew()
@@ -38,12 +38,12 @@ namespace ShareX.HelperClasses
         {
             if (this.Subtasks.HasFlag(Subtask.UploadImageToHost))
             {
-                if (this.Workflow.DestConfig.ImageUploaders.Count == 0)
-                    this.Workflow.DestConfig.ImageUploaders.Add(UploadManager.ImageUploader);
-                if (this.Workflow.DestConfig.TextUploaders.Count == 0)
-                    this.Workflow.DestConfig.TextUploaders.Add(UploadManager.TextUploader);
-                if (this.Workflow.DestConfig.FileUploaders.Count == 0)
-                    this.Workflow.DestConfig.FileUploaders.Add(UploadManager.FileUploader);
+                if (this.Workflow.Settings.DestConfig.ImageUploaders.Count == 0)
+                    this.Workflow.Settings.DestConfig.ImageUploaders.Add(UploadManager.ImageUploader);
+                if (this.Workflow.Settings.DestConfig.TextUploaders.Count == 0)
+                    this.Workflow.Settings.DestConfig.TextUploaders.Add(UploadManager.TextUploader);
+                if (this.Workflow.Settings.DestConfig.FileUploaders.Count == 0)
+                    this.Workflow.Settings.DestConfig.FileUploaders.Add(UploadManager.FileUploader);
             }
 
             // LinkUploaders are only added if they are empty at ShortenURL method

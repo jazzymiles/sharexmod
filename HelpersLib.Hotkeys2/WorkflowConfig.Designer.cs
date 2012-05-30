@@ -44,11 +44,20 @@
             this.tpActivities = new System.Windows.Forms.TabPage();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.pgSettings = new System.Windows.Forms.PropertyGrid();
+            this.tpActions = new System.Windows.Forms.TabPage();
+            this.btnActionsEdit = new System.Windows.Forms.Button();
+            this.btnActionsRemove = new System.Windows.Forms.Button();
+            this.btnActionsAdd = new System.Windows.Forms.Button();
+            this.lvActions = new HelpersLib.MyListView();
+            this.chActionsName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chActionsPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chActionsArgs = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tcWorkflow.SuspendLayout();
             this.tpActivities.SuspendLayout();
             this.tpSettings.SuspendLayout();
+            this.tpActions.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtDescription
@@ -184,6 +193,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tcWorkflow.Controls.Add(this.tpActivities);
             this.tcWorkflow.Controls.Add(this.tpSettings);
+            this.tcWorkflow.Controls.Add(this.tpActions);
             this.tcWorkflow.Location = new System.Drawing.Point(8, 40);
             this.tcWorkflow.Name = "tcWorkflow";
             this.tcWorkflow.SelectedIndex = 0;
@@ -221,13 +231,90 @@
             this.pgSettings.TabIndex = 0;
             this.pgSettings.ToolbarVisible = false;
             // 
+            // tpActions
+            // 
+            this.tpActions.Controls.Add(this.btnActionsEdit);
+            this.tpActions.Controls.Add(this.btnActionsRemove);
+            this.tpActions.Controls.Add(this.btnActionsAdd);
+            this.tpActions.Controls.Add(this.lvActions);
+            this.tpActions.Location = new System.Drawing.Point(4, 22);
+            this.tpActions.Name = "tpActions";
+            this.tpActions.Padding = new System.Windows.Forms.Padding(3);
+            this.tpActions.Size = new System.Drawing.Size(654, 374);
+            this.tpActions.TabIndex = 2;
+            this.tpActions.Text = "External Programs";
+            this.tpActions.UseVisualStyleBackColor = true;
+            // 
+            // btnActionsEdit
+            // 
+            this.btnActionsEdit.Location = new System.Drawing.Point(88, 8);
+            this.btnActionsEdit.Name = "btnActionsEdit";
+            this.btnActionsEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnActionsEdit.TabIndex = 7;
+            this.btnActionsEdit.Text = "Edit...";
+            this.btnActionsEdit.UseVisualStyleBackColor = true;
+            this.btnActionsEdit.Click += new System.EventHandler(this.btnActionsEdit_Click);
+            // 
+            // btnActionsRemove
+            // 
+            this.btnActionsRemove.Location = new System.Drawing.Point(168, 8);
+            this.btnActionsRemove.Name = "btnActionsRemove";
+            this.btnActionsRemove.Size = new System.Drawing.Size(75, 23);
+            this.btnActionsRemove.TabIndex = 6;
+            this.btnActionsRemove.Text = "Remove";
+            this.btnActionsRemove.UseVisualStyleBackColor = true;
+            this.btnActionsRemove.Click += new System.EventHandler(this.btnActionsRemove_Click);
+            // 
+            // btnActionsAdd
+            // 
+            this.btnActionsAdd.Location = new System.Drawing.Point(8, 8);
+            this.btnActionsAdd.Name = "btnActionsAdd";
+            this.btnActionsAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnActionsAdd.TabIndex = 5;
+            this.btnActionsAdd.Text = "Add...";
+            this.btnActionsAdd.UseVisualStyleBackColor = true;
+            this.btnActionsAdd.Click += new System.EventHandler(this.btnActionsAdd_Click);
+            // 
+            // lvActions
+            // 
+            this.lvActions.CheckBoxes = true;
+            this.lvActions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chActionsName,
+            this.chActionsPath,
+            this.chActionsArgs});
+            this.lvActions.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lvActions.FullRowSelect = true;
+            this.lvActions.Location = new System.Drawing.Point(3, 40);
+            this.lvActions.MultiSelect = false;
+            this.lvActions.Name = "lvActions";
+            this.lvActions.Size = new System.Drawing.Size(648, 331);
+            this.lvActions.TabIndex = 2;
+            this.lvActions.UseCompatibleStateImageBehavior = false;
+            this.lvActions.View = System.Windows.Forms.View.Details;
+            this.lvActions.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvActions_ItemChecked);
+            // 
+            // chActionsName
+            // 
+            this.chActionsName.Text = "Name";
+            this.chActionsName.Width = 100;
+            // 
+            // chActionsPath
+            // 
+            this.chActionsPath.Text = "Path";
+            this.chActionsPath.Width = 250;
+            // 
+            // chActionsArgs
+            // 
+            this.chActionsArgs.Text = "Args";
+            this.chActionsArgs.Width = 134;
+            // 
             // WindowWorkflow
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(680, 480);
+            this.ClientSize = new System.Drawing.Size(688, 480);
             this.Controls.Add(this.tcWorkflow);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
@@ -242,6 +329,7 @@
             this.tcWorkflow.ResumeLayout(false);
             this.tpActivities.ResumeLayout(false);
             this.tpSettings.ResumeLayout(false);
+            this.tpActions.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -264,6 +352,14 @@
         private System.Windows.Forms.TabPage tpActivities;
         private System.Windows.Forms.TabPage tpSettings;
         private System.Windows.Forms.PropertyGrid pgSettings;
+        private System.Windows.Forms.TabPage tpActions;
+        private System.Windows.Forms.Button btnActionsEdit;
+        private System.Windows.Forms.Button btnActionsRemove;
+        private System.Windows.Forms.Button btnActionsAdd;
+        private MyListView lvActions;
+        private System.Windows.Forms.ColumnHeader chActionsName;
+        private System.Windows.Forms.ColumnHeader chActionsPath;
+        private System.Windows.Forms.ColumnHeader chActionsArgs;
 
     }
 }

@@ -30,8 +30,14 @@ namespace HelpersLib.Hotkeys2
             InitializeComponent();
 
             this.Text = "Workflow - " + wf.HotkeyConfig.Description;
-            this.pgSettings.SelectedObject = wf.DestConfig;
             this.txtDescription.Text = wf.HotkeyConfig.Description;
+
+            this.pgSettings.SelectedObject = wf.Settings.DestConfig;
+
+            foreach (FileAction fileAction in Workflow.Settings.FileActions)
+            {
+                AddFileAction(fileAction);
+            }
 
             lvActivitiesAll.Groups.AddRange(new[]
             {
@@ -50,22 +56,22 @@ namespace HelpersLib.Hotkeys2
 
         private void FillListActivitiesUser()
         {
-            foreach (ImageDestination uploader in Workflow.DestConfig.ImageUploaders)
+            foreach (ImageDestination uploader in Workflow.Settings.DestConfig.ImageUploaders)
             {
                 lvActivitiesUser.Items.Add(GetListViewItem(uploader));
             }
 
-            foreach (TextDestination uploader in Workflow.DestConfig.TextUploaders)
+            foreach (TextDestination uploader in Workflow.Settings.DestConfig.TextUploaders)
             {
                 lvActivitiesUser.Items.Add(GetListViewItem(uploader));
             }
 
-            foreach (UrlShortenerType uploader in Workflow.DestConfig.LinkUploaders)
+            foreach (UrlShortenerType uploader in Workflow.Settings.DestConfig.LinkUploaders)
             {
                 lvActivitiesUser.Items.Add(GetListViewItem(uploader));
             }
 
-            foreach (FileDestination uploader in Workflow.DestConfig.FileUploaders)
+            foreach (FileDestination uploader in Workflow.Settings.DestConfig.FileUploaders)
             {
                 lvActivitiesUser.Items.Add(GetListViewItem(uploader));
             }
@@ -74,6 +80,10 @@ namespace HelpersLib.Hotkeys2
             {
                 lvActivitiesUser.Items.Add(GetListViewItem(act));
             }
+
+            tcWorkflow.TabPages.Clear();
+            tcWorkflow.TabPages.Add(tpActivities);
+            UpdateTabsVisibility();
         }
 
         private void FillListActivitiesAll()
@@ -190,12 +200,50 @@ namespace HelpersLib.Hotkeys2
             foreach (ListViewItem lvi in lvActivitiesAll.SelectedItems)
             {
                 ListViewItem lvi2 = new ListViewItem();
-                if (lvi.Tag.GetType() == typeof(FileDestination))
+
+                if (lvi.Tag.GetType() == typeof(ImageDestination))
+                    lvi2 = GetListViewItem((ImageDestination)lvi.Tag);
+                else if (lvi.Tag.GetType() == typeof(TextDestination))
+                    lvi2 = GetListViewItem((TextDestination)lvi.Tag);
+                else if (lvi.Tag.GetType() == typeof(FileDestination))
                     lvi2 = GetListViewItem((FileDestination)lvi.Tag);
+                else if (lvi.Tag.GetType() == typeof(UrlShortenerType))
+                    lvi2 = GetListViewItem((UrlShortenerType)lvi.Tag);
                 else if (lvi.Tag.GetType() == typeof(EActivity))
                     lvi2 = GetListViewItem((EActivity)lvi.Tag);
+
                 lvActivitiesUser.Items.Add(lvi2);
             }
+
+            UpdateTabsVisibility();
+        }
+
+        private void UpdateTabsVisibility()
+        {
+            bool showSettings = false;
+            bool showExternalPrograms = false;
+
+            foreach (ListViewItem lvi in lvActivitiesUser.Items)
+            {
+                if (lvi.Tag.GetType() == typeof(EActivity) && (EActivity)lvi.Tag == EActivity.UploadClipboard)
+                {
+                    showSettings = true;
+                }
+                else if (lvi.Tag.GetType() == typeof(TextDestination))
+                {
+                    if (!tcWorkflow.TabPages.Contains(tpSettings))
+                        showSettings = true;
+                }
+                else if (lvi.Tag.GetType() == typeof(EActivity) && (EActivity)lvi.Tag == EActivity.RunExternalProgram)
+                {
+                    showExternalPrograms = true;
+                }
+            }
+
+            if (showSettings)
+                tcWorkflow.TabPages.Add(tpSettings);
+            if (showExternalPrograms)
+                tcWorkflow.TabPages.Add(tpActions);
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
@@ -215,22 +263,19 @@ namespace HelpersLib.Hotkeys2
         {
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
 
-            Workflow.DestConfig.ImageUploaders.Clear();
-            Workflow.DestConfig.TextUploaders.Clear();
-            Workflow.DestConfig.FileUploaders.Clear();
-            Workflow.DestConfig.LinkUploaders.Clear();
+            Workflow.Settings.Clear();
             Workflow.Activities.Clear();
 
             foreach (ListViewItem lvi in lvActivitiesUser.Items)
             {
                 if (lvi.Tag.GetType() == typeof(ImageDestination))
-                    Workflow.DestConfig.ImageUploaders.Add((ImageDestination)lvi.Tag);
+                    Workflow.Settings.DestConfig.ImageUploaders.Add((ImageDestination)lvi.Tag);
                 if (lvi.Tag.GetType() == typeof(TextDestination))
-                    Workflow.DestConfig.TextUploaders.Add((TextDestination)lvi.Tag);
+                    Workflow.Settings.DestConfig.TextUploaders.Add((TextDestination)lvi.Tag);
                 if (lvi.Tag.GetType() == typeof(FileDestination))
-                    Workflow.DestConfig.FileUploaders.Add((FileDestination)lvi.Tag);
+                    Workflow.Settings.DestConfig.FileUploaders.Add((FileDestination)lvi.Tag);
                 if (lvi.Tag.GetType() == typeof(UrlShortenerType))
-                    Workflow.DestConfig.LinkUploaders.Add((UrlShortenerType)lvi.Tag);
+                    Workflow.Settings.DestConfig.LinkUploaders.Add((UrlShortenerType)lvi.Tag);
                 else if (lvi.Tag.GetType() == typeof(EActivity))
                     Workflow.Activities.Add((EActivity)lvi.Tag);
             }
@@ -242,5 +287,70 @@ namespace HelpersLib.Hotkeys2
         {
             this.Close();
         }
+
+        #region External Programs
+
+        private void AddFileAction(FileAction fileAction)
+        {
+            ListViewItem lvi = new ListViewItem(fileAction.Name ?? "");
+            lvi.Tag = fileAction;
+            lvi.Checked = fileAction.IsActive;
+            lvi.SubItems.Add(fileAction.Path ?? "");
+            lvi.SubItems.Add(fileAction.Args ?? "");
+            lvActions.Items.Add(lvi);
+        }
+
+        private void btnActionsRemove_Click(object sender, EventArgs e)
+        {
+            if (lvActions.SelectedItems.Count > 0)
+            {
+                ListViewItem lvi = lvActions.SelectedItems[0];
+                FileAction fileAction = lvi.Tag as FileAction;
+
+                Workflow.Settings.FileActions.Remove(fileAction);
+                lvActions.Items.Remove(lvi);
+            }
+        }
+
+        private void btnActionsEdit_Click(object sender, EventArgs e)
+        {
+            if (lvActions.SelectedItems.Count > 0)
+            {
+                ListViewItem lvi = lvActions.SelectedItems[0];
+                FileAction fileAction = lvi.Tag as FileAction;
+
+                using (FileActionForm form = new FileActionForm(fileAction))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        lvi.Text = fileAction.Name ?? "";
+                        lvi.SubItems[1].Text = fileAction.Path ?? "";
+                        lvi.SubItems[2].Text = fileAction.Args ?? "";
+                    }
+                }
+            }
+        }
+
+        private void btnActionsAdd_Click(object sender, EventArgs e)
+        {
+            using (FileActionForm form = new FileActionForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    FileAction fileAction = form.FileAction;
+                    fileAction.IsActive = true;
+                    Workflow.Settings.FileActions.Add(fileAction);
+                    AddFileAction(fileAction);
+                }
+            }
+        }
+
+        private void lvActions_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            FileAction fileAction = e.Item.Tag as FileAction;
+            fileAction.IsActive = e.Item.Checked;
+        }
+
+        #endregion External Programs
     }
 }

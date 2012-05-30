@@ -50,6 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
+    <Compile Include="FileAction.cs" />
+    <Compile Include="FileActionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FileActionForm.designer.cs">
+      <DependentUpon>FileActionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="HotkeyForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,8 +90,12 @@
     <Compile Include="WorkflowConfig.Designer.cs">
       <DependentUpon>WorkflowConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="WorkflowSettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FileActionForm.resx">
+      <DependentUpon>FileActionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HotkeyInputForm.resx">
       <DependentUpon>HotkeyInputForm.cs</DependentUpon>
     </EmbeddedResource>

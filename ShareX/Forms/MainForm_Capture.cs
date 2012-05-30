@@ -63,12 +63,7 @@ namespace ShareX
                 if (img != null && SettingsManager.ConfigCore.PlaySoundAfterCapture)
                 {
                     imageData = new ImageData(img, screenshot: true);
-                    string soundPath = Path.Combine(Application.StartupPath, "Camera.wav");
-
-                    if (File.Exists(soundPath))
-                    {
-                        new SoundPlayer(soundPath).Play();
-                    }
+                    Helpers.PlaySoundAsync(Resources.CameraSound);
                 }
             }
             catch (Exception ex)

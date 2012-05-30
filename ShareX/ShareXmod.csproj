@@ -281,9 +281,6 @@
     <None Include="Resources\document--arrow.png" />
     <None Include="Resources\application-form.png" />
     <None Include="Resources\address-book-blue.png" />
-    <EmbeddedResource Include="Camera.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <None Include="Resources\navigation-000-button.png" />
     <None Include="Resources\tr.png" />
     <None Include="Resources\au.png" />
@@ -327,6 +324,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\Camera.wav" />
     <None Include="Resources\share2.png" />
     <None Include="Resources\folder.png" />
     <None Include="Resources\share.png" />
