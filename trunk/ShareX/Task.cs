@@ -273,19 +273,22 @@ namespace ShareX
                             Info.FilePath = fp;
                     }
 
-                    var actions = Workflow.Settings.ExternalPrograms.Where(x => x.IsActive);
-                    if (actions.Count() > 0)
+                    if (Workflow.Activities.Contains(EActivity.RunExternalProgram))
                     {
-                        if (data != null)
-                            data.Dispose();
+                        var actions = Workflow.Settings.ExternalPrograms.Where(x => x.IsActive);
+                        if (actions.Count() > 0)
+                        {
+                            if (data != null)
+                                data.Dispose();
 
-                        if (string.IsNullOrEmpty(Info.FilePath))
-                            Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
+                            if (string.IsNullOrEmpty(Info.FilePath))
+                                Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
 
-                        foreach (FileAction fileAction in actions)
-                            fileAction.Run(Info.FilePath);
+                            foreach (FileAction fileAction in actions)
+                                fileAction.Run(Info.FilePath);
 
-                        data = new FileStream(Info.FilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                            data = new FileStream(Info.FilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        }
                     }
 
                     if (data == null)
