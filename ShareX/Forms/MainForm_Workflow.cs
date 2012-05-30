@@ -106,7 +106,6 @@ namespace ShareX
             }
 
             AfterCaptureActivity jobs_wf = new AfterCaptureActivity();
-            jobs_wf.Workflow = new Workflow();
             jobs_wf.Workflow.Activities = wf.Activities;
             jobs_wf.Workflow.Settings = Helpers.Clone(wf.Settings) as WorkflowSettings;
 
