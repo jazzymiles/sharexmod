@@ -26,6 +26,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -83,7 +84,7 @@ namespace ShareX
         public void SetWorkflow(Workflow wf)
         {
             this.Workflow = wf;
-            this.Info.SetDestination(wf.DestConfig);
+            this.Info.SetDestination(wf.Settings.DestConfig);
         }
 
         public static Task CreateDataUploaderTask(EDataType dataType, Stream stream, string filePath, EDataType destination = EDataType.Default)
@@ -235,7 +236,7 @@ namespace ShareX
                 {
                     Info.Result.Errors.Add("URL is empty.");
                 }
-                else if (SettingsManager.ConfigCore.URLShortenAfterUpload || Info.Job == TaskJob.ShortenURL || Workflow.DestConfig.LinkUploaders.Count > 0)
+                else if (SettingsManager.ConfigCore.URLShortenAfterUpload || Info.Job == TaskJob.ShortenURL || Workflow.Settings.DestConfig.LinkUploaders.Count > 0)
                 {
                     Info.Result.ShortenedURL = ShortenURL(Info.Result.URL);
                 }
@@ -272,9 +273,22 @@ namespace ShareX
                             Info.FilePath = fp;
                     }
 
-                    if (File.Exists(Info.FilePath))
-                        data = new FileStream(Info.FilePath, FileMode.Open, FileAccess.Read);
-                    else
+                    var actions = Workflow.Settings.FileActions.Where(x => x.IsActive);
+                    if (actions.Count() > 0)
+                    {
+                        if (data != null)
+                            data.Dispose();
+
+                        if (string.IsNullOrEmpty(Info.FilePath))
+                            Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
+
+                        foreach (FileAction fileAction in actions)
+                            fileAction.Run(Info.FilePath);
+
+                        data = new FileStream(Info.FilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    }
+
+                    if (data == null)
                         data = imageData.ImageStream;
                 }
             }
@@ -410,7 +424,7 @@ namespace ShareX
         public UploadResult UploadImage(Stream stream)
         {
             ImageUploader imageUploader = null;
-            ImageDestination imageDestination = Workflow.DestConfig.ImageUploaders[0];
+            ImageDestination imageDestination = Workflow.Settings.DestConfig.ImageUploaders[0];
 
             switch (imageDestination)
             {
@@ -484,35 +498,35 @@ namespace ShareX
         public UploadResult UploadText(Stream stream)
         {
             TextUploader textUploader = null;
-            TextDestination textDestination = Workflow.DestConfig.TextUploaders[0];
+            TextDestination textDestination = Workflow.Settings.DestConfig.TextUploaders[0];
 
             switch (textDestination)
             {
                 case TextDestination.Pastebin:
                     PastebinSettings pastebinSettings = SettingsManager.ConfigUploaders.PastebinSettings;
-                    pastebinSettings.TextFormat = Workflow.DestConfig.TextFormat;
+                    pastebinSettings.TextFormat = Workflow.Settings.DestConfig.TextFormat;
                     textUploader = new PastebinUploader(ApiKeys.PastebinKey, pastebinSettings);
                     break;
                 case TextDestination.PastebinCA:
                     textUploader = new PastebinCaUploader(ApiKeys.PastebinCaKey, new PastebinCaSettings()
                     {
-                        TextFormat = Workflow.DestConfig.TextFormat
+                        TextFormat = Workflow.Settings.DestConfig.TextFormat
                     });
                     break;
                 case TextDestination.Paste2:
                     textUploader = new Paste2Uploader(new Paste2Settings()
                     {
-                        TextFormat = Workflow.DestConfig.TextFormat
+                        TextFormat = Workflow.Settings.DestConfig.TextFormat
                     });
                     break;
                 case TextDestination.Slexy:
                     textUploader = new SlexyUploader(new SlexySettings()
                     {
-                        TextFormat = Workflow.DestConfig.TextFormat
+                        TextFormat = Workflow.Settings.DestConfig.TextFormat
                     });
                     break;
                 case TextDestination.Pastee:
-                    textUploader = new Pastee() { Lexer = Workflow.DestConfig.TextFormat };
+                    textUploader = new Pastee() { Lexer = Workflow.Settings.DestConfig.TextFormat };
                     break;
             }
 
@@ -530,7 +544,7 @@ namespace ShareX
         {
             FileUploader fileUploader = null;
 
-            switch (Workflow.DestConfig.FileUploaders[0])
+            switch (Workflow.Settings.DestConfig.FileUploaders[0])
             {
                 case FileDestination.Dropbox:
                     NameParser parser = new NameParser { IsFolderPath = true };
@@ -635,10 +649,10 @@ namespace ShareX
         {
             URLShortener urlShortener = null;
 
-            if ((Workflow.DestConfig.LinkUploaders.Count == 0))
-                Workflow.DestConfig.LinkUploaders.Add(UploadManager.URLShortener);
+            if ((Workflow.Settings.DestConfig.LinkUploaders.Count == 0))
+                Workflow.Settings.DestConfig.LinkUploaders.Add(UploadManager.URLShortener);
 
-            switch (Workflow.DestConfig.LinkUploaders[0])
+            switch (Workflow.Settings.DestConfig.LinkUploaders[0])
             {
                 case UrlShortenerType.BITLY:
                     urlShortener = new BitlyURLShortener(ApiKeys.BitlyLogin, ApiKeys.BitlyKey);

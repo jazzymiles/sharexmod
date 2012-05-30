@@ -9,7 +9,6 @@ namespace HelpersLib.Hotkeys2
     /// <summary>
     /// This Enum must not be restructured. New items must append at the end to avoid mapping to the wrong item.
     /// </summary>
-    [Flags]
     [TypeConverter(typeof(EnumToStringUsingDescription))]
     public enum EActivity
     {
@@ -45,6 +44,8 @@ namespace HelpersLib.Hotkeys2
         ClipboardCopyImage,
         [Description("Annotate image"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
         ImageAnnotate,
+        [Description("Run external program"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        RunExternalProgram,
         [Description("Save to file"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         SaveToFile,
         [Description("Save to file with dialog"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
@@ -62,41 +63,5 @@ namespace HelpersLib.Hotkeys2
         ImageAnnotateAddTornEffect,
         [Description("Add shadow border"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
         ImageAnnotateAddShadowBorder,
-    }
-
-    public class EnumToStringUsingDescription : TypeConverter
-    {
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-        {
-            return (sourceType.Equals(typeof(Enum)));
-        }
-
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-        {
-            return (destinationType.Equals(typeof(String)));
-        }
-
-        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
-        {
-            return base.ConvertFrom(context, culture, value);
-        }
-
-        public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
-        {
-            if (!destinationType.Equals(typeof(String)))
-            {
-                throw new ArgumentException("Can only convert to string.", "destinationType");
-            }
-
-            if (!value.GetType().BaseType.Equals(typeof(Enum)))
-            {
-                throw new ArgumentException("Can only convert an instance of enum.", "value");
-            }
-
-            string name = value.ToString();
-            object[] attrs =
-                value.GetType().GetField(name).GetCustomAttributes(typeof(DescriptionAttribute), false);
-            return (attrs.Length > 0) ? ((DescriptionAttribute)attrs[0]).Description : name;
-        }
     }
 }

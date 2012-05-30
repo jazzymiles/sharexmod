@@ -108,7 +108,7 @@ namespace ShareX
             AfterCaptureActivity jobs_wf = new AfterCaptureActivity();
             jobs_wf.Workflow = new Workflow();
             jobs_wf.Workflow.Activities = wf.Activities;
-            jobs_wf.Workflow.DestConfig = Helpers.Clone(wf.DestConfig) as DestConfig;
+            jobs_wf.Workflow.Settings = Helpers.Clone(wf.Settings) as WorkflowSettings;
 
             foreach (EActivity act in jobs_wf.Workflow.Activities)
             {
@@ -184,11 +184,6 @@ namespace ShareX
                     case EActivity.ImageAnnotateAddShadowBorder:
                         jobs_wf.Subtasks |= Subtask.AnnotateImageAddShadowBorder;
                         break;
-
-                    default:
-                        FormsHelper.ShowLog();
-                        log.ErrorFormat("{0} is not  yet implemented.", act.ToString());
-                        break;
                 }
             }
 
@@ -197,19 +192,19 @@ namespace ShareX
 
         private void AfterHotkeyPressed(ImageData imageData, AfterCaptureActivity act = null)
         {
-            if (act.Workflow.DestConfig.FileUploaders.Count > 0)
+            if (act.Workflow.Settings.DestConfig.FileUploaders.Count > 0)
             {
-                if (act.Workflow.DestConfig.ImageUploaders.Count == 0)
-                    act.Workflow.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
-                if (act.Workflow.DestConfig.TextUploaders.Count == 0)
-                    act.Workflow.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
+                if (act.Workflow.Settings.DestConfig.ImageUploaders.Count == 0)
+                    act.Workflow.Settings.DestConfig.ImageUploaders.Add(UploadersLib.ImageDestination.FileUploader);
+                if (act.Workflow.Settings.DestConfig.TextUploaders.Count == 0)
+                    act.Workflow.Settings.DestConfig.TextUploaders.Add(UploadersLib.TextDestination.FileUploader);
             }
 
             if (imageData != null)
             {
                 if (act.Subtasks == Subtask.None)
                     act.Subtasks |= SettingsManager.ConfigCore.AfterCaptureSubtasks;
-                if (act.Workflow.DestConfig.ImageUploaders.Count > 0)
+                if (act.Workflow.Settings.DestConfig.ImageUploaders.Count > 0)
                     act.Subtasks |= Subtask.UploadImageToHost;
                 log.Debug("After Capture initiated.");
                 AfterCapture(imageData, act);

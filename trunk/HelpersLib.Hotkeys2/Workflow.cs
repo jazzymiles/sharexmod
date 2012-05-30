@@ -13,7 +13,7 @@ namespace HelpersLib.Hotkeys2
         public EHotkey Hotkey;
         public HotkeySetting HotkeyConfig = new HotkeySetting();
         public List<EActivity> Activities = new List<EActivity>();
-        public DestConfig DestConfig = new DestConfig();
+        public WorkflowSettings Settings = new WorkflowSettings();
 
         public Workflow()
         {
