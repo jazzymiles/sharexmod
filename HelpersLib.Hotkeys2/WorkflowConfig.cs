@@ -27,6 +27,8 @@ namespace HelpersLib.Hotkeys2
         public WindowWorkflow(Workflow wf)
         {
             Workflow = wf;
+            wf.Settings.GetDefaults();
+
             InitializeComponent();
 
             this.Text = "Workflow - " + wf.HotkeyConfig.Description;
@@ -185,6 +187,11 @@ namespace HelpersLib.Hotkeys2
                     ActivityAdd();
                     return true;
                 }
+                else if (keyData == Keys.Delete)
+                {
+                    ActivityRemove();
+                    return true;
+                }
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
@@ -235,19 +242,28 @@ namespace HelpersLib.Hotkeys2
             }
 
             if (showSettings)
+            {
                 if (!tcWorkflow.TabPages.Contains(tpSettings))
                     tcWorkflow.TabPages.Add(tpSettings);
-                else
-                    tcWorkflow.TabPages.Remove(tpSettings);
+            }
+            else
+                tcWorkflow.TabPages.Remove(tpSettings);
 
             if (showExternalPrograms)
+            {
                 if (!tcWorkflow.TabPages.Contains(tpActions))
                     tcWorkflow.TabPages.Add(tpActions);
-                else
-                    tcWorkflow.TabPages.Remove(tpActions);
+            }
+            else
+                tcWorkflow.TabPages.Remove(tpActions);
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
+        {
+            ActivityRemove();
+        }
+
+        private void ActivityRemove()
         {
             List<ListViewItem> tempActivities = new List<ListViewItem>();
             foreach (ListViewItem lvi in lvActivitiesUser.SelectedItems)
