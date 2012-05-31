@@ -52,7 +52,7 @@ namespace ShareX
                 yGap += 24;
             }
 
-            this.Width = maxWidth + btnOk.Width * 2;
+            this.Width = Math.Max(400, maxWidth + btnOk.Width * 2);
             this.Height = yGap + 60;
         }
 
