@@ -374,44 +374,6 @@ namespace ShareX.Forms
             }
         }
 
-        private bool ChooseFolder(string title, TextBox tb)
-        {
-            using (OpenFileDialog ofd = new OpenFileDialog())
-            {
-                ofd.Title = title;
-
-                try
-                {
-                    string path = tb.Text;
-
-                    if (!string.IsNullOrEmpty(path))
-                    {
-                        path = Path.GetDirectoryName(path);
-
-                        if (Directory.Exists(path))
-                        {
-                            ofd.InitialDirectory = path;
-                        }
-                    }
-                }
-                finally
-                {
-                    if (string.IsNullOrEmpty(ofd.InitialDirectory))
-                    {
-                        ofd.InitialDirectory = Program.PersonalPath;
-                    }
-                }
-
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
-                    tb.Text = ofd.FileName;
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         #endregion Helper Methods
 
         #region General
@@ -709,7 +671,7 @@ namespace ShareX.Forms
 
         private void btnBrowseCustomUploadersConfigPath_Click(object sender, EventArgs e)
         {
-            ChooseFolder("ShareX - Choose uploaders config file path", txtCustomUploadersConfigPath);
+            Helpers.BrowseFile("ShareX - Choose uploaders config file path", txtCustomUploadersConfigPath);
             SettingsManager.ConfigCore.CustomUploadersConfigPath = txtCustomUploadersConfigPath.Text;
             SettingsManager.LoadUploadersConfig();
         }
@@ -839,7 +801,7 @@ namespace ShareX.Forms
 
         private void btnBrowseCustomHistoryPath_Click(object sender, EventArgs e)
         {
-            ChooseFolder("ShareX - Choose history file path", txtCustomHistoryPath);
+            Helpers.BrowseFolder("ShareX - Choose history file path", txtCustomHistoryPath);
         }
 
         private void nudHistoryMaxItemCount_ValueChanged(object sender, EventArgs e)

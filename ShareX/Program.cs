@@ -80,7 +80,7 @@ namespace ShareX
                 if (SettingsManager.ConfigCore != null && SettingsManager.ConfigCore.UseCustomHistoryPath &&
                     !string.IsNullOrEmpty(SettingsManager.ConfigCore.CustomHistoryPath))
                 {
-                    return SettingsManager.ConfigCore.CustomHistoryPath;
+                    return Path.Combine(SettingsManager.ConfigCore.CustomHistoryPath, HistoryFileName);
                 }
 
                 return Path.Combine(PersonalPath, HistoryFileName);
