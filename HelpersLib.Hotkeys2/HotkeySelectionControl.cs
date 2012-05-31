@@ -51,6 +51,11 @@ namespace HelpersLib.Hotkeys2
             chkHotkeyDescription.Text = txt;
         }
 
+        public void set_HotkeyFontBold()
+        {
+            chkHotkeyDescription.Font = new Font(chkHotkeyDescription.Font, FontStyle.Bold);
+        }
+
         private void btnSetHotkey_Click(object sender, EventArgs e)
         {
             using (HotkeyInputForm inputForm = new HotkeyInputForm(Workflow.HotkeyConfig.Hotkey, Workflow.HotkeyConfig.HotkeyDefault))
