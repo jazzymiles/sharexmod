@@ -1,32 +1,3 @@
 #summary Supported Command Line Arguments
 #labels Phase-Support
-
-=Silent=
-{{{
-ShareX.exe -s
-}}}
-or 
-{{{
-ShareX.exe -silent
-}}}
-ShareX loads to tray without showing the main window. 
-
-=Multiple instance=
-{{{
-ShareX.exe -m
-}}}
-or 
-{{{
-ShareX.exe -multi
-}}}
-Forces ShareX to load another instance. 
-
-=Portable mode=
-{{{
-ShareX.exe -p
-}}}
-or 
-{{{
-ShareX.exe -portable
-}}}
-Loads ShareX in portable mode. 
+http://code.google.com/p/sharex/wiki/CommandLineArgs
