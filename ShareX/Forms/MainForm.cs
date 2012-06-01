@@ -426,6 +426,10 @@ namespace ShareX
             {
                 Helpers.LoadBrowserAsync(result.URL);
             }
+            else if (File.Exists(result.LocalFilePath))
+            {
+                Helpers.OpenFolderWithFile(result.LocalFilePath);
+            }
         }
 
         private void CopyURL()
