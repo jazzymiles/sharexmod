@@ -33,6 +33,8 @@ namespace HistoryLib
 {
     public class HistoryManager
     {
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private static XMLManager xml;
 
         public HistoryManager(string historyPath)
@@ -64,6 +66,7 @@ namespace HistoryLib
                 historyItem.DateTimeUtc != DateTime.MinValue &&
                 (!string.IsNullOrEmpty(historyItem.URL) || !string.IsNullOrEmpty(historyItem.Filepath)))
                 {
+                    log.DebugFormat("Adding {0} to history.", historyItem.Filename);
                     return xml.AddHistoryItem(historyItem);
                 }
             }

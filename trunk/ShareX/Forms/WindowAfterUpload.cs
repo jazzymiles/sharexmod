@@ -25,7 +25,6 @@ namespace ShareX
 
             pbPreview.LoadingImage = ShareX.Properties.Resources.Loading;
             pbPreview.LoadImage(info.FilePath, info.Result.URL);
-            log.DebugFormat("WindowAfterUpload Filepath: {0}", info.FilePath);
 
             this.Text = File.Exists(info.FilePath) ? info.FilePath : info.FileName;
 
