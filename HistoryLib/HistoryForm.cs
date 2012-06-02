@@ -40,7 +40,7 @@ namespace HistoryLib
     {
         public int MaxItemCount { get; set; }
 
-        private HistoryManager history;
+        private HistoryManager history { get; set; }
         private HistoryItemManager him;
         private HistoryItem[] allHistoryItems;
 
@@ -58,6 +58,11 @@ namespace HistoryLib
             cbFilenameFilterCulture.Items[0] = string.Format("Current culture ({0})", CultureInfo.CurrentCulture.Parent.EnglishName);
             pbThumbnail.LoadingImage = LoadImageFromResources("Loading.gif");
             lvHistory.FillLastColumn();
+        }
+
+        public HistoryForm(string databasePath, int maxItemCount, string title)
+            : this(new HistoryManager(databasePath), maxItemCount, title)
+        {
         }
 
         public void Save()
@@ -209,18 +214,18 @@ namespace HistoryLib
             {
                 status.Append(", Filtered: " + historyItems.Length);
             }
+            /*
+                        var types = from hi in historyItems
+                                    group hi by hi.Type into t
+                                    let count = t.Count()
+                                    orderby t.Key
+                                    select string.Format(", {0}: {1}", t.Key, count);
 
-            var types = from hi in historyItems
-                        group hi by hi.Type into t
-                        let count = t.Count()
-                        orderby t.Key
-                        select string.Format(", {0}: {1}", t.Key, count);
-
-            foreach (string type in types)
-            {
-                status.Append(type);
-            }
-
+                        foreach (string type in types)
+                        {
+                            status.Append(type);
+                        }
+            */
             tsslStatus.Text = status.ToString();
         }
 

@@ -507,8 +507,10 @@
             // tsslStatus
             // 
             this.tsslStatus.Name = "tsslStatus";
-            this.tsslStatus.Size = new System.Drawing.Size(39, 17);
+            this.tsslStatus.Size = new System.Drawing.Size(871, 17);
+            this.tsslStatus.Spring = true;
             this.tsslStatus.Text = "Status";
+            this.tsslStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // gbFilters
             // 

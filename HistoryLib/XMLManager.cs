@@ -72,6 +72,12 @@ namespace HistoryLib
         {
             lock (thisLock)
             {
+                if (XMLManager.cache == null)
+                {
+                    XMLManager.cache = new XmlDocument();
+                    XMLManager.cache.Load(xmlPath);
+                }
+
                 if (XMLManager.cache.ChildNodes.Count == 0)
                 {
                     XMLManager.cache.AppendChild(XMLManager.cache.CreateXmlDeclaration("1.0", "UTF-8", null));
