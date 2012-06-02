@@ -754,7 +754,11 @@ namespace ShareX.Forms
                         if (File.Exists(image))
                         {
                             time = File.GetLastWriteTime(image);
-                            string subDirName = new NameParser(NameParserType.SaveFolder) { CustomDate = time }.Convert(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
+                            string subDirName = new NameParser(NameParserType.SaveFolder)
+                            {
+                                IsFolderPath = true,
+                                CustomDate = time
+                            }.Convert(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
                             string subDirPath = Path.Combine(rootDir, subDirName);
 
                             if (!Directory.Exists(subDirPath))
@@ -793,7 +797,7 @@ namespace ShareX.Forms
         private void txtSaveImageSubFolderPattern_TextChanged(object sender, EventArgs e)
         {
             SettingsManager.ConfigCore.SaveImageSubFolderPattern = txtSaveImageSubFolderPattern.Text;
-            string subFolderName = new NameParser(NameParserType.SaveFolder).Convert(txtSaveImageSubFolderPattern.Text);
+            string subFolderName = new NameParser(NameParserType.SaveFolder) { IsFolderPath = true }.Convert(txtSaveImageSubFolderPattern.Text);
             txtSaveImageSubFolderPatternPreview.Text = subFolderName;
         }
 

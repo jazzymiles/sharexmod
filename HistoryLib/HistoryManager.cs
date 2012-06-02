@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Xml;
 using HelpersLib;
 
 namespace HistoryLib
@@ -37,6 +38,16 @@ namespace HistoryLib
         public HistoryManager(string historyPath)
         {
             xml = new XMLManager(historyPath);
+        }
+
+        public void Save()
+        {
+            xml.Save();
+        }
+
+        public void SaveAsync()
+        {
+            ThreadPool.QueueUserWorkItem(state => Save());
         }
 
         public bool AddHistoryItem(HistoryItem historyItem)

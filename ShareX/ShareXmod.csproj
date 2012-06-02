@@ -214,23 +214,23 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ShareX\trunk\HelpersLib\HelpersLib.csproj">
+    <ProjectReference Include="..\HelpersLib\HelpersLib.csproj">
       <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
       <Name>HelpersLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\ShareX\trunk\HistoryLib\HistoryLib.csproj">
+    <ProjectReference Include="..\HistoryLib\HistoryLib.csproj">
       <Project>{E7DE6237-AEA2-498B-8F56-9B392472C490}</Project>
       <Name>HistoryLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\ShareX\trunk\ScreenCapture.Shapes\ScreenCapture.Shapes.csproj">
+    <ProjectReference Include="..\ScreenCapture.Shapes\ScreenCapture.Shapes.csproj">
       <Project>{7F53BD0C-1BBD-416C-89CE-3FF39D4D3414}</Project>
       <Name>ScreenCapture.Shapes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\ShareX\trunk\ScreenCapture\ScreenCapture.csproj">
+    <ProjectReference Include="..\ScreenCapture\ScreenCapture.csproj">
       <Project>{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}</Project>
       <Name>ScreenCapture</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\ShareX\trunk\UploadersLib\UploadersLib.csproj">
+    <ProjectReference Include="..\UploadersLib\UploadersLib.csproj">
       <Project>{E1C94415-3424-4517-A2A1-B2FDD1F59C67}</Project>
       <Name>UploadersLib</Name>
     </ProjectReference>

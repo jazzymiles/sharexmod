@@ -40,7 +40,14 @@ namespace ShareX
                 bwLoad.DoWork += new DoWorkEventHandler(bwLoad_DoWork);
                 bwLoad.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bwLoad_RunWorkerCompleted);
                 bwLoad.RunWorkerAsync();
+
+                BackgroundWorker bwHistory = new BackgroundWorker();
+                bwHistory.DoWork += new DoWorkEventHandler(bwHistory_DoWork);
             }
+        }
+
+        private void bwHistory_DoWork(object sender, DoWorkEventArgs e)
+        {
         }
 
         private void bwLoad_DoWork(object sender, DoWorkEventArgs e)
@@ -111,20 +118,18 @@ namespace ShareX
                 BackgroundWorker bwSave = new BackgroundWorker();
                 bwSave.DoWork += new DoWorkEventHandler(bwSave_DoWork);
                 bwSave.RunWorkerAsync();
+
+                BackgroundWorker bwSaveHistory = new BackgroundWorker();
+                bwSaveHistory.DoWork += new DoWorkEventHandler(bwSaveHistory_DoWork);
             }
         }
 
-        public static void SaveAsync()
+        private void bwSaveHistory_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (SettingsManager.ConfigCore.DropboxSync)
-            {
-                new DropboxSyncHelper().Save();
-            }
         }
 
         private void bwSave_DoWork(object sender, DoWorkEventArgs e)
         {
-            // Create a copy of Settings
             if (dropbox.Upload(GetMemoryStream(SettingsManager.ConfigWorkflows), pathDropboxWorkflowsConfig) != null)
                 log.InfoFormat("Updated {0}", pathDropboxWorkflowsConfig);
 
@@ -136,6 +141,14 @@ namespace ShareX
 
             if (dropbox.Upload(GetMemoryStream(SettingsManager.ConfigUser), pathDropboxUserConfig) != null)
                 log.InfoFormat("Updated {0}", pathDropboxUserConfig);
+        }
+
+        public static void SaveAsync()
+        {
+            if (SettingsManager.ConfigCore.DropboxSync)
+            {
+                new DropboxSyncHelper().Save();
+            }
         }
 
         private static MemoryStream GetMemoryStream(object obj)

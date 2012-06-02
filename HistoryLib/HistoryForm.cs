@@ -401,6 +401,11 @@ namespace HistoryLib
             }
         }
 
+        private void HistoryForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            history.SaveAsync();
+        }
+
         #endregion Form events
 
         #region Right click menu events

@@ -115,7 +115,7 @@ namespace ShareX
         {
             get
             {
-                string subFolderName = new NameParser(NameParserType.SaveFolder).Convert(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
+                string subFolderName = new NameParser(NameParserType.SaveFolder) { IsFolderPath = true }.Convert(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
                 return Path.Combine(ScreenshotsRootPath, subFolderName);
             }
         }
@@ -227,7 +227,8 @@ namespace ShareX
                 log.InfoFormat("IsDebug: " + IsDebug);
                 log.InfoFormat("IsHotkeysEnabled: " + IsHotkeysAllowed);
 
-                SettingsManager.SettingsResetEvent = new ManualResetEvent(false);
+                SettingsManager.WorkflowsResetEvent = new ManualResetEvent(false);
+                SettingsManager.CoreResetEvent = new ManualResetEvent(false);
                 SettingsManager.UploaderSettingsResetEvent = new ManualResetEvent(false);
                 ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadWorkflows());
                 ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadCoreConfig());
@@ -241,7 +242,7 @@ namespace ShareX
                 log.InfoFormat("new FormsHelper.mainForm() finished");
 
                 if (SettingsManager.ConfigCore == null)
-                    SettingsManager.SettingsResetEvent.WaitOne();
+                    SettingsManager.CoreResetEvent.WaitOne();
                 Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 

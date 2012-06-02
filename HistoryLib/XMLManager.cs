@@ -34,7 +34,7 @@ namespace HistoryLib
     internal class XMLManager
     {
         private static object thisLock = new object();
-
+        private static XmlDocument cache = null;
         private string xmlPath;
 
         public XMLManager(string xmlFilePath)
@@ -50,10 +50,13 @@ namespace HistoryLib
             {
                 if (!string.IsNullOrEmpty(xmlPath) && File.Exists(xmlPath))
                 {
-                    XmlDocument xml = new XmlDocument();
-                    xml.Load(xmlPath);
+                    if (XMLManager.cache == null)
+                    {
+                        XMLManager.cache = new XmlDocument();
+                        XMLManager.cache.Load(xmlPath);
+                    }
 
-                    XmlNode rootNode = xml.ChildNodes[1];
+                    XmlNode rootNode = cache.ChildNodes[1];
 
                     if (rootNode.Name == "HistoryItems" && rootNode.ChildNodes != null && rootNode.ChildNodes.Count > 0)
                     {
@@ -67,50 +70,43 @@ namespace HistoryLib
 
         public bool AddHistoryItem(HistoryItem historyItem)
         {
-            if (!string.IsNullOrEmpty(xmlPath))
+            lock (thisLock)
             {
-                lock (thisLock)
+                if (XMLManager.cache.ChildNodes.Count == 0)
                 {
-                    XmlDocument xml = new XmlDocument();
+                    XMLManager.cache.AppendChild(XMLManager.cache.CreateXmlDeclaration("1.0", "UTF-8", null));
+                    XMLManager.cache.AppendElement("HistoryItems");
+                }
 
-                    if (File.Exists(xmlPath))
-                    {
-                        xml.Load(xmlPath);
-                    }
+                XmlNode rootNode = XMLManager.cache.ChildNodes[1];
 
-                    if (xml.ChildNodes.Count == 0)
-                    {
-                        xml.AppendChild(xml.CreateXmlDeclaration("1.0", "UTF-8", null));
-                        xml.AppendElement("HistoryItems");
-                    }
+                if (rootNode.Name == "HistoryItems")
+                {
+                    historyItem.ID = Helpers.GetRandomAlphanumeric(12);
 
-                    XmlNode rootNode = xml.ChildNodes[1];
+                    XmlNode historyItemNode = rootNode.PrependElement("HistoryItem");
 
-                    if (rootNode.Name == "HistoryItems")
-                    {
-                        historyItem.ID = Helpers.GetRandomAlphanumeric(12);
+                    historyItemNode.AppendElement("ID", historyItem.ID);
+                    historyItemNode.AppendElement("Filename", historyItem.Filename);
+                    historyItemNode.AppendElement("Filepath", historyItem.Filepath);
+                    historyItemNode.AppendElement("DateTimeUtc", historyItem.DateTimeUtc.ToString("o"));
+                    historyItemNode.AppendElement("Type", historyItem.Type);
+                    historyItemNode.AppendElement("Host", historyItem.Host);
+                    historyItemNode.AppendElement("URL", historyItem.URL);
+                    historyItemNode.AppendElement("ThumbnailURL", historyItem.ThumbnailURL);
+                    historyItemNode.AppendElement("DeletionURL", historyItem.DeletionURL);
+                    historyItemNode.AppendElement("ShortenedURL", historyItem.ShortenedURL);
 
-                        XmlNode historyItemNode = rootNode.PrependElement("HistoryItem");
-
-                        historyItemNode.AppendElement("ID", historyItem.ID);
-                        historyItemNode.AppendElement("Filename", historyItem.Filename);
-                        historyItemNode.AppendElement("Filepath", historyItem.Filepath);
-                        historyItemNode.AppendElement("DateTimeUtc", historyItem.DateTimeUtc.ToString("o"));
-                        historyItemNode.AppendElement("Type", historyItem.Type);
-                        historyItemNode.AppendElement("Host", historyItem.Host);
-                        historyItemNode.AppendElement("URL", historyItem.URL);
-                        historyItemNode.AppendElement("ThumbnailURL", historyItem.ThumbnailURL);
-                        historyItemNode.AppendElement("DeletionURL", historyItem.DeletionURL);
-                        historyItemNode.AppendElement("ShortenedURL", historyItem.ShortenedURL);
-
-                        xml.Save(xmlPath);
-
-                        return true;
-                    }
+                    return true;
                 }
             }
 
             return false;
+        }
+
+        public void Save()
+        {
+            XMLManager.cache.Save(xmlPath);
         }
 
         public bool RemoveHistoryItem(HistoryItem historyItem)
