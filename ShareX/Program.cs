@@ -57,7 +57,6 @@ namespace ShareX
         private static readonly string DefaultPersonalPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ApplicationName);
         private static readonly string PortablePersonalPath = Path.Combine(Application.StartupPath, ApplicationName);
 
-        private static readonly string HistoryFileName = "UploadersHistory.xml";
         private static readonly string LogFileName = ApplicationName + "Log-{0}.log";
 
         public static string PersonalPath
@@ -70,20 +69,6 @@ namespace ShareX
                 }
 
                 return DefaultPersonalPath;
-            }
-        }
-
-        public static string HistoryFilePath
-        {
-            get
-            {
-                if (SettingsManager.ConfigCore != null && SettingsManager.ConfigCore.UseCustomHistoryPath &&
-                    !string.IsNullOrEmpty(SettingsManager.ConfigCore.CustomHistoryPath))
-                {
-                    return Path.Combine(SettingsManager.ConfigCore.CustomHistoryPath, HistoryFileName);
-                }
-
-                return Path.Combine(PersonalPath, HistoryFileName);
             }
         }
 
@@ -227,13 +212,7 @@ namespace ShareX
                 log.InfoFormat("IsDebug: " + IsDebug);
                 log.InfoFormat("IsHotkeysEnabled: " + IsHotkeysAllowed);
 
-                SettingsManager.WorkflowsResetEvent = new ManualResetEvent(false);
-                SettingsManager.CoreResetEvent = new ManualResetEvent(false);
-                SettingsManager.UploaderSettingsResetEvent = new ManualResetEvent(false);
-                ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadWorkflows());
-                ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadCoreConfig());
-                ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadUploadersConfig());
-                ThreadPool.QueueUserWorkItem(state => SettingsManager.LoadUserConfig());
+                SettingsManager.LoadAsync();
 #if DEBUG
                 IsDebug = true;
 #endif

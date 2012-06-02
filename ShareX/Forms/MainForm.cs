@@ -711,7 +711,7 @@ namespace ShareX
 
         private void tsbHistory_Click(object sender, EventArgs e)
         {
-            new HistoryForm(Program.HistoryFilePath, SettingsManager.ConfigCore.HistoryMaxItemCount, "ShareX - History").ShowDialog();
+            SettingsManager.ConfigHistory.OpenUI();
         }
 
         private void tsbAbout_Click(object sender, EventArgs e)
