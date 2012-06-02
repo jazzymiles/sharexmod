@@ -33,11 +33,17 @@ namespace HistoryLib
 {
     public class HistoryManager
     {
-        private XMLManager xml;
+        private static XMLManager xml;
 
         public HistoryManager(string historyPath)
         {
             xml = new XMLManager(historyPath);
+        }
+
+        public void OpenUI(int maxItemsCount = -1, string title = "History")
+        {
+            HistoryForm ui = new HistoryForm(this, maxItemsCount, title);
+            ui.Show();
         }
 
         public void Save()
@@ -90,12 +96,11 @@ namespace HistoryLib
             return false;
         }
 
-        public static void AddHistoryItemAsync(string historyPath, HistoryItem historyItem)
+        public void AddHistoryItemAsync(HistoryItem historyItem)
         {
             WaitCallback thread = state =>
             {
-                HistoryManager history = new HistoryManager(historyPath);
-                history.AddHistoryItem(historyItem);
+                this.AddHistoryItem(historyItem);
             };
 
             ThreadPool.QueueUserWorkItem(thread);

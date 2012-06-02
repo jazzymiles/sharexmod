@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using HistoryLib;
 using ShareX.SettingsHelpers;
 using UploadersLib;
 
@@ -66,6 +67,22 @@ namespace ShareX
             }
         }
 
+        internal static HistoryManager ConfigHistory { get; set; }
+        private static readonly string HistoryFileName = "UploadersHistory.xml";
+        public static string HistoryFilePath
+        {
+            get
+            {
+                if (SettingsManager.ConfigCore != null && SettingsManager.ConfigCore.UseCustomHistoryPath &&
+                    !string.IsNullOrEmpty(SettingsManager.ConfigCore.CustomHistoryPath))
+                {
+                    return Path.Combine(SettingsManager.ConfigCore.CustomHistoryPath, HistoryFileName);
+                }
+
+                return Path.Combine(Program.PersonalPath, HistoryFileName);
+            }
+        }
+
         public static void SaveAsync()
         {
             ConfigWorkflows.SaveAsync(ConfigWorkflowsFilePath);
@@ -80,12 +97,28 @@ namespace ShareX
             ConfigUploaders.Save(ConfigUploadersFilePath);
             SaveCoreConfig();
             ConfigUser.Save(ConfigUserFilePath);
+            if (ConfigCore.SaveHistory)
+                ConfigHistory.Save();
         }
 
         public static void SaveCoreConfig()
         {
             ConfigCore.Save(ConfigCoreFilePath);
             ConfigCore.Backup(ConfigCoreFilePath);
+        }
+
+        public static void LoadAsync()
+        {
+            SettingsManager.WorkflowsResetEvent = new ManualResetEvent(false);
+            SettingsManager.CoreResetEvent = new ManualResetEvent(false);
+            SettingsManager.UploaderSettingsResetEvent = new ManualResetEvent(false);
+
+            ThreadPool.QueueUserWorkItem(state => LoadWorkflows());
+            ThreadPool.QueueUserWorkItem(state => LoadCoreConfig());
+            ThreadPool.QueueUserWorkItem(state => LoadUploadersConfig());
+            ThreadPool.QueueUserWorkItem(state => LoadUserConfig());
+
+            ConfigHistory = new HistoryManager(HistoryFilePath);
         }
 
         public static void LoadWorkflows()
@@ -106,6 +139,7 @@ namespace ShareX
                 oldWorkflow.Save(ConfigWorkflowsFilePath + ".old");
                 ConfigCore.Workflows1.Clear();
             }
+
             CoreResetEvent.Set();
         }
 
@@ -121,7 +155,6 @@ namespace ShareX
             ConfigUploaders = UploadersConfig.Load(ConfigUploadersFilePath);
             if (ConfigUploaders.PasswordsSecureUsingEncryption)
                 ConfigUploaders.CryptPasswords(false);
-            //   UploaderSettingsResetEvent.Set();
         }
 
         public static void SaveCoreConfigAsync()

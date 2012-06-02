@@ -38,19 +38,17 @@ namespace HistoryLib
 {
     public partial class HistoryForm : Form
     {
-        public string DatabasePath { get; private set; }
-
         public int MaxItemCount { get; set; }
 
         private HistoryManager history;
         private HistoryItemManager him;
         private HistoryItem[] allHistoryItems;
 
-        public HistoryForm(string databasePath, int maxItemCount, string title)
+        public HistoryForm(HistoryManager manager, int maxItemCount, string title)
         {
             InitializeComponent();
-            DatabasePath = databasePath;
-            MaxItemCount = maxItemCount;
+            this.history = manager;
+            this.MaxItemCount = maxItemCount;
             this.Text = title;
             him = new HistoryItemManager(lvHistory);
             ResetControls();
@@ -62,6 +60,18 @@ namespace HistoryLib
             lvHistory.FillLastColumn();
         }
 
+        public void Save()
+        {
+            if (history != null)
+                history.Save();
+        }
+
+        public void SaveAsync()
+        {
+            if (history != null)
+                history.SaveAsync();
+        }
+
         private Image LoadImageFromResources(string imageName)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -71,11 +81,6 @@ namespace HistoryLib
 
         private void RefreshHistoryItems()
         {
-            if (history == null)
-            {
-                history = new HistoryManager(DatabasePath);
-            }
-
             allHistoryItems = GetHistoryItems();
             ApplyFiltersAndAdd();
         }

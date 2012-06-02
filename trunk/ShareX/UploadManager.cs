@@ -509,7 +509,7 @@ namespace ShareX
                         {
                             if (SettingsManager.ConfigCore.SaveHistory)
                             {
-                                HistoryManager.AddHistoryItemAsync(Program.HistoryFilePath, info.GetHistoryItem());
+                                SettingsManager.ConfigHistory.AddHistoryItemAsync(info.GetHistoryItem());
                             }
 
                             if (FormsHelper.Main.niTray.Visible && SettingsManager.ConfigCore.ShowBalloonAfterUpload)

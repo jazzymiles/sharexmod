@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using HistoryLib;
 using ShareX.Forms;
 using ShareX.Properties;
 using UploadersLib;
