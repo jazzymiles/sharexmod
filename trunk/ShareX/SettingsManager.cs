@@ -14,7 +14,8 @@ namespace ShareX
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static ManualResetEvent SettingsResetEvent;
+        public static ManualResetEvent WorkflowsResetEvent;
+        public static ManualResetEvent CoreResetEvent;
         public static ManualResetEvent UploaderSettingsResetEvent;
 
         private static readonly string ApplicationName = Application.ProductName;
@@ -91,6 +92,7 @@ namespace ShareX
         {
             log.Info("Loading workflows config");
             ConfigWorkflows = WorkflowsConfig.Load(ConfigWorkflowsFilePath);
+            WorkflowsResetEvent.Set();
         }
 
         public static void LoadCoreConfig()
@@ -104,7 +106,7 @@ namespace ShareX
                 oldWorkflow.Save(ConfigWorkflowsFilePath + ".old");
                 ConfigCore.Workflows1.Clear();
             }
-            SettingsResetEvent.Set();
+            CoreResetEvent.Set();
         }
 
         public static void LoadUserConfig()

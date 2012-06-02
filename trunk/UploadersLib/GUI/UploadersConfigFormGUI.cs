@@ -342,9 +342,10 @@ namespace UploadersLib
                 return false;
             }
 
-            if (atcImgurAccountType.SelectedAccountType == AccountType.User && string.IsNullOrEmpty(txtImgurVerificationCode.Text))
+            if (atcImgurAccountType.SelectedAccountType == AccountType.User && (Config.ImgurOAuthInfo == null ||
+                Config.ImgurOAuthInfo != null && (string.IsNullOrEmpty(Config.ImgurOAuthInfo.UserToken) || string.IsNullOrEmpty(Config.ImgurOAuthInfo.UserSecret))))
             {
-                MessageBox.Show("Imgur account type is set to User; however, the verification code is empty.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Imgur account type is set to User; however, the Imgur account has not been authorized.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             return true;

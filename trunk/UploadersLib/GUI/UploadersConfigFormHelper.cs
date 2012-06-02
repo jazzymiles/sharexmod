@@ -343,7 +343,7 @@ namespace UploadersLib
             }
             else
             {
-                lblDropboxStatus.Text = "Login status: Authorize required";
+                lblDropboxStatus.Text = "Login status: Authorization is required";
             }
         }
 

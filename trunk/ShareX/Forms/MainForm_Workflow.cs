@@ -18,6 +18,9 @@ namespace ShareX
     {
         internal void InitHotkeys()
         {
+            if (SettingsManager.ConfigWorkflows == null)
+                SettingsManager.WorkflowsResetEvent.WaitOne();
+
             HotkeyManager = new HotkeyManager(this);
 
             if (SettingsManager.ConfigWorkflows.Workflows.Count == 0)
