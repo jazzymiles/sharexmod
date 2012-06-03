@@ -24,6 +24,7 @@
 #endregion License Information (GPL v3)
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -418,17 +419,50 @@ namespace ShareX
             return result;
         }
 
-        private void OpenURL()
+        private void OpenItem()
         {
             UploadResult result = GetCurrentUploadResult();
 
             if (result != null && !string.IsNullOrEmpty(result.URL))
             {
-                Helpers.LoadBrowserAsync(result.URL);
+                OpenItem(SettingsManager.ConfigUser.ItemsWithUrlOnItemDoubleClick, result.URL, result.LocalFilePath);
             }
-            else if (File.Exists(result.LocalFilePath))
+            else if (result != null && File.Exists(result.LocalFilePath))
             {
-                Helpers.OpenFolderWithFile(result.LocalFilePath);
+                OpenItem(SettingsManager.ConfigUser.ItemsWithoutUrlOnItemDoubleClick, result.URL, result.LocalFilePath);
+            }
+        }
+
+        private void OpenItem(EListItemDoubleClickBehavior behavior, string link, string filepath)
+        {
+            switch (behavior)
+            {
+                case EListItemDoubleClickBehavior.DoNothing:
+                    break;
+                case EListItemDoubleClickBehavior.OpenDirectory:
+                    if (Directory.Exists(Path.GetDirectoryName(filepath)))
+                        Helpers.OpenFolderWithFile(filepath);
+                    break;
+                case EListItemDoubleClickBehavior.OpenFile:
+                    if (File.Exists(filepath))
+                        Process.Start(filepath);
+                    break;
+                case EListItemDoubleClickBehavior.OpenFileOrUrl:
+                    if (File.Exists(filepath))
+                        Process.Start(filepath);
+                    else if (!string.IsNullOrEmpty(link))
+                        Helpers.LoadBrowserAsync(link);
+                    break;
+                case EListItemDoubleClickBehavior.OpenUrl:
+                    if (!string.IsNullOrEmpty(link))
+                        Helpers.LoadBrowserAsync(link);
+                    break;
+                case EListItemDoubleClickBehavior.OpenUrlOrFile:
+                    if (!string.IsNullOrEmpty(link))
+                        Helpers.LoadBrowserAsync(link);
+                    else if (File.Exists(filepath))
+                        Process.Start(filepath);
+                    break;
             }
         }
 
@@ -706,7 +740,7 @@ namespace ShareX
 
         private void tsbOpen_Click(object sender, EventArgs e)
         {
-            OpenURL();
+            OpenItem();
         }
 
         private void tsbHistory_Click(object sender, EventArgs e)
@@ -740,7 +774,7 @@ namespace ShareX
 
         private void openURLToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenURL();
+            OpenItem();
         }
 
         private void copyURLToolStripMenuItem_Click(object sender, EventArgs e)
@@ -823,7 +857,7 @@ namespace ShareX
 
         private void lvUploads_DoubleClick(object sender, EventArgs e)
         {
-            OpenURL();
+            OpenItem();
         }
 
         #region Tray events

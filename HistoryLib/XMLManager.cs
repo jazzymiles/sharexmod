@@ -112,7 +112,8 @@ namespace HistoryLib
 
         public void Save()
         {
-            XMLManager.cache.Save(xmlPath);
+            if (XMLManager.cache != null)
+                XMLManager.cache.Save(xmlPath);
         }
 
         public bool RemoveHistoryItem(HistoryItem historyItem)
@@ -121,10 +122,7 @@ namespace HistoryLib
             {
                 if (historyItem != null && !string.IsNullOrEmpty(historyItem.ID) && !string.IsNullOrEmpty(xmlPath) && File.Exists(xmlPath))
                 {
-                    XmlDocument xml = new XmlDocument();
-                    xml.Load(xmlPath);
-
-                    XmlNode rootNode = xml.ChildNodes[1];
+                    XmlNode rootNode = XMLManager.cache.ChildNodes[1];
 
                     if (rootNode.Name == "HistoryItems" && rootNode.ChildNodes != null && rootNode.ChildNodes.Count > 0)
                     {
@@ -133,7 +131,6 @@ namespace HistoryLib
                             if (hi.ID == historyItem.ID)
                             {
                                 rootNode.RemoveChild(hi.Node);
-                                xml.Save(xmlPath);
                                 return true;
                             }
                         }

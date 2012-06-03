@@ -341,6 +341,7 @@ namespace HistoryLib
                 if (hi != null)
                 {
                     history.RemoveHistoryItem(hi);
+                    UpdateItemCount(history.GetHistoryItems().ToArray());
                 }
             }
         }

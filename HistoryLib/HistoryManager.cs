@@ -50,7 +50,8 @@ namespace HistoryLib
 
         public void Save()
         {
-            xml.Save();
+            if (xml != null)
+                xml.Save();
         }
 
         public void SaveAsync()
@@ -94,9 +95,7 @@ namespace HistoryLib
 
         public bool RemoveHistoryItem(HistoryItem historyItem)
         {
-            xml.RemoveHistoryItem(historyItem);
-
-            return false;
+            return xml.RemoveHistoryItem(historyItem);
         }
 
         public void AddHistoryItemAsync(HistoryItem historyItem)

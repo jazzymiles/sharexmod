@@ -18,6 +18,7 @@ namespace ShareX
         public static ManualResetEvent WorkflowsResetEvent;
         public static ManualResetEvent CoreResetEvent;
         public static ManualResetEvent UploaderSettingsResetEvent;
+        public static ManualResetEvent UserConfigResetEvent;
 
         private static readonly string ApplicationName = Application.ProductName;
 
@@ -112,6 +113,7 @@ namespace ShareX
             SettingsManager.WorkflowsResetEvent = new ManualResetEvent(false);
             SettingsManager.CoreResetEvent = new ManualResetEvent(false);
             SettingsManager.UploaderSettingsResetEvent = new ManualResetEvent(false);
+            SettingsManager.UserConfigResetEvent = new ManualResetEvent(false);
 
             ThreadPool.QueueUserWorkItem(state => LoadWorkflows());
             ThreadPool.QueueUserWorkItem(state => LoadCoreConfig());
@@ -132,6 +134,8 @@ namespace ShareX
         {
             log.Info("Loading core config");
             SettingsManager.ConfigCore = Settings.Load(ConfigCoreFilePath);
+            CoreResetEvent.Set();
+
             if (ConfigCore.Workflows1.Count > 0)
             {
                 WorkflowsConfig oldWorkflow = new WorkflowsConfig();
@@ -139,20 +143,21 @@ namespace ShareX
                 oldWorkflow.Save(ConfigWorkflowsFilePath + ".old");
                 ConfigCore.Workflows1.Clear();
             }
-
-            CoreResetEvent.Set();
         }
 
         public static void LoadUserConfig()
         {
             log.Info("Loading user config");
             ConfigUser = UserConfig.Load(ConfigUserFilePath);
+            UserConfigResetEvent.Set();
         }
 
         public static void LoadUploadersConfig()
         {
             log.Info("Loading uploaders config");
             ConfigUploaders = UploadersConfig.Load(ConfigUploadersFilePath);
+            UploaderSettingsResetEvent.Set();
+
             if (ConfigUploaders.PasswordsSecureUsingEncryption)
                 ConfigUploaders.CryptPasswords(false);
         }
