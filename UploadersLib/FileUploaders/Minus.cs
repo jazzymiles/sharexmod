@@ -325,6 +325,7 @@ namespace UploadersLib.FileUploaders
             return Tokens.FirstOrDefault(mat => scope.ToString() == mat.scope);
         }
 
+        [JsonIgnore]
         public MinusFolder MinusFolderActive
         {
             get

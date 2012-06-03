@@ -287,6 +287,8 @@ namespace UploadersLib
 
             this.TinyPicPassword = doEncrypt ? crypt.Encrypt(this.TinyPicPassword) : crypt.Decrypt(this.TinyPicPassword);
 
+            this.PastebinSettings.Password = doEncrypt ? crypt.Encrypt(this.PastebinSettings.Password) : crypt.Decrypt(this.PastebinSettings.Password);
+
             this.RapidSharePassword = doEncrypt ? crypt.Encrypt(this.RapidSharePassword) : crypt.Decrypt(this.RapidSharePassword);
 
             this.SendSpacePassword = doEncrypt ? crypt.Encrypt(this.SendSpacePassword) : crypt.Decrypt(this.SendSpacePassword);
