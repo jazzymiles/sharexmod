@@ -25,6 +25,7 @@
 
 using System;
 using System.ComponentModel;
+using HelpersLib;
 
 namespace ShareX
 {
@@ -91,5 +92,21 @@ namespace ShareX
     public enum ImageScaleType
     {
         Percentage, Width, Height, Specific
+    }
+
+    public enum EListItemDoubleClickBehavior
+    {
+        [Description("Open link or file path (if exists)")]
+        OpenUrlOrFile,
+        [Description("Open file path or link (if exists)")]
+        OpenFileOrUrl,
+        [Description("Open link (if exists)")]
+        OpenUrl,
+        [Description("Open file path (if exists)")]
+        OpenFile,
+        [Description("Open directory of the file (if exists)")]
+        OpenDirectory,
+        [Description("Do nothing")]
+        DoNothing,
     }
 }

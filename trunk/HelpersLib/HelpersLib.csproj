@@ -72,6 +72,7 @@
     <Compile Include="Cryptography\CryptInfo.cs" />
     <Compile Include="Cryptography\CryptKeys.cs" />
     <Compile Include="Cryptography\CryptMethod.cs" />
+    <Compile Include="EnumToStringUsingDescription.cs" />
     <Compile Include="Extensions\GraphicsExtensions.cs" />
     <Compile Include="Extensions\GraphicsPathExtensions.cs" />
     <Compile Include="FixedSizedQueue.cs" />

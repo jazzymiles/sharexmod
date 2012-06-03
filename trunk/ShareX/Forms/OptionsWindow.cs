@@ -166,18 +166,18 @@ namespace ShareX.Forms
             txtNameFormatPatternOther.Text = SettingsManager.ConfigCore.NameFormatPatternOther;
 
             // Image - Quality
-            cbImageFormat.SelectedIndex = (int)SettingsManager.ConfigCore.ImageFormat;
-            nudImageJPEGQuality.Value = SettingsManager.ConfigCore.ImageJPEGQuality;
-            cbImageGIFQuality.SelectedIndex = (int)SettingsManager.ConfigCore.ImageGIFQuality;
-            nudUseImageFormat2After.Value = SettingsManager.ConfigCore.ImageSizeLimit;
-            cbImageFormat2.SelectedIndex = (int)SettingsManager.ConfigCore.ImageFormat2;
+            cbImageFormat.SelectedIndex = (int)SettingsManager.ConfigUser.ImageFormat;
+            nudImageJPEGQuality.Value = SettingsManager.ConfigUser.ImageJPEGQuality;
+            cbImageGIFQuality.SelectedIndex = (int)SettingsManager.ConfigUser.ImageGIFQuality;
+            nudUseImageFormat2After.Value = SettingsManager.ConfigUser.ImageSizeLimit;
+            cbImageFormat2.SelectedIndex = (int)SettingsManager.ConfigUser.ImageFormat2;
 
             // Image - Resize
-            cbImageAutoResize.Checked = SettingsManager.ConfigCore.ImageAutoResize;
-            cbImageKeepAspectRatio.Checked = SettingsManager.ConfigCore.ImageKeepAspectRatio;
-            cbImageUseSmoothScaling.Checked = SettingsManager.ConfigCore.ImageUseSmoothScaling;
+            cbImageAutoResize.Checked = SettingsManager.ConfigUser.ImageAutoResize;
+            cbImageKeepAspectRatio.Checked = SettingsManager.ConfigUser.ImageKeepAspectRatio;
+            cbImageUseSmoothScaling.Checked = SettingsManager.ConfigUser.ImageUseSmoothScaling;
 
-            switch (SettingsManager.ConfigCore.ImageScaleType)
+            switch (SettingsManager.ConfigUser.ImageScaleType)
             {
                 case ImageScaleType.Percentage:
                     rbImageScaleTypePercentage.Checked = true;
@@ -193,12 +193,12 @@ namespace ShareX.Forms
                     break;
             }
 
-            nudImageScalePercentageWidth.Value = SettingsManager.ConfigCore.ImageScalePercentageWidth;
-            nudImageScalePercentageHeight.Value = SettingsManager.ConfigCore.ImageScalePercentageHeight;
-            nudImageScaleToWidth.Value = SettingsManager.ConfigCore.ImageScaleToWidth;
-            nudImageScaleToHeight.Value = SettingsManager.ConfigCore.ImageScaleToHeight;
-            nudImageScaleSpecificWidth.Value = SettingsManager.ConfigCore.ImageScaleSpecificWidth;
-            nudImageScaleSpecificHeight.Value = SettingsManager.ConfigCore.ImageScaleSpecificHeight;
+            nudImageScalePercentageWidth.Value = SettingsManager.ConfigUser.ImageScalePercentageWidth;
+            nudImageScalePercentageHeight.Value = SettingsManager.ConfigUser.ImageScalePercentageHeight;
+            nudImageScaleToWidth.Value = SettingsManager.ConfigUser.ImageScaleToWidth;
+            nudImageScaleToHeight.Value = SettingsManager.ConfigUser.ImageScaleToHeight;
+            nudImageScaleSpecificWidth.Value = SettingsManager.ConfigUser.ImageScaleSpecificWidth;
+            nudImageScaleSpecificHeight.Value = SettingsManager.ConfigUser.ImageScaleSpecificHeight;
 
             // History
             cbHistorySave.Checked = SettingsManager.ConfigCore.SaveHistory;
@@ -213,6 +213,7 @@ namespace ShareX.Forms
             pgSettings.SelectedObject = SettingsManager.ConfigCore;
             pgUploaderConfig.SelectedObject = SettingsManager.ConfigUploaders;
             pgShapes.SelectedObject = SettingsManager.ConfigCore.SurfaceOptions;
+            pgUserConfig.SelectedObject = SettingsManager.ConfigUser;
 
             loaded = true;
         }
@@ -311,19 +312,19 @@ namespace ShareX.Forms
 
             if (rbImageScaleTypePercentage.Checked)
             {
-                SettingsManager.ConfigCore.ImageScaleType = ImageScaleType.Percentage;
+                SettingsManager.ConfigUser.ImageScaleType = ImageScaleType.Percentage;
             }
             else if (rbImageScaleTypeToWidth.Checked)
             {
-                SettingsManager.ConfigCore.ImageScaleType = ImageScaleType.Width;
+                SettingsManager.ConfigUser.ImageScaleType = ImageScaleType.Width;
             }
             else if (rbImageScaleTypeToHeight.Checked)
             {
-                SettingsManager.ConfigCore.ImageScaleType = ImageScaleType.Height;
+                SettingsManager.ConfigUser.ImageScaleType = ImageScaleType.Height;
             }
             else if (rbImageScaleTypeSpecific.Checked)
             {
-                SettingsManager.ConfigCore.ImageScaleType = ImageScaleType.Specific;
+                SettingsManager.ConfigUser.ImageScaleType = ImageScaleType.Specific;
                 aspectRatioEnabled = false;
             }
 
@@ -518,17 +519,17 @@ namespace ShareX.Forms
 
         private void nudImageScalePercentageWidth_ValueChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.ImageScalePercentageWidth = (int)nudImageScalePercentageWidth.Value;
+            SettingsManager.ConfigUser.ImageScalePercentageWidth = (int)nudImageScalePercentageWidth.Value;
 
-            if (SettingsManager.ConfigCore.ImageKeepAspectRatio)
+            if (SettingsManager.ConfigUser.ImageKeepAspectRatio)
             {
-                nudImageScalePercentageHeight.Value = SettingsManager.ConfigCore.ImageScalePercentageWidth;
+                nudImageScalePercentageHeight.Value = SettingsManager.ConfigUser.ImageScalePercentageWidth;
             }
         }
 
         private void nudImageScaleSpecificHeight_ValueChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.ImageScaleSpecificHeight = (int)nudImageScaleSpecificHeight.Value;
+            SettingsManager.ConfigUser.ImageScaleSpecificHeight = (int)nudImageScaleSpecificHeight.Value;
         }
 
         private void rbImageScaleTypeToHeight_CheckedChanged(object sender, EventArgs e)
@@ -538,12 +539,12 @@ namespace ShareX.Forms
 
         private void nudImageScaleSpecificWidth_ValueChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.ImageScaleSpecificWidth = (int)nudImageScaleSpecificWidth.Value;
+            SettingsManager.ConfigUser.ImageScaleSpecificWidth = (int)nudImageScaleSpecificWidth.Value;
         }
 
         private void cbImageUseSmoothScaling_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.ImageUseSmoothScaling = cbImageUseSmoothScaling.Checked;
+            SettingsManager.ConfigUser.ImageUseSmoothScaling = cbImageUseSmoothScaling.Checked;
         }
 
         private void rbImageScaleTypeToWidth_CheckedChanged(object sender, EventArgs e)
@@ -553,9 +554,9 @@ namespace ShareX.Forms
 
         private void cbImageKeepAspectRatio_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.ImageKeepAspectRatio = cbImageKeepAspectRatio.Checked;
+            SettingsManager.ConfigUser.ImageKeepAspectRatio = cbImageKeepAspectRatio.Checked;
 
-            if (SettingsManager.ConfigCore.ImageKeepAspectRatio)
+            if (SettingsManager.ConfigUser.ImageKeepAspectRatio)
             {
                 nudImageScalePercentageHeight.Value = nudImageScalePercentageWidth.Value;
             }
@@ -568,54 +569,54 @@ namespace ShareX.Forms
 
         private void nudImageScaleToHeight_ValueChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.ImageScaleToHeight = (int)nudImageScaleToHeight.Value;
+            SettingsManager.ConfigUser.ImageScaleToHeight = (int)nudImageScaleToHeight.Value;
         }
 
         private void nudImageScalePercentageHeight_ValueChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.ImageScalePercentageHeight = (int)nudImageScalePercentageHeight.Value;
+            SettingsManager.ConfigUser.ImageScalePercentageHeight = (int)nudImageScalePercentageHeight.Value;
 
-            if (SettingsManager.ConfigCore.ImageKeepAspectRatio)
+            if (SettingsManager.ConfigUser.ImageKeepAspectRatio)
             {
-                nudImageScalePercentageWidth.Value = SettingsManager.ConfigCore.ImageScalePercentageHeight;
+                nudImageScalePercentageWidth.Value = SettingsManager.ConfigUser.ImageScalePercentageHeight;
             }
         }
 
         private void nudImageScaleToWidth_ValueChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.ImageScaleToWidth = (int)nudImageScaleToWidth.Value;
+            SettingsManager.ConfigUser.ImageScaleToWidth = (int)nudImageScaleToWidth.Value;
         }
 
         private void cbImageAutoResize_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.ImageAutoResize = cbImageAutoResize.Checked;
+            SettingsManager.ConfigUser.ImageAutoResize = cbImageAutoResize.Checked;
         }
 
         private void cbImageFormat2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.ImageFormat2 = (EImageFormat)cbImageFormat2.SelectedIndex;
+            SettingsManager.ConfigUser.ImageFormat2 = (EImageFormat)cbImageFormat2.SelectedIndex;
             UpdateGuiQuality();
         }
 
         private void nudImageJPEGQuality_ValueChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.ImageJPEGQuality = (int)nudImageJPEGQuality.Value;
+            SettingsManager.ConfigUser.ImageJPEGQuality = (int)nudImageJPEGQuality.Value;
         }
 
         private void cbImageGIFQuality_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.ImageGIFQuality = (GIFQuality)cbImageGIFQuality.SelectedIndex;
+            SettingsManager.ConfigUser.ImageGIFQuality = (GIFQuality)cbImageGIFQuality.SelectedIndex;
         }
 
         private void cbImageFormat_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.ImageFormat = (EImageFormat)cbImageFormat.SelectedIndex;
+            SettingsManager.ConfigUser.ImageFormat = (EImageFormat)cbImageFormat.SelectedIndex;
             UpdateGuiQuality();
         }
 
         private void nudUseImageFormat2After_ValueChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.ImageSizeLimit = (int)nudUseImageFormat2After.Value;
+            SettingsManager.ConfigUser.ImageSizeLimit = (int)nudUseImageFormat2After.Value;
         }
 
         private void UpdateGuiQuality()
@@ -623,8 +624,8 @@ namespace ShareX.Forms
             cbImageFormat2.Enabled = nudUseImageFormat2After.Value > 0;
 
             tcQuality.TabPages.Clear();
-            UpdateGuiQualityTabs(SettingsManager.ConfigCore.ImageFormat);
-            UpdateGuiQualityTabs(SettingsManager.ConfigCore.ImageFormat2);
+            UpdateGuiQualityTabs(SettingsManager.ConfigUser.ImageFormat);
+            UpdateGuiQualityTabs(SettingsManager.ConfigUser.ImageFormat2);
             tcQuality.Visible = tcQuality.TabPages.Count > 0;
         }
 
