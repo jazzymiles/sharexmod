@@ -44,7 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.5\lib\net35\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net35\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -75,6 +75,7 @@
     <Compile Include="EnumToStringUsingDescription.cs" />
     <Compile Include="Extensions\GraphicsExtensions.cs" />
     <Compile Include="Extensions\GraphicsPathExtensions.cs" />
+    <Compile Include="FileAction.cs" />
     <Compile Include="FixedSizedQueue.cs" />
     <Compile Include="ImageQuantization\GrayscaleQuantizer.cs" />
     <Compile Include="ImageQuantization\OctreeQuantizer.cs" />
@@ -121,28 +122,7 @@
     <Compile Include="Wizards\ErrorForm.Designer.cs">
       <DependentUpon>ErrorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Hotkey\HotkeyInputForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Hotkey\HotkeyInputForm.Designer.cs">
-      <DependentUpon>HotkeyInputForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Hotkey\HotkeyManager.cs" />
-    <Compile Include="Hotkey\HotkeyManagerControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Hotkey\HotkeyManagerControl.Designer.cs">
-      <DependentUpon>HotkeyManagerControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Hotkey\HotkeySelectionControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Hotkey\HotkeySelectionControl.Designer.cs">
-      <DependentUpon>HotkeySelectionControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Hotkey\HotkeySetting.cs" />
     <Compile Include="IClone.cs" />
-    <Compile Include="Hotkey\KeyInfo.cs" />
     <Compile Include="Native\NativeEnums.cs" />
     <Compile Include="Native\NativeMethods.cs" />
     <Compile Include="Native\NativeMethods_Helpers.cs" />
@@ -185,11 +165,7 @@
     <Compile Include="Enums.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="FastDateTime.cs" />
-    <Compile Include="Hotkey\HotkeyForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Helpers.cs" />
-    <Compile Include="Hotkey\HotkeyInfo.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="NameParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -220,15 +196,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Wizards\ErrorForm.resx">
       <DependentUpon>ErrorForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Hotkey\HotkeyInputForm.resx">
-      <DependentUpon>HotkeyInputForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Hotkey\HotkeyManagerControl.resx">
-      <DependentUpon>HotkeyManagerControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Hotkey\HotkeySelectionControl.resx">
-      <DependentUpon>HotkeySelectionControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Printer\PrintForm.resx">
       <DependentUpon>PrintForm.cs</DependentUpon>
@@ -274,6 +241,9 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Hotkey\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

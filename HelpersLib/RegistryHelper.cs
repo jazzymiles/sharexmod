@@ -26,6 +26,8 @@
 using System;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using System.IO;
+using HelpersLib.Hotkeys2;
 
 namespace HelpersLib
 {
@@ -132,6 +134,54 @@ namespace HelpersLib
             RemoveRegistryKey(ShellExtMenuFolders);
         }
 
+        public static FileAction FindProgram(string name, string filename)
+        {
+            // First method: HKEY_CLASSES_ROOT\Applications\{filename}\shell\{command}\command
+
+            string[] commands = new string[] { "open", "edit" };
+
+            foreach (string command in commands)
+            {
+                string path = string.Format(@"HKEY_CLASSES_ROOT\Applications\{0}\shell\{1}\command", filename, command);
+                string value = Registry.GetValue(path, null, null) as string;
+
+                if (!string.IsNullOrEmpty(value))
+                {
+                    string filePath = value.ParseQuoteString();
+
+                    if (File.Exists(filePath))
+                    {
+                        DebugHelper.WriteLine("Found program with first method: " + filePath);
+                        return new FileAction(name, filePath);
+                    }
+                }
+            }
+
+            // Second method: Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\MuiCache
+
+            using (RegistryKey programs = Registry.CurrentUser.OpenSubKey(@"Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\MuiCache"))
+            {
+                if (programs != null)
+                {
+                    foreach (string filePath in programs.GetValueNames())
+                    {
+                        if (!string.IsNullOrEmpty(filePath) && programs.GetValueKind(filePath) == RegistryValueKind.String)
+                        {
+                            string programName = programs.GetValue(filePath, null) as string;
+
+                            if (!string.IsNullOrEmpty(programName) && programName.Equals(name, StringComparison.InvariantCultureIgnoreCase) && File.Exists(filePath))
+                            {
+                                DebugHelper.WriteLine("Found program with second method: " + filePath);
+                                return new FileAction(name, filePath);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+        
         private static void CreateRegistryKey(string path, string value, string name = null)
         {
             using (RegistryKey rk = Registry.CurrentUser.CreateSubKey(path))

@@ -41,6 +41,19 @@ namespace HelpersLib.Hotkeys2
         public string Path { get; set; }
         public string Args { get; set; }
 
+        public FileAction()
+        {
+            IsActive = false;
+            Args = "%filepath%";
+        }
+
+        public FileAction(string name, string path)
+            : this()
+        {
+            Name = name;
+            Path = path;
+        }
+
         public void Run(string filePath)
         {
             if (!string.IsNullOrEmpty(Path))
