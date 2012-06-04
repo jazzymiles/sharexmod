@@ -134,7 +134,7 @@ namespace HelpersLib
             RemoveRegistryKey(ShellExtMenuFolders);
         }
 
-        public static FileAction FindProgram(string name, string filename)
+        public static ExternalProgram FindProgram(string name, string filename)
         {
             // First method: HKEY_CLASSES_ROOT\Applications\{filename}\shell\{command}\command
 
@@ -152,7 +152,7 @@ namespace HelpersLib
                     if (File.Exists(filePath))
                     {
                         DebugHelper.WriteLine("Found program with first method: " + filePath);
-                        return new FileAction(name, filePath);
+                        return new ExternalProgram(name, filePath);
                     }
                 }
             }
@@ -172,7 +172,7 @@ namespace HelpersLib
                             if (!string.IsNullOrEmpty(programName) && programName.Equals(name, StringComparison.InvariantCultureIgnoreCase) && File.Exists(filePath))
                             {
                                 DebugHelper.WriteLine("Found program with second method: " + filePath);
-                                return new FileAction(name, filePath);
+                                return new ExternalProgram(name, filePath);
                             }
                         }
                     }

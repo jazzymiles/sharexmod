@@ -12,7 +12,7 @@ namespace HelpersLib.Hotkeys2
     public class WorkflowSettings
     {
         public DestConfig DestConfig = new DestConfig();
-        public List<FileAction> ExternalPrograms = new List<FileAction>();
+        public List<ExternalProgram> ExternalPrograms = new List<ExternalProgram>();
 
         public void Clear()
         {
@@ -36,7 +36,7 @@ namespace HelpersLib.Hotkeys2
 
         private void AddExternalProgram(string name, string filename)
         {
-            FileAction externalProgram = RegistryHelper.FindProgram(name, filename);
+            ExternalProgram externalProgram = RegistryHelper.FindProgram(name, filename);
 
             if (externalProgram != null)
             {

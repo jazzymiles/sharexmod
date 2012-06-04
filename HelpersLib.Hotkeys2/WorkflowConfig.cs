@@ -36,7 +36,7 @@ namespace HelpersLib.Hotkeys2
 
             this.pgSettings.SelectedObject = wf.Settings.DestConfig;
 
-            foreach (FileAction fileAction in Workflow.Settings.ExternalPrograms)
+            foreach (ExternalProgram fileAction in Workflow.Settings.ExternalPrograms)
             {
                 AddFileAction(fileAction);
             }
@@ -308,7 +308,7 @@ namespace HelpersLib.Hotkeys2
 
         #region External Programs
 
-        private void AddFileAction(FileAction fileAction)
+        private void AddFileAction(ExternalProgram fileAction)
         {
             ListViewItem lvi = new ListViewItem(fileAction.Name ?? "");
             lvi.Tag = fileAction;
@@ -323,7 +323,7 @@ namespace HelpersLib.Hotkeys2
             if (lvActions.SelectedItems.Count > 0)
             {
                 ListViewItem lvi = lvActions.SelectedItems[0];
-                FileAction fileAction = lvi.Tag as FileAction;
+                ExternalProgram fileAction = lvi.Tag as ExternalProgram;
 
                 Workflow.Settings.ExternalPrograms.Remove(fileAction);
                 lvActions.Items.Remove(lvi);
@@ -335,7 +335,7 @@ namespace HelpersLib.Hotkeys2
             if (lvActions.SelectedItems.Count > 0)
             {
                 ListViewItem lvi = lvActions.SelectedItems[0];
-                FileAction fileAction = lvi.Tag as FileAction;
+                ExternalProgram fileAction = lvi.Tag as ExternalProgram;
 
                 using (FileActionForm form = new FileActionForm(fileAction))
                 {
@@ -355,7 +355,7 @@ namespace HelpersLib.Hotkeys2
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    FileAction fileAction = form.FileAction;
+                    ExternalProgram fileAction = form.FileAction;
                     fileAction.IsActive = true;
                     Workflow.Settings.ExternalPrograms.Add(fileAction);
                     AddFileAction(fileAction);
@@ -365,7 +365,7 @@ namespace HelpersLib.Hotkeys2
 
         private void lvActions_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            FileAction fileAction = e.Item.Tag as FileAction;
+            ExternalProgram fileAction = e.Item.Tag as ExternalProgram;
             fileAction.IsActive = e.Item.Checked;
         }
 
