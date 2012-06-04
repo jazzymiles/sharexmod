@@ -26,39 +26,23 @@ namespace HelpersLib.Hotkeys2
         {
             if (ExternalPrograms.Count == 0)
             {
-                SoftwareCheck("Paint", "mspaint.exe", "edit");
-                SoftwareCheck("Adobe Photoshop", "Photoshop.exe");
-                SoftwareCheck("Paint.NET", "PaintDotNet.exe");
-                SoftwareCheck("Irfan View", "i_view32.exe");
-                SoftwareCheck("XnView", "xnview.exe");
-                SoftwareCheck("Picasa", "PicasaPhotoViewer.exe");
+                AddExternalProgram("Paint", "mspaint.exe");
+                AddExternalProgram("Paint.NET", "PaintDotNet.exe");
+                AddExternalProgram("Adobe Photoshop", "Photoshop.exe");
+                AddExternalProgram("IrfanView", "i_view32.exe");
+                AddExternalProgram("XnView", "xnview.exe");
             }
         }
 
-        /// <summary>Registry path: HKEY_CLASSES_ROOT\Applications\{fileName}\shell\{command}\command</summary>
-        private bool SoftwareCheck(string name, string fileName, string command = "open")
+        private void AddExternalProgram(string name, string filename)
         {
-            string path = string.Format(@"HKEY_CLASSES_ROOT\Applications\{0}\shell\{1}\command", fileName, command);
-            string value = Registry.GetValue(path, null, null) as string;
+            FileAction externalProgram = RegistryHelper.FindProgram(name, filename);
 
-            if (!string.IsNullOrEmpty(value))
+            if (externalProgram != null)
             {
-                string filePath = value.ParseQuoteString();
-
-                if (File.Exists(filePath))
-                {
-                    ExternalPrograms.Add(new FileAction()
-                    {
-                        Name = name,
-                        Path = filePath,
-                        Args = "%filepath%",
-                        IsActive = false
-                    });
-                    return true;
-                }
+                ExternalPrograms.Add(externalProgram);
             }
-
-            return false;
         }
+
     }
 }

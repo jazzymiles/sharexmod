@@ -214,18 +214,18 @@ namespace HistoryLib
             {
                 status.Append(", Filtered: " + historyItems.Length);
             }
-            /*
-                        var types = from hi in historyItems
-                                    group hi by hi.Type into t
-                                    let count = t.Count()
-                                    orderby t.Key
-                                    select string.Format(", {0}: {1}", t.Key, count);
 
-                        foreach (string type in types)
-                        {
-                            status.Append(type);
-                        }
-            */
+            var types = from hi in historyItems
+                        group hi by hi.Type into t
+                        let count = t.Count()
+                        orderby t.Key
+                        select string.Format(", {0}: {1}", t.Key, count);
+
+            foreach (string type in types)
+            {
+                status.Append(type);
+            }
+
             tsslStatus.Text = status.ToString();
         }
 
