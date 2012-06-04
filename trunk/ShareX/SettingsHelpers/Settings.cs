@@ -32,6 +32,7 @@ using HelpersLib;
 using HelpersLib.Hotkeys2;
 using ScreenCapture;
 using UploadersLib.HelperClasses;
+using UploadersLib;
 
 namespace ShareX
 {
@@ -42,10 +43,11 @@ namespace ShareX
     {
         #region Main Form
 
-        public int SelectedImageUploaderDestination = 0;
-        public int SelectedTextUploaderDestination = 0;
-        public int SelectedFileUploaderDestination = 0;
-        public int SelectedURLShortenerDestination = 0;
+        public ImageDestination ImageUploaderDestination = ImageDestination.Imgur;
+        public TextDestination TextUploaderDestination = TextDestination.Pastebin;
+        public FileDestination FileUploaderDestination = FileDestination.Dropbox;
+        public UrlShortenerType URLShortenerDestination = UrlShortenerType.Google;
+
         public bool ShowClipboardContentViewer = true;
 
         #endregion Main Form

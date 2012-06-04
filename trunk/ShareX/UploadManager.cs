@@ -54,6 +54,7 @@ namespace ShareX
         public static UrlShortenerType URLShortener { get; set; }
 
         public static MyListView ListViewControl { get; set; }
+       // private static ImageList ImageListListView = new ImageList();
 
         public static List<Task> Tasks { get; private set; }
 
@@ -373,6 +374,7 @@ namespace ShareX
                 log.InfoFormat("Upload in queue. ID: {0}, Job: {1}, Type: {2}, Host: {3}", info.ID, info.Job, info.UploadDestination, info.Destination);
 
                 ListViewItem lvi = new ListViewItem();
+                
                 lvi.Text = info.FileName;
                 lvi.SubItems.Add("In queue");
                 lvi.SubItems.Add(string.Empty);
@@ -472,6 +474,15 @@ namespace ShareX
                     info.Result.LocalFilePath = info.FilePath;
                     ListViewItem lvi = ListViewControl.Items[info.ID];
                     lvi.Tag = info.Result;
+
+                    //if (File.Exists(info.FilePath))
+                    //{
+                    //    ImageListListView.Images.Add(info.FileName, Image.FromFile(info.FilePath));
+                    //    ListViewControl.LargeImageList = ImageListListView;
+                    //    ListViewControl.LargeImageList.ImageSize = new Size(128, 128);
+                    //    lvi.ImageKey = info.FileName;
+                    //    ListViewControl.View = View.LargeIcon;
+                    //}
 
                     if (info.Result.IsError)
                     {
