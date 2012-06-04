@@ -284,7 +284,7 @@ namespace ShareX
                             if (string.IsNullOrEmpty(Info.FilePath))
                                 Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
 
-                            foreach (FileAction fileAction in actions)
+                            foreach (ExternalProgram fileAction in actions)
                                 fileAction.Run(Info.FilePath);
 
                             data = new FileStream(Info.FilePath, FileMode.Open, FileAccess.Read, FileShare.Read);

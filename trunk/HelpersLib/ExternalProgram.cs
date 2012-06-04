@@ -34,20 +34,20 @@ using HelpersLib;
 namespace HelpersLib.Hotkeys2
 {
     [Serializable]
-    public class FileAction
+    public class ExternalProgram
     {
         public bool IsActive { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
         public string Args { get; set; }
 
-        public FileAction()
+        public ExternalProgram()
         {
             IsActive = false;
             Args = "%filepath%";
         }
 
-        public FileAction(string name, string path)
+        public ExternalProgram(string name, string path)
             : this()
         {
             Name = name;

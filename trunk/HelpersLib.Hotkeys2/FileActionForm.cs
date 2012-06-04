@@ -37,14 +37,14 @@ namespace HelpersLib.Hotkeys2
 {
     public partial class FileActionForm : Form
     {
-        public FileAction FileAction { get; private set; }
+        public ExternalProgram FileAction { get; private set; }
 
         public FileActionForm()
-            : this(new FileAction())
+            : this(new ExternalProgram())
         {
         }
 
-        public FileActionForm(FileAction fileAction)
+        public FileActionForm(ExternalProgram fileAction)
         {
             FileAction = fileAction;
             InitializeComponent();

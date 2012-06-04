@@ -75,7 +75,7 @@
     <Compile Include="EnumToStringUsingDescription.cs" />
     <Compile Include="Extensions\GraphicsExtensions.cs" />
     <Compile Include="Extensions\GraphicsPathExtensions.cs" />
-    <Compile Include="FileAction.cs" />
+    <Compile Include="ExternalProgram.cs" />
     <Compile Include="FixedSizedQueue.cs" />
     <Compile Include="ImageQuantization\GrayscaleQuantizer.cs" />
     <Compile Include="ImageQuantization\OctreeQuantizer.cs" />
@@ -242,9 +242,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Hotkey\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
