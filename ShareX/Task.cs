@@ -653,7 +653,10 @@ namespace ShareX
             URLShortener urlShortener = null;
 
             if ((Workflow.Settings.DestConfig.LinkUploaders.Count == 0))
+            {
                 Workflow.Settings.DestConfig.LinkUploaders.Add(UploadManager.URLShortener);
+                this.Info.SetDestination(Workflow.Settings.DestConfig); // update destination
+            }
 
             switch (Workflow.Settings.DestConfig.LinkUploaders[0])
             {
