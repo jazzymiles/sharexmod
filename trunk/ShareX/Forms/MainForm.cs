@@ -233,13 +233,6 @@ namespace ShareX
 
             #endregion Uploaders
 
-            ImageList il = new ImageList();
-            il.ColorDepth = ColorDepth.Depth32Bit;
-            il.Images.Add(Properties.Resources.navigation_090_button);
-            il.Images.Add(Properties.Resources.cross_button);
-            il.Images.Add(Properties.Resources.tick_button);
-            il.Images.Add(Properties.Resources.navigation_000_button);
-            lvUploads.SmallImageList = il;
             lvUploads.FillLastColumn();
 
             UploadManager.ListViewControl = lvUploads;

@@ -37,6 +37,7 @@ namespace ShareX.HelperClasses
     public static class ListViewManager
     {
         public static ImageList ListViewControlImages { get; set; }
+        public static ImageList DetailViewImageList { get; set; }
 
         public static void AddThumbnail(MyListView listView, UploadInfo info)
         {
@@ -47,7 +48,7 @@ namespace ShareX.HelperClasses
                     ListViewControlImages.Images.Add(info.FileName, Image.FromFile(info.FilePath));
                 }
 
-                for (int i = 1; i < ListViewControlImages.Images.Count; i++)
+                for (int i = 1; i <= ListViewControlImages.Images.Count; i++)
                 {
                     listView.Items[listView.Items.Count - i].ImageIndex = ListViewControlImages.Images.Count - i;
                 }
@@ -61,25 +62,36 @@ namespace ShareX.HelperClasses
 
         internal static void Initialize(MyListView listView)
         {
+            if (DetailViewImageList == null)
+            {
+                DetailViewImageList = new ImageList();
+                DetailViewImageList.ColorDepth = ColorDepth.Depth32Bit;
+                DetailViewImageList.Images.Add(Properties.Resources.navigation_090_button);
+                DetailViewImageList.Images.Add(Properties.Resources.cross_button);
+                DetailViewImageList.Images.Add(Properties.Resources.tick_button);
+                DetailViewImageList.Images.Add(Properties.Resources.navigation_000_button);
+            }
+
             if (ListViewControlImages == null)
                 ListViewControlImages = new ImageList();
-
-            if (listView.View == View.LargeIcon)
-            {
-                listView.LargeImageList = ListViewControlImages;
-                listView.LargeImageList.ImageSize = new System.Drawing.Size(128, 128);
-            }
 
             // reset ImageIndex to prevent showing wrong images
             if (listView.View == View.Details)
             {
+                listView.LargeImageList = null;
+                listView.SmallImageList = DetailViewImageList;
                 foreach (ListViewItem lvi in listView.Items)
                 {
-                    lvi.ImageIndex = 3;
+                    lvi.ImageIndex = 2;
                 }
             }
             else
             {
+                listView.LargeImageList = ListViewControlImages;
+                listView.SmallImageList = null;
+                listView.LargeImageList.ColorDepth = ColorDepth.Depth32Bit;
+                listView.LargeImageList.ImageSize = new System.Drawing.Size(128, 128);
+
                 for (int i = 1; i < ListViewControlImages.Images.Count; i++)
                 {
                     listView.Items[listView.Items.Count - i].ImageIndex = ListViewControlImages.Images.Count - i;
