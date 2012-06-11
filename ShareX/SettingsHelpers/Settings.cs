@@ -31,8 +31,8 @@ using System.Windows.Forms.Design;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
 using ScreenCapture;
-using UploadersLib.HelperClasses;
 using UploadersLib;
+using UploadersLib.HelperClasses;
 
 namespace ShareX
 {
@@ -63,8 +63,6 @@ namespace ShareX
         public bool PlaySoundAfterCapture = true;
         public bool PlaySoundAfterUpload = true;
         public bool ShowBalloonAfterUpload = true;
-
-        public List<Workflow> Workflows1 = new List<Workflow>();
 
         // Upload
 
@@ -115,6 +113,9 @@ namespace ShareX
         [Category(ComponentModelStrings.App), DefaultValue(false), Description("If you have configured Dropbox, then this setting will synchronize uploaders configuration and application settings except for paths.")]
         public bool DropboxSync { get; set; }
 
+        [Category(ComponentModelStrings.App), DefaultValue(View.Details), Description("You can choose LargeIcon to enable Thumbnail mode")]
+        public View ListViewMode { get; set; }
+
         [Category(ComponentModelStrings.SettingsInteraction), DefaultValue(true), Description("Show after capture wizard. Dynamically choose actions after capture")]
         public bool ShowAfterCaptureWizard { get; set; }
 
@@ -133,6 +134,15 @@ namespace ShareX
 
         [Category(ComponentModelStrings.FileNaming), DefaultValue(100), Description("Maximum file name length")]
         public int MaxFilenameLength { get; set; }
+
+        [Category(ComponentModelStrings.AppPasswords), DefaultValue(true), Description("Encrypt passwords using AES")]
+        public bool PasswordsSecureUsingEncryption { get; set; }
+
+        [Browsable(false), Category(ComponentModelStrings.AppPasswords), DefaultValue(EncryptionStrength.High), Description("Strength can be Low = 128, Medium = 192, or High = 256")]
+        public EncryptionStrength PasswordsEncryptionStrength { get; set; }
+
+        [Browsable(false), Category(ComponentModelStrings.AppPasswords), DefaultValue("password"), Description("If this SamplePassword displayed as 'password' then configuration is not encrypted.")]
+        public string TestPassword { get; set; }
 
         #endregion Settings Form
 
@@ -153,6 +163,45 @@ namespace ShareX
             ApplyDefaultValues(this);
         }
 
+        public void CryptPasswords(bool doEncrypt)
+        {
+            bool isEncrypted = TestPassword != "password";
+
+            if (doEncrypt && isEncrypted || !doEncrypt && !isEncrypted)
+            {
+                // ensure encrupted passwords are not encrypted again or decrypted passwords are not decrypted again
+                return;
+            }
+
+            DebugHelper.WriteLine((doEncrypt ? "Encrypting " : "Decrypting") + " passwords.");
+
+            CryptKeys crypt = new CryptKeys() { KeySize = this.PasswordsEncryptionStrength };
+
+            this.TestPassword = doEncrypt ? crypt.Encrypt(TestPassword) : crypt.Decrypt(TestPassword);
+
+            this.ProxySettings.Password = doEncrypt ? crypt.Encrypt(this.ProxySettings.Password) : crypt.Decrypt(this.ProxySettings.Password);
+        }
+
         #endregion Methods
+
+        #region I/O Methods
+
+        public static new Settings Load(string filePath)
+        {
+            Settings config = SettingsBase<Settings>.Load(filePath);
+            if (config.PasswordsSecureUsingEncryption) config.CryptPasswords(false);
+            return config;
+        }
+
+        public override bool Save(string filePath)
+        {
+            bool result;
+            if (PasswordsSecureUsingEncryption) CryptPasswords(true);
+            result = base.Save(filePath);
+            if (PasswordsSecureUsingEncryption) CryptPasswords(false);
+            return result;
+        }
+
+        #endregion I/O Methods
     }
 }

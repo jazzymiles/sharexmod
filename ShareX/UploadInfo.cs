@@ -41,16 +41,16 @@ namespace ShareX
         public Subtask Jobs { get; set; }
         public ProgressManager Progress { get; set; }
 
-        private string filePath;
+        private string _filePath;
         public string FilePath
         {
             get
             {
-                return filePath;
+                return _filePath;
             }
             set
             {
-                filePath = value;
+                _filePath = value;
                 FileName = Path.GetFileName(value);
             }
         }

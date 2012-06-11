@@ -137,6 +137,7 @@ namespace ShareX
             this.tsmiTrayTextUploaders = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayFileUploaders = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayURLShorteners = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiConfiguration = new System.Windows.Forms.ToolStripMenuItem();
             this.tssTray1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiHistory = new System.Windows.Forms.ToolStripMenuItem();
@@ -145,7 +146,6 @@ namespace ShareX
             this.tsmiTrayDonate = new System.Windows.Forms.ToolStripMenuItem();
             this.tssTray2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiTrayExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsUploads.SuspendLayout();
             this.tsMain.SuspendLayout();
             this.tscMain.ContentPanel.SuspendLayout();
@@ -886,6 +886,11 @@ namespace ShareX
             this.tsmiTrayURLShorteners.Size = new System.Drawing.Size(177, 22);
             this.tsmiTrayURLShorteners.Text = "URL shorteners";
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(174, 6);
+            // 
             // tsmiConfiguration
             // 
             this.tsmiConfiguration.Image = global::ShareX.Properties.Resources.gear;
@@ -943,11 +948,6 @@ namespace ShareX
             this.tsmiTrayExit.Size = new System.Drawing.Size(177, 22);
             this.tsmiTrayExit.Text = "Exit";
             this.tsmiTrayExit.Click += new System.EventHandler(this.tsmiTrayExit_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(174, 6);
             // 
             // MainForm
             // 

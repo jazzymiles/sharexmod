@@ -135,14 +135,6 @@ namespace ShareX
             log.Info("Loading core config");
             SettingsManager.ConfigCore = Settings.Load(ConfigCoreFilePath);
             CoreResetEvent.Set();
-
-            if (ConfigCore.Workflows1.Count > 0)
-            {
-                WorkflowsConfig oldWorkflow = new WorkflowsConfig();
-                oldWorkflow.Workflows = ConfigCore.Workflows1;
-                oldWorkflow.Save(ConfigWorkflowsFilePath + ".old");
-                ConfigCore.Workflows1.Clear();
-            }
         }
 
         public static void LoadUserConfig()
@@ -157,9 +149,6 @@ namespace ShareX
             log.Info("Loading uploaders config");
             ConfigUploaders = UploadersConfig.Load(ConfigUploadersFilePath);
             UploaderSettingsResetEvent.Set();
-
-            if (ConfigUploaders.PasswordsSecureUsingEncryption)
-                ConfigUploaders.CryptPasswords(false);
         }
 
         public static void SaveCoreConfigAsync()
