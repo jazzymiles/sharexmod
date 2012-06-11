@@ -34,7 +34,7 @@ namespace UploadersLib
 {
     public class FTPAccount : ICloneable
     {
-        [Category("Account"), Description("FTP Account will be used for the following file extensions"), DefaultValue("bmp,jpg,jpeg,png,tiff")]
+        [Category("Account"), Description("FTP Account will be used for the following file extensions \nResorts to Backup Accounts if blank or not found"), DefaultValue("bmp,jpg,jpeg,png,tiff")]
         public string ExtensionsForTrigger { get; set; }
 
         [Category("Account"), Description("Connection Protocol"), DefaultValue(FTPProtocol.FTP)]
@@ -137,12 +137,24 @@ namespace UploadersLib
             IsActive = false;
 
             FtpsSecurityProtocol = FtpSecurityProtocol.Ssl2Explicit;
+
+            ApplyDefaultValues(this);
         }
 
         public FTPAccount(string name)
             : this()
         {
             Name = name;
+        }
+
+        public static void ApplyDefaultValues(object self)
+        {
+            foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(self))
+            {
+                DefaultValueAttribute attr = prop.Attributes[typeof(DefaultValueAttribute)] as DefaultValueAttribute;
+                if (attr == null) continue;
+                prop.SetValue(self, attr.Value);
+            }
         }
 
         public string GetSubFolderPath()
