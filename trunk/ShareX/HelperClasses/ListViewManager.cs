@@ -41,22 +41,17 @@ namespace ShareX.HelperClasses
 
         public static void AddThumbnail(MyListView listView, UploadInfo info)
         {
-            if (SettingsManager.ConfigCore.ListViewMode != View.Details)
+            if (File.Exists(info.FilePath) && Helpers.IsImageFile(info.FilePath))
             {
-                if (File.Exists(info.FilePath))
+                if (SettingsManager.ConfigCore.ListViewMode != View.Details)
                 {
                     ListViewControlImages.Images.Add(info.FileName, Image.FromFile(info.FilePath));
-                }
 
-                for (int i = 1; i <= ListViewControlImages.Images.Count; i++)
-                {
-                    listView.Items[listView.Items.Count - i].ImageIndex = ListViewControlImages.Images.Count - i;
+                    for (int i = 1; i <= ListViewControlImages.Images.Count; i++)
+                    {
+                        listView.Items[listView.Items.Count - i].ImageIndex = ListViewControlImages.Images.Count - i;
+                    }
                 }
-            }
-            else
-            {
-                if (ListViewControlImages != null)
-                    ListViewControlImages.Dispose();
             }
         }
 
@@ -84,6 +79,9 @@ namespace ShareX.HelperClasses
                 {
                     lvi.ImageIndex = 2;
                 }
+
+                if (ListViewControlImages != null)
+                    ListViewControlImages.Dispose();
             }
             else
             {
