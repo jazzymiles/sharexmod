@@ -54,11 +54,6 @@ namespace ShareX
             }
             else
                 Options.ShowDialog();
-
-            DropboxSyncHelper.SaveAsync();
-
-            Main.ReloadConfig();
-            Main.ReloadOutputsMenu();
         }
 
         public static void ShowUploadersConfig()

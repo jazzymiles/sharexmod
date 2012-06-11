@@ -46,16 +46,10 @@ namespace ShareX
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static ImageDestination ImageUploader { get; set; }
-
         public static TextDestination TextUploader { get; set; }
-
         public static FileDestination FileUploader { get; set; }
-
         public static UrlShortenerType URLShortener { get; set; }
-
         public static MyListView ListViewControl { get; set; }
-        // private static ImageList ImageListListView = new ImageList();
-
         public static List<Task> Tasks { get; private set; }
 
         private static object uploadManagerLock = new object();
@@ -410,9 +404,8 @@ namespace ShareX
                 }
 
                 lvi.SubItems.Add(string.Empty);
-
                 lvi.BackColor = info.ID % 2 == 0 ? Color.White : Color.WhiteSmoke;
-                lvi.ImageIndex = 3;
+                ListViewManager.SetIconCreated(lvi);
                 ListViewControl.Items.Add(lvi);
                 lvi.EnsureVisible();
                 ListViewControl.FillLastColumn();
@@ -436,7 +429,8 @@ namespace ShareX
             ListViewItem lvi = ListViewControl.Items[info.ID];
             lvi.Text = info.FileName;
             lvi.SubItems[1].Text = info.Status;
-            lvi.ImageIndex = 0;
+
+            ListViewManager.SetIconUploadStarted(lvi);
         }
 
         private static void task_UploadProgressChanged(UploadInfo info)
@@ -475,14 +469,7 @@ namespace ShareX
                     ListViewItem lvi = ListViewControl.Items[info.ID];
                     lvi.Tag = info.Result;
 
-                    //if (File.Exists(info.FilePath))
-                    //{
-                    //    ImageListListView.Images.Add(info.FileName, Image.FromFile(info.FilePath));
-                    //    ListViewControl.LargeImageList = ImageListListView;
-                    //    ListViewControl.LargeImageList.ImageSize = new Size(128, 128);
-                    //    lvi.ImageKey = info.FileName;
-                    //    ListViewControl.View = View.LargeIcon;
-                    //}
+                    ListViewManager.AddThumbnail(ListViewControl, info);
 
                     if (string.IsNullOrEmpty(lvi.SubItems[7].Text))
                         lvi.SubItems[7].Text = info.Destination; // update Destination if not empty; this applies for URL Shortening
@@ -495,7 +482,8 @@ namespace ShareX
 
                         lvi.SubItems[1].Text = "Error";
                         lvi.SubItems[8].Text = string.Empty;
-                        lvi.ImageIndex = 1;
+
+                        ListViewManager.SetIconError(lvi);
 
                         if (SettingsManager.ConfigCore.PlaySoundAfterUpload)
                             SystemSounds.Asterisk.Play();
@@ -506,7 +494,7 @@ namespace ShareX
                             info.Result.URL, (int)info.UploadDuration.TotalMilliseconds);
 
                         lvi.SubItems[1].Text = info.Status;
-                        lvi.ImageIndex = 2;
+                        ListViewManager.SetIconCompleted(lvi);
 
                         string url = string.IsNullOrEmpty(info.Result.ShortenedURL) ? info.Result.URL : info.Result.ShortenedURL;
                         if (string.IsNullOrEmpty(url))

@@ -304,6 +304,11 @@ namespace ShareX.Forms
             }
 
             #endregion Workflows
+
+            DropboxSyncHelper.SaveAsync();
+
+            FormsHelper.Main.ReloadConfig();
+            FormsHelper.Main.ReloadOutputsMenu();
         }
 
         private void CheckImageScaleType()

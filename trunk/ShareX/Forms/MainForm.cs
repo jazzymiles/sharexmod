@@ -34,6 +34,7 @@ using HelpersLib.Hotkeys2;
 using HistoryLib;
 using ScreenCapture;
 using ShareX.Forms;
+using ShareX.HelperClasses;
 using ShareX.Properties;
 using UpdateCheckerLib;
 using UploadersLib;
@@ -96,6 +97,11 @@ namespace ShareX
             EnableDisableToolStripMenuItems(tsmiFileUploaders);
         }
 
+        /// <summary>
+        /// Executes when:
+        ///     Main Window loads for the first time
+        ///     Whenever Options Window is closed
+        /// </summary>
         public void ReloadConfig()
         {
             FolderWatcher folderWatcher = new FolderWatcher(this);
@@ -108,6 +114,10 @@ namespace ShareX
             {
                 folderWatcher.StopWatching();
             }
+
+            lvUploads.View = SettingsManager.ConfigCore.ListViewMode;
+
+            ListViewManager.Initialize(lvUploads);
         }
 
         private void EnableDisableToolStripMenuItems(ToolStripMenuItem tsmi)

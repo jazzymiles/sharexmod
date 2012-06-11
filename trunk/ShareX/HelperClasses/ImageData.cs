@@ -38,7 +38,6 @@ namespace ShareX.HelperClasses
         public Image Image = null;
         public string WindowText { get; private set; }
         public string Filename { get; private set; }
-        public string FilePath { get; private set; }
 
         public bool IsPrepared
         {
@@ -202,9 +201,9 @@ namespace ShareX.HelperClasses
                     Directory.CreateDirectory(folderPath);
                 }
 
-                FilePath = Path.Combine(folderPath, Filename);
-                ImageStream.WriteToFile(FilePath);
-                return FilePath;
+                string filePath = Path.Combine(folderPath, Filename);
+                ImageStream.WriteToFile(filePath);
+                return filePath;
             }
 
             return string.Empty;
