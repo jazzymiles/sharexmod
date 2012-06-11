@@ -45,12 +45,14 @@
             System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Paths");
             System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Proxy");
             System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Shapes");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Uploader Config");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Misc");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Advanced", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Uploader config");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("User config");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Sync");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Advanced", new System.Windows.Forms.TreeNode[] {
             treeNode13,
             treeNode14,
-            treeNode15});
+            treeNode15,
+            treeNode16});
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tvMain = new System.Windows.Forms.TreeView();
             this.tcBase = new System.Windows.Forms.TabControl();
@@ -177,8 +179,8 @@
             this.txtCustomHistoryPath = new System.Windows.Forms.TextBox();
             this.cbUseCustomHistoryPath = new System.Windows.Forms.CheckBox();
             this.cbHistorySave = new System.Windows.Forms.CheckBox();
-            this.tpDropboxSync = new System.Windows.Forms.TabPage();
-            this.panelDropboxSync = new System.Windows.Forms.Panel();
+            this.tpSync = new System.Windows.Forms.TabPage();
+            this.panelSync = new System.Windows.Forms.Panel();
             this.btnDropboxSyncExport = new System.Windows.Forms.Button();
             this.btnDropboxSyncImport = new System.Windows.Forms.Button();
             this.tpFileNaming = new System.Windows.Forms.TabPage();
@@ -246,8 +248,8 @@
             this.gbUploadersConfig.SuspendLayout();
             this.gbHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHistoryMaxItemCount)).BeginInit();
-            this.tpDropboxSync.SuspendLayout();
-            this.panelDropboxSync.SuspendLayout();
+            this.tpSync.SuspendLayout();
+            this.panelSync.SuspendLayout();
             this.tpFileNaming.SuspendLayout();
             this.panelFileNaming.SuspendLayout();
             this.gbFilenamingPatternOthers.SuspendLayout();
@@ -309,11 +311,13 @@
             treeNode13.Name = "tnShapes2";
             treeNode13.Text = "Shapes";
             treeNode14.Name = "tnUploaderConfig";
-            treeNode14.Text = "Uploader Config";
+            treeNode14.Text = "Uploader config";
             treeNode15.Name = "tnUserConfig";
-            treeNode15.Text = "Misc";
-            treeNode16.Name = "tnAdvanced";
-            treeNode16.Text = "Advanced";
+            treeNode15.Text = "User config";
+            treeNode16.Name = "tnSync";
+            treeNode16.Text = "Sync";
+            treeNode17.Name = "tnAdvanced";
+            treeNode17.Text = "Advanced";
             this.tvMain.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
@@ -323,7 +327,7 @@
             treeNode10,
             treeNode11,
             treeNode12,
-            treeNode16});
+            treeNode17});
             this.tvMain.Size = new System.Drawing.Size(133, 402);
             this.tvMain.TabIndex = 0;
             this.tvMain.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvMain_AfterSelect);
@@ -341,7 +345,7 @@
             this.tcBase.Controls.Add(this.tpImageResize);
             this.tcBase.Controls.Add(this.tpImageQuality2);
             this.tcBase.Controls.Add(this.tpPaths);
-            this.tcBase.Controls.Add(this.tpDropboxSync);
+            this.tcBase.Controls.Add(this.tpSync);
             this.tcBase.Controls.Add(this.tpFileNaming);
             this.tcBase.Controls.Add(this.tpUploaderConfig);
             this.tcBase.Controls.Add(this.tpShapes2);
@@ -1845,26 +1849,26 @@
             this.cbHistorySave.UseVisualStyleBackColor = true;
             this.cbHistorySave.CheckedChanged += new System.EventHandler(this.cbHistorySave_CheckedChanged);
             // 
-            // tpDropboxSync
+            // tpSync
             // 
-            this.tpDropboxSync.Controls.Add(this.panelDropboxSync);
-            this.tpDropboxSync.Location = new System.Drawing.Point(4, 22);
-            this.tpDropboxSync.Name = "tpDropboxSync";
-            this.tpDropboxSync.Padding = new System.Windows.Forms.Padding(3);
-            this.tpDropboxSync.Size = new System.Drawing.Size(543, 376);
-            this.tpDropboxSync.TabIndex = 11;
-            this.tpDropboxSync.Text = "Dropbox Sync";
-            this.tpDropboxSync.UseVisualStyleBackColor = true;
+            this.tpSync.Controls.Add(this.panelSync);
+            this.tpSync.Location = new System.Drawing.Point(4, 22);
+            this.tpSync.Name = "tpSync";
+            this.tpSync.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSync.Size = new System.Drawing.Size(543, 376);
+            this.tpSync.TabIndex = 11;
+            this.tpSync.Text = "Sync";
+            this.tpSync.UseVisualStyleBackColor = true;
             // 
-            // panelDropboxSync
+            // panelSync
             // 
-            this.panelDropboxSync.Controls.Add(this.btnDropboxSyncExport);
-            this.panelDropboxSync.Controls.Add(this.btnDropboxSyncImport);
-            this.panelDropboxSync.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelDropboxSync.Location = new System.Drawing.Point(3, 3);
-            this.panelDropboxSync.Name = "panelDropboxSync";
-            this.panelDropboxSync.Size = new System.Drawing.Size(537, 370);
-            this.panelDropboxSync.TabIndex = 0;
+            this.panelSync.Controls.Add(this.btnDropboxSyncExport);
+            this.panelSync.Controls.Add(this.btnDropboxSyncImport);
+            this.panelSync.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelSync.Location = new System.Drawing.Point(3, 3);
+            this.panelSync.Name = "panelSync";
+            this.panelSync.Size = new System.Drawing.Size(537, 370);
+            this.panelSync.TabIndex = 0;
             // 
             // btnDropboxSyncExport
             // 
@@ -2146,8 +2150,8 @@
             this.gbHistory.ResumeLayout(false);
             this.gbHistory.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHistoryMaxItemCount)).EndInit();
-            this.tpDropboxSync.ResumeLayout(false);
-            this.panelDropboxSync.ResumeLayout(false);
+            this.tpSync.ResumeLayout(false);
+            this.panelSync.ResumeLayout(false);
             this.tpFileNaming.ResumeLayout(false);
             this.panelFileNaming.ResumeLayout(false);
             this.gbFilenamingPatternOthers.ResumeLayout(false);
@@ -2283,8 +2287,8 @@
         private System.Windows.Forms.Label lblOpenZUploaderPath;
         private System.Windows.Forms.Button btnOpenZUploaderPath;
         private System.Windows.Forms.CheckBox cbPlaySoundAfterCapture;
-        private System.Windows.Forms.TabPage tpDropboxSync;
-        private System.Windows.Forms.Panel panelDropboxSync;
+        private System.Windows.Forms.TabPage tpSync;
+        private System.Windows.Forms.Panel panelSync;
         private System.Windows.Forms.CheckBox cbURLShortenAfterUpload;
         private System.Windows.Forms.CheckBox cbClipboardAutoCopy;
         private System.Windows.Forms.GroupBox gbNotifications;

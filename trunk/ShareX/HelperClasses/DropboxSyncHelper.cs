@@ -17,12 +17,13 @@ namespace ShareX
     public class DropboxSyncHelper
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        Dropbox dropbox = null;
+        private Dropbox dropbox = null;
 
-        string pathDropboxSettings = Helpers.CombineURL(Application.ProductName, SettingsManager.ConfigCoreFileName);
-        string pathDropboxUploadersConfig = Helpers.CombineURL(Application.ProductName, SettingsManager.ConfigUploadersFileName);
-        string pathDropboxWorkflowsConfig = Helpers.CombineURL(Application.ProductName, SettingsManager.ConfigWorkflowsFileName);
-        string pathDropboxUserConfig = Helpers.CombineURL(Application.ProductName, SettingsManager.ConfigUserFileName);
+        private string pathDropboxSettings = Helpers.CombineURL(Application.ProductName, SettingsManager.ConfigCoreFileName);
+        private string pathDropboxUploadersConfig = Helpers.CombineURL(Application.ProductName, SettingsManager.ConfigUploadersFileName);
+        private string pathDropboxWorkflowsConfig = Helpers.CombineURL(Application.ProductName, SettingsManager.ConfigWorkflowsFileName);
+        private string pathDropboxUserConfig = Helpers.CombineURL(Application.ProductName, SettingsManager.ConfigUserFileName);
+        private string pathDropboxHistory = Helpers.CombineURL(Application.ProductName, SettingsManager.HistoryFileName);
 
         public DropboxSyncHelper()
         {
@@ -41,12 +42,12 @@ namespace ShareX
                 bwLoad.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bwLoad_RunWorkerCompleted);
                 bwLoad.RunWorkerAsync();
 
-                BackgroundWorker bwHistory = new BackgroundWorker();
-                bwHistory.DoWork += new DoWorkEventHandler(bwHistory_DoWork);
+                BackgroundWorker bwHistoryLoad = new BackgroundWorker();
+                bwHistoryLoad.DoWork += new DoWorkEventHandler(bwHistoryLoad_DoWork);
             }
         }
 
-        private void bwHistory_DoWork(object sender, DoWorkEventArgs e)
+        private void bwHistoryLoad_DoWork(object sender, DoWorkEventArgs e)
         {
         }
 
@@ -54,11 +55,11 @@ namespace ShareX
         {
             try
             {
-                WorkflowsConfig dbWorkflows = Load<WorkflowsConfig>(pathDropboxWorkflowsConfig);
+                WorkflowsConfig dbWorkflows = Download<WorkflowsConfig>(pathDropboxWorkflowsConfig);
                 if (dbWorkflows != null)
                     SettingsManager.ConfigWorkflows = dbWorkflows;
 
-                Settings dbSettings = Load<Settings>(pathDropboxSettings);
+                Settings dbSettings = Download<Settings>(pathDropboxSettings);
                 if (dbSettings != null)
                 {
                     // override these settings from local copy
@@ -70,11 +71,11 @@ namespace ShareX
                     SettingsManager.ConfigCore = dbSettings;
                 }
 
-                UploadersConfig dbConfigUploaders = Load<UploadersConfig>(pathDropboxUploadersConfig);
+                UploadersConfig dbConfigUploaders = Download<UploadersConfig>(pathDropboxUploadersConfig);
                 if (dbConfigUploaders != null)
                     SettingsManager.ConfigUploaders = dbConfigUploaders;
 
-                UserConfig dbConfigUser = Load<UserConfig>(pathDropboxUserConfig);
+                UserConfig dbConfigUser = Download<UserConfig>(pathDropboxUserConfig);
                 if (dbConfigUser != null)
                     SettingsManager.ConfigUser = dbConfigUser;
             }
@@ -92,7 +93,7 @@ namespace ShareX
             FormsHelper.Options.LoadSettings();
         }
 
-        public T Load<T>(string path)
+        public T Download<T>(string path)
         {
             using (MemoryStream ms = new MemoryStream())
             {

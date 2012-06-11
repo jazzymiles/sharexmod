@@ -69,7 +69,7 @@ namespace ShareX
         }
 
         internal static HistoryManager ConfigHistory { get; set; }
-        private static readonly string HistoryFileName = "UploadersHistory.xml";
+        internal static readonly string HistoryFileName = "UploadersHistory.xml";
         public static string HistoryFilePath
         {
             get
