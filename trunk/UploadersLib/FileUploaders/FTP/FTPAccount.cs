@@ -34,6 +34,9 @@ namespace UploadersLib
 {
     public class FTPAccount : ICloneable
     {
+        [Category("Account"), Description("FTP Account will be used for the following file extensions"), DefaultValue("bmp,jpg,jpeg,png,tiff")]
+        public string ExtensionsForTrigger { get; set; }
+
         [Category("Account"), Description("Connection Protocol"), DefaultValue(FTPProtocol.FTP)]
         public FTPProtocol Protocol { get; set; }
 

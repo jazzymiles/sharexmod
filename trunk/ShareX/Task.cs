@@ -51,14 +51,21 @@ namespace ShareX
         public delegate void TaskEventHandler(UploadInfo info);
 
         public event TaskEventHandler UploadStarted;
+
         public event TaskEventHandler UploadPreparing;
+
         public event TaskEventHandler UploadProgressChanged;
+
         public event TaskEventHandler UploadCompleted;
 
         private Workflow Workflow = new Workflow();
+
         public UploadInfo Info { get; private set; }
+
         public TaskStatus Status { get; private set; }
+
         public bool IsWorking { get { return Status == TaskStatus.Preparing || Status == TaskStatus.Uploading; } }
+
         public bool IsStopped { get; private set; }
 
         private Stream data;
@@ -540,6 +547,33 @@ namespace ShareX
             return null;
         }
 
+        /// <summary>
+        /// Returns FTP/SFTP Uploader based on file extensions it supports
+        /// </summary>
+        /// <returns></returns>
+        private FileUploader get_FtpAccountByFileExtensionSupport()
+        {
+            foreach (FTPAccount account in SettingsManager.ConfigUploaders.FTPAccountList)
+            {
+                if (!string.IsNullOrEmpty(account.ExtensionsForTrigger))
+                {
+                    string[] extensions = account.ExtensionsForTrigger.Split(',');
+                    foreach (string ext in extensions)
+                    {
+                        if ("." + ext.ToLower() == Path.GetExtension(Info.FilePath).ToLower())
+                        {
+                            if (account.Protocol == FTPProtocol.SFTP)
+                                return new SFTP(account);
+                            else
+                                return new FTPUploader(account);
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
         public UploadResult UploadFile(Stream stream)
         {
             FileUploader fileUploader = null;
@@ -588,15 +622,18 @@ namespace ShareX
                     }
                     break;
                 case FileDestination.FTP:
-                    int idFtp = SettingsManager.ConfigUploaders.GetFtpIndex(Info.DataType);
-
-                    if (SettingsManager.ConfigUploaders.FTPAccountList.IsValidIndex(idFtp))
+                    fileUploader = get_FtpAccountByFileExtensionSupport();
+                    if (fileUploader == null)
                     {
-                        FTPAccount account = SettingsManager.ConfigUploaders.FTPAccountList[idFtp];
-                        if (account.Protocol == FTPProtocol.SFTP)
-                            fileUploader = new SFTP(account);
-                        else
-                            fileUploader = new FTPUploader(account);
+                        int idFtp = SettingsManager.ConfigUploaders.GetFtpIndex(Info.DataType);
+                        if (SettingsManager.ConfigUploaders.FTPAccountList.IsValidIndex(idFtp))
+                        {
+                            FTPAccount account = SettingsManager.ConfigUploaders.FTPAccountList[idFtp];
+                            if (account.Protocol == FTPProtocol.SFTP)
+                                fileUploader = new SFTP(account);
+                            else
+                                fileUploader = new FTPUploader(account);
+                        }
                     }
                     break;
                 case FileDestination.SharedFolder:
