@@ -36,22 +36,77 @@ namespace ShareX.HelperClasses
 {
     public static class ListViewManager
     {
-        public static ImageList ListViewControlImages { get; set; }
-        public static ImageList DetailViewImageList { get; set; }
+        private static ImageList Thumbnails { get; set; }
+
+        private static ImageList DetailViewImageList { get; set; }
+
+        private static void RefreshThumbnails()
+        {
+            ThreadWorker bwRefreshThumbnails = new ThreadWorker();
+            bwRefreshThumbnails.DoWork += new Action(bwRefreshThumbnails_DoWork);
+            bwRefreshThumbnails.Completed += new Action(bwRefreshThumbnails_Completed);
+            bwRefreshThumbnails.Start();
+        }
+
+        private static void bwRefreshThumbnails_Completed()
+        {
+            UploadManager.ListViewControl.LargeImageList.Dispose();
+
+            foreach (Image img in Thumbnails.Images)
+            {
+                UploadManager.ListViewControl.LargeImageList.Images.Add(img);
+            }
+
+            for (int i = 1; i <= Thumbnails.Images.Count; i++)
+            {
+                UploadManager.ListViewControl.Items[UploadManager.ListViewControl.Items.Count - i].ImageIndex = Thumbnails.Images.Count - i;
+            }
+        }
+
+        private static void bwRefreshThumbnails_DoWork()
+        {
+            if (Thumbnails != null)
+                Thumbnails.Dispose();
+
+            Thumbnails = new ImageList();
+
+            foreach (Task task in UploadManager.Tasks)
+            {
+                if (task.Info != null && File.Exists(task.Info.FilePath) && Helpers.IsImageFile(task.Info.FilePath))
+                {
+                    Thumbnails.Images.Add(task.Info.FileName, Image.FromFile(task.Info.FilePath));
+                }
+            }
+        }
 
         public static void AddThumbnail(MyListView listView, UploadInfo info)
         {
+            ThreadWorker bwAddThumbnail = new ThreadWorker();
+            bwAddThumbnail.DoWork += new Action(bwAddThumbnail_DoWork);
+            bwAddThumbnail.Completed += new Action(bwAddThumbnail_Completed);
+            bwAddThumbnail.Start();
+        }
+
+        private static void bwAddThumbnail_Completed()
+        {
+            UploadManager.ListViewControl.LargeImageList.Images.Add(Thumbnails.Images[Thumbnails.Images.Count - 1]);
+
+            if (UploadManager.ListViewControl.Items.Count >= Thumbnails.Images.Count)
+            {
+                UploadManager.ListViewControl.Items[UploadManager.ListViewControl.Items.Count - 1].ImageIndex = Thumbnails.Images.Count - 1;
+            }
+        }
+
+        private static void bwAddThumbnail_DoWork()
+        {
+            if (Thumbnails == null)
+                Thumbnails = new ImageList();
+
+            UploadInfo info = UploadManager.Tasks.Last().Info;
+
             if (File.Exists(info.FilePath) && Helpers.IsImageFile(info.FilePath))
             {
-                if (SettingsManager.ConfigCore.ListViewMode != View.Details)
-                {
-                    ListViewControlImages.Images.Add(info.FileName, Image.FromFile(info.FilePath));
-
-                    for (int i = 1; i <= ListViewControlImages.Images.Count; i++)
-                    {
-                        listView.Items[listView.Items.Count - i].ImageIndex = ListViewControlImages.Images.Count - i;
-                    }
-                }
+                Thumbnails.Images.Add(info.FileName, Image.FromFile(info.FilePath));
             }
         }
 
@@ -67,32 +122,34 @@ namespace ShareX.HelperClasses
                 DetailViewImageList.Images.Add(Properties.Resources.navigation_000_button);
             }
 
-            if (ListViewControlImages == null)
-                ListViewControlImages = new ImageList();
+            if (Thumbnails == null)
+                Thumbnails = new ImageList();
 
             // reset ImageIndex to prevent showing wrong images
             if (listView.View == View.Details)
             {
-                listView.LargeImageList = null;
+                if (listView.LargeImageList != null)
+                    listView.LargeImageList.Dispose();
                 listView.SmallImageList = DetailViewImageList;
                 foreach (ListViewItem lvi in listView.Items)
                 {
                     lvi.ImageIndex = 2;
                 }
 
-                if (ListViewControlImages != null)
-                    ListViewControlImages.Dispose();
+                if (Thumbnails != null)
+                    Thumbnails.Dispose();
             }
             else
             {
-                listView.LargeImageList = ListViewControlImages;
-                listView.SmallImageList = null;
+                if (listView.SmallImageList != null)
+                    listView.SmallImageList.Dispose();
+                listView.LargeImageList = new ImageList();
                 listView.LargeImageList.ColorDepth = ColorDepth.Depth32Bit;
                 listView.LargeImageList.ImageSize = new System.Drawing.Size(128, 128);
 
-                for (int i = 1; i < ListViewControlImages.Images.Count; i++)
+                for (int i = 1; i < Thumbnails.Images.Count; i++)
                 {
-                    listView.Items[listView.Items.Count - i].ImageIndex = ListViewControlImages.Images.Count - i;
+                    listView.Items[listView.Items.Count - i].ImageIndex = Thumbnails.Images.Count - i;
                 }
             }
         }
