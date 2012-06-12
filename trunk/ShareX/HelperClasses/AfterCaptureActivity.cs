@@ -34,6 +34,18 @@ namespace ShareX.HelperClasses
             return act;
         }
 
+        /// <summary>
+        /// Creates a new object if the object is null or else sets defaults
+        /// </summary>
+        /// <param name="act"></param>
+        public static void Prepare(AfterCaptureActivity act)
+        {
+            if (act == null)
+                act = AfterCaptureActivity.GetNew();
+            else if (AfterCaptureActivity.IsNullOrEmpty(act))
+                act.GetDefaults();
+        }
+
         internal void GetDefaults()
         {
             if (this.Subtasks.HasFlag(Subtask.UploadImageToHost))
