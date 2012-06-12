@@ -89,11 +89,14 @@ namespace ShareX.HelperClasses
 
         private static void bwAddThumbnail_Completed()
         {
-            UploadManager.ListViewControl.LargeImageList.Images.Add(Thumbnails.Images[Thumbnails.Images.Count - 1]);
-
-            if (UploadManager.ListViewControl.Items.Count >= Thumbnails.Images.Count)
+            if (Thumbnails.Images.Count > 0)
             {
-                UploadManager.ListViewControl.Items[UploadManager.ListViewControl.Items.Count - 1].ImageIndex = Thumbnails.Images.Count - 1;
+                UploadManager.ListViewControl.LargeImageList.Images.Add(Thumbnails.Images[Thumbnails.Images.Count - 1]);
+
+                if (UploadManager.ListViewControl.Items.Count >= Thumbnails.Images.Count)
+                {
+                    UploadManager.ListViewControl.Items[UploadManager.ListViewControl.Items.Count - 1].ImageIndex = Thumbnails.Images.Count - 1;
+                }
             }
         }
 

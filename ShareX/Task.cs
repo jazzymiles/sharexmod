@@ -431,6 +431,7 @@ namespace ShareX
         public UploadResult UploadImage(Stream stream)
         {
             ImageUploader imageUploader = null;
+
             ImageDestination imageDestination = Workflow.Settings.DestConfig.ImageUploaders[0];
 
             switch (imageDestination)

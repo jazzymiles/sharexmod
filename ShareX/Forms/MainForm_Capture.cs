@@ -85,25 +85,19 @@ namespace ShareX
         /// Method to run after capturing screneshot.
         /// </summary>
         /// <param name="imageData">ImageData object contains Image and WindowText.</param>
-        /// <param name="jobs">AfterCaptureActivity object is null when default hotkeys are run.</param>
-        private void AfterCapture(ImageData imageData, AfterCaptureActivity jobs = null)
+        /// <param name="act">AfterCaptureActivity object is null when default hotkeys are run.</param>
+        private void AfterCapture(ImageData imageData, AfterCaptureActivity act = null)
         {
             if (imageData != null)
             {
-                if (AfterCaptureActivity.IsEmpty(jobs))
-                    jobs.GetDefaults();
-                else if (jobs == null)
-                    jobs = AfterCaptureActivity.GetNew();
-
-                //else if (AfterCaptureActivity.IsNullOrEmpty(jobs))
-                //    jobs.GetDefaults();
+                AfterCaptureActivity.Prepare(act);
 
                 if (SettingsManager.ConfigCore.ShowAfterCaptureWizard)
                 {
-                    WindowAfterCapture dlg = new WindowAfterCapture(jobs.Subtasks);
+                    WindowAfterCapture dlg = new WindowAfterCapture(act.Subtasks);
                     if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        jobs.Subtasks = dlg.Config;
+                        act.Subtasks = dlg.Config;
                     }
                     else
                     {
@@ -111,12 +105,12 @@ namespace ShareX
                     }
                 }
 
-                if (jobs.Subtasks.HasFlag(Subtask.AnnotateImage))
+                if (act.Subtasks.HasFlag(Subtask.AnnotateImage))
                 {
                     EditImage(ref imageData);
                 }
 
-                UploadManager.DoImageWork(imageData, jobs);
+                UploadManager.DoImageWork(imageData, act);
             }
         }
 

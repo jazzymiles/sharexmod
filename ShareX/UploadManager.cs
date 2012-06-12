@@ -117,10 +117,7 @@ namespace ShareX
                         type = EDataType.File;
                     }
 
-                    if (act == null)
-                        act = AfterCaptureActivity.GetNew();
-                    else if (AfterCaptureActivity.IsNullOrEmpty(act))
-                        act.GetDefaults();
+                    AfterCaptureActivity.Prepare(act);
 
                     foreach (FileDestination fileUploader in act.Workflow.Settings.DestConfig.FileUploaders)
                     {
@@ -157,9 +154,10 @@ namespace ShareX
             }
         }
 
-        public static void UploadImage(Image img)
+        public static void UploadImage(Image img, AfterCaptureActivity act = null)
         {
-            DoImageWork(new ImageData(img), AfterCaptureActivity.GetNew());
+            AfterCaptureActivity.Prepare(act);
+            DoImageWork(new ImageData(img), act);
         }
 
         #endregion Images
@@ -173,10 +171,7 @@ namespace ShareX
         /// <param name="act"></param>
         public static void UploadText(string text, AfterCaptureActivity act = null)
         {
-            if (act == null)
-                act = AfterCaptureActivity.GetNew();
-            else if (AfterCaptureActivity.IsNullOrEmpty(act))
-                act.GetDefaults();
+            AfterCaptureActivity.Prepare(act);
 
             if (!string.IsNullOrEmpty(text))
             {
@@ -192,8 +187,7 @@ namespace ShareX
 
         public static void ShortenURL(string url, AfterCaptureActivity act = null)
         {
-            if (act == null) act = AfterCaptureActivity.GetNew();
-            else if (AfterCaptureActivity.IsNullOrEmpty(act)) act.GetDefaults();
+            AfterCaptureActivity.Prepare(act);
 
             if (!string.IsNullOrEmpty(url))
             {
@@ -212,7 +206,7 @@ namespace ShareX
             if (Clipboard.ContainsImage())
             {
                 Image img = Clipboard.GetImage();
-                UploadImage(img);
+                UploadImage(img, jobs);
             }
             else if (Clipboard.ContainsFileDropList())
             {
@@ -283,10 +277,7 @@ namespace ShareX
         {
             if (stream != null && stream.Length > 0 && !string.IsNullOrEmpty(filePath))
             {
-                if (act == null)
-                    act = AfterCaptureActivity.GetNew();
-                else if (AfterCaptureActivity.IsNullOrEmpty(act))
-                    act.GetDefaults();
+                AfterCaptureActivity.Prepare(act);
 
                 EDataType destination = ImageUploader == ImageDestination.FileUploader ? EDataType.File : dataType;
                 Task task = Task.CreateDataUploaderTask(EDataType.Image, stream, filePath, destination);
