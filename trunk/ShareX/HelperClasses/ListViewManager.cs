@@ -79,7 +79,7 @@ namespace ShareX.HelperClasses
             }
         }
 
-        public static void AddThumbnail(MyListView listView, UploadInfo info)
+        public static void AddThumbnail()
         {
             ThreadWorker bwAddThumbnail = new ThreadWorker();
             bwAddThumbnail.DoWork += new Action(bwAddThumbnail_DoWork);
@@ -99,9 +99,6 @@ namespace ShareX.HelperClasses
 
         private static void bwAddThumbnail_DoWork()
         {
-            if (Thumbnails == null)
-                Thumbnails = new ImageList();
-
             UploadInfo info = UploadManager.Tasks.Last().Info;
 
             if (File.Exists(info.FilePath) && Helpers.IsImageFile(info.FilePath))
@@ -110,7 +107,16 @@ namespace ShareX.HelperClasses
             }
         }
 
-        internal static void Initialize(MyListView listView)
+        private static ImageList get_NewLargeImageList()
+        {
+            return new ImageList()
+            {
+                ImageSize = new System.Drawing.Size(128, 128),
+                ColorDepth = ColorDepth.Depth32Bit
+            };
+        }
+
+        internal static void Initialize()
         {
             if (DetailViewImageList == null)
             {
@@ -123,53 +129,45 @@ namespace ShareX.HelperClasses
             }
 
             if (Thumbnails == null)
-                Thumbnails = new ImageList();
+                Thumbnails = get_NewLargeImageList();
+
+            if (UploadManager.ListViewControl.LargeImageList == null)
+                UploadManager.ListViewControl.LargeImageList = get_NewLargeImageList();
 
             // reset ImageIndex to prevent showing wrong images
-            if (listView.View == View.Details)
+            if (UploadManager.ListViewControl.View == View.Details)
             {
-                if (listView.LargeImageList != null)
-                    listView.LargeImageList.Dispose();
-                listView.SmallImageList = DetailViewImageList;
-                foreach (ListViewItem lvi in listView.Items)
+                UploadManager.ListViewControl.SmallImageList = DetailViewImageList;
+                foreach (ListViewItem lvi in UploadManager.ListViewControl.Items)
                 {
-                    lvi.ImageIndex = 2;
+                    set_IconCompleted(lvi);
                 }
-
-                if (Thumbnails != null)
-                    Thumbnails.Dispose();
             }
             else
             {
-                if (listView.SmallImageList != null)
-                    listView.SmallImageList.Dispose();
-                listView.LargeImageList = new ImageList();
-                listView.LargeImageList.ColorDepth = ColorDepth.Depth32Bit;
-                listView.LargeImageList.ImageSize = new System.Drawing.Size(128, 128);
-
                 for (int i = 1; i < Thumbnails.Images.Count; i++)
                 {
-                    listView.Items[listView.Items.Count - i].ImageIndex = Thumbnails.Images.Count - i;
+                    UploadManager.ListViewControl.Items[UploadManager.ListViewControl.Items.Count - i].ImageIndex = Thumbnails.Images.Count - i;
                 }
             }
         }
 
-        internal static void SetIconError(ListViewItem lvi)
+        internal static void set_IconError(ListViewItem lvi)
         {
             if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 1;
         }
 
-        internal static void SetIconCompleted(ListViewItem lvi)
+        internal static void set_IconCompleted(ListViewItem lvi)
         {
             if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 2;
         }
 
-        internal static void SetIconUploadStarted(ListViewItem lvi)
+        internal static void set_IconUploadStarted(ListViewItem lvi)
         {
             if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 0;
         }
 
-        internal static void SetIconCreated(ListViewItem lvi)
+        internal static void set_IconCreated(ListViewItem lvi)
         {
             if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 3;
         }

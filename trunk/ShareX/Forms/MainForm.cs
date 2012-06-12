@@ -117,7 +117,7 @@ namespace ShareX
 
             lvUploads.View = SettingsManager.ConfigCore.ListViewMode;
 
-            ListViewManager.Initialize(lvUploads);
+            ListViewManager.Initialize();
         }
 
         private void EnableDisableToolStripMenuItems(ToolStripMenuItem tsmi)
