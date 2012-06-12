@@ -405,7 +405,7 @@ namespace ShareX
 
                 lvi.SubItems.Add(string.Empty);
                 lvi.BackColor = info.ID % 2 == 0 ? Color.White : Color.WhiteSmoke;
-                ListViewManager.SetIconCreated(lvi);
+                ListViewManager.set_IconCreated(lvi);
                 ListViewControl.Items.Add(lvi);
                 lvi.EnsureVisible();
                 ListViewControl.FillLastColumn();
@@ -430,7 +430,7 @@ namespace ShareX
             lvi.Text = info.FileName;
             lvi.SubItems[1].Text = info.Status;
 
-            ListViewManager.SetIconUploadStarted(lvi);
+            ListViewManager.set_IconUploadStarted(lvi);
         }
 
         private static void task_UploadProgressChanged(UploadInfo info)
@@ -469,7 +469,7 @@ namespace ShareX
                     ListViewItem lvi = ListViewControl.Items[info.ID];
                     lvi.Tag = info.Result;
 
-                    ListViewManager.AddThumbnail(ListViewControl, info);
+                    ListViewManager.AddThumbnail();
 
                     if (string.IsNullOrEmpty(lvi.SubItems[7].Text))
                         lvi.SubItems[7].Text = info.Destination; // update Destination if not empty; this applies for URL Shortening
@@ -483,7 +483,7 @@ namespace ShareX
                         lvi.SubItems[1].Text = "Error";
                         lvi.SubItems[8].Text = string.Empty;
 
-                        ListViewManager.SetIconError(lvi);
+                        ListViewManager.set_IconError(lvi);
 
                         if (SettingsManager.ConfigCore.PlaySoundAfterUpload)
                             SystemSounds.Asterisk.Play();
@@ -494,7 +494,7 @@ namespace ShareX
                             info.Result.URL, (int)info.UploadDuration.TotalMilliseconds);
 
                         lvi.SubItems[1].Text = info.Status;
-                        ListViewManager.SetIconCompleted(lvi);
+                        ListViewManager.set_IconCompleted(lvi);
 
                         string url = string.IsNullOrEmpty(info.Result.ShortenedURL) ? info.Result.URL : info.Result.ShortenedURL;
                         if (string.IsNullOrEmpty(url))
