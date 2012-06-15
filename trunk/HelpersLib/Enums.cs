@@ -34,14 +34,19 @@ namespace HelpersLib
     {
         [Description("Joint Photographic Experts Group")]
         jpg, jpeg,
+
         [Description("Portable Network Graphic")]
         png,
+
         [Description("CompuServe's Graphics Interchange Format")]
         gif,
+
         [Description("Microsoft Windows Bitmap formatted image")]
         bmp,
+
         [Description("File format used for icons in Microsoft Windows")]
         ico,
+
         [Description("Tagged Image File Format")]
         tif, tiff
     }
@@ -50,42 +55,61 @@ namespace HelpersLib
     {
         [Description("ASCII or Unicode plaintext")]
         txt, log,
+
         [Description("ASCII or extended ASCII text file")]
         nfo,
+
         [Description("C source")]
         c,
+
         [Description("C++ source")]
         cpp, cc, cxx,
+
         [Description("C/C++ header file")]
         h,
+
         [Description("C++ header file")]
         hpp, hxx,
+
         [Description("C# source")]
         cs,
+
         [Description("Visual Basic.NET source")]
         vb,
+
         [Description("HyperText Markup Language")]
         html, htm,
+
         [Description("eXtensible HyperText Markup Language")]
         xhtml, xht,
+
         [Description("eXtensible Markup Language")]
         xml,
+
         [Description("Cascading Style Sheets")]
         css,
+
         [Description("JavaScript and JScript")]
         js,
+
         [Description("Hypertext Preprocessor")]
         php,
+
         [Description("Batch file")]
         bat,
+
         [Description("Java source")]
         java,
+
         [Description("Lua")]
         lua,
+
         [Description("Python source")]
         py,
+
         [Description("Perl")]
         pl,
+
         [Description("Visual Studio solution")]
         sln
     }
@@ -128,7 +152,7 @@ namespace HelpersLib
 
     public enum TaskStatus
     {
-        InQueue, Preparing, Uploading, URLShortening, Completed, Stopped
+        InQueue, Preparing, Working, Completed
     }
 
     public enum TaskProgress
@@ -140,10 +164,13 @@ namespace HelpersLib
     {
         [Description("Minimize to Tray")]
         MinimizeToTray,
+
         [Description("Minimize to Taskbar")]
         MinimizeToTaskbar,
+
         [Description("Exit Application")]
         ExitApplication,
+
         [Description("Do Nothing")]
         Nothing
     }
@@ -178,30 +205,43 @@ namespace HelpersLib
     {
         [Description("Clipboard Upload")]
         ClipboardUpload,
+
         [Description("File Upload")]
         FileUpload,
+
         [Description("Fullscreen")]
         PrintScreen,
+
         [Description("Active Window")]
         ActiveWindow,
+
         [Description("Active Monitor")]
         ActiveMonitor,
+
         [Description("Window && Rectangle")]
         WindowRectangle,
+
         [Description("Rectangle Region")]
         RectangleRegion,
+
         [Description("Rounded Rectangle Region")]
         RoundedRectangleRegion,
+
         [Description("Ellipse Region")]
         EllipseRegion,
+
         [Description("Triangle Region")]
         TriangleRegion,
+
         [Description("Diamond Region")]
         DiamondRegion,
+
         [Description("Polygon Region")]
         PolygonRegion,
+
         [Description("Freehand Region")]
         FreeHandRegion,
+
         [Description("Last Region")]
         LastRegion
     }

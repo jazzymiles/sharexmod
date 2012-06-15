@@ -64,7 +64,13 @@ namespace ShareX
 
         public TaskStatus Status { get; private set; }
 
-        public bool IsWorking { get { return Status == TaskStatus.Preparing || Status == TaskStatus.Uploading; } }
+        public bool IsWorking
+        {
+            get
+            {
+                return Status == TaskStatus.Preparing || Status == TaskStatus.Working;
+            }
+        }
 
         public bool IsStopped { get; private set; }
 
@@ -172,7 +178,7 @@ namespace ShareX
             {
                 OnUploadCompleted();
             }
-            else if (Status == TaskStatus.Uploading && uploader != null)
+            else if (Status == TaskStatus.Working && uploader != null)
             {
                 uploader.StopUpload();
             }
@@ -189,7 +195,7 @@ namespace ShareX
                     SettingsManager.UploaderSettingsResetEvent.WaitOne();
                 }
 
-                Status = TaskStatus.Uploading;
+                Status = TaskStatus.Working;
                 Info.Status = "Uploading";
                 Info.StartTime = DateTime.UtcNow;
                 threadWorker.InvokeAsync(OnUploadStarted);
@@ -718,7 +724,6 @@ namespace ShareX
 
             if (urlShortener != null)
             {
-                Status = TaskStatus.URLShortening;
                 return urlShortener.ShortenURL(url);
             }
 
