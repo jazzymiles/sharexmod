@@ -1,0 +1,1 @@
+﻿Remove EActivity items for EHotkey and use EHotkey

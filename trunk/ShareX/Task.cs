@@ -184,16 +184,38 @@ namespace ShareX
             }
         }
 
+        private bool do_Share
+        {
+            get
+            {
+                return SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.RemoteHost) &&
+                    Info.Jobs.HasFlag(Subtask.UploadImageToHost);
+            }
+        }
+
         private void ThreadDoWork()
         {
             DoThreadJob();
 
-            if (Info.Jobs.HasFlag(Subtask.UploadImageToHost))
+            if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.Email))
+            {
+                UploadFile_Email(data);
+            }
+
+            if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.SharedFolder))
+            {
+                UploadFile_SharedFolder(data);
+            }
+
+            if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.Printer))
+            {
+                threadWorker.InvokeAsync(UploadFile_Print);
+            }
+
+            if (do_Share)
             {
                 if (SettingsManager.ConfigUploaders == null)
-                {
                     SettingsManager.UploaderSettingsResetEvent.WaitOne();
-                }
 
                 Status = TaskStatus.Working;
                 Info.Status = "Uploading";
@@ -276,6 +298,7 @@ namespace ShareX
                     {
                         Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
                     }
+
                     if (Info.Jobs.HasFlag(Subtask.SaveImageToFileWithDialog) && Directory.Exists(Info.FolderPath))
                     {
                         string fp = imageData.WriteToFile(Info.FolderPath);
@@ -309,7 +332,7 @@ namespace ShareX
             {
                 if (Info.Jobs.HasFlag(Subtask.Print))
                 {
-                    threadWorker.InvokeAsync(PrintText);
+                    threadWorker.InvokeAsync(UploadFile_Print);
                 }
 
                 if (Info.Jobs.HasFlag(Subtask.SaveImageToFileWithDialog))
@@ -351,14 +374,16 @@ namespace ShareX
             }
         }
 
-        private void PrintImage()
+        private void UploadFile_Print()
         {
-            new PrintForm(imageData.ImageExported, SettingsManager.ConfigUser.PrintSettings).Show();
-        }
-
-        private void PrintText()
-        {
-            new PrintHelper(tempText) { Settings = SettingsManager.ConfigUser.PrintSettings }.Print();
+            if (imageData != null && imageData.Image != null)
+            {
+                new PrintForm(imageData.ImageExported, SettingsManager.ConfigUser.PrintSettings).Show();
+            }
+            else if (Info.Job == TaskJob.TextUpload && !string.IsNullOrEmpty(tempText))
+            {
+                new PrintHelper(tempText) { Settings = SettingsManager.ConfigUser.PrintSettings }.Print();
+            }
         }
 
         private void DoBeforeImagePreparedJobs()
@@ -391,14 +416,15 @@ namespace ShareX
                 imageData.Image = dlg.GetImageForExport();
             }
 
-            if (Info.Job == TaskJob.ImageUpload && imageData != null && Info.Jobs.HasFlag(Subtask.CopyImageToClipboard))
+            if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.Clipboard) &&
+                Info.Job == TaskJob.ImageUpload && imageData != null && Info.Jobs.HasFlag(Subtask.CopyImageToClipboard))
             {
                 Clipboard.SetImage(imageData.Image);
             }
 
             if (Info.Jobs.HasFlag(Subtask.Print))
             {
-                threadWorker.InvokeAsync(PrintImage);
+                threadWorker.InvokeAsync(UploadFile_Print);
             }
 
             if (Info.Jobs.HasFlag(Subtask.SaveImageToFileWithDialog))
@@ -644,39 +670,10 @@ namespace ShareX
                     }
                     break;
                 case FileDestination.SharedFolder:
-                    int idLocalhost = SettingsManager.ConfigUploaders.GetLocalhostIndex(Info.DataType);
-                    if (SettingsManager.ConfigUploaders.LocalhostAccountList.IsValidIndex(idLocalhost))
-                    {
-                        fileUploader = new SharedFolderUploader(SettingsManager.ConfigUploaders.LocalhostAccountList[idLocalhost]);
-                    }
+                    UploadFile_SharedFolder(stream);
                     break;
                 case FileDestination.Email:
-                    using (EmailForm emailForm = new EmailForm(SettingsManager.ConfigUploaders.EmailRememberLastTo ? SettingsManager.ConfigUploaders.EmailLastTo : string.Empty,
-                        SettingsManager.ConfigUploaders.EmailDefaultSubject, SettingsManager.ConfigUploaders.EmailDefaultBody))
-                    {
-                        if (emailForm.ShowDialog() == DialogResult.OK)
-                        {
-                            if (SettingsManager.ConfigUploaders.EmailRememberLastTo)
-                            {
-                                SettingsManager.ConfigUploaders.EmailLastTo = emailForm.ToEmail;
-                            }
-
-                            fileUploader = new Email
-                            {
-                                SmtpServer = SettingsManager.ConfigUploaders.EmailSmtpServer,
-                                SmtpPort = SettingsManager.ConfigUploaders.EmailSmtpPort,
-                                FromEmail = SettingsManager.ConfigUploaders.EmailFrom,
-                                Password = SettingsManager.ConfigUploaders.EmailPassword,
-                                ToEmail = emailForm.ToEmail,
-                                Subject = emailForm.Subject,
-                                Body = emailForm.Body
-                            };
-                        }
-                        else
-                        {
-                            IsStopped = true;
-                        }
-                    }
+                    UploadFile_Email(stream);
                     break;
             }
 
@@ -688,6 +685,56 @@ namespace ShareX
 
             return null;
         }
+
+        #region Upload File
+
+        private UploadResult UploadFile_Email(Stream stream)
+        {
+            using (EmailForm emailForm = new EmailForm(SettingsManager.ConfigUploaders.EmailRememberLastTo ? SettingsManager.ConfigUploaders.EmailLastTo : string.Empty,
+    SettingsManager.ConfigUploaders.EmailDefaultSubject, SettingsManager.ConfigUploaders.EmailDefaultBody))
+            {
+                if (emailForm.ShowDialog() == DialogResult.OK)
+                {
+                    if (SettingsManager.ConfigUploaders.EmailRememberLastTo)
+                    {
+                        SettingsManager.ConfigUploaders.EmailLastTo = emailForm.ToEmail;
+                    }
+
+                    FileUploader fileUploader = new Email
+                      {
+                          SmtpServer = SettingsManager.ConfigUploaders.EmailSmtpServer,
+                          SmtpPort = SettingsManager.ConfigUploaders.EmailSmtpPort,
+                          FromEmail = SettingsManager.ConfigUploaders.EmailFrom,
+                          Password = SettingsManager.ConfigUploaders.EmailPassword,
+                          ToEmail = emailForm.ToEmail,
+                          Subject = emailForm.Subject,
+                          Body = emailForm.Body
+                      };
+                    PrepareUploader(fileUploader);
+                    return fileUploader.Upload(stream, Info.FileName);
+                }
+                else
+                {
+                    IsStopped = true;
+                }
+            }
+            return null;
+        }
+
+        private UploadResult UploadFile_SharedFolder(Stream stream)
+        {
+            int idLocalhost = SettingsManager.ConfigUploaders.GetLocalhostIndex(Info.DataType);
+            if (SettingsManager.ConfigUploaders.LocalhostAccountList.IsValidIndex(idLocalhost))
+            {
+                FileUploader fileUploader = new SharedFolderUploader(SettingsManager.ConfigUploaders.LocalhostAccountList[idLocalhost]);
+                PrepareUploader(fileUploader);
+                return fileUploader.Upload(stream, Info.FileName);
+            }
+
+            return null;
+        }
+
+        #endregion Upload File
 
         public string ShortenURL(string url)
         {

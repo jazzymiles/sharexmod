@@ -46,10 +46,15 @@ namespace ShareX
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static ImageDestination ImageUploader { get; set; }
+
         public static TextDestination TextUploader { get; set; }
+
         public static FileDestination FileUploader { get; set; }
+
         public static UrlShortenerType URLShortener { get; set; }
+
         public static MyListView ListViewControl { get; set; }
+
         public static List<Task> Tasks { get; private set; }
 
         private static object uploadManagerLock = new object();
@@ -493,7 +498,8 @@ namespace ShareX
 
                         lvi.SubItems[8].Text = url;
 
-                        if (SettingsManager.ConfigCore.ClipboardAutoCopy)
+                        if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.Clipboard) &&
+                            SettingsManager.ConfigCore.ClipboardAutoCopy)
                         {
                             Helpers.CopyTextSafely(url);
                         }

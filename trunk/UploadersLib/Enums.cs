@@ -23,6 +23,7 @@
 
 #endregion License Information (GPL v3)
 
+using System;
 using System.ComponentModel;
 
 namespace UploadersLib
@@ -31,24 +32,34 @@ namespace UploadersLib
     {
         [Description("imageshack.us")]
         ImageShack,
+
         [Description("tinypic.com")]
         TinyPic,
+
         [Description("imgur.com")]
         Imgur,
+
         [Description("flickr.com")]
         Flickr,
+
         [Description("photobucket.com")]
         Photobucket,
+
         [Description("uploadscreenshot.com")]
         UploadScreenshot,
+
         [Description("twitpic.com")]
         Twitpic,
+
         [Description("twitsnaps.com")]
         Twitsnaps,
+
         [Description("yfrog.com")]
         yFrog,
+
         [Description("imm.io")]
         Immio,
+
         [Description("File Uploader")]
         FileUploader
     }
@@ -57,14 +68,19 @@ namespace UploadersLib
     {
         [Description("pastebin.com")]
         Pastebin,
+
         [Description("pastebin.ca")]
         PastebinCA,
+
         [Description("paste2.org")]
         Paste2,
+
         [Description("slexy.org")]
         Slexy,
+
         [Description("pastee.org")]
         Pastee,
+
         [Description("File Uploader")]
         FileUploader
     }
@@ -73,20 +89,28 @@ namespace UploadersLib
     {
         [Description("dropbox.com")]
         Dropbox,
+
         [Description("rapidshare.com")]
         RapidShare,
+
         [Description("sendspace.com")]
         SendSpace,
+
         [Description("minus.com")]
         Minus,
+
         [Description("box.com")]
         Box,
+
         [Description("Custom Uploader")]
         CustomUploader,
+
         [Description("FTP Server")]
         FTP,
+
         [Description("Shared Folder")]
         SharedFolder,
+
         [Description("Email")]
         Email
     }
@@ -95,14 +119,19 @@ namespace UploadersLib
     {
         [Description("goo.gl")]
         Google,
+
         [Description("bit.ly")]
         BITLY,
+
         [Description("j.mp")]
         Jmp,
+
         [Description("is.gd")]
         ISGD,
+
         [Description("tinyurl.com")]
         TINYURL,
+
         [Description("turl.ca")]
         TURL
     }
@@ -111,8 +140,10 @@ namespace UploadersLib
     {
         [Description("GET")]
         Get,
+
         [Description("POST")]
         Post,
+
         [Description("DELETE")]
         Delete
     }
@@ -126,10 +157,13 @@ namespace UploadersLib
     {
         [Description("HTTP Proxy")]
         HTTP,
+
         [Description("SOCKS v4 Proxy")]
         SOCKS4,
+
         [Description("SOCKS v4a Proxy")]
         SOCKS4a,
+
         [Description("SOCKS v5 Proxy")]
         SOCKS5
     }
@@ -138,8 +172,10 @@ namespace UploadersLib
     {
         [Description("FTP")]
         FTP,
+
         [Description("FTPS (FTP over SSL)")]
         FTPS,
+
         [Description("SFTP (SSH FTP)")]
         SFTP
     }
@@ -148,10 +184,13 @@ namespace UploadersLib
     {
         [Description("http://")]
         Http,
+
         [Description("https://")]
         Https,
+
         [Description("Same as ServerProtocol")]
         ServerProtocol,
+
         [Description("file://")]
         File
     }
@@ -160,6 +199,7 @@ namespace UploadersLib
     {
         [Description("ftp://")]
         Ftp,
+
         [Description("ftps://")]
         Ftps
     }
@@ -186,34 +226,44 @@ namespace UploadersLib
     {
         [Description("Anonymous")]
         Anonymous,
+
         [Description("User")]
         User
     }
 
+    [Flags]
     public enum OutputEnum
     {
         [Description("Clipboard")]
-        Clipboard,
+        Clipboard = 0,
+
         [Description("File")]
-        LocalDisk,
-        [Description("Upload")]
-        RemoteHost,
+        LocalDisk = 2 << 0,
+
+        [Description("Share")]
+        RemoteHost = 2 << 1,
+
         [Description("E-mail")]
-        Email,
+        Email = 2 << 2,
+
         [Description("Printer")]
-        Printer,
+        Printer = 2 << 3,
+
         [Description("Shared folder")]
-        SharedFolder
+        SharedFolder = 2 << 4
     }
 
     public enum ClipboardContentEnum
     {
         [Description("Image or Text")]
         Data,
+
         [Description("Local file path")]
         Local,
+
         [Description("Uploaded URL")]
         Remote,
+
         [Description("Text using OCR")]
         OCR
     }
@@ -222,26 +272,37 @@ namespace UploadersLib
     {
         [Description("Full URL")]
         FULL,
+
         [Description("Full Image for Forums")]
         FULL_IMAGE_FORUMS,
+
         [Description("Full Image as HTML")]
         FULL_IMAGE_HTML,
+
         [Description("Full Image for Wiki")]
         FULL_IMAGE_WIKI,
+
         [Description("Full Image Link for MediaWiki")]
         FULL_IMAGE_MEDIAWIKI,
+
         [Description("Shortened URL")]
         FULL_TINYURL,
+
         [Description("Linked Thumbnail for Forums")]
         LINKED_THUMBNAIL,
+
         [Description("Linked Thumbnail as HTML")]
         LinkedThumbnailHtml,
+
         [Description("Linked Thumbnail for Wiki")]
         LINKED_THUMBNAIL_WIKI,
+
         [Description("Thumbnail")]
         THUMBNAIL,
+
         [Description("Local File path")]
         LocalFilePath,
+
         [Description("Local File path as URI")]
         LocalFilePathUri
     }
