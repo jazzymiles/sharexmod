@@ -306,7 +306,7 @@ namespace ShareX
                             Info.FilePath = fp;
                     }
 
-                    if (Workflow.Activities.Contains(EActivity.RunExternalProgram))
+                    if (Workflow.ActivitiesBeta.Contains(EActivity.RunExternalProgram))
                     {
                         var actions = Workflow.Settings.ExternalPrograms.Where(x => x.IsActive);
                         if (actions.Count() > 0)
