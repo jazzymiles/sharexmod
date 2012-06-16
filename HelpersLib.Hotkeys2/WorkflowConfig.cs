@@ -15,14 +15,14 @@ namespace HelpersLib.Hotkeys2
     {
         public Workflow Workflow { get; set; }
 
-        ListViewGroup lvgCapture = new ListViewGroup(ComponentModelStrings.ActivitiesCapture, HorizontalAlignment.Left);
-        ListViewGroup lvgAfterCapture = new ListViewGroup(ComponentModelStrings.ActivitiesAfterCapture, HorizontalAlignment.Left);
-        ListViewGroup lvgAfterCaptureEffects = new ListViewGroup(ComponentModelStrings.ActivitiesAfterCaptureEffects, HorizontalAlignment.Left);
-        ListViewGroup lvgUploaders = new ListViewGroup(ComponentModelStrings.ActivitiesUploaders, HorizontalAlignment.Left);
-        ListViewGroup lvgUploadersImages = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersImages, HorizontalAlignment.Left);
-        ListViewGroup lvgUploadersText = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersText, HorizontalAlignment.Left);
-        ListViewGroup lvgUploadersFiles = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersFiles, HorizontalAlignment.Left);
-        ListViewGroup lvgUploadersLinks = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersLinks, HorizontalAlignment.Left);
+        private ListViewGroup lvgCapture = new ListViewGroup(ComponentModelStrings.ActivitiesCapture, HorizontalAlignment.Left);
+        private ListViewGroup lvgAfterCapture = new ListViewGroup(ComponentModelStrings.ActivitiesAfterCapture, HorizontalAlignment.Left);
+        private ListViewGroup lvgAfterCaptureEffects = new ListViewGroup(ComponentModelStrings.ActivitiesAfterCaptureEffects, HorizontalAlignment.Left);
+        private ListViewGroup lvgUploaders = new ListViewGroup(ComponentModelStrings.ActivitiesUploaders, HorizontalAlignment.Left);
+        private ListViewGroup lvgUploadersImages = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersImages, HorizontalAlignment.Left);
+        private ListViewGroup lvgUploadersText = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersText, HorizontalAlignment.Left);
+        private ListViewGroup lvgUploadersFiles = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersFiles, HorizontalAlignment.Left);
+        private ListViewGroup lvgUploadersLinks = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersLinks, HorizontalAlignment.Left);
 
         public WindowWorkflow(Workflow wf)
         {
@@ -58,6 +58,8 @@ namespace HelpersLib.Hotkeys2
 
         private void FillListActivitiesUser()
         {
+            lvActivitiesUser.Items.Add(GetListViewItem(Workflow.Hotkey));
+
             foreach (ImageDestination uploader in Workflow.Settings.DestConfig.ImageUploaders)
             {
                 lvActivitiesUser.Items.Add(GetListViewItem(uploader));
@@ -78,7 +80,7 @@ namespace HelpersLib.Hotkeys2
                 lvActivitiesUser.Items.Add(GetListViewItem(uploader));
             }
 
-            foreach (EActivity act in Workflow.Activities)
+            foreach (EActivity act in Workflow.ActivitiesBeta)
             {
                 lvActivitiesUser.Items.Add(GetListViewItem(act));
             }
@@ -90,6 +92,11 @@ namespace HelpersLib.Hotkeys2
 
         private void FillListActivitiesAll()
         {
+            foreach (EHotkey hotkey in Enum.GetValues(typeof(EHotkey)))
+            {
+                lvActivitiesAll.Items.Add(GetListViewItem(hotkey));
+            }
+
             foreach (ImageDestination uploader in Enum.GetValues(typeof(ImageDestination)))
             {
                 lvActivitiesAll.Items.Add(GetListViewItem(uploader));
@@ -114,6 +121,14 @@ namespace HelpersLib.Hotkeys2
             {
                 lvActivitiesAll.Items.Add(GetListViewItem(act));
             }
+        }
+
+        private ListViewItem GetListViewItem(EHotkey hotkey)
+        {
+            ListViewItem lvi = new ListViewItem(hotkey.GetDescription());
+            lvi.Group = lvgCapture;
+            lvi.Tag = hotkey;
+            return lvi;
         }
 
         private ListViewItem GetListViewItem(UrlShortenerType dest)
@@ -218,6 +233,8 @@ namespace HelpersLib.Hotkeys2
                     lvi2 = GetListViewItem((UrlShortenerType)lvi.Tag);
                 else if (lvi.Tag.GetType() == typeof(EActivity))
                     lvi2 = GetListViewItem((EActivity)lvi.Tag);
+                else if (lvi.Tag.GetType() == typeof(EHotkey))
+                    lvi2 = GetListViewItem((EHotkey)lvi.Tag);
 
                 lvActivitiesUser.Items.Add(lvi2);
             }
@@ -232,7 +249,7 @@ namespace HelpersLib.Hotkeys2
 
             foreach (ListViewItem lvi in lvActivitiesUser.Items)
             {
-                if (lvi.Tag.GetType() == typeof(EActivity) && (EActivity)lvi.Tag == EActivity.UploadClipboard)
+                if (lvi.Tag.GetType() == typeof(EHotkey) && (EHotkey)lvi.Tag == EHotkey.ClipboardUpload)
                     showSettings = true;
                 else if (lvi.Tag.GetType() == typeof(TextDestination))
                     showSettings = true;
@@ -282,20 +299,22 @@ namespace HelpersLib.Hotkeys2
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
 
             Workflow.Settings.Clear();
-            Workflow.Activities.Clear();
+            Workflow.ActivitiesBeta.Clear();
 
             foreach (ListViewItem lvi in lvActivitiesUser.Items)
             {
                 if (lvi.Tag.GetType() == typeof(ImageDestination))
                     Workflow.Settings.DestConfig.ImageUploaders.Add((ImageDestination)lvi.Tag);
-                if (lvi.Tag.GetType() == typeof(TextDestination))
+                else if (lvi.Tag.GetType() == typeof(TextDestination))
                     Workflow.Settings.DestConfig.TextUploaders.Add((TextDestination)lvi.Tag);
-                if (lvi.Tag.GetType() == typeof(FileDestination))
+                else if (lvi.Tag.GetType() == typeof(FileDestination))
                     Workflow.Settings.DestConfig.FileUploaders.Add((FileDestination)lvi.Tag);
-                if (lvi.Tag.GetType() == typeof(UrlShortenerType))
+                else if (lvi.Tag.GetType() == typeof(UrlShortenerType))
                     Workflow.Settings.DestConfig.LinkUploaders.Add((UrlShortenerType)lvi.Tag);
                 else if (lvi.Tag.GetType() == typeof(EActivity))
-                    Workflow.Activities.Add((EActivity)lvi.Tag);
+                    Workflow.ActivitiesBeta.Add((EActivity)lvi.Tag);
+                else if (lvi.Tag.GetType() == typeof(EHotkey))
+                    Workflow.Hotkey = (EHotkey)lvi.Tag;
             }
 
             this.Close();

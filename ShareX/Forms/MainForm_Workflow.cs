@@ -41,20 +41,6 @@ namespace ShareX
                 Workflow wfPolygonRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.PolygonRegion, new HotkeySetting());
                 Workflow wfFreeHandRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.FreeHandRegion, new HotkeySetting());
 
-                wfClipboardUpload.Activities.Add(EActivity.UploadClipboard);
-                wfFileUpload.Activities.Add(EActivity.UploadFile);
-                wfPrintScreen.Activities.Add(EActivity.CaptureScreen);
-                wfActiveWindow.Activities.Add(EActivity.CaptureActiveWindow);
-                wfActiveMonitor.Activities.Add(EActivity.CaptureActiveMonitor);
-                wfWindowRectangle.Activities.Add(EActivity.CaptureWindowRectangle);
-                wfRectangleRegion.Activities.Add(EActivity.CaptureRectangleRegion);
-                wfRoundedRectangleRegion.Activities.Add(EActivity.CaptureRoundedRectangleRegion);
-                wfEllipseRegion.Activities.Add(EActivity.CaptureEllipseRegion);
-                wfTriangleRegion.Activities.Add(EActivity.CaptureTriangleRegion);
-                wfDiamondRegion.Activities.Add(EActivity.CaptureDiamondRegion);
-                wfPolygonRegion.Activities.Add(EActivity.CapturePolygonRegion);
-                wfFreeHandRegion.Activities.Add(EActivity.CaptureFreeHandRegion);
-
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfClipboardUpload);
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfFileUpload);
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfPrintScreen);
@@ -72,9 +58,9 @@ namespace ShareX
                 foreach (Workflow wf in SettingsManager.ConfigWorkflows.Workflows)
                 {
                     if (wf.Hotkey == HelpersLib.Hotkeys2.EHotkey.ClipboardUpload || wf.Hotkey == HelpersLib.Hotkeys2.EHotkey.FileUpload)
-                        wf.Activities.Add(EActivity.UploadToRemoteHost);
+                        wf.ActivitiesBeta.Add(EActivity.UploadToRemoteHost);
                     else
-                        wf.Activities.Add(EActivity.AfterCaptureTasks);
+                        wf.ActivitiesBeta.Add(EActivity.AfterCaptureTasks);
                 }
             } // if Workflows.Count == 0
 
@@ -109,52 +95,56 @@ namespace ShareX
             }
 
             AfterCaptureActivity jobs_wf = new AfterCaptureActivity();
-            jobs_wf.Workflow.Activities = wf.Activities;
+            jobs_wf.Workflow.Hotkey = wf.Hotkey;
+            jobs_wf.Workflow.ActivitiesBeta = wf.ActivitiesBeta;
             jobs_wf.Workflow.Settings = Helpers.Clone(wf.Settings) as WorkflowSettings;
 
-            foreach (EActivity act in jobs_wf.Workflow.Activities)
+            switch (jobs_wf.Workflow.Hotkey)
+            {
+                case EHotkey.ActiveMonitor:
+                    imagedata_wf = CaptureActiveMonitor(autoHideForm);
+                    break;
+                case EHotkey.ActiveWindow:
+                    imagedata_wf = CaptureActiveWindow(autoHideForm);
+                    break;
+                case EHotkey.ClipboardUpload:
+                    jobs_wf.InputType = EInputType.Clipboard;
+                    break;
+                case EHotkey.DiamondRegion:
+                    break;
+                case EHotkey.EllipseRegion:
+                    imagedata_wf = CaptureRegion(new EllipseRegion(), autoHideForm);
+                    break;
+                case EHotkey.FileUpload:
+                    jobs_wf.InputType = EInputType.FileSystem;
+                    break;
+                case HelpersLib.Hotkeys2.EHotkey.FreeHandRegion:
+                    imagedata_wf = CaptureRegion(new FreeHandRegion(), autoHideForm);
+                    break;
+                case EHotkey.FullScreen:
+                    imagedata_wf = CaptureScreen(autoHideForm);
+                    break;
+                case EHotkey.PolygonRegion:
+                    imagedata_wf = CaptureRegion(new PolygonRegion(), autoHideForm);
+                    break;
+                case EHotkey.RectangleRegion:
+                    imagedata_wf = CaptureRegion(new RectangleRegion(), autoHideForm);
+                    break;
+                case EHotkey.RoundedRectangleRegion:
+                    imagedata_wf = CaptureRegion(new RoundedRectangleRegion(), autoHideForm);
+                    break;
+                case EHotkey.TriangleRegion:
+                    imagedata_wf = CaptureRegion(new TriangleRegion(), autoHideForm);
+                    break;
+                case EHotkey.WindowRectangle:
+                    imagedata_wf = WindowRectangleCapture(autoHideForm);
+                    break;
+            }
+
+            foreach (EActivity act in jobs_wf.Workflow.ActivitiesBeta)
             {
                 switch (act)
                 {
-                    case EActivity.UploadClipboard:
-                        jobs_wf.InputType = EInputType.Clipboard;
-                        break;
-                    case EActivity.UploadFile:
-                        jobs_wf.InputType = EInputType.FileSystem;
-                        break;
-                    case EActivity.CaptureScreen:
-                        imagedata_wf = CaptureScreen(autoHideForm);
-                        break;
-                    case EActivity.CaptureActiveWindow:
-                        imagedata_wf = CaptureActiveWindow(autoHideForm);
-                        break;
-                    case EActivity.CaptureRectangleRegion:
-                        imagedata_wf = CaptureRegion(new RectangleRegion(), autoHideForm);
-                        break;
-                    case EActivity.CaptureActiveMonitor:
-                        imagedata_wf = CaptureActiveMonitor(autoHideForm);
-                        break;
-                    case EActivity.CaptureWindowRectangle:
-                        imagedata_wf = WindowRectangleCapture(autoHideForm);
-                        break;
-                    case EActivity.CaptureRoundedRectangleRegion:
-                        imagedata_wf = CaptureRegion(new RoundedRectangleRegion(), autoHideForm);
-                        break;
-                    case EActivity.CaptureEllipseRegion:
-                        imagedata_wf = CaptureRegion(new EllipseRegion(), autoHideForm);
-                        break;
-                    case EActivity.CaptureTriangleRegion:
-                        imagedata_wf = CaptureRegion(new TriangleRegion(), autoHideForm);
-                        break;
-                    case EActivity.CaptureDiamondRegion:
-                        imagedata_wf = CaptureRegion(new DiamondRegion(), autoHideForm);
-                        break;
-                    case EActivity.CapturePolygonRegion:
-                        imagedata_wf = CaptureRegion(new PolygonRegion(), autoHideForm);
-                        break;
-                    case EActivity.CaptureFreeHandRegion:
-                        imagedata_wf = CaptureRegion(new FreeHandRegion(), autoHideForm);
-                        break;
                     case EActivity.ClipboardCopyImage:
                         jobs_wf.Subtasks |= Subtask.CopyImageToClipboard;
                         break;
