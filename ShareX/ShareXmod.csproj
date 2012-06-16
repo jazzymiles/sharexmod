@@ -325,6 +325,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Todo.txt" />
     <None Include="Resources\Camera.wav" />
     <None Include="Resources\share2.png" />
     <None Include="Resources\folder.png" />

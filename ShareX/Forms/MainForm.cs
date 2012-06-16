@@ -178,7 +178,7 @@ namespace ShareX
 
         public void ReloadOutputsMenu()
         {
-            var taskImageJobs = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new
+            var outputs = Enum.GetValues(typeof(OutputEnum)).Cast<OutputEnum>().Select(x => new
             {
                 Description = x.GetDescription(),
                 Enum = x
@@ -186,29 +186,26 @@ namespace ShareX
 
             tsddbOutputs.DropDownItems.Clear();
 
-            foreach (var job in taskImageJobs)
+            foreach (var output in outputs)
             {
-                switch (job.Enum)
-                {
-                    case Subtask.None:
-                        continue;
-                }
-                ToolStripMenuItem tsmi = new ToolStripMenuItem(job.Description);
-                tsmi.Checked = SettingsManager.ConfigCore.AfterCaptureSubtasks.HasFlag(job.Enum);
-                tsmi.Tag = job.Enum;
+                ToolStripMenuItem tsmi = new ToolStripMenuItem(output.Description);
+                tsmi.Checked = SettingsManager.ConfigCore.Outputs.HasFlag(output.Enum);
+                tsmi.Tag = output.Enum;
                 tsmi.CheckOnClick = true;
-                tsmi.CheckedChanged += new EventHandler(tsmiAfterCaptureTask_CheckedChanged);
+                tsmi.CheckedChanged += new EventHandler(tsmiOutputs_CheckedChanged);
                 tsddbOutputs.DropDownItems.Add(tsmi);
             }
         }
 
-        private void tsmiAfterCaptureTask_CheckedChanged(object sender, EventArgs e)
+        private void tsmiOutputs_CheckedChanged(object sender, EventArgs e)
         {
             ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
             if (tsmi.Checked)
-                SettingsManager.ConfigCore.AfterCaptureSubtasks |= (Subtask)tsmi.Tag;
+                SettingsManager.ConfigCore.Outputs |= (OutputEnum)tsmi.Tag;
             else
-                SettingsManager.ConfigCore.AfterCaptureSubtasks &= ~(Subtask)tsmi.Tag;
+                SettingsManager.ConfigCore.Outputs &= ~(OutputEnum)tsmi.Tag;
+
+            tsddbDestinations.Visible = SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.RemoteHost);
         }
 
         private void InitControls()

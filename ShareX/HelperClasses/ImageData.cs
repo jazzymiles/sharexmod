@@ -27,6 +27,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using HelpersLib;
+using UploadersLib;
 
 namespace ShareX.HelperClasses
 {
@@ -34,9 +35,13 @@ namespace ShareX.HelperClasses
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private EImageFormat imageFormat = EImageFormat.PNG;
+
         public MemoryStream ImageStream { get; private set; }
+
         public Image Image = null;
+
         public string WindowText { get; private set; }
+
         public string Filename { get; private set; }
 
         public bool IsPrepared
@@ -186,24 +191,37 @@ namespace ShareX.HelperClasses
             this.Filename = PrepareFilename();
         }
 
+        /// <summary>
+        /// Writes image to file.
+        /// Prerequisites: Outputs -> LocalDisk
+        /// </summary>
+        /// <param name="folderPath"></param>
+        /// <returns></returns>
         public string WriteToFile(string folderPath)
         {
-            if (ImageStream == null)
+            if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.LocalDisk))
             {
-                log.Warn("ImageStream was null. Preparing image and filename.");
-                PrepareImageAndFilename();
-            }
-
-            if (ImageStream != null && !string.IsNullOrEmpty(Filename) && !string.IsNullOrEmpty(folderPath))
-            {
-                if (!Directory.Exists(folderPath))
+                if (ImageStream == null)
                 {
-                    Directory.CreateDirectory(folderPath);
+                    log.Warn("ImageStream was null. Preparing image and filename.");
+                    PrepareImageAndFilename();
                 }
 
-                string filePath = Path.Combine(folderPath, Filename);
-                ImageStream.WriteToFile(filePath);
-                return filePath;
+                if (ImageStream != null && !string.IsNullOrEmpty(Filename) && !string.IsNullOrEmpty(folderPath))
+                {
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
+
+                    string filePath = Path.Combine(folderPath, Filename);
+                    ImageStream.WriteToFile(filePath);
+                    return filePath;
+                }
+            }
+            else
+            {
+                log.Warn("WritoToFile method was called when Outputs do not specify to save to Local Disk.");
             }
 
             return string.Empty;
