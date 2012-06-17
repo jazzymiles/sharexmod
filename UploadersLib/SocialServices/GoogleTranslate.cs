@@ -29,7 +29,7 @@ using System.Linq;
 using HelpersLib;
 using Newtonsoft.Json.Linq;
 
-namespace UploadersLib.OtherServices
+namespace UploadersLib.SocialServices
 {
     public class GoogleTranslate : Uploader
     {

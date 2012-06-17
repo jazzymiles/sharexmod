@@ -25,7 +25,7 @@
 
 using System.Collections.Generic;
 using HelpersLib;
-using UploadersLib.OtherServices;
+using UploadersLib.SocialServices;
 
 namespace UploadersLib
 {

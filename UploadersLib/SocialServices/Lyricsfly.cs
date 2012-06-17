@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using HelpersLib;
 
-namespace UploadersLib.OtherServices
+namespace UploadersLib.SocialServices
 {
     public class Lyricsfly : Uploader
     {
