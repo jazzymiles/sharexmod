@@ -90,7 +90,7 @@ namespace ShareX
         {
             if (imageData != null)
             {
-                AfterCaptureActivity.Prepare(act);
+                AfterCaptureActivity.Prepare(ref act);
 
                 if (SettingsManager.ConfigCore.ShowAfterCaptureWizard)
                 {

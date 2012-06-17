@@ -54,6 +54,8 @@ namespace ShareX
 
         public static UrlShortenerType URLShortener { get; set; }
 
+        public static SocialNetworkingService SocialNetworkingService { get; set; }
+
         public static MyListView ListViewControl { get; set; }
 
         public static List<Task> Tasks { get; private set; }
@@ -123,7 +125,7 @@ namespace ShareX
                         type = EDataType.File;
                     }
 
-                    AfterCaptureActivity.Prepare(act);
+                    AfterCaptureActivity.Prepare(ref act);
 
                     foreach (FileDestination fileUploader in act.Workflow.Settings.DestConfig.FileUploaders)
                     {
@@ -162,7 +164,7 @@ namespace ShareX
 
         public static void UploadImage(Image img, AfterCaptureActivity act = null)
         {
-            AfterCaptureActivity.Prepare(act);
+            AfterCaptureActivity.Prepare(ref act);
             DoImageWork(new ImageData(img), act);
         }
 
@@ -177,7 +179,7 @@ namespace ShareX
         /// <param name="act"></param>
         public static void UploadText(string text, AfterCaptureActivity act = null)
         {
-            AfterCaptureActivity.Prepare(act);
+            AfterCaptureActivity.Prepare(ref act);
 
             if (!string.IsNullOrEmpty(text))
             {
@@ -193,7 +195,7 @@ namespace ShareX
 
         public static void ShortenURL(string url, AfterCaptureActivity act = null)
         {
-            AfterCaptureActivity.Prepare(act);
+            AfterCaptureActivity.Prepare(ref act);
 
             if (!string.IsNullOrEmpty(url))
             {
@@ -279,11 +281,21 @@ namespace ShareX
 
         #endregion Drag n Drop
 
+        public static void Post(SocialNetworkingService sns)
+        {
+            switch (sns)
+            {
+                case UploadersLib.SocialNetworkingService.Twitter:
+
+                    break;
+            }
+        }
+
         public static void UploadStream(Stream stream, string filePath, AfterCaptureActivity act = null, EDataType dataType = EDataType.File)
         {
             if (stream != null && stream.Length > 0 && !string.IsNullOrEmpty(filePath))
             {
-                AfterCaptureActivity.Prepare(act);
+                AfterCaptureActivity.Prepare(ref act);
 
                 EDataType destination = ImageUploader == ImageDestination.FileUploader ? EDataType.File : dataType;
                 Task task = Task.CreateDataUploaderTask(EDataType.Image, stream, filePath, destination);

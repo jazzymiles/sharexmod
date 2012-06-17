@@ -47,6 +47,7 @@ namespace ShareX
         public TextDestination TextUploaderDestination = TextDestination.Pastebin;
         public FileDestination FileUploaderDestination = FileDestination.Dropbox;
         public UrlShortenerType URLShortenerDestination = UrlShortenerType.Google;
+        public SocialNetworkingService SocialNetworkingServiceDestination = SocialNetworkingService.Twitter;
 
         public bool ShowClipboardContentViewer = true;
 

@@ -67,7 +67,8 @@ namespace ShareX
             this.uploadFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showInWindowsExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.shareToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiUpload = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiContextMenuShare = new System.Windows.Forms.ToolStripMenuItem();
             this.tsMain = new System.Windows.Forms.ToolStrip();
             this.tsddbOutputs = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsbClipboardUpload = new System.Windows.Forms.ToolStripButton();
@@ -94,6 +95,7 @@ namespace ShareX
             this.tsmiURLShorteners = new System.Windows.Forms.ToolStripMenuItem();
             this.tssDestinations1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiUploadersConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsddbShare = new System.Windows.Forms.ToolStripDropDownButton();
             this.tssMain1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbOpen = new System.Windows.Forms.ToolStripButton();
             this.tsbCopy = new System.Windows.Forms.ToolStripButton();
@@ -146,7 +148,6 @@ namespace ShareX
             this.tsmiTrayDonate = new System.Windows.Forms.ToolStripMenuItem();
             this.tssTray2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiTrayExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsddbShare = new System.Windows.Forms.ToolStripDropDownButton();
             this.cmsUploads.SuspendLayout();
             this.tsMain.SuspendLayout();
             this.tscMain.ContentPanel.SuspendLayout();
@@ -169,10 +170,11 @@ namespace ShareX
             this.uploadFileToolStripMenuItem,
             this.stopUploadToolStripMenuItem,
             this.showInWindowsExplorerToolStripMenuItem,
-            this.shareToolStripMenuItem});
+            this.tsmiUpload,
+            this.tsmiContextMenuShare});
             this.cmsUploads.Name = "cmsUploads";
             this.cmsUploads.ShowItemToolTips = false;
-            this.cmsUploads.Size = new System.Drawing.Size(223, 268);
+            this.cmsUploads.Size = new System.Drawing.Size(223, 312);
             // 
             // openURLToolStripMenuItem
             // 
@@ -255,14 +257,21 @@ namespace ShareX
             this.showInWindowsExplorerToolStripMenuItem.Visible = false;
             this.showInWindowsExplorerToolStripMenuItem.Click += new System.EventHandler(this.showInWindowsExplorerToolStripMenuItem_Click);
             // 
-            // shareToolStripMenuItem
+            // tsmiUpload
             // 
-            this.shareToolStripMenuItem.Image = global::ShareX.Properties.Resources.server;
-            this.shareToolStripMenuItem.Name = "shareToolStripMenuItem";
-            this.shareToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.shareToolStripMenuItem.Text = "Upload";
-            this.shareToolStripMenuItem.Visible = false;
-            this.shareToolStripMenuItem.Click += new System.EventHandler(this.shareToolStripMenuItem_Click);
+            this.tsmiUpload.Image = global::ShareX.Properties.Resources.server;
+            this.tsmiUpload.Name = "tsmiUpload";
+            this.tsmiUpload.Size = new System.Drawing.Size(222, 22);
+            this.tsmiUpload.Text = "Upload";
+            this.tsmiUpload.Visible = false;
+            this.tsmiUpload.Click += new System.EventHandler(this.shareToolStripMenuItem_Click);
+            // 
+            // tsmiContextMenuShare
+            // 
+            this.tsmiContextMenuShare.Image = global::ShareX.Properties.Resources.share;
+            this.tsmiContextMenuShare.Name = "tsmiContextMenuShare";
+            this.tsmiContextMenuShare.Size = new System.Drawing.Size(222, 22);
+            this.tsmiContextMenuShare.Text = "Share using";
             // 
             // tsMain
             // 
@@ -509,6 +518,15 @@ namespace ShareX
             this.tsmiUploadersConfig.Size = new System.Drawing.Size(176, 22);
             this.tsmiUploadersConfig.Text = "Configuration...";
             this.tsmiUploadersConfig.Click += new System.EventHandler(this.tsddbUploadersConfig_Click);
+            // 
+            // tsddbShare
+            // 
+            this.tsddbShare.Image = global::ShareX.Properties.Resources.share;
+            this.tsddbShare.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsddbShare.Name = "tsddbShare";
+            this.tsddbShare.Size = new System.Drawing.Size(91, 20);
+            this.tsddbShare.Text = "Share with";
+            this.tsddbShare.Visible = false;
             // 
             // tssMain1
             // 
@@ -950,15 +968,6 @@ namespace ShareX
             this.tsmiTrayExit.Text = "Exit";
             this.tsmiTrayExit.Click += new System.EventHandler(this.tsmiTrayExit_Click);
             // 
-            // tsddbShare
-            // 
-            this.tsddbShare.Image = global::ShareX.Properties.Resources.share;
-            this.tsddbShare.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsddbShare.Name = "tsddbShare";
-            this.tsddbShare.Size = new System.Drawing.Size(91, 20);
-            this.tsddbShare.Text = "Share with";
-            this.tsddbShare.Visible = false;
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -1070,7 +1079,7 @@ namespace ShareX
         private System.Windows.Forms.ToolStripMenuItem tsmiTrayEllipse;
         private System.Windows.Forms.ToolStripDropDownButton tsddbOutputs;
         private System.Windows.Forms.ToolStripMenuItem showInWindowsExplorerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem shareToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmiUpload;
         private System.Windows.Forms.ToolStripMenuItem tsmiWatermark;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripDropDownButton tsbDebug;
@@ -1084,5 +1093,6 @@ namespace ShareX
         private System.Windows.Forms.ToolStripMenuItem tsmiTrayURLShorteners;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripDropDownButton tsddbShare;
+        private System.Windows.Forms.ToolStripMenuItem tsmiContextMenuShare;
     }
 }

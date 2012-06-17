@@ -2315,7 +2315,7 @@
             this.tpOtherServices.Padding = new System.Windows.Forms.Padding(3);
             this.tpOtherServices.Size = new System.Drawing.Size(818, 530);
             this.tpOtherServices.TabIndex = 4;
-            this.tpOtherServices.Text = "Other Services";
+            this.tpOtherServices.Text = "Social Networking Services";
             this.tpOtherServices.UseVisualStyleBackColor = true;
             // 
             // tcOtherServices
