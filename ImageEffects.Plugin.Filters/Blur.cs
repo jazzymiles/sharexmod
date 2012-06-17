@@ -15,7 +15,7 @@ namespace ImageFilters
 
         private int radius;
 
-        [Description("Blur radius in pixels.")]
+        [Description("Blur radius in pixels (between 0 and 15).")]
         public int Radius
         {
             get
@@ -24,7 +24,7 @@ namespace ImageFilters
             }
             set
             {
-                radius = value.Between(0, 25);
+                radius = value.Between(0, 15);
             }
         }
 

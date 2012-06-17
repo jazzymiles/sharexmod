@@ -26,6 +26,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using HelpersLib.GraphicsHelper.Properties;
 
 namespace HelpersLibColors
 {
@@ -113,7 +114,6 @@ namespace HelpersLibColors
 
             this.ClientSizeChanged += new System.EventHandler(this.EventClientSizeChanged);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.EventMouseDown);
-            this.MouseEnter += new EventHandler(this.EventMouseEnter);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.EventMouseUp);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.EventPaint);
 
@@ -149,14 +149,6 @@ namespace HelpersLibColors
             //EventMouseMove(this, e);
         }
 
-        private void EventMouseEnter(object sender, EventArgs e)
-        {
-            if (this is ColorBox)
-            {
-                this.Cursor = new Cursor(Helpers.GetImageResource("ColorsHelperLib.Cursor.cur"));
-            }
-        }
-
         private void EventMouseUp(object sender, MouseEventArgs e)
         {
             mouseDown = false;
@@ -178,8 +170,6 @@ namespace HelpersLibColors
                 GetPointColor(mousePosition);
                 ThrowEvent();
                 Refresh();
-                //Console.WriteLine(width + "-" + this.ClientRectangle.Width + "-" +
-                //this.DisplayRectangle.Width + "-" + (this.Size.Width - width).ToString());
             }
         }
 
