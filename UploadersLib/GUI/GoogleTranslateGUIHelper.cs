@@ -24,7 +24,8 @@
 #endregion License Information (GPL v3)
 
 using System.Windows.Forms;
-using UploadersLib.SocialServices;
+using UploadersLib.OtherServices;
+using UploadersLib.SocialNetworkingServices;
 
 namespace UploadersLib
 {

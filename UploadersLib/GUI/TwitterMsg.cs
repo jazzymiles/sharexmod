@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using UploadersLib.HelperClasses;
-using UploadersLib.SocialServices;
+using UploadersLib.SocialNetworkingServices;
 
 namespace UploadersLib
 {
