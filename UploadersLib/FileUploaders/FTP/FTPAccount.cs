@@ -53,7 +53,7 @@ namespace UploadersLib
         public string Username { get; set; }
 
         [Category("FTP"), PasswordPropertyText(true)]
-        public string Password { get; set; }
+        public string Password2 { get; set; }
 
         [Category("FTP"), Description("Choose an appropriate protocol to be accessed by the server. This affects the server address."), DefaultValue(ServerProtocol.Ftp)]
         public ServerProtocol ServerProtocol { get; set; }

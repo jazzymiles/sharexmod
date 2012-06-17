@@ -71,7 +71,7 @@ namespace UploadersLib
         public AccountType TinyPicAccountType = AccountType.Anonymous;
         public string TinyPicRegistrationCode = string.Empty;
         public string TinyPicUsername = string.Empty;
-        public string TinyPicPassword = string.Empty;
+        public string TinyPicPassword2 = string.Empty;
         public bool TinyPicRememberUserPass = false;
 
         // Imgur
@@ -285,9 +285,9 @@ namespace UploadersLib
 
             this.TestPassword = doEncrypt ? crypt.Encrypt(TestPassword) : crypt.Decrypt(TestPassword);
 
-            this.TinyPicPassword = doEncrypt ? crypt.Encrypt(this.TinyPicPassword) : crypt.Decrypt(this.TinyPicPassword);
+            this.TinyPicPassword2 = doEncrypt ? crypt.Encrypt(this.TinyPicPassword2) : crypt.Decrypt(this.TinyPicPassword2);
 
-            this.PastebinSettings.Password = doEncrypt ? crypt.Encrypt(this.PastebinSettings.Password) : crypt.Decrypt(this.PastebinSettings.Password);
+            this.PastebinSettings.Password2 = doEncrypt ? crypt.Encrypt(this.PastebinSettings.Password2) : crypt.Decrypt(this.PastebinSettings.Password2);
 
             this.RapidSharePassword = doEncrypt ? crypt.Encrypt(this.RapidSharePassword) : crypt.Decrypt(this.RapidSharePassword);
 
@@ -295,7 +295,7 @@ namespace UploadersLib
 
             foreach (FTPAccount acc in this.FTPAccountList)
             {
-                acc.Password = doEncrypt ? crypt.Encrypt(acc.Password) : crypt.Decrypt(acc.Password);
+                acc.Password2 = doEncrypt ? crypt.Encrypt(acc.Password2) : crypt.Decrypt(acc.Password2);
                 acc.Passphrase = doEncrypt ? crypt.Encrypt(acc.Passphrase) : crypt.Decrypt(acc.Passphrase);
             }
 

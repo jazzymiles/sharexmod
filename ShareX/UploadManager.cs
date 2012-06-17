@@ -466,8 +466,6 @@ namespace ShareX
                     ListViewItem lvi = ListViewControl.Items[info.ID];
                     lvi.Tag = info.Result;
 
-                    ListViewManager.AddThumbnail();
-
                     if (string.IsNullOrEmpty(lvi.SubItems[7].Text))
                         lvi.SubItems[7].Text = info.Destination; // update Destination if not empty; this applies for URL Shortening
 

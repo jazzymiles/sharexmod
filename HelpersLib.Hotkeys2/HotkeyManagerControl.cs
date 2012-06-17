@@ -64,7 +64,7 @@ namespace HelpersLib.Hotkeys2
                 foreach (Workflow wf in manager.Workflows)
                 {
                     HotkeySelectionControl control = new HotkeySelectionControl(wf);
-                    if (control.Workflow.HotkeyConfig.SystemHotkey)
+                    if (!control.Workflow.HotkeyConfig.SystemHotkey)
                         control.set_HotkeyFontBold();
                     control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
                     flpHotkeys.Controls.Add(control);
