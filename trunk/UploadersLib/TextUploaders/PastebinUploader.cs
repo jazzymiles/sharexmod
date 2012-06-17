@@ -52,13 +52,13 @@ namespace UploadersLib.TextUploaders
 
         public bool Login()
         {
-            if (!string.IsNullOrEmpty(Settings.Username) && !string.IsNullOrEmpty(Settings.Password))
+            if (!string.IsNullOrEmpty(Settings.Username) && !string.IsNullOrEmpty(Settings.Password2))
             {
                 Dictionary<string, string> loginArgs = new Dictionary<string, string>();
 
                 loginArgs.Add("api_dev_key", APIKey);
                 loginArgs.Add("api_user_name", Settings.Username);
-                loginArgs.Add("api_user_password", Settings.Password);
+                loginArgs.Add("api_user_password", Settings.Password2);
 
                 string loginResponse = SendPostRequest(APILoginURL, loginArgs);
 
@@ -127,7 +127,7 @@ namespace UploadersLib.TextUploaders
         public string Username { get; set; }
 
         [PasswordPropertyText(true), Description("Account password")]
-        public string Password { get; set; }
+        public string Password2 { get; set; }
 
         [Description("Will be created automaticly with Username && Password")]
         public string UserKey { get; set; }

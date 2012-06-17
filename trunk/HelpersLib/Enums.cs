@@ -205,17 +205,17 @@ namespace HelpersLib
         [Description("Save to file"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         SaveToFile = 2 << 7,
 
-        [Description("Upload to default remote host"), Category(ComponentModelStrings.ActivitiesUploaders)]
-        UploadToDefaultRemoteHost = 2 << 8,
-
         [Description("Save to file with dialog"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        SaveImageToFileWithDialog = 2 << 9,
-
-        [Description("Send to printer"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        Print = 2 << 10,
+        SaveImageToFileWithDialog = 2 << 8,
 
         [Description("Run external program"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        RunExternalProgram = 2 << 11,
+        RunExternalProgram = 2 << 9,
+
+        [Description("Upload to default remote host"), Category(ComponentModelStrings.ActivitiesUploaders)]
+        UploadToDefaultRemoteHost = 2 << 10,
+
+        [Description("Send to printer"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        Print = 2 << 11,
     }
 
     public enum HotkeyStatus

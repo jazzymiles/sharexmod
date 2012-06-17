@@ -102,11 +102,16 @@ namespace ShareX.HelperClasses
 
         private static void bwAddThumbnail_DoWork()
         {
-            UploadInfo info = UploadManager.Tasks.Last().Info;
+            Task task = UploadManager.Tasks.Last();
+            UploadInfo info = task.Info;
 
             if (File.Exists(info.FilePath) && Helpers.IsImageFile(info.FilePath))
             {
                 Thumbnails.Images.Add(info.FileName, Image.FromFile(info.FilePath));
+            }
+            else
+            {
+                Thumbnails.Images.Add(task.Info.FileName, task.GetImageForExport());
             }
         }
 
@@ -150,7 +155,10 @@ namespace ShareX.HelperClasses
             {
                 for (int i = 1; i < Thumbnails.Images.Count; i++)
                 {
-                    UploadManager.ListViewControl.Items[UploadManager.ListViewControl.Items.Count - i].ImageIndex = Thumbnails.Images.Count - i;
+                    if (UploadManager.ListViewControl.Items.Count > i)
+                    {
+                        UploadManager.ListViewControl.Items[UploadManager.ListViewControl.Items.Count - i].ImageIndex = Thumbnails.Images.Count - i;
+                    }
                 }
             }
         }

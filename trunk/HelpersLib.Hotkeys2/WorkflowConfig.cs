@@ -360,17 +360,65 @@ namespace HelpersLib.Hotkeys2
 
         private void ShowAllUploaders()
         {
-            flpFileUploaders.Visible = true;
-            flpImageUploaders.Visible = true;
-            flpTextUploaders.Visible = true;
+            gbFileUploaders.Visible = true;
+            gbImageUploaders.Visible = true;
+            gbTextUploaders.Visible = true;
             HideTabAfterCapture();
         }
 
         private void HideTextUploaders()
         {
-            flpFileUploaders.Visible = true;
-            flpImageUploaders.Visible = true;
-            flpTextUploaders.Visible = false;
+            gbFileUploaders.Visible = true;
+            gbImageUploaders.Visible = true;
+            gbTextUploaders.Visible = false;
+        }
+
+        public string ToSummaryString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(cboCapture.Text);
+
+            if (Workflow.Settings.PerformGlobalAfterCaptureTasks)
+            {
+                sb.AppendLine("Perform global After Capture Tasks.");
+            }
+            else if (Workflow.Subtasks != Subtask.None)
+            {
+                sb.AppendLine("Customize After Capture Tasks:");
+                var tasks = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new
+                {
+                    Description = x.GetDescription(),
+                    Enum = x
+                });
+                foreach (var task in tasks)
+                {
+                    if (task.Enum == Subtask.None)
+                        continue;
+
+                    if (Workflow.Subtasks.HasFlag(task.Enum))
+                        sb.AppendLine("---- " + task.Enum.GetDescription());
+                }
+            }
+
+            if (Workflow.Settings.DestConfig.FileUploaders.Count > 0)
+            {
+                sb.AppendLine("Share files using " + Workflow.Settings.DestConfig.ToStringFileUploaders());
+            }
+
+            if (Workflow.Settings.DestConfig.TextUploaders.Count > 0)
+            {
+                sb.AppendLine("Share text using " + Workflow.Settings.DestConfig.ToStringTextUploaders());
+                sb.AppendLine("Text format: " + Workflow.Settings.DestConfig.TextFormat);
+            }
+            if (Workflow.Settings.DestConfig.ImageUploaders.Count > 0)
+                sb.AppendLine("Share images using " + Workflow.Settings.DestConfig.ToStringImageUploaders());
+
+            return sb.ToString();
+        }
+
+        private void tcWorkflow_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lblSummary.Text = this.ToSummaryString();
         }
     }
 }

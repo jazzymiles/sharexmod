@@ -326,6 +326,8 @@ namespace ShareX
                         }
                     }
 
+                    threadWorker.InvokeAsync(ListViewManager.AddThumbnail);
+
                     if (data == null)
                         data = imageData.ImageStream;
                 }
@@ -580,6 +582,11 @@ namespace ShareX
             }
 
             return null;
+        }
+
+        public Image GetImageForExport()
+        {
+            return imageData.ImageExported;
         }
 
         /// <summary>

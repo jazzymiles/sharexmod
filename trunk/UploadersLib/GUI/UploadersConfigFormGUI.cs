@@ -121,7 +121,7 @@ namespace UploadersLib
 
             atcTinyPicAccountType.SelectedAccountType = Config.TinyPicAccountType;
             txtTinyPicUsername.Text = Config.TinyPicUsername;
-            txtTinyPicPassword.Text = Config.TinyPicPassword;
+            txtTinyPicPassword.Text = Config.TinyPicPassword2;
             cbTinyPicRememberUsernamePassword.Checked = Config.TinyPicRememberUserPass;
             txtTinyPicRegistrationCode.Text = Config.TinyPicRegistrationCode;
 

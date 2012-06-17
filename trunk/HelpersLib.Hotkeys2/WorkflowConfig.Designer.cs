@@ -34,6 +34,9 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.tcWorkflow = new System.Windows.Forms.TabControl();
             this.tpCapture = new System.Windows.Forms.TabPage();
+            this.gbSettings = new System.Windows.Forms.GroupBox();
+            this.lblTextFormat = new System.Windows.Forms.Label();
+            this.txtTextFormat = new System.Windows.Forms.TextBox();
             this.chkPerformGlobalAfterCaptureTasks = new System.Windows.Forms.CheckBox();
             this.cboCapture = new System.Windows.Forms.ComboBox();
             this.tpAfterCapture = new System.Windows.Forms.TabPage();
@@ -48,33 +51,40 @@
             this.chActionsArgs = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tpShare = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.gbFileUploaders = new System.Windows.Forms.GroupBox();
             this.flpFileUploaders = new System.Windows.Forms.FlowLayoutPanel();
+            this.gbImageUploaders = new System.Windows.Forms.GroupBox();
             this.flpImageUploaders = new System.Windows.Forms.FlowLayoutPanel();
+            this.gbTextUploaders = new System.Windows.Forms.GroupBox();
             this.flpTextUploaders = new System.Windows.Forms.FlowLayoutPanel();
             this.tpSummary = new System.Windows.Forms.TabPage();
-            this.gbSettings = new System.Windows.Forms.GroupBox();
-            this.txtTextFormat = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblSummary = new System.Windows.Forms.Label();
             this.tcWorkflow.SuspendLayout();
             this.tpCapture.SuspendLayout();
+            this.gbSettings.SuspendLayout();
             this.tpAfterCapture.SuspendLayout();
             this.tpRunExternalPrograms.SuspendLayout();
             this.tpShare.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.gbSettings.SuspendLayout();
+            this.gbFileUploaders.SuspendLayout();
+            this.gbImageUploaders.SuspendLayout();
+            this.gbTextUploaders.SuspendLayout();
+            this.tpSummary.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtDescription
             // 
             this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescription.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDescription.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.txtDescription.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDescription.Location = new System.Drawing.Point(8, 8);
             this.txtDescription.MaxLength = 100;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(656, 23);
+            this.txtDescription.Size = new System.Drawing.Size(662, 25);
             this.txtDescription.TabIndex = 0;
             this.txtDescription.Text = "New workflow";
+            this.txtDescription.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDescription.TextChanged += new System.EventHandler(this.txtDescription_TextChanged);
             // 
             // btnOk
@@ -115,6 +125,7 @@
             this.tcWorkflow.SelectedIndex = 0;
             this.tcWorkflow.Size = new System.Drawing.Size(662, 400);
             this.tcWorkflow.TabIndex = 1;
+            this.tcWorkflow.SelectedIndexChanged += new System.EventHandler(this.tcWorkflow_SelectedIndexChanged);
             // 
             // tpCapture
             // 
@@ -128,6 +139,33 @@
             this.tpCapture.TabIndex = 0;
             this.tpCapture.Text = "Capture";
             this.tpCapture.UseVisualStyleBackColor = true;
+            // 
+            // gbSettings
+            // 
+            this.gbSettings.Controls.Add(this.lblTextFormat);
+            this.gbSettings.Controls.Add(this.txtTextFormat);
+            this.gbSettings.Location = new System.Drawing.Point(16, 80);
+            this.gbSettings.Name = "gbSettings";
+            this.gbSettings.Size = new System.Drawing.Size(616, 72);
+            this.gbSettings.TabIndex = 2;
+            this.gbSettings.TabStop = false;
+            this.gbSettings.Text = "Customize text uploader settings";
+            // 
+            // lblTextFormat
+            // 
+            this.lblTextFormat.AutoSize = true;
+            this.lblTextFormat.Location = new System.Drawing.Point(16, 24);
+            this.lblTextFormat.Name = "lblTextFormat";
+            this.lblTextFormat.Size = new System.Drawing.Size(164, 13);
+            this.lblTextFormat.TabIndex = 0;
+            this.lblTextFormat.Text = "Text format e.g. csharp, cpp, etc.";
+            // 
+            // txtTextFormat
+            // 
+            this.txtTextFormat.Location = new System.Drawing.Point(16, 40);
+            this.txtTextFormat.Name = "txtTextFormat";
+            this.txtTextFormat.Size = new System.Drawing.Size(298, 20);
+            this.txtTextFormat.TabIndex = 1;
             // 
             // chkPerformGlobalAfterCaptureTasks
             // 
@@ -263,9 +301,9 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Controls.Add(this.flpFileUploaders, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.flpImageUploaders, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.flpTextUploaders, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.gbFileUploaders, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.gbImageUploaders, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.gbTextUploaders, 2, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(5, 5);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -273,32 +311,66 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(644, 364);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // gbFileUploaders
+            // 
+            this.gbFileUploaders.Controls.Add(this.flpFileUploaders);
+            this.gbFileUploaders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbFileUploaders.Location = new System.Drawing.Point(3, 3);
+            this.gbFileUploaders.Name = "gbFileUploaders";
+            this.gbFileUploaders.Size = new System.Drawing.Size(208, 358);
+            this.gbFileUploaders.TabIndex = 0;
+            this.gbFileUploaders.TabStop = false;
+            this.gbFileUploaders.Text = "File uploaders";
+            // 
             // flpFileUploaders
             // 
             this.flpFileUploaders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpFileUploaders.Location = new System.Drawing.Point(3, 3);
+            this.flpFileUploaders.Location = new System.Drawing.Point(3, 16);
             this.flpFileUploaders.Name = "flpFileUploaders";
-            this.flpFileUploaders.Size = new System.Drawing.Size(208, 358);
+            this.flpFileUploaders.Size = new System.Drawing.Size(202, 339);
             this.flpFileUploaders.TabIndex = 0;
+            // 
+            // gbImageUploaders
+            // 
+            this.gbImageUploaders.Controls.Add(this.flpImageUploaders);
+            this.gbImageUploaders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbImageUploaders.Location = new System.Drawing.Point(217, 3);
+            this.gbImageUploaders.Name = "gbImageUploaders";
+            this.gbImageUploaders.Size = new System.Drawing.Size(208, 358);
+            this.gbImageUploaders.TabIndex = 1;
+            this.gbImageUploaders.TabStop = false;
+            this.gbImageUploaders.Text = "Image uploaders";
             // 
             // flpImageUploaders
             // 
             this.flpImageUploaders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpImageUploaders.Location = new System.Drawing.Point(217, 3);
+            this.flpImageUploaders.Location = new System.Drawing.Point(3, 16);
             this.flpImageUploaders.Name = "flpImageUploaders";
-            this.flpImageUploaders.Size = new System.Drawing.Size(208, 358);
-            this.flpImageUploaders.TabIndex = 1;
+            this.flpImageUploaders.Size = new System.Drawing.Size(202, 339);
+            this.flpImageUploaders.TabIndex = 0;
+            // 
+            // gbTextUploaders
+            // 
+            this.gbTextUploaders.Controls.Add(this.flpTextUploaders);
+            this.gbTextUploaders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbTextUploaders.Location = new System.Drawing.Point(431, 3);
+            this.gbTextUploaders.Name = "gbTextUploaders";
+            this.gbTextUploaders.Size = new System.Drawing.Size(210, 358);
+            this.gbTextUploaders.TabIndex = 2;
+            this.gbTextUploaders.TabStop = false;
+            this.gbTextUploaders.Text = "Text uploaders";
             // 
             // flpTextUploaders
             // 
             this.flpTextUploaders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpTextUploaders.Location = new System.Drawing.Point(431, 3);
+            this.flpTextUploaders.Location = new System.Drawing.Point(3, 16);
             this.flpTextUploaders.Name = "flpTextUploaders";
-            this.flpTextUploaders.Size = new System.Drawing.Size(210, 358);
-            this.flpTextUploaders.TabIndex = 2;
+            this.flpTextUploaders.Size = new System.Drawing.Size(204, 339);
+            this.flpTextUploaders.TabIndex = 0;
             // 
             // tpSummary
             // 
+            this.tpSummary.Controls.Add(this.lblSummary);
             this.tpSummary.Location = new System.Drawing.Point(4, 22);
             this.tpSummary.Name = "tpSummary";
             this.tpSummary.Padding = new System.Windows.Forms.Padding(3);
@@ -307,32 +379,14 @@
             this.tpSummary.Text = "Summary";
             this.tpSummary.UseVisualStyleBackColor = true;
             // 
-            // gbSettings
+            // lblSummary
             // 
-            this.gbSettings.Controls.Add(this.label1);
-            this.gbSettings.Controls.Add(this.txtTextFormat);
-            this.gbSettings.Location = new System.Drawing.Point(16, 80);
-            this.gbSettings.Name = "gbSettings";
-            this.gbSettings.Size = new System.Drawing.Size(616, 72);
-            this.gbSettings.TabIndex = 2;
-            this.gbSettings.TabStop = false;
-            this.gbSettings.Text = "Customize text uploader settings";
-            // 
-            // txtTextFormat
-            // 
-            this.txtTextFormat.Location = new System.Drawing.Point(16, 40);
-            this.txtTextFormat.Name = "txtTextFormat";
-            this.txtTextFormat.Size = new System.Drawing.Size(298, 20);
-            this.txtTextFormat.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(164, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Text format e.g. csharp, cpp, etc.";
+            this.lblSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblSummary.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSummary.Location = new System.Drawing.Point(3, 3);
+            this.lblSummary.Name = "lblSummary";
+            this.lblSummary.Size = new System.Drawing.Size(648, 368);
+            this.lblSummary.TabIndex = 0;
             // 
             // WindowWorkflow
             // 
@@ -353,12 +407,16 @@
             this.tcWorkflow.ResumeLayout(false);
             this.tpCapture.ResumeLayout(false);
             this.tpCapture.PerformLayout();
+            this.gbSettings.ResumeLayout(false);
+            this.gbSettings.PerformLayout();
             this.tpAfterCapture.ResumeLayout(false);
             this.tpRunExternalPrograms.ResumeLayout(false);
             this.tpShare.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.gbSettings.ResumeLayout(false);
-            this.gbSettings.PerformLayout();
+            this.gbFileUploaders.ResumeLayout(false);
+            this.gbImageUploaders.ResumeLayout(false);
+            this.gbTextUploaders.ResumeLayout(false);
+            this.tpSummary.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -390,8 +448,12 @@
         private System.Windows.Forms.FlowLayoutPanel flpImageUploaders;
         private System.Windows.Forms.FlowLayoutPanel flpTextUploaders;
         private System.Windows.Forms.GroupBox gbSettings;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblTextFormat;
         private System.Windows.Forms.TextBox txtTextFormat;
+        private System.Windows.Forms.Label lblSummary;
+        private System.Windows.Forms.GroupBox gbFileUploaders;
+        private System.Windows.Forms.GroupBox gbImageUploaders;
+        private System.Windows.Forms.GroupBox gbTextUploaders;
 
     }
 }
