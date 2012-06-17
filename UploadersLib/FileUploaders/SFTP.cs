@@ -44,7 +44,7 @@ namespace UploadersLib.FileUploaders
         {
             get
             {
-                return (!string.IsNullOrEmpty(Account.Keypath) && File.Exists(Account.Keypath)) || !string.IsNullOrEmpty(Account.Password2);
+                return (!string.IsNullOrEmpty(Account.Keypath) && File.Exists(Account.Keypath)) || !string.IsNullOrEmpty(Account.Password);
             }
         }
 
@@ -77,9 +77,9 @@ namespace UploadersLib.FileUploaders
 
                 client = new SftpClient(Account.Host, Account.Port, Account.Username, keyFile);
             }
-            else if (!string.IsNullOrEmpty(Account.Password2))
+            else if (!string.IsNullOrEmpty(Account.Password))
             {
-                client = new SftpClient(Account.Host, Account.Port, Account.Username, Account.Password2);
+                client = new SftpClient(Account.Host, Account.Port, Account.Username, Account.Password);
             }
         }
 

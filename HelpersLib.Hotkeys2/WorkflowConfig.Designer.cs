@@ -325,6 +325,7 @@
             // flpFileUploaders
             // 
             this.flpFileUploaders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpFileUploaders.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpFileUploaders.Location = new System.Drawing.Point(3, 16);
             this.flpFileUploaders.Name = "flpFileUploaders";
             this.flpFileUploaders.Size = new System.Drawing.Size(202, 339);
@@ -344,6 +345,7 @@
             // flpImageUploaders
             // 
             this.flpImageUploaders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpImageUploaders.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpImageUploaders.Location = new System.Drawing.Point(3, 16);
             this.flpImageUploaders.Name = "flpImageUploaders";
             this.flpImageUploaders.Size = new System.Drawing.Size(202, 339);
@@ -363,6 +365,7 @@
             // flpTextUploaders
             // 
             this.flpTextUploaders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpTextUploaders.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpTextUploaders.Location = new System.Drawing.Point(3, 16);
             this.flpTextUploaders.Name = "flpTextUploaders";
             this.flpTextUploaders.Size = new System.Drawing.Size(204, 339);

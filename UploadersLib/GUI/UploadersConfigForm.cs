@@ -127,7 +127,7 @@ namespace UploadersLib
         {
             if (Config.TinyPicRememberUserPass)
             {
-                Config.TinyPicPassword2 = txtTinyPicPassword.Text;
+                Config.TinyPicPassword = txtTinyPicPassword.Text;
             }
         }
 
@@ -163,12 +163,12 @@ namespace UploadersLib
             if (Config.TinyPicRememberUserPass)
             {
                 Config.TinyPicUsername = txtTinyPicUsername.Text;
-                Config.TinyPicPassword2 = txtTinyPicPassword.Text;
+                Config.TinyPicPassword = txtTinyPicPassword.Text;
             }
             else
             {
                 Config.TinyPicUsername = string.Empty;
-                Config.TinyPicPassword2 = string.Empty;
+                Config.TinyPicPassword = string.Empty;
             }
         }
 

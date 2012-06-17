@@ -38,10 +38,11 @@ namespace UploadersLib
 {
     public class UploadersConfig : SettingsBase<UploadersConfig>
     {
+        private static object thisLock = new object();
+
         public UploadersConfig()
         {
-            PasswordsEncryptionStrength = EncryptionStrength.High;
-            TestPassword = "password";
+            ApplyDefaultValues(this);
         }
 
         #region General
@@ -71,7 +72,7 @@ namespace UploadersLib
         public AccountType TinyPicAccountType = AccountType.Anonymous;
         public string TinyPicRegistrationCode = string.Empty;
         public string TinyPicUsername = string.Empty;
-        public string TinyPicPassword2 = string.Empty;
+        public string TinyPicPassword = string.Empty;
         public bool TinyPicRememberUserPass = false;
 
         // Imgur
@@ -271,40 +272,44 @@ namespace UploadersLib
 
         public void CryptPasswords(bool doEncrypt)
         {
-            bool isEncrypted = TestPassword != "password";
-
-            if (doEncrypt && isEncrypted || !doEncrypt && !isEncrypted)
+            lock (thisLock)
             {
-                // ensure encrupted passwords are not encrypted again or decrypted passwords are not decrypted again
-                return;
+                bool isEncrypted = TestPassword != "password";
+
+                if (doEncrypt && isEncrypted || !doEncrypt && !isEncrypted)
+                {
+                    // ensure encrupted passwords are not encrypted again or decrypted passwords are not decrypted again
+
+                    return;
+                }
+
+                DebugHelper.WriteLine((doEncrypt ? "Encrypting " : "Decrypting") + " passwords.");
+
+                CryptKeys crypt = new CryptKeys() { KeySize = this.PasswordsEncryptionStrength };
+
+                this.TestPassword = doEncrypt ? crypt.Encrypt(TestPassword) : crypt.Decrypt(TestPassword);
+
+                this.TinyPicPassword = doEncrypt ? crypt.Encrypt(TinyPicPassword) : crypt.Decrypt(TinyPicPassword);
+
+                this.PastebinSettings.Password = doEncrypt ? crypt.Encrypt(this.PastebinSettings.Password) : crypt.Decrypt(this.PastebinSettings.Password);
+
+                this.RapidSharePassword = doEncrypt ? crypt.Encrypt(this.RapidSharePassword) : crypt.Decrypt(this.RapidSharePassword);
+
+                this.SendSpacePassword = doEncrypt ? crypt.Encrypt(this.SendSpacePassword) : crypt.Decrypt(this.SendSpacePassword);
+
+                foreach (FTPAccount acc in this.FTPAccountList)
+                {
+                    acc.Password = doEncrypt ? crypt.Encrypt(acc.Password) : crypt.Decrypt(acc.Password);
+                    acc.Passphrase = doEncrypt ? crypt.Encrypt(acc.Passphrase) : crypt.Decrypt(acc.Passphrase);
+                }
+
+                foreach (LocalhostAccount acc in this.LocalhostAccountList)
+                {
+                    acc.Password = doEncrypt ? crypt.Encrypt(acc.Password) : crypt.Decrypt(acc.Password);
+                }
+
+                this.EmailPassword = doEncrypt ? crypt.Encrypt(this.EmailPassword) : crypt.Decrypt(this.EmailPassword);
             }
-
-            DebugHelper.WriteLine((doEncrypt ? "Encrypting " : "Decrypting") + " passwords.");
-
-            CryptKeys crypt = new CryptKeys() { KeySize = this.PasswordsEncryptionStrength };
-
-            this.TestPassword = doEncrypt ? crypt.Encrypt(TestPassword) : crypt.Decrypt(TestPassword);
-
-            this.TinyPicPassword2 = doEncrypt ? crypt.Encrypt(this.TinyPicPassword2) : crypt.Decrypt(this.TinyPicPassword2);
-
-            this.PastebinSettings.Password2 = doEncrypt ? crypt.Encrypt(this.PastebinSettings.Password2) : crypt.Decrypt(this.PastebinSettings.Password2);
-
-            this.RapidSharePassword = doEncrypt ? crypt.Encrypt(this.RapidSharePassword) : crypt.Decrypt(this.RapidSharePassword);
-
-            this.SendSpacePassword = doEncrypt ? crypt.Encrypt(this.SendSpacePassword) : crypt.Decrypt(this.SendSpacePassword);
-
-            foreach (FTPAccount acc in this.FTPAccountList)
-            {
-                acc.Password2 = doEncrypt ? crypt.Encrypt(acc.Password2) : crypt.Decrypt(acc.Password2);
-                acc.Passphrase = doEncrypt ? crypt.Encrypt(acc.Passphrase) : crypt.Decrypt(acc.Passphrase);
-            }
-
-            foreach (LocalhostAccount acc in this.LocalhostAccountList)
-            {
-                acc.Password = doEncrypt ? crypt.Encrypt(acc.Password) : crypt.Decrypt(acc.Password);
-            }
-
-            this.EmailPassword = doEncrypt ? crypt.Encrypt(this.EmailPassword) : crypt.Decrypt(this.EmailPassword);
         }
 
         public int GetFtpIndex(EDataType dataType)
@@ -330,6 +335,16 @@ namespace UploadersLib
                     return LocalhostSelectedText;
                 default:
                     return LocalhostSelectedFiles;
+            }
+        }
+
+        public static void ApplyDefaultValues(object self)
+        {
+            foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(self))
+            {
+                DefaultValueAttribute attr = prop.Attributes[typeof(DefaultValueAttribute)] as DefaultValueAttribute;
+                if (attr == null) continue;
+                prop.SetValue(self, attr.Value);
             }
         }
 

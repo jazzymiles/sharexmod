@@ -32,9 +32,9 @@ namespace HelpersLib
 {
     public class CryptKeys
     {
-        CspParameters cp;
-        RSACryptoServiceProvider rsa;
-        string Container = string.Empty;
+        private CspParameters cp;
+        private RSACryptoServiceProvider rsa;
+        private string Container = string.Empty;
         public EncryptionStrength KeySize = EncryptionStrength.High;
 
         public CryptKeys()
