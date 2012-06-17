@@ -29,7 +29,7 @@ using System.Windows.Forms;
 using HelpersLib;
 using UploadersLib.HelperClasses;
 using UploadersLib.ImageUploaders;
-using UploadersLib.SocialServices;
+using UploadersLib.SocialNetworkingServices;
 using UploadersLib.Properties;
 
 namespace UploadersLib

@@ -172,9 +172,10 @@
             this.chkPerformGlobalAfterCaptureTasks.AutoSize = true;
             this.chkPerformGlobalAfterCaptureTasks.Location = new System.Drawing.Point(16, 48);
             this.chkPerformGlobalAfterCaptureTasks.Name = "chkPerformGlobalAfterCaptureTasks";
-            this.chkPerformGlobalAfterCaptureTasks.Size = new System.Drawing.Size(390, 17);
+            this.chkPerformGlobalAfterCaptureTasks.Size = new System.Drawing.Size(455, 17);
             this.chkPerformGlobalAfterCaptureTasks.TabIndex = 1;
-            this.chkPerformGlobalAfterCaptureTasks.Text = "Perform global After Capture Tasks (go to Settings > Configuration > Capture) ";
+            this.chkPerformGlobalAfterCaptureTasks.Text = "Perform global After Capture Tasks ( to configure go to Settings > Configuration " +
+    "> Capture ) ";
             this.chkPerformGlobalAfterCaptureTasks.UseVisualStyleBackColor = true;
             this.chkPerformGlobalAfterCaptureTasks.CheckedChanged += new System.EventHandler(this.chkPerformGlobalAfterCaptureTasks_CheckedChanged);
             // 
@@ -407,6 +408,7 @@
             this.Name = "WindowWorkflow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "WindowWorkflow";
+            this.Resize += new System.EventHandler(this.WindowWorkflow_Resize);
             this.tcWorkflow.ResumeLayout(false);
             this.tpCapture.ResumeLayout(false);
             this.tpCapture.PerformLayout();

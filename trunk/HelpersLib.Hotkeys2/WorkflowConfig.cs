@@ -101,7 +101,8 @@ namespace HelpersLib.Hotkeys2
                 flpTextUploaders.Controls.Add(rbUploader);
             }
 
-            if (Workflow.Subtasks.HasFlag(Subtask.UploadToDefaultRemoteHost))
+            if (Workflow.Subtasks.HasFlag(Subtask.UploadToDefaultRemoteHost) ||
+                Workflow.Settings.PerformGlobalAfterCaptureTasks)
             {
                 HideTabShare();
             }
@@ -431,6 +432,11 @@ namespace HelpersLib.Hotkeys2
         private void tcWorkflow_SelectedIndexChanged(object sender, EventArgs e)
         {
             lblSummary.Text = this.ToSummaryString();
+        }
+
+        private void WindowWorkflow_Resize(object sender, EventArgs e)
+        {
+            this.Refresh();
         }
     }
 }
