@@ -251,15 +251,6 @@ namespace HelpersLib.Hotkeys2
         private void chkPerformGlobalAfterCaptureTasks_CheckedChanged(object sender, EventArgs e)
         {
             Workflow.Settings.PerformGlobalAfterCaptureTasks = chkPerformGlobalAfterCaptureTasks.Checked;
-
-            if (chkPerformGlobalAfterCaptureTasks.Checked)
-            {
-                HideTabAfterCapture();
-            }
-            else
-            {
-                ShowTabAfterCapture();
-            }
         }
 
         #region Show/Hide Tabs

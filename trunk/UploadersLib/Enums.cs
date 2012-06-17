@@ -136,7 +136,7 @@ namespace UploadersLib
         TURL
     }
 
-    public enum SocialService
+    public enum SocialNetworkingService
     {
         [Description("Twitter")]
         Twitter

@@ -220,13 +220,15 @@ namespace ShareX
             #region Uploaders
 
             AddEnumItems<ImageDestination>(x => SettingsManager.ConfigCore.ImageUploaderDestination = UploadManager.ImageUploader = (ImageDestination)x,
-                tsmiImageUploaders, tsmiTrayImageUploaders);
+             true, tsmiImageUploaders, tsmiTrayImageUploaders);
             AddEnumItems<TextDestination>(x => SettingsManager.ConfigCore.TextUploaderDestination = UploadManager.TextUploader = (TextDestination)x,
-                tsmiTextUploaders, tsmiTrayTextUploaders);
+             true, tsmiTextUploaders, tsmiTrayTextUploaders);
             AddEnumItems<FileDestination>(x => SettingsManager.ConfigCore.FileUploaderDestination = UploadManager.FileUploader = (FileDestination)x,
-                tsmiFileUploaders, tsmiTrayFileUploaders);
+             true, tsmiFileUploaders, tsmiTrayFileUploaders);
             AddEnumItems<UrlShortenerType>(x => SettingsManager.ConfigCore.URLShortenerDestination = UploadManager.URLShortener = (UrlShortenerType)x,
-                tsmiURLShorteners, tsmiTrayURLShorteners);
+             true, tsmiURLShorteners, tsmiTrayURLShorteners);
+            AddEnumItems<SocialNetworkingService>(x => SettingsManager.ConfigCore.SocialNetworkingServiceDestination = UploadManager.SocialNetworkingService = (SocialNetworkingService)x,
+            false, tsmiContextMenuShare);
 
             #endregion Uploaders
 
@@ -240,7 +242,7 @@ namespace ShareX
                 tsbDebug.Visible = true;
         }
 
-        private void AddEnumItems<T>(Action<int> selectedIndex, params ToolStripMenuItem[] parents)
+        private void AddEnumItems<T>(Action<int> selectedIndex, bool addEvent = true, params ToolStripMenuItem[] parents)
         {
             int enumLength = Helpers.GetEnumLength<T>();
 
@@ -251,24 +253,25 @@ namespace ShareX
                     Enum myEnum = (Enum)Enum.ToObject(typeof(T), i);
                     ToolStripMenuItem tsmi = new ToolStripMenuItem(myEnum.GetDescription()) { Tag = myEnum };
 
-                    int index = i;
-
-                    tsmi.Click += (sender, e) =>
+                    if (addEvent)
                     {
-                        foreach (ToolStripMenuItem parent2 in parents)
+                        int index = i;
+                        tsmi.Click += (sender, e) =>
                         {
-                            for (int i2 = 0; i2 < enumLength; i2++)
+                            foreach (ToolStripMenuItem parent2 in parents)
                             {
-                                ToolStripMenuItem tsmi2 = (ToolStripMenuItem)parent2.DropDownItems[i2];
-                                tsmi2.Checked = index == i2;
+                                for (int i2 = 0; i2 < enumLength; i2++)
+                                {
+                                    ToolStripMenuItem tsmi2 = (ToolStripMenuItem)parent2.DropDownItems[i2];
+                                    tsmi2.Checked = index == i2;
+                                }
                             }
-                        }
 
-                        selectedIndex(index);
+                            selectedIndex(index);
 
-                        UpdateUploaderMenuNames();
-                    };
-
+                            UpdateUploaderMenuNames();
+                        };
+                    }
                     parent.DropDownItems.Add(tsmi);
                 }
             }
@@ -330,7 +333,7 @@ namespace ShareX
                     }
 
                     showInWindowsExplorerToolStripMenuItem.Visible = File.Exists(result.LocalFilePath);
-                    shareToolStripMenuItem.Visible = File.Exists(result.LocalFilePath);
+                    tsmiUpload.Visible = File.Exists(result.LocalFilePath);
                 }
 
                 int index = lvUploads.SelectedIndices[0];
@@ -340,7 +343,7 @@ namespace ShareX
             {
                 uploadFileToolStripMenuItem.Visible = true;
                 showInWindowsExplorerToolStripMenuItem.Visible = false;
-                shareToolStripMenuItem.Visible = false;
+                tsmiUpload.Visible = false;
             }
         }
 
