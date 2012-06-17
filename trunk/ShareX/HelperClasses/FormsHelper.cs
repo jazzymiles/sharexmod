@@ -66,7 +66,6 @@ namespace ShareX
             UploadersConfigForm uploaderConfig = new UploadersConfigForm(SettingsManager.ConfigUploaders, new UploadersAPIKeys()) { Icon = Resources.ShareX };
             uploaderConfig.ShowDialog();
             uploaderConfig.Activate();
-            SettingsManager.SaveUploadersConfigAsync();
 
             Main.AfterUploadersConfigClosed();
             DropboxSyncHelper.SaveAsync();

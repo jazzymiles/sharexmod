@@ -66,6 +66,7 @@ namespace HelpersLib.Hotkeys2
             {
                 RadioButton rbUploader = new RadioButton()
                 {
+                    AutoSize = true,
                     Text = uploader.GetDescription(),
                     Checked = Workflow.Settings.DestConfig.FileUploaders.Contains(uploader),
                     Tag = uploader
@@ -78,6 +79,7 @@ namespace HelpersLib.Hotkeys2
             {
                 RadioButton rbUploader = new RadioButton()
                 {
+                    AutoSize = true,
                     Text = uploader.GetDescription(),
                     Checked = Workflow.Settings.DestConfig.ImageUploaders.Contains(uploader),
                     Tag = uploader
@@ -90,6 +92,7 @@ namespace HelpersLib.Hotkeys2
             {
                 RadioButton rbUploader = new RadioButton()
                 {
+                    AutoSize = true,
                     Text = uploader.GetDescription(),
                     Checked = Workflow.Settings.DestConfig.TextUploaders.Contains(uploader),
                     Tag = uploader
@@ -398,7 +401,7 @@ namespace HelpersLib.Hotkeys2
                     if (Workflow.Subtasks.HasFlag(task.Enum))
                         sb.AppendLine("---- " + task.Enum.GetDescription());
 
-                    if (task.Enum == Subtask.RunExternalProgram)
+                    if (Workflow.Subtasks.HasFlag(Subtask.RunExternalProgram))
                     {
                         foreach (ExternalProgram prg in Workflow.Settings.ExternalPrograms)
                         {
