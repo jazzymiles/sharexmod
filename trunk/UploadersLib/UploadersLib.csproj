@@ -198,7 +198,7 @@
     <Compile Include="HelperClasses\CustomUploaderManager.cs" />
     <Compile Include="ImageUploaders\ImmioUploader.cs" />
     <Compile Include="ImageUploaders\Photobucket.cs" />
-    <Compile Include="OtherServices\Twitter.cs" />
+    <Compile Include="SocialServices\Twitter.cs" />
     <Compile Include="HelperClasses\ProgressManager.cs" />
     <Compile Include="Proxy\ProxyConfig.cs" />
     <Compile Include="Proxy\ProxyConfigUI.cs">
@@ -231,8 +231,8 @@
     <Compile Include="ImageUploaders\YfrogUploader.cs" />
     <Compile Include="FileUploaders\Localhost\LocalhostAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="OtherServices\GoogleTranslate.cs" />
-    <Compile Include="OtherServices\Lyricsfly.cs" />
+    <Compile Include="SocialServices\GoogleTranslate.cs" />
+    <Compile Include="SocialServices\Lyricsfly.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

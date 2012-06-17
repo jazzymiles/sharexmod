@@ -36,7 +36,7 @@ using UploadersLib.FileUploaders;
 using UploadersLib.Forms;
 using UploadersLib.HelperClasses;
 using UploadersLib.ImageUploaders;
-using UploadersLib.OtherServices;
+using UploadersLib.SocialServices;
 using UploadersLib.Properties;
 using UploadersLib.TextUploaders;
 using UploadersLib.URLShorteners;

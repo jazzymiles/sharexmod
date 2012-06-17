@@ -29,7 +29,7 @@ using System.Xml.Linq;
 using HelpersLib;
 using UploadersLib.HelperClasses;
 
-namespace UploadersLib.OtherServices
+namespace UploadersLib.SocialServices
 {
     public class Twitter : Uploader, IOAuth
     {

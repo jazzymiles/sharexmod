@@ -25,7 +25,7 @@
 
 using System.ComponentModel;
 using System.Windows.Forms;
-using UploadersLib.OtherServices;
+using UploadersLib.SocialServices;
 
 namespace UploadersLib
 {

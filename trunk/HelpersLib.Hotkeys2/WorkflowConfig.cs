@@ -397,12 +397,21 @@ namespace HelpersLib.Hotkeys2
 
                     if (Workflow.Subtasks.HasFlag(task.Enum))
                         sb.AppendLine("---- " + task.Enum.GetDescription());
+
+                    if (task.Enum == Subtask.RunExternalProgram)
+                    {
+                        foreach (ExternalProgram prg in Workflow.Settings.ExternalPrograms)
+                        {
+                            if (prg.IsActive)
+                                sb.AppendLine("-------- " + prg.Name);
+                        }
+                    }
                 }
             }
 
             if (Workflow.Settings.DestConfig.FileUploaders.Count > 0)
             {
-                sb.AppendLine("Share files using " + Workflow.Settings.DestConfig.ToStringFileUploaders());
+                sb.AppendLine("Share file using " + Workflow.Settings.DestConfig.ToStringFileUploaders());
             }
 
             if (Workflow.Settings.DestConfig.TextUploaders.Count > 0)
@@ -411,7 +420,7 @@ namespace HelpersLib.Hotkeys2
                 sb.AppendLine("Text format: " + Workflow.Settings.DestConfig.TextFormat);
             }
             if (Workflow.Settings.DestConfig.ImageUploaders.Count > 0)
-                sb.AppendLine("Share images using " + Workflow.Settings.DestConfig.ToStringImageUploaders());
+                sb.AppendLine("Share image using " + Workflow.Settings.DestConfig.ToStringImageUploaders());
 
             return sb.ToString();
         }
