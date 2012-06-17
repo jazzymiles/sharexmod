@@ -107,6 +107,9 @@
     <EmbeddedResource Include="FileActionForm.resx">
       <DependentUpon>FileActionForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="HotkeyForm.resx">
+      <DependentUpon>HotkeyForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HotkeyInputForm.resx">
       <DependentUpon>HotkeyInputForm.cs</DependentUpon>
     </EmbeddedResource>

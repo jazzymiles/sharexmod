@@ -58,9 +58,9 @@ namespace ShareX
                 foreach (Workflow wf in SettingsManager.ConfigWorkflows.Workflows)
                 {
                     if (wf.Hotkey == HelpersLib.Hotkeys2.EHotkey.ClipboardUpload || wf.Hotkey == HelpersLib.Hotkeys2.EHotkey.FileUpload)
-                        wf.ActivitiesBeta.Add(EActivity.UploadToRemoteHost);
+                        wf.Subtasks |= Subtask.UploadToDefaultRemoteHost;
                     else
-                        wf.ActivitiesBeta.Add(EActivity.AfterCaptureTasks);
+                        wf.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
                 }
             } // if Workflows.Count == 0
 
@@ -96,7 +96,7 @@ namespace ShareX
 
             AfterCaptureActivity jobs_wf = new AfterCaptureActivity();
             jobs_wf.Workflow.Hotkey = wf.Hotkey;
-            jobs_wf.Workflow.ActivitiesBeta = wf.ActivitiesBeta;
+            jobs_wf.Workflow.Subtasks = wf.Subtasks;
             jobs_wf.Workflow.Settings = Helpers.Clone(wf.Settings) as WorkflowSettings;
 
             switch (jobs_wf.Workflow.Hotkey)
@@ -141,42 +141,9 @@ namespace ShareX
                     break;
             }
 
-            foreach (EActivity act in jobs_wf.Workflow.ActivitiesBeta)
+            if (jobs_wf.Workflow.Settings.PerformGlobalAfterCaptureTasks)
             {
-                switch (act)
-                {
-                    case EActivity.ClipboardCopyImage:
-                        jobs_wf.Subtasks |= Subtask.CopyImageToClipboard;
-                        break;
-                    case EActivity.ImageAnnotate:
-                        jobs_wf.Subtasks |= Subtask.AnnotateImage;
-                        break;
-                    case EActivity.SaveToFile:
-                        jobs_wf.Subtasks |= Subtask.SaveImageToFile;
-                        break;
-                    case EActivity.SaveToFileWithDialog:
-                        jobs_wf.Subtasks |= Subtask.SaveImageToFileWithDialog;
-                        break;
-                    case EActivity.Printer:
-                        jobs_wf.Subtasks |= Subtask.Print;
-                        break;
-                    case EActivity.AfterCaptureTasks:
-                        jobs_wf.Subtasks |= SettingsManager.ConfigCore.AfterCaptureSubtasks;
-                        break;
-                    case EActivity.UploadToRemoteHost:
-                        jobs_wf.Subtasks |= Subtask.UploadImageToHost;
-                        break;
-
-                    case EActivity.ShowImageEffectsStudio:
-                        jobs_wf.Subtasks |= Subtask.ShowImageEffectsStudio;
-                        break;
-                    case EActivity.ImageAnnotateAddTornEffect:
-                        jobs_wf.Subtasks |= Subtask.AnnotateImageAddTornEffect;
-                        break;
-                    case EActivity.ImageAnnotateAddShadowBorder:
-                        jobs_wf.Subtasks |= Subtask.AnnotateImageAddShadowBorder;
-                        break;
-                }
+                jobs_wf.Workflow.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
             }
 
             AfterHotkeyPressed(imagedata_wf, jobs_wf);
@@ -194,17 +161,17 @@ namespace ShareX
 
             if (imageData != null)
             {
-                if (act.Subtasks == Subtask.None)
-                    act.Subtasks |= SettingsManager.ConfigCore.AfterCaptureSubtasks;
+                if (act.Workflow.Subtasks == Subtask.None)
+                    act.Workflow.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
                 if (act.Workflow.Settings.DestConfig.ImageUploaders.Count > 0)
-                    act.Subtasks |= Subtask.UploadImageToHost;
+                    act.Workflow.Subtasks |= Subtask.UploadToDefaultRemoteHost;
                 log.Debug("After Capture initiated.");
                 AfterCapture(imageData, act);
             }
             else if (act.InputType == EInputType.Clipboard)
             {
-                if (act.Subtasks == Subtask.None)
-                    act.Subtasks |= SettingsManager.ConfigCore.AfterCaptureSubtasks;
+                if (act.Workflow.Subtasks == Subtask.None)
+                    act.Workflow.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
 
                 log.Debug("ClipboardUpload initiated.");
                 UploadManager.ClipboardUpload(act);

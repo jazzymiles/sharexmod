@@ -64,6 +64,50 @@ namespace UploadersLib
             }
         }
 
+        #region Add uploader
+
+        public void AddUploader(FileDestination uploader)
+        {
+            if (!FileUploaders.Contains(uploader))
+                FileUploaders.Add(uploader);
+        }
+
+        public void AddUploader(ImageDestination uploader)
+        {
+            if (!ImageUploaders.Contains(uploader))
+                ImageUploaders.Add(uploader);
+        }
+
+        public void AddUploader(TextDestination uploader)
+        {
+            if (!TextUploaders.Contains(uploader))
+                TextUploaders.Add(uploader);
+        }
+
+        #endregion Add uploader
+
+        #region Remove uploader
+
+        public void RemoveUploader(FileDestination uploader)
+        {
+            if (FileUploaders.Contains(uploader))
+                FileUploaders.Remove(uploader);
+        }
+
+        public void RemoveUploader(ImageDestination uploader)
+        {
+            if (ImageUploaders.Contains(uploader))
+                ImageUploaders.Remove(uploader);
+        }
+
+        public void RemoveUploader(TextDestination uploader)
+        {
+            if (TextUploaders.Contains(uploader))
+                TextUploaders.Remove(uploader);
+        }
+
+        #endregion Remove uploader
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();

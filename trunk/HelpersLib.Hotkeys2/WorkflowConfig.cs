@@ -15,177 +15,151 @@ namespace HelpersLib.Hotkeys2
     {
         public Workflow Workflow { get; set; }
 
-        private ListViewGroup lvgCapture = new ListViewGroup(ComponentModelStrings.ActivitiesCapture, HorizontalAlignment.Left);
-        private ListViewGroup lvgAfterCapture = new ListViewGroup(ComponentModelStrings.ActivitiesAfterCapture, HorizontalAlignment.Left);
-        private ListViewGroup lvgAfterCaptureEffects = new ListViewGroup(ComponentModelStrings.ActivitiesAfterCaptureEffects, HorizontalAlignment.Left);
-        private ListViewGroup lvgUploaders = new ListViewGroup(ComponentModelStrings.ActivitiesUploaders, HorizontalAlignment.Left);
-        private ListViewGroup lvgUploadersImages = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersImages, HorizontalAlignment.Left);
-        private ListViewGroup lvgUploadersText = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersText, HorizontalAlignment.Left);
-        private ListViewGroup lvgUploadersFiles = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersFiles, HorizontalAlignment.Left);
-        private ListViewGroup lvgUploadersLinks = new ListViewGroup(ComponentModelStrings.ActivitiesUploadersLinks, HorizontalAlignment.Left);
-
         public WindowWorkflow(Workflow wf)
         {
             Workflow = wf;
             wf.Settings.GetDefaults();
 
             InitializeComponent();
+            OnLoad();
+        }
 
-            this.Text = "Workflow - " + wf.HotkeyConfig.Description;
-            this.txtDescription.Text = wf.HotkeyConfig.Description;
+        private void OnLoad()
+        {
+            #region Capture
 
-            this.pgSettings.SelectedObject = wf.Settings.DestConfig;
+            this.Text = "Workflow - " + Workflow.HotkeyConfig.Description;
+            this.txtDescription.Text = Workflow.HotkeyConfig.Description;
+
+            cboCapture.Items.Clear();
+            foreach (EHotkey hotkey in Enum.GetValues(typeof(EHotkey)))
+            {
+                cboCapture.Items.Add(hotkey.GetDescription());
+            }
+            cboCapture.SelectedIndex = (int)Workflow.Hotkey;
+
+            chkPerformGlobalAfterCaptureTasks.Checked = Workflow.Settings.PerformGlobalAfterCaptureTasks;
+            txtTextFormat.Text = this.Workflow.Settings.DestConfig.TextFormat;
+
+            #endregion Capture
+
+            #region After Capture
+
+            ucAfterCaptureTasks.ConfigUI(Workflow.Subtasks, chkAfterCaptureTask_CheckedChanged);
+
+            #endregion After Capture
+
+            #region External Programs
 
             foreach (ExternalProgram fileAction in Workflow.Settings.ExternalPrograms)
             {
                 AddFileAction(fileAction);
             }
 
-            lvActivitiesAll.Groups.AddRange(new[]
+            HideTabRunExternalPrograms();
+
+            #endregion External Programs
+
+            #region Share
+
+            foreach (FileDestination uploader in Enum.GetValues(typeof(FileDestination)))
             {
-                lvgCapture,
-                lvgAfterCapture,lvgAfterCaptureEffects, lvgUploaders,
-                lvgUploadersImages, lvgUploadersText, lvgUploadersFiles, lvgUploadersLinks
-            });
-            lvActivitiesUser.Groups.AddRange(lvActivitiesAll.Groups);
-
-            FillListActivitiesAll();
-            FillListActivitiesUser();
-
-            lvActivitiesAll.Columns[0].Width = 240;
-            lvActivitiesUser.Columns[0].Width = 240;
-        }
-
-        private void FillListActivitiesUser()
-        {
-            lvActivitiesUser.Items.Add(GetListViewItem(Workflow.Hotkey));
-
-            foreach (ImageDestination uploader in Workflow.Settings.DestConfig.ImageUploaders)
-            {
-                lvActivitiesUser.Items.Add(GetListViewItem(uploader));
-            }
-
-            foreach (TextDestination uploader in Workflow.Settings.DestConfig.TextUploaders)
-            {
-                lvActivitiesUser.Items.Add(GetListViewItem(uploader));
-            }
-
-            foreach (UrlShortenerType uploader in Workflow.Settings.DestConfig.LinkUploaders)
-            {
-                lvActivitiesUser.Items.Add(GetListViewItem(uploader));
-            }
-
-            foreach (FileDestination uploader in Workflow.Settings.DestConfig.FileUploaders)
-            {
-                lvActivitiesUser.Items.Add(GetListViewItem(uploader));
-            }
-
-            foreach (EActivity act in Workflow.ActivitiesBeta)
-            {
-                lvActivitiesUser.Items.Add(GetListViewItem(act));
-            }
-
-            tcWorkflow.TabPages.Clear();
-            tcWorkflow.TabPages.Add(tpActivities);
-            UpdateTabsVisibility();
-        }
-
-        private void FillListActivitiesAll()
-        {
-            foreach (EHotkey hotkey in Enum.GetValues(typeof(EHotkey)))
-            {
-                lvActivitiesAll.Items.Add(GetListViewItem(hotkey));
+                RadioButton rbUploader = new RadioButton()
+                {
+                    Text = uploader.GetDescription(),
+                    Checked = Workflow.Settings.DestConfig.FileUploaders.Contains(uploader),
+                    Tag = uploader
+                };
+                rbUploader.CheckedChanged += new EventHandler(rbUploader_CheckedChanged);
+                flpFileUploaders.Controls.Add(rbUploader);
             }
 
             foreach (ImageDestination uploader in Enum.GetValues(typeof(ImageDestination)))
             {
-                lvActivitiesAll.Items.Add(GetListViewItem(uploader));
+                RadioButton rbUploader = new RadioButton()
+                {
+                    Text = uploader.GetDescription(),
+                    Checked = Workflow.Settings.DestConfig.ImageUploaders.Contains(uploader),
+                    Tag = uploader
+                };
+                rbUploader.CheckedChanged += new EventHandler(rbUploader_CheckedChanged);
+                flpImageUploaders.Controls.Add(rbUploader);
             }
 
             foreach (TextDestination uploader in Enum.GetValues(typeof(TextDestination)))
             {
-                lvActivitiesAll.Items.Add(GetListViewItem(uploader));
+                RadioButton rbUploader = new RadioButton()
+                {
+                    Text = uploader.GetDescription(),
+                    Checked = Workflow.Settings.DestConfig.TextUploaders.Contains(uploader),
+                    Tag = uploader
+                };
+                rbUploader.CheckedChanged += new EventHandler(rbUploader_CheckedChanged);
+                flpTextUploaders.Controls.Add(rbUploader);
             }
 
-            foreach (FileDestination uploader in Enum.GetValues(typeof(FileDestination)))
+            if (Workflow.Subtasks.HasFlag(Subtask.UploadToDefaultRemoteHost))
             {
-                lvActivitiesAll.Items.Add(GetListViewItem(uploader));
+                HideTabShare();
             }
-
-            foreach (UrlShortenerType uploader in Enum.GetValues(typeof(UrlShortenerType)))
+            else
             {
-                lvActivitiesAll.Items.Add(GetListViewItem(uploader));
+                ShowTabShare();
             }
 
-            foreach (EActivity act in Enum.GetValues(typeof(EActivity)))
+            #endregion Share
+        }
+
+        private void chkAfterCaptureTask_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox chkAfterCaptureTask = sender as CheckBox;
+            Subtask task = (Subtask)chkAfterCaptureTask.Tag;
+
+            if (chkAfterCaptureTask.Checked)
             {
-                lvActivitiesAll.Items.Add(GetListViewItem(act));
+                Workflow.Subtasks |= task;
+                if (task == Subtask.RunExternalProgram)
+                    ShowTabRunExternalPrograms();
+                else if (task == Subtask.UploadToDefaultRemoteHost)
+                    HideTabShare();
+            }
+            else
+            {
+                Workflow.Subtasks &= ~task;
+                if (task == Subtask.RunExternalProgram)
+                    HideTabRunExternalPrograms();
+                else if (task == Subtask.UploadToDefaultRemoteHost)
+                    ShowTabShare();
             }
         }
 
-        private ListViewItem GetListViewItem(EHotkey hotkey)
+        private void rbUploader_CheckedChanged(object sender, EventArgs e)
         {
-            ListViewItem lvi = new ListViewItem(hotkey.GetDescription());
-            lvi.Group = lvgCapture;
-            lvi.Tag = hotkey;
-            return lvi;
-        }
-
-        private ListViewItem GetListViewItem(UrlShortenerType dest)
-        {
-            ListViewItem lvi = new ListViewItem(dest.GetDescription());
-            lvi.Group = lvgUploadersLinks;
-            lvi.Tag = dest;
-            return lvi;
-        }
-
-        private ListViewItem GetListViewItem(TextDestination dest)
-        {
-            ListViewItem lvi = new ListViewItem(dest.GetDescription());
-            lvi.Group = lvgUploadersText;
-            lvi.Tag = dest;
-            return lvi;
-        }
-
-        private ListViewItem GetListViewItem(ImageDestination dest)
-        {
-            ListViewItem lvi = new ListViewItem(dest.GetDescription());
-            lvi.Group = lvgUploadersImages;
-            lvi.Tag = dest;
-            return lvi;
-        }
-
-        private ListViewItem GetListViewItem(FileDestination dest)
-        {
-            ListViewItem lvi = new ListViewItem(dest.GetDescription());
-            lvi.Group = lvgUploadersFiles;
-            lvi.Tag = dest;
-            return lvi;
-        }
-
-        private ListViewItem GetListViewItem(EActivity act)
-        {
-            ListViewItem lvi = new ListViewItem(act.GetDescription());
-            if (act.GetCategory() == lvgCapture.Header)
-                lvi.Group = lvgCapture;
-            else if (act.GetCategory() == lvgAfterCapture.Header)
-                lvi.Group = lvgAfterCapture;
-            else if (act.GetCategory() == lvgAfterCaptureEffects.Header)
-                lvi.Group = lvgAfterCaptureEffects;
-            else if (act.GetCategory() == lvgUploaders.Header)
-                lvi.Group = lvgUploaders;
-            else if (act.GetCategory() == lvgUploadersImages.Header)
-                lvi.Group = lvgUploadersImages;
-            else if (act.GetCategory() == lvgUploadersText.Header)
-                lvi.Group = lvgUploadersText;
-            else if (act.GetCategory() == lvgUploadersFiles.Header)
-                lvi.Group = lvgUploadersFiles;
-            else if (act.GetCategory() == lvgUploadersLinks.Header)
-                lvi.Group = lvgUploadersLinks;
-
-            lvi.Tag = act;
-            lvi.ImageKey = act.GetDescription();
-            return lvi;
+            RadioButton rbUploader = sender as RadioButton;
+            if (rbUploader.Tag.GetType() == typeof(FileDestination))
+            {
+                FileDestination uploader = (FileDestination)rbUploader.Tag;
+                if (rbUploader.Checked)
+                    Workflow.Settings.DestConfig.AddUploader(uploader);
+                else
+                    Workflow.Settings.DestConfig.RemoveUploader(uploader);
+            }
+            else if (rbUploader.Tag.GetType() == typeof(ImageDestination))
+            {
+                ImageDestination uploader = (ImageDestination)rbUploader.Tag;
+                if (rbUploader.Checked)
+                    Workflow.Settings.DestConfig.AddUploader(uploader);
+                else
+                    Workflow.Settings.DestConfig.RemoveUploader(uploader);
+            }
+            else if (rbUploader.Tag.GetType() == typeof(TextDestination))
+            {
+                TextDestination uploader = (TextDestination)rbUploader.Tag;
+                if (rbUploader.Checked)
+                    Workflow.Settings.DestConfig.AddUploader(uploader);
+                else
+                    Workflow.Settings.DestConfig.RemoveUploader(uploader);
+            }
         }
 
         private void txtDescription_TextChanged(object sender, EventArgs e)
@@ -193,130 +167,10 @@ namespace HelpersLib.Hotkeys2
             Workflow.HotkeyConfig.Description = txtDescription.Text;
         }
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (!txtDescription.Focused)
-            {
-                if (keyData == (Keys.ShiftKey | Keys.A))
-                {
-                    ActivityAdd();
-                    return true;
-                }
-                else if (keyData == Keys.Delete)
-                {
-                    ActivityRemove();
-                    return true;
-                }
-            }
-
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
-
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            ActivityAdd();
-        }
-
-        private void ActivityAdd()
-        {
-            foreach (ListViewItem lvi in lvActivitiesAll.SelectedItems)
-            {
-                ListViewItem lvi2 = new ListViewItem();
-
-                if (lvi.Tag.GetType() == typeof(ImageDestination))
-                    lvi2 = GetListViewItem((ImageDestination)lvi.Tag);
-                else if (lvi.Tag.GetType() == typeof(TextDestination))
-                    lvi2 = GetListViewItem((TextDestination)lvi.Tag);
-                else if (lvi.Tag.GetType() == typeof(FileDestination))
-                    lvi2 = GetListViewItem((FileDestination)lvi.Tag);
-                else if (lvi.Tag.GetType() == typeof(UrlShortenerType))
-                    lvi2 = GetListViewItem((UrlShortenerType)lvi.Tag);
-                else if (lvi.Tag.GetType() == typeof(EActivity))
-                    lvi2 = GetListViewItem((EActivity)lvi.Tag);
-                else if (lvi.Tag.GetType() == typeof(EHotkey))
-                    lvi2 = GetListViewItem((EHotkey)lvi.Tag);
-
-                lvActivitiesUser.Items.Add(lvi2);
-            }
-
-            UpdateTabsVisibility();
-        }
-
-        private void UpdateTabsVisibility()
-        {
-            bool showSettings = false;
-            bool showExternalPrograms = false;
-
-            foreach (ListViewItem lvi in lvActivitiesUser.Items)
-            {
-                if (lvi.Tag.GetType() == typeof(EHotkey) && (EHotkey)lvi.Tag == EHotkey.ClipboardUpload)
-                    showSettings = true;
-                else if (lvi.Tag.GetType() == typeof(TextDestination))
-                    showSettings = true;
-
-                if (lvi.Tag.GetType() == typeof(EActivity) && (EActivity)lvi.Tag == EActivity.RunExternalProgram)
-                    showExternalPrograms = true;
-            }
-
-            if (showSettings)
-            {
-                if (!tcWorkflow.TabPages.Contains(tpSettings))
-                    tcWorkflow.TabPages.Add(tpSettings);
-            }
-            else
-                tcWorkflow.TabPages.Remove(tpSettings);
-
-            if (showExternalPrograms)
-            {
-                if (!tcWorkflow.TabPages.Contains(tpActions))
-                    tcWorkflow.TabPages.Add(tpActions);
-            }
-            else
-                tcWorkflow.TabPages.Remove(tpActions);
-        }
-
-        private void btnRemove_Click(object sender, EventArgs e)
-        {
-            ActivityRemove();
-        }
-
-        private void ActivityRemove()
-        {
-            List<ListViewItem> tempActivities = new List<ListViewItem>();
-            foreach (ListViewItem lvi in lvActivitiesUser.SelectedItems)
-            {
-                tempActivities.Add(lvi);
-            }
-            foreach (ListViewItem act in tempActivities)
-            {
-                lvActivitiesUser.Items.Remove(act);
-            }
-            UpdateTabsVisibility();
-        }
-
         private void btnOk_Click(object sender, EventArgs e)
         {
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
-
-            Workflow.Settings.Clear();
-            Workflow.ActivitiesBeta.Clear();
-
-            foreach (ListViewItem lvi in lvActivitiesUser.Items)
-            {
-                if (lvi.Tag.GetType() == typeof(ImageDestination))
-                    Workflow.Settings.DestConfig.ImageUploaders.Add((ImageDestination)lvi.Tag);
-                else if (lvi.Tag.GetType() == typeof(TextDestination))
-                    Workflow.Settings.DestConfig.TextUploaders.Add((TextDestination)lvi.Tag);
-                else if (lvi.Tag.GetType() == typeof(FileDestination))
-                    Workflow.Settings.DestConfig.FileUploaders.Add((FileDestination)lvi.Tag);
-                else if (lvi.Tag.GetType() == typeof(UrlShortenerType))
-                    Workflow.Settings.DestConfig.LinkUploaders.Add((UrlShortenerType)lvi.Tag);
-                else if (lvi.Tag.GetType() == typeof(EActivity))
-                    Workflow.ActivitiesBeta.Add((EActivity)lvi.Tag);
-                else if (lvi.Tag.GetType() == typeof(EHotkey))
-                    Workflow.Hotkey = (EHotkey)lvi.Tag;
-            }
-
+            this.Workflow.Settings.DestConfig.TextFormat = txtTextFormat.Text;
             this.Close();
         }
 
@@ -389,5 +243,134 @@ namespace HelpersLib.Hotkeys2
         }
 
         #endregion External Programs
+
+        private void chkPerformGlobalAfterCaptureTasks_CheckedChanged(object sender, EventArgs e)
+        {
+            Workflow.Settings.PerformGlobalAfterCaptureTasks = chkPerformGlobalAfterCaptureTasks.Checked;
+
+            if (chkPerformGlobalAfterCaptureTasks.Checked)
+            {
+                HideTabAfterCapture();
+            }
+            else
+            {
+                ShowTabAfterCapture();
+            }
+        }
+
+        #region Show/Hide Tabs
+
+        private void ShowTabAfterCapture()
+        {
+            if (!tcWorkflow.TabPages.Contains(tpAfterCapture))
+            {
+                tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpCapture) + 1, tpAfterCapture);
+            }
+        }
+
+        private void HideTabAfterCapture()
+        {
+            if (tcWorkflow.TabPages.Contains(tpAfterCapture))
+            {
+                tcWorkflow.TabPages.Remove(tpAfterCapture);
+            }
+        }
+
+        private void ShowTabRunExternalPrograms()
+        {
+            if (!tcWorkflow.TabPages.Contains(tpRunExternalPrograms))
+            {
+                if (tcWorkflow.TabPages.Contains(tpAfterCapture))
+                {
+                    tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpAfterCapture) + 1, tpRunExternalPrograms);
+                }
+                else
+                {
+                    tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpCapture) + 1, tpRunExternalPrograms);
+                }
+            }
+        }
+
+        private void HideTabRunExternalPrograms()
+        {
+            if (tcWorkflow.TabPages.Contains(tpRunExternalPrograms))
+            {
+                tcWorkflow.TabPages.Remove(tpRunExternalPrograms);
+            }
+        }
+
+        private void ShowTabShare()
+        {
+            if (!tcWorkflow.TabPages.Contains(tpShare))
+            {
+                if (tcWorkflow.TabPages.Contains(tpAfterCapture))
+                {
+                    if (tcWorkflow.TabPages.Contains(tpRunExternalPrograms))
+                    {
+                        tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpRunExternalPrograms) + 1, tpShare);
+                    }
+                    else
+                    {
+                        tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpAfterCapture) + 1, tpShare);
+                    }
+                }
+                else
+                {
+                    tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpCapture) + 1, tpShare);
+                }
+            }
+        }
+
+        private void HideTabShare()
+        {
+            Workflow.Settings.Clear();
+            if (tcWorkflow.TabPages.Contains(tpShare))
+            {
+                tcWorkflow.TabPages.Remove(tpShare);
+            }
+        }
+
+        #endregion Show/Hide Tabs
+
+        private void cboCapture_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            OnCaptureTypeChanged();
+        }
+
+        private void OnCaptureTypeChanged()
+        {
+            EHotkey hotkey = (EHotkey)cboCapture.SelectedIndex;
+            switch (hotkey)
+            {
+                case EHotkey.ClipboardUpload:
+                    ShowAllUploaders();
+                    gbSettings.Visible = true;
+                    break;
+                case EHotkey.FileUpload:
+                    ShowAllUploaders();
+                    gbSettings.Visible = false;
+                    break;
+                default:
+                    HideTextUploaders();
+                    ShowTabAfterCapture();
+                    gbSettings.Visible = false;
+                    break;
+            }
+        }
+
+        private void ShowAllUploaders()
+        {
+            flpFileUploaders.Visible = true;
+            flpImageUploaders.Visible = true;
+            flpTextUploaders.Visible = true;
+            HideTabAfterCapture();
+        }
+
+        private void HideTextUploaders()
+        {
+            flpFileUploaders.Visible = true;
+            flpImageUploaders.Visible = true;
+            flpTextUploaders.Visible = false;
+        }
     }
 }

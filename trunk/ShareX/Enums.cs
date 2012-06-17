@@ -40,43 +40,22 @@ namespace ShareX
     }
 
     [Flags]
-    public enum Subtask
-    {
-        None = 0,
-        [Description("Annotate image")]
-        AnnotateImage = 2 << 0,
-        [Description("Add torn paper effect")]
-        AnnotateImageAddTornEffect = 2 << 1,
-        [Description("Add shadow border")]
-        AnnotateImageAddShadowBorder = 2 << 2,
-        [Description("Add watermark")]
-        AddWatermark = 2 << 3,
-        [Description("Show image effects studio")]
-        ShowImageEffectsStudio = 2 << 4,
-        [Description("Copy image to clipboard")]
-        CopyImageToClipboard = 2 << 5,
-        [Description("Save to file")]
-        SaveImageToFile = 2 << 6,
-        [Description("Upload to remote host")]
-        UploadImageToHost = 2 << 7,
-        [Description("Save to file with dialog")]
-        SaveImageToFileWithDialog = 2 << 8,
-        [Description("Send to Printer")]
-        Print = 2 << 9,
-    }
-
-    [Flags]
     public enum TaskTextJob
     {
         None = 0,
+
         [Description("Copy to clipboard")]
         CopyToClipboard = 2,
+
         [Description("Save to file")]
         SaveToFile = 4,
+
         [Description("Upload to remote host")]
         UploadToHost = 8,
+
         [Description("Save to file with dialog")]
         SaveToFileWithDialog = 16,
+
         [Description("Send to Printer")]
         Print = 32,
     }
@@ -85,6 +64,7 @@ namespace ShareX
     public enum TaskFileJob
     {
         None = 0,
+
         [Description("Upload to remote host")]
         UploadToHost = 8,
     }
@@ -98,14 +78,19 @@ namespace ShareX
     {
         [Description("Open link or file path (if exists)")]
         OpenUrlOrFile,
+
         [Description("Open file path or link (if exists)")]
         OpenFileOrUrl,
+
         [Description("Open link (if exists)")]
         OpenUrl,
+
         [Description("Open file path (if exists)")]
         OpenFile,
+
         [Description("Open directory of the file (if exists)")]
         OpenDirectory,
+
         [Description("Do nothing")]
         DoNothing,
     }

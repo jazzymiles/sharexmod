@@ -230,5 +230,17 @@ namespace HelpersLib.Hotkeys2
 
             return true;
         }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // HotkeyForm
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Name = "HotkeyForm";
+            this.ResumeLayout(false);
+
+        }
     }
 }

@@ -94,10 +94,10 @@ namespace ShareX
 
                 if (SettingsManager.ConfigCore.ShowAfterCaptureWizard)
                 {
-                    WindowAfterCapture dlg = new WindowAfterCapture(act.Subtasks);
+                    WindowAfterCapture dlg = new WindowAfterCapture(act.Workflow.Subtasks);
                     if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        act.Subtasks = dlg.Config;
+                        act.Workflow.Subtasks = dlg.Config;
                     }
                     else
                     {
@@ -105,7 +105,7 @@ namespace ShareX
                     }
                 }
 
-                if (act.Subtasks.HasFlag(Subtask.AnnotateImage))
+                if (act.Workflow.Subtasks.HasFlag(Subtask.AnnotateImage))
                 {
                     EditImage(ref imageData);
                 }

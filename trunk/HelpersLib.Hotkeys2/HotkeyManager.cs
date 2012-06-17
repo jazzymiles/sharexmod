@@ -31,36 +31,6 @@ using System.Windows.Forms;
 
 namespace HelpersLib.Hotkeys2
 {
-    public enum EHotkey
-    {
-        [Description("Capture Clipboard Content (Images, Text or Files)")]
-        ClipboardUpload,
-        [Description("File Upload")]
-        FileUpload,
-        [Description("Capture Fullscreen")]
-        FullScreen,
-        [Description("Capture Active Window")]
-        ActiveWindow,
-        [Description("Capture Active Monitor")]
-        ActiveMonitor,
-        [Description("Capture Window or Rectangle")]
-        WindowRectangle,
-        [Description("Capture Rectangle Region")]
-        RectangleRegion,
-        [Description("Capture Rounded Rectangle Region")]
-        RoundedRectangleRegion,
-        [Description("Capture Ellipse Region")]
-        EllipseRegion,
-        [Description("Capture Triangle Region")]
-        TriangleRegion,
-        [Description("Capture Diamond Region")]
-        DiamondRegion,
-        [Description("Capture Polygon Region")]
-        PolygonRegion,
-        [Description("Capture Freehand Region")]
-        FreeHandRegion
-    }
-
     public class HotkeyManager
     {
         public List<Workflow> Workflows = new List<Workflow>();

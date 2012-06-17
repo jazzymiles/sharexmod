@@ -33,6 +33,7 @@ using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using HelpersLib;
+using HelpersLib.Hotkeys2;
 using HistoryLib;
 using ShareX.HelperClasses;
 using ShareX.Properties;
@@ -153,7 +154,7 @@ namespace ShareX
                 if (act.Workflow.Settings.DestConfig.ImageUploaders.Count > 0)
                     destination = act.Workflow.Settings.DestConfig.ImageUploaders[0] == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
                 Task task = Task.CreateImageUploaderTask(imageData, destination);
-                task.Info.Jobs = act.Subtasks;
+                task.Info.Jobs = act.Workflow.Subtasks;
                 task.SetWorkflow(act.Workflow);
                 StartUpload(task);
             }
@@ -184,7 +185,7 @@ namespace ShareX
                 if (act.Workflow.Settings.DestConfig.TextUploaders.Count > 0)
                     destination = act.Workflow.Settings.DestConfig.TextUploaders[0] == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
                 Task task = Task.CreateTextUploaderTask(text, destination);
-                task.Info.Jobs = act.Subtasks;
+                task.Info.Jobs = act.Workflow.Subtasks;
                 task.SetWorkflow(act.Workflow);
                 StartUpload(task);
             }
@@ -350,7 +351,7 @@ namespace ShareX
 
         private static void ChangeListViewItemStatus(UploadInfo info)
         {
-            if (ListViewControl != null && info.Jobs.HasFlag(Subtask.UploadImageToHost))
+            if (ListViewControl != null && info.Jobs.HasFlag(Subtask.UploadToDefaultRemoteHost))
             {
                 ListViewItem lvi = ListViewControl.Items[info.ID];
                 lvi.SubItems[1].Text = info.Status;
@@ -382,7 +383,7 @@ namespace ShareX
                             continue;
                     }
 
-                    if (info.Jobs.HasFlag(Subtask.UploadImageToHost))
+                    if (info.Jobs.HasFlag(Subtask.UploadToDefaultRemoteHost))
                     {
                         lvi.SubItems.Add(info.Destination);
                         break;

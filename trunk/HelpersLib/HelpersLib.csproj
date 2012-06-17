@@ -97,6 +97,12 @@
       <DependentUpon>DownloaderForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FileDownloader.cs" />
+    <Compile Include="UserControls\AfterCatureTasksUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\AfterCatureTasksUI.Designer.cs">
+      <DependentUpon>AfterCatureTasksUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\BlackStyle\MyButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -190,6 +196,9 @@
     <Compile Include="Links.cs" />
     <EmbeddedResource Include="UpdateChecker\DownloaderForm.resx">
       <DependentUpon>DownloaderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\AfterCatureTasksUI.resx">
+      <DependentUpon>AfterCatureTasksUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizards\ClipboardContentViewer.resx">
       <DependentUpon>ClipboardContentViewer.cs</DependentUpon>

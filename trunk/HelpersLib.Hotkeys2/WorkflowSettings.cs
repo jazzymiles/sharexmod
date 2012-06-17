@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,21 @@ namespace HelpersLib.Hotkeys2
     [Serializable]
     public class WorkflowSettings
     {
+        [Category(ComponentModelStrings.ActivitiesAfterCapture), Description("Perform global After Capture Tasks")]
+        public bool PerformGlobalAfterCaptureTasks { get; set; }
+
         public DestConfig DestConfig = new DestConfig();
         public List<ExternalProgram> ExternalPrograms = new List<ExternalProgram>();
+
+        public static void ApplyDefaultValues(object self)
+        {
+            foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(self))
+            {
+                DefaultValueAttribute attr = prop.Attributes[typeof(DefaultValueAttribute)] as DefaultValueAttribute;
+                if (attr == null) continue;
+                prop.SetValue(self, attr.Value);
+            }
+        }
 
         public void Clear()
         {
@@ -43,6 +57,5 @@ namespace HelpersLib.Hotkeys2
                 ExternalPrograms.Add(externalProgram);
             }
         }
-
     }
 }
