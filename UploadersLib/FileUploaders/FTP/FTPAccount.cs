@@ -123,21 +123,6 @@ namespace UploadersLib
 
         public FTPAccount()
         {
-            Protocol = FTPProtocol.FTP;
-            Name = "New Account";
-            Host = "host";
-            Port = 21;
-            Username = "username";
-            Password = "password";
-            ServerProtocol = ServerProtocol.Ftp;
-            SubFolderPath = string.Empty;
-            BrowserProtocol = BrowserProtocol.Http;
-            HttpHomePath = string.Empty;
-            HttpHomePathNoExtension = false;
-            IsActive = false;
-
-            FtpsSecurityProtocol = FtpSecurityProtocol.Ssl2Explicit;
-
             ApplyDefaultValues(this);
         }
 

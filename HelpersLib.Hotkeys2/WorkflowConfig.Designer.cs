@@ -30,21 +30,15 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WindowWorkflow));
             this.txtDescription = new System.Windows.Forms.TextBox();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnRemove = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.lvActivitiesAll = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lvActivitiesUser = new System.Windows.Forms.ListView();
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tcWorkflow = new System.Windows.Forms.TabControl();
-            this.tpActivities = new System.Windows.Forms.TabPage();
-            this.tpSettings = new System.Windows.Forms.TabPage();
-            this.pgSettings = new System.Windows.Forms.PropertyGrid();
-            this.tpActions = new System.Windows.Forms.TabPage();
+            this.tpCapture = new System.Windows.Forms.TabPage();
+            this.chkPerformGlobalAfterCaptureTasks = new System.Windows.Forms.CheckBox();
+            this.cboCapture = new System.Windows.Forms.ComboBox();
+            this.tpAfterCapture = new System.Windows.Forms.TabPage();
+            this.ucAfterCaptureTasks = new HelpersLib.UserControls.AfterCatureTasksUI();
+            this.tpRunExternalPrograms = new System.Windows.Forms.TabPage();
             this.btnActionsEdit = new System.Windows.Forms.Button();
             this.btnActionsRemove = new System.Windows.Forms.Button();
             this.btnActionsAdd = new System.Windows.Forms.Button();
@@ -52,12 +46,22 @@
             this.chActionsName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chActionsPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chActionsArgs = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tableLayoutPanel1.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
+            this.tpShare = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.flpFileUploaders = new System.Windows.Forms.FlowLayoutPanel();
+            this.flpImageUploaders = new System.Windows.Forms.FlowLayoutPanel();
+            this.flpTextUploaders = new System.Windows.Forms.FlowLayoutPanel();
+            this.tpSummary = new System.Windows.Forms.TabPage();
+            this.gbSettings = new System.Windows.Forms.GroupBox();
+            this.txtTextFormat = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.tcWorkflow.SuspendLayout();
-            this.tpActivities.SuspendLayout();
-            this.tpSettings.SuspendLayout();
-            this.tpActions.SuspendLayout();
+            this.tpCapture.SuspendLayout();
+            this.tpAfterCapture.SuspendLayout();
+            this.tpRunExternalPrograms.SuspendLayout();
+            this.tpShare.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.gbSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtDescription
@@ -68,30 +72,10 @@
             this.txtDescription.Location = new System.Drawing.Point(8, 8);
             this.txtDescription.MaxLength = 100;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(661, 23);
+            this.txtDescription.Size = new System.Drawing.Size(656, 23);
             this.txtDescription.TabIndex = 0;
             this.txtDescription.Text = "New workflow";
             this.txtDescription.TextChanged += new System.EventHandler(this.txtDescription_TextChanged);
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.Location = new System.Drawing.Point(3, 3);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(96, 23);
-            this.btnAdd.TabIndex = 0;
-            this.btnAdd.Text = "Add ==>";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // btnRemove
-            // 
-            this.btnRemove.Location = new System.Drawing.Point(3, 32);
-            this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(96, 23);
-            this.btnRemove.TabIndex = 1;
-            this.btnRemove.Text = "<== Remove";
-            this.btnRemove.UseVisualStyleBackColor = true;
-            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
             // btnOk
             // 
@@ -116,141 +100,95 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // lvActivitiesAll
-            // 
-            this.lvActivitiesAll.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1});
-            this.lvActivitiesAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvActivitiesAll.FullRowSelect = true;
-            this.lvActivitiesAll.GridLines = true;
-            this.lvActivitiesAll.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.lvActivitiesAll.Location = new System.Drawing.Point(3, 3);
-            this.lvActivitiesAll.Name = "lvActivitiesAll";
-            this.lvActivitiesAll.Size = new System.Drawing.Size(262, 362);
-            this.lvActivitiesAll.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lvActivitiesAll.TabIndex = 0;
-            this.lvActivitiesAll.UseCompatibleStateImageBehavior = false;
-            this.lvActivitiesAll.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "All Activities";
-            this.columnHeader1.Width = 250;
-            // 
-            // lvActivitiesUser
-            // 
-            this.lvActivitiesUser.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader2});
-            this.lvActivitiesUser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvActivitiesUser.FullRowSelect = true;
-            this.lvActivitiesUser.GridLines = true;
-            this.lvActivitiesUser.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.lvActivitiesUser.Location = new System.Drawing.Point(383, 3);
-            this.lvActivitiesUser.Name = "lvActivitiesUser";
-            this.lvActivitiesUser.Size = new System.Drawing.Size(262, 362);
-            this.lvActivitiesUser.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lvActivitiesUser.TabIndex = 2;
-            this.lvActivitiesUser.UseCompatibleStateImageBehavior = false;
-            this.lvActivitiesUser.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "User Activities";
-            this.columnHeader2.Width = 250;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 112F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.lvActivitiesAll, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lvActivitiesUser, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 1, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(648, 368);
-            this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Controls.Add(this.btnAdd);
-            this.flowLayoutPanel1.Controls.Add(this.btnRemove);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(271, 3);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(106, 362);
-            this.flowLayoutPanel1.TabIndex = 1;
-            // 
             // tcWorkflow
             // 
             this.tcWorkflow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tcWorkflow.Controls.Add(this.tpActivities);
-            this.tcWorkflow.Controls.Add(this.tpSettings);
-            this.tcWorkflow.Controls.Add(this.tpActions);
+            this.tcWorkflow.Controls.Add(this.tpCapture);
+            this.tcWorkflow.Controls.Add(this.tpAfterCapture);
+            this.tcWorkflow.Controls.Add(this.tpRunExternalPrograms);
+            this.tcWorkflow.Controls.Add(this.tpShare);
+            this.tcWorkflow.Controls.Add(this.tpSummary);
             this.tcWorkflow.Location = new System.Drawing.Point(8, 40);
             this.tcWorkflow.Name = "tcWorkflow";
             this.tcWorkflow.SelectedIndex = 0;
             this.tcWorkflow.Size = new System.Drawing.Size(662, 400);
             this.tcWorkflow.TabIndex = 1;
             // 
-            // tpActivities
+            // tpCapture
             // 
-            this.tpActivities.Controls.Add(this.tableLayoutPanel1);
-            this.tpActivities.Location = new System.Drawing.Point(4, 22);
-            this.tpActivities.Name = "tpActivities";
-            this.tpActivities.Padding = new System.Windows.Forms.Padding(3);
-            this.tpActivities.Size = new System.Drawing.Size(654, 374);
-            this.tpActivities.TabIndex = 0;
-            this.tpActivities.Text = "Activities";
-            this.tpActivities.UseVisualStyleBackColor = true;
+            this.tpCapture.Controls.Add(this.gbSettings);
+            this.tpCapture.Controls.Add(this.chkPerformGlobalAfterCaptureTasks);
+            this.tpCapture.Controls.Add(this.cboCapture);
+            this.tpCapture.Location = new System.Drawing.Point(4, 22);
+            this.tpCapture.Name = "tpCapture";
+            this.tpCapture.Padding = new System.Windows.Forms.Padding(3);
+            this.tpCapture.Size = new System.Drawing.Size(654, 374);
+            this.tpCapture.TabIndex = 0;
+            this.tpCapture.Text = "Capture";
+            this.tpCapture.UseVisualStyleBackColor = true;
             // 
-            // tpSettings
+            // chkPerformGlobalAfterCaptureTasks
             // 
-            this.tpSettings.Controls.Add(this.pgSettings);
-            this.tpSettings.Location = new System.Drawing.Point(4, 22);
-            this.tpSettings.Name = "tpSettings";
-            this.tpSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSettings.Size = new System.Drawing.Size(654, 374);
-            this.tpSettings.TabIndex = 1;
-            this.tpSettings.Text = "Settings";
-            this.tpSettings.UseVisualStyleBackColor = true;
+            this.chkPerformGlobalAfterCaptureTasks.AutoSize = true;
+            this.chkPerformGlobalAfterCaptureTasks.Location = new System.Drawing.Point(16, 48);
+            this.chkPerformGlobalAfterCaptureTasks.Name = "chkPerformGlobalAfterCaptureTasks";
+            this.chkPerformGlobalAfterCaptureTasks.Size = new System.Drawing.Size(390, 17);
+            this.chkPerformGlobalAfterCaptureTasks.TabIndex = 1;
+            this.chkPerformGlobalAfterCaptureTasks.Text = "Perform global After Capture Tasks (go to Settings > Configuration > Capture) ";
+            this.chkPerformGlobalAfterCaptureTasks.UseVisualStyleBackColor = true;
+            this.chkPerformGlobalAfterCaptureTasks.CheckedChanged += new System.EventHandler(this.chkPerformGlobalAfterCaptureTasks_CheckedChanged);
             // 
-            // pgSettings
+            // cboCapture
             // 
-            this.pgSettings.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pgSettings.Location = new System.Drawing.Point(3, 3);
-            this.pgSettings.Name = "pgSettings";
-            this.pgSettings.Size = new System.Drawing.Size(648, 368);
-            this.pgSettings.TabIndex = 0;
-            this.pgSettings.ToolbarVisible = false;
+            this.cboCapture.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCapture.FormattingEnabled = true;
+            this.cboCapture.Location = new System.Drawing.Point(16, 16);
+            this.cboCapture.Name = "cboCapture";
+            this.cboCapture.Size = new System.Drawing.Size(384, 21);
+            this.cboCapture.TabIndex = 0;
+            this.cboCapture.SelectedIndexChanged += new System.EventHandler(this.cboCapture_SelectedIndexChanged);
             // 
-            // tpActions
+            // tpAfterCapture
             // 
-            this.tpActions.Controls.Add(this.btnActionsEdit);
-            this.tpActions.Controls.Add(this.btnActionsRemove);
-            this.tpActions.Controls.Add(this.btnActionsAdd);
-            this.tpActions.Controls.Add(this.lvActions);
-            this.tpActions.Location = new System.Drawing.Point(4, 22);
-            this.tpActions.Name = "tpActions";
-            this.tpActions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpActions.Size = new System.Drawing.Size(654, 374);
-            this.tpActions.TabIndex = 2;
-            this.tpActions.Text = "External Programs";
-            this.tpActions.UseVisualStyleBackColor = true;
+            this.tpAfterCapture.Controls.Add(this.ucAfterCaptureTasks);
+            this.tpAfterCapture.Location = new System.Drawing.Point(4, 22);
+            this.tpAfterCapture.Name = "tpAfterCapture";
+            this.tpAfterCapture.Padding = new System.Windows.Forms.Padding(3);
+            this.tpAfterCapture.Size = new System.Drawing.Size(654, 374);
+            this.tpAfterCapture.TabIndex = 1;
+            this.tpAfterCapture.Text = "After Capture";
+            this.tpAfterCapture.UseVisualStyleBackColor = true;
+            // 
+            // ucAfterCaptureTasks
+            // 
+            this.ucAfterCaptureTasks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucAfterCaptureTasks.Location = new System.Drawing.Point(3, 3);
+            this.ucAfterCaptureTasks.Name = "ucAfterCaptureTasks";
+            this.ucAfterCaptureTasks.Size = new System.Drawing.Size(648, 368);
+            this.ucAfterCaptureTasks.TabIndex = 0;
+            // 
+            // tpRunExternalPrograms
+            // 
+            this.tpRunExternalPrograms.Controls.Add(this.btnActionsEdit);
+            this.tpRunExternalPrograms.Controls.Add(this.btnActionsRemove);
+            this.tpRunExternalPrograms.Controls.Add(this.btnActionsAdd);
+            this.tpRunExternalPrograms.Controls.Add(this.lvActions);
+            this.tpRunExternalPrograms.Location = new System.Drawing.Point(4, 22);
+            this.tpRunExternalPrograms.Name = "tpRunExternalPrograms";
+            this.tpRunExternalPrograms.Padding = new System.Windows.Forms.Padding(3);
+            this.tpRunExternalPrograms.Size = new System.Drawing.Size(654, 374);
+            this.tpRunExternalPrograms.TabIndex = 2;
+            this.tpRunExternalPrograms.Text = "External Programs";
+            this.tpRunExternalPrograms.UseVisualStyleBackColor = true;
             // 
             // btnActionsEdit
             // 
             this.btnActionsEdit.Location = new System.Drawing.Point(88, 8);
             this.btnActionsEdit.Name = "btnActionsEdit";
             this.btnActionsEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnActionsEdit.TabIndex = 7;
+            this.btnActionsEdit.TabIndex = 1;
             this.btnActionsEdit.Text = "Edit...";
             this.btnActionsEdit.UseVisualStyleBackColor = true;
             this.btnActionsEdit.Click += new System.EventHandler(this.btnActionsEdit_Click);
@@ -260,7 +198,7 @@
             this.btnActionsRemove.Location = new System.Drawing.Point(168, 8);
             this.btnActionsRemove.Name = "btnActionsRemove";
             this.btnActionsRemove.Size = new System.Drawing.Size(75, 23);
-            this.btnActionsRemove.TabIndex = 6;
+            this.btnActionsRemove.TabIndex = 2;
             this.btnActionsRemove.Text = "Remove";
             this.btnActionsRemove.UseVisualStyleBackColor = true;
             this.btnActionsRemove.Click += new System.EventHandler(this.btnActionsRemove_Click);
@@ -270,7 +208,7 @@
             this.btnActionsAdd.Location = new System.Drawing.Point(8, 8);
             this.btnActionsAdd.Name = "btnActionsAdd";
             this.btnActionsAdd.Size = new System.Drawing.Size(75, 23);
-            this.btnActionsAdd.TabIndex = 5;
+            this.btnActionsAdd.TabIndex = 0;
             this.btnActionsAdd.Text = "Add...";
             this.btnActionsAdd.UseVisualStyleBackColor = true;
             this.btnActionsAdd.Click += new System.EventHandler(this.btnActionsAdd_Click);
@@ -288,7 +226,7 @@
             this.lvActions.MultiSelect = false;
             this.lvActions.Name = "lvActions";
             this.lvActions.Size = new System.Drawing.Size(648, 331);
-            this.lvActions.TabIndex = 2;
+            this.lvActions.TabIndex = 3;
             this.lvActions.UseCompatibleStateImageBehavior = false;
             this.lvActions.View = System.Windows.Forms.View.Details;
             this.lvActions.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvActions_ItemChecked);
@@ -308,6 +246,94 @@
             this.chActionsArgs.Text = "Args";
             this.chActionsArgs.Width = 134;
             // 
+            // tpShare
+            // 
+            this.tpShare.Controls.Add(this.tableLayoutPanel1);
+            this.tpShare.Location = new System.Drawing.Point(4, 22);
+            this.tpShare.Name = "tpShare";
+            this.tpShare.Padding = new System.Windows.Forms.Padding(3);
+            this.tpShare.Size = new System.Drawing.Size(654, 374);
+            this.tpShare.TabIndex = 3;
+            this.tpShare.Text = "Share";
+            this.tpShare.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.Controls.Add(this.flpFileUploaders, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.flpImageUploaders, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.flpTextUploaders, 2, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(5, 5);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(644, 364);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // flpFileUploaders
+            // 
+            this.flpFileUploaders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpFileUploaders.Location = new System.Drawing.Point(3, 3);
+            this.flpFileUploaders.Name = "flpFileUploaders";
+            this.flpFileUploaders.Size = new System.Drawing.Size(208, 358);
+            this.flpFileUploaders.TabIndex = 0;
+            // 
+            // flpImageUploaders
+            // 
+            this.flpImageUploaders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpImageUploaders.Location = new System.Drawing.Point(217, 3);
+            this.flpImageUploaders.Name = "flpImageUploaders";
+            this.flpImageUploaders.Size = new System.Drawing.Size(208, 358);
+            this.flpImageUploaders.TabIndex = 1;
+            // 
+            // flpTextUploaders
+            // 
+            this.flpTextUploaders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpTextUploaders.Location = new System.Drawing.Point(431, 3);
+            this.flpTextUploaders.Name = "flpTextUploaders";
+            this.flpTextUploaders.Size = new System.Drawing.Size(210, 358);
+            this.flpTextUploaders.TabIndex = 2;
+            // 
+            // tpSummary
+            // 
+            this.tpSummary.Location = new System.Drawing.Point(4, 22);
+            this.tpSummary.Name = "tpSummary";
+            this.tpSummary.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSummary.Size = new System.Drawing.Size(654, 374);
+            this.tpSummary.TabIndex = 4;
+            this.tpSummary.Text = "Summary";
+            this.tpSummary.UseVisualStyleBackColor = true;
+            // 
+            // gbSettings
+            // 
+            this.gbSettings.Controls.Add(this.label1);
+            this.gbSettings.Controls.Add(this.txtTextFormat);
+            this.gbSettings.Location = new System.Drawing.Point(16, 80);
+            this.gbSettings.Name = "gbSettings";
+            this.gbSettings.Size = new System.Drawing.Size(616, 72);
+            this.gbSettings.TabIndex = 2;
+            this.gbSettings.TabStop = false;
+            this.gbSettings.Text = "Customize text uploader settings";
+            // 
+            // txtTextFormat
+            // 
+            this.txtTextFormat.Location = new System.Drawing.Point(16, 40);
+            this.txtTextFormat.Name = "txtTextFormat";
+            this.txtTextFormat.Size = new System.Drawing.Size(298, 20);
+            this.txtTextFormat.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(164, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Text format e.g. csharp, cpp, etc.";
+            // 
             // WindowWorkflow
             // 
             this.AcceptButton = this.btnOk;
@@ -324,12 +350,15 @@
             this.Name = "WindowWorkflow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "WindowWorkflow";
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
             this.tcWorkflow.ResumeLayout(false);
-            this.tpActivities.ResumeLayout(false);
-            this.tpSettings.ResumeLayout(false);
-            this.tpActions.ResumeLayout(false);
+            this.tpCapture.ResumeLayout(false);
+            this.tpCapture.PerformLayout();
+            this.tpAfterCapture.ResumeLayout(false);
+            this.tpRunExternalPrograms.ResumeLayout(false);
+            this.tpShare.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.gbSettings.ResumeLayout(false);
+            this.gbSettings.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -338,21 +367,10 @@
         #endregion
 
         private System.Windows.Forms.TextBox txtDescription;
-        private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.ListView lvActivitiesAll;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ListView lvActivitiesUser;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.TabControl tcWorkflow;
-        private System.Windows.Forms.TabPage tpActivities;
-        private System.Windows.Forms.TabPage tpSettings;
-        private System.Windows.Forms.PropertyGrid pgSettings;
-        private System.Windows.Forms.TabPage tpActions;
+        private System.Windows.Forms.TabPage tpRunExternalPrograms;
         private System.Windows.Forms.Button btnActionsEdit;
         private System.Windows.Forms.Button btnActionsRemove;
         private System.Windows.Forms.Button btnActionsAdd;
@@ -360,6 +378,20 @@
         private System.Windows.Forms.ColumnHeader chActionsName;
         private System.Windows.Forms.ColumnHeader chActionsPath;
         private System.Windows.Forms.ColumnHeader chActionsArgs;
+        private System.Windows.Forms.TabPage tpAfterCapture;
+        private UserControls.AfterCatureTasksUI ucAfterCaptureTasks;
+        private System.Windows.Forms.TabPage tpSummary;
+        private System.Windows.Forms.ComboBox cboCapture;
+        private System.Windows.Forms.TabPage tpCapture;
+        private System.Windows.Forms.CheckBox chkPerformGlobalAfterCaptureTasks;
+        private System.Windows.Forms.TabPage tpShare;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel flpFileUploaders;
+        private System.Windows.Forms.FlowLayoutPanel flpImageUploaders;
+        private System.Windows.Forms.FlowLayoutPanel flpTextUploaders;
+        private System.Windows.Forms.GroupBox gbSettings;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtTextFormat;
 
     }
 }

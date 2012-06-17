@@ -175,6 +175,49 @@ namespace HelpersLib
         Nothing
     }
 
+    /// <summary>
+    /// This Enum must not be restructured. New items must append at the end to avoid mapping to the wrong item.
+    /// </summary>
+    [Flags]
+    [TypeConverter(typeof(EnumToStringUsingDescription))]
+    public enum Subtask
+    {
+        None = 2 << 0,
+
+        [Description("Annotate image"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
+        AnnotateImage = 2 << 1,
+
+        [Description("Add torn paper effect"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
+        AnnotateImageAddTornEffect = 2 << 2,
+
+        [Description("Add shadow border"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
+        AnnotateImageAddShadowBorder = 2 << 3,
+
+        [Description("Add watermark"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
+        AddWatermark = 2 << 4,
+
+        [Description("Open with Image Effects Studio"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
+        ShowImageEffectsStudio = 2 << 5,
+
+        [Description("Copy image to clipboard"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        CopyImageToClipboard = 2 << 6,
+
+        [Description("Save to file"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        SaveToFile = 2 << 7,
+
+        [Description("Upload to default remote host"), Category(ComponentModelStrings.ActivitiesUploaders)]
+        UploadToDefaultRemoteHost = 2 << 8,
+
+        [Description("Save to file with dialog"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        SaveImageToFileWithDialog = 2 << 9,
+
+        [Description("Send to printer"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        Print = 2 << 10,
+
+        [Description("Run external program"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        RunExternalProgram = 2 << 11,
+    }
+
     public enum HotkeyStatus
     {
         Registered, Failed, NotConfigured

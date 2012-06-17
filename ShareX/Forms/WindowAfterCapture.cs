@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using HelpersLib;
+using HelpersLib.Hotkeys2;
 using ShareX.Properties;
 
 namespace ShareX
@@ -22,7 +23,7 @@ namespace ShareX
 
             Config = config;
 
-            var taskImageJobs = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new
+            var tasks = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new
             {
                 Description = x.GetDescription(),
                 Enum = x
@@ -31,7 +32,7 @@ namespace ShareX
             int maxWidth = 0;
             int yGap = 8;
 
-            foreach (var job in taskImageJobs)
+            foreach (var job in tasks)
             {
                 switch (job.Enum)
                 {

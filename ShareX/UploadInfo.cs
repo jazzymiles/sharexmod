@@ -26,6 +26,7 @@
 using System;
 using System.IO;
 using HelpersLib;
+using HelpersLib.Hotkeys2;
 using HistoryLib;
 using ShareX.HelperClasses;
 using UploadersLib;
@@ -36,12 +37,17 @@ namespace ShareX
     public class UploadInfo
     {
         public int ID { get; set; }
+
         public string Status { get; set; }
+
         public TaskJob Job { get; set; }
+
         public Subtask Jobs { get; set; }
+
         public ProgressManager Progress { get; set; }
 
         private string _filePath;
+
         public string FilePath
         {
             get
@@ -56,11 +62,15 @@ namespace ShareX
         }
 
         public string FolderPath { get; set; }
+
         public string FileName { get; set; }
+
         public EDataType DataType { get; set; }
+
         public EDataType UploadDestination { get; set; }
 
         private string _destination;
+
         public string Destination
         {
             get
@@ -102,7 +112,7 @@ namespace ShareX
         public UploadInfo()
         {
             Result = new UploadResult();
-            Jobs = Subtask.UploadImageToHost;
+            Jobs = Subtask.UploadToDefaultRemoteHost;
         }
 
         public HistoryItem GetHistoryItem()

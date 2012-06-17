@@ -10,8 +10,8 @@ namespace ShareX.HelperClasses
 {
     public class AfterCaptureActivity
     {
-        public Subtask Subtasks { get; set; }
         public EInputType InputType { get; set; }
+
         public Workflow Workflow = new Workflow();
 
         public static bool IsNullOrEmpty(AfterCaptureActivity act)
@@ -28,7 +28,7 @@ namespace ShareX.HelperClasses
         {
             AfterCaptureActivity act = new AfterCaptureActivity();
             act.Workflow = new Workflow();
-            act.Subtasks = SettingsManager.ConfigCore.AfterCaptureSubtasks;
+            act.Workflow.Subtasks = SettingsManager.ConfigCore.AfterCaptureTasks;
             act.GetDefaults();
 
             return act;
@@ -48,7 +48,7 @@ namespace ShareX.HelperClasses
 
         internal void GetDefaults()
         {
-            if (this.Subtasks.HasFlag(Subtask.UploadImageToHost))
+            if (this.Workflow.Subtasks.HasFlag(Subtask.UploadToDefaultRemoteHost))
             {
                 if (this.Workflow.Settings.DestConfig.ImageUploaders.Count == 0)
                     this.Workflow.Settings.DestConfig.ImageUploaders.Add(UploadManager.ImageUploader);
@@ -62,8 +62,8 @@ namespace ShareX.HelperClasses
             // if (this.Uploaders.LinkUploaders.Count == 0)
             //     this.Uploaders.LinkUploaders.Add(UploadManager.URLShortener);
 
-            if (this.Subtasks == Subtask.None)
-                this.Subtasks = SettingsManager.ConfigCore.AfterCaptureSubtasks;
+            if (this.Workflow.Subtasks == Subtask.None)
+                this.Workflow.Subtasks = SettingsManager.ConfigCore.AfterCaptureTasks;
         }
     }
 }

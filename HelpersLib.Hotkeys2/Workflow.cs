@@ -12,7 +12,9 @@ namespace HelpersLib.Hotkeys2
     {
         public EHotkey Hotkey = EHotkey.FullScreen;
         public HotkeySetting HotkeyConfig = new HotkeySetting();
-        public List<EActivity> ActivitiesBeta = new List<EActivity>();
+
+        public Subtask Subtasks = Subtask.None;
+
         public WorkflowSettings Settings = new WorkflowSettings();
 
         public Workflow()

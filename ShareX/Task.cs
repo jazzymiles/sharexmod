@@ -189,7 +189,9 @@ namespace ShareX
             get
             {
                 return SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.RemoteHost) &&
-                    Info.Jobs.HasFlag(Subtask.UploadImageToHost);
+                    Info.Jobs.HasFlag(Subtask.UploadToDefaultRemoteHost) ||
+                    Workflow.Settings.PerformGlobalAfterCaptureTasks &&
+                    SettingsManager.ConfigCore.AfterCaptureTasks.HasFlag(Subtask.UploadToDefaultRemoteHost);
             }
         }
 
@@ -287,14 +289,14 @@ namespace ShareX
             {
                 DoBeforeImagePreparedJobs();
 
-                if (Info.Jobs.HasFlagAny(Subtask.UploadImageToHost, Subtask.SaveImageToFile,
+                if (Info.Jobs.HasFlagAny(Subtask.UploadToDefaultRemoteHost, Subtask.SaveToFile,
                     Subtask.SaveImageToFileWithDialog))
                 {
                     imageData.PrepareImageAndFilename();
 
                     Info.FileName = imageData.Filename;
 
-                    if (Info.Jobs.HasFlag(Subtask.SaveImageToFile))
+                    if (Info.Jobs.HasFlag(Subtask.SaveToFile))
                     {
                         Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
                     }
@@ -306,7 +308,7 @@ namespace ShareX
                             Info.FilePath = fp;
                     }
 
-                    if (Workflow.ActivitiesBeta.Contains(EActivity.RunExternalProgram))
+                    if (Workflow.Subtasks.HasFlag(Subtask.RunExternalProgram))
                     {
                         var actions = Workflow.Settings.ExternalPrograms.Where(x => x.IsActive);
                         if (actions.Count() > 0)
