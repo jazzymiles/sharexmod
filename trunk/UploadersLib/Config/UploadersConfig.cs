@@ -272,44 +272,41 @@ namespace UploadersLib
 
         public void CryptPasswords(bool doEncrypt)
         {
-            lock (thisLock)
+            bool isEncrypted = TestPassword != "password";
+
+            if (doEncrypt && isEncrypted || !doEncrypt && !isEncrypted)
             {
-                bool isEncrypted = TestPassword != "password";
+                // ensure encrupted passwords are not encrypted again or decrypted passwords are not decrypted again
 
-                if (doEncrypt && isEncrypted || !doEncrypt && !isEncrypted)
-                {
-                    // ensure encrupted passwords are not encrypted again or decrypted passwords are not decrypted again
-
-                    return;
-                }
-
-                DebugHelper.WriteLine((doEncrypt ? "Encrypting " : "Decrypting") + " passwords.");
-
-                CryptKeys crypt = new CryptKeys() { KeySize = this.PasswordsEncryptionStrength };
-
-                this.TestPassword = doEncrypt ? crypt.Encrypt(TestPassword) : crypt.Decrypt(TestPassword);
-
-                this.TinyPicPassword = doEncrypt ? crypt.Encrypt(TinyPicPassword) : crypt.Decrypt(TinyPicPassword);
-
-                this.PastebinSettings.Password = doEncrypt ? crypt.Encrypt(this.PastebinSettings.Password) : crypt.Decrypt(this.PastebinSettings.Password);
-
-                this.RapidSharePassword = doEncrypt ? crypt.Encrypt(this.RapidSharePassword) : crypt.Decrypt(this.RapidSharePassword);
-
-                this.SendSpacePassword = doEncrypt ? crypt.Encrypt(this.SendSpacePassword) : crypt.Decrypt(this.SendSpacePassword);
-
-                foreach (FTPAccount acc in this.FTPAccountList)
-                {
-                    acc.Password = doEncrypt ? crypt.Encrypt(acc.Password) : crypt.Decrypt(acc.Password);
-                    acc.Passphrase = doEncrypt ? crypt.Encrypt(acc.Passphrase) : crypt.Decrypt(acc.Passphrase);
-                }
-
-                foreach (LocalhostAccount acc in this.LocalhostAccountList)
-                {
-                    acc.Password = doEncrypt ? crypt.Encrypt(acc.Password) : crypt.Decrypt(acc.Password);
-                }
-
-                this.EmailPassword = doEncrypt ? crypt.Encrypt(this.EmailPassword) : crypt.Decrypt(this.EmailPassword);
+                return;
             }
+
+            DebugHelper.WriteLine((doEncrypt ? "Encrypting " : "Decrypting") + " passwords.");
+
+            CryptKeys crypt = new CryptKeys() { KeySize = this.PasswordsEncryptionStrength };
+
+            this.TestPassword = doEncrypt ? crypt.Encrypt(TestPassword) : crypt.Decrypt(TestPassword);
+
+            this.TinyPicPassword = doEncrypt ? crypt.Encrypt(TinyPicPassword) : crypt.Decrypt(TinyPicPassword);
+
+            this.PastebinSettings.Password = doEncrypt ? crypt.Encrypt(this.PastebinSettings.Password) : crypt.Decrypt(this.PastebinSettings.Password);
+
+            this.RapidSharePassword = doEncrypt ? crypt.Encrypt(this.RapidSharePassword) : crypt.Decrypt(this.RapidSharePassword);
+
+            this.SendSpacePassword = doEncrypt ? crypt.Encrypt(this.SendSpacePassword) : crypt.Decrypt(this.SendSpacePassword);
+
+            foreach (FTPAccount acc in this.FTPAccountList)
+            {
+                acc.Password = doEncrypt ? crypt.Encrypt(acc.Password) : crypt.Decrypt(acc.Password);
+                acc.Passphrase = doEncrypt ? crypt.Encrypt(acc.Passphrase) : crypt.Decrypt(acc.Passphrase);
+            }
+
+            foreach (LocalhostAccount acc in this.LocalhostAccountList)
+            {
+                acc.Password = doEncrypt ? crypt.Encrypt(acc.Password) : crypt.Decrypt(acc.Password);
+            }
+
+            this.EmailPassword = doEncrypt ? crypt.Encrypt(this.EmailPassword) : crypt.Decrypt(this.EmailPassword);
         }
 
         public int GetFtpIndex(EDataType dataType)
@@ -361,11 +358,14 @@ namespace UploadersLib
 
         public override bool Save(string filePath)
         {
-            bool result;
-            if (PasswordsSecureUsingEncryption) CryptPasswords(true);
-            result = base.Save(filePath);
-            if (PasswordsSecureUsingEncryption) CryptPasswords(false);
-            return result;
+            lock (thisLock)
+            {
+                bool result;
+                if (PasswordsSecureUsingEncryption) CryptPasswords(true);
+                result = base.Save(filePath);
+                if (PasswordsSecureUsingEncryption) CryptPasswords(false);
+                return result;
+            }
         }
 
         #endregion I/O Methods

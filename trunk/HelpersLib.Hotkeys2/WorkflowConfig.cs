@@ -175,6 +175,7 @@ namespace HelpersLib.Hotkeys2
         {
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.Workflow.Settings.DestConfig.TextFormat = txtTextFormat.Text;
+            this.Workflow.Subtasks &= ~Subtask.None;
             this.Close();
         }
 
@@ -373,13 +374,9 @@ namespace HelpersLib.Hotkeys2
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(cboCapture.Text);
 
-            if (Workflow.Settings.PerformGlobalAfterCaptureTasks)
+            if (Workflow.Subtasks != Subtask.None)
             {
-                sb.AppendLine("Perform global After Capture Tasks.");
-            }
-            else if (Workflow.Subtasks != Subtask.None)
-            {
-                sb.AppendLine("Customize After Capture Tasks:");
+                sb.AppendLine("Perform custom After Capture Tasks:");
                 var tasks = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new
                 {
                     Description = x.GetDescription(),
@@ -402,6 +399,11 @@ namespace HelpersLib.Hotkeys2
                         }
                     }
                 }
+            }
+
+            if (Workflow.Settings.PerformGlobalAfterCaptureTasks)
+            {
+                sb.AppendLine("Perform global After Capture Tasks");
             }
 
             if (Workflow.Settings.DestConfig.FileUploaders.Count > 0)

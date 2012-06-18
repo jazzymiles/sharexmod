@@ -270,7 +270,8 @@ namespace ShareX
                 {
                     Info.Result.Errors.Add("URL is empty.");
                 }
-                else if (SettingsManager.ConfigCore.URLShortenAfterUpload || Info.Job == TaskJob.ShortenURL || Workflow.Settings.DestConfig.LinkUploaders.Count > 0)
+                else if (Workflow.Subtasks.HasFlag(Subtask.ShortenUrl) ||
+                    SettingsManager.ConfigCore.URLShortenAfterUpload || Info.Job == TaskJob.ShortenURL)
                 {
                     Info.Result.ShortenedURL = ShortenURL(Info.Result.URL);
                 }

@@ -67,6 +67,7 @@ namespace ShareX
             uploaderConfig.ShowDialog();
             uploaderConfig.Activate();
 
+            SettingsManager.SaveUploadersConfigAsync();
             Main.AfterUploadersConfigClosed();
             DropboxSyncHelper.SaveAsync();
         }

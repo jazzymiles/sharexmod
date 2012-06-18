@@ -24,6 +24,7 @@
 #endregion License Information (GPL v3)
 
 using System.ComponentModel;
+using HelpersLib.Cryptography;
 
 namespace UploadersLib
 {
@@ -81,10 +82,10 @@ namespace UploadersLib
         #region File Uploaders
 
         [Category("Dropbox"), DefaultValue(ApiKeys.DropboxConsumerKey), Description("Dropbox Consumer Key")]
-        public string DropboxConsumerKey { get; set; }
+        public string DropboxConsumerKey { get { return CryptHelper.Decrypt(ApiKeys.DropboxConsumerKey); } }
 
         [Category("Dropbox"), DefaultValue(ApiKeys.DropboxConsumerSecret), Description("Dropbox Consumer Secret")]
-        public string DropboxConsumerSecret { get; set; }
+        public string DropboxConsumerSecret { get { return CryptHelper.Decrypt(ApiKeys.DropboxConsumerSecret); } }
 
         [Category("Box"), DefaultValue(ApiKeys.BoxKey), Description("Box Key")]
         public string BoxKey { get; set; }

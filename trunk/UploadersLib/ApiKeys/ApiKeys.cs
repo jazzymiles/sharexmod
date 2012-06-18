@@ -29,6 +29,7 @@ namespace UploadersLib
     {
         // Image Uploaders
         public const string ImageShackKey = "025NOQXYf0bda57b2c9dbb88d1891870306be674";
+
         public const string TinyPicID = "e2aabb8d555322fa";
         public const string TinyPicKey = "00a68ed73ddd54da52dc2d5803fa35ee";
         public const string ImgurAnonymousKey = "af2fde9818ae53e7670ab52fb8ade644";
@@ -45,8 +46,9 @@ namespace UploadersLib
         public const string TwitPicKey = "816528c0152003a64e45402370805a5a";
 
         // File Uploaders
-        public const string DropboxConsumerKey = "0te7j9ype9lrdfn";
-        public const string DropboxConsumerSecret = "r5d3aptd9a0cwp9";
+        public const string DropboxConsumerKey = "K+ty3IeOFN82iiNNILH1ng==";
+
+        public const string DropboxConsumerSecret = "PiqU2m7C2ESZG421YKTJqg==";
         public const string MinusConsumerKey = "b57b69843f7a302a276dde89890fc6";
         public const string MinusConsumerSecret = "3fb097f08314d713959b1f41d543b0";
         public const string BoxKey = "5vd8549xmn9a7zil4iupb0ciroj7cvee";
@@ -55,10 +57,12 @@ namespace UploadersLib
 
         // Text Uploaders
         public const string PastebinKey = "4b23be71ec78bbd4fb96735320aa09ef";
+
         public const string PastebinCaKey = "KxTofLKQThSBZ63Gpa7hYLlMdyQlMD6u";
 
         // URL Shorteners
         public const string BitlyLogin = "jaex";
+
         public const string BitlyKey = "R_1734f57b772acb3c048eb2365075743b";
         public const string BitlyConsumerKey = "91e5a02e001ada9c1122f54d73bc442d9cc2a7ab";
         public const string BitlyConsumerSecret = "fe5f906b5f5e8114d5c266a709a9438c94e1cd3f";
@@ -69,6 +73,7 @@ namespace UploadersLib
 
         // Other Services
         public const string TwitterConsumerKey = "Jzzcm6ytcyml14sQIvqvmA";
+
         public const string TwitterConsumerSecret = "aJYZ9W1gJnGMgSqhRYrvoUyUc14FssVJOFAqHjriU";
         public const string GoogleApiKey = "AIzaSyCcYJvYPvS3UE0JqqsSNpjPjN1NPBmMbmE";
         public const string PicnikKey = "3aacd2de4563b8817de708b29b5bdd0e";
