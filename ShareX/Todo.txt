@@ -1,1 +1,1 @@
-﻿Remove EActivity items for EHotkey and use EHotkey
+﻿Support URL Shorteners and Social Networking services in Workflow Config

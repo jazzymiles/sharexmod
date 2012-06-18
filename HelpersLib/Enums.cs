@@ -182,40 +182,46 @@ namespace HelpersLib
     [TypeConverter(typeof(EnumToStringUsingDescription))]
     public enum Subtask
     {
-        None = 2 << 0,
+        None = 1 << 0,
 
         [Description("Annotate image"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
-        AnnotateImage = 2 << 1,
+        AnnotateImage = 1 << 1,
 
         [Description("Add torn paper effect"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
-        AnnotateImageAddTornEffect = 2 << 2,
+        AnnotateImageAddTornEffect = 1 << 2,
 
         [Description("Add shadow border"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
-        AnnotateImageAddShadowBorder = 2 << 3,
+        AnnotateImageAddShadowBorder = 1 << 3,
 
         [Description("Add watermark"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
-        AddWatermark = 2 << 4,
+        AddWatermark = 1 << 4,
 
         [Description("Open with Image Effects Studio"), Category(ComponentModelStrings.ActivitiesAfterCaptureEffects)]
-        ShowImageEffectsStudio = 2 << 5,
+        ShowImageEffectsStudio = 1 << 5,
 
         [Description("Copy image to clipboard"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        CopyImageToClipboard = 2 << 6,
+        CopyImageToClipboard = 1 << 6,
 
         [Description("Save to file"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        SaveToFile = 2 << 7,
+        SaveToFile = 1 << 7,
 
         [Description("Save to file with dialog"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        SaveImageToFileWithDialog = 2 << 8,
+        SaveImageToFileWithDialog = 1 << 8,
 
         [Description("Run external program"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        RunExternalProgram = 2 << 9,
+        RunExternalProgram = 1 << 9,
 
         [Description("Upload to default remote host"), Category(ComponentModelStrings.ActivitiesUploaders)]
-        UploadToDefaultRemoteHost = 2 << 10,
+        UploadToDefaultRemoteHost = 1 << 10,
+
+        [Description("Shorten URL"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        ShortenUrl = 1 << 11,
 
         [Description("Send to printer"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        Print = 2 << 11,
+        Print = 1 << 12,
+
+        [Description("Post to default social networking service"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        Post = 1 << 13,
     }
 
     public enum HotkeyStatus
