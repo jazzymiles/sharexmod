@@ -137,10 +137,13 @@ namespace ShareX
         [Category(ComponentModelStrings.FileNaming), DefaultValue(100), Description("Maximum file name length")]
         public int MaxFilenameLength { get; set; }
 
+        [Category(ComponentModelStrings.URLShortener), DefaultValue(0), Description("Length at which the URL uses the URL shortener.")]
+        public int ShortenURLLegnth { get; set; }
+
         [Category(ComponentModelStrings.AppPasswords), DefaultValue(true), Description("Encrypt passwords using AES")]
         public bool PasswordsSecureUsingEncryption { get; set; }
 
-        [Browsable(false), Category(ComponentModelStrings.AppPasswords), DefaultValue(EncryptionStrength.High), Description("Strength can be Low = 128, Medium = 192, or High = 256")]
+        [Browsable(false), Category(ComponentModelStrings.AppPasswords), DefaultValue(EncryptionStrength.High), Description("Strength can be Low = 12,8 Medium = 192, or High = 256")]
         public EncryptionStrength PasswordsEncryptionStrength { get; set; }
 
         [Browsable(false), Category(ComponentModelStrings.AppPasswords), DefaultValue("password"), Description("If this SamplePassword displayed as 'password' then configuration is not encrypted.")]

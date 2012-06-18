@@ -67,6 +67,7 @@ namespace ShareX
             this.uploadFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showInWindowsExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewInFullscreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiUpload = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiContextMenuShare = new System.Windows.Forms.ToolStripMenuItem();
             this.tsMain = new System.Windows.Forms.ToolStrip();
@@ -170,11 +171,12 @@ namespace ShareX
             this.uploadFileToolStripMenuItem,
             this.stopUploadToolStripMenuItem,
             this.showInWindowsExplorerToolStripMenuItem,
+            this.viewInFullscreenToolStripMenuItem,
             this.tsmiUpload,
             this.tsmiContextMenuShare});
             this.cmsUploads.Name = "cmsUploads";
             this.cmsUploads.ShowItemToolTips = false;
-            this.cmsUploads.Size = new System.Drawing.Size(223, 312);
+            this.cmsUploads.Size = new System.Drawing.Size(223, 334);
             // 
             // openURLToolStripMenuItem
             // 
@@ -256,6 +258,14 @@ namespace ShareX
             this.showInWindowsExplorerToolStripMenuItem.Text = "Show in Windows Explorer...";
             this.showInWindowsExplorerToolStripMenuItem.Visible = false;
             this.showInWindowsExplorerToolStripMenuItem.Click += new System.EventHandler(this.showInWindowsExplorerToolStripMenuItem_Click);
+            // 
+            // viewInFullscreenToolStripMenuItem
+            // 
+            this.viewInFullscreenToolStripMenuItem.Image = global::ShareX.Properties.Resources.Fullscreen;
+            this.viewInFullscreenToolStripMenuItem.Name = "viewInFullscreenToolStripMenuItem";
+            this.viewInFullscreenToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.viewInFullscreenToolStripMenuItem.Text = "View in Fullscreen";
+            this.viewInFullscreenToolStripMenuItem.Click += new System.EventHandler(this.viewInFullscreenToolStripMenuItem_Click);
             // 
             // tsmiUpload
             // 
@@ -1094,5 +1104,6 @@ namespace ShareX
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripDropDownButton tsddbShare;
         private System.Windows.Forms.ToolStripMenuItem tsmiContextMenuShare;
+        private System.Windows.Forms.ToolStripMenuItem viewInFullscreenToolStripMenuItem;
     }
 }
