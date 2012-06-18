@@ -42,6 +42,7 @@ namespace UploadersLib
         public List<TextDestination> TextUploaders = new List<TextDestination>();
         public List<FileDestination> FileUploaders = new List<FileDestination>();
         public List<UrlShortenerType> LinkUploaders = new List<UrlShortenerType>();
+        public List<SocialNetworkingService> SocialNetworkingServices = new List<SocialNetworkingService>();
 
         [Category(ComponentModelStrings.ActivitiesUploadersText), DefaultValue("text"), Description("Text format e.g. csharp, cpp, etc.")]
         public string TextFormat { get; set; }
@@ -188,6 +189,11 @@ namespace UploadersLib
         public string ToStringLinkUploaders()
         {
             return ToString<UrlShortenerType>(LinkUploaders);
+        }
+
+        public string ToStringSocialNetworkingServices()
+        {
+            return ToString<SocialNetworkingService>(SocialNetworkingServices);
         }
     }
 }

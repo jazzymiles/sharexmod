@@ -281,14 +281,13 @@ namespace ShareX
 
         #endregion Drag n Drop
 
-        public static void Post(SocialNetworkingService sns)
+        public static void ShareUsingSocialNetworkingService(UploadResult result, AfterCaptureActivity act = null)
         {
-            switch (sns)
-            {
-                case UploadersLib.SocialNetworkingService.Twitter:
+            AfterCaptureActivity.Prepare(ref act);
 
-                    break;
-            }
+            Task task = Task.CreatePostToSocialNetworkingServiceTask(result);
+            task.SetWorkflow(act.Workflow);
+            StartUpload(task);
         }
 
         public static void UploadStream(Stream stream, string filePath, AfterCaptureActivity act = null, EDataType dataType = EDataType.File)
@@ -528,7 +527,7 @@ namespace ShareX
                                 FormsHelper.Main.niTray.ShowBalloonTip(5000, "ShareX - Upload completed", url, ToolTipIcon.Info);
                             }
 
-                            if (SettingsManager.ConfigCore.ShowClipboardOptionsWizard)
+                            if (SettingsManager.ConfigCore.ShowClipboardOptionsWizard && info.Job != TaskJob.ShareURL)
                             {
                                 WindowAfterUpload dlg = new WindowAfterUpload(info) { Icon = Resources.ShareX };
                                 NativeMethods.ShowWindow(dlg.Handle, (int)WindowShowStyle.ShowNoActivate);

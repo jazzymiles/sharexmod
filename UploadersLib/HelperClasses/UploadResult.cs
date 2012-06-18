@@ -78,6 +78,16 @@ namespace UploadersLib.HelperClasses
             URL = url;
         }
 
+        public override string ToString()
+        {
+            if (!string.IsNullOrEmpty(ShortenedURL))
+            {
+                return ShortenedURL;
+            }
+
+            return URL;
+        }
+
         #region Links
 
         public string GetUrlByType(LinkFormatEnum type, string longUrl)

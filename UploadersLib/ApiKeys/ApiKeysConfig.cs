@@ -145,10 +145,10 @@ namespace UploadersLib
         #region Other Services
 
         [Category("Twitter"), DefaultValue(ApiKeys.TwitterConsumerKey), Description("Twitter Consumer Secret")]
-        public string TwitterConsumerKey { get; set; }
+        public string TwitterConsumerKey { get { return CryptHelper.Decrypt(ApiKeys.TwitterConsumerKey); } }
 
         [Category("Twitter"), DefaultValue(ApiKeys.TwitterConsumerSecret), Description("Twitter Consumer Secret")]
-        public string TwitterConsumerSecret { get; set; }
+        public string TwitterConsumerSecret { get { return CryptHelper.Decrypt(ApiKeys.TwitterConsumerSecret); } }
 
         [Category("Google"), DefaultValue(ApiKeys.GoogleApiKey), Description("Google API Key")]
         public string GoogleApiKey { get; set; }

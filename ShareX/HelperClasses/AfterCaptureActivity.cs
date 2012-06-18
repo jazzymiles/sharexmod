@@ -56,6 +56,8 @@ namespace ShareX.HelperClasses
                     this.Workflow.Settings.DestConfig.TextUploaders.Add(UploadManager.TextUploader);
                 if (this.Workflow.Settings.DestConfig.FileUploaders.Count == 0)
                     this.Workflow.Settings.DestConfig.FileUploaders.Add(UploadManager.FileUploader);
+                if (this.Workflow.Settings.DestConfig.SocialNetworkingServices.Count == 0)
+                    this.Workflow.Settings.DestConfig.SocialNetworkingServices.Add(UploadManager.SocialNetworkingService);
             }
 
             // LinkUploaders are only added if they are empty at ShortenURL method

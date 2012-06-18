@@ -274,7 +274,7 @@ namespace ShareX
             this.tsmiUpload.Size = new System.Drawing.Size(222, 22);
             this.tsmiUpload.Text = "Upload";
             this.tsmiUpload.Visible = false;
-            this.tsmiUpload.Click += new System.EventHandler(this.shareToolStripMenuItem_Click);
+            this.tsmiUpload.Click += new System.EventHandler(this.tsmiContextMenuUpload_Click);
             // 
             // tsmiContextMenuShare
             // 
