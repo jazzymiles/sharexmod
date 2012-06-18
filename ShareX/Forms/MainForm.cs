@@ -25,6 +25,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -282,7 +283,8 @@ namespace ShareX
             tsbCopy.Enabled = tsbOpen.Enabled = copyURLToolStripMenuItem.Visible = openURLToolStripMenuItem.Visible =
                 copyShortenedURLToolStripMenuItem.Visible = copyThumbnailURLToolStripMenuItem.Visible = copyDeletionURLToolStripMenuItem.Visible =
                 showErrorsToolStripMenuItem.Visible = copyErrorsToolStripMenuItem.Visible = showResponseToolStripMenuItem.Visible =
-                uploadFileToolStripMenuItem.Visible = stopUploadToolStripMenuItem.Visible = false;
+                uploadFileToolStripMenuItem.Visible = stopUploadToolStripMenuItem.Visible = viewInFullscreenToolStripMenuItem.Visible = 
+                tsmiContextMenuShare.Visible = false;
 
             int itemsCount = lvUploads.SelectedItems.Count;
 
@@ -332,7 +334,8 @@ namespace ShareX
                         showResponseToolStripMenuItem.Visible = true;
                     }
 
-                    showInWindowsExplorerToolStripMenuItem.Visible = File.Exists(result.LocalFilePath);
+                    showInWindowsExplorerToolStripMenuItem.Visible = tsmiContextMenuShare.Visible = File.Exists(result.LocalFilePath);
+                    viewInFullscreenToolStripMenuItem.Visible = (lvUploads.View == View.LargeIcon || lvUploads.View == View.Tile || lvUploads.View == View.SmallIcon);
                     tsmiUpload.Visible = File.Exists(result.LocalFilePath);
                 }
 
@@ -802,6 +805,18 @@ namespace ShareX
                     {
                         Workflow = new Workflow() { Subtasks = Subtask.UploadToDefaultRemoteHost }
                     });
+                }
+            }
+        }
+
+        private void viewInFullscreenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UploadResult result = lvUploads.SelectedItems[0].Tag as UploadResult;
+            if (File.Exists(result.LocalFilePath))
+            {
+                using (ImageViewer viewer = new ImageViewer(Image.FromFile(result.LocalFilePath)))
+                {
+                    viewer.ShowDialog();
                 }
             }
         }
