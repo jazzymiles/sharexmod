@@ -211,8 +211,8 @@ namespace HelpersLib
         [Description("Run external program"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         RunExternalProgram = 1 << 9,
 
-        [Description("Upload to default remote host"), Category(ComponentModelStrings.ActivitiesUploaders)]
-        UploadToDefaultRemoteHost = 1 << 10,
+        [Description("Upload to remote host"), Category(ComponentModelStrings.ActivitiesUploaders)]
+        UploadToRemoteHost = 1 << 10,
 
         [Description("Shorten URL"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         ShortenUrl = 1 << 11,
@@ -220,7 +220,7 @@ namespace HelpersLib
         [Description("Send to printer"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         Print = 1 << 12,
 
-        [Description("Post to a social networking service"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        [Description("Post to social networking service"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         ShareUsingSocialNetworkingService = 1 << 13,
     }
 

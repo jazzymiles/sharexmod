@@ -362,7 +362,7 @@ namespace ShareX
 
         private static void ChangeListViewItemStatus(UploadInfo info)
         {
-            if (ListViewControl != null && info.Jobs.HasFlag(Subtask.UploadToDefaultRemoteHost))
+            if (ListViewControl != null && info.Jobs.HasFlag(Subtask.UploadToRemoteHost))
             {
                 ListViewItem lvi = ListViewControl.Items[info.ID];
                 lvi.SubItems[1].Text = info.Status;
@@ -394,7 +394,7 @@ namespace ShareX
                             continue;
                     }
 
-                    if (info.Jobs.HasFlag(Subtask.UploadToDefaultRemoteHost))
+                    if (info.Jobs.HasFlag(Subtask.UploadToRemoteHost))
                     {
                         lvi.SubItems.Add(info.Destination);
                         break;

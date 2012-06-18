@@ -91,7 +91,7 @@ namespace ShareX
         public bool CaptureTransparent = true;
         public bool CaptureShadow = true;
         public OutputEnum Outputs = OutputEnum.Clipboard | OutputEnum.LocalDisk | OutputEnum.RemoteHost;
-        public Subtask AfterCaptureTasks = Subtask.CopyImageToClipboard | Subtask.SaveToFile | Subtask.UploadToDefaultRemoteHost;
+        public Subtask AfterCaptureTasks = Subtask.CopyImageToClipboard | Subtask.SaveToFile | Subtask.UploadToRemoteHost;
         public string SaveImageSubFolderPattern = "%y-%mo";
         public SurfaceOptions SurfaceOptions = new SurfaceOptions() { QuickCrop = true, IncludeControls = true };
 

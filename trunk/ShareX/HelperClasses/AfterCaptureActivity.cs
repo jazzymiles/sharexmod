@@ -48,7 +48,7 @@ namespace ShareX.HelperClasses
 
         internal void GetDefaults()
         {
-            if (this.Workflow.Subtasks.HasFlag(Subtask.UploadToDefaultRemoteHost))
+            if (this.Workflow.Subtasks.HasFlag(Subtask.UploadToRemoteHost))
             {
                 if (this.Workflow.Settings.DestConfig.ImageUploaders.Count == 0)
                     this.Workflow.Settings.DestConfig.ImageUploaders.Add(UploadManager.ImageUploader);

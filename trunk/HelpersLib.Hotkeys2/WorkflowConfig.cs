@@ -127,14 +127,13 @@ namespace HelpersLib.Hotkeys2
                 flpSocialNetworkingServices.Controls.Add(rbUploader);
             }
 
-            if (Workflow.Subtasks.HasFlag(Subtask.UploadToDefaultRemoteHost) ||
-                Workflow.Settings.PerformGlobalAfterCaptureTasks)
+            if (Workflow.Subtasks.HasFlag(Subtask.UploadToRemoteHost) || Workflow.Settings.PerformGlobalAfterCaptureTasks)
             {
-                HideTabShare();
+                ShowTabUploadAndShare();
             }
             else
             {
-                ShowTabUploadAndShare();
+                HideTabUploadAndShare();
             }
 
             #endregion Share
@@ -150,15 +149,15 @@ namespace HelpersLib.Hotkeys2
                 Workflow.Subtasks |= task;
                 if (task == Subtask.RunExternalProgram)
                     ShowTabRunExternalPrograms();
-                else if (task == Subtask.UploadToDefaultRemoteHost)
-                    HideTabShare();
+                else if (task == Subtask.UploadToRemoteHost)
+                    HideTabUploadAndShare();
             }
             else
             {
                 Workflow.Subtasks &= ~task;
                 if (task == Subtask.RunExternalProgram)
                     HideTabRunExternalPrograms();
-                else if (task == Subtask.UploadToDefaultRemoteHost)
+                else if (task == Subtask.UploadToRemoteHost)
                     ShowTabUploadAndShare();
             }
         }
@@ -362,7 +361,7 @@ namespace HelpersLib.Hotkeys2
             }
         }
 
-        private void HideTabShare()
+        private void HideTabUploadAndShare()
         {
             Workflow.Settings.Clear();
             if (tcWorkflow.TabPages.Contains(tpUpload))
@@ -449,7 +448,7 @@ namespace HelpersLib.Hotkeys2
                             }
                         }
 
-                        else if (task.Enum.HasFlag(Subtask.UploadToDefaultRemoteHost))
+                        else if (task.Enum.HasFlag(Subtask.UploadToRemoteHost))
                         {
                             foreach (FileDestination uploader in Workflow.Settings.DestConfig.FileUploaders)
                             {

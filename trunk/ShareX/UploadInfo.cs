@@ -115,7 +115,7 @@ namespace ShareX
         public UploadInfo()
         {
             Result = new UploadResult();
-            Jobs = Subtask.UploadToDefaultRemoteHost;
+            Jobs = Subtask.UploadToRemoteHost;
         }
 
         public HistoryItem GetHistoryItem()

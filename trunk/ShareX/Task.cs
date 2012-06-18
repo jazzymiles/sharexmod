@@ -197,9 +197,9 @@ namespace ShareX
             get
             {
                 return SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.RemoteHost) &&
-                    Info.Jobs.HasFlag(Subtask.UploadToDefaultRemoteHost) ||
+                    Info.Jobs.HasFlag(Subtask.UploadToRemoteHost) ||
                     Workflow.Settings.PerformGlobalAfterCaptureTasks &&
-                    SettingsManager.ConfigCore.AfterCaptureTasks.HasFlag(Subtask.UploadToDefaultRemoteHost);
+                    SettingsManager.ConfigCore.AfterCaptureTasks.HasFlag(Subtask.UploadToRemoteHost);
             }
         }
 
@@ -295,7 +295,7 @@ namespace ShareX
             {
                 DoBeforeImagePreparedJobs();
 
-                if (Info.Jobs.HasFlagAny(Subtask.UploadToDefaultRemoteHost, Subtask.SaveToFile,
+                if (Info.Jobs.HasFlagAny(Subtask.UploadToRemoteHost, Subtask.SaveToFile,
                     Subtask.SaveImageToFileWithDialog))
                 {
                     imageData.PrepareImageAndFilename();

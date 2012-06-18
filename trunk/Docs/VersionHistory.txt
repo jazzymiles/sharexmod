@@ -1,4 +1,12 @@
-﻿Version 7.0 - 2012-09-28
+﻿Version 7.1 
+
+* Added support to post to social networking services
+* Rewrote Workflow system for a much more intuitive interface
+* Support multiple outputs: Clipboard, File, Shared folder, E-mail or Printer
+* Ability to choose FTP account based on file extension
+* Added thumbnail view for capture tasks
+
+Version 7.0 - 2012-06-15
 
 * Run external programs as part of the workflow
 * Ability to add torn paper effect as part of After Capture Tasks
