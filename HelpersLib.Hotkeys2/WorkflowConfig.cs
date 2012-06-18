@@ -449,6 +449,25 @@ namespace HelpersLib.Hotkeys2
                             }
                         }
 
+                        else if (task.Enum.HasFlag(Subtask.UploadToDefaultRemoteHost))
+                        {
+                            foreach (FileDestination uploader in Workflow.Settings.DestConfig.FileUploaders)
+                            {
+                                sb.AppendLine("-------- Share file using " + uploader.GetDescription());
+                            }
+
+                            foreach (ImageDestination uploader in Workflow.Settings.DestConfig.ImageUploaders)
+                            {
+                                sb.AppendLine("-------- Share image using " + uploader.GetDescription());
+                            }
+
+                            foreach (TextDestination uploader in Workflow.Settings.DestConfig.TextUploaders)
+                            {
+                                sb.AppendLine("-------- Share text using " + uploader.GetDescription());
+                                sb.AppendLine("-------- Text format: " + Workflow.Settings.DestConfig.TextFormat);
+                            }
+                        }
+
                         else if (task.Enum.HasFlag(Subtask.ShortenUrl))
                         {
                             foreach (UrlShortenerType uploader in Workflow.Settings.DestConfig.LinkUploaders)
@@ -472,19 +491,6 @@ namespace HelpersLib.Hotkeys2
             {
                 sb.AppendLine("Perform global After Capture Tasks");
             }
-
-            if (Workflow.Settings.DestConfig.FileUploaders.Count > 0)
-            {
-                sb.AppendLine("Share file using " + Workflow.Settings.DestConfig.ToStringFileUploaders());
-            }
-
-            if (Workflow.Settings.DestConfig.TextUploaders.Count > 0)
-            {
-                sb.AppendLine("Share text using " + Workflow.Settings.DestConfig.ToStringTextUploaders());
-                sb.AppendLine("Text format: " + Workflow.Settings.DestConfig.TextFormat);
-            }
-            if (Workflow.Settings.DestConfig.ImageUploaders.Count > 0)
-                sb.AppendLine("Share image using " + Workflow.Settings.DestConfig.ToStringImageUploaders());
 
             return sb.ToString();
         }

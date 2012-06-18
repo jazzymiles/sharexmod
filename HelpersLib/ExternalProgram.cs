@@ -56,7 +56,7 @@ namespace HelpersLib.Hotkeys2
 
         public void Run(string filePath)
         {
-            if (!string.IsNullOrEmpty(Path))
+            if (File.Exists(Path))
             {
                 filePath = '"' + filePath.Trim('"') + '"';
 
