@@ -220,7 +220,7 @@ namespace HelpersLib
         [Description("Send to printer"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         Print = 1 << 12,
 
-        [Description("Post to default social networking service"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
+        [Description("Post to a social networking service"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         ShareUsingSocialNetworkingService = 1 << 13,
     }
 
