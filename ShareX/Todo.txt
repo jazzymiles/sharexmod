@@ -1,1 +1,0 @@
-﻿Support URL Shorteners and Social Networking services in Workflow Config
