@@ -155,6 +155,14 @@ namespace ShareX
             return task;
         }
 
+        public static Task CreatePostToSocialNetworkingServiceTask(UploadResult result)
+        {
+            Task task = new Task(EDataType.URL, TaskJob.ShareURL);
+            task.Info.UploadDestination = EDataType.SocialNetworkingServiceRequest;
+            task.Info.Result = result;
+            return task;
+        }
+
         #endregion Constructors
 
         public void Start()
@@ -270,12 +278,8 @@ namespace ShareX
                 {
                     Info.Result.Errors.Add("URL is empty.");
                 }
-                else if ((Workflow.Subtasks.HasFlag(Subtask.ShortenUrl) ||
-                    SettingsManager.ConfigCore.URLShortenAfterUpload || Info.Job == TaskJob.ShortenURL) &&
-                    Info.Result.URL.Length >= SettingsManager.ConfigCore.ShortenURLLegnth)
-                {
-                    Info.Result.ShortenedURL = ShortenURL(Info.Result.URL);
-                }
+
+                DoPostUploadTasks();
             }
 
             Info.UploadTime = DateTime.UtcNow;
@@ -348,6 +352,42 @@ namespace ShareX
 
                 byte[] byteArray = Encoding.UTF8.GetBytes(tempText);
                 data = new MemoryStream(byteArray);
+            }
+        }
+
+        private void DoPostUploadTasks()
+        {
+            // Shorten URL
+
+            if ((Workflow.Subtasks.HasFlag(Subtask.ShortenUrl) || SettingsManager.ConfigCore.URLShortenAfterUpload ||
+                Info.Job == TaskJob.ShortenURL) && Info.Result.URL.Length >= SettingsManager.ConfigCore.MaximumURLLength)
+            {
+                Info.Result.ShortenedURL = ShortenURL(Info.Result.URL);
+            }
+
+            // Share using Social Networking Services
+
+            if (Workflow.Subtasks.HasFlag(Subtask.ShareUsingSocialNetworkingService) && !string.IsNullOrEmpty(Info.Result.URL))
+            {
+                foreach (SocialNetworkingService sns in Workflow.Settings.DestConfig.SocialNetworkingServices)
+                {
+                    switch (sns)
+                    {
+                        case UploadersLib.SocialNetworkingService.Twitter:
+                            OAuthInfo twitterOAuth = SettingsManager.ConfigUploaders.TwitterOAuthInfoList.ReturnIfValidIndex(SettingsManager.ConfigUploaders.TwitterSelectedAccount);
+
+                            if (twitterOAuth != null)
+                            {
+                                using (TwitterMsg twitter = new TwitterMsg(twitterOAuth))
+                                {
+                                    twitter.Message = Info.Result.ToString();
+                                    twitter.Config = SettingsManager.ConfigUploaders.TwitterClientConfig;
+                                    twitter.ShowDialog();
+                                }
+                            }
+                            break;
+                    }
+                }
             }
         }
 

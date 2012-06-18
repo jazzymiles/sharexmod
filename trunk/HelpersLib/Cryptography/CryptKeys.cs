@@ -39,7 +39,7 @@ namespace HelpersLib
 
         public CryptKeys()
         {
-            Container = Application.ProductName;
+            Container = "ShareXmod";
             cp = new CspParameters();
             cp.KeyContainerName = Container;
             GenerateKey();

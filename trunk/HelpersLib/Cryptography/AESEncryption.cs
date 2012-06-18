@@ -123,7 +123,7 @@ namespace HelpersLib
             catch (Exception ex)
             {
                 DebugHelper.WriteException(ex);
-                return CipherText;
+                return string.Empty;
             }
         }
 

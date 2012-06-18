@@ -127,7 +127,7 @@ namespace HelpersLib
 
     public enum EDataType
     {
-        Default, File, Image, Text, URL
+        Default, File, Image, Text, URL, SocialNetworkingServiceRequest
     }
 
     public enum EInputType
@@ -221,7 +221,7 @@ namespace HelpersLib
         Print = 1 << 12,
 
         [Description("Post to default social networking service"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        Post = 1 << 13,
+        ShareUsingSocialNetworkingService = 1 << 13,
     }
 
     public enum HotkeyStatus

@@ -231,6 +231,11 @@ namespace ShareX
             AddEnumItems<SocialNetworkingService>(x => SettingsManager.ConfigCore.SocialNetworkingServiceDestination = UploadManager.SocialNetworkingService = (SocialNetworkingService)x,
             false, tsmiContextMenuShare);
 
+            foreach (ToolStripMenuItem tsmi in tsmiContextMenuShare.DropDownItems)
+            {
+                tsmi.Click += new EventHandler(tsmiContextMenuShare_Click);
+            }
+
             #endregion Uploaders
 
             lvUploads.FillLastColumn();
@@ -241,6 +246,23 @@ namespace ShareX
 
             if (Program.IsDebug)
                 tsbDebug.Visible = true;
+        }
+
+        private void tsmiContextMenuShare_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+
+            if (lvUploads.SelectedIndices.Count > 0)
+            {
+                foreach (int index in lvUploads.SelectedIndices)
+                {
+                    UploadResult result = lvUploads.Items[index].Tag as UploadResult;
+                    AfterCaptureActivity act = new AfterCaptureActivity();
+                    act.Workflow.Settings.DestConfig.SocialNetworkingServices.Add((SocialNetworkingService)tsmi.Tag);
+                    act.Workflow.Subtasks = Subtask.ShareUsingSocialNetworkingService;
+                    UploadManager.ShareUsingSocialNetworkingService(result, act);
+                }
+            }
         }
 
         private void AddEnumItems<T>(Action<int> selectedIndex, bool addEvent = true, params ToolStripMenuItem[] parents)
@@ -283,7 +305,7 @@ namespace ShareX
             tsbCopy.Enabled = tsbOpen.Enabled = copyURLToolStripMenuItem.Visible = openURLToolStripMenuItem.Visible =
                 copyShortenedURLToolStripMenuItem.Visible = copyThumbnailURLToolStripMenuItem.Visible = copyDeletionURLToolStripMenuItem.Visible =
                 showErrorsToolStripMenuItem.Visible = copyErrorsToolStripMenuItem.Visible = showResponseToolStripMenuItem.Visible =
-                uploadFileToolStripMenuItem.Visible = stopUploadToolStripMenuItem.Visible = viewInFullscreenToolStripMenuItem.Visible = 
+                uploadFileToolStripMenuItem.Visible = stopUploadToolStripMenuItem.Visible = viewInFullscreenToolStripMenuItem.Visible =
                 tsmiContextMenuShare.Visible = false;
 
             int itemsCount = lvUploads.SelectedItems.Count;
@@ -794,7 +816,7 @@ namespace ShareX
             }
         }
 
-        private void shareToolStripMenuItem_Click(object sender, EventArgs e)
+        private void tsmiContextMenuUpload_Click(object sender, EventArgs e)
         {
             if (lvUploads.SelectedIndices.Count > 0)
             {

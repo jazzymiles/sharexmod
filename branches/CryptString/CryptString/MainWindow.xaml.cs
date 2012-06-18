@@ -34,5 +34,10 @@ namespace CryptString
         {
             txtText.Text = new CryptKeys().Decrypt(txtText.Text);
         }
+
+        private void btnCopy_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(txtText.Text);
+        }
     }
 }
