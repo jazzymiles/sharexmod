@@ -85,6 +85,18 @@ namespace UploadersLib
                 TextUploaders.Add(uploader);
         }
 
+        public void AddUploader(UrlShortenerType uploader)
+        {
+            if (!LinkUploaders.Contains(uploader))
+                LinkUploaders.Add(uploader);
+        }
+
+        public void AddUploader(SocialNetworkingService uploader)
+        {
+            if (!SocialNetworkingServices.Contains(uploader))
+                SocialNetworkingServices.Add(uploader);
+        }
+
         #endregion Add uploader
 
         #region Remove uploader
@@ -105,6 +117,18 @@ namespace UploadersLib
         {
             if (TextUploaders.Contains(uploader))
                 TextUploaders.Remove(uploader);
+        }
+
+        public void RemoveUploader(UrlShortenerType uploader)
+        {
+            if (LinkUploaders.Contains(uploader))
+                LinkUploaders.Remove(uploader);
+        }
+
+        public void RemoveUploader(SocialNetworkingService uploader)
+        {
+            if (SocialNetworkingServices.Contains(uploader))
+                SocialNetworkingServices.Remove(uploader);
         }
 
         #endregion Remove uploader

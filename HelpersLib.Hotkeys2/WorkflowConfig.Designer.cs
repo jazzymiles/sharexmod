@@ -49,8 +49,8 @@
             this.chActionsName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chActionsPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chActionsArgs = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tpShare = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tpUpload = new System.Windows.Forms.TabPage();
+            this.tlpUpload = new System.Windows.Forms.TableLayoutPanel();
             this.gbFileUploaders = new System.Windows.Forms.GroupBox();
             this.flpFileUploaders = new System.Windows.Forms.FlowLayoutPanel();
             this.gbImageUploaders = new System.Windows.Forms.GroupBox();
@@ -59,17 +59,27 @@
             this.flpTextUploaders = new System.Windows.Forms.FlowLayoutPanel();
             this.tpSummary = new System.Windows.Forms.TabPage();
             this.lblSummary = new System.Windows.Forms.Label();
+            this.tpShare = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.gbUrlShorteners = new System.Windows.Forms.GroupBox();
+            this.flpUrlShorteners = new System.Windows.Forms.FlowLayoutPanel();
+            this.gbSocialNetworkingServices = new System.Windows.Forms.GroupBox();
+            this.flpSocialNetworkingServices = new System.Windows.Forms.FlowLayoutPanel();
             this.tcWorkflow.SuspendLayout();
             this.tpCapture.SuspendLayout();
             this.gbSettings.SuspendLayout();
             this.tpAfterCapture.SuspendLayout();
             this.tpRunExternalPrograms.SuspendLayout();
-            this.tpShare.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.tpUpload.SuspendLayout();
+            this.tlpUpload.SuspendLayout();
             this.gbFileUploaders.SuspendLayout();
             this.gbImageUploaders.SuspendLayout();
             this.gbTextUploaders.SuspendLayout();
             this.tpSummary.SuspendLayout();
+            this.tpShare.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.gbUrlShorteners.SuspendLayout();
+            this.gbSocialNetworkingServices.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtDescription
@@ -118,6 +128,7 @@
             this.tcWorkflow.Controls.Add(this.tpCapture);
             this.tcWorkflow.Controls.Add(this.tpAfterCapture);
             this.tcWorkflow.Controls.Add(this.tpRunExternalPrograms);
+            this.tcWorkflow.Controls.Add(this.tpUpload);
             this.tcWorkflow.Controls.Add(this.tpShare);
             this.tcWorkflow.Controls.Add(this.tpSummary);
             this.tcWorkflow.Location = new System.Drawing.Point(8, 40);
@@ -285,32 +296,33 @@
             this.chActionsArgs.Text = "Args";
             this.chActionsArgs.Width = 134;
             // 
-            // tpShare
+            // tpUpload
             // 
-            this.tpShare.Controls.Add(this.tableLayoutPanel1);
-            this.tpShare.Location = new System.Drawing.Point(4, 22);
-            this.tpShare.Name = "tpShare";
-            this.tpShare.Padding = new System.Windows.Forms.Padding(3);
-            this.tpShare.Size = new System.Drawing.Size(654, 374);
-            this.tpShare.TabIndex = 3;
-            this.tpShare.Text = "Share";
-            this.tpShare.UseVisualStyleBackColor = true;
+            this.tpUpload.Controls.Add(this.tlpUpload);
+            this.tpUpload.Location = new System.Drawing.Point(4, 22);
+            this.tpUpload.Name = "tpUpload";
+            this.tpUpload.Padding = new System.Windows.Forms.Padding(3);
+            this.tpUpload.Size = new System.Drawing.Size(654, 374);
+            this.tpUpload.TabIndex = 3;
+            this.tpUpload.Text = "Upload";
+            this.tpUpload.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel1
+            // tlpUpload
             // 
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Controls.Add(this.gbFileUploaders, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.gbImageUploaders, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.gbTextUploaders, 2, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(5, 5);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(644, 364);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.tlpUpload.ColumnCount = 3;
+            this.tlpUpload.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlpUpload.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlpUpload.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlpUpload.Controls.Add(this.gbFileUploaders, 0, 0);
+            this.tlpUpload.Controls.Add(this.gbImageUploaders, 1, 0);
+            this.tlpUpload.Controls.Add(this.gbTextUploaders, 2, 0);
+            this.tlpUpload.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpUpload.Location = new System.Drawing.Point(3, 3);
+            this.tlpUpload.Name = "tlpUpload";
+            this.tlpUpload.RowCount = 1;
+            this.tlpUpload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpUpload.Size = new System.Drawing.Size(648, 368);
+            this.tlpUpload.TabIndex = 0;
             // 
             // gbFileUploaders
             // 
@@ -318,7 +330,7 @@
             this.gbFileUploaders.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbFileUploaders.Location = new System.Drawing.Point(3, 3);
             this.gbFileUploaders.Name = "gbFileUploaders";
-            this.gbFileUploaders.Size = new System.Drawing.Size(208, 358);
+            this.gbFileUploaders.Size = new System.Drawing.Size(210, 362);
             this.gbFileUploaders.TabIndex = 0;
             this.gbFileUploaders.TabStop = false;
             this.gbFileUploaders.Text = "File uploaders";
@@ -329,16 +341,16 @@
             this.flpFileUploaders.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpFileUploaders.Location = new System.Drawing.Point(3, 16);
             this.flpFileUploaders.Name = "flpFileUploaders";
-            this.flpFileUploaders.Size = new System.Drawing.Size(202, 339);
+            this.flpFileUploaders.Size = new System.Drawing.Size(204, 343);
             this.flpFileUploaders.TabIndex = 0;
             // 
             // gbImageUploaders
             // 
             this.gbImageUploaders.Controls.Add(this.flpImageUploaders);
             this.gbImageUploaders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbImageUploaders.Location = new System.Drawing.Point(217, 3);
+            this.gbImageUploaders.Location = new System.Drawing.Point(219, 3);
             this.gbImageUploaders.Name = "gbImageUploaders";
-            this.gbImageUploaders.Size = new System.Drawing.Size(208, 358);
+            this.gbImageUploaders.Size = new System.Drawing.Size(210, 362);
             this.gbImageUploaders.TabIndex = 1;
             this.gbImageUploaders.TabStop = false;
             this.gbImageUploaders.Text = "Image uploaders";
@@ -349,16 +361,16 @@
             this.flpImageUploaders.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpImageUploaders.Location = new System.Drawing.Point(3, 16);
             this.flpImageUploaders.Name = "flpImageUploaders";
-            this.flpImageUploaders.Size = new System.Drawing.Size(202, 339);
+            this.flpImageUploaders.Size = new System.Drawing.Size(204, 343);
             this.flpImageUploaders.TabIndex = 0;
             // 
             // gbTextUploaders
             // 
             this.gbTextUploaders.Controls.Add(this.flpTextUploaders);
             this.gbTextUploaders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbTextUploaders.Location = new System.Drawing.Point(431, 3);
+            this.gbTextUploaders.Location = new System.Drawing.Point(435, 3);
             this.gbTextUploaders.Name = "gbTextUploaders";
-            this.gbTextUploaders.Size = new System.Drawing.Size(210, 358);
+            this.gbTextUploaders.Size = new System.Drawing.Size(210, 362);
             this.gbTextUploaders.TabIndex = 2;
             this.gbTextUploaders.TabStop = false;
             this.gbTextUploaders.Text = "Text uploaders";
@@ -369,7 +381,7 @@
             this.flpTextUploaders.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpTextUploaders.Location = new System.Drawing.Point(3, 16);
             this.flpTextUploaders.Name = "flpTextUploaders";
-            this.flpTextUploaders.Size = new System.Drawing.Size(204, 339);
+            this.flpTextUploaders.Size = new System.Drawing.Size(204, 343);
             this.flpTextUploaders.TabIndex = 0;
             // 
             // tpSummary
@@ -391,6 +403,72 @@
             this.lblSummary.Name = "lblSummary";
             this.lblSummary.Size = new System.Drawing.Size(648, 368);
             this.lblSummary.TabIndex = 0;
+            // 
+            // tpShare
+            // 
+            this.tpShare.Controls.Add(this.tableLayoutPanel1);
+            this.tpShare.Location = new System.Drawing.Point(4, 22);
+            this.tpShare.Name = "tpShare";
+            this.tpShare.Padding = new System.Windows.Forms.Padding(3);
+            this.tpShare.Size = new System.Drawing.Size(654, 374);
+            this.tpShare.TabIndex = 5;
+            this.tpShare.Text = "Share";
+            this.tpShare.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.Controls.Add(this.gbUrlShorteners, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.gbSocialNetworkingServices, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(648, 368);
+            this.tableLayoutPanel1.TabIndex = 1;
+            // 
+            // gbUrlShorteners
+            // 
+            this.gbUrlShorteners.Controls.Add(this.flpUrlShorteners);
+            this.gbUrlShorteners.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbUrlShorteners.Location = new System.Drawing.Point(3, 3);
+            this.gbUrlShorteners.Name = "gbUrlShorteners";
+            this.gbUrlShorteners.Size = new System.Drawing.Size(318, 362);
+            this.gbUrlShorteners.TabIndex = 0;
+            this.gbUrlShorteners.TabStop = false;
+            this.gbUrlShorteners.Text = "URL Shorteners";
+            // 
+            // flpUrlShorteners
+            // 
+            this.flpUrlShorteners.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpUrlShorteners.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flpUrlShorteners.Location = new System.Drawing.Point(3, 16);
+            this.flpUrlShorteners.Name = "flpUrlShorteners";
+            this.flpUrlShorteners.Size = new System.Drawing.Size(312, 343);
+            this.flpUrlShorteners.TabIndex = 0;
+            // 
+            // gbSocialNetworkingServices
+            // 
+            this.gbSocialNetworkingServices.Controls.Add(this.flpSocialNetworkingServices);
+            this.gbSocialNetworkingServices.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbSocialNetworkingServices.Location = new System.Drawing.Point(327, 3);
+            this.gbSocialNetworkingServices.Name = "gbSocialNetworkingServices";
+            this.gbSocialNetworkingServices.Size = new System.Drawing.Size(318, 362);
+            this.gbSocialNetworkingServices.TabIndex = 1;
+            this.gbSocialNetworkingServices.TabStop = false;
+            this.gbSocialNetworkingServices.Text = "Social Networking Services";
+            // 
+            // flpSocialNetworkingServices
+            // 
+            this.flpSocialNetworkingServices.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpSocialNetworkingServices.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flpSocialNetworkingServices.Location = new System.Drawing.Point(3, 16);
+            this.flpSocialNetworkingServices.Name = "flpSocialNetworkingServices";
+            this.flpSocialNetworkingServices.Size = new System.Drawing.Size(312, 343);
+            this.flpSocialNetworkingServices.TabIndex = 0;
             // 
             // WindowWorkflow
             // 
@@ -416,12 +494,16 @@
             this.gbSettings.PerformLayout();
             this.tpAfterCapture.ResumeLayout(false);
             this.tpRunExternalPrograms.ResumeLayout(false);
-            this.tpShare.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tpUpload.ResumeLayout(false);
+            this.tlpUpload.ResumeLayout(false);
             this.gbFileUploaders.ResumeLayout(false);
             this.gbImageUploaders.ResumeLayout(false);
             this.gbTextUploaders.ResumeLayout(false);
             this.tpSummary.ResumeLayout(false);
+            this.tpShare.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.gbUrlShorteners.ResumeLayout(false);
+            this.gbSocialNetworkingServices.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -447,8 +529,8 @@
         private System.Windows.Forms.ComboBox cboCapture;
         private System.Windows.Forms.TabPage tpCapture;
         private System.Windows.Forms.CheckBox chkPerformGlobalAfterCaptureTasks;
-        private System.Windows.Forms.TabPage tpShare;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TabPage tpUpload;
+        private System.Windows.Forms.TableLayoutPanel tlpUpload;
         private System.Windows.Forms.FlowLayoutPanel flpFileUploaders;
         private System.Windows.Forms.FlowLayoutPanel flpImageUploaders;
         private System.Windows.Forms.FlowLayoutPanel flpTextUploaders;
@@ -459,6 +541,12 @@
         private System.Windows.Forms.GroupBox gbFileUploaders;
         private System.Windows.Forms.GroupBox gbImageUploaders;
         private System.Windows.Forms.GroupBox gbTextUploaders;
+        private System.Windows.Forms.TabPage tpShare;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.GroupBox gbUrlShorteners;
+        private System.Windows.Forms.FlowLayoutPanel flpUrlShorteners;
+        private System.Windows.Forms.GroupBox gbSocialNetworkingServices;
+        private System.Windows.Forms.FlowLayoutPanel flpSocialNetworkingServices;
 
     }
 }

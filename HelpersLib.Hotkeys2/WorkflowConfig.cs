@@ -101,6 +101,32 @@ namespace HelpersLib.Hotkeys2
                 flpTextUploaders.Controls.Add(rbUploader);
             }
 
+            foreach (UrlShortenerType uploader in Enum.GetValues(typeof(UrlShortenerType)))
+            {
+                RadioButton rbUploader = new RadioButton()
+                {
+                    AutoSize = true,
+                    Text = uploader.GetDescription(),
+                    Checked = Workflow.Settings.DestConfig.LinkUploaders.Contains(uploader),
+                    Tag = uploader
+                };
+                rbUploader.CheckedChanged += new EventHandler(rbUploader_CheckedChanged);
+                flpUrlShorteners.Controls.Add(rbUploader);
+            }
+
+            foreach (SocialNetworkingService uploader in Enum.GetValues(typeof(SocialNetworkingService)))
+            {
+                RadioButton rbUploader = new RadioButton()
+                {
+                    AutoSize = true,
+                    Text = uploader.GetDescription(),
+                    Checked = Workflow.Settings.DestConfig.SocialNetworkingServices.Contains(uploader),
+                    Tag = uploader
+                };
+                rbUploader.CheckedChanged += new EventHandler(rbUploader_CheckedChanged);
+                flpSocialNetworkingServices.Controls.Add(rbUploader);
+            }
+
             if (Workflow.Subtasks.HasFlag(Subtask.UploadToDefaultRemoteHost) ||
                 Workflow.Settings.PerformGlobalAfterCaptureTasks)
             {
@@ -108,7 +134,7 @@ namespace HelpersLib.Hotkeys2
             }
             else
             {
-                ShowTabShare();
+                ShowTabUploadAndShare();
             }
 
             #endregion Share
@@ -133,7 +159,7 @@ namespace HelpersLib.Hotkeys2
                 if (task == Subtask.RunExternalProgram)
                     HideTabRunExternalPrograms();
                 else if (task == Subtask.UploadToDefaultRemoteHost)
-                    ShowTabShare();
+                    ShowTabUploadAndShare();
             }
         }
 
@@ -159,6 +185,22 @@ namespace HelpersLib.Hotkeys2
             else if (rbUploader.Tag.GetType() == typeof(TextDestination))
             {
                 TextDestination uploader = (TextDestination)rbUploader.Tag;
+                if (rbUploader.Checked)
+                    Workflow.Settings.DestConfig.AddUploader(uploader);
+                else
+                    Workflow.Settings.DestConfig.RemoveUploader(uploader);
+            }
+            else if (rbUploader.Tag.GetType() == typeof(UrlShortenerType))
+            {
+                UrlShortenerType uploader = (UrlShortenerType)rbUploader.Tag;
+                if (rbUploader.Checked)
+                    Workflow.Settings.DestConfig.AddUploader(uploader);
+                else
+                    Workflow.Settings.DestConfig.RemoveUploader(uploader);
+            }
+            else if (rbUploader.Tag.GetType() == typeof(SocialNetworkingService))
+            {
+                SocialNetworkingService uploader = (SocialNetworkingService)rbUploader.Tag;
                 if (rbUploader.Checked)
                     Workflow.Settings.DestConfig.AddUploader(uploader);
                 else
@@ -295,24 +337,27 @@ namespace HelpersLib.Hotkeys2
             }
         }
 
-        private void ShowTabShare()
+        private void ShowTabUploadAndShare()
         {
-            if (!tcWorkflow.TabPages.Contains(tpShare))
+            if (!tcWorkflow.TabPages.Contains(tpUpload))
             {
                 if (tcWorkflow.TabPages.Contains(tpAfterCapture))
                 {
                     if (tcWorkflow.TabPages.Contains(tpRunExternalPrograms))
                     {
-                        tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpRunExternalPrograms) + 1, tpShare);
+                        tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpRunExternalPrograms) + 1, tpUpload);
+                        tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpRunExternalPrograms) + 2, tpShare);
                     }
                     else
                     {
-                        tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpAfterCapture) + 1, tpShare);
+                        tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpAfterCapture) + 1, tpUpload);
+                        tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpAfterCapture) + 2, tpShare);
                     }
                 }
                 else
                 {
-                    tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpCapture) + 1, tpShare);
+                    tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpCapture) + 1, tpUpload);
+                    tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpCapture) + 2, tpUpload);
                 }
             }
         }
@@ -320,6 +365,10 @@ namespace HelpersLib.Hotkeys2
         private void HideTabShare()
         {
             Workflow.Settings.Clear();
+            if (tcWorkflow.TabPages.Contains(tpUpload))
+            {
+                tcWorkflow.TabPages.Remove(tpUpload);
+            }
             if (tcWorkflow.TabPages.Contains(tpShare))
             {
                 tcWorkflow.TabPages.Remove(tpShare);
@@ -388,14 +437,32 @@ namespace HelpersLib.Hotkeys2
                         continue;
 
                     if (Workflow.Subtasks.HasFlag(task.Enum))
+                    {
                         sb.AppendLine("---- " + task.Enum.GetDescription());
 
-                    if (Workflow.Subtasks.HasFlag(Subtask.RunExternalProgram))
-                    {
-                        foreach (ExternalProgram prg in Workflow.Settings.ExternalPrograms)
+                        if (task.Enum.HasFlag(Subtask.RunExternalProgram))
                         {
-                            if (prg.IsActive)
-                                sb.AppendLine("-------- " + prg.Name);
+                            foreach (ExternalProgram prg in Workflow.Settings.ExternalPrograms)
+                            {
+                                if (prg.IsActive)
+                                    sb.AppendLine("-------- " + prg.Name);
+                            }
+                        }
+
+                        else if (task.Enum.HasFlag(Subtask.ShortenUrl))
+                        {
+                            foreach (UrlShortenerType uploader in Workflow.Settings.DestConfig.LinkUploaders)
+                            {
+                                sb.AppendLine("-------- " + uploader.GetDescription());
+                            }
+                        }
+
+                        else if (task.Enum.HasFlag(Subtask.ShareUsingSocialNetworkingService))
+                        {
+                            foreach (SocialNetworkingService sns in Workflow.Settings.DestConfig.SocialNetworkingServices)
+                            {
+                                sb.AppendLine("-------- " + sns.GetDescription());
+                            }
                         }
                     }
                 }
