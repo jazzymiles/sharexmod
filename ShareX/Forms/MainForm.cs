@@ -825,7 +825,7 @@ namespace ShareX
                     UploadResult result = lvUploads.Items[index].Tag as UploadResult;
                     UploadManager.UploadFile(result.LocalFilePath, new HelperClasses.AfterCaptureActivity()
                     {
-                        Workflow = new Workflow() { Subtasks = Subtask.UploadToDefaultRemoteHost }
+                        Workflow = new Workflow() { Subtasks = Subtask.UploadToRemoteHost }
                     });
                 }
             }

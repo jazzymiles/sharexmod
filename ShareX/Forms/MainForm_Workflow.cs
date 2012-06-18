@@ -58,7 +58,7 @@ namespace ShareX
                 foreach (Workflow wf in SettingsManager.ConfigWorkflows.Workflows)
                 {
                     if (wf.Hotkey == HelpersLib.Hotkeys2.EHotkey.ClipboardUpload || wf.Hotkey == HelpersLib.Hotkeys2.EHotkey.FileUpload)
-                        wf.Subtasks |= Subtask.UploadToDefaultRemoteHost;
+                        wf.Subtasks |= Subtask.UploadToRemoteHost;
                     else
                         wf.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
                 }
@@ -164,7 +164,7 @@ namespace ShareX
                 if (act.Workflow.Subtasks == Subtask.None)
                     act.Workflow.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
                 if (act.Workflow.Settings.DestConfig.ImageUploaders.Count > 0)
-                    act.Workflow.Subtasks |= Subtask.UploadToDefaultRemoteHost;
+                    act.Workflow.Subtasks |= Subtask.UploadToRemoteHost;
                 log.Debug("After Capture initiated.");
                 AfterCapture(imageData, act);
             }
