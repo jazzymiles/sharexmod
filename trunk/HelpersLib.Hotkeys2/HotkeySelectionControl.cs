@@ -43,6 +43,8 @@ namespace HelpersLib.Hotkeys2
             Workflow = wf;
             chkHotkeyDescription.Text = Workflow.HotkeyConfig.Description;
             btnSetHotkey.Text = new KeyInfo(Workflow.HotkeyConfig.Hotkey).ToString();
+            if (!this.Workflow.HotkeyConfig.SystemHotkey)
+                this.set_HotkeyFontBold();
             UpdateHotkeyStatus();
         }
 

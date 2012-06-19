@@ -46,11 +46,14 @@ namespace HelpersLib.Hotkeys2
         {
             wf.HotkeyConfig.Action = action;
             wf.HotkeyConfig.MenuItem = menuItem;
-
-            Workflows.Add(wf);
-
             wf.HotkeyConfig.UpdateMenuItemShortcut();
             wf.HotkeyConfig.HotkeyStatus = hotkeyForm.RegisterHotkey(wf.HotkeyConfig.Hotkey, action, wf.HotkeyConfig.Tag);
+
+            Workflow wfOld = this.Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
+            if (wfOld != null)
+                wfOld = wf;
+            else
+                Workflows.Add(wf);
         }
 
         public HotkeyStatus UpdateHotkey(HotkeySetting setting)
