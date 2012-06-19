@@ -82,10 +82,10 @@ namespace UploadersLib
         #region File Uploaders
 
         [Category("Dropbox"), DefaultValue(ApiKeys.DropboxConsumerKey), Description("Dropbox Consumer Key")]
-        public string DropboxConsumerKey { get { return CryptHelper.Decrypt(ApiKeys.DropboxConsumerKey); } }
+        public string DropboxConsumerKey { get; set; }
 
         [Category("Dropbox"), DefaultValue(ApiKeys.DropboxConsumerSecret), Description("Dropbox Consumer Secret")]
-        public string DropboxConsumerSecret { get { return CryptHelper.Decrypt(ApiKeys.DropboxConsumerSecret); } }
+        public string DropboxConsumerSecret { get; set; }
 
         [Category("Box"), DefaultValue(ApiKeys.BoxKey), Description("Box Key")]
         public string BoxKey { get; set; }
