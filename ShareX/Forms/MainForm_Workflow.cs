@@ -60,7 +60,7 @@ namespace ShareX
                     if (wf.Hotkey == HelpersLib.Hotkeys2.EHotkey.ClipboardUpload || wf.Hotkey == HelpersLib.Hotkeys2.EHotkey.FileUpload)
                         wf.Subtasks |= Subtask.UploadToRemoteHost;
                     else
-                        wf.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
+                        wf.Settings.PerformGlobalAfterCaptureTasks = true;
                 }
             } // if Workflows.Count == 0
 
