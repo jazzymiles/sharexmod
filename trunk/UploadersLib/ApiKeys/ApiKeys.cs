@@ -47,8 +47,8 @@ namespace UploadersLib
 
         // File Uploaders
 
-        public const string DropboxConsumerKey = "I2Yi2za1VUcP44wGndocHw==";
-        public const string DropboxConsumerSecret = "st7R2YYtV6p+5pV5h+jXYg==";
+        public const string DropboxConsumerKey = "0te7j9ype9lrdfn";
+        public const string DropboxConsumerSecret = "r5d3aptd9a0cwp9";
         public const string MinusConsumerKey = "b57b69843f7a302a276dde89890fc6";
         public const string MinusConsumerSecret = "3fb097f08314d713959b1f41d543b0";
         public const string BoxKey = "5vd8549xmn9a7zil4iupb0ciroj7cvee";
