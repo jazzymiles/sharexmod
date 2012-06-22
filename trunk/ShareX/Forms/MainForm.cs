@@ -93,9 +93,10 @@ namespace ShareX
             if (SettingsManager.ConfigUploaders == null)
                 SettingsManager.LoadUploadersConfig();
 
-            EnableDisableToolStripMenuItems(tsmiImageUploaders);
-            EnableDisableToolStripMenuItems(tsmiTextUploaders);
-            EnableDisableToolStripMenuItems(tsmiFileUploaders);
+            EnableDisableToolStripMenuItems<ImageDestination>(tsmiImageUploaders, tsmiTrayImageUploaders);
+            EnableDisableToolStripMenuItems<TextDestination>(tsmiTextUploaders, tsmiTrayTextUploaders);
+            EnableDisableToolStripMenuItems<FileDestination>(tsmiFileUploaders, tsmiTrayFileUploaders);
+            EnableDisableToolStripMenuItems<UrlShortenerType>(tsmiURLShorteners, tsmiTrayURLShorteners);
         }
 
         /// <summary>
@@ -121,18 +122,13 @@ namespace ShareX
             ListViewManager.Initialize();
         }
 
-        private void EnableDisableToolStripMenuItems(ToolStripMenuItem tsmi)
+        private void EnableDisableToolStripMenuItems<T>(params ToolStripDropDownItem[] parents)
         {
-            foreach (ToolStripItem tsi in tsmi.DropDownItems)
+            foreach (ToolStripDropDownItem parent in parents)
             {
-                if (tsi.GetType() == typeof(ToolStripMenuItem))
+                for (int i = 0; i < parent.DropDownItems.Count; i++)
                 {
-                    if (tsi.Tag is ImageDestination)
-                        ((ToolStripMenuItem)tsi).Enabled = SettingsManager.ConfigUploaders.IsActive(((ImageDestination)tsi.Tag));
-                    else if (tsi.Tag is TextDestination)
-                        ((ToolStripMenuItem)tsi).Enabled = SettingsManager.ConfigUploaders.IsActive(((TextDestination)tsi.Tag));
-                    else if (tsi.Tag is FileDestination)
-                        ((ToolStripMenuItem)tsi).Enabled = SettingsManager.ConfigUploaders.IsActive(((FileDestination)tsi.Tag));
+                    parent.DropDownItems[i].Enabled = SettingsManager.ConfigUploaders.IsActive<T>(i);
                 }
             }
         }
@@ -706,6 +702,7 @@ namespace ShareX
         private void tsddbDestinations_DropDownOpening(object sender, EventArgs e)
         {
             UpdateUploaderMenuNames();
+            AfterUploadersConfigClosed();
         }
 
         private void tsddbUploadersConfig_Click(object sender, EventArgs e)

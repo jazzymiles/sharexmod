@@ -204,12 +204,73 @@ namespace UploadersLib
 
         #region Helper Methods
 
-        public bool IsActive(FileDestination ut)
+        public bool IsActive<T>(int index)
         {
-            switch (ut)
+            Enum destination = (Enum)Enum.ToObject(typeof(T), index);
+
+            if (destination is ImageDestination)
+            {
+                return IsActive((ImageDestination)destination);
+            }
+            else if (destination is TextDestination)
+            {
+                return IsActive((TextDestination)destination);
+            }
+            else if (destination is FileDestination)
+            {
+                return IsActive((FileDestination)destination);
+            }
+            else if (destination is UrlShortenerType)
+            {
+                return IsActive((UrlShortenerType)destination);
+            }
+            else if (destination is SocialNetworkingService)
+            {
+                return IsActive((SocialNetworkingService)destination);
+            }
+
+            return true;
+        }
+
+        public bool IsActive(ImageDestination destination)
+        {
+            switch (destination)
+            {
+                case ImageDestination.ImageShack:
+                    return ImageShackAccountType == AccountType.Anonymous || !string.IsNullOrEmpty(ImageShackRegistrationCode);
+                case ImageDestination.TinyPic:
+                    return TinyPicAccountType == AccountType.Anonymous || !string.IsNullOrEmpty(TinyPicRegistrationCode);
+                case ImageDestination.Imgur:
+                    return ImgurAccountType == AccountType.Anonymous || OAuthInfo.CheckOAuth(ImgurOAuthInfo);
+                case ImageDestination.Flickr:
+                    return !string.IsNullOrEmpty(FlickrAuthInfo.Token);
+                case ImageDestination.Photobucket:
+                    return PhotobucketAccountInfo != null && OAuthInfo.CheckOAuth(PhotobucketOAuthInfo);
+                case ImageDestination.Twitpic:
+                case ImageDestination.Twitsnaps:
+                    return TwitterOAuthInfoList != null && TwitterOAuthInfoList.IsValidIndex(TwitterSelectedAccount);
+                case ImageDestination.yFrog:
+                    return !string.IsNullOrEmpty(YFrogUsername) && !string.IsNullOrEmpty(YFrogPassword);
+                default:
+                    return true;
+            }
+        }
+
+        public bool IsActive(TextDestination destination)
+        {
+            switch (destination)
+            {
+                default:
+                    return true;
+            }
+        }
+
+        public bool IsActive(FileDestination destination)
+        {
+            switch (destination)
             {
                 case FileDestination.Dropbox:
-                    return DropboxOAuthInfo != null && !string.IsNullOrEmpty(DropboxOAuthInfo.UserToken) && !string.IsNullOrEmpty(DropboxOAuthInfo.UserSecret);
+                    return OAuthInfo.CheckOAuth(DropboxOAuthInfo);
                 case FileDestination.RapidShare:
                     return !string.IsNullOrEmpty(RapidShareUsername) && !string.IsNullOrEmpty(RapidSharePassword);
                 case FileDestination.SendSpace:
@@ -219,55 +280,38 @@ namespace UploadersLib
                 case FileDestination.Box:
                     return !string.IsNullOrEmpty(BoxAuthToken);
                 case FileDestination.CustomUploader:
-                    return CustomUploadersList != null && CustomUploadersList.Count > 0;
+                    return CustomUploadersList != null && CustomUploadersList.IsValidIndex(CustomUploaderSelected);
                 case FileDestination.FTP:
-                    return FTPAccountList != null && FTPAccountList.Count > 0;
+                    return FTPAccountList != null && FTPAccountList.IsValidIndex(FTPSelectedFile);
                 case FileDestination.SharedFolder:
-                    return LocalhostAccountList != null && LocalhostAccountList.Count > 0;
+                    return LocalhostAccountList != null && LocalhostAccountList.IsValidIndex(LocalhostSelectedFiles);
+                case FileDestination.Email:
+                    return !string.IsNullOrEmpty(EmailSmtpServer) && EmailSmtpPort > 0 && !string.IsNullOrEmpty(EmailFrom) && !string.IsNullOrEmpty(EmailPassword);
                 default:
                     return true;
             }
         }
 
-        public bool IsActive(TextDestination ut)
+        public bool IsActive(UrlShortenerType destination)
         {
-            switch (ut)
+            switch (destination)
             {
-                case TextDestination.FileUploader:
-                    return Enum.GetValues(typeof(FileDestination)).Cast<FileDestination>().Any(fu => IsActive(fu));
+                case UrlShortenerType.Google:
+                    return GoogleURLShortenerAccountType == AccountType.Anonymous || OAuthInfo.CheckOAuth(GoogleURLShortenerOAuthInfo);
                 default:
                     return true;
             }
         }
 
-        public bool IsActive(ImageDestination ut)
+        public bool IsActive(SocialNetworkingService destination)
         {
-            switch (ut)
+            switch (destination)
             {
-                case ImageDestination.Flickr:
-                    return !string.IsNullOrEmpty(FlickrAuthInfo.Token);
-                case ImageDestination.ImageShack:
-                    return ImageShackAccountType == AccountType.Anonymous || !string.IsNullOrEmpty(ImageShackRegistrationCode);
-                case ImageDestination.TinyPic:
-                    return TinyPicAccountType == AccountType.Anonymous || !string.IsNullOrEmpty(TinyPicRegistrationCode);
-                case ImageDestination.Imgur:
-                    return ImgurAccountType == AccountType.Anonymous || ImgurAccountType == AccountType.User && ImgurOAuthInfo != null && !string.IsNullOrEmpty(ImgurOAuthInfo.UserToken) && !string.IsNullOrEmpty(ImgurOAuthInfo.UserSecret);
-                case ImageDestination.Photobucket:
-                    return PhotobucketAccountInfo != null && PhotobucketOAuthInfo != null;
-                case ImageDestination.Twitpic:
-                case ImageDestination.Twitsnaps:
-                    return TwitterOAuthInfoList.Count > 0;
-                case ImageDestination.UploadScreenshot:
+                case SocialNetworkingService.Twitter:
+                    return TwitterOAuthInfoList != null && TwitterOAuthInfoList.IsValidIndex(TwitterSelectedAccount);
+                default:
                     return true;
-                case ImageDestination.yFrog:
-                    return !string.IsNullOrEmpty(YFrogPassword);
-                case ImageDestination.Immio:
-                    return true;
-                case ImageDestination.FileUploader:
-                    return Enum.GetValues(typeof(FileDestination)).Cast<FileDestination>().Any(fu => IsActive(fu));
             }
-
-            return false;
         }
 
         public void CryptPasswords(bool doEncrypt)
