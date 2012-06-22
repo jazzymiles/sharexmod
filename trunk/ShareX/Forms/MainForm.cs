@@ -357,7 +357,11 @@ namespace ShareX
                     }
 
                     showInWindowsExplorerToolStripMenuItem.Visible = tsmiContextMenuShare.Visible = File.Exists(result.LocalFilePath);
-                    viewInFullscreenToolStripMenuItem.Visible = (lvUploads.View == View.LargeIcon || lvUploads.View == View.Tile || lvUploads.View == View.SmallIcon);
+                    viewInFullscreenToolStripMenuItem.Visible =
+                        (lvUploads.View == View.LargeIcon ||
+                        lvUploads.View == View.Tile || 
+                        lvUploads.View == View.SmallIcon) &&
+                        Helpers.IsImageFile(result.URL);
                     tsmiUpload.Visible = File.Exists(result.LocalFilePath);
                 }
 
