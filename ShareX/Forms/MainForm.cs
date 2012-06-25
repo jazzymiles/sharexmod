@@ -355,7 +355,7 @@ namespace ShareX
                     showInWindowsExplorerToolStripMenuItem.Visible = tsmiContextMenuShare.Visible = File.Exists(result.LocalFilePath);
                     viewInFullscreenToolStripMenuItem.Visible =
                         (lvUploads.View == View.LargeIcon ||
-                        lvUploads.View == View.Tile || 
+                        lvUploads.View == View.Tile ||
                         lvUploads.View == View.SmallIcon) &&
                         Helpers.IsImageFile(result.URL);
                     tsmiUpload.Visible = File.Exists(result.LocalFilePath);
@@ -415,8 +415,16 @@ namespace ShareX
 
             if (updateChecker.UpdateInfo != null && updateChecker.UpdateInfo.Status == UpdateStatus.UpdateRequired && !string.IsNullOrEmpty(updateChecker.UpdateInfo.URL))
             {
-                if (MessageBox.Show("Update found. Do you want to download it?", "Update check", MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                NewVersionWindowOptions nvwo = new NewVersionWindowOptions()
+                {
+                    MyIcon = this.Icon,
+                    MyImage = Resources.ShareXLogo,
+                    ProjectName = Application.ProductName,
+                    UpdateInfo = updateChecker.UpdateInfo
+                };
+
+                UpdaterForm dlg = new UpdaterForm(nvwo);
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.Yes)
                 {
                     DownloaderForm downloader = new DownloaderForm(updateChecker.UpdateInfo.URL, updateChecker.Proxy, updateChecker.UpdateInfo.Summary);
                     downloader.ShowDialog();
