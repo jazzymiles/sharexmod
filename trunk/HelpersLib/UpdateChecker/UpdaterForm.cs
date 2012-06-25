@@ -26,6 +26,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Web;
 using System.Windows.Forms;
 using HelpersLib;
 
@@ -44,7 +45,10 @@ namespace UpdateCheckerLib
             if (Options.MyIcon != null) Icon = Options.MyIcon;
             if (Options.MyImage != null) pbApp.Image = Options.MyImage;
 
-            lblVer.Text = Options.Question;
+            if (Options.UpdateInfo != null)
+            {
+                lblVer.Text = "Would you like to download the update?\n\n" + Options.UpdateInfo.ToString();
+            }
 
             if (!string.IsNullOrEmpty(Options.UpdateInfo.Summary))
             {
@@ -60,12 +64,14 @@ namespace UpdateCheckerLib
         private void btnYes_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Yes;
+            DialogResult = DialogResult.OK;
             Close();
         }
 
         private void btnNo_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.No;
+            DialogResult = DialogResult.Cancel;
             Close();
         }
 
@@ -93,8 +99,6 @@ namespace UpdateCheckerLib
         public Icon MyIcon { get; set; }
 
         public Image MyImage { get; set; }
-
-        public string Question { get; set; }
 
         public string ProjectName { get; set; }
 

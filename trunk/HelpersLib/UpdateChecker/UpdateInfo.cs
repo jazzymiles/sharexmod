@@ -35,7 +35,9 @@ namespace UpdateCheckerLib
         public Version LatestVersion { get; set; }
         public string URL { get; set; }
         public DateTime Date { get; set; }
-        public string Summary { get; set; }
+
+        private string _summary = string.Empty;
+        public string Summary { get { return _summary; } set { _summary = value.Trim(); } }
         public ReleaseChannelType ReleaseChannel { get; private set; }
         public UpdateStatus Status { get; set; }
 
