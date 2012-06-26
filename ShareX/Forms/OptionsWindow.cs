@@ -140,7 +140,7 @@ namespace ShareX.Forms
             cbBufferSize.SelectedIndex = SettingsManager.ConfigCore.BufferSizePower.Between(0, MaxBufferSizePower);
 
             // Capture
-            LoadAfterCaptureTasksGui();
+            ucAfterCaptureTasks.ConfigUI(SettingsManager.ConfigCore.AfterCaptureTasks, chkAfterCaptureTask_CheckedChanged);
 
             cbShowCursor.Checked = SettingsManager.ConfigCore.ShowCursor;
             cbCaptureTransparent.Checked = SettingsManager.ConfigCore.CaptureTransparent;
@@ -216,38 +216,6 @@ namespace ShareX.Forms
             pgUserConfig.SelectedObject = SettingsManager.ConfigUser;
 
             loaded = true;
-        }
-
-        private void LoadAfterCaptureTasksGui()
-        {
-            var taskImageJobs = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new
-            {
-                Description = x.GetDescription(),
-                Enum = x
-            });
-
-            int yGap = 20;
-
-            foreach (var job in taskImageJobs)
-            {
-                switch (job.Enum)
-                {
-                    case Subtask.None:
-                        continue;
-                }
-
-                CheckBox chkAfterCaptureTask = new CheckBox();
-                chkAfterCaptureTask.Tag = job.Enum;
-                chkAfterCaptureTask.Text = job.Description;
-                chkAfterCaptureTask.AutoSize = true;
-                chkAfterCaptureTask.Location = new Point(16, yGap);
-                chkAfterCaptureTask.CheckedChanged += new EventHandler(chkAfterCaptureTask_CheckedChanged);
-                chkAfterCaptureTask.Checked = SettingsManager.ConfigCore.AfterCaptureTasks.HasFlag(job.Enum);
-                gbCaptureAfter.Controls.Add(chkAfterCaptureTask);
-                yGap += 24;
-            }
-
-            gbCaptureAfter.Height = yGap;
         }
 
         private void chkAfterCaptureTask_CheckedChanged(object sender, EventArgs e)

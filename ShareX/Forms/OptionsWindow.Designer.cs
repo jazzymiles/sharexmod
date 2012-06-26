@@ -202,6 +202,7 @@
             this.tpUserConfig = new System.Windows.Forms.TabPage();
             this.panelUserConfig = new System.Windows.Forms.Panel();
             this.pgUserConfig = new System.Windows.Forms.PropertyGrid();
+            this.ucAfterCaptureTasks = new HelpersLib.UserControls.AfterCatureTasksUI();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -211,6 +212,7 @@
             this.panelAdvanced.SuspendLayout();
             this.tpCapture.SuspendLayout();
             this.panelCapture.SuspendLayout();
+            this.gbCaptureAfter.SuspendLayout();
             this.tpShapes.SuspendLayout();
             this.panelShapes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudFixedShapeSizeHeight)).BeginInit();
@@ -273,7 +275,7 @@
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 1;
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpMain.Size = new System.Drawing.Size(696, 408);
+            this.tlpMain.Size = new System.Drawing.Size(696, 512);
             this.tlpMain.TabIndex = 0;
             // 
             // tvMain
@@ -328,7 +330,7 @@
             treeNode11,
             treeNode12,
             treeNode17});
-            this.tvMain.Size = new System.Drawing.Size(133, 402);
+            this.tvMain.Size = new System.Drawing.Size(133, 506);
             this.tvMain.TabIndex = 0;
             this.tvMain.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvMain_AfterSelect);
             // 
@@ -354,7 +356,7 @@
             this.tcBase.Location = new System.Drawing.Point(142, 3);
             this.tcBase.Name = "tcBase";
             this.tcBase.SelectedIndex = 0;
-            this.tcBase.Size = new System.Drawing.Size(551, 402);
+            this.tcBase.Size = new System.Drawing.Size(551, 506);
             this.tcBase.TabIndex = 1;
             this.tcBase.Visible = false;
             // 
@@ -518,7 +520,7 @@
             this.tpCapture.Location = new System.Drawing.Point(4, 22);
             this.tpCapture.Name = "tpCapture";
             this.tpCapture.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCapture.Size = new System.Drawing.Size(543, 376);
+            this.tpCapture.Size = new System.Drawing.Size(543, 480);
             this.tpCapture.TabIndex = 2;
             this.tpCapture.Text = "Capture";
             this.tpCapture.UseVisualStyleBackColor = true;
@@ -533,14 +535,15 @@
             this.panelCapture.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCapture.Location = new System.Drawing.Point(3, 3);
             this.panelCapture.Name = "panelCapture";
-            this.panelCapture.Size = new System.Drawing.Size(537, 370);
+            this.panelCapture.Size = new System.Drawing.Size(537, 474);
             this.panelCapture.TabIndex = 0;
             // 
             // gbCaptureAfter
             // 
+            this.gbCaptureAfter.Controls.Add(this.ucAfterCaptureTasks);
             this.gbCaptureAfter.Location = new System.Drawing.Point(11, 96);
             this.gbCaptureAfter.Name = "gbCaptureAfter";
-            this.gbCaptureAfter.Size = new System.Drawing.Size(501, 128);
+            this.gbCaptureAfter.Size = new System.Drawing.Size(501, 368);
             this.gbCaptureAfter.TabIndex = 3;
             this.gbCaptureAfter.TabStop = false;
             this.gbCaptureAfter.Text = "After capture tasks (only applicable for workflows that contain this activity)";
@@ -2075,6 +2078,13 @@
             this.pgUserConfig.Size = new System.Drawing.Size(537, 370);
             this.pgUserConfig.TabIndex = 0;
             // 
+            // ucAfterCaptureTasks
+            // 
+            this.ucAfterCaptureTasks.Location = new System.Drawing.Point(8, 16);
+            this.ucAfterCaptureTasks.Name = "ucAfterCaptureTasks";
+            this.ucAfterCaptureTasks.Size = new System.Drawing.Size(275, 174);
+            this.ucAfterCaptureTasks.TabIndex = 0;
+            // 
             // OptionsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2100,6 +2110,7 @@
             this.tpCapture.ResumeLayout(false);
             this.panelCapture.ResumeLayout(false);
             this.panelCapture.PerformLayout();
+            this.gbCaptureAfter.ResumeLayout(false);
             this.tpShapes.ResumeLayout(false);
             this.panelShapes.ResumeLayout(false);
             this.panelShapes.PerformLayout();
@@ -2319,5 +2330,6 @@
         private System.Windows.Forms.TabPage tpUserConfig;
         private System.Windows.Forms.Panel panelUserConfig;
         private System.Windows.Forms.PropertyGrid pgUserConfig;
+        private HelpersLib.UserControls.AfterCatureTasksUI ucAfterCaptureTasks;
     }
 }

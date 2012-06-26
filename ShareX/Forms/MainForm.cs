@@ -374,14 +374,7 @@ namespace ShareX
 
         private void UpdateUploaderMenuFileUploaderName(ToolStripMenuItem tsmi)
         {
-            foreach (ToolStripItem tsi in tsmi.DropDownItems)
-            {
-                if (tsi.Text == ImageDestination.FileUploader.GetDescription())
-                {
-                    tsi.Text = UploadManager.FileUploader.GetDescription();
-                    break;
-                }
-            }
+            tsmi.DropDownItems[tsmi.DropDownItems.Count - 1].Text = UploadManager.FileUploader.GetDescription();
         }
 
         private void UpdateUploaderMenuNames()

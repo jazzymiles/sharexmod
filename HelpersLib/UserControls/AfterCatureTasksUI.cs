@@ -54,7 +54,7 @@ namespace HelpersLib.UserControls
             }
 
             this.Width = Math.Max(400, maxWidth);
-            this.Height = yGap + 60;
+            this.Height = yGap + 24;
         }
     }
 }
