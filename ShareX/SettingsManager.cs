@@ -23,7 +23,9 @@ namespace ShareX
         private static readonly string ApplicationName = Application.ProductName;
 
         public static Settings ConfigCore { get; internal set; }
+
         internal static readonly string ConfigCoreFileName = ApplicationName + "Settings.json";
+
         private static string ConfigCoreFilePath
         {
             get
@@ -33,7 +35,9 @@ namespace ShareX
         }
 
         public static UserConfig ConfigUser { get; internal set; }
+
         internal static readonly string ConfigUserFileName = ApplicationName + "UserConfig.json";
+
         private static string ConfigUserFilePath
         {
             get
@@ -43,7 +47,9 @@ namespace ShareX
         }
 
         public static UploadersConfig ConfigUploaders { get; internal set; }
+
         internal static readonly string ConfigUploadersFileName = "UploadersConfig.json";
+
         private static string ConfigUploadersFilePath
         {
             get
@@ -59,7 +65,9 @@ namespace ShareX
         }
 
         public static WorkflowsConfig ConfigWorkflows { get; internal set; }
+
         internal static readonly string ConfigWorkflowsFileName = ApplicationName + "WorkflowsConfig.json";
+
         private static string ConfigWorkflowsFilePath
         {
             get
@@ -69,7 +77,9 @@ namespace ShareX
         }
 
         internal static HistoryManager ConfigHistory { get; set; }
+
         internal static readonly string HistoryFileName = "UploadersHistory.xml";
+
         public static string HistoryFilePath
         {
             get
@@ -127,6 +137,7 @@ namespace ShareX
         {
             log.Info("Loading workflows config");
             ConfigWorkflows = WorkflowsConfig.Load(ConfigWorkflowsFilePath);
+            UpgradeHelper.Upgrade_r175();
             WorkflowsResetEvent.Set();
         }
 
@@ -134,6 +145,7 @@ namespace ShareX
         {
             log.Info("Loading core config");
             SettingsManager.ConfigCore = Settings.Load(ConfigCoreFilePath);
+            UpgradeHelper.Upgrade_r125();
             CoreResetEvent.Set();
         }
 
