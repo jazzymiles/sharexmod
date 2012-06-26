@@ -199,6 +199,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SettingsHelpers\UpgradeHelper.cs" />
     <Compile Include="SettingsHelpers\UserConfig.cs" />
     <Compile Include="SettingsManager.cs" />
     <Compile Include="SettingsHelpers\WorkflowsConfig.cs" />
