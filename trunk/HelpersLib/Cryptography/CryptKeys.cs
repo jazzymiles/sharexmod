@@ -88,6 +88,16 @@ namespace HelpersLib
             return AESEncryption.Encrypt(PlainText, ci.Password, ci.Salt, EncryptionMethod, PassIterations, ci.Vector, KeySize);
         }
 
+        public string Encrypt(string PlainText, string Password, string Salt, string Vector, string EncryptionMethod = CryptMethod.SHA1, int PassIterations = 2, int Keysize = 256)
+        {
+            return AESEncryption.Encrypt(PlainText, Password, Salt, EncryptionMethod, PassIterations, Vector, Keysize);
+        }
+
+        public string Decrypt(string CryptText, string Password, string Salt, string Vector, string EncryptionMethod = CryptMethod.SHA1, int PassIterations = 2, int Keysize = 256)
+        {
+            return AESEncryption.Decrypt(CryptText, Password, Salt, EncryptionMethod, PassIterations, Vector, Keysize);
+        }
+
         public string Decrypt(string CryptedText, CryptInfo ci, int Keysize = 256, string EncryptionMethod = CryptMethod.SHA1, int PassIterations = 2)
         {
             return AESEncryption.Decrypt(CryptedText, ci.Password, ci.Salt, EncryptionMethod, PassIterations, ci.Vector, Keysize);

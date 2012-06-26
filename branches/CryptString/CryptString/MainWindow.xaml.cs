@@ -27,12 +27,12 @@ namespace CryptString
 
         private void btnEncrypt_Click(object sender, RoutedEventArgs e)
         {
-            txtText.Text = new CryptKeys().Encrypt(txtText.Text);
+            txtText.Text = new CryptKeys().Encrypt(txtText.Text, "sharexmod", "fedecda6893b798b6efb7b9fdfbfe990", "71GHqITtU6b5ww7b");
         }
 
         private void btnDecrypt_Click(object sender, RoutedEventArgs e)
         {
-            txtText.Text = new CryptKeys().Decrypt(txtText.Text);
+            txtText.Text = new CryptKeys().Decrypt(txtText.Text, "sharexmod", "fedecda6893b798b6efb7b9fdfbfe990", "71GHqITtU6b5ww7b");
         }
 
         private void btnCopy_Click(object sender, RoutedEventArgs e)
