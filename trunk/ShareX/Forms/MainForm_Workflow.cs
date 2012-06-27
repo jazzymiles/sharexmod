@@ -147,6 +147,7 @@ namespace ShareX
             if (jobs_wf.Workflow.Settings.PerformGlobalAfterCaptureTasks)
             {
                 jobs_wf.Workflow.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
+                jobs_wf.Workflow.AfterUploadTasks |= SettingsManager.ConfigCore.AfterUploadTasks;
             }
 
             AfterHotkeyPressed(imagedata_wf, jobs_wf);
