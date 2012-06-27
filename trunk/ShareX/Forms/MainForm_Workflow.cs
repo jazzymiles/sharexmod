@@ -187,36 +187,6 @@ namespace ShareX
             }
         }
 
-        private void EditImage(ref ImageData imageData_gse)
-        {
-            if (imageData_gse != null)
-            {
-                if (!Greenshot.IniFile.IniConfig.IsInited)
-                    Greenshot.IniFile.IniConfig.Init();
-
-                GreenshotPlugin.Core.CoreConfiguration conf = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>(); ;
-                conf.OutputFileFilenamePattern = "${title}";
-                conf.OutputFilePath = Program.ScreenshotsPath;
-
-                Greenshot.Plugin.ICapture capture = new GreenshotPlugin.Core.Capture();
-                capture.Image = imageData_gse.Image;
-                capture.CaptureDetails.Filename = Path.Combine(Program.ScreenshotsPath, imageData_gse.Filename);
-                capture.CaptureDetails.Title =
-                    Path.GetFileNameWithoutExtension(capture.CaptureDetails.Filename);
-                capture.CaptureDetails.AddMetaData("file", capture.CaptureDetails.Filename);
-                capture.CaptureDetails.AddMetaData("source", "file");
-
-                var surface = new Greenshot.Drawing.Surface(capture);
-                var editor = new Greenshot.ImageEditorForm(surface, true) { Icon = this.Icon };
-
-                editor.SetImagePath(capture.CaptureDetails.Filename);
-                editor.Visible = false; // required before ShowDialog
-                editor.ShowDialog();
-
-                imageData_gse.Image = editor.GetImageForExport();
-            }
-        }
-
         private string FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey hotkey)
         {
             return FindAppWorkflowByHotkey(hotkey).HotkeyConfig.Tag;

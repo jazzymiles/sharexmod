@@ -80,6 +80,16 @@ namespace ShareX.HelperClasses
             }
         }
 
+        public static ImageData GetNew(string fp)
+        {
+            ImageData id = null;
+            if (File.Exists(fp))
+            {
+                id = new ImageData((Image)Image.FromFile(fp).Clone());
+            }
+            return id;
+        }
+
         private string PrepareFilenameWithoutExtension()
         {
             string windowText = this.WindowText;

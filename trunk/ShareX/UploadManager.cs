@@ -131,7 +131,6 @@ namespace ShareX
                     {
                         Task task = Task.CreateFileUploaderTask(type, path, destination);
                         task.SetWorkflow(act.Workflow);
-
                         StartUpload(task);
                         break;
                     }
@@ -156,7 +155,6 @@ namespace ShareX
                 if (act.Workflow.Settings.DestConfig.ImageUploaders.Count > 0)
                     destination = act.Workflow.Settings.DestConfig.ImageUploaders[0] == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
                 Task task = Task.CreateImageUploaderTask(imageData, destination);
-                task.Info.Jobs = act.Workflow.Subtasks;
                 task.SetWorkflow(act.Workflow);
                 StartUpload(task);
             }
@@ -187,7 +185,6 @@ namespace ShareX
                 if (act.Workflow.Settings.DestConfig.TextUploaders.Count > 0)
                     destination = act.Workflow.Settings.DestConfig.TextUploaders[0] == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
                 Task task = Task.CreateTextUploaderTask(text, destination);
-                task.Info.Jobs = act.Workflow.Subtasks;
                 task.SetWorkflow(act.Workflow);
                 StartUpload(task);
             }
