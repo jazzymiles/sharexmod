@@ -58,7 +58,10 @@ namespace ShareX
                 foreach (Workflow wf in SettingsManager.ConfigWorkflows.Workflows)
                 {
                     if (wf.Hotkey == HelpersLib.Hotkeys2.EHotkey.ClipboardUpload || wf.Hotkey == HelpersLib.Hotkeys2.EHotkey.FileUpload)
+                    {
                         wf.Subtasks |= Subtask.UploadToRemoteHost;
+                        wf.AfterUploadTasks |= AfterUploadTasks.CopyURLToClipboard;
+                    }
                     else
                         wf.Settings.PerformGlobalAfterCaptureTasks = true;
                 }

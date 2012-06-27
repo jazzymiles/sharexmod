@@ -18,7 +18,8 @@ namespace HelpersLib.Hotkeys2
         /// </summary>
         public List<EActivity> Activities = new List<EActivity>();
 
-        public Subtask Subtasks = Subtask.None;
+        public Subtask Subtasks = Subtask.CopyImageToClipboard;
+        public AfterUploadTasks AfterUploadTasks = AfterUploadTasks.CopyURLToClipboard;
 
         public WorkflowSettings Settings = new WorkflowSettings();
 

@@ -49,6 +49,8 @@ namespace HelpersLib.Hotkeys2
 
             #endregion After Capture
 
+            ucAfterUploadTasks.ConfigUI(Workflow.AfterUploadTasks, chkAfterUploadTask_CheckedChanged);
+
             #region External Programs
 
             foreach (ExternalProgram fileAction in Workflow.Settings.ExternalPrograms)
@@ -139,6 +141,21 @@ namespace HelpersLib.Hotkeys2
             #endregion Share
         }
 
+        private void chkAfterUploadTask_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox chkAfterUploadTask = sender as CheckBox;
+            AfterUploadTasks task = (AfterUploadTasks)chkAfterUploadTask.Tag;
+
+            if (chkAfterUploadTask.Checked)
+            {
+                Workflow.AfterUploadTasks |= task;
+            }
+            else
+            {
+                Workflow.AfterUploadTasks &= ~task;
+            }
+        }
+
         private void chkAfterCaptureTask_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox chkAfterCaptureTask = sender as CheckBox;
@@ -150,7 +167,7 @@ namespace HelpersLib.Hotkeys2
                 if (task == Subtask.RunExternalProgram)
                     ShowTabRunExternalPrograms();
                 else if (task == Subtask.UploadToRemoteHost)
-                    HideTabUploadAndShare();
+                    ShowTabUploadAndShare();
             }
             else
             {
@@ -158,7 +175,7 @@ namespace HelpersLib.Hotkeys2
                 if (task == Subtask.RunExternalProgram)
                     HideTabRunExternalPrograms();
                 else if (task == Subtask.UploadToRemoteHost)
-                    ShowTabUploadAndShare();
+                    HideTabUploadAndShare();
             }
         }
 
@@ -293,6 +310,11 @@ namespace HelpersLib.Hotkeys2
         private void chkPerformGlobalAfterCaptureTasks_CheckedChanged(object sender, EventArgs e)
         {
             Workflow.Settings.PerformGlobalAfterCaptureTasks = chkPerformGlobalAfterCaptureTasks.Checked;
+
+            if (chkPerformGlobalAfterCaptureTasks.Checked)
+                HideTabUploadAndShare();
+            else
+                ShowTabUploadAndShare();
         }
 
         #region Show/Hide Tabs
@@ -407,6 +429,7 @@ namespace HelpersLib.Hotkeys2
             gbFileUploaders.Visible = true;
             gbImageUploaders.Visible = true;
             gbTextUploaders.Visible = true;
+            ShowTabUploadAndShare();
             HideTabAfterCapture();
         }
 
@@ -430,6 +453,7 @@ namespace HelpersLib.Hotkeys2
                     Description = x.GetDescription(),
                     Enum = x
                 });
+
                 foreach (var task in tasks)
                 {
                     if (task.Enum == Subtask.None)
@@ -474,8 +498,29 @@ namespace HelpersLib.Hotkeys2
                                 sb.AppendLine("-------- " + uploader.GetDescription());
                             }
                         }
+                    }
+                }
+            }
 
-                        else if (task.Enum.HasFlag(Subtask.ShareUsingSocialNetworkingService))
+            if (Workflow.AfterUploadTasks != AfterUploadTasks.None)
+            {
+                sb.AppendLine("Perform custom After Upload Tasks:");
+                var tasks = Enum.GetValues(typeof(AfterUploadTasks)).Cast<AfterUploadTasks>().Select(x => new
+                {
+                    Description = x.GetDescription(),
+                    Enum = x
+                });
+
+                foreach (var task in tasks)
+                {
+                    if (task.Enum == AfterUploadTasks.None)
+                        continue;
+
+                    if (Workflow.AfterUploadTasks.HasFlag(task.Enum))
+                    {
+                        sb.AppendLine("---- " + task.Enum.GetDescription());
+
+                        if (task.Enum.HasFlag(AfterUploadTasks.ShareUsingSocialNetworkingService))
                         {
                             foreach (SocialNetworkingService sns in Workflow.Settings.DestConfig.SocialNetworkingServices)
                             {

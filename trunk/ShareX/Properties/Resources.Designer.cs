@@ -102,9 +102,23 @@ namespace ShareX.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap calculator_add {
+            get {
+                object obj = ResourceManager.GetObject("calculator_add", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap camera {
             get {
                 object obj = ResourceManager.GetObject("camera", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap camera_add {
+            get {
+                object obj = ResourceManager.GetObject("camera_add", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -398,6 +412,13 @@ namespace ShareX.Properties {
         public static System.Drawing.Bitmap Window {
             get {
                 object obj = ResourceManager.GetObject("Window", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap world_link {
+            get {
+                object obj = ResourceManager.GetObject("world_link", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

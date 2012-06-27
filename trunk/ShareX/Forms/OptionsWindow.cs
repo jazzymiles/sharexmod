@@ -121,8 +121,8 @@ namespace ShareX.Forms
             cbStartWithWindows.Checked = ShortcutHelper.CheckShortcut(Environment.SpecialFolder.Startup);
             cbShellContextMenu.Checked = ShortcutHelper.CheckShortcut(Environment.SpecialFolder.SendTo);
             cbCheckUpdates.Checked = SettingsManager.ConfigCore.AutoCheckUpdate;
-            cbClipboardAutoCopy.Checked = SettingsManager.ConfigCore.ClipboardAutoCopy;
-            cbURLShortenAfterUpload.Checked = SettingsManager.ConfigCore.URLShortenAfterUpload;
+            cbClipboardAutoCopy.Checked = SettingsManager.ConfigCore.AfterUploadTasks.HasFlag(AfterUploadTasks.CopyURLToClipboard);
+            cbURLShortenAfterUpload.Checked = SettingsManager.ConfigCore.AfterUploadTasks.HasFlag(AfterUploadTasks.UseURLShortener);
             cbPlaySoundAfterCapture.Checked = SettingsManager.ConfigCore.PlaySoundAfterCapture;
             chkPlaySoundAfterUpload.Checked = SettingsManager.ConfigCore.PlaySoundAfterUpload;
             chkShowBalloonAfterUpload.Checked = SettingsManager.ConfigCore.ShowBalloonAfterUpload;
@@ -657,12 +657,18 @@ namespace ShareX.Forms
 
         private void cbURLShortenAfterUpload_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.URLShortenAfterUpload = cbURLShortenAfterUpload.Checked;
+            if (cbURLShortenAfterUpload.Checked)
+                SettingsManager.ConfigCore.AfterUploadTasks |= AfterUploadTasks.UseURLShortener;
+            else
+                SettingsManager.ConfigCore.AfterUploadTasks &= ~AfterUploadTasks.UseURLShortener;
         }
 
         private void cbClipboardAutoCopy_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsManager.ConfigCore.ClipboardAutoCopy = cbClipboardAutoCopy.Checked;
+            if (cbClipboardAutoCopy.Checked)
+                SettingsManager.ConfigCore.AfterUploadTasks |= AfterUploadTasks.CopyURLToClipboard;
+            else
+                SettingsManager.ConfigCore.AfterUploadTasks &= ~AfterUploadTasks.CopyURLToClipboard;
         }
 
         #endregion Upload

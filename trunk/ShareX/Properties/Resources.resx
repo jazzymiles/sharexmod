@@ -118,6 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="calculator_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\calculator_add.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="sharex_16px_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sharex-16px-4.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -226,14 +229,17 @@
   <data name="Ellipse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ellipse.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="application_browser" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\application-browser.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="document--arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\document--arrow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CameraSound" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Camera.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="FreeHand" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FreeHand.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="camera_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\camera_add.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="image" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\image.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -244,8 +250,8 @@
   <data name="share" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\share.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Fullscreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Fullscreen.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CameraSound" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Camera.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="sharex_16px_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sharex-16px-6.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -253,8 +259,11 @@
   <data name="gear" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gear.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="application_browser" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\application-browser.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="server" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\server.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Fullscreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fullscreen.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="us" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\us.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -263,7 +272,7 @@
     <value>..\Resources\present.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="server" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\server.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="world_link" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\world_link.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

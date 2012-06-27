@@ -9,34 +9,33 @@ using System.Windows.Forms;
 
 namespace HelpersLib.UserControls
 {
-    public partial class AfterCatureTasksUI : UserControl
+    public partial class AfterUploadTasksUI : UserControl
     {
-        public AfterCatureTasksUI()
+        public AfterUploadTasksUI()
         {
             InitializeComponent();
         }
 
         /// <summary>
-        /// Configure After Capture Tasks UI
+        /// Configure After Upload Tasks UI
         /// </summary>
         /// <param name="config">Initial config</param>
-        /// <param name="chkAfterCaptureTask_CheckedChanged">Event handler of the parent form</param>
-        public void ConfigUI(Subtask config, EventHandler chkAfterCaptureTask_CheckedChanged)
+        /// <param name="chkAfterUploadTask_CheckedChanged">Event handler of the parent form</param>
+        public void ConfigUI(AfterUploadTasks config, EventHandler chkAfterUploadTask_CheckedChanged)
         {
-            var tasks = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new
+            var tasks = Enum.GetValues(typeof(AfterUploadTasks)).Cast<AfterUploadTasks>().Select(x => new
             {
                 Description = x.GetDescription(),
                 Enum = x
             });
 
-            int maxWidth = 0;
-            int yGap = 8;
+            flpTasks.Controls.Clear();
 
             foreach (var job in tasks)
             {
                 switch (job.Enum)
                 {
-                    case Subtask.None:
+                    case AfterUploadTasks.None:
                         continue;
                 }
 
@@ -44,17 +43,10 @@ namespace HelpersLib.UserControls
                 chkAfterCaptureTask.Tag = job.Enum;
                 chkAfterCaptureTask.Text = job.Description;
                 chkAfterCaptureTask.AutoSize = true;
-                chkAfterCaptureTask.Location = new Point(8, yGap);
-                chkAfterCaptureTask.CheckedChanged += chkAfterCaptureTask_CheckedChanged;
+                chkAfterCaptureTask.CheckedChanged += chkAfterUploadTask_CheckedChanged;
                 chkAfterCaptureTask.Checked = config.HasFlag(job.Enum);
-                this.Controls.Add(chkAfterCaptureTask);
-
-                maxWidth = Math.Max(maxWidth, chkAfterCaptureTask.Width);
-                yGap += 24;
+                flpTasks.Controls.Add(chkAfterCaptureTask);
             }
-
-            this.Width = Math.Max(400, maxWidth);
-            this.Height = yGap + 24;
         }
     }
 }

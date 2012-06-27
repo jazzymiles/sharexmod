@@ -359,7 +359,7 @@ namespace ShareX
         {
             // Shorten URL
 
-            if ((Workflow.Subtasks.HasFlag(Subtask.ShortenUrl) || SettingsManager.ConfigCore.URLShortenAfterUpload ||
+            if ((Workflow.Subtasks.HasFlag(Subtask.ShortenUrl) || Workflow.AfterUploadTasks.HasFlag(AfterUploadTasks.CopyURLToClipboard) ||
                 Info.Job == TaskJob.ShortenURL) && Info.Result.URL.Length >= SettingsManager.ConfigCore.MaximumURLLength)
             {
                 Info.Result.ShortenedURL = ShortenURL(Info.Result.URL);
@@ -367,7 +367,7 @@ namespace ShareX
 
             // Share using Social Networking Services
 
-            if (Workflow.Subtasks.HasFlag(Subtask.ShareUsingSocialNetworkingService) && !string.IsNullOrEmpty(Info.Result.URL))
+            if (Workflow.AfterUploadTasks.HasFlag(AfterUploadTasks.ShareUsingSocialNetworkingService) && !string.IsNullOrEmpty(Info.Result.URL))
             {
                 foreach (SocialNetworkingService sns in Workflow.Settings.DestConfig.SocialNetworkingServices)
                 {
