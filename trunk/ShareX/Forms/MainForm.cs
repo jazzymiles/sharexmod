@@ -957,5 +957,7 @@ namespace ShareX
         }
 
         #endregion Form events
+
+
     }
 }

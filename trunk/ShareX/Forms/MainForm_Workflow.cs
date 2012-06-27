@@ -40,6 +40,7 @@ namespace ShareX
                 Workflow wfDiamondRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.DiamondRegion, new HotkeySetting());
                 Workflow wfPolygonRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.PolygonRegion, new HotkeySetting());
                 Workflow wfFreeHandRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.FreeHandRegion, new HotkeySetting());
+                Workflow wfLastRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.LastRegion, new HotkeySetting());
 
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfClipboardUpload);
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfFileUpload);
@@ -54,6 +55,7 @@ namespace ShareX
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfDiamondRegion);
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfPolygonRegion);
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfFreeHandRegion);
+                SettingsManager.ConfigWorkflows.Workflows.Add(wfLastRegion);
 
                 foreach (Workflow wf in SettingsManager.ConfigWorkflows.Workflows)
                 {
@@ -66,6 +68,14 @@ namespace ShareX
                         wf.Settings.PerformGlobalAfterCaptureTasks = true;
                 }
             } // if Workflows.Count == 0
+
+            Workflow wfLastRegion_r200 = FindAppWorkflowByHotkey(EHotkey.LastRegion);
+            if (wfLastRegion_r200 == null)
+            {
+                wfLastRegion_r200 = new Workflow(HelpersLib.Hotkeys2.EHotkey.LastRegion, new HotkeySetting());
+                wfLastRegion_r200.Settings.PerformGlobalAfterCaptureTasks = true;
+                SettingsManager.ConfigWorkflows.Workflows.Insert(13, wfLastRegion_r200);
+            }
 
             foreach (Workflow wf in SettingsManager.ConfigWorkflows.Workflows)
             {
@@ -126,6 +136,9 @@ namespace ShareX
                     break;
                 case EHotkey.FullScreen:
                     imagedata_wf = CaptureScreen(autoHideForm);
+                    break;
+                case EHotkey.LastRegion:
+                    imagedata_wf = CaptureLastRegion(autoHideForm);
                     break;
                 case EHotkey.PolygonRegion:
                     imagedata_wf = CaptureRegion(new PolygonRegion(), autoHideForm);

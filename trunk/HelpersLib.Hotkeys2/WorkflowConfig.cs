@@ -533,7 +533,7 @@ namespace HelpersLib.Hotkeys2
 
             if (Workflow.Settings.PerformGlobalAfterCaptureTasks)
             {
-                sb.AppendLine("Perform global After Capture Tasks");
+                sb.AppendLine("Apply default settings.");
             }
 
             return sb.ToString();

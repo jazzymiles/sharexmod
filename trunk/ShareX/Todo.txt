@@ -1,1 +1,1 @@
-﻿Support URL Shorteners and Social Networking services in Workflow Config
+﻿Separate app-workflows from user-workflows
