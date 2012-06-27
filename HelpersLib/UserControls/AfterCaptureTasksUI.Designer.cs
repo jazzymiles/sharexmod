@@ -1,6 +1,6 @@
 ﻿namespace HelpersLib.UserControls
 {
-    partial class AfterCatureTasksUI
+    partial class AfterCaptureTasksUI
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,12 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.flpTasks = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flpTasks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpTasks.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flpTasks.Location = new System.Drawing.Point(0, 0);
+            this.flpTasks.Name = "flowLayoutPanel1";
+            this.flpTasks.Size = new System.Drawing.Size(275, 174);
+            this.flpTasks.TabIndex = 0;
             // 
             // AfterCatureTasksUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.flpTasks);
             this.Name = "AfterCatureTasksUI";
             this.Size = new System.Drawing.Size(275, 174);
             this.ResumeLayout(false);
@@ -41,5 +52,7 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.FlowLayoutPanel flpTasks;
     }
 }

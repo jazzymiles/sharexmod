@@ -59,8 +59,6 @@ namespace ShareX
 
         public bool ShowTray = true;
         public bool AutoCheckUpdate = true;
-        public bool ClipboardAutoCopy = true;
-        public bool URLShortenAfterUpload = false;
         public bool PlaySoundAfterCapture = true;
         public bool PlaySoundAfterUpload = true;
         public bool ShowBalloonAfterUpload = true;
@@ -97,6 +95,7 @@ namespace ShareX
         public bool CaptureShadow = true;
         public OutputEnum Outputs = OutputEnum.Clipboard | OutputEnum.LocalDisk | OutputEnum.RemoteHost;
         public Subtask AfterCaptureTasks = Subtask.CopyImageToClipboard | Subtask.SaveToFile | Subtask.UploadToRemoteHost;
+        public AfterUploadTasks AfterUploadTasks = AfterUploadTasks.CopyURLToClipboard;
         public string SaveImageSubFolderPattern = "%y-%mo";
         public SurfaceOptions SurfaceOptions = new SurfaceOptions() { QuickCrop = true, IncludeControls = true };
 

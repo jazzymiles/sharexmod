@@ -219,9 +219,18 @@ namespace HelpersLib
 
         [Description("Send to printer"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
         Print = 1 << 12,
+    }
 
-        [Description("Post to social networking service"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        ShareUsingSocialNetworkingService = 1 << 13,
+    [Flags]
+    public enum AfterUploadTasks
+    {
+        None = 0,
+        [Description("Use URL shortener")]
+        UseURLShortener = 1,
+        [Description("Post URL to social networking service")]
+        ShareUsingSocialNetworkingService = 1 << 1,
+        [Description("Copy URL to clipboard")]
+        CopyURLToClipboard = 1 << 2
     }
 
     public enum HotkeyStatus

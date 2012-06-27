@@ -327,6 +327,9 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="Resources\server.png" />
+    <None Include="Resources\calculator_add.png" />
+    <None Include="Resources\camera_add.png" />
+    <None Include="Resources\world_link.png" />
     <Content Include="Todo.txt" />
     <None Include="Resources\Camera.wav" />
     <None Include="Resources\share2.png" />

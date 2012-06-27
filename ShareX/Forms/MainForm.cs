@@ -175,11 +175,13 @@ namespace ShareX
 
         public void ReloadOutputsMenu()
         {
+            #region Outputs
+
             var outputs = Enum.GetValues(typeof(OutputEnum)).Cast<OutputEnum>().Select(x => new
-            {
-                Description = x.GetDescription(),
-                Enum = x
-            });
+    {
+        Description = x.GetDescription(),
+        Enum = x
+    });
 
             tsddbOutputs.DropDownItems.Clear();
 
@@ -192,6 +194,71 @@ namespace ShareX
                 tsmi.CheckedChanged += new EventHandler(tsmiOutputs_CheckedChanged);
                 tsddbOutputs.DropDownItems.Add(tsmi);
             }
+
+            #endregion Outputs
+
+            #region After Capture Tasks
+
+            var afterCaptureTasks = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new
+    {
+        Description = x.GetDescription(),
+        Enum = x
+    });
+
+            tsddbAfterCaptureTasks.DropDownItems.Clear();
+            foreach (var task in afterCaptureTasks)
+            {
+                if (task.Enum == Subtask.None)
+                    continue;
+
+                ToolStripMenuItem tsmi = new ToolStripMenuItem(task.Description);
+                tsmi.Checked = SettingsManager.ConfigCore.AfterCaptureTasks.HasFlag(task.Enum);
+                tsmi.Tag = task.Enum;
+                tsmi.CheckOnClick = true;
+                tsmi.CheckedChanged += new EventHandler(tsmiAfterCaptureTask_CheckedChanged);
+                tsddbAfterCaptureTasks.DropDownItems.Add(tsmi);
+            }
+
+            #endregion After Capture Tasks
+
+            var afterUploadTasks = Enum.GetValues(typeof(AfterUploadTasks)).Cast<AfterUploadTasks>().Select(x => new
+                {
+                    Description = x.GetDescription(),
+                    Enum = x
+                });
+
+            tsddbAfterUploadTasks.DropDownItems.Clear();
+
+            foreach (var task in afterUploadTasks)
+            {
+                if (task.Enum == AfterUploadTasks.None)
+                    continue;
+
+                ToolStripMenuItem tsmi = new ToolStripMenuItem(task.Description);
+                tsmi.Checked = SettingsManager.ConfigCore.AfterUploadTasks.HasFlag(task.Enum);
+                tsmi.Tag = task.Enum;
+                tsmi.CheckOnClick = true;
+                tsmi.CheckedChanged += new EventHandler(tsmiAfterUploadTasks_CheckedChanged);
+                tsddbAfterUploadTasks.DropDownItems.Add(tsmi);
+            }
+        }
+
+        private void tsmiAfterUploadTasks_CheckedChanged(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+            if (tsmi.Checked)
+                SettingsManager.ConfigCore.AfterUploadTasks |= (AfterUploadTasks)tsmi.Tag;
+            else
+                SettingsManager.ConfigCore.AfterUploadTasks &= ~(AfterUploadTasks)tsmi.Tag;
+        }
+
+        private void tsmiAfterCaptureTask_CheckedChanged(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+            if (tsmi.Checked)
+                SettingsManager.ConfigCore.AfterCaptureTasks |= (Subtask)tsmi.Tag;
+            else
+                SettingsManager.ConfigCore.AfterCaptureTasks &= ~(Subtask)tsmi.Tag;
         }
 
         private void tsmiOutputs_CheckedChanged(object sender, EventArgs e)
@@ -255,7 +322,7 @@ namespace ShareX
                     UploadResult result = lvUploads.Items[index].Tag as UploadResult;
                     AfterCaptureActivity act = new AfterCaptureActivity();
                     act.Workflow.Settings.DestConfig.SocialNetworkingServices.Add((SocialNetworkingService)tsmi.Tag);
-                    act.Workflow.Subtasks = Subtask.ShareUsingSocialNetworkingService;
+                    act.Workflow.AfterUploadTasks = AfterUploadTasks.ShareUsingSocialNetworkingService;
                     UploadManager.ShareUsingSocialNetworkingService(result, act);
                 }
             }

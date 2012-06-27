@@ -98,11 +98,17 @@
       <DependentUpon>DownloaderForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FileDownloader.cs" />
-    <Compile Include="UserControls\AfterCatureTasksUI.cs">
+    <Compile Include="UserControls\AfterCaptureTasksUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\AfterCatureTasksUI.Designer.cs">
-      <DependentUpon>AfterCatureTasksUI.cs</DependentUpon>
+    <Compile Include="UserControls\AfterCaptureTasksUI.Designer.cs">
+      <DependentUpon>AfterCaptureTasksUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\AfterUploadTasksUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\AfterUploadTasksUI.Designer.cs">
+      <DependentUpon>AfterUploadTasksUI.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\BlackStyle\MyButton.cs">
       <SubType>Component</SubType>
@@ -198,8 +204,11 @@
     <EmbeddedResource Include="UpdateChecker\DownloaderForm.resx">
       <DependentUpon>DownloaderForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\AfterCatureTasksUI.resx">
-      <DependentUpon>AfterCatureTasksUI.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\AfterCaptureTasksUI.resx">
+      <DependentUpon>AfterCaptureTasksUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\AfterUploadTasksUI.resx">
+      <DependentUpon>AfterUploadTasksUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizards\ClipboardContentViewer.resx">
       <DependentUpon>ClipboardContentViewer.cs</DependentUpon>

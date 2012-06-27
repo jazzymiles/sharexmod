@@ -509,7 +509,7 @@ namespace ShareX
                         lvi.SubItems[8].Text = url;
 
                         if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.Clipboard) &&
-                            SettingsManager.ConfigCore.ClipboardAutoCopy)
+                            SettingsManager.ConfigCore.AfterUploadTasks.HasFlag(AfterUploadTasks.CopyURLToClipboard))
                         {
                             Helpers.CopyTextSafely(url);
                         }

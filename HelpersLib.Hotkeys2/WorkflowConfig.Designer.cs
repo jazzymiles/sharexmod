@@ -40,7 +40,10 @@
             this.chkPerformGlobalAfterCaptureTasks = new System.Windows.Forms.CheckBox();
             this.cboCapture = new System.Windows.Forms.ComboBox();
             this.tpAfterCapture = new System.Windows.Forms.TabPage();
-            this.ucAfterCaptureTasks = new HelpersLib.UserControls.AfterCatureTasksUI();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.gbAfterCaptureTasks = new System.Windows.Forms.GroupBox();
+            this.ucAfterCaptureTasks = new HelpersLib.UserControls.AfterCaptureTasksUI();
+            this.gbAfterUploadTasks = new System.Windows.Forms.GroupBox();
             this.tpRunExternalPrograms = new System.Windows.Forms.TabPage();
             this.btnActionsEdit = new System.Windows.Forms.Button();
             this.btnActionsRemove = new System.Windows.Forms.Button();
@@ -57,29 +60,33 @@
             this.flpImageUploaders = new System.Windows.Forms.FlowLayoutPanel();
             this.gbTextUploaders = new System.Windows.Forms.GroupBox();
             this.flpTextUploaders = new System.Windows.Forms.FlowLayoutPanel();
-            this.tpSummary = new System.Windows.Forms.TabPage();
-            this.lblSummary = new System.Windows.Forms.Label();
             this.tpShare = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.gbUrlShorteners = new System.Windows.Forms.GroupBox();
             this.flpUrlShorteners = new System.Windows.Forms.FlowLayoutPanel();
             this.gbSocialNetworkingServices = new System.Windows.Forms.GroupBox();
             this.flpSocialNetworkingServices = new System.Windows.Forms.FlowLayoutPanel();
+            this.tpSummary = new System.Windows.Forms.TabPage();
+            this.lblSummary = new System.Windows.Forms.Label();
+            this.ucAfterUploadTasks = new HelpersLib.UserControls.AfterUploadTasksUI();
             this.tcWorkflow.SuspendLayout();
             this.tpCapture.SuspendLayout();
             this.gbSettings.SuspendLayout();
             this.tpAfterCapture.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.gbAfterCaptureTasks.SuspendLayout();
+            this.gbAfterUploadTasks.SuspendLayout();
             this.tpRunExternalPrograms.SuspendLayout();
             this.tpUpload.SuspendLayout();
             this.tlpUpload.SuspendLayout();
             this.gbFileUploaders.SuspendLayout();
             this.gbImageUploaders.SuspendLayout();
             this.gbTextUploaders.SuspendLayout();
-            this.tpSummary.SuspendLayout();
             this.tpShare.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.gbUrlShorteners.SuspendLayout();
             this.gbSocialNetworkingServices.SuspendLayout();
+            this.tpSummary.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtDescription
@@ -202,22 +209,59 @@
             // 
             // tpAfterCapture
             // 
-            this.tpAfterCapture.Controls.Add(this.ucAfterCaptureTasks);
+            this.tpAfterCapture.Controls.Add(this.tableLayoutPanel2);
             this.tpAfterCapture.Location = new System.Drawing.Point(4, 22);
             this.tpAfterCapture.Name = "tpAfterCapture";
             this.tpAfterCapture.Padding = new System.Windows.Forms.Padding(3);
             this.tpAfterCapture.Size = new System.Drawing.Size(654, 374);
             this.tpAfterCapture.TabIndex = 1;
-            this.tpAfterCapture.Text = "After Capture";
+            this.tpAfterCapture.Text = "Tasks";
             this.tpAfterCapture.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.Controls.Add(this.gbAfterCaptureTasks, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.gbAfterUploadTasks, 1, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(648, 368);
+            this.tableLayoutPanel2.TabIndex = 2;
+            // 
+            // gbAfterCaptureTasks
+            // 
+            this.gbAfterCaptureTasks.Controls.Add(this.ucAfterCaptureTasks);
+            this.gbAfterCaptureTasks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbAfterCaptureTasks.Location = new System.Drawing.Point(3, 3);
+            this.gbAfterCaptureTasks.Name = "gbAfterCaptureTasks";
+            this.gbAfterCaptureTasks.Size = new System.Drawing.Size(318, 362);
+            this.gbAfterCaptureTasks.TabIndex = 0;
+            this.gbAfterCaptureTasks.TabStop = false;
+            this.gbAfterCaptureTasks.Text = "After Capture Tasks";
             // 
             // ucAfterCaptureTasks
             // 
             this.ucAfterCaptureTasks.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucAfterCaptureTasks.Location = new System.Drawing.Point(3, 3);
+            this.ucAfterCaptureTasks.Location = new System.Drawing.Point(3, 16);
             this.ucAfterCaptureTasks.Name = "ucAfterCaptureTasks";
-            this.ucAfterCaptureTasks.Size = new System.Drawing.Size(648, 368);
+            this.ucAfterCaptureTasks.Size = new System.Drawing.Size(312, 343);
             this.ucAfterCaptureTasks.TabIndex = 0;
+            // 
+            // gbAfterUploadTasks
+            // 
+            this.gbAfterUploadTasks.Controls.Add(this.ucAfterUploadTasks);
+            this.gbAfterUploadTasks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbAfterUploadTasks.Location = new System.Drawing.Point(327, 3);
+            this.gbAfterUploadTasks.Name = "gbAfterUploadTasks";
+            this.gbAfterUploadTasks.Size = new System.Drawing.Size(318, 362);
+            this.gbAfterUploadTasks.TabIndex = 1;
+            this.gbAfterUploadTasks.TabStop = false;
+            this.gbAfterUploadTasks.Text = "After Upload Tasks";
             // 
             // tpRunExternalPrograms
             // 
@@ -384,26 +428,6 @@
             this.flpTextUploaders.Size = new System.Drawing.Size(204, 343);
             this.flpTextUploaders.TabIndex = 0;
             // 
-            // tpSummary
-            // 
-            this.tpSummary.Controls.Add(this.lblSummary);
-            this.tpSummary.Location = new System.Drawing.Point(4, 22);
-            this.tpSummary.Name = "tpSummary";
-            this.tpSummary.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSummary.Size = new System.Drawing.Size(654, 374);
-            this.tpSummary.TabIndex = 4;
-            this.tpSummary.Text = "Summary";
-            this.tpSummary.UseVisualStyleBackColor = true;
-            // 
-            // lblSummary
-            // 
-            this.lblSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblSummary.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSummary.Location = new System.Drawing.Point(3, 3);
-            this.lblSummary.Name = "lblSummary";
-            this.lblSummary.Size = new System.Drawing.Size(648, 368);
-            this.lblSummary.TabIndex = 0;
-            // 
             // tpShare
             // 
             this.tpShare.Controls.Add(this.tableLayoutPanel1);
@@ -470,6 +494,34 @@
             this.flpSocialNetworkingServices.Size = new System.Drawing.Size(312, 343);
             this.flpSocialNetworkingServices.TabIndex = 0;
             // 
+            // tpSummary
+            // 
+            this.tpSummary.Controls.Add(this.lblSummary);
+            this.tpSummary.Location = new System.Drawing.Point(4, 22);
+            this.tpSummary.Name = "tpSummary";
+            this.tpSummary.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSummary.Size = new System.Drawing.Size(654, 374);
+            this.tpSummary.TabIndex = 4;
+            this.tpSummary.Text = "Summary";
+            this.tpSummary.UseVisualStyleBackColor = true;
+            // 
+            // lblSummary
+            // 
+            this.lblSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblSummary.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSummary.Location = new System.Drawing.Point(3, 3);
+            this.lblSummary.Name = "lblSummary";
+            this.lblSummary.Size = new System.Drawing.Size(648, 368);
+            this.lblSummary.TabIndex = 0;
+            // 
+            // afterUploadTasksUI1
+            // 
+            this.ucAfterUploadTasks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucAfterUploadTasks.Location = new System.Drawing.Point(3, 16);
+            this.ucAfterUploadTasks.Name = "afterUploadTasksUI1";
+            this.ucAfterUploadTasks.Size = new System.Drawing.Size(312, 343);
+            this.ucAfterUploadTasks.TabIndex = 0;
+            // 
             // WindowWorkflow
             // 
             this.AcceptButton = this.btnOk;
@@ -493,17 +545,20 @@
             this.gbSettings.ResumeLayout(false);
             this.gbSettings.PerformLayout();
             this.tpAfterCapture.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.gbAfterCaptureTasks.ResumeLayout(false);
+            this.gbAfterUploadTasks.ResumeLayout(false);
             this.tpRunExternalPrograms.ResumeLayout(false);
             this.tpUpload.ResumeLayout(false);
             this.tlpUpload.ResumeLayout(false);
             this.gbFileUploaders.ResumeLayout(false);
             this.gbImageUploaders.ResumeLayout(false);
             this.gbTextUploaders.ResumeLayout(false);
-            this.tpSummary.ResumeLayout(false);
             this.tpShare.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.gbUrlShorteners.ResumeLayout(false);
             this.gbSocialNetworkingServices.ResumeLayout(false);
+            this.tpSummary.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -524,7 +579,7 @@
         private System.Windows.Forms.ColumnHeader chActionsPath;
         private System.Windows.Forms.ColumnHeader chActionsArgs;
         private System.Windows.Forms.TabPage tpAfterCapture;
-        private UserControls.AfterCatureTasksUI ucAfterCaptureTasks;
+        private UserControls.AfterCaptureTasksUI ucAfterCaptureTasks;
         private System.Windows.Forms.TabPage tpSummary;
         private System.Windows.Forms.ComboBox cboCapture;
         private System.Windows.Forms.TabPage tpCapture;
@@ -547,6 +602,10 @@
         private System.Windows.Forms.FlowLayoutPanel flpUrlShorteners;
         private System.Windows.Forms.GroupBox gbSocialNetworkingServices;
         private System.Windows.Forms.FlowLayoutPanel flpSocialNetworkingServices;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.GroupBox gbAfterCaptureTasks;
+        private System.Windows.Forms.GroupBox gbAfterUploadTasks;
+        private UserControls.AfterUploadTasksUI ucAfterUploadTasks;
 
     }
 }

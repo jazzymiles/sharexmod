@@ -28,31 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("General");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Hotkeys");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Clipboard");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Shapes");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Capture", new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("File Naming");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Quality");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Resize");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Image Processing", new System.Windows.Forms.TreeNode[] {
-            treeNode7,
-            treeNode8});
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Upload");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Paths");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Proxy");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Shapes");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Uploader config");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("User config");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Sync");
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Advanced", new System.Windows.Forms.TreeNode[] {
-            treeNode13,
-            treeNode14,
-            treeNode15,
-            treeNode16});
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("General");
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Hotkeys");
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Clipboard");
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Shapes");
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Capture", new System.Windows.Forms.TreeNode[] {
+            treeNode20,
+            treeNode21});
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("File Naming");
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Quality");
+            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("Resize");
+            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("Image Processing", new System.Windows.Forms.TreeNode[] {
+            treeNode24,
+            treeNode25});
+            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("Upload");
+            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("Paths");
+            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("Proxy");
+            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("Shapes");
+            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("Uploader config");
+            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("User config");
+            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("Sync");
+            System.Windows.Forms.TreeNode treeNode34 = new System.Windows.Forms.TreeNode("Advanced", new System.Windows.Forms.TreeNode[] {
+            treeNode30,
+            treeNode31,
+            treeNode32,
+            treeNode33});
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tvMain = new System.Windows.Forms.TreeView();
             this.tcBase = new System.Windows.Forms.TabControl();
@@ -73,6 +73,7 @@
             this.tpCapture = new System.Windows.Forms.TabPage();
             this.panelCapture = new System.Windows.Forms.Panel();
             this.gbCaptureAfter = new System.Windows.Forms.GroupBox();
+            this.ucAfterCaptureTasks = new HelpersLib.UserControls.AfterCaptureTasksUI();
             this.cbCaptureShadow = new System.Windows.Forms.CheckBox();
             this.cbShowCursor = new System.Windows.Forms.CheckBox();
             this.cbCaptureTransparent = new System.Windows.Forms.CheckBox();
@@ -202,7 +203,6 @@
             this.tpUserConfig = new System.Windows.Forms.TabPage();
             this.panelUserConfig = new System.Windows.Forms.Panel();
             this.pgUserConfig = new System.Windows.Forms.PropertyGrid();
-            this.ucAfterCaptureTasks = new HelpersLib.UserControls.AfterCatureTasksUI();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -283,53 +283,53 @@
             this.tvMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvMain.Location = new System.Drawing.Point(3, 3);
             this.tvMain.Name = "tvMain";
-            treeNode1.Name = "tnGeneral";
-            treeNode1.Tag = "panelGeneral";
-            treeNode1.Text = "General";
-            treeNode2.Name = "tnHotkeys";
-            treeNode2.Text = "Hotkeys";
-            treeNode3.Name = "tnClipboardUpload";
-            treeNode3.Text = "Clipboard";
-            treeNode4.Name = "tnShapes";
-            treeNode4.Tag = "panelShapes";
-            treeNode4.Text = "Shapes";
-            treeNode5.Name = "tnCapture";
-            treeNode5.Tag = "panelCapture";
-            treeNode5.Text = "Capture";
-            treeNode6.Name = "tnFileNaming";
-            treeNode6.Text = "File Naming";
-            treeNode7.Name = "tnImageQuality";
-            treeNode7.Text = "Quality";
-            treeNode8.Name = "tnImageResize";
-            treeNode8.Text = "Resize";
-            treeNode9.Name = "tnImage";
-            treeNode9.Text = "Image Processing";
-            treeNode10.Name = "tnUpload";
-            treeNode10.Text = "Upload";
-            treeNode11.Name = "tnPaths";
-            treeNode11.Text = "Paths";
-            treeNode12.Name = "tnProxy";
-            treeNode12.Text = "Proxy";
-            treeNode13.Name = "tnShapes2";
-            treeNode13.Text = "Shapes";
-            treeNode14.Name = "tnUploaderConfig";
-            treeNode14.Text = "Uploader config";
-            treeNode15.Name = "tnUserConfig";
-            treeNode15.Text = "User config";
-            treeNode16.Name = "tnSync";
-            treeNode16.Text = "Sync";
-            treeNode17.Name = "tnAdvanced";
-            treeNode17.Text = "Advanced";
+            treeNode18.Name = "tnGeneral";
+            treeNode18.Tag = "panelGeneral";
+            treeNode18.Text = "General";
+            treeNode19.Name = "tnHotkeys";
+            treeNode19.Text = "Hotkeys";
+            treeNode20.Name = "tnClipboardUpload";
+            treeNode20.Text = "Clipboard";
+            treeNode21.Name = "tnShapes";
+            treeNode21.Tag = "panelShapes";
+            treeNode21.Text = "Shapes";
+            treeNode22.Name = "tnCapture";
+            treeNode22.Tag = "panelCapture";
+            treeNode22.Text = "Capture";
+            treeNode23.Name = "tnFileNaming";
+            treeNode23.Text = "File Naming";
+            treeNode24.Name = "tnImageQuality";
+            treeNode24.Text = "Quality";
+            treeNode25.Name = "tnImageResize";
+            treeNode25.Text = "Resize";
+            treeNode26.Name = "tnImage";
+            treeNode26.Text = "Image Processing";
+            treeNode27.Name = "tnUpload";
+            treeNode27.Text = "Upload";
+            treeNode28.Name = "tnPaths";
+            treeNode28.Text = "Paths";
+            treeNode29.Name = "tnProxy";
+            treeNode29.Text = "Proxy";
+            treeNode30.Name = "tnShapes2";
+            treeNode30.Text = "Shapes";
+            treeNode31.Name = "tnUploaderConfig";
+            treeNode31.Text = "Uploader config";
+            treeNode32.Name = "tnUserConfig";
+            treeNode32.Text = "User config";
+            treeNode33.Name = "tnSync";
+            treeNode33.Text = "Sync";
+            treeNode34.Name = "tnAdvanced";
+            treeNode34.Text = "Advanced";
             this.tvMain.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode5,
-            treeNode6,
-            treeNode9,
-            treeNode10,
-            treeNode11,
-            treeNode12,
-            treeNode17});
+            treeNode18,
+            treeNode19,
+            treeNode22,
+            treeNode23,
+            treeNode26,
+            treeNode27,
+            treeNode28,
+            treeNode29,
+            treeNode34});
             this.tvMain.Size = new System.Drawing.Size(133, 506);
             this.tvMain.TabIndex = 0;
             this.tvMain.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvMain_AfterSelect);
@@ -365,7 +365,7 @@
             this.tpGeneral.Controls.Add(this.panelGeneral);
             this.tpGeneral.Location = new System.Drawing.Point(4, 22);
             this.tpGeneral.Name = "tpGeneral";
-            this.tpGeneral.Size = new System.Drawing.Size(543, 376);
+            this.tpGeneral.Size = new System.Drawing.Size(543, 480);
             this.tpGeneral.TabIndex = 0;
             this.tpGeneral.Text = "General";
             this.tpGeneral.UseVisualStyleBackColor = true;
@@ -382,7 +382,7 @@
             this.panelGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelGeneral.Location = new System.Drawing.Point(0, 0);
             this.panelGeneral.Name = "panelGeneral";
-            this.panelGeneral.Size = new System.Drawing.Size(543, 376);
+            this.panelGeneral.Size = new System.Drawing.Size(543, 480);
             this.panelGeneral.TabIndex = 0;
             // 
             // gbNotifications
@@ -435,7 +435,7 @@
             this.lblGeneralInfo.BackColor = System.Drawing.Color.DimGray;
             this.lblGeneralInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblGeneralInfo.ForeColor = System.Drawing.Color.White;
-            this.lblGeneralInfo.Location = new System.Drawing.Point(0, 347);
+            this.lblGeneralInfo.Location = new System.Drawing.Point(0, 451);
             this.lblGeneralInfo.Name = "lblGeneralInfo";
             this.lblGeneralInfo.Size = new System.Drawing.Size(543, 29);
             this.lblGeneralInfo.TabIndex = 5;
@@ -491,7 +491,7 @@
             this.tpAdvanced.Controls.Add(this.panelAdvanced);
             this.tpAdvanced.Location = new System.Drawing.Point(4, 22);
             this.tpAdvanced.Name = "tpAdvanced";
-            this.tpAdvanced.Size = new System.Drawing.Size(543, 376);
+            this.tpAdvanced.Size = new System.Drawing.Size(543, 480);
             this.tpAdvanced.TabIndex = 1;
             this.tpAdvanced.Text = "Advanced";
             this.tpAdvanced.UseVisualStyleBackColor = true;
@@ -503,7 +503,7 @@
             this.panelAdvanced.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAdvanced.Location = new System.Drawing.Point(0, 0);
             this.panelAdvanced.Name = "panelAdvanced";
-            this.panelAdvanced.Size = new System.Drawing.Size(543, 376);
+            this.panelAdvanced.Size = new System.Drawing.Size(543, 480);
             this.panelAdvanced.TabIndex = 0;
             // 
             // pgSettings
@@ -511,7 +511,7 @@
             this.pgSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgSettings.Location = new System.Drawing.Point(0, 0);
             this.pgSettings.Name = "pgSettings";
-            this.pgSettings.Size = new System.Drawing.Size(543, 376);
+            this.pgSettings.Size = new System.Drawing.Size(543, 480);
             this.pgSettings.TabIndex = 0;
             // 
             // tpCapture
@@ -543,10 +543,18 @@
             this.gbCaptureAfter.Controls.Add(this.ucAfterCaptureTasks);
             this.gbCaptureAfter.Location = new System.Drawing.Point(11, 96);
             this.gbCaptureAfter.Name = "gbCaptureAfter";
-            this.gbCaptureAfter.Size = new System.Drawing.Size(501, 368);
+            this.gbCaptureAfter.Size = new System.Drawing.Size(501, 320);
             this.gbCaptureAfter.TabIndex = 3;
             this.gbCaptureAfter.TabStop = false;
             this.gbCaptureAfter.Text = "After capture tasks (only applicable for workflows that contain this activity)";
+            // 
+            // ucAfterCaptureTasks
+            // 
+            this.ucAfterCaptureTasks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucAfterCaptureTasks.Location = new System.Drawing.Point(3, 16);
+            this.ucAfterCaptureTasks.Name = "ucAfterCaptureTasks";
+            this.ucAfterCaptureTasks.Size = new System.Drawing.Size(495, 301);
+            this.ucAfterCaptureTasks.TabIndex = 0;
             // 
             // cbCaptureShadow
             // 
@@ -587,7 +595,7 @@
             this.tpShapes.Location = new System.Drawing.Point(4, 22);
             this.tpShapes.Name = "tpShapes";
             this.tpShapes.Padding = new System.Windows.Forms.Padding(3);
-            this.tpShapes.Size = new System.Drawing.Size(543, 376);
+            this.tpShapes.Size = new System.Drawing.Size(543, 480);
             this.tpShapes.TabIndex = 3;
             this.tpShapes.Text = "Shapes";
             this.tpShapes.UseVisualStyleBackColor = true;
@@ -748,7 +756,7 @@
             this.tpProxy.Location = new System.Drawing.Point(4, 22);
             this.tpProxy.Name = "tpProxy";
             this.tpProxy.Padding = new System.Windows.Forms.Padding(3);
-            this.tpProxy.Size = new System.Drawing.Size(543, 376);
+            this.tpProxy.Size = new System.Drawing.Size(543, 480);
             this.tpProxy.TabIndex = 4;
             this.tpProxy.Text = "Proxy";
             this.tpProxy.UseVisualStyleBackColor = true;
@@ -790,7 +798,7 @@
             this.tpClipboardUpload.Location = new System.Drawing.Point(4, 22);
             this.tpClipboardUpload.Name = "tpClipboardUpload";
             this.tpClipboardUpload.Padding = new System.Windows.Forms.Padding(3);
-            this.tpClipboardUpload.Size = new System.Drawing.Size(543, 376);
+            this.tpClipboardUpload.Size = new System.Drawing.Size(543, 480);
             this.tpClipboardUpload.TabIndex = 5;
             this.tpClipboardUpload.Text = "Clipboard Upload";
             this.tpClipboardUpload.UseVisualStyleBackColor = true;
@@ -836,7 +844,7 @@
             this.tpUpload.Location = new System.Drawing.Point(4, 22);
             this.tpUpload.Name = "tpUpload";
             this.tpUpload.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUpload.Size = new System.Drawing.Size(543, 376);
+            this.tpUpload.Size = new System.Drawing.Size(543, 480);
             this.tpUpload.TabIndex = 6;
             this.tpUpload.Text = "Upload";
             this.tpUpload.UseVisualStyleBackColor = true;
@@ -853,7 +861,7 @@
             this.panelUpload.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelUpload.Location = new System.Drawing.Point(3, 3);
             this.panelUpload.Name = "panelUpload";
-            this.panelUpload.Size = new System.Drawing.Size(537, 370);
+            this.panelUpload.Size = new System.Drawing.Size(537, 474);
             this.panelUpload.TabIndex = 0;
             // 
             // gbAfterUpload
@@ -960,7 +968,7 @@
             this.tpHotkeys.Location = new System.Drawing.Point(4, 22);
             this.tpHotkeys.Name = "tpHotkeys";
             this.tpHotkeys.Padding = new System.Windows.Forms.Padding(3);
-            this.tpHotkeys.Size = new System.Drawing.Size(543, 376);
+            this.tpHotkeys.Size = new System.Drawing.Size(543, 480);
             this.tpHotkeys.TabIndex = 7;
             this.tpHotkeys.Text = "Hotkeys";
             this.tpHotkeys.UseVisualStyleBackColor = true;
@@ -988,7 +996,7 @@
             this.tpImageResize.Location = new System.Drawing.Point(4, 22);
             this.tpImageResize.Name = "tpImageResize";
             this.tpImageResize.Padding = new System.Windows.Forms.Padding(3);
-            this.tpImageResize.Size = new System.Drawing.Size(543, 376);
+            this.tpImageResize.Size = new System.Drawing.Size(543, 480);
             this.tpImageResize.TabIndex = 8;
             this.tpImageResize.Text = "Resize";
             this.tpImageResize.UseVisualStyleBackColor = true;
@@ -1359,7 +1367,7 @@
             this.tpImageQuality2.Location = new System.Drawing.Point(4, 22);
             this.tpImageQuality2.Name = "tpImageQuality2";
             this.tpImageQuality2.Padding = new System.Windows.Forms.Padding(3);
-            this.tpImageQuality2.Size = new System.Drawing.Size(543, 376);
+            this.tpImageQuality2.Size = new System.Drawing.Size(543, 480);
             this.tpImageQuality2.TabIndex = 9;
             this.tpImageQuality2.Text = "Quality";
             this.tpImageQuality2.UseVisualStyleBackColor = true;
@@ -1377,7 +1385,7 @@
             this.panelImageQuality.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelImageQuality.Location = new System.Drawing.Point(3, 3);
             this.panelImageQuality.Name = "panelImageQuality";
-            this.panelImageQuality.Size = new System.Drawing.Size(537, 370);
+            this.panelImageQuality.Size = new System.Drawing.Size(537, 474);
             this.panelImageQuality.TabIndex = 0;
             // 
             // tcQuality
@@ -1564,7 +1572,7 @@
             this.tpPaths.Location = new System.Drawing.Point(4, 22);
             this.tpPaths.Name = "tpPaths";
             this.tpPaths.Padding = new System.Windows.Forms.Padding(3);
-            this.tpPaths.Size = new System.Drawing.Size(543, 376);
+            this.tpPaths.Size = new System.Drawing.Size(543, 480);
             this.tpPaths.TabIndex = 10;
             this.tpPaths.Text = "Paths";
             this.tpPaths.UseVisualStyleBackColor = true;
@@ -1858,7 +1866,7 @@
             this.tpSync.Location = new System.Drawing.Point(4, 22);
             this.tpSync.Name = "tpSync";
             this.tpSync.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSync.Size = new System.Drawing.Size(543, 376);
+            this.tpSync.Size = new System.Drawing.Size(543, 480);
             this.tpSync.TabIndex = 11;
             this.tpSync.Text = "Sync";
             this.tpSync.UseVisualStyleBackColor = true;
@@ -1899,7 +1907,7 @@
             this.tpFileNaming.Location = new System.Drawing.Point(4, 22);
             this.tpFileNaming.Name = "tpFileNaming";
             this.tpFileNaming.Padding = new System.Windows.Forms.Padding(3);
-            this.tpFileNaming.Size = new System.Drawing.Size(543, 376);
+            this.tpFileNaming.Size = new System.Drawing.Size(543, 480);
             this.tpFileNaming.TabIndex = 12;
             this.tpFileNaming.Text = "File Naming";
             this.tpFileNaming.UseVisualStyleBackColor = true;
@@ -1998,7 +2006,7 @@
             this.tpUploaderConfig.Location = new System.Drawing.Point(4, 22);
             this.tpUploaderConfig.Name = "tpUploaderConfig";
             this.tpUploaderConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUploaderConfig.Size = new System.Drawing.Size(543, 376);
+            this.tpUploaderConfig.Size = new System.Drawing.Size(543, 480);
             this.tpUploaderConfig.TabIndex = 13;
             this.tpUploaderConfig.Text = "Uploader Config";
             this.tpUploaderConfig.UseVisualStyleBackColor = true;
@@ -2026,7 +2034,7 @@
             this.tpShapes2.Location = new System.Drawing.Point(4, 22);
             this.tpShapes2.Name = "tpShapes2";
             this.tpShapes2.Padding = new System.Windows.Forms.Padding(3);
-            this.tpShapes2.Size = new System.Drawing.Size(543, 376);
+            this.tpShapes2.Size = new System.Drawing.Size(543, 480);
             this.tpShapes2.TabIndex = 14;
             this.tpShapes2.Text = "Shapes";
             this.tpShapes2.UseVisualStyleBackColor = true;
@@ -2056,7 +2064,7 @@
             this.tpUserConfig.Location = new System.Drawing.Point(4, 22);
             this.tpUserConfig.Name = "tpUserConfig";
             this.tpUserConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUserConfig.Size = new System.Drawing.Size(543, 376);
+            this.tpUserConfig.Size = new System.Drawing.Size(543, 480);
             this.tpUserConfig.TabIndex = 15;
             this.tpUserConfig.Text = "User Config";
             this.tpUserConfig.UseVisualStyleBackColor = true;
@@ -2077,13 +2085,6 @@
             this.pgUserConfig.Name = "pgUserConfig";
             this.pgUserConfig.Size = new System.Drawing.Size(537, 370);
             this.pgUserConfig.TabIndex = 0;
-            // 
-            // ucAfterCaptureTasks
-            // 
-            this.ucAfterCaptureTasks.Location = new System.Drawing.Point(8, 16);
-            this.ucAfterCaptureTasks.Name = "ucAfterCaptureTasks";
-            this.ucAfterCaptureTasks.Size = new System.Drawing.Size(275, 174);
-            this.ucAfterCaptureTasks.TabIndex = 0;
             // 
             // OptionsWindow
             // 
@@ -2330,6 +2331,6 @@
         private System.Windows.Forms.TabPage tpUserConfig;
         private System.Windows.Forms.Panel panelUserConfig;
         private System.Windows.Forms.PropertyGrid pgUserConfig;
-        private HelpersLib.UserControls.AfterCatureTasksUI ucAfterCaptureTasks;
+        private HelpersLib.UserControls.AfterCaptureTasksUI ucAfterCaptureTasks;
     }
 }
