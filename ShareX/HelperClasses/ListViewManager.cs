@@ -40,26 +40,32 @@ namespace ShareX.HelperClasses
 
         private static ImageList DetailViewImageList { get; set; }
 
-        private static void RefreshThumbnails()
+        public static void RefreshThumbnails()
         {
-            ThreadWorker bwRefreshThumbnails = new ThreadWorker();
-            bwRefreshThumbnails.DoWork += new Action(bwRefreshThumbnails_DoWork);
-            bwRefreshThumbnails.Completed += new Action(bwRefreshThumbnails_Completed);
-            bwRefreshThumbnails.Start();
+            if (SettingsManager.ConfigCore.ListViewMode != View.Details)
+            {
+                ThreadWorker bwRefreshThumbnails = new ThreadWorker();
+                bwRefreshThumbnails.DoWork += new Action(bwRefreshThumbnails_DoWork);
+                bwRefreshThumbnails.Completed += new Action(bwRefreshThumbnails_Completed);
+                bwRefreshThumbnails.Start();
+            }
         }
 
         private static void bwRefreshThumbnails_Completed()
         {
-            UploadManager.ListViewControl.LargeImageList.Dispose();
-
-            foreach (Image img in Thumbnails.Images)
+            if (SettingsManager.ConfigCore.ListViewMode != View.Details)
             {
-                UploadManager.ListViewControl.LargeImageList.Images.Add(img);
-            }
+                UploadManager.ListViewControl.LargeImageList = get_NewLargeImageList();
 
-            for (int i = 1; i <= Thumbnails.Images.Count; i++)
-            {
-                UploadManager.ListViewControl.Items[UploadManager.ListViewControl.Items.Count - i].ImageIndex = Thumbnails.Images.Count - i;
+                foreach (Image img in Thumbnails.Images)
+                {
+                    UploadManager.ListViewControl.LargeImageList.Images.Add(img);
+                }
+
+                for (int i = 1; i <= Thumbnails.Images.Count; i++)
+                {
+                    UploadManager.ListViewControl.Items[UploadManager.ListViewControl.Items.Count - i].ImageIndex = Thumbnails.Images.Count - i;
+                }
             }
         }
 
@@ -93,7 +99,7 @@ namespace ShareX.HelperClasses
             {
                 UploadManager.ListViewControl.LargeImageList.Images.Add(Thumbnails.Images[Thumbnails.Images.Count - 1]);
 
-                if (UploadManager.ListViewControl.Items.Count >= Thumbnails.Images.Count)
+                if (SettingsManager.ConfigCore.ListViewMode != View.Details && UploadManager.ListViewControl.Items.Count >= Thumbnails.Images.Count)
                 {
                     UploadManager.ListViewControl.Items[UploadManager.ListViewControl.Items.Count - 1].ImageIndex = Thumbnails.Images.Count - 1;
                 }
@@ -155,7 +161,7 @@ namespace ShareX.HelperClasses
             {
                 for (int i = 1; i < Thumbnails.Images.Count; i++)
                 {
-                    if (UploadManager.ListViewControl.Items.Count > i)
+                    if (SettingsManager.ConfigCore.ListViewMode != View.Details && UploadManager.ListViewControl.Items.Count > i)
                     {
                         UploadManager.ListViewControl.Items[UploadManager.ListViewControl.Items.Count - i].ImageIndex = Thumbnails.Images.Count - i;
                     }
