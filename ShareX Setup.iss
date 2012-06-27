@@ -61,6 +61,12 @@ Source: "ShareX\bin\Release\*.dll"; DestDir: {app}; Flags: ignoreversion
 Source: "ShareX\bin\Release\*.xml"; Excludes: Newtonsoft.Json.xml; DestDir: {app}; Flags: ignoreversion recursesubdirs
 Source: "ShareX\bin\Release\*.html"; DestDir: {app}; Flags: ignoreversion recursesubdirs
 
+[Registry]
+Root: "HKCU"; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueName: "ZScreen"; Flags: deletevalue
+Root: "HKCU"; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueName: "ZUploader"; Flags: deletevalue
+Root: "HKCU"; Subkey: "Software\Classes\*\shell\ZScreen"; Flags: deletekey
+Root: "HKCU"; Subkey: "Software\Classes\*\shell\ZUploader"; Flags: deletekey
+
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppFile}"; WorkingDir: "{app}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"; WorkingDir: "{app}"

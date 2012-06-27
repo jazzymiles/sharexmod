@@ -44,6 +44,7 @@
             this.gbAfterCaptureTasks = new System.Windows.Forms.GroupBox();
             this.ucAfterCaptureTasks = new HelpersLib.UserControls.AfterCaptureTasksUI();
             this.gbAfterUploadTasks = new System.Windows.Forms.GroupBox();
+            this.ucAfterUploadTasks = new HelpersLib.UserControls.AfterUploadTasksUI();
             this.tpRunExternalPrograms = new System.Windows.Forms.TabPage();
             this.btnActionsEdit = new System.Windows.Forms.Button();
             this.btnActionsRemove = new System.Windows.Forms.Button();
@@ -68,7 +69,6 @@
             this.flpSocialNetworkingServices = new System.Windows.Forms.FlowLayoutPanel();
             this.tpSummary = new System.Windows.Forms.TabPage();
             this.lblSummary = new System.Windows.Forms.Label();
-            this.ucAfterUploadTasks = new HelpersLib.UserControls.AfterUploadTasksUI();
             this.tcWorkflow.SuspendLayout();
             this.tpCapture.SuspendLayout();
             this.gbSettings.SuspendLayout();
@@ -190,10 +190,10 @@
             this.chkPerformGlobalAfterCaptureTasks.AutoSize = true;
             this.chkPerformGlobalAfterCaptureTasks.Location = new System.Drawing.Point(16, 48);
             this.chkPerformGlobalAfterCaptureTasks.Name = "chkPerformGlobalAfterCaptureTasks";
-            this.chkPerformGlobalAfterCaptureTasks.Size = new System.Drawing.Size(455, 17);
+            this.chkPerformGlobalAfterCaptureTasks.Size = new System.Drawing.Size(391, 17);
             this.chkPerformGlobalAfterCaptureTasks.TabIndex = 1;
-            this.chkPerformGlobalAfterCaptureTasks.Text = "Perform global After Capture Tasks ( to configure go to Settings > Configuration " +
-    "> Capture ) ";
+            this.chkPerformGlobalAfterCaptureTasks.Text = "Apply default settings ( to configure go to Settings > Configuration > Capture ) " +
+    "";
             this.chkPerformGlobalAfterCaptureTasks.UseVisualStyleBackColor = true;
             this.chkPerformGlobalAfterCaptureTasks.CheckedChanged += new System.EventHandler(this.chkPerformGlobalAfterCaptureTasks_CheckedChanged);
             // 
@@ -262,6 +262,14 @@
             this.gbAfterUploadTasks.TabIndex = 1;
             this.gbAfterUploadTasks.TabStop = false;
             this.gbAfterUploadTasks.Text = "After Upload Tasks";
+            // 
+            // ucAfterUploadTasks
+            // 
+            this.ucAfterUploadTasks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucAfterUploadTasks.Location = new System.Drawing.Point(3, 16);
+            this.ucAfterUploadTasks.Name = "ucAfterUploadTasks";
+            this.ucAfterUploadTasks.Size = new System.Drawing.Size(312, 343);
+            this.ucAfterUploadTasks.TabIndex = 0;
             // 
             // tpRunExternalPrograms
             // 
@@ -513,14 +521,6 @@
             this.lblSummary.Name = "lblSummary";
             this.lblSummary.Size = new System.Drawing.Size(648, 368);
             this.lblSummary.TabIndex = 0;
-            // 
-            // afterUploadTasksUI1
-            // 
-            this.ucAfterUploadTasks.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucAfterUploadTasks.Location = new System.Drawing.Point(3, 16);
-            this.ucAfterUploadTasks.Name = "afterUploadTasksUI1";
-            this.ucAfterUploadTasks.Size = new System.Drawing.Size(312, 343);
-            this.ucAfterUploadTasks.TabIndex = 0;
             // 
             // WindowWorkflow
             // 
