@@ -426,6 +426,7 @@ namespace ShareX
                         lvUploads.View == View.SmallIcon) &&
                         Helpers.IsImageFile(result.URL);
                     tsmiUpload.Visible = File.Exists(result.LocalFilePath);
+                    copyImageToClipboardToolStripMenuItem.Visible = File.Exists(result.LocalFilePath) && Helpers.IsImageFile(result.LocalFilePath);
                 }
 
                 int index = lvUploads.SelectedIndices[0];
@@ -909,6 +910,15 @@ namespace ShareX
                 {
                     viewer.ShowDialog();
                 }
+            }
+        }
+
+        private void copyImageToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UploadResult result = lvUploads.SelectedItems[0].Tag as UploadResult;
+            if (File.Exists(result.LocalFilePath))
+            {
+                Clipboard.SetImage(Image.FromFile(result.LocalFilePath));
             }
         }
 

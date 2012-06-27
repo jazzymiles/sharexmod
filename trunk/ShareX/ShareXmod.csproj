@@ -330,6 +330,7 @@
     <None Include="Resources\calculator_add.png" />
     <None Include="Resources\camera_add.png" />
     <None Include="Resources\world_link.png" />
+    <None Include="Resources\image1.png" />
     <Content Include="Todo.txt" />
     <None Include="Resources\Camera.wav" />
     <None Include="Resources\share2.png" />
