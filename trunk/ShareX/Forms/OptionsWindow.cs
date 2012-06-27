@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
 using ScreenCapture;
+using ShareX.HelperClasses;
 
 namespace ShareX.Forms
 {
@@ -273,10 +274,11 @@ namespace ShareX.Forms
 
             #endregion Workflows
 
-            DropboxSyncHelper.SaveAsync();
-
             FormsHelper.Main.ReloadConfig();
             FormsHelper.Main.ReloadOutputsMenu();
+
+            ListViewManager.RefreshThumbnails();
+            DropboxSyncHelper.SaveAsync();
         }
 
         private void CheckImageScaleType()

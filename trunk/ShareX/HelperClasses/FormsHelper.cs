@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using HistoryLib;
 using ShareX.Forms;
+using ShareX.HelperClasses;
 using ShareX.Properties;
 using UploadersLib;
 
@@ -54,6 +55,9 @@ namespace ShareX
             }
             else
                 Options.ShowDialog();
+
+            // because Options uses Show() in addition to ShowDialog() any code that needs to be run after Options
+            // is closed must be located within BeforeClose() method in Options
         }
 
         public static void ShowUploadersConfig()
