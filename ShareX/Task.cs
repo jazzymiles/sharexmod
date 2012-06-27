@@ -34,6 +34,7 @@ using HelpersLib;
 using HelpersLib.GraphicsHelper;
 using HelpersLib.Hotkeys2;
 using ShareX.HelperClasses;
+using ShareX.Properties;
 using UploadersLib;
 using UploadersLib.FileUploaders;
 using UploadersLib.GUI;
@@ -94,6 +95,7 @@ namespace ShareX
         public void SetWorkflow(Workflow wf)
         {
             this.Workflow = wf;
+            this.Info.Jobs = wf.Subtasks;
             this.Info.SetDestination(wf.Settings.DestConfig);
         }
 
@@ -110,9 +112,21 @@ namespace ShareX
         // string filePath -> FileStream data
         public static Task CreateFileUploaderTask(EDataType dataType, string filePath, EDataType destination = EDataType.Default)
         {
-            Task task = new Task(dataType, TaskJob.FileUpload);
+            TaskJob taskJob = TaskJob.FileUpload;
+            switch (dataType)
+            {
+                case EDataType.Image:
+                    taskJob = TaskJob.ImageUpload;
+                    break;
+                case EDataType.Text:
+                    taskJob = TaskJob.TextUpload;
+                    break;
+            }
+            Task task = new Task(dataType, taskJob);
             if (destination != EDataType.Default) task.Info.UploadDestination = destination;
             task.Info.FilePath = filePath;
+            if (taskJob == TaskJob.ImageUpload)
+                task.imageData = ImageData.GetNew(filePath);
             task.data = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
             return task;
         }
@@ -432,6 +446,36 @@ namespace ShareX
             }
         }
 
+        private void EditImage(ref ImageData imageData_gse)
+        {
+            if (imageData_gse != null)
+            {
+                if (!Greenshot.IniFile.IniConfig.IsInited)
+                    Greenshot.IniFile.IniConfig.Init();
+
+                GreenshotPlugin.Core.CoreConfiguration conf = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>(); ;
+                conf.OutputFileFilenamePattern = "${title}";
+                conf.OutputFilePath = Program.ScreenshotsPath;
+
+                Greenshot.Plugin.ICapture capture = new GreenshotPlugin.Core.Capture();
+                capture.Image = imageData_gse.Image;
+                capture.CaptureDetails.Filename = Path.Combine(Program.ScreenshotsPath, imageData_gse.Filename);
+                capture.CaptureDetails.Title =
+                    Path.GetFileNameWithoutExtension(capture.CaptureDetails.Filename);
+                capture.CaptureDetails.AddMetaData("file", capture.CaptureDetails.Filename);
+                capture.CaptureDetails.AddMetaData("source", "file");
+
+                var surface = new Greenshot.Drawing.Surface(capture);
+                var editor = new Greenshot.ImageEditorForm(surface, true) { Icon = Resources.ShareX };
+
+                editor.SetImagePath(capture.CaptureDetails.Filename);
+                editor.Visible = false; // required before ShowDialog
+                editor.ShowDialog();
+
+                imageData_gse.Image = editor.GetImageForExport();
+            }
+        }
+
         private void DoBeforeImagePreparedJobs()
         {
             if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddTornEffect))
@@ -453,6 +497,11 @@ namespace ShareX
             if (Info.Jobs.HasFlag(Subtask.AddWatermark))
             {
                 imageData.Image = new HelpersLibWatermark.WatermarkEffects(SettingsManager.ConfigUser.ConfigWatermark).ApplyWatermark(imageData.Image);
+            }
+
+            if (Info.Jobs.HasFlag(Subtask.AnnotateImage))
+            {
+                EditImage(ref imageData);
             }
 
             if (Info.Jobs.HasFlag(Subtask.ShowImageEffectsStudio))

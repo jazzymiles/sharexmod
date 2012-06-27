@@ -105,11 +105,6 @@ namespace ShareX
                     }
                 }
 
-                if (act.Workflow.Subtasks.HasFlag(Subtask.AnnotateImage))
-                {
-                    EditImage(ref imageData);
-                }
-
                 UploadManager.DoImageWork(imageData, act);
             }
         }
