@@ -214,21 +214,21 @@ namespace HelpersLib
         [Description("Upload to remote host"), Category(ComponentModelStrings.ActivitiesUploaders)]
         UploadToRemoteHost = 1 << 10,
 
-        [Description("Shorten URL"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        ShortenUrl = 1 << 11,
-
         [Description("Send to printer"), Category(ComponentModelStrings.ActivitiesAfterCapture)]
-        Print = 1 << 12,
+        Print = 1 << 11,
     }
 
     [Flags]
     public enum AfterUploadTasks
     {
         None = 0,
+
         [Description("Use URL shortener")]
         UseURLShortener = 1,
+
         [Description("Post URL to social networking service")]
         ShareUsingSocialNetworkingService = 1 << 1,
+
         [Description("Copy URL to clipboard")]
         CopyURLToClipboard = 1 << 2
     }

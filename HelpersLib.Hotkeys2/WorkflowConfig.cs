@@ -490,14 +490,6 @@ namespace HelpersLib.Hotkeys2
                                 sb.AppendLine("-------- Text format: " + Workflow.Settings.DestConfig.TextFormat);
                             }
                         }
-
-                        else if (task.Enum.HasFlag(Subtask.ShortenUrl))
-                        {
-                            foreach (UrlShortenerType uploader in Workflow.Settings.DestConfig.LinkUploaders)
-                            {
-                                sb.AppendLine("-------- " + uploader.GetDescription());
-                            }
-                        }
                     }
                 }
             }
@@ -516,11 +508,19 @@ namespace HelpersLib.Hotkeys2
                     if (task.Enum == AfterUploadTasks.None)
                         continue;
 
-                    if (Workflow.AfterUploadTasks.HasFlag(task.Enum))
+                    else if (Workflow.AfterUploadTasks.HasFlag(task.Enum))
                     {
                         sb.AppendLine("---- " + task.Enum.GetDescription());
 
-                        if (task.Enum.HasFlag(AfterUploadTasks.ShareUsingSocialNetworkingService))
+                        if (task.Enum.HasFlag(AfterUploadTasks.UseURLShortener))
+                        {
+                            foreach (UrlShortenerType uploader in Workflow.Settings.DestConfig.LinkUploaders)
+                            {
+                                sb.AppendLine("-------- " + uploader.GetDescription());
+                            }
+                        }
+
+                        else if (task.Enum.HasFlag(AfterUploadTasks.ShareUsingSocialNetworkingService))
                         {
                             foreach (SocialNetworkingService sns in Workflow.Settings.DestConfig.SocialNetworkingServices)
                             {

@@ -373,8 +373,7 @@ namespace ShareX
         {
             // Shorten URL
 
-            if ((Workflow.Subtasks.HasFlag(Subtask.ShortenUrl) || Workflow.AfterUploadTasks.HasFlag(AfterUploadTasks.CopyURLToClipboard) ||
-                Info.Job == TaskJob.ShortenURL) && Info.Result.URL.Length >= SettingsManager.ConfigCore.MaximumURLLength)
+            if ((Workflow.AfterUploadTasks.HasFlag(AfterUploadTasks.UseURLShortener) || Info.Job == TaskJob.ShortenURL) && Info.Result.URL.Length >= SettingsManager.ConfigCore.MaximumURLLength)
             {
                 Info.Result.ShortenedURL = ShortenURL(Info.Result.URL);
             }
