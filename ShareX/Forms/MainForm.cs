@@ -365,12 +365,6 @@ namespace ShareX
 
         private void UpdateControls()
         {
-            tsbCopy.Enabled = tsbOpen.Enabled = copyURLToolStripMenuItem.Visible = openURLToolStripMenuItem.Visible =
-                copyShortenedURLToolStripMenuItem.Visible = copyThumbnailURLToolStripMenuItem.Visible = copyDeletionURLToolStripMenuItem.Visible =
-                showErrorsToolStripMenuItem.Visible = copyErrorsToolStripMenuItem.Visible = showResponseToolStripMenuItem.Visible =
-                uploadFileToolStripMenuItem.Visible = stopUploadToolStripMenuItem.Visible = viewInFullscreenToolStripMenuItem.Visible =
-                tsmiContextMenuShare.Visible = false;
-
             int itemsCount = lvUploads.SelectedItems.Count;
 
             if (itemsCount > 0)
@@ -420,13 +414,8 @@ namespace ShareX
                     }
 
                     showInWindowsExplorerToolStripMenuItem.Visible = tsmiContextMenuShare.Visible = File.Exists(result.LocalFilePath);
-                    viewInFullscreenToolStripMenuItem.Visible =
-                        (lvUploads.View == View.LargeIcon ||
-                        lvUploads.View == View.Tile ||
-                        lvUploads.View == View.SmallIcon) &&
-                        Helpers.IsImageFile(result.URL);
+                    copyImageToClipboardToolStripMenuItem.Visible = viewInFullscreenToolStripMenuItem.Visible = File.Exists(result.LocalFilePath) && Helpers.IsImageFile(result.URL);
                     tsmiUpload.Visible = File.Exists(result.LocalFilePath);
-                    copyImageToClipboardToolStripMenuItem.Visible = File.Exists(result.LocalFilePath) && Helpers.IsImageFile(result.LocalFilePath);
                 }
 
                 int index = lvUploads.SelectedIndices[0];

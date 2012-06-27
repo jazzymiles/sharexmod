@@ -693,7 +693,7 @@ namespace ShareX
                     string[] extensions = account.ExtensionsForTrigger.Split(',');
                     foreach (string ext in extensions)
                     {
-                        if ("." + ext.ToLower() == Path.GetExtension(Info.FilePath).ToLower())
+                        if ("." + ext.ToLower() == Path.GetExtension(Info.FileName).ToLower())
                         {
                             if (account.Protocol == FTPProtocol.SFTP)
                                 return new SFTP(account);
