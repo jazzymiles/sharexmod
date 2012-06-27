@@ -58,6 +58,7 @@ namespace ShareX
             this.cmsUploads = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openURLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyURLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyImageToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyShortenedURLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyThumbnailURLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyDeletionURLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,6 +74,7 @@ namespace ShareX
             this.tsMain = new System.Windows.Forms.ToolStrip();
             this.tsddbOutputs = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsddbAfterCaptureTasks = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsddbAfterUploadTasks = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsbClipboardUpload = new System.Windows.Forms.ToolStripButton();
             this.tsbFileUpload = new System.Windows.Forms.ToolStripButton();
             this.tsbDebug = new System.Windows.Forms.ToolStripDropDownButton();
@@ -150,7 +152,6 @@ namespace ShareX
             this.tsmiTrayDonate = new System.Windows.Forms.ToolStripMenuItem();
             this.tssTray2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiTrayExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsddbAfterUploadTasks = new System.Windows.Forms.ToolStripDropDownButton();
             this.cmsUploads.SuspendLayout();
             this.tsMain.SuspendLayout();
             this.tscMain.ContentPanel.SuspendLayout();
@@ -164,6 +165,7 @@ namespace ShareX
             this.cmsUploads.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openURLToolStripMenuItem,
             this.copyURLToolStripMenuItem,
+            this.copyImageToClipboardToolStripMenuItem,
             this.copyShortenedURLToolStripMenuItem,
             this.copyThumbnailURLToolStripMenuItem,
             this.copyDeletionURLToolStripMenuItem,
@@ -178,7 +180,7 @@ namespace ShareX
             this.tsmiContextMenuShare});
             this.cmsUploads.Name = "cmsUploads";
             this.cmsUploads.ShowItemToolTips = false;
-            this.cmsUploads.Size = new System.Drawing.Size(224, 312);
+            this.cmsUploads.Size = new System.Drawing.Size(224, 356);
             // 
             // openURLToolStripMenuItem
             // 
@@ -195,6 +197,15 @@ namespace ShareX
             this.copyURLToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.copyURLToolStripMenuItem.Text = "Copy URL";
             this.copyURLToolStripMenuItem.Click += new System.EventHandler(this.copyURLToolStripMenuItem_Click);
+            // 
+            // copyImageToClipboardToolStripMenuItem
+            // 
+            this.copyImageToClipboardToolStripMenuItem.Image = global::ShareX.Properties.Resources.image;
+            this.copyImageToClipboardToolStripMenuItem.Name = "copyImageToClipboardToolStripMenuItem";
+            this.copyImageToClipboardToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.copyImageToClipboardToolStripMenuItem.Text = "Copy image to clipboard";
+            this.copyImageToClipboardToolStripMenuItem.Visible = false;
+            this.copyImageToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyImageToClipboardToolStripMenuItem_Click);
             // 
             // copyShortenedURLToolStripMenuItem
             // 
@@ -267,6 +278,7 @@ namespace ShareX
             this.viewInFullscreenToolStripMenuItem.Name = "viewInFullscreenToolStripMenuItem";
             this.viewInFullscreenToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.viewInFullscreenToolStripMenuItem.Text = "View in Fullscreen";
+            this.viewInFullscreenToolStripMenuItem.Visible = false;
             this.viewInFullscreenToolStripMenuItem.Click += new System.EventHandler(this.viewInFullscreenToolStripMenuItem_Click);
             // 
             // tsmiUpload
@@ -311,7 +323,7 @@ namespace ShareX
             this.tsMain.Name = "tsMain";
             this.tsMain.Padding = new System.Windows.Forms.Padding(4, 6, 4, 4);
             this.tsMain.ShowItemToolTips = false;
-            this.tsMain.Size = new System.Drawing.Size(937, 33);
+            this.tsMain.Size = new System.Drawing.Size(811, 33);
             this.tsMain.TabIndex = 0;
             this.tsMain.Text = "toolStrip1";
             // 
@@ -332,6 +344,15 @@ namespace ShareX
             this.tsddbAfterCaptureTasks.Name = "tsddbAfterCaptureTasks";
             this.tsddbAfterCaptureTasks.Size = new System.Drawing.Size(29, 20);
             this.tsddbAfterCaptureTasks.Text = "After Capture Tasks";
+            // 
+            // tsddbAfterUploadTasks
+            // 
+            this.tsddbAfterUploadTasks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsddbAfterUploadTasks.Image = global::ShareX.Properties.Resources.world_link;
+            this.tsddbAfterUploadTasks.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsddbAfterUploadTasks.Name = "tsddbAfterUploadTasks";
+            this.tsddbAfterUploadTasks.Size = new System.Drawing.Size(29, 20);
+            this.tsddbAfterUploadTasks.Text = "After upload tasks";
             // 
             // tsbClipboardUpload
             // 
@@ -991,15 +1012,6 @@ namespace ShareX
             this.tsmiTrayExit.Text = "Exit";
             this.tsmiTrayExit.Click += new System.EventHandler(this.tsmiTrayExit_Click);
             // 
-            // tsddbAfterUploadTasks
-            // 
-            this.tsddbAfterUploadTasks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsddbAfterUploadTasks.Image = global::ShareX.Properties.Resources.world_link;
-            this.tsddbAfterUploadTasks.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsddbAfterUploadTasks.Name = "tsddbAfterUploadTasks";
-            this.tsddbAfterUploadTasks.Size = new System.Drawing.Size(29, 20);
-            this.tsddbAfterUploadTasks.Text = "After upload tasks";
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -1129,5 +1141,6 @@ namespace ShareX
         private System.Windows.Forms.ToolStripMenuItem viewInFullscreenToolStripMenuItem;
         private System.Windows.Forms.ToolStripDropDownButton tsddbAfterCaptureTasks;
         private System.Windows.Forms.ToolStripDropDownButton tsddbAfterUploadTasks;
+        private System.Windows.Forms.ToolStripMenuItem copyImageToClipboardToolStripMenuItem;
     }
 }

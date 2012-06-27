@@ -378,7 +378,7 @@ namespace HelpersLib.Hotkeys2
                 else
                 {
                     tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpCapture) + 1, tpUpload);
-                    tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpCapture) + 2, tpUpload);
+                    tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpCapture) + 2, tpShare);
                 }
             }
         }
