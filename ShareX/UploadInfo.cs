@@ -56,8 +56,11 @@ namespace ShareX
             }
             set
             {
-                _filePath = value;
-                FileName = Path.GetFileName(value);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _filePath = value;
+                    FileName = Path.GetFileName(value);
+                }
             }
         }
 

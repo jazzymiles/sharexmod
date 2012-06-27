@@ -70,7 +70,10 @@ namespace HelpersLib.Hotkeys2
         PolygonRegion,
 
         [Description("Capture freehand region")]
-        FreeHandRegion
+        FreeHandRegion,
+
+        [Description("Last region")]
+        LastRegion
     }
 
     /// <summary>
