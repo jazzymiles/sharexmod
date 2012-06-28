@@ -111,7 +111,7 @@ namespace HelpersLib.GraphicsHelper
             {
                 try
                 {
-                    using (Image img = Image.FromFile(fp))
+                    using (Image img = Helpers.ImageFromFile(fp))
                     {
                         bmp = new Bitmap(img);
                     }
@@ -220,7 +220,7 @@ namespace HelpersLib.GraphicsHelper
             {
                 if (IsValidImage(fp))
                 {
-                    tempImages.Add(Image.FromFile(fp));
+                    tempImages.Add(Helpers.ImageFromFile(fp));
                     tempSize = tempImages[tempImages.Count - 1].Size;
                     if (tempImages.Count > 1)
                     {

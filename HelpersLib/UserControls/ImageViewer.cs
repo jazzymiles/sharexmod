@@ -35,7 +35,7 @@ namespace HelpersLib
 
         public ImageViewer(string path)
         {
-            this.screenshot = Image.FromFile(path);
+            this.screenshot = Helpers.ImageFromFile(path);
             InitializeComponent();
         }
 

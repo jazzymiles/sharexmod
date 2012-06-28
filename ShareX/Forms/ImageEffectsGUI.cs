@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using HelpersLib;
 using HelpersLib.GraphicsHelper;
 using ImageEffects.IPlugin;
 
@@ -17,7 +18,7 @@ namespace ShareX
         public Image DefaultImage { get; set; }
 
         public ImageEffectsGUI(string filePath)
-            : this(Image.FromFile(filePath))
+            : this(Helpers.ImageFromFile(filePath))
         {
             this.Text = string.Format("Image Effects - {0}", filePath);
         }

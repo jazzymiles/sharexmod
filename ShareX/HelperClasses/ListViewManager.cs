@@ -80,7 +80,7 @@ namespace ShareX.HelperClasses
             {
                 if (task.Info != null && File.Exists(task.Info.FilePath) && Helpers.IsImageFile(task.Info.FilePath))
                 {
-                    Thumbnails.Images.Add(task.Info.FileName, Image.FromFile(task.Info.FilePath));
+                    Thumbnails.Images.Add(task.Info.FileName, Helpers.ImageFromFile(task.Info.FilePath));
                 }
             }
         }
@@ -113,7 +113,7 @@ namespace ShareX.HelperClasses
 
             if (File.Exists(info.FilePath) && Helpers.IsImageFile(info.FilePath))
             {
-                Thumbnails.Images.Add(info.FileName, Image.FromFile(info.FilePath));
+                Thumbnails.Images.Add(info.FileName, Helpers.ImageFromFile(info.FilePath));
             }
             else
             {
