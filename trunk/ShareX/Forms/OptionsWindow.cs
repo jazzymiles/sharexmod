@@ -122,8 +122,6 @@ namespace ShareX.Forms
             cbStartWithWindows.Checked = ShortcutHelper.CheckShortcut(Environment.SpecialFolder.Startup);
             cbShellContextMenu.Checked = ShortcutHelper.CheckShortcut(Environment.SpecialFolder.SendTo);
             cbCheckUpdates.Checked = SettingsManager.ConfigCore.AutoCheckUpdate;
-            cbClipboardAutoCopy.Checked = SettingsManager.ConfigCore.AfterUploadTasks.HasFlag(AfterUploadTasks.CopyURLToClipboard);
-            cbURLShortenAfterUpload.Checked = SettingsManager.ConfigCore.AfterUploadTasks.HasFlag(AfterUploadTasks.UseURLShortener);
             cbPlaySoundAfterCapture.Checked = SettingsManager.ConfigCore.PlaySoundAfterCapture;
             chkPlaySoundAfterUpload.Checked = SettingsManager.ConfigCore.PlaySoundAfterUpload;
             chkShowBalloonAfterUpload.Checked = SettingsManager.ConfigCore.ShowBalloonAfterUpload;
@@ -142,6 +140,7 @@ namespace ShareX.Forms
 
             // Capture
             ucAfterCaptureTasks.ConfigUI(SettingsManager.ConfigCore.AfterCaptureTasks, chkAfterCaptureTask_CheckedChanged);
+            ucAfterUploadTasks.ConfigUI(SettingsManager.ConfigCore.AfterUploadTasks, chkAfterUploadTask_CheckedChanged);
 
             cbShowCursor.Checked = SettingsManager.ConfigCore.ShowCursor;
             cbCaptureTransparent.Checked = SettingsManager.ConfigCore.CaptureTransparent;
@@ -226,6 +225,17 @@ namespace ShareX.Forms
                 SettingsManager.ConfigCore.AfterCaptureTasks |= (Subtask)chkAfterCaptureTask.Tag;
             else
                 SettingsManager.ConfigCore.AfterCaptureTasks &= ~(Subtask)chkAfterCaptureTask.Tag;
+        }
+
+        private void chkAfterUploadTask_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox chkAfterUploadTask = sender as CheckBox;
+            AfterUploadTasks task = (AfterUploadTasks)chkAfterUploadTask.Tag;
+
+            if (chkAfterUploadTask.Checked)
+                SettingsManager.ConfigCore.AfterUploadTasks |= (AfterUploadTasks)chkAfterUploadTask.Tag;
+            else
+                SettingsManager.ConfigCore.AfterUploadTasks &= ~(AfterUploadTasks)chkAfterUploadTask.Tag;
         }
 
         private void BeforeClose()
@@ -655,22 +665,6 @@ namespace ShareX.Forms
         private void btnLoadUploadersConfig_Click(object sender, EventArgs e)
         {
             SettingsManager.LoadUploadersConfig();
-        }
-
-        private void cbURLShortenAfterUpload_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbURLShortenAfterUpload.Checked)
-                SettingsManager.ConfigCore.AfterUploadTasks |= AfterUploadTasks.UseURLShortener;
-            else
-                SettingsManager.ConfigCore.AfterUploadTasks &= ~AfterUploadTasks.UseURLShortener;
-        }
-
-        private void cbClipboardAutoCopy_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbClipboardAutoCopy.Checked)
-                SettingsManager.ConfigCore.AfterUploadTasks |= AfterUploadTasks.CopyURLToClipboard;
-            else
-                SettingsManager.ConfigCore.AfterUploadTasks &= ~AfterUploadTasks.CopyURLToClipboard;
         }
 
         #endregion Upload

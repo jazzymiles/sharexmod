@@ -28,31 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("General");
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Hotkeys");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Clipboard");
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Shapes");
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Capture", new System.Windows.Forms.TreeNode[] {
-            treeNode20,
-            treeNode21});
-            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("File Naming");
-            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Quality");
-            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("Resize");
-            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("Image Processing", new System.Windows.Forms.TreeNode[] {
-            treeNode24,
-            treeNode25});
-            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("Upload");
-            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("Paths");
-            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("Proxy");
-            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("Shapes");
-            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("Uploader config");
-            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("User config");
-            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("Sync");
-            System.Windows.Forms.TreeNode treeNode34 = new System.Windows.Forms.TreeNode("Advanced", new System.Windows.Forms.TreeNode[] {
-            treeNode30,
-            treeNode31,
-            treeNode32,
-            treeNode33});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("General");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Hotkeys");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Clipboard");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Shapes");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Capture", new System.Windows.Forms.TreeNode[] {
+            treeNode3,
+            treeNode4});
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("File Naming");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Quality");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Resize");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Image Processing", new System.Windows.Forms.TreeNode[] {
+            treeNode7,
+            treeNode8});
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Upload");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Paths");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Proxy");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Shapes");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Uploader config");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("User config");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Sync");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Advanced", new System.Windows.Forms.TreeNode[] {
+            treeNode13,
+            treeNode14,
+            treeNode15,
+            treeNode16});
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tvMain = new System.Windows.Forms.TreeView();
             this.tcBase = new System.Windows.Forms.TabControl();
@@ -100,8 +100,7 @@
             this.tpUpload = new System.Windows.Forms.TabPage();
             this.panelUpload = new System.Windows.Forms.Panel();
             this.gbAfterUpload = new System.Windows.Forms.GroupBox();
-            this.cbURLShortenAfterUpload = new System.Windows.Forms.CheckBox();
-            this.cbClipboardAutoCopy = new System.Windows.Forms.CheckBox();
+            this.ucAfterUploadTasks = new HelpersLib.UserControls.AfterUploadTasksUI();
             this.lblUploadLimitHint = new System.Windows.Forms.Label();
             this.nudUploadLimit = new System.Windows.Forms.NumericUpDown();
             this.lblUploadLimit = new System.Windows.Forms.Label();
@@ -283,53 +282,53 @@
             this.tvMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvMain.Location = new System.Drawing.Point(3, 3);
             this.tvMain.Name = "tvMain";
-            treeNode18.Name = "tnGeneral";
-            treeNode18.Tag = "panelGeneral";
-            treeNode18.Text = "General";
-            treeNode19.Name = "tnHotkeys";
-            treeNode19.Text = "Hotkeys";
-            treeNode20.Name = "tnClipboardUpload";
-            treeNode20.Text = "Clipboard";
-            treeNode21.Name = "tnShapes";
-            treeNode21.Tag = "panelShapes";
-            treeNode21.Text = "Shapes";
-            treeNode22.Name = "tnCapture";
-            treeNode22.Tag = "panelCapture";
-            treeNode22.Text = "Capture";
-            treeNode23.Name = "tnFileNaming";
-            treeNode23.Text = "File Naming";
-            treeNode24.Name = "tnImageQuality";
-            treeNode24.Text = "Quality";
-            treeNode25.Name = "tnImageResize";
-            treeNode25.Text = "Resize";
-            treeNode26.Name = "tnImage";
-            treeNode26.Text = "Image Processing";
-            treeNode27.Name = "tnUpload";
-            treeNode27.Text = "Upload";
-            treeNode28.Name = "tnPaths";
-            treeNode28.Text = "Paths";
-            treeNode29.Name = "tnProxy";
-            treeNode29.Text = "Proxy";
-            treeNode30.Name = "tnShapes2";
-            treeNode30.Text = "Shapes";
-            treeNode31.Name = "tnUploaderConfig";
-            treeNode31.Text = "Uploader config";
-            treeNode32.Name = "tnUserConfig";
-            treeNode32.Text = "User config";
-            treeNode33.Name = "tnSync";
-            treeNode33.Text = "Sync";
-            treeNode34.Name = "tnAdvanced";
-            treeNode34.Text = "Advanced";
+            treeNode1.Name = "tnGeneral";
+            treeNode1.Tag = "panelGeneral";
+            treeNode1.Text = "General";
+            treeNode2.Name = "tnHotkeys";
+            treeNode2.Text = "Hotkeys";
+            treeNode3.Name = "tnClipboardUpload";
+            treeNode3.Text = "Clipboard";
+            treeNode4.Name = "tnShapes";
+            treeNode4.Tag = "panelShapes";
+            treeNode4.Text = "Shapes";
+            treeNode5.Name = "tnCapture";
+            treeNode5.Tag = "panelCapture";
+            treeNode5.Text = "Capture";
+            treeNode6.Name = "tnFileNaming";
+            treeNode6.Text = "File Naming";
+            treeNode7.Name = "tnImageQuality";
+            treeNode7.Text = "Quality";
+            treeNode8.Name = "tnImageResize";
+            treeNode8.Text = "Resize";
+            treeNode9.Name = "tnImage";
+            treeNode9.Text = "Image Processing";
+            treeNode10.Name = "tnUpload";
+            treeNode10.Text = "Upload";
+            treeNode11.Name = "tnPaths";
+            treeNode11.Text = "Paths";
+            treeNode12.Name = "tnProxy";
+            treeNode12.Text = "Proxy";
+            treeNode13.Name = "tnShapes2";
+            treeNode13.Text = "Shapes";
+            treeNode14.Name = "tnUploaderConfig";
+            treeNode14.Text = "Uploader config";
+            treeNode15.Name = "tnUserConfig";
+            treeNode15.Text = "User config";
+            treeNode16.Name = "tnSync";
+            treeNode16.Text = "Sync";
+            treeNode17.Name = "tnAdvanced";
+            treeNode17.Text = "Advanced";
             this.tvMain.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode18,
-            treeNode19,
-            treeNode22,
-            treeNode23,
-            treeNode26,
-            treeNode27,
-            treeNode28,
-            treeNode29,
-            treeNode34});
+            treeNode1,
+            treeNode2,
+            treeNode5,
+            treeNode6,
+            treeNode9,
+            treeNode10,
+            treeNode11,
+            treeNode12,
+            treeNode17});
             this.tvMain.Size = new System.Drawing.Size(133, 506);
             this.tvMain.TabIndex = 0;
             this.tvMain.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvMain_AfterSelect);
@@ -543,7 +542,7 @@
             this.gbCaptureAfter.Controls.Add(this.ucAfterCaptureTasks);
             this.gbCaptureAfter.Location = new System.Drawing.Point(11, 96);
             this.gbCaptureAfter.Name = "gbCaptureAfter";
-            this.gbCaptureAfter.Size = new System.Drawing.Size(501, 320);
+            this.gbCaptureAfter.Size = new System.Drawing.Size(501, 296);
             this.gbCaptureAfter.TabIndex = 3;
             this.gbCaptureAfter.TabStop = false;
             this.gbCaptureAfter.Text = "After capture tasks (only applicable for workflows that contain this activity)";
@@ -553,7 +552,7 @@
             this.ucAfterCaptureTasks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucAfterCaptureTasks.Location = new System.Drawing.Point(3, 16);
             this.ucAfterCaptureTasks.Name = "ucAfterCaptureTasks";
-            this.ucAfterCaptureTasks.Size = new System.Drawing.Size(495, 301);
+            this.ucAfterCaptureTasks.Size = new System.Drawing.Size(495, 277);
             this.ucAfterCaptureTasks.TabIndex = 0;
             // 
             // cbCaptureShadow
@@ -866,36 +865,21 @@
             // 
             // gbAfterUpload
             // 
-            this.gbAfterUpload.Controls.Add(this.cbURLShortenAfterUpload);
-            this.gbAfterUpload.Controls.Add(this.cbClipboardAutoCopy);
+            this.gbAfterUpload.Controls.Add(this.ucAfterUploadTasks);
             this.gbAfterUpload.Location = new System.Drawing.Point(16, 88);
             this.gbAfterUpload.Name = "gbAfterUpload";
-            this.gbAfterUpload.Size = new System.Drawing.Size(483, 82);
+            this.gbAfterUpload.Size = new System.Drawing.Size(483, 112);
             this.gbAfterUpload.TabIndex = 6;
             this.gbAfterUpload.TabStop = false;
             this.gbAfterUpload.Text = "After Upload";
             // 
-            // cbURLShortenAfterUpload
+            // ucAfterUploadTasks
             // 
-            this.cbURLShortenAfterUpload.AutoSize = true;
-            this.cbURLShortenAfterUpload.Location = new System.Drawing.Point(16, 24);
-            this.cbURLShortenAfterUpload.Name = "cbURLShortenAfterUpload";
-            this.cbURLShortenAfterUpload.Size = new System.Drawing.Size(240, 17);
-            this.cbURLShortenAfterUpload.TabIndex = 0;
-            this.cbURLShortenAfterUpload.Text = "Use URL Shortener after upload is completed";
-            this.cbURLShortenAfterUpload.UseVisualStyleBackColor = true;
-            this.cbURLShortenAfterUpload.CheckedChanged += new System.EventHandler(this.cbURLShortenAfterUpload_CheckedChanged);
-            // 
-            // cbClipboardAutoCopy
-            // 
-            this.cbClipboardAutoCopy.AutoSize = true;
-            this.cbClipboardAutoCopy.Location = new System.Drawing.Point(16, 48);
-            this.cbClipboardAutoCopy.Name = "cbClipboardAutoCopy";
-            this.cbClipboardAutoCopy.Size = new System.Drawing.Size(254, 17);
-            this.cbClipboardAutoCopy.TabIndex = 1;
-            this.cbClipboardAutoCopy.Text = "Copy URL to clipboard after upload is completed";
-            this.cbClipboardAutoCopy.UseVisualStyleBackColor = true;
-            this.cbClipboardAutoCopy.CheckedChanged += new System.EventHandler(this.cbClipboardAutoCopy_CheckedChanged);
+            this.ucAfterUploadTasks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucAfterUploadTasks.Location = new System.Drawing.Point(3, 16);
+            this.ucAfterUploadTasks.Name = "ucAfterUploadTasks";
+            this.ucAfterUploadTasks.Size = new System.Drawing.Size(477, 93);
+            this.ucAfterUploadTasks.TabIndex = 0;
             // 
             // lblUploadLimitHint
             // 
@@ -2126,7 +2110,6 @@
             this.panelUpload.ResumeLayout(false);
             this.panelUpload.PerformLayout();
             this.gbAfterUpload.ResumeLayout(false);
-            this.gbAfterUpload.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudUploadLimit)).EndInit();
             this.tpHotkeys.ResumeLayout(false);
             this.panelHotkeys.ResumeLayout(false);
@@ -2301,8 +2284,6 @@
         private System.Windows.Forms.CheckBox cbPlaySoundAfterCapture;
         private System.Windows.Forms.TabPage tpSync;
         private System.Windows.Forms.Panel panelSync;
-        private System.Windows.Forms.CheckBox cbURLShortenAfterUpload;
-        private System.Windows.Forms.CheckBox cbClipboardAutoCopy;
         private System.Windows.Forms.GroupBox gbNotifications;
         private System.Windows.Forms.GroupBox gbPathRoot;
         private System.Windows.Forms.GroupBox gbScreenshots;
@@ -2332,5 +2313,6 @@
         private System.Windows.Forms.Panel panelUserConfig;
         private System.Windows.Forms.PropertyGrid pgUserConfig;
         private HelpersLib.UserControls.AfterCaptureTasksUI ucAfterCaptureTasks;
+        private HelpersLib.UserControls.AfterUploadTasksUI ucAfterUploadTasks;
     }
 }

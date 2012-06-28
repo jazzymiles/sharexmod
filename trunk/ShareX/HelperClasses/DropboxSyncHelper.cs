@@ -90,7 +90,7 @@ namespace ShareX
             FormsHelper.Main.LoadSettings();
             if (Program.IsHotkeysAllowed)
                 FormsHelper.Main.InitHotkeys();
-            FormsHelper.Options.LoadSettings();
+            FormsHelper.OptionsSettingsLoad();
         }
 
         public T Download<T>(string path)

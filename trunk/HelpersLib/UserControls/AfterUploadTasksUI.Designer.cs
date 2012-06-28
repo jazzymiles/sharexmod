@@ -34,6 +34,7 @@
             // flpTasks
             // 
             this.flpTasks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpTasks.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpTasks.Location = new System.Drawing.Point(0, 0);
             this.flpTasks.Name = "flpTasks";
             this.flpTasks.Size = new System.Drawing.Size(295, 284);
