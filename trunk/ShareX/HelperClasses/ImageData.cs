@@ -85,7 +85,7 @@ namespace ShareX.HelperClasses
             ImageData id = null;
             if (File.Exists(fp))
             {
-                id = new ImageData((Image)Image.FromFile(fp).Clone());
+                id = new ImageData(Helpers.ImageFromFile(fp));
             }
             return id;
         }

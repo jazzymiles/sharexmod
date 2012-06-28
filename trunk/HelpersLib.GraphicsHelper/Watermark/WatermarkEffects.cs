@@ -25,7 +25,7 @@ namespace HelpersLibWatermark
 
         #region 0 Properties
 
-        WatermarkConfig Config = new WatermarkConfig();
+        private WatermarkConfig Config = new WatermarkConfig();
 
         #endregion 0 Properties
 
@@ -93,7 +93,7 @@ namespace HelpersLibWatermark
                 if (!string.IsNullOrEmpty(imgPath) && File.Exists(imgPath))
                 {
                     int offset = (int)Config.WatermarkOffset;
-                    Image img2 = Image.FromFile(imgPath);
+                    Image img2 = Helpers.ImageFromFile(imgPath);
                     img2 = GraphicsHelper.ChangeImageSize((Bitmap)img2, (float)Config.WatermarkImageScale);
                     Point imgPos = FindPosition(Config.WatermarkPositionMode, offset, img.Size, img2.Size, 0);
                     if (Config.WatermarkAutoHide && ((img.Width < img2.Width + offset) ||

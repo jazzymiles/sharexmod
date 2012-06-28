@@ -108,7 +108,7 @@ namespace HelpersLib
         {
             try
             {
-                using (Image img = Image.FromFile(path))
+                using (Image img = Helpers.ImageFromFile(path))
                 {
                     Clipboard.SetImage(img);
                 }
@@ -572,6 +572,11 @@ namespace HelpersLib
             }
 
             return false;
+        }
+
+        public static Image ImageFromFile(string fp)
+        {
+            return Image.FromStream(new MemoryStream(File.ReadAllBytes(fp)));
         }
     }
 }
