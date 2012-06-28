@@ -31,33 +31,21 @@ namespace ShareX
             }
         }
 
-        public static OptionsWindow Options
-        {
-            get
-            {
-                if (_OptionsWindow == null || _OptionsWindow.IsDisposed)
-                    _OptionsWindow = new OptionsWindow() { Icon = Resources.ShareX };
-
-                return _OptionsWindow;
-            }
-            set
-            {
-                _OptionsWindow = value;
-            }
-        }
-
+        /// <summary>
+        /// Options Window must use ShowDialog() to ensure latest settings are shown in the UI
+        /// Do not modify it to support Show()
+        /// </summary>
         public static void ShowOptions()
         {
-            if (_OptionsWindow != null && !_OptionsWindow.IsDisposed)
-            {
-                _OptionsWindow.Show();
-                _OptionsWindow.Focus();
-            }
-            else
-                Options.ShowDialog();
+            _OptionsWindow = new OptionsWindow() { Icon = Resources.ShareX };
+            _OptionsWindow.ShowDialog();
+            _OptionsWindow.Activate();
+        }
 
-            // because Options uses Show() in addition to ShowDialog() any code that needs to be run after Options
-            // is closed must be located within BeforeClose() method in Options
+        public static void OptionsSettingsLoad()
+        {
+            if (_OptionsWindow != null)
+                _OptionsWindow.LoadSettings();
         }
 
         public static void ShowUploadersConfig()

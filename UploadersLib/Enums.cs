@@ -243,10 +243,10 @@ namespace UploadersLib
         [Description("Clipboard")]
         Clipboard = 0,
 
-        [Description("File")]
+        [Description("Local disk")]
         LocalDisk = 2 << 0,
 
-        [Description("Share")]
+        [Description("Remote host")]
         RemoteHost = 2 << 1,
 
         [Description("E-mail")]
