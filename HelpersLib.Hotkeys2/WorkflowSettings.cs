@@ -12,7 +12,7 @@ namespace HelpersLib.Hotkeys2
     [Serializable]
     public class WorkflowSettings
     {
-        [Category(ComponentModelStrings.ActivitiesAfterCapture), Description("Perform global After Capture Tasks")]
+        [Category(ComponentModelStrings.ActivitiesAfterCapture), Description("Apply default after capture and upload settings."), DefaultValue(true)]
         public bool PerformGlobalAfterCaptureTasks { get; set; }
 
         public DestConfig DestConfig = new DestConfig();
