@@ -55,8 +55,6 @@ namespace ShareX.HelperClasses
         {
             if (SettingsManager.ConfigCore.ListViewMode != View.Details)
             {
-                UploadManager.ListViewControl.LargeImageList = get_NewLargeImageList();
-
                 foreach (Image img in Thumbnails.Images)
                 {
                     UploadManager.ListViewControl.LargeImageList.Images.Add(img);
@@ -74,7 +72,7 @@ namespace ShareX.HelperClasses
             if (Thumbnails != null)
                 Thumbnails.Dispose();
 
-            Thumbnails = new ImageList();
+            Thumbnails = get_NewLargeImageList();
 
             foreach (Task task in UploadManager.Tasks)
             {
@@ -145,8 +143,7 @@ namespace ShareX.HelperClasses
             if (Thumbnails == null)
                 Thumbnails = get_NewLargeImageList();
 
-            if (UploadManager.ListViewControl.LargeImageList == null)
-                UploadManager.ListViewControl.LargeImageList = get_NewLargeImageList();
+            UploadManager.ListViewControl.LargeImageList = get_NewLargeImageList(); // not Thumbnails because cross thread errors could occur
 
             // reset ImageIndex to prevent showing wrong images
             if (UploadManager.ListViewControl.View == View.Details)
@@ -169,6 +166,11 @@ namespace ShareX.HelperClasses
             }
         }
 
+        internal static void set_IconUploadStarted(ListViewItem lvi)
+        {
+            if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 0;
+        }
+
         internal static void set_IconError(ListViewItem lvi)
         {
             if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 1;
@@ -177,11 +179,6 @@ namespace ShareX.HelperClasses
         internal static void set_IconCompleted(ListViewItem lvi)
         {
             if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 2;
-        }
-
-        internal static void set_IconUploadStarted(ListViewItem lvi)
-        {
-            if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 0;
         }
 
         internal static void set_IconCreated(ListViewItem lvi)
