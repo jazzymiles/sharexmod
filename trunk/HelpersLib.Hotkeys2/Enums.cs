@@ -45,7 +45,7 @@ namespace HelpersLib.Hotkeys2
         [Description("Capture active window")]
         ActiveWindow,
 
-        [Description("Capture active Monitor")]
+        [Description("Capture active monitor")]
         ActiveMonitor,
 
         [Description("Capture window or rectangle")]

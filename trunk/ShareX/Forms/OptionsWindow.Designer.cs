@@ -546,6 +546,7 @@
             this.gbCaptureAfter.TabIndex = 3;
             this.gbCaptureAfter.TabStop = false;
             this.gbCaptureAfter.Text = "After capture tasks (only applicable for workflows that contain this activity)";
+            this.gbCaptureAfter.Visible = false;
             // 
             // ucAfterCaptureTasks
             // 
@@ -872,6 +873,7 @@
             this.gbAfterUpload.TabIndex = 6;
             this.gbAfterUpload.TabStop = false;
             this.gbAfterUpload.Text = "After Upload";
+            this.gbAfterUpload.Visible = false;
             // 
             // ucAfterUploadTasks
             // 

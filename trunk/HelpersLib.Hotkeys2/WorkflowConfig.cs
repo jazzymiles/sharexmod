@@ -422,6 +422,7 @@ namespace HelpersLib.Hotkeys2
                     gbSettings.Visible = false;
                     break;
             }
+            Workflow.Hotkey = hotkey;
         }
 
         private void ShowAllUploaders()
