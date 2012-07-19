@@ -115,6 +115,9 @@ namespace ScreenCapture
 
         protected override void Draw(Graphics g)
         {
+            borderDotPen.DashOffset = (float)timer.Elapsed.TotalSeconds * 10;
+            borderDotPen2.DashOffset = 5 + (float)timer.Elapsed.TotalSeconds * 10;
+
             if (Config.ShowCrosshair)
             {
                 DrawCrosshair(g);
@@ -132,9 +135,6 @@ namespace ScreenCapture
                     g.FillRectangle(shadowBrush, 0, 0, Width, Height);
                     g.ResetClip();
                 }
-
-                borderDotPen.DashOffset = (float)timer.Elapsed.TotalSeconds * 10;
-                borderDotPen2.DashOffset = 5 + (float)timer.Elapsed.TotalSeconds * 10;
 
                 g.DrawPath(borderPen, regionDrawPath);
 
@@ -199,15 +199,35 @@ namespace ScreenCapture
 
         private void DrawCrosshair(Graphics g)
         {
+            int offset = 10;
             Point mousePos = InputManager.MousePosition0Based;
-            int offset = 2;
+            Point left = new Point(mousePos.X - offset, mousePos.Y), left2 = new Point(0, mousePos.Y);
+            Point right = new Point(mousePos.X + offset, mousePos.Y), right2 = new Point(ScreenRectangle0Based.Width - 1, mousePos.Y);
+            Point top = new Point(mousePos.X, mousePos.Y - offset), top2 = new Point(mousePos.X, 0);
+            Point bottom = new Point(mousePos.X, mousePos.Y + offset), bottom2 = new Point(mousePos.X, ScreenRectangle0Based.Height - 1);
 
-            using (Pen crosshairPen = new Pen(Color.FromArgb(100, Color.Black)))
+            if (left.X - left2.X > 10)
             {
-                g.DrawLine(crosshairPen, new Point(0, mousePos.Y), new Point(mousePos.X - offset, mousePos.Y)); // Left
-                g.DrawLine(crosshairPen, new Point(mousePos.X + offset, mousePos.Y), new Point(ScreenRectangle0Based.Width - 1, mousePos.Y)); // Right
-                g.DrawLine(crosshairPen, new Point(mousePos.X, 0), new Point(mousePos.X, mousePos.Y - offset)); // Top
-                g.DrawLine(crosshairPen, new Point(mousePos.X, mousePos.Y + offset), new Point(mousePos.X, ScreenRectangle0Based.Height - 1)); // Bottom
+                g.DrawLine(borderDotPen, left, left2);
+                g.DrawLine(borderDotPen2, left, left2);
+            }
+
+            if (right2.X - right.X > 10)
+            {
+                g.DrawLine(borderDotPen, right, right2);
+                g.DrawLine(borderDotPen2, right, right2);
+            }
+
+            if (top.Y - top2.Y > 10)
+            {
+                g.DrawLine(borderDotPen, top, top2);
+                g.DrawLine(borderDotPen2, top, top2);
+            }
+
+            if (bottom2.Y - bottom.Y > 10)
+            {
+                g.DrawLine(borderDotPen, bottom, bottom2);
+                g.DrawLine(borderDotPen2, bottom, bottom2);
             }
         }
 
