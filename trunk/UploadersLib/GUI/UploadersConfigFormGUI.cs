@@ -29,8 +29,8 @@ using System.Windows.Forms;
 using HelpersLib;
 using UploadersLib.HelperClasses;
 using UploadersLib.ImageUploaders;
-using UploadersLib.SocialNetworkingServices;
 using UploadersLib.Properties;
+using UploadersLib.SocialNetworkingServices;
 
 namespace UploadersLib
 {
@@ -336,7 +336,7 @@ namespace UploadersLib
                 return false;
             }
 
-            if (atcTinyPicAccountType.SelectedAccountType == AccountType.User && (string.IsNullOrEmpty(txtTinyPicUsername.Text) || string.IsNullOrEmpty(txtTinyPicPassword.Text)))
+            if (atcTinyPicAccountType.SelectedAccountType == AccountType.User && (string.IsNullOrEmpty(txtTinyPicUsername.Text) || string.IsNullOrEmpty(txtTinyPicRegistrationCode.Text)))
             {
                 MessageBox.Show("TinyPic account type is set to User; however, the username or password is empty.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
