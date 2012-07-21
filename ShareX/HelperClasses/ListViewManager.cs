@@ -148,7 +148,7 @@ namespace ShareX.HelperClasses
             // reset ImageIndex to prevent showing wrong images
             if (UploadManager.ListViewControl.View == View.Details)
             {
-                UploadManager.ListViewControl.SmallImageList = DetailViewImageList;
+                // UploadManager.ListViewControl.SmallImageList = DetailViewImageList;
                 foreach (ListViewItem lvi in UploadManager.ListViewControl.Items)
                 {
                     set_IconCompleted(lvi);
@@ -168,22 +168,22 @@ namespace ShareX.HelperClasses
 
         internal static void set_IconUploadStarted(ListViewItem lvi)
         {
-            if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 0;
+          //  if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 0;
         }
 
         internal static void set_IconError(ListViewItem lvi)
         {
-            if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 1;
+          //  if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 1;
         }
 
         internal static void set_IconCompleted(ListViewItem lvi)
         {
-            if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 2;
+           // if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 2;
         }
 
         internal static void set_IconCreated(ListViewItem lvi)
         {
-            if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 3;
+           // if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 3;
         }
     }
 }
