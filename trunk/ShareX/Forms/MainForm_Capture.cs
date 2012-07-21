@@ -165,11 +165,9 @@ namespace ShareX
                 surface.SurfaceImage = screenshot;
                 surface.Prepare();
 
-                if (surface.ShowDialog() == DialogResult.OK)
-                {
-                    img = surface.GetRegionImage();
-                }
-
+                surface.ShowDialog();
+                img = surface.GetRegionImage();
+                    
                 surface.Dispose();
 
                 return img;
