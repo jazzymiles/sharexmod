@@ -118,6 +118,7 @@ namespace ShareX
                 case EDataType.Image:
                     taskJob = TaskJob.ImageUpload;
                     break;
+
                 case EDataType.Text:
                     taskJob = TaskJob.TextUpload;
                     break;
@@ -206,17 +207,6 @@ namespace ShareX
             }
         }
 
-        private bool do_Share
-        {
-            get
-            {
-                return SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.RemoteHost) &&
-                    Info.Jobs.HasFlag(Subtask.UploadToRemoteHost) ||
-                    Workflow.Settings.PerformGlobalAfterCaptureTasks &&
-                    SettingsManager.ConfigCore.AfterCaptureTasks.HasFlag(Subtask.UploadToRemoteHost);
-            }
-        }
-
         private void ThreadDoWork()
         {
             DoThreadJob();
@@ -236,7 +226,7 @@ namespace ShareX
                 threadWorker.InvokeAsync(UploadFile_Print);
             }
 
-            if (do_Share)
+            if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.RemoteHost) && Info.Jobs.HasFlag(Subtask.UploadToRemoteHost))
             {
                 if (SettingsManager.ConfigUploaders == null)
                     SettingsManager.UploaderSettingsResetEvent.WaitOne();
@@ -257,9 +247,11 @@ namespace ShareX
                             case EDataType.Image:
                                 Info.Result = UploadImage(data);
                                 break;
+
                             case EDataType.File:
                                 Info.Result = UploadFile(data);
                                 break;
+
                             case EDataType.Text:
                                 Info.Result = UploadText(data);
                                 break;
@@ -321,7 +313,7 @@ namespace ShareX
                         Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
                     }
 
-                    if (Info.Jobs.HasFlag(Subtask.SaveImageToFileWithDialog) && Directory.Exists(Info.FolderPath))
+                    if (Info.Jobs.HasFlag(Subtask.SaveImageToFileWithDialog))
                     {
                         string fp = imageData.WriteToFile(Info.FolderPath);
                         if (string.IsNullOrEmpty(Info.FilePath))
@@ -523,7 +515,7 @@ namespace ShareX
 
             if (Info.Jobs.HasFlag(Subtask.SaveImageToFileWithDialog))
             {
-                threadWorker.InvokeAsync(SaveImageToFileWithDialog);
+                threadWorker.Invoke(SaveImageToFileWithDialog);
             }
         }
 
@@ -569,25 +561,31 @@ namespace ShareX
                         IsPublic = SettingsManager.ConfigUploaders.ImageShackShowImagesInPublic
                     };
                     break;
+
                 case ImageDestination.TinyPic:
                     imageUploader = new TinyPicUploader(ApiKeys.TinyPicID, ApiKeys.TinyPicKey, SettingsManager.ConfigUploaders.TinyPicAccountType,
                         SettingsManager.ConfigUploaders.TinyPicRegistrationCode);
                     break;
+
                 case ImageDestination.Imgur:
                     imageUploader = new Imgur(SettingsManager.ConfigUploaders.ImgurAccountType, ApiKeys.ImgurAnonymousKey, SettingsManager.ConfigUploaders.ImgurOAuthInfo)
                     {
                         ThumbnailType = SettingsManager.ConfigUploaders.ImgurThumbnailType
                     };
                     break;
+
                 case ImageDestination.Flickr:
                     imageUploader = new FlickrUploader(ApiKeys.FlickrKey, ApiKeys.FlickrSecret, SettingsManager.ConfigUploaders.FlickrAuthInfo, SettingsManager.ConfigUploaders.FlickrSettings);
                     break;
+
                 case ImageDestination.Photobucket:
                     imageUploader = new Photobucket(SettingsManager.ConfigUploaders.PhotobucketOAuthInfo, SettingsManager.ConfigUploaders.PhotobucketAccountInfo);
                     break;
+
                 case ImageDestination.UploadScreenshot:
                     imageUploader = new UploadScreenshot(ApiKeys.UploadScreenshotKey);
                     break;
+
                 case ImageDestination.Twitpic:
                     int indexTwitpic = SettingsManager.ConfigUploaders.TwitterSelectedAccount;
 
@@ -600,6 +598,7 @@ namespace ShareX
                         };
                     }
                     break;
+
                 case ImageDestination.Twitsnaps:
                     int indexTwitsnaps = SettingsManager.ConfigUploaders.TwitterSelectedAccount;
 
@@ -608,6 +607,7 @@ namespace ShareX
                         imageUploader = new TwitSnapsUploader(ApiKeys.TwitsnapsKey, SettingsManager.ConfigUploaders.TwitterOAuthInfoList[indexTwitsnaps]);
                     }
                     break;
+
                 case ImageDestination.yFrog:
                     YfrogOptions yFrogOptions = new YfrogOptions(ApiKeys.ImageShackKey);
                     yFrogOptions.Username = SettingsManager.ConfigUploaders.YFrogUsername;
@@ -615,6 +615,7 @@ namespace ShareX
                     yFrogOptions.Source = Application.ProductName;
                     imageUploader = new YfrogUploader(yFrogOptions);
                     break;
+
                 case ImageDestination.Immio:
                     imageUploader = new ImmioUploader();
                     break;
@@ -641,24 +642,28 @@ namespace ShareX
                     pastebinSettings.TextFormat = Workflow.Settings.DestConfig.TextFormat;
                     textUploader = new PastebinUploader(ApiKeys.PastebinKey, pastebinSettings);
                     break;
+
                 case TextDestination.PastebinCA:
                     textUploader = new PastebinCaUploader(ApiKeys.PastebinCaKey, new PastebinCaSettings()
                     {
                         TextFormat = Workflow.Settings.DestConfig.TextFormat
                     });
                     break;
+
                 case TextDestination.Paste2:
                     textUploader = new Paste2Uploader(new Paste2Settings()
                     {
                         TextFormat = Workflow.Settings.DestConfig.TextFormat
                     });
                     break;
+
                 case TextDestination.Slexy:
                     textUploader = new SlexyUploader(new SlexySettings()
                     {
                         TextFormat = Workflow.Settings.DestConfig.TextFormat
                     });
                     break;
+
                 case TextDestination.Pastee:
                     textUploader = new Pastee() { Lexer = Workflow.Settings.DestConfig.TextFormat };
                     break;
@@ -720,10 +725,12 @@ namespace ShareX
                         AutoCreateShareableLink = SettingsManager.ConfigUploaders.DropboxAutoCreateShareableLink
                     };
                     break;
+
                 case FileDestination.RapidShare:
                     fileUploader = new RapidShare(SettingsManager.ConfigUploaders.RapidShareUsername, SettingsManager.ConfigUploaders.RapidSharePassword,
                         SettingsManager.ConfigUploaders.RapidShareFolderID);
                     break;
+
                 case FileDestination.SendSpace:
                     fileUploader = new SendSpace(ApiKeys.SendSpaceKey);
                     switch (SettingsManager.ConfigUploaders.SendSpaceAccountType)
@@ -731,14 +738,17 @@ namespace ShareX
                         case AccountType.Anonymous:
                             SendSpaceManager.PrepareUploadInfo(ApiKeys.SendSpaceKey);
                             break;
+
                         case AccountType.User:
                             SendSpaceManager.PrepareUploadInfo(ApiKeys.SendSpaceKey, SettingsManager.ConfigUploaders.SendSpaceUsername, SettingsManager.ConfigUploaders.SendSpacePassword);
                             break;
                     }
                     break;
+
                 case FileDestination.Minus:
                     fileUploader = new Minus(SettingsManager.ConfigUploaders.MinusConfig, new OAuthInfo(ApiKeys.MinusConsumerKey, ApiKeys.MinusConsumerSecret));
                     break;
+
                 case FileDestination.Box:
                     fileUploader = new Box(ApiKeys.BoxKey)
                     {
@@ -747,12 +757,14 @@ namespace ShareX
                         Share = SettingsManager.ConfigUploaders.BoxShare
                     };
                     break;
+
                 case FileDestination.CustomUploader:
                     if (SettingsManager.ConfigUploaders.CustomUploadersList.IsValidIndex(SettingsManager.ConfigUploaders.CustomUploaderSelected))
                     {
                         fileUploader = new CustomUploader(SettingsManager.ConfigUploaders.CustomUploadersList[SettingsManager.ConfigUploaders.CustomUploaderSelected]);
                     }
                     break;
+
                 case FileDestination.FTP:
                     fileUploader = get_FtpAccountByFileExtensionSupport();
                     if (fileUploader == null)
@@ -768,9 +780,11 @@ namespace ShareX
                         }
                     }
                     break;
+
                 case FileDestination.SharedFolder:
                     UploadFile_SharedFolder(stream);
                     break;
+
                 case FileDestination.Email:
                     UploadFile_Email(stream);
                     break;
@@ -850,19 +864,24 @@ namespace ShareX
                 case UrlShortenerType.BITLY:
                     urlShortener = new BitlyURLShortener(ApiKeys.BitlyLogin, ApiKeys.BitlyKey);
                     break;
+
                 case UrlShortenerType.Google:
                     urlShortener = new GoogleURLShortener(SettingsManager.ConfigUploaders.GoogleURLShortenerAccountType, ApiKeys.GoogleApiKey,
                         SettingsManager.ConfigUploaders.GoogleURLShortenerOAuthInfo);
                     break;
+
                 case UrlShortenerType.ISGD:
                     urlShortener = new IsgdURLShortener();
                     break;
+
                 case UrlShortenerType.Jmp:
                     urlShortener = new JmpURLShortener(ApiKeys.BitlyLogin, ApiKeys.BitlyKey);
                     break;
+
                 case UrlShortenerType.TINYURL:
                     urlShortener = new TinyURLShortener();
                     break;
+
                 case UrlShortenerType.TURL:
                     urlShortener = new TurlURLShortener();
                     break;
