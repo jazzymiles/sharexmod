@@ -521,7 +521,7 @@ namespace ShareX
                             if (FormsHelper.Main.niTray.Visible && SettingsManager.ConfigCore.ShowBalloonAfterUpload)
                             {
                                 FormsHelper.Main.niTray.Tag = url;
-                                FormsHelper.Main.niTray.ShowBalloonTip(5000, "ShareX - Upload completed", url, ToolTipIcon.Info);
+                                FormsHelper.Main.niTray.ShowBalloonTip(5000, Application.ProductName + " - completed", url, ToolTipIcon.Info);
                             }
 
                             if (SettingsManager.ConfigCore.ShowClipboardOptionsWizard && info.Job != TaskJob.ShareURL)
