@@ -499,16 +499,22 @@ namespace ShareX
                         lvi.SubItems[1].Text = info.Status;
                         ListViewManager.set_IconCompleted(lvi);
 
-                        string url = string.IsNullOrEmpty(info.Result.ShortenedURL) ? info.Result.URL : info.Result.ShortenedURL;
-                        if (string.IsNullOrEmpty(url))
-                            url = info.FilePath;
+                        string url_or_filepath = string.IsNullOrEmpty(info.Result.ShortenedURL) ? info.Result.URL : info.Result.ShortenedURL;
+                        if (string.IsNullOrEmpty(url_or_filepath))
+                            url_or_filepath = info.FilePath;
 
-                        lvi.SubItems[8].Text = url;
+                        lvi.SubItems[8].Text = url_or_filepath;
 
                         if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.Clipboard) &&
                             SettingsManager.ConfigCore.AfterUploadTasks.HasFlag(AfterUploadTasks.CopyURLToClipboard))
                         {
-                            Helpers.CopyTextSafely(url);
+                            Helpers.CopyTextSafely(url_or_filepath);
+                        }
+
+                        if (FormsHelper.Main.niTray.Visible && SettingsManager.ConfigCore.ShowBalloonAfterUpload)
+                        {
+                            FormsHelper.Main.niTray.Tag = url_or_filepath;
+                            FormsHelper.Main.niTray.ShowBalloonTip(5000, Application.ProductName + " - completed", url_or_filepath, ToolTipIcon.Info);
                         }
 
                         if (!string.IsNullOrEmpty(info.Result.URL))
@@ -516,12 +522,6 @@ namespace ShareX
                             if (SettingsManager.ConfigCore.SaveHistory)
                             {
                                 SettingsManager.ConfigHistory.AddHistoryItemAsync(info.GetHistoryItem());
-                            }
-
-                            if (FormsHelper.Main.niTray.Visible && SettingsManager.ConfigCore.ShowBalloonAfterUpload)
-                            {
-                                FormsHelper.Main.niTray.Tag = url;
-                                FormsHelper.Main.niTray.ShowBalloonTip(5000, Application.ProductName + " - completed", url, ToolTipIcon.Info);
                             }
 
                             if (SettingsManager.ConfigCore.ShowClipboardOptionsWizard && info.Job != TaskJob.ShareURL)
