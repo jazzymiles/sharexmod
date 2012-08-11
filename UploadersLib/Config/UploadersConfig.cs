@@ -101,6 +101,10 @@ namespace UploadersLib
         public string YFrogUsername = string.Empty;
         public string YFrogPassword = string.Empty;
 
+        // Picasa
+
+        public OAuthInfo PicasaOAuthInfo = null;
+
         #endregion Image uploaders
 
         #region File uploaders
@@ -158,6 +162,10 @@ namespace UploadersLib
         public string BoxFolderID = "0";
         public bool BoxShare = true;
 
+        // Ge.tt
+
+        public Ge_ttLogin Ge_ttLogin = null;
+
         // Custom Uploaders
 
         public List<CustomUploaderInfo> CustomUploadersList = new List<CustomUploaderInfo>();
@@ -168,6 +176,8 @@ namespace UploadersLib
         #region Text uploaders
 
         // Pastebin
+
+        public string Paste_eeUserAPIKey = "public";
 
         public PastebinSettings PastebinSettings = new PastebinSettings();
 

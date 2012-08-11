@@ -36,8 +36,8 @@ using UploadersLib.FileUploaders;
 using UploadersLib.Forms;
 using UploadersLib.HelperClasses;
 using UploadersLib.ImageUploaders;
-using UploadersLib.SocialNetworkingServices;
 using UploadersLib.Properties;
+using UploadersLib.SocialNetworkingServices;
 using UploadersLib.TextUploaders;
 using UploadersLib.URLShorteners;
 
@@ -251,6 +251,56 @@ namespace UploadersLib
         }
 
         #endregion Photobucket
+
+        #region Picasa
+
+        public void PicasaAuthOpen()
+        {
+            try
+            {
+                OAuthInfo oauth = new OAuthInfo(APIKeys.GoogleConsumerKey, APIKeys.GoogleConsumerSecret);
+
+                string url = new Picasa(oauth).GetAuthorizationURL();
+
+                if (!string.IsNullOrEmpty(url))
+                {
+                    Config.PicasaOAuthInfo = oauth;
+                    Helpers.LoadBrowserAsync(url);
+                    btnPicasaAuthComplete.Enabled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void PicasaAuthComplete()
+        {
+            if (Config.PicasaOAuthInfo != null && !string.IsNullOrEmpty(Config.PicasaOAuthInfo.AuthToken) &&
+                !string.IsNullOrEmpty(Config.PicasaOAuthInfo.AuthSecret))
+            {
+                Picasa gus = new Picasa(Config.PicasaOAuthInfo);
+                bool result = gus.GetAccessToken();
+
+                if (result)
+                {
+                    MessageBox.Show("Login successful.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    lblPicasaAccountStatus.Text = "Login successful: " + Config.PicasaOAuthInfo.UserToken;
+                    return;
+                }
+
+                MessageBox.Show("Login failed.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show("You must give access from Authorize page first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            Config.PicasaOAuthInfo = null;
+        }
+
+        #endregion Picasa
 
         #region Dropbox
 
@@ -690,6 +740,27 @@ namespace UploadersLib
         }
 
         #endregion SendSpace
+
+        #region Ge.tt
+
+        public void Ge_ttLogin()
+        {
+            try
+            {
+                Ge_tt gett = new Ge_tt(APIKeys.Ge_ttKey);
+                Ge_ttLogin login = gett.Login(txtGe_ttEmail.Text, txtGe_ttPassword.Text);
+                Config.Ge_ttLogin = login;
+                lblGe_ttAccessToken.Text = "Access token: " + login.AccessToken;
+            }
+            catch (Exception ex)
+            {
+                Config.Ge_ttLogin = null;
+                lblGe_ttAccessToken.Text = "Access token:";
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion Ge.tt
 
         #region Pastebin
 

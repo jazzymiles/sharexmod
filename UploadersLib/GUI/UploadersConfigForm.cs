@@ -47,7 +47,7 @@ namespace UploadersLib
             CreateUserControlEvents();
             LoadSettings(uploadersConfig);
             APIKeys = uploadersAPIKeys;
-            Text = "Outputs Configuration" + (string.IsNullOrEmpty(uploadersConfig.FilePath) ? string.Empty : " - " + uploadersConfig.FilePath);
+            Text = "ShareX - Outputs Configuration" + (string.IsNullOrEmpty(uploadersConfig.FilePath) ? string.Empty : ": " + uploadersConfig.FilePath);
         }
 
         private void UploadersConfigForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -249,6 +249,20 @@ namespace UploadersLib
 
         #endregion Photobucket
 
+        #region Picasa
+
+        private void btnPicasaAuthOpen_Click(object sender, EventArgs e)
+        {
+            PicasaAuthOpen();
+        }
+
+        private void btnPicasaAuthComplete_Click(object sender, EventArgs e)
+        {
+            PicasaAuthComplete();
+        }
+
+        #endregion Picasa
+
         #region Flickr
 
         private void btnFlickrOpenAuthorize_Click(object sender, EventArgs e)
@@ -314,7 +328,7 @@ namespace UploadersLib
 
         private void btnDropboxRegister_Click(object sender, EventArgs e)
         {
-            Helpers.LoadBrowserAsync("http://db.tt/aM3cNKPc");
+            Helpers.LoadBrowserAsync("http://db.tt/CtPYXvu");
         }
 
         private void btnDropboxAuthOpen_Click(object sender, EventArgs e)
@@ -490,20 +504,6 @@ namespace UploadersLib
             FTPAccountsExport();
         }
 
-        private void chkFTPThumbnailCheckSize_CheckedChanged(object sender, EventArgs e)
-        {
-            Config.FTPThumbnailCheckSize = chkFTPThumbnailCheckSize.Checked;
-        }
-
-        private void txtFTPThumbWidth_TextChanged(object sender, EventArgs e)
-        {
-            int width;
-            if (int.TryParse(txtFTPThumbWidth.Text, out width))
-            {
-                Config.FTPThumbnailWidthLimit = width;
-            }
-        }
-
         #endregion FTP
 
         #region Email
@@ -635,6 +635,15 @@ namespace UploadersLib
         }
 
         #endregion SendSpace
+
+        #region Ge.tt
+
+        private void btnGe_ttLogin_Click(object sender, EventArgs e)
+        {
+            Ge_ttLogin();
+        }
+
+        #endregion Ge.tt
 
         #region Custom Uploader
 
@@ -838,6 +847,15 @@ namespace UploadersLib
 
         #endregion Pastebin
 
+        #region Paste.ee
+
+        private void txtPaste_eeUserAPIKey_TextChanged(object sender, EventArgs e)
+        {
+            Config.Paste_eeUserAPIKey = txtPaste_eeUserAPIKey.Text;
+        }
+
+        #endregion Paste.ee
+
         #endregion Text Uploaders
 
         #region URL Shorteners
@@ -882,10 +900,5 @@ namespace UploadersLib
         }
 
         #endregion Other Services
-
-        private void UploadersConfigForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            e.Cancel = !ValidateSettings();
-        }
     }
 }

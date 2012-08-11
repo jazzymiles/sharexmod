@@ -45,6 +45,7 @@ namespace UploadersLib
             imageUploadersImageList.Images.Add("Imgur", Resources.Imgur);
             imageUploadersImageList.Images.Add("Flickr", Resources.Flickr);
             imageUploadersImageList.Images.Add("Photobucket", Resources.Photobucket);
+            imageUploadersImageList.Images.Add("Picasa", Resources.Picasa);
             imageUploadersImageList.Images.Add("TwitPic", Resources.TwitPic);
             imageUploadersImageList.Images.Add("TwitSnaps", Resources.TwitSnaps);
             imageUploadersImageList.Images.Add("YFrog", Resources.YFrog);
@@ -58,7 +59,10 @@ namespace UploadersLib
             fileUploadersImageList.Images.Add("FTP", Resources.folder_network);
             fileUploadersImageList.Images.Add("RapidShare", Resources.RapidShare);
             fileUploadersImageList.Images.Add("SendSpace", Resources.SendSpace);
+            fileUploadersImageList.Images.Add("Gett", Resources.Gett);
             fileUploadersImageList.Images.Add("CustomUploader", Resources.globe_network);
+            fileUploadersImageList.Images.Add("SharedFolders", Resources.server_network);
+            fileUploadersImageList.Images.Add("Email", Resources.mail);
             tcFileUploaders.ImageList = fileUploadersImageList;
 
             ImageList textUploadersImageList = new ImageList();
@@ -71,22 +75,17 @@ namespace UploadersLib
             urlShortenersImageList.Images.Add("Google", Resources.Google);
             tcURLShorteners.ImageList = urlShortenersImageList;
 
-            ImageList otherServicesImageList = new ImageList();
-            otherServicesImageList.ColorDepth = ColorDepth.Depth32Bit;
-            otherServicesImageList.Images.Add("Twitter", Resources.Twitter);
-            tcOtherServices.ImageList = otherServicesImageList;
-
-            ImageList outputsImageList = new ImageList();
-            outputsImageList.ColorDepth = ColorDepth.Depth32Bit;
-            outputsImageList.Images.Add("Email", Resources.mail);
-            outputsImageList.Images.Add("SharedFolders", Resources.server_network);
-            tcOutputs.ImageList = outputsImageList;
+            ImageList socialNetworkingServicesImageList = new ImageList();
+            socialNetworkingServicesImageList.ColorDepth = ColorDepth.Depth32Bit;
+            socialNetworkingServicesImageList.Images.Add("Twitter", Resources.Twitter);
+            tcSocialNetworkingServices.ImageList = socialNetworkingServicesImageList;
 
             tpImageShack.ImageKey = "ImageShack";
             tpTinyPic.ImageKey = "TinyPic";
             tpImgur.ImageKey = "Imgur";
             tpFlickr.ImageKey = "Flickr";
             tpPhotobucket.ImageKey = "Photobucket";
+            tpPicasa.ImageKey = "Picasa";
             tpTwitPic.ImageKey = "TwitPic";
             tpTwitSnaps.ImageKey = "TwitSnaps";
             tpYFrog.ImageKey = "YFrog";
@@ -96,12 +95,13 @@ namespace UploadersLib
             tpFTP.ImageKey = "FTP";
             tpRapidShare.ImageKey = "RapidShare";
             tpSendSpace.ImageKey = "SendSpace";
+            tpSharedFolder.ImageKey = "SharedFolders";
+            tpEmail.ImageKey = "Email";
+            tpGe_tt.ImageKey = "Gett";
             tpCustomUploaders.ImageKey = "CustomUploader";
             tpPastebin.ImageKey = "Pastebin";
             tpGoogleURLShortener.ImageKey = "Google";
             tpTwitter.ImageKey = "Twitter";
-            tpEmail.ImageKey = "Email";
-            tpSharedFolders.ImageKey = "SharedFolders";
         }
 
         public void LoadSettings(UploadersConfig uploadersConfig)
@@ -131,7 +131,7 @@ namespace UploadersLib
 
             if (cbImgurThumbnailType.Items.Count == 0)
             {
-                cbImgurThumbnailType.Items.AddRange(typeof(ImgurThumbnailType).GetEnumDescriptions());
+                cbImgurThumbnailType.Items.AddRange(Helpers.GetEnumDescriptions<ImgurThumbnailType>());
             }
 
             cbImgurThumbnailType.SelectedIndex = (int)Config.ImgurThumbnailType;
@@ -148,6 +148,13 @@ namespace UploadersLib
                 lblPhotobucketAccountStatus.Text = "Login successful: " + Config.PhotobucketOAuthInfo.UserToken;
                 txtPhotobucketDefaultAlbumName.Text = Config.PhotobucketAccountInfo.AlbumID;
                 lblPhotobucketParentAlbumPath.Text = "Parent album path e.g. " + Config.PhotobucketAccountInfo.AlbumID + "/Personal/" + DateTime.Now.Year;
+            }
+
+            // Picasa
+
+            if (OAuthInfo.CheckOAuth(Config.PicasaOAuthInfo))
+            {
+                lblPicasaAccountStatus.Text = "Login successful: " + Config.PicasaOAuthInfo.UserToken;
             }
 
             if (Config.PhotobucketAccountInfo != null)
@@ -178,7 +185,7 @@ namespace UploadersLib
 
             if (cboTwitPicThumbnailMode.Items.Count == 0)
             {
-                cboTwitPicThumbnailMode.Items.AddRange(typeof(TwitPicThumbnailType).GetEnumDescriptions());
+                cboTwitPicThumbnailMode.Items.AddRange(Helpers.GetEnumDescriptions<TwitPicThumbnailType>());
             }
 
             cboTwitPicThumbnailMode.SelectedIndex = (int)Config.TwitPicThumbnailMode;
@@ -195,6 +202,10 @@ namespace UploadersLib
             // Pastebin
 
             pgPastebinSettings.SelectedObject = Config.PastebinSettings;
+
+            // Paste.ee
+
+            txtPaste_eeUserAPIKey.Text = Config.Paste_eeUserAPIKey;
 
             #endregion Text uploaders
 
@@ -214,6 +225,15 @@ namespace UploadersLib
 
             txtBoxFolderID.Text = Config.BoxFolderID;
 
+            // Ge.tt
+
+            lblGe_ttAccessToken.Text = "Access token:";
+
+            if (Config.Ge_ttLogin != null && !string.IsNullOrEmpty(Config.Ge_ttLogin.AccessToken))
+            {
+                lblGe_ttAccessToken.Text += " " + Config.Ge_ttLogin.AccessToken;
+            }
+
             // FTP
 
             if (Config.FTPAccountList == null || Config.FTPAccountList.Count == 0)
@@ -228,9 +248,6 @@ namespace UploadersLib
                     ucFTPAccounts.AccountsList.SelectedIndex = 0;
                 }
             }
-
-            txtFTPThumbWidth.Text = Config.FTPThumbnailWidthLimit.ToString();
-            chkFTPThumbnailCheckSize.Checked = Config.FTPThumbnailCheckSize;
 
             // Email
 
@@ -326,29 +343,6 @@ namespace UploadersLib
             }
 
             #endregion Other Services
-        }
-
-        public bool ValidateSettings()
-        {
-            if (atcImageShackAccountType.SelectedAccountType == AccountType.User && string.IsNullOrEmpty(txtImageShackRegistrationCode.Text))
-            {
-                MessageBox.Show("ImageShack account type is set to User; however, the registration code is empty.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            if (atcTinyPicAccountType.SelectedAccountType == AccountType.User && (string.IsNullOrEmpty(txtTinyPicUsername.Text) || string.IsNullOrEmpty(txtTinyPicRegistrationCode.Text)))
-            {
-                MessageBox.Show("TinyPic account type is set to User; however, the username or password is empty.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            if (atcImgurAccountType.SelectedAccountType == AccountType.User && (Config.ImgurOAuthInfo == null ||
-                Config.ImgurOAuthInfo != null && (string.IsNullOrEmpty(Config.ImgurOAuthInfo.UserToken) || string.IsNullOrEmpty(Config.ImgurOAuthInfo.UserSecret))))
-            {
-                MessageBox.Show("Imgur account type is set to User; however, the Imgur account has not been authorized.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            return true;
         }
 
         private void CreateUserControlEvents()

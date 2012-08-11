@@ -39,6 +39,9 @@ namespace UploadersLib
         [Description("imgur.com")]
         Imgur,
 
+        [Description("picasaweb.google.com")]
+        Picasa,
+
         [Description("flickr.com")]
         Flickr,
 
@@ -101,6 +104,9 @@ namespace UploadersLib
 
         [Description("box.com")]
         Box,
+
+        [Description("ge.tt")]
+        Ge_tt,
 
         [Description("Custom Uploader")]
         CustomUploader,

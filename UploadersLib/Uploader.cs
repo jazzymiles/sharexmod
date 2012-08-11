@@ -64,7 +64,6 @@ namespace UploadersLib
             ServicePointManager.DefaultConnectionLimit = 25;
             ServicePointManager.Expect100Continue = false;
             ServicePointManager.UseNagleAlgorithm = false;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
         }
 
         protected void OnProgressChanged(ProgressManager progress)
@@ -136,6 +135,14 @@ namespace UploadersLib
             }
         }
 
+        protected string SendPostRequestStream(string url, Stream stream, string contentType, CookieCollection cookies = null, NameValueCollection headers = null)
+        {
+            using (HttpWebResponse response = GetResponseUsingPost(url, stream, CreateBoundary(), contentType, cookies, headers))
+            {
+                return ResponseToString(response, ResponseType.Text);
+            }
+        }
+
         private HttpWebResponse PostResponseMultiPart(string url, Dictionary<string, string> arguments, CookieCollection cookies = null)
         {
             string boundary = CreateBoundary();
@@ -175,14 +182,15 @@ namespace UploadersLib
             }
         }
 
-        private HttpWebResponse GetResponseUsingPost(string url, Stream dataStream, string boundary, string contentType, CookieCollection cookies = null)
+        private HttpWebResponse GetResponseUsingPost(string url, Stream dataStream, string boundary, string contentType,
+            CookieCollection cookies = null, NameValueCollection headers = null)
         {
             IsUploading = true;
             stopUpload = false;
 
             try
             {
-                HttpWebRequest request = PreparePostWebRequest(url, boundary, dataStream.Length, contentType, cookies);
+                HttpWebRequest request = PreparePostWebRequest(url, boundary, dataStream.Length, contentType, cookies, headers);
 
                 using (Stream requestStream = request.GetRequestStream())
                 {
@@ -328,7 +336,7 @@ namespace UploadersLib
 
         #region Helper methods
 
-        private HttpWebRequest PreparePostWebRequest(string url, string boundary, long length, string contentType, CookieCollection cookies = null)
+        private HttpWebRequest PreparePostWebRequest(string url, string boundary, long length, string contentType, CookieCollection cookies = null, NameValueCollection headers = null)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.AllowWriteStreamBuffering = ProxySettings.ProxyConfig != EProxyConfigType.NoProxy;
@@ -338,6 +346,7 @@ namespace UploadersLib
             request.ContentType = contentType;
             request.CookieContainer = new CookieContainer();
             if (cookies != null) request.CookieContainer.Add(cookies);
+            if (headers != null) request.Headers.Add(headers);
             request.KeepAlive = false;
             request.Method = HttpMethod.Post.GetDescription();
             request.Pipelined = false;

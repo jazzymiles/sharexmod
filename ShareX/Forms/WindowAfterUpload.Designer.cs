@@ -32,12 +32,13 @@
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tvMain = new System.Windows.Forms.TreeView();
             this.pbPreview = new HelpersLib.MyPictureBox();
-            this.tmrClose = new System.Windows.Forms.Timer(this.components);
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnCopyImage = new System.Windows.Forms.Button();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnFolderOpen = new System.Windows.Forms.Button();
-            this.btnCopyImage = new System.Windows.Forms.Button();
             this.btnOpenLink = new System.Windows.Forms.Button();
+            this.tmrClose = new System.Windows.Forms.Timer(this.components);
+            this.btnCopyLink = new System.Windows.Forms.Button();
             this.tlpMain.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -80,20 +81,26 @@
             this.pbPreview.Size = new System.Drawing.Size(227, 222);
             this.pbPreview.TabIndex = 0;
             // 
-            // tmrClose
-            // 
-            this.tmrClose.Enabled = true;
-            this.tmrClose.Interval = 60000;
-            this.tmrClose.Tick += new System.EventHandler(this.tmrClose_Tick);
-            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.btnCopyImage);
+            this.flowLayoutPanel1.Controls.Add(this.btnCopyLink);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 231);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(227, 28);
             this.flowLayoutPanel1.TabIndex = 2;
+            // 
+            // btnCopyImage
+            // 
+            this.btnCopyImage.AutoSize = true;
+            this.btnCopyImage.Location = new System.Drawing.Point(3, 3);
+            this.btnCopyImage.Name = "btnCopyImage";
+            this.btnCopyImage.Size = new System.Drawing.Size(74, 23);
+            this.btnCopyImage.TabIndex = 0;
+            this.btnCopyImage.Text = "Copy image";
+            this.btnCopyImage.UseVisualStyleBackColor = true;
+            this.btnCopyImage.Click += new System.EventHandler(this.btnCopyImage_Click);
             // 
             // flowLayoutPanel2
             // 
@@ -116,27 +123,33 @@
             this.btnFolderOpen.UseVisualStyleBackColor = true;
             this.btnFolderOpen.Click += new System.EventHandler(this.btnFolderOpen_Click);
             // 
-            // btnCopyImage
-            // 
-            this.btnCopyImage.AutoSize = true;
-            this.btnCopyImage.Location = new System.Drawing.Point(3, 3);
-            this.btnCopyImage.Name = "btnCopyImage";
-            this.btnCopyImage.Size = new System.Drawing.Size(74, 23);
-            this.btnCopyImage.TabIndex = 0;
-            this.btnCopyImage.Text = "Copy image";
-            this.btnCopyImage.UseVisualStyleBackColor = true;
-            this.btnCopyImage.Click += new System.EventHandler(this.btnCopyImage_Click);
-            // 
             // btnOpenLink
             // 
             this.btnOpenLink.AutoSize = true;
             this.btnOpenLink.Location = new System.Drawing.Point(90, 3);
             this.btnOpenLink.Name = "btnOpenLink";
             this.btnOpenLink.Size = new System.Drawing.Size(81, 23);
-            this.btnOpenLink.TabIndex = 2;
+            this.btnOpenLink.TabIndex = 1;
             this.btnOpenLink.Text = "Open link...";
             this.btnOpenLink.UseVisualStyleBackColor = true;
             this.btnOpenLink.Click += new System.EventHandler(this.btnOpenLink_Click);
+            // 
+            // tmrClose
+            // 
+            this.tmrClose.Enabled = true;
+            this.tmrClose.Interval = 60000;
+            this.tmrClose.Tick += new System.EventHandler(this.tmrClose_Tick);
+            // 
+            // btnCopyLink
+            // 
+            this.btnCopyLink.AutoSize = true;
+            this.btnCopyLink.Location = new System.Drawing.Point(83, 3);
+            this.btnCopyLink.Name = "btnCopyLink";
+            this.btnCopyLink.Size = new System.Drawing.Size(74, 23);
+            this.btnCopyLink.TabIndex = 2;
+            this.btnCopyLink.Text = "Copy link";
+            this.btnCopyLink.UseVisualStyleBackColor = true;
+            this.btnCopyLink.Click += new System.EventHandler(this.btnCopyLink_Click);
             // 
             // WindowAfterUpload
             // 
@@ -167,5 +180,6 @@
         private System.Windows.Forms.Button btnFolderOpen;
         private System.Windows.Forms.Button btnCopyImage;
         private System.Windows.Forms.Button btnOpenLink;
+        private System.Windows.Forms.Button btnCopyLink;
     }
 }

@@ -574,6 +574,10 @@ namespace ShareX
                     };
                     break;
 
+                case ImageDestination.Picasa:
+                    imageUploader = new Picasa(SettingsManager.ConfigUploaders.PicasaOAuthInfo);
+                    break;
+
                 case ImageDestination.Flickr:
                     imageUploader = new FlickrUploader(ApiKeys.FlickrKey, ApiKeys.FlickrSecret, SettingsManager.ConfigUploaders.FlickrAuthInfo, SettingsManager.ConfigUploaders.FlickrSettings);
                     break;
@@ -757,7 +761,15 @@ namespace ShareX
                         Share = SettingsManager.ConfigUploaders.BoxShare
                     };
                     break;
-
+                case FileDestination.Ge_tt:
+                    if (SettingsManager.ConfigUploaders.IsActive(FileDestination.Ge_tt))
+                    {
+                        fileUploader = new Ge_tt(ApiKeys.Ge_ttKey)
+                        {
+                            AccessToken = SettingsManager.ConfigUploaders.Ge_ttLogin.AccessToken
+                        };
+                    }
+                    break;
                 case FileDestination.CustomUploader:
                     if (SettingsManager.ConfigUploaders.CustomUploadersList.IsValidIndex(SettingsManager.ConfigUploaders.CustomUploaderSelected))
                     {

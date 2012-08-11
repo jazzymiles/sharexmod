@@ -54,6 +54,7 @@ namespace UploadersLib
         public const string BoxKey = "5vd8549xmn9a7zil4iupb0ciroj7cvee";
         public const string SendSpaceKey = "LV6OS1R0Q3";
         public const string DropIOKey = "6c65e2d2bfd858f7d0aa6509784f876483582eea";
+        public const string Ge_ttKey = "tdrrlb84kq2dquxrh4dw79gr3act0529";
 
         // Text Uploaders
 
