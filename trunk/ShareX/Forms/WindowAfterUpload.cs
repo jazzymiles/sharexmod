@@ -15,6 +15,7 @@ namespace ShareX
     public partial class WindowAfterUpload : Form
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private UploadInfo mUploadInfo { get; set; }
 
         public WindowAfterUpload(UploadInfo info)
@@ -77,6 +78,13 @@ namespace ShareX
             string url = mUploadInfo.Result.URL;
             if (!string.IsNullOrEmpty(url))
                 Helpers.LoadBrowserAsync(url);
+        }
+
+        private void btnCopyLink_Click(object sender, EventArgs e)
+        {
+            string url = tvMain.SelectedNode.Text;
+            if (!string.IsNullOrEmpty(url))
+                Helpers.CopyTextSafely(url);
         }
     }
 }

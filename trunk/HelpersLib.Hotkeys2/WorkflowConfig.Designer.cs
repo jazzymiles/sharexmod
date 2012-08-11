@@ -69,6 +69,7 @@
             this.flpSocialNetworkingServices = new System.Windows.Forms.FlowLayoutPanel();
             this.tpSummary = new System.Windows.Forms.TabPage();
             this.lblSummary = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tcWorkflow.SuspendLayout();
             this.tpCapture.SuspendLayout();
             this.gbSettings.SuspendLayout();
@@ -87,6 +88,7 @@
             this.gbUrlShorteners.SuspendLayout();
             this.gbSocialNetworkingServices.SuspendLayout();
             this.tpSummary.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // txtDescription
@@ -147,6 +149,7 @@
             // 
             // tpCapture
             // 
+            this.tpCapture.Controls.Add(this.pictureBox1);
             this.tpCapture.Controls.Add(this.gbSettings);
             this.tpCapture.Controls.Add(this.chkPerformGlobalAfterCaptureTasks);
             this.tpCapture.Controls.Add(this.cboCapture);
@@ -192,8 +195,8 @@
             this.chkPerformGlobalAfterCaptureTasks.Name = "chkPerformGlobalAfterCaptureTasks";
             this.chkPerformGlobalAfterCaptureTasks.Size = new System.Drawing.Size(391, 17);
             this.chkPerformGlobalAfterCaptureTasks.TabIndex = 1;
-            this.chkPerformGlobalAfterCaptureTasks.Text = "Apply default settings ( to configure go to Settings > Configuration > Capture ) " +
-    "";
+            this.chkPerformGlobalAfterCaptureTasks.Text = "Apply default settings ( access the icon         from the main form to configure " +
+    ") ";
             this.chkPerformGlobalAfterCaptureTasks.UseVisualStyleBackColor = true;
             this.chkPerformGlobalAfterCaptureTasks.CheckedChanged += new System.EventHandler(this.chkPerformGlobalAfterCaptureTasks_CheckedChanged);
             // 
@@ -231,7 +234,7 @@
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(648, 368);
-            this.tableLayoutPanel2.TabIndex = 2;
+            this.tableLayoutPanel2.TabIndex = 0;
             // 
             // gbAfterCaptureTasks
             // 
@@ -443,7 +446,7 @@
             this.tpShare.Name = "tpShare";
             this.tpShare.Padding = new System.Windows.Forms.Padding(3);
             this.tpShare.Size = new System.Drawing.Size(654, 374);
-            this.tpShare.TabIndex = 5;
+            this.tpShare.TabIndex = 4;
             this.tpShare.Text = "Share";
             this.tpShare.UseVisualStyleBackColor = true;
             // 
@@ -460,7 +463,7 @@
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(648, 368);
-            this.tableLayoutPanel1.TabIndex = 1;
+            this.tableLayoutPanel1.TabIndex = 0;
             // 
             // gbUrlShorteners
             // 
@@ -509,7 +512,7 @@
             this.tpSummary.Name = "tpSummary";
             this.tpSummary.Padding = new System.Windows.Forms.Padding(3);
             this.tpSummary.Size = new System.Drawing.Size(654, 374);
-            this.tpSummary.TabIndex = 4;
+            this.tpSummary.TabIndex = 5;
             this.tpSummary.Text = "Summary";
             this.tpSummary.UseVisualStyleBackColor = true;
             // 
@@ -521,6 +524,16 @@
             this.lblSummary.Name = "lblSummary";
             this.lblSummary.Size = new System.Drawing.Size(648, 368);
             this.lblSummary.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::HelpersLib.Hotkeys2.Properties.Resources.camera_add;
+            this.pictureBox1.Location = new System.Drawing.Point(224, 48);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(16, 16);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.TabIndex = 3;
+            this.pictureBox1.TabStop = false;
             // 
             // WindowWorkflow
             // 
@@ -559,6 +572,7 @@
             this.gbUrlShorteners.ResumeLayout(false);
             this.gbSocialNetworkingServices.ResumeLayout(false);
             this.tpSummary.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -606,6 +620,7 @@
         private System.Windows.Forms.GroupBox gbAfterCaptureTasks;
         private System.Windows.Forms.GroupBox gbAfterUploadTasks;
         private UserControls.AfterUploadTasksUI ucAfterUploadTasks;
+        private System.Windows.Forms.PictureBox pictureBox1;
 
     }
 }
