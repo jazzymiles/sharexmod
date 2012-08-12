@@ -414,7 +414,7 @@ namespace ShareX
                     }
 
                     showInWindowsExplorerToolStripMenuItem.Visible = tsmiContextMenuShare.Visible = File.Exists(result.LocalFilePath);
-                    copyImageToClipboardToolStripMenuItem.Visible = viewInFullscreenToolStripMenuItem.Visible = File.Exists(result.LocalFilePath) && Helpers.IsImageFile(result.URL);
+                    copyImageToClipboardToolStripMenuItem.Visible = viewInFullscreenToolStripMenuItem.Visible = File.Exists(result.LocalFilePath) && Helpers.IsImageFile(result.LocalFilePath);
                     tsmiUpload.Visible = File.Exists(result.LocalFilePath);
                 }
 
