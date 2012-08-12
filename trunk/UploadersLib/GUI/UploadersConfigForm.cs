@@ -328,7 +328,7 @@ namespace UploadersLib
 
         private void btnDropboxRegister_Click(object sender, EventArgs e)
         {
-            Helpers.LoadBrowserAsync("http://db.tt/CtPYXvu");
+            Helpers.LoadBrowserAsync("http://db.tt/aM3cNKPc");
         }
 
         private void btnDropboxAuthOpen_Click(object sender, EventArgs e)
