@@ -521,7 +521,7 @@ namespace ShareX
                         {
                             if (SettingsManager.ConfigCore.SaveHistory)
                             {
-                                SettingsManager.ConfigHistory.AddHistoryItemAsync(info.GetHistoryItem());
+                                HistoryManager.AddHistoryItemAsync(SettingsManager.HistoryFilePath, info.GetHistoryItem());
                             }
 
                             if (SettingsManager.ConfigCore.ShowClipboardOptionsWizard && info.Job != TaskJob.ShareURL)

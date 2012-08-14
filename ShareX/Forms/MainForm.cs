@@ -780,7 +780,12 @@ namespace ShareX
 
         private void tsbHistory_Click(object sender, EventArgs e)
         {
-            SettingsManager.ConfigHistory.OpenUI();
+            HistoryManager.ConvertHistoryToNewFormat(SettingsManager.HistoryFilePath, SettingsManager.OldHistoryFilePath);
+            using (HistoryForm historyForm = new HistoryForm(SettingsManager.HistoryFilePath, Application.ProductName + " History: " + SettingsManager.HistoryFilePath))
+            {
+                historyForm.Icon = Icon;
+                historyForm.ShowDialog();
+            }
         }
 
         private void tsbAbout_Click(object sender, EventArgs e)
