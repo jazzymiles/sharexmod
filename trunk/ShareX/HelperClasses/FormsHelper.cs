@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using HelpersLib.Hotkeys2;
 using HistoryLib;
 using ShareX.Forms;
 using ShareX.HelperClasses;
@@ -15,6 +16,7 @@ namespace ShareX
     {
         private static MainForm _MainForm;
         private static OptionsWindow _OptionsWindow;
+        private static WorkflowManager _WorkflowManager;
 
         public static MainForm Main
         {
@@ -40,6 +42,56 @@ namespace ShareX
             _OptionsWindow = new OptionsWindow() { Icon = Resources.ShareX };
             _OptionsWindow.ShowDialog();
             _OptionsWindow.Activate();
+        }
+
+        /// <summary>
+        /// Workflow Manager must use ShowDialog() to ensure latest settings are shown in the UI
+        /// Do not modify it to support Show()
+        /// </summary>
+        public static void ShowWorkflowManager()
+        {
+            _WorkflowManager = new WorkflowManager(FormsHelper.Main.HotkeyManager) { Icon = Resources.ShareX };
+            _WorkflowManager.ShowDialog();
+            _WorkflowManager.Activate();
+
+            #region Workflows
+
+            if (FormsHelper.Main.HotkeyManager != null)
+            {
+                List<Workflow> workflowsNew = new List<Workflow>();
+
+                foreach (Workflow wf in FormsHelper.Main.HotkeyManager.Workflows)
+                {
+                    Workflow wf2 = SettingsManager.ConfigWorkflows.Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
+                    if (wf2 == null)
+                        workflowsNew.Add(wf);
+                }
+
+                foreach (Workflow wf in workflowsNew)
+                {
+                    string tag = wf.HotkeyConfig.Tag;
+                    FormsHelper.Main.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
+                    FormsHelper.Main.HotkeyManager.AddHotkey(wf, () => FormsHelper.Main.DoWork(tag, false));
+                }
+
+                List<Workflow> workflowOld = new List<Workflow>();
+                foreach (Workflow wf in SettingsManager.ConfigWorkflows.Workflows)
+                {
+                    Workflow wf2 = FormsHelper.Main.HotkeyManager.Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
+                    if (wf2 == null)
+                        workflowOld.Add(wf);
+                }
+
+                foreach (Workflow wf in workflowOld)
+                {
+                    FormsHelper.Main.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
+                }
+
+                SettingsManager.ConfigWorkflows.Workflows.Clear();
+                SettingsManager.ConfigWorkflows.Workflows.AddRange(FormsHelper.Main.HotkeyManager.Workflows);
+            }
+
+            #endregion Workflows
         }
 
         public static void OptionsSettingsLoad()

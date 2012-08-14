@@ -375,8 +375,6 @@ namespace ShareX
                 {
                     if (!string.IsNullOrEmpty(result.URL))
                     {
-                        tsbCopy.Enabled = tsbOpen.Enabled = copyURLToolStripMenuItem.Visible = openURLToolStripMenuItem.Visible = true;
-
                         if (itemsCount > 1)
                         {
                             copyURLToolStripMenuItem.Text = string.Format("Copy URLs ({0})", itemsCount);
@@ -768,16 +766,6 @@ namespace ShareX
             FormsHelper.ShowUploadersConfig();
         }
 
-        private void tsbCopy_Click(object sender, EventArgs e)
-        {
-            CopyURL();
-        }
-
-        private void tsbOpen_Click(object sender, EventArgs e)
-        {
-            OpenItem();
-        }
-
         private void tsbHistory_Click(object sender, EventArgs e)
         {
             HistoryManager.ConvertHistoryToNewFormat(SettingsManager.HistoryFilePath, SettingsManager.OldHistoryFilePath);
@@ -962,5 +950,14 @@ namespace ShareX
         }
 
         #endregion Form events
+
+        private void tsmiWorkflows_Click(object sender, EventArgs e)
+        {
+            // Hotkeys
+            if (Program.IsHotkeysAllowed)
+            {
+                FormsHelper.ShowWorkflowManager();
+            }
+        }
     }
 }
