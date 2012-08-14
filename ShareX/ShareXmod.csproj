@@ -205,6 +205,9 @@
     <Compile Include="SettingsHelpers\WorkflowsConfig.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="HelperClasses\TrayIconManager.cs" />
+    <Compile Include="TaskManager.cs" />
+    <Compile Include="UploadInfoManager.cs" />
+    <Compile Include="UploadInfoStatus.cs" />
     <Compile Include="UploadManager.cs" />
     <Compile Include="SettingsHelpers\Settings.cs" />
     <Compile Include="UploadInfo.cs" />

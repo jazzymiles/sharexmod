@@ -36,8 +36,6 @@ namespace ShareX
 {
     public class UploadInfo
     {
-        public int ID { get; set; }
-
         public string Status { get; set; }
 
         public TaskJob Job { get; set; }
@@ -74,7 +72,7 @@ namespace ShareX
 
         private string _destination;
 
-        public string Destination
+        public string UploaderHost
         {
             get
             {
@@ -129,7 +127,7 @@ namespace ShareX
                 Filepath = FilePath,
                 DateTimeUtc = UploadTime,
                 Type = DataType.ToString(),
-                Host = Destination,
+                Host = UploaderHost,
                 URL = Result.URL,
                 ThumbnailURL = Result.ThumbnailURL,
                 DeletionURL = Result.DeletionURL,

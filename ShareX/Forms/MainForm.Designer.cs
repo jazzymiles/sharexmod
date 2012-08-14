@@ -66,7 +66,7 @@ namespace ShareX
             this.copyErrorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showResponseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uploadFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.stopUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiStopUpload = new System.Windows.Forms.ToolStripMenuItem();
             this.showInWindowsExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewInFullscreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiUpload = new System.Windows.Forms.ToolStripMenuItem();
@@ -175,7 +175,7 @@ namespace ShareX
             this.copyErrorsToolStripMenuItem,
             this.showResponseToolStripMenuItem,
             this.uploadFileToolStripMenuItem,
-            this.stopUploadToolStripMenuItem,
+            this.tsmiStopUpload,
             this.showInWindowsExplorerToolStripMenuItem,
             this.viewInFullscreenToolStripMenuItem,
             this.tsmiUpload,
@@ -268,11 +268,11 @@ namespace ShareX
             // 
             // stopUploadToolStripMenuItem
             // 
-            this.stopUploadToolStripMenuItem.Name = "stopUploadToolStripMenuItem";
-            this.stopUploadToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.stopUploadToolStripMenuItem.Text = "Stop upload";
-            this.stopUploadToolStripMenuItem.Visible = false;
-            this.stopUploadToolStripMenuItem.Click += new System.EventHandler(this.stopUploadToolStripMenuItem_Click);
+            this.tsmiStopUpload.Name = "stopUploadToolStripMenuItem";
+            this.tsmiStopUpload.Size = new System.Drawing.Size(222, 22);
+            this.tsmiStopUpload.Text = "Stop upload";
+            this.tsmiStopUpload.Visible = false;
+            this.tsmiStopUpload.Click += new System.EventHandler(this.stopUploadToolStripMenuItem_Click);
             // 
             // showInWindowsExplorerToolStripMenuItem
             // 
@@ -1100,7 +1100,7 @@ namespace ShareX
         private System.Windows.Forms.ToolStripContainer tscMain;
         private System.Windows.Forms.ColumnHeader chSpeed;
         private System.Windows.Forms.ColumnHeader chRemaining;
-        private System.Windows.Forms.ToolStripMenuItem stopUploadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmiStopUpload;
         private System.Windows.Forms.ColumnHeader chElapsed;
         private System.Windows.Forms.ToolStripButton tsbHistory;
         private System.Windows.Forms.ToolStripMenuItem showErrorsToolStripMenuItem;

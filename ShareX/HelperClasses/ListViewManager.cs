@@ -57,12 +57,12 @@ namespace ShareX.HelperClasses
             {
                 foreach (Image img in Thumbnails.Images)
                 {
-                    UploadManager.ListViewControl.LargeImageList.Images.Add(img);
+                    TaskManager.ListViewControl.LargeImageList.Images.Add(img);
                 }
 
                 for (int i = 1; i <= Thumbnails.Images.Count; i++)
                 {
-                    UploadManager.ListViewControl.Items[UploadManager.ListViewControl.Items.Count - i].ImageIndex = Thumbnails.Images.Count - i;
+                    TaskManager.ListViewControl.Items[TaskManager.ListViewControl.Items.Count - i].ImageIndex = Thumbnails.Images.Count - i;
                 }
             }
         }
@@ -74,7 +74,7 @@ namespace ShareX.HelperClasses
 
             Thumbnails = get_NewLargeImageList();
 
-            foreach (Task task in UploadManager.Tasks)
+            foreach (Task task in TaskManager.Tasks)
             {
                 if (task.Info != null && File.Exists(task.Info.FilePath) && Helpers.IsImageFile(task.Info.FilePath))
                 {
@@ -95,18 +95,18 @@ namespace ShareX.HelperClasses
         {
             if (Thumbnails.Images.Count > 0)
             {
-                UploadManager.ListViewControl.LargeImageList.Images.Add(Thumbnails.Images[Thumbnails.Images.Count - 1]);
+                TaskManager.ListViewControl.LargeImageList.Images.Add(Thumbnails.Images[Thumbnails.Images.Count - 1]);
 
-                if (SettingsManager.ConfigCore.ListViewMode != View.Details && UploadManager.ListViewControl.Items.Count >= Thumbnails.Images.Count)
+                if (SettingsManager.ConfigCore.ListViewMode != View.Details && TaskManager.ListViewControl.Items.Count >= Thumbnails.Images.Count)
                 {
-                    UploadManager.ListViewControl.Items[UploadManager.ListViewControl.Items.Count - 1].ImageIndex = Thumbnails.Images.Count - 1;
+                    TaskManager.ListViewControl.Items[TaskManager.ListViewControl.Items.Count - 1].ImageIndex = Thumbnails.Images.Count - 1;
                 }
             }
         }
 
         private static void bwAddThumbnail_DoWork()
         {
-            Task task = UploadManager.Tasks.Last();
+            Task task = TaskManager.Tasks.Last();
             UploadInfo info = task.Info;
 
             if (File.Exists(info.FilePath) && Helpers.IsImageFile(info.FilePath))
@@ -143,13 +143,13 @@ namespace ShareX.HelperClasses
             if (Thumbnails == null)
                 Thumbnails = get_NewLargeImageList();
 
-            UploadManager.ListViewControl.LargeImageList = get_NewLargeImageList(); // not Thumbnails because cross thread errors could occur
+            TaskManager.ListViewControl.LargeImageList = get_NewLargeImageList(); // not Thumbnails because cross thread errors could occur
 
             // reset ImageIndex to prevent showing wrong images
-            if (UploadManager.ListViewControl.View == View.Details)
+            if (TaskManager.ListViewControl.View == View.Details)
             {
                 // UploadManager.ListViewControl.SmallImageList = DetailViewImageList;
-                foreach (ListViewItem lvi in UploadManager.ListViewControl.Items)
+                foreach (ListViewItem lvi in TaskManager.ListViewControl.Items)
                 {
                     set_IconCompleted(lvi);
                 }
@@ -158,9 +158,9 @@ namespace ShareX.HelperClasses
             {
                 for (int i = 1; i < Thumbnails.Images.Count; i++)
                 {
-                    if (SettingsManager.ConfigCore.ListViewMode != View.Details && UploadManager.ListViewControl.Items.Count > i)
+                    if (SettingsManager.ConfigCore.ListViewMode != View.Details && TaskManager.ListViewControl.Items.Count > i)
                     {
-                        UploadManager.ListViewControl.Items[UploadManager.ListViewControl.Items.Count - i].ImageIndex = Thumbnails.Images.Count - i;
+                        TaskManager.ListViewControl.Items[TaskManager.ListViewControl.Items.Count - i].ImageIndex = Thumbnails.Images.Count - i;
                     }
                 }
             }
@@ -168,22 +168,22 @@ namespace ShareX.HelperClasses
 
         internal static void set_IconUploadStarted(ListViewItem lvi)
         {
-          //  if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 0;
+            //  if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 0;
         }
 
         internal static void set_IconError(ListViewItem lvi)
         {
-          //  if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 1;
+            //  if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 1;
         }
 
         internal static void set_IconCompleted(ListViewItem lvi)
         {
-           // if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 2;
+            // if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 2;
         }
 
         internal static void set_IconCreated(ListViewItem lvi)
         {
-           // if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 3;
+            // if (SettingsManager.ConfigCore.ListViewMode == View.Details) lvi.ImageIndex = 3;
         }
     }
 }

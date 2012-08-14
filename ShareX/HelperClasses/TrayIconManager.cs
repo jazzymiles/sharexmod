@@ -44,7 +44,7 @@ namespace ShareX
 
         private static void RotateTrayIcon(int ms)
         {
-            IEnumerable<Task> workingTasks = UploadManager.Tasks.Where(x => x != null && x.IsWorking);
+            IEnumerable<Task> workingTasks = TaskManager.Tasks.Where(x => x != null && x.IsWorking);
             while (workingTasks.Count() > 0)
             {
                 for (int i = 0; i < iconList.Count; i++)
