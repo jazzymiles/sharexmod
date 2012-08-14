@@ -78,7 +78,21 @@ namespace ShareX
 
         internal static HistoryManager ConfigHistory { get; set; }
 
-        internal static readonly string HistoryFileName = "UploadersHistory.xml";
+        internal static readonly string HistoryFileName = "History.xml";
+
+        public static string OldHistoryFilePath
+        {
+            get
+            {
+                if (SettingsManager.ConfigCore != null && SettingsManager.ConfigCore.UseCustomHistoryPath &&
+                    !string.IsNullOrEmpty(SettingsManager.ConfigCore.CustomHistoryPath))
+                {
+                    return SettingsManager.ConfigCore.CustomHistoryPath;
+                }
+
+                return Path.Combine(Program.PersonalPath, "UploadersHistory.xml");
+            }
+        }
 
         public static string HistoryFilePath
         {
@@ -108,8 +122,6 @@ namespace ShareX
             ConfigUploaders.Save(ConfigUploadersFilePath);
             SaveCoreConfig();
             ConfigUser.Save(ConfigUserFilePath);
-            if (ConfigCore.SaveHistory)
-                ConfigHistory.Save();
         }
 
         public static void SaveCoreConfig()

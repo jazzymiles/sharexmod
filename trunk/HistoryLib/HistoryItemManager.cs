@@ -25,42 +25,31 @@
 
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using HelpersLib;
 
 namespace HistoryLib
 {
-    public class HistoryItemManager
+    public partial class HistoryItemManager
     {
+        public delegate HistoryItem[] GetHistoryItemsEventHandler();
+        public event GetHistoryItemsEventHandler GetHistoryItems;
+
         public HistoryItem HistoryItem { get; private set; }
 
-        public int HistoryItemCount { get; private set; }
-
         public bool IsURLExist { get; private set; }
-
         public bool IsShortenedURLExist { get; private set; }
-
         public bool IsThumbnailURLExist { get; private set; }
-
         public bool IsDeletionURLExist { get; private set; }
-
         public bool IsImageURL { get; private set; }
-
         public bool IsTextURL { get; private set; }
-
         public bool IsFilePathValid { get; private set; }
-
         public bool IsFileExist { get; private set; }
-
         public bool IsImageFile { get; private set; }
-
         public bool IsTextFile { get; private set; }
 
-        private ListView lv;
-
-        public HistoryItemManager(ListView listView)
+        public HistoryItemManager()
         {
-            lv = listView;
+            InitializeComponent();
         }
 
         public HistoryRefreshInfoResult RefreshInfo()
@@ -84,22 +73,36 @@ namespace HistoryLib
                     IsImageFile = IsFileExist && Helpers.IsImageFile(HistoryItem.Filepath);
                     IsTextFile = IsFileExist && Helpers.IsTextFile(HistoryItem.Filepath);
 
+                    UpdateButtons();
                     return HistoryRefreshInfoResult.Success;
                 }
 
                 return HistoryRefreshInfoResult.Same;
             }
 
+            cmsHistory.Enabled = false;
             return HistoryRefreshInfoResult.Invalid;
         }
 
         private HistoryItem GetSelectedHistoryItem()
         {
-            HistoryItemCount = lv.SelectedItems.Count;
+            HistoryItem[] historyItems = OnGetHistoryItems();
 
-            if (HistoryItemCount > 0)
+            if (historyItems != null && historyItems.Length > 0)
             {
-                return lv.SelectedItems[0].Tag as HistoryItem;
+                UpdateTexts(historyItems.Length);
+
+                return historyItems[0];
+            }
+
+            return null;
+        }
+
+        public HistoryItem[] OnGetHistoryItems()
+        {
+            if (GetHistoryItems != null)
+            {
+                return GetHistoryItems();
             }
 
             return null;
@@ -135,12 +138,32 @@ namespace HistoryLib
             if (HistoryItem != null && IsFileExist) Helpers.OpenFolderWithFile(HistoryItem.Filepath);
         }
 
+        public void TryOpen()
+        {
+            if (HistoryItem != null)
+            {
+                if (IsShortenedURLExist)
+                {
+                    Helpers.LoadBrowserAsync(HistoryItem.ShortenedURL);
+                }
+                else if (IsURLExist)
+                {
+                    Helpers.LoadBrowserAsync(HistoryItem.URL);
+                }
+                else if (IsFileExist)
+                {
+                    Helpers.LoadBrowserAsync(HistoryItem.Filepath);
+                }
+            }
+        }
+
         public void CopyURL()
         {
             if (HistoryItem != null && IsURLExist)
             {
-                string[] array = lv.SelectedItems.Cast<ListViewItem>().Select(x => x.Tag as HistoryItem).
-                    Where(x => x != null && !string.IsNullOrEmpty(x.URL)).Select(x => x.URL).ToArray();
+                HistoryItem[] historyItems = OnGetHistoryItems();
+
+                string[] array = historyItems.Where(x => x != null && !string.IsNullOrEmpty(x.URL)).Select(x => x.URL).ToArray();
 
                 if (array != null && array.Length > 0)
                 {
@@ -240,19 +263,14 @@ namespace HistoryLib
             if (HistoryItem != null && IsFilePathValid) Helpers.CopyTextSafely(Path.GetDirectoryName(HistoryItem.Filepath));
         }
 
-        public void DeleteLocalFile()
+        public void ShowImagePreview()
         {
-            RefreshInfo();
-            if (HistoryItem != null && IsFileExist && MessageBox.Show("Do you want to delete this file?\n" + HistoryItem.Filepath,
-                "Delete Local File", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                File.Delete(HistoryItem.Filepath);
-            }
+            if (HistoryItem != null && IsImageFile) ImageViewer.ShowImage(HistoryItem.Filepath);
         }
 
-        public void MoreInfo()
+        public void ShowMoreInfo()
         {
-            new HistoryItemInfoForm(this).Show();
+            new HistoryItemInfoForm(HistoryItem).Show();
         }
     }
 }

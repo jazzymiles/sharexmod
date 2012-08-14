@@ -85,6 +85,26 @@ namespace HelpersLib
             pbMain.LoadAsync(path);
         }
 
+        public void LoadImageFromFile(string filePath)
+        {
+            if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath))
+            {
+                Text = "Loading local image...";
+                isLoadLocal = true;
+                LoadImage(filePath);
+            }
+        }
+
+        public void LoadImageFromURL(string url)
+        {
+            if (!string.IsNullOrEmpty(url))
+            {
+                Text = "Downloading image from URL...";
+                isLoadLocal = false;
+                LoadImage(url);
+            }
+        }
+
         public void SetNote(string text)
         {
             if (!string.IsNullOrEmpty(text))

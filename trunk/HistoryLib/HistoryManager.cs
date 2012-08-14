@@ -25,50 +25,30 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading;
-using System.Xml;
 using HelpersLib;
 
 namespace HistoryLib
 {
     public class HistoryManager
     {
-        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-        private static XMLManager xml;
+        internal XMLManager Manager { get; private set; }
 
         public HistoryManager(string historyPath)
         {
-            xml = new XMLManager(historyPath);
+            Manager = new XMLManager(historyPath);
         }
 
-        public void OpenUI(int maxItemsCount = -1, string title = "History")
-        {
-            HistoryForm ui = new HistoryForm(this, maxItemsCount, title);
-            ui.Show();
-        }
-
-        public void Save()
-        {
-            if (xml != null)
-                xml.Save();
-        }
-
-        public void SaveAsync()
-        {
-            ThreadPool.QueueUserWorkItem(state => Save());
-        }
-
-        public bool AddHistoryItem(HistoryItem historyItem)
+        public bool AppendHistoryItem(HistoryItem historyItem)
         {
             try
             {
-                if (historyItem != null && !string.IsNullOrEmpty(historyItem.Filename) &&
-                historyItem.DateTimeUtc != DateTime.MinValue &&
-                (!string.IsNullOrEmpty(historyItem.URL) || !string.IsNullOrEmpty(historyItem.Filepath)))
+                if (historyItem != null && !string.IsNullOrEmpty(historyItem.Filename) && historyItem.DateTimeUtc != DateTime.MinValue &&
+                    (!string.IsNullOrEmpty(historyItem.URL) || !string.IsNullOrEmpty(historyItem.Filepath)))
                 {
-                    log.DebugFormat("Adding {0} to history.", historyItem.Filename);
-                    return xml.AddHistoryItem(historyItem);
+                    return Manager.Append(historyItem);
                 }
             }
             catch (Exception e)
@@ -83,7 +63,7 @@ namespace HistoryLib
         {
             try
             {
-                return xml.Load();
+                return Manager.Load();
             }
             catch (Exception e)
             {
@@ -93,19 +73,27 @@ namespace HistoryLib
             return new List<HistoryItem>();
         }
 
-        public bool RemoveHistoryItem(HistoryItem historyItem)
-        {
-            return xml.RemoveHistoryItem(historyItem);
-        }
-
-        public void AddHistoryItemAsync(HistoryItem historyItem)
+        public static void AddHistoryItemAsync(string historyPath, HistoryItem historyItem)
         {
             WaitCallback thread = state =>
             {
-                this.AddHistoryItem(historyItem);
+                HistoryManager history = new HistoryManager(historyPath);
+                history.AppendHistoryItem(historyItem);
             };
 
             ThreadPool.QueueUserWorkItem(thread);
+        }
+
+        public static void ConvertHistoryToNewFormat(string newHistoryFilePath, string oldHistoryFilePath)
+        {
+            if (!File.Exists(newHistoryFilePath) && File.Exists(oldHistoryFilePath))
+            {
+                DebugHelper.WriteLine("Converting old history format to new format: " + newHistoryFilePath);
+                HistoryManager oldHistory = new HistoryManager(oldHistoryFilePath);
+                HistoryItem[] historyItems = oldHistory.GetHistoryItems().OrderBy(x => x.DateTimeUtc).ToArray();
+                HistoryManager newHistory = new HistoryManager(newHistoryFilePath);
+                newHistory.Manager.Append(historyItems);
+            }
         }
     }
 }

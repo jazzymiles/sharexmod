@@ -26,7 +26,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using HelpersLib;
 
 namespace HistoryLib
@@ -34,7 +36,7 @@ namespace HistoryLib
     internal class XMLManager
     {
         private static object thisLock = new object();
-        private static XmlDocument cache = null;
+
         private string xmlPath;
 
         public XMLManager(string xmlFilePath)
@@ -46,21 +48,38 @@ namespace HistoryLib
         {
             List<HistoryItem> historyItemList = new List<HistoryItem>();
 
-            lock (thisLock)
+            if (!string.IsNullOrEmpty(xmlPath) && File.Exists(xmlPath))
             {
-                if (!string.IsNullOrEmpty(xmlPath) && File.Exists(xmlPath))
+                lock (thisLock)
                 {
-                    if (XMLManager.cache == null)
+                    XmlReaderSettings settings = new XmlReaderSettings
                     {
-                        XMLManager.cache = new XmlDocument();
-                        XMLManager.cache.Load(xmlPath);
-                    }
+                        ConformanceLevel = ConformanceLevel.Auto,
+                        IgnoreWhitespace = true
+                    };
 
-                    XmlNode rootNode = cache.ChildNodes[1];
-
-                    if (rootNode.Name == "HistoryItems" && rootNode.ChildNodes != null && rootNode.ChildNodes.Count > 0)
+                    using (StreamReader streamReader = new StreamReader(xmlPath, Encoding.UTF8))
+                    using (XmlReader reader = XmlReader.Create(streamReader, settings))
                     {
-                        historyItemList.AddRange(ParseHistoryItem(rootNode));
+                        reader.MoveToContent();
+
+                        while (!reader.EOF)
+                        {
+                            if (reader.NodeType == XmlNodeType.Element && reader.Name == "HistoryItem")
+                            {
+                                XElement element = XElement.ReadFrom(reader) as XElement;
+
+                                if (element != null)
+                                {
+                                    HistoryItem hi = ParseHistoryItem(element);
+                                    historyItemList.Add(hi);
+                                }
+                            }
+                            else
+                            {
+                                reader.Read();
+                            }
+                        }
                     }
                 }
             }
@@ -68,128 +87,88 @@ namespace HistoryLib
             return historyItemList;
         }
 
-        public bool AddHistoryItem(HistoryItem historyItem)
+        public bool Append(params HistoryItem[] historyItems)
         {
-            lock (thisLock)
+            if (!string.IsNullOrEmpty(xmlPath))
             {
-                if (XMLManager.cache == null)
+                lock (thisLock)
                 {
-                    XMLManager.cache = new XmlDocument();
-                    XMLManager.cache.Load(xmlPath);
-                }
-
-                if (XMLManager.cache.ChildNodes.Count == 0)
-                {
-                    XMLManager.cache.AppendChild(XMLManager.cache.CreateXmlDeclaration("1.0", "UTF-8", null));
-                    XMLManager.cache.AppendElement("HistoryItems");
-                }
-
-                XmlNode rootNode = XMLManager.cache.ChildNodes[1];
-
-                if (rootNode.Name == "HistoryItems")
-                {
-                    historyItem.ID = Helpers.GetRandomAlphanumeric(12);
-
-                    XmlNode historyItemNode = rootNode.PrependElement("HistoryItem");
-
-                    historyItemNode.AppendElement("ID", historyItem.ID);
-                    historyItemNode.AppendElement("Filename", historyItem.Filename);
-                    historyItemNode.AppendElement("Filepath", historyItem.Filepath);
-                    historyItemNode.AppendElement("DateTimeUtc", historyItem.DateTimeUtc.ToString("o"));
-                    historyItemNode.AppendElement("Type", historyItem.Type);
-                    historyItemNode.AppendElement("Host", historyItem.Host);
-                    historyItemNode.AppendElement("URL", historyItem.URL);
-                    historyItemNode.AppendElement("ThumbnailURL", historyItem.ThumbnailURL);
-                    historyItemNode.AppendElement("DeletionURL", historyItem.DeletionURL);
-                    historyItemNode.AppendElement("ShortenedURL", historyItem.ShortenedURL);
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public void Save()
-        {
-            if (XMLManager.cache != null)
-                XMLManager.cache.Save(xmlPath);
-        }
-
-        public bool RemoveHistoryItem(HistoryItem historyItem)
-        {
-            lock (thisLock)
-            {
-                if (historyItem != null && !string.IsNullOrEmpty(historyItem.ID) && !string.IsNullOrEmpty(xmlPath) && File.Exists(xmlPath))
-                {
-                    XmlNode rootNode = XMLManager.cache.ChildNodes[1];
-
-                    if (rootNode.Name == "HistoryItems" && rootNode.ChildNodes != null && rootNode.ChildNodes.Count > 0)
+                    using (FileStream fs = File.Open(xmlPath, FileMode.Append, FileAccess.Write, FileShare.Read))
+                    using (XmlTextWriter writer = new XmlTextWriter(fs, Encoding.UTF8))
                     {
-                        foreach (HistoryItem hi in ParseHistoryItem(rootNode))
+                        writer.Formatting = Formatting.Indented;
+                        writer.Indentation = 4;
+
+                        foreach (HistoryItem historyItem in historyItems)
                         {
-                            if (hi.ID == historyItem.ID)
-                            {
-                                rootNode.RemoveChild(hi.Node);
-                                return true;
-                            }
+                            writer.WriteStartElement("HistoryItem");
+                            writer.WriteElementIfNotEmpty("Filename", historyItem.Filename);
+                            writer.WriteElementIfNotEmpty("Filepath", historyItem.Filepath);
+                            writer.WriteElementIfNotEmpty("DateTimeUtc", historyItem.DateTimeUtc.ToString("o"));
+                            writer.WriteElementIfNotEmpty("Type", historyItem.Type);
+                            writer.WriteElementIfNotEmpty("Host", historyItem.Host);
+                            writer.WriteElementIfNotEmpty("URL", historyItem.URL);
+                            writer.WriteElementIfNotEmpty("ThumbnailURL", historyItem.ThumbnailURL);
+                            writer.WriteElementIfNotEmpty("DeletionURL", historyItem.DeletionURL);
+                            writer.WriteElementIfNotEmpty("ShortenedURL", historyItem.ShortenedURL);
+                            writer.WriteEndElement();
                         }
+
+                        writer.WriteWhitespace(Environment.NewLine);
                     }
                 }
+
+                return true;
             }
 
             return false;
         }
 
-        private IEnumerable<HistoryItem> ParseHistoryItem(XmlNode rootNode)
+        private HistoryItem ParseHistoryItem(XElement element)
         {
-            foreach (XmlNode historyNode in rootNode.ChildNodes)
+            HistoryItem hi = new HistoryItem();
+
+            foreach (XElement child in element.Elements())
             {
-                HistoryItem hi = new HistoryItem();
+                string name = child.Name.LocalName;
 
-                foreach (XmlNode node in historyNode.ChildNodes)
+                switch (name)
                 {
-                    if (node == null || string.IsNullOrEmpty(node.InnerText)) continue;
-
-                    switch (node.Name)
-                    {
-                        case "ID":
-                            hi.ID = node.InnerText;
-                            break;
-                        case "Filename":
-                            hi.Filename = node.InnerText;
-                            break;
-                        case "Filepath":
-                            hi.Filepath = node.InnerText;
-                            break;
-                        case "DateTimeUtc":
-                            hi.DateTimeUtc = DateTime.Parse(node.InnerText);
-                            break;
-                        case "Type":
-                            hi.Type = node.InnerText;
-                            break;
-                        case "Host":
-                            hi.Host = node.InnerText;
-                            break;
-                        case "URL":
-                            hi.URL = node.InnerText;
-                            break;
-                        case "ThumbnailURL":
-                            hi.ThumbnailURL = node.InnerText;
-                            break;
-                        case "DeletionURL":
-                            hi.DeletionURL = node.InnerText;
-                            break;
-                        case "ShortenedURL":
-                            hi.ShortenedURL = node.InnerText;
-                            break;
-                    }
+                    case "Filename":
+                        hi.Filename = child.Value;
+                        break;
+                    case "Filepath":
+                        hi.Filepath = child.Value;
+                        break;
+                    case "DateTimeUtc":
+                        DateTime dateTime;
+                        if (DateTime.TryParse(child.Value, out dateTime))
+                        {
+                            hi.DateTimeUtc = dateTime;
+                        }
+                        break;
+                    case "Type":
+                        hi.Type = child.Value;
+                        break;
+                    case "Host":
+                        hi.Host = child.Value;
+                        break;
+                    case "URL":
+                        hi.URL = child.Value;
+                        break;
+                    case "ThumbnailURL":
+                        hi.ThumbnailURL = child.Value;
+                        break;
+                    case "DeletionURL":
+                        hi.DeletionURL = child.Value;
+                        break;
+                    case "ShortenedURL":
+                        hi.ShortenedURL = child.Value;
+                        break;
                 }
-
-                hi.Node = historyNode;
-
-                yield return hi;
             }
+
+            return hi;
         }
     }
 }
