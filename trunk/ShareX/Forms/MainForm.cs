@@ -303,7 +303,7 @@ namespace ShareX
 
             lvUploads.FillLastColumn();
 
-            UploadManager.ListViewControl = lvUploads;
+            TaskManager.ListViewControl = lvUploads;
 
             lvUploads.ColumnWidthChanged += new ColumnWidthChangedEventHandler(lvUploads_ColumnWidthChanged);
 
@@ -419,7 +419,7 @@ namespace ShareX
                 }
 
                 int index = lvUploads.SelectedIndices[0];
-                stopUploadToolStripMenuItem.Visible = UploadManager.Tasks[index].Status != TaskStatus.Completed;
+                tsmiStopUpload.Visible = TaskManager.Tasks[index].Status != TaskStatus.Completed;
             }
             else
             {
@@ -863,7 +863,7 @@ namespace ShareX
             {
                 foreach (int index in lvUploads.SelectedIndices)
                 {
-                    UploadManager.Tasks[index].Stop();
+                    TaskManager.Tasks[index].Stop();
                 }
             }
         }

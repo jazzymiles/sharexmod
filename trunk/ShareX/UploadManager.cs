@@ -56,16 +56,7 @@ namespace ShareX
 
         public static SocialNetworkingService SocialNetworkingService { get; set; }
 
-        public static MyListView ListViewControl { get; set; }
-
-        public static List<Task> Tasks { get; private set; }
-
         private static object uploadManagerLock = new object();
-
-        static UploadManager()
-        {
-            Tasks = new List<Task>();
-        }
 
         #region Files
 
@@ -131,7 +122,7 @@ namespace ShareX
                     {
                         Task task = Task.CreateFileUploaderTask(type, path, destination);
                         task.SetWorkflow(act.Workflow);
-                        StartUpload(task);
+                        TaskManager.Start(task);
                         break;
                     }
                 }
@@ -156,7 +147,7 @@ namespace ShareX
                     destination = act.Workflow.Settings.DestConfig.ImageUploaders[0] == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
                 Task task = Task.CreateImageUploaderTask(imageData, destination);
                 task.SetWorkflow(act.Workflow);
-                StartUpload(task);
+                TaskManager.Start(task);
             }
         }
 
@@ -186,7 +177,7 @@ namespace ShareX
                     destination = act.Workflow.Settings.DestConfig.TextUploaders[0] == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
                 Task task = Task.CreateTextUploaderTask(text, destination);
                 task.SetWorkflow(act.Workflow);
-                StartUpload(task);
+                TaskManager.Start(task);
             }
         }
 
@@ -198,7 +189,7 @@ namespace ShareX
             {
                 Task task = Task.CreateURLShortenerTask(url);
                 task.SetWorkflow(act.Workflow);
-                StartUpload(task);
+                TaskManager.Start(task);
             }
         }
 
@@ -284,7 +275,7 @@ namespace ShareX
 
             Task task = Task.CreatePostToSocialNetworkingServiceTask(result);
             task.SetWorkflow(act.Workflow);
-            StartUpload(task);
+            TaskManager.Start(task);
         }
 
         public static void UploadStream(Stream stream, string filePath, AfterCaptureActivity act = null, EDataType dataType = EDataType.File)
@@ -296,53 +287,7 @@ namespace ShareX
                 EDataType destination = ImageUploader == ImageDestination.FileUploader ? EDataType.File : dataType;
                 Task task = Task.CreateDataUploaderTask(EDataType.Image, stream, filePath, destination);
                 task.SetWorkflow(act.Workflow);
-                StartUpload(task);
-            }
-        }
-
-        private static void StartUpload(Task task)
-        {
-            Tasks.Add(task);
-            task.Info.ID = Tasks.Count - 1;
-            task.UploadPreparing += new Task.TaskEventHandler(task_UploadPreparing);
-            task.UploadStarted += new Task.TaskEventHandler(task_UploadStarted);
-            task.UploadProgressChanged += new Task.TaskEventHandler(task_UploadProgressChanged);
-            task.UploadCompleted += new Task.TaskEventHandler(task_UploadCompleted);
-            CreateListViewItem(task.Info);
-            StartTasks();
-            TrayIconManager.UpdateTrayIcon();
-        }
-
-        private static void StartTasks()
-        {
-            int workingTasksCount = Tasks.Count(x => x.IsWorking);
-            Task[] inQueueTasks = Tasks.Where(x => x.Status == TaskStatus.InQueue).ToArray();
-
-            if (inQueueTasks.Length > 0)
-            {
-                int len;
-
-                if (SettingsManager.ConfigCore.UploadLimit == 0)
-                {
-                    len = inQueueTasks.Length;
-                }
-                else
-                {
-                    len = (SettingsManager.ConfigCore.UploadLimit - workingTasksCount).Between(0, inQueueTasks.Length);
-                }
-
-                for (int i = 0; i < len; i++)
-                {
-                    inQueueTasks[i].Start();
-                }
-            }
-        }
-
-        public static void StopUpload(int index)
-        {
-            if (Tasks.Count < index)
-            {
-                Tasks[index].Stop();
+                TaskManager.Start(task);
             }
         }
 
@@ -357,100 +302,7 @@ namespace ShareX
             Uploader.ProxySettings = proxy;
         }
 
-        private static void ChangeListViewItemStatus(UploadInfo info)
-        {
-            if (ListViewControl != null && info.Jobs.HasFlag(Subtask.UploadToRemoteHost))
-            {
-                ListViewItem lvi = ListViewControl.Items[info.ID];
-                lvi.SubItems[1].Text = info.Status;
-            }
-        }
-
-        private static void CreateListViewItem(UploadInfo info)
-        {
-            if (ListViewControl != null)
-            {
-                log.InfoFormat("Upload in queue. ID: {0}, Job: {1}, Type: {2}, Host: {3}", info.ID, info.Job, info.UploadDestination, info.Destination);
-
-                ListViewItem lvi = new ListViewItem();
-
-                lvi.Text = info.FileName;
-                lvi.SubItems.Add("In queue");
-                lvi.SubItems.Add(string.Empty);
-                lvi.SubItems.Add(string.Empty);
-                lvi.SubItems.Add(string.Empty);
-                lvi.SubItems.Add(string.Empty);
-                lvi.SubItems.Add(info.DataType.ToString());
-
-                var taskImageJobs = Enum.GetValues(typeof(Subtask)).Cast<Subtask>();
-                foreach (Subtask job in taskImageJobs)
-                {
-                    switch (job)
-                    {
-                        case Subtask.None:
-                            continue;
-                    }
-
-                    if (info.Jobs.HasFlag(Subtask.UploadToRemoteHost))
-                    {
-                        lvi.SubItems.Add(info.Destination);
-                        break;
-                    }
-                    else if (info.Jobs.HasFlag(job))
-                    {
-                        lvi.SubItems.Add(job.GetDescription());
-                        break;
-                    }
-                    else
-                    {
-                        lvi.SubItems.Add(string.Empty);
-                        break;
-                    }
-                }
-
-                lvi.SubItems.Add(string.Empty);
-                lvi.BackColor = info.ID % 2 == 0 ? Color.White : Color.WhiteSmoke;
-                ListViewManager.set_IconCreated(lvi);
-                ListViewControl.Items.Add(lvi);
-                lvi.EnsureVisible();
-                ListViewControl.FillLastColumn();
-            }
-        }
-
         #region Task Event Handler Methods
-
-        private static void task_UploadPreparing(UploadInfo info)
-        {
-            log.Info(string.Format("Upload preparing. ID: {0}", info.ID));
-            ChangeListViewItemStatus(info);
-        }
-
-        private static void task_UploadStarted(UploadInfo info)
-        {
-            string status = string.Format("Upload started. ID: {0}, Filename: {1}", info.ID, info.FileName);
-            if (!string.IsNullOrEmpty(info.FilePath)) status += ", Filepath: " + info.FilePath;
-            log.Info(status);
-
-            ListViewItem lvi = ListViewControl.Items[info.ID];
-            lvi.Text = info.FileName;
-            lvi.SubItems[1].Text = info.Status;
-
-            ListViewManager.set_IconUploadStarted(lvi);
-        }
-
-        private static void task_UploadProgressChanged(UploadInfo info)
-        {
-            if (ListViewControl != null)
-            {
-                ListViewItem lvi = ListViewControl.Items[info.ID];
-                lvi.SubItems[1].Text = string.Format("{0:0.0}%", info.Progress.Percentage);
-                lvi.SubItems[2].Text = string.Format("{0} / {1}", Helpers.ProperFileSize(info.Progress.Position, "", true), Helpers.ProperFileSize(info.Progress.Length, "", true));
-                if (info.Progress.Speed > 0)
-                    lvi.SubItems[3].Text = Helpers.ProperFileSize((long)info.Progress.Speed, "/s", true);
-                lvi.SubItems[4].Text = ProperTimeSpan(info.Progress.Elapsed);
-                lvi.SubItems[5].Text = ProperTimeSpan(info.Progress.Remaining);
-            }
-        }
 
         private static string ProperTimeSpan(TimeSpan ts)
         {
@@ -458,90 +310,6 @@ namespace ShareX
             int hours = (int)ts.TotalHours;
             if (hours > 0) time = hours + ":" + time;
             return time;
-        }
-
-        /// <summary>
-        /// Mod 01: Not just uploads, everything gets added to List e.g. Saving to file
-        /// </summary>
-        /// <param name="info">UploadInfo</param>
-        private static void task_UploadCompleted(UploadInfo info)
-        {
-            try
-            {
-                if (ListViewControl != null && info != null && info.Result != null)
-                {
-                    info.Result.LocalFilePath = info.FilePath;
-                    ListViewItem lvi = ListViewControl.Items[info.ID];
-                    lvi.Tag = info.Result;
-
-                    if (string.IsNullOrEmpty(lvi.SubItems[7].Text))
-                        lvi.SubItems[7].Text = info.Destination; // update Destination if not empty; this applies for URL Shortening
-
-                    if (info.Result.IsError)
-                    {
-                        string errors = string.Join("\r\n\r\n", info.Result.Errors.ToArray());
-
-                        log.ErrorFormat("Upload failed. ID: {0}, Filename: {1}, Errors:\r\n{2}", info.ID, info.FileName, errors);
-
-                        lvi.SubItems[1].Text = "Error";
-                        lvi.SubItems[8].Text = string.Empty;
-
-                        ListViewManager.set_IconError(lvi);
-
-                        if (SettingsManager.ConfigCore.PlaySoundAfterUpload)
-                            SystemSounds.Asterisk.Play();
-                    }
-                    else
-                    {
-                        log.InfoFormat("Upload completed. ID: {0}, Filename: {1}, URL: {2}, Duration: {3} ms", info.ID, info.FileName,
-                            info.Result.URL, (int)info.UploadDuration.TotalMilliseconds);
-
-                        lvi.SubItems[1].Text = info.Status;
-                        ListViewManager.set_IconCompleted(lvi);
-
-                        string url_or_filepath = string.IsNullOrEmpty(info.Result.ShortenedURL) ? info.Result.URL : info.Result.ShortenedURL;
-                        if (string.IsNullOrEmpty(url_or_filepath))
-                            url_or_filepath = info.FilePath;
-
-                        lvi.SubItems[8].Text = url_or_filepath;
-
-                        if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.Clipboard) &&
-                            SettingsManager.ConfigCore.AfterUploadTasks.HasFlag(AfterUploadTasks.CopyURLToClipboard))
-                        {
-                            Helpers.CopyTextSafely(url_or_filepath);
-                        }
-
-                        if (FormsHelper.Main.niTray.Visible && SettingsManager.ConfigCore.ShowBalloonAfterUpload)
-                        {
-                            FormsHelper.Main.niTray.Tag = url_or_filepath;
-                            FormsHelper.Main.niTray.ShowBalloonTip(5000, Application.ProductName + " - completed", url_or_filepath, ToolTipIcon.Info);
-                        }
-
-                        if (!string.IsNullOrEmpty(info.Result.URL))
-                        {
-                            if (SettingsManager.ConfigCore.SaveHistory)
-                            {
-                                HistoryManager.AddHistoryItemAsync(SettingsManager.HistoryFilePath, info.GetHistoryItem());
-                            }
-
-                            if (SettingsManager.ConfigCore.ShowClipboardOptionsWizard && info.Job != TaskJob.ShareURL)
-                            {
-                                WindowAfterUpload dlg = new WindowAfterUpload(info) { Icon = Resources.ShareX };
-                                NativeMethods.ShowWindow(dlg.Handle, (int)WindowShowStyle.ShowNoActivate);
-                            }
-                        }
-
-                        if (SettingsManager.ConfigCore.PlaySoundAfterUpload)
-                            SystemSounds.Exclamation.Play();
-                    }
-
-                    lvi.EnsureVisible();
-                }
-            }
-            finally
-            {
-                StartTasks();
-            }
         }
 
         #endregion Task Event Handler Methods

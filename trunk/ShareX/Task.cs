@@ -49,7 +49,7 @@ namespace ShareX
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public delegate void TaskEventHandler(UploadInfo info);
+        public delegate void TaskEventHandler(Task task);
 
         public event TaskEventHandler UploadStarted;
 
@@ -924,7 +924,7 @@ namespace ShareX
 
             if (UploadPreparing != null)
             {
-                UploadPreparing(Info);
+                UploadPreparing(this);
             }
         }
 
@@ -932,7 +932,7 @@ namespace ShareX
         {
             if (UploadStarted != null)
             {
-                UploadStarted(Info);
+                UploadStarted(this);
             }
         }
 
@@ -940,7 +940,7 @@ namespace ShareX
         {
             if (UploadProgressChanged != null)
             {
-                UploadProgressChanged(Info);
+                UploadProgressChanged(this);
             }
         }
 
@@ -959,7 +959,7 @@ namespace ShareX
 
             if (UploadCompleted != null)
             {
-                UploadCompleted(Info);
+                UploadCompleted(this);
             }
 
             Dispose();
