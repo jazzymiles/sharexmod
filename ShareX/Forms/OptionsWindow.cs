@@ -107,16 +107,6 @@ namespace ShareX.Forms
             string path = string.IsNullOrEmpty(SettingsManager.ConfigCore.FilePath) ? "via Dropbox Sync" : SettingsManager.ConfigCore.FilePath;
             this.Text = Application.ProductName + " Settings - " + path;
 
-            // Hotkeys
-            if (Program.IsHotkeysAllowed)
-            {
-                hmHotkeys.PrepareHotkeys(FormsHelper.Main.HotkeyManager);
-            }
-            else if (tvMain.Nodes.ContainsKey("tnHotkeys"))
-            {
-                tvMain.Nodes.Remove(tvMain.Nodes["tnHotkeys"]);
-            }
-
             // General
             cbShowTray.Checked = SettingsManager.ConfigCore.ShowTray;
             cbStartWithWindows.Checked = ShortcutHelper.CheckShortcut(Environment.SpecialFolder.Startup);
@@ -244,45 +234,6 @@ namespace ShareX.Forms
 
             if (Directory.Exists(dir))
                 SettingsManager.ConfigCore.ScreenshotsPath = dir;
-
-            #region Workflows
-
-            if (FormsHelper.Main.HotkeyManager != null)
-            {
-                List<Workflow> workflowsNew = new List<Workflow>();
-
-                foreach (Workflow wf in FormsHelper.Main.HotkeyManager.Workflows)
-                {
-                    Workflow wf2 = SettingsManager.ConfigWorkflows.Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
-                    if (wf2 == null)
-                        workflowsNew.Add(wf);
-                }
-
-                foreach (Workflow wf in workflowsNew)
-                {
-                    string tag = wf.HotkeyConfig.Tag;
-                    FormsHelper.Main.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
-                    FormsHelper.Main.HotkeyManager.AddHotkey(wf, () => FormsHelper.Main.DoWork(tag, false));
-                }
-
-                List<Workflow> workflowOld = new List<Workflow>();
-                foreach (Workflow wf in SettingsManager.ConfigWorkflows.Workflows)
-                {
-                    Workflow wf2 = FormsHelper.Main.HotkeyManager.Workflows.FirstOrDefault(x => x.HotkeyConfig.Tag == wf.HotkeyConfig.Tag);
-                    if (wf2 == null)
-                        workflowOld.Add(wf);
-                }
-
-                foreach (Workflow wf in workflowOld)
-                {
-                    FormsHelper.Main.UnregisterHotkey(wf.HotkeyConfig.Hotkey);
-                }
-
-                SettingsManager.ConfigWorkflows.Workflows.Clear();
-                SettingsManager.ConfigWorkflows.Workflows.AddRange(FormsHelper.Main.HotkeyManager.Workflows);
-            }
-
-            #endregion Workflows
 
             FormsHelper.Main.ReloadConfig();
             FormsHelper.Main.ReloadOutputsMenu();

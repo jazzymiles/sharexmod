@@ -85,6 +85,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="WorkflowManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WorkflowManager.Designer.cs">
+      <DependentUpon>WorkflowManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="Workflow.cs" />
     <Compile Include="WorkflowConfig.cs">
       <SubType>Form</SubType>
@@ -127,6 +133,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WorkflowManager.resx">
+      <DependentUpon>WorkflowManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WorkflowConfig.resx">
       <DependentUpon>WorkflowConfig.cs</DependentUpon>

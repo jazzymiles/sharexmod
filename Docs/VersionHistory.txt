@@ -1,5 +1,6 @@
-﻿Version 7.1 
+﻿Version 7.1 - 2012-08-12
 
+* Added Picasa Web Albums image uploader
 * Added support to post to social networking services
 * Rewrote Workflow system for a much more intuitive interface
 * Support multiple outputs: Clipboard, File, Shared folder, E-mail or Printer
