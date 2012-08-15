@@ -9,19 +9,22 @@ using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
 using ShareX.Properties;
+using ShareX.SettingsHelpers;
 
 namespace ShareX
 {
     public partial class WindowAfterCapture : Form
     {
-        public Subtask Config { get; set; }
+        public Subtask ConfigSubtasks { get; set; }
+
+        public UserConfig ConfigUser { get; set; }
 
         public WindowAfterCapture(Subtask config)
         {
             InitializeComponent();
             this.Icon = Resources.ShareX;
 
-            Config = config;
+            ConfigSubtasks = config;
 
             var tasks = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new
             {
@@ -46,8 +49,8 @@ namespace ShareX
                 chkJob.AutoSize = true;
                 chkJob.Location = new Point(8, yGap);
                 chkJob.CheckedChanged += new EventHandler(chkJob_CheckedChanged);
-                chkJob.Checked = Config.HasFlag(job.Enum);
-                this.Controls.Add(chkJob);
+                chkJob.Checked = ConfigSubtasks.HasFlag(job.Enum);
+                this.tpActions.Controls.Add(chkJob);
 
                 maxWidth = Math.Max(maxWidth, chkJob.Width);
                 yGap += 24;
@@ -55,15 +58,20 @@ namespace ShareX
 
             this.Width = Math.Max(400, maxWidth + btnOk.Width * 2);
             this.Height = yGap + 60;
+
+            ConfigUser = Helpers.Clone(SettingsManager.ConfigUser) as UserConfig;
+
+            ucImageResize.ConfigUI(ConfigUser);
+            ucImageQuality.ConfigUI(ConfigUser);
         }
 
         private void chkJob_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox chkJob = sender as CheckBox;
             if (chkJob.Checked)
-                Config |= (Subtask)chkJob.Tag;
+                ConfigSubtasks |= (Subtask)chkJob.Tag;
             else
-                Config &= ~(Subtask)chkJob.Tag;
+                ConfigSubtasks &= ~(Subtask)chkJob.Tag;
         }
 
         private void btnOk_Click(object sender, EventArgs e)

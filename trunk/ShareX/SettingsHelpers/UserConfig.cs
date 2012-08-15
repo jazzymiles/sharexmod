@@ -9,6 +9,7 @@ using IndexersLib;
 
 namespace ShareX.SettingsHelpers
 {
+    [Serializable]
     public class UserConfig : SettingsBase<UserConfig>
     {
         // Image - Quality
@@ -22,7 +23,7 @@ namespace ShareX.SettingsHelpers
         // Image - Resize
 
         public bool ImageAutoResize = false;
-        public bool ImageKeepAspectRatio = false;
+        public bool ImageKeepAspectRatio = true;
         public bool ImageUseSmoothScaling = true;
         public ImageScaleType ImageScaleType = ImageScaleType.Percentage;
         public int ImageScalePercentageWidth = 100;
@@ -38,6 +39,7 @@ namespace ShareX.SettingsHelpers
 
         [Category(ComponentModelStrings.App), DefaultValue(EListItemDoubleClickBehavior.OpenUrlOrFile), Description("Mouse double click behavior for items with a URL")]
         public EListItemDoubleClickBehavior ItemsWithUrlOnItemDoubleClick { get; set; }
+
         [Category(ComponentModelStrings.App), DefaultValue(EListItemDoubleClickBehavior.OpenDirectory), Description("Mouse double click behavior for items without a URL")]
         public EListItemDoubleClickBehavior ItemsWithoutUrlOnItemDoubleClick { get; set; }
 

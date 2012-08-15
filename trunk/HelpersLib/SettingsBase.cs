@@ -33,6 +33,7 @@ using Newtonsoft.Json;
 
 namespace HelpersLib
 {
+    [Serializable]
     public abstract class SettingsBase<T> where T : SettingsBase<T>, new()
     {
         public static SerializationType SerializationType = SerializationType.Json;

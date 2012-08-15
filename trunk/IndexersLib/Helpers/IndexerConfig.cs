@@ -23,6 +23,7 @@
 
 #endregion License Information (GPL v3)
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
@@ -33,6 +34,7 @@ using IndexersLib.Helpers;
 
 namespace IndexersLib
 {
+    [Serializable]
     public class IndexerConfig
     {
         //Default to Tree.NET
@@ -42,29 +44,40 @@ namespace IndexersLib
         // Config > Engine > Tree
         [Category("Engines / Tree Walk Utility"), DefaultValue(true), Description("Display the names of the files in each folder.")]
         public bool TreeShowFiles { get; set; }
+
         [Category("Engines / Tree Walk Utility"), DefaultValue(true), Description("Use ASCII instead of extended characters")]
         public bool TreeUseAscii { get; set; }
+
         [Category("Engines / Tree Walk Utility"), DefaultValue(false), Description("Remove tree branches")]
         public bool RemoveTreeBranches { get; set; }
 
         // Engine > TreeNet
         public const string DefaultCssFileName = "Default.css";
+
         [Category("Engines / Tree.NET"), DefaultValue(true), Description("Display files")]
         public bool ShowFilesTreeNet { get; set; }
+
         [Category("Engines / Tree.NET"), DefaultValue(true), Description("Display file sizes")]
         public bool ShowFileSize { get; set; }
+
         [Category("Engines / Tree.NET"), DefaultValue(true), Description("Display folder sizes")]
         public bool ShowDirSize { get; set; }
+
         [Category("Engines / Tree.NET"), DefaultValue(false), Description("Show full file path in the index")]
         public bool ShowFilePath { get; set; }
+
         [Category("Engines / Tree.NET"), DefaultValue(false), Description("Show full folder path in the index")]
         public bool ShowFolderPath { get; set; }
+
         [Category("Engines / Tree.NET"), DefaultValue(false), Description("Hide Extension in files")]
         public bool HideExtension { get; set; }
+
         [Category("Engines / Tree.NET"), DefaultValue(false), Description("Show virtual folders")]
         public bool ShowVirtualFolders { get; set; }
+
         [Category("Engines / Tree.NET"), DefaultValue(false), Description("Show folder paths in the browser's status bar")]
         public bool ShowFolderPathOnStatusBar { get; set; }
+
         [Category("Engines / Tree.NET"), DefaultValue("~*"), Description("Folder heading style")]
         public string FolderHeadingStyle { get; set; }
 
@@ -82,19 +95,27 @@ namespace IndexersLib
 
         [Category("General / Filter"), DefaultValue(false), Description("Ignore protected Operating System files and folders when indexing")]
         public bool HideProtectedOperatingSystemFilesFolders { get; set; }
+
         [Category("General / Filter"), DefaultValue(false), Description("Ignore hidden files when indexing")]
         public bool IgnoreHiddenFiles { get; set; }
+
         [Category("General / Filter"), DefaultValue(false), Description("Ignore system files when indexing")]
         public bool IgnoreSystemFiles { get; set; }
+
         public bool IgnoreFollowingFiles = true;
+
         [Category("General / Filter"), Description("Ignore the following user files")]
         public string IgnoreFilesList { get; set; }
+
         [Category("General / Filter"), DefaultValue(false), Description("Ignore system folders when indexing")]
         public bool IgnoreHiddenFolders { get; set; }
+
         [Category("General / Filter"), DefaultValue(false), Description("Ignore system folders when indexing")]
         public bool IgnoreSystemFolders { get; set; }
+
         [Category("General / Filter"), DefaultValue(false), Description("Ignore empty folders when indexing")]
         public bool IgnoreEmptyFolders { get; set; }
+
         //war59312
 
         // Misc
@@ -109,19 +130,25 @@ namespace IndexersLib
 
         [Category("General / Display"), DefaultValue(false), Description("Display files in reverse")]
         public bool RevereFileOrder { get; set; }
+
         [Category("General / Display"), DefaultValue(false), Description("Display file count")]
         public bool ShowFileCount { get; set; }
+
         [Category("General / Tree.NET / Display"), DefaultValue(false), Description("Display file count")]
         public bool SortBySize { get; set; }
+
         [Category("General / Tree.NET / Display"), DefaultValue(FileSortMode.Ascending), Description("Sort files by Size")]
         public FileSortMode SortBySizeMode { get; set; }
 
         [Category("General / Audio"), DefaultValue(false), Description("Enable Quick Audio scan to index faster. Bitrate information will not be precise.")]
         public bool AudioQuickScan { get; set; }
+
         [Category("General / Audio"), DefaultValue(false), Description("Enable Audio file scan.")]
         public bool AudioInfo { get; set; }
+
         [Category("Engines / Tree.NET"), DefaultValue(2), Description("Folder expand level")]
         public int FolderExpandLevel { get; set; }
+
         [Category("Engines / Tree.NET"), DefaultValue(false), Description("Collapse folders")]
         public bool CollapseFolders { get; set; }
 
@@ -172,8 +199,10 @@ namespace IndexersLib
 
         [Category("Engines / General"), DefaultValue(true), Description("Show footer message showing project page")]
         public bool AddFooter { get; set; }
+
         [Category("Engines / General"), Description("Index file name without extension")]
         public string IndexFileNameWitoutExt { get; set; }
+
         [Category("Engines / General"), Description("Index file extension")]
         public string IndexFileExt { get; set; }
 
@@ -183,6 +212,7 @@ namespace IndexersLib
         [Category("Engines / General"), Description("Output directory for merge index file")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string OutputDir { get; set; }
+
         [Category("Engines / General"), Description("Indexing Engine")]
         public IndexingEngine IndexingEngineType { get; set; }
 

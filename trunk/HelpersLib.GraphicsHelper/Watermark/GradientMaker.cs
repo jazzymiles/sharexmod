@@ -283,9 +283,11 @@ namespace HelpersLibGradient
         }
     }
 
+    [Serializable]
     public class GradientMakerSettings
     {
         public List<BrushData> BrushDataList { get; set; }
+
         public int BrushDataSelected { get; set; }
 
         public GradientMakerSettings()
@@ -305,10 +307,13 @@ namespace HelpersLibGradient
         }
     }
 
+    [Serializable]
     public class BrushData
     {
         public string Name { get; set; }
+
         public string Data { get; set; }
+
         public GradientDirection Direction { get; set; }
 
         public BrushData()
@@ -330,6 +335,7 @@ namespace HelpersLibGradient
             /// Specifies a gradient from top to bottom.
             /// </summary>
             Vertical,
+
             /// <summary>
             /// Specifies a gradient from left to right.
             /// </summary>

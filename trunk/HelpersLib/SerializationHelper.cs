@@ -23,10 +23,12 @@
 
 #endregion License Information (GPL v3)
 
+using System;
 using System.Drawing;
 
 namespace HelpersLib
 {
+    [Serializable]
     public class XFont
     {
         public string FontFamily { get; set; }
@@ -81,6 +83,7 @@ namespace HelpersLib
         }
     }
 
+    [Serializable]
     public class XColor
     {
         public int Argb { get; set; }

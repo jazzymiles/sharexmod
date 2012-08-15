@@ -27,6 +27,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using HelpersLib;
+using ShareX.SettingsHelpers;
 using UploadersLib;
 
 namespace ShareX.HelperClasses
@@ -43,6 +44,8 @@ namespace ShareX.HelperClasses
         public string WindowText { get; private set; }
 
         public string Filename { get; private set; }
+
+        public UserConfig ConfigUser { get; set; }
 
         public bool IsPrepared
         {
@@ -137,22 +140,25 @@ namespace ShareX.HelperClasses
 
         private MemoryStream PrepareImage(Image img, out EImageFormat imageFormat)
         {
-            if (SettingsManager.ConfigUser.ImageAutoResize)
+            if (ConfigUser == null)
+                ConfigUser = SettingsManager.ConfigUser;
+
+            if (ConfigUser.ImageAutoResize)
             {
-                img = ResizeImage(img, SettingsManager.ConfigUser.ImageScaleType);
+                img = ResizeImage(img, ConfigUser.ImageScaleType);
             }
 
-            MemoryStream stream = img.SaveImage(SettingsManager.ConfigUser.ImageFormat);
+            MemoryStream stream = img.SaveImage(ConfigUser.ImageFormat);
 
-            int sizeLimit = SettingsManager.ConfigUser.ImageSizeLimit * 1024;
-            if (SettingsManager.ConfigUser.ImageFormat != SettingsManager.ConfigUser.ImageFormat2 && sizeLimit > 0 && stream.Length > sizeLimit)
+            int sizeLimit = ConfigUser.ImageSizeLimit * 1024;
+            if (ConfigUser.ImageFormat != ConfigUser.ImageFormat2 && sizeLimit > 0 && stream.Length > sizeLimit)
             {
-                stream = img.SaveImage(SettingsManager.ConfigUser.ImageFormat2);
-                imageFormat = SettingsManager.ConfigUser.ImageFormat2;
+                stream = img.SaveImage(ConfigUser.ImageFormat2);
+                imageFormat = ConfigUser.ImageFormat2;
             }
             else
             {
-                imageFormat = SettingsManager.ConfigUser.ImageFormat;
+                imageFormat = ConfigUser.ImageFormat;
             }
 
             stream.Position = 0;
@@ -162,31 +168,34 @@ namespace ShareX.HelperClasses
 
         private Image ResizeImage(Image img, ImageScaleType scaleType)
         {
+            if (ConfigUser == null)
+                ConfigUser = SettingsManager.ConfigUser;
+
             float width = 0, height = 0;
 
             switch (scaleType)
             {
                 case ImageScaleType.Percentage:
-                    width = img.Width * (SettingsManager.ConfigUser.ImageScalePercentageWidth / 100f);
-                    height = img.Height * (SettingsManager.ConfigUser.ImageScalePercentageHeight / 100f);
+                    width = img.Width * (ConfigUser.ImageScalePercentageWidth / 100f);
+                    height = img.Height * (ConfigUser.ImageScalePercentageHeight / 100f);
                     break;
                 case ImageScaleType.Width:
-                    width = SettingsManager.ConfigUser.ImageScaleToWidth;
-                    height = SettingsManager.ConfigUser.ImageKeepAspectRatio ? img.Height * (width / img.Width) : img.Height;
+                    width = ConfigUser.ImageScaleToWidth;
+                    height = ConfigUser.ImageKeepAspectRatio ? img.Height * (width / img.Width) : img.Height;
                     break;
                 case ImageScaleType.Height:
-                    height = SettingsManager.ConfigUser.ImageScaleToHeight;
-                    width = SettingsManager.ConfigUser.ImageKeepAspectRatio ? img.Width * (height / img.Height) : img.Width;
+                    height = ConfigUser.ImageScaleToHeight;
+                    width = ConfigUser.ImageKeepAspectRatio ? img.Width * (height / img.Height) : img.Width;
                     break;
                 case ImageScaleType.Specific:
-                    width = SettingsManager.ConfigUser.ImageScaleSpecificWidth;
-                    height = SettingsManager.ConfigUser.ImageScaleSpecificHeight;
+                    width = ConfigUser.ImageScaleSpecificWidth;
+                    height = ConfigUser.ImageScaleSpecificHeight;
                     break;
             }
 
             if (width > 0 && height > 0)
             {
-                return CaptureHelpers.ResizeImage(img, (int)width, (int)height, SettingsManager.ConfigUser.ImageUseSmoothScaling);
+                return CaptureHelpers.ResizeImage(img, (int)width, (int)height, ConfigUser.ImageUseSmoothScaling);
             }
 
             return img;
