@@ -28,6 +28,11 @@ namespace HelpersLib.Hotkeys2
             }
         }
 
+        public WorkflowSettings()
+        {
+            ApplyDefaultValues(this);
+        }
+
         public void Clear()
         {
             DestConfig.ImageUploaders.Clear();

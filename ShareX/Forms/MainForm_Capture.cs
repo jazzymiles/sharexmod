@@ -97,7 +97,8 @@ namespace ShareX
                     WindowAfterCapture dlg = new WindowAfterCapture(act.Workflow.Subtasks);
                     if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        act.Workflow.Subtasks = dlg.Config;
+                        act.Workflow.Subtasks = dlg.ConfigSubtasks;
+                        imageData.ConfigUser = dlg.ConfigUser;
                     }
                     else
                     {
@@ -167,7 +168,7 @@ namespace ShareX
 
                 surface.ShowDialog();
                 img = surface.GetRegionImage();
-                    
+
                 surface.Dispose();
 
                 return img;

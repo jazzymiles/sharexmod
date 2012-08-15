@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using HelpersLib;
@@ -6,6 +7,7 @@ using HelpersLibGradient;
 
 namespace HelpersLibWatermark
 {
+    [Serializable]
     public class WatermarkConfig
     {
         public WatermarkConfig() { }
@@ -42,20 +44,28 @@ namespace HelpersLibWatermark
     {
         [Description("Top - Left")]
         TOP_LEFT,
+
         [Description("Top - Center")]
         TOP,
+
         [Description("Top - Right")]
         TOP_RIGHT,
+
         [Description("Center - Left")]
         LEFT,
+
         [Description("Centered")]
         CENTER,
+
         [Description("Center - Right")]
         RIGHT,
+
         [Description("Bottom - Left")]
         BOTTOM_LEFT,
+
         [Description("Bottom - Center")]
         BOTTOM,
+
         [Description("Bottom - Right")]
         BOTTOM_RIGHT
     }
@@ -64,8 +74,10 @@ namespace HelpersLibWatermark
     {
         [Description("None")]
         NONE,
+
         [Description("Text")]
         TEXT,
+
         [Description("Image")]
         IMAGE
     }

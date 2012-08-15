@@ -47,6 +47,7 @@
             this.Controls.Add(this.hmHotkeys);
             this.MinimumSize = new System.Drawing.Size(572, 536);
             this.Name = "WorkflowManager";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Workflows";
             this.ResumeLayout(false);
 

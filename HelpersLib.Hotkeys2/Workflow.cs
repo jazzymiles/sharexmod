@@ -20,7 +20,6 @@ namespace HelpersLib.Hotkeys2
 
         public Subtask Subtasks = Subtask.CopyImageToClipboard;
         public AfterUploadTasks AfterUploadTasks = AfterUploadTasks.CopyURLToClipboard;
-
         public WorkflowSettings Settings = new WorkflowSettings();
 
         public Workflow()

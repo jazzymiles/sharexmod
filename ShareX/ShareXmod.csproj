@@ -135,6 +135,18 @@
     <Compile Include="Forms\MainForm_Workflow.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UserControls\ImageQualityUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ImageQualityUI.Designer.cs">
+      <DependentUpon>ImageQualityUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ImageResizeUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ImageResizeUI.Designer.cs">
+      <DependentUpon>ImageResizeUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Log4netHelpers\LevelTextStyle.cs" />
     <Compile Include="Log4netHelpers\ListViewAppender.cs" />
     <Compile Include="Log4netHelpers\Log4netHelper.cs" />
@@ -183,6 +195,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ImageQualityUI.resx">
+      <DependentUpon>ImageQualityUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ImageResizeUI.resx">
+      <DependentUpon>ImageResizeUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log4netHelpers\Log4netViewer_ListView.resx">
       <DependentUpon>Log4netViewer_ListView.cs</DependentUpon>
