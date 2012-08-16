@@ -119,7 +119,7 @@ namespace ShareX
         [Category(ComponentModelStrings.App), DefaultValue(false), Description("If you have configured Dropbox, then this setting will synchronize uploaders configuration and application settings except for paths.")]
         public bool DropboxSync { get; set; }
 
-        [Category(ComponentModelStrings.App), DefaultValue(View.Details), Description("You can choose LargeIcon to enable Thumbnail mode")]
+        [Category(ComponentModelStrings.App), DefaultValue(View.Tile), Description("You can choose LargeIcon to enable Thumbnail mode")]
         public View ListViewMode { get; set; }
 
         [Category(ComponentModelStrings.SettingsInteraction), DefaultValue(true), Description("Show after capture wizard. Dynamically choose actions after capture")]

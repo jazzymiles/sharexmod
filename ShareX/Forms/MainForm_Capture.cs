@@ -91,22 +91,33 @@ namespace ShareX
             if (imageData != null)
             {
                 AfterCaptureActivity.Prepare(ref act);
+                DialogResult result = System.Windows.Forms.DialogResult.OK;
 
                 if (SettingsManager.ConfigCore.ShowAfterCaptureWizard)
                 {
-                    WindowAfterCapture dlg = new WindowAfterCapture(act.Workflow.Subtasks);
-                    if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    WindowAfterCapture dlg = new WindowAfterCapture(imageData.Image, act.Workflow.Subtasks) { Icon = Resources.ShareX };
+                    result = dlg.ShowDialog();
+
+                    switch (dlg.DialogResult)
                     {
-                        act.Workflow.Subtasks = dlg.ConfigSubtasks;
-                        imageData.ConfigUser = dlg.ConfigUser;
-                    }
-                    else
-                    {
-                        return;
+                        case System.Windows.Forms.DialogResult.OK:
+                            act.Workflow.Subtasks = dlg.ConfigSubtasks;
+                            imageData.ConfigUser = dlg.ConfigUser;
+                            break;
+
+                        case System.Windows.Forms.DialogResult.Cancel:
+                            Clipboard.SetImage(imageData.Image);
+                            break;
+
+                        case System.Windows.Forms.DialogResult.Abort:
+                            break;
                     }
                 }
 
-                UploadManager.DoImageWork(imageData, act);
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    UploadManager.DoImageWork(imageData, act);
+                }
             }
         }
 

@@ -19,10 +19,11 @@ namespace ShareX
 
         public UserConfig ConfigUser { get; set; }
 
-        public WindowAfterCapture(Subtask config)
+        public WindowAfterCapture(Image img, Subtask config)
         {
             InitializeComponent();
             this.Icon = Resources.ShareX;
+            this.pbImage.LoadImage(img, PictureBoxSizeMode.Zoom);
 
             ConfigSubtasks = config;
 
@@ -80,6 +81,11 @@ namespace ShareX
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = System.Windows.Forms.DialogResult.Abort;
+        }
+
+        private void btnCopyImage_Click(object sender, EventArgs e)
         {
             this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
         }

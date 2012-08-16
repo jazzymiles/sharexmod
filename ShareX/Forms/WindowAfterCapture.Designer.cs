@@ -37,7 +37,10 @@
             this.ucImageResize = new ShareX.ImageResizeUI();
             this.tpImageQuality = new System.Windows.Forms.TabPage();
             this.ucImageQuality = new ShareX.ImageQualityUI();
+            this.btnCopyImage = new System.Windows.Forms.Button();
+            this.pbImage = new HelpersLib.MyPictureBox();
             this.tabControl1.SuspendLayout();
+            this.tpActions.SuspendLayout();
             this.tpImageResize.SuspendLayout();
             this.tpImageQuality.SuspendLayout();
             this.SuspendLayout();
@@ -72,7 +75,7 @@
             this.lblGeneralInfo.Location = new System.Drawing.Point(0, 379);
             this.lblGeneralInfo.Name = "lblGeneralInfo";
             this.lblGeneralInfo.Size = new System.Drawing.Size(618, 29);
-            this.lblGeneralInfo.TabIndex = 3;
+            this.lblGeneralInfo.TabIndex = 4;
             this.lblGeneralInfo.Text = "Disable this prompt by going to Settings > Configuration > Advanced";
             this.lblGeneralInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -90,6 +93,7 @@
             // 
             // tpActions
             // 
+            this.tpActions.Controls.Add(this.pbImage);
             this.tpActions.Location = new System.Drawing.Point(4, 22);
             this.tpActions.Name = "tpActions";
             this.tpActions.Padding = new System.Windows.Forms.Padding(3);
@@ -133,26 +137,52 @@
             this.ucImageQuality.Size = new System.Drawing.Size(382, 222);
             this.ucImageQuality.TabIndex = 0;
             // 
+            // btnCopyImage
+            // 
+            this.btnCopyImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnCopyImage.AutoSize = true;
+            this.btnCopyImage.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnCopyImage.Location = new System.Drawing.Point(8, 351);
+            this.btnCopyImage.Name = "btnCopyImage";
+            this.btnCopyImage.Size = new System.Drawing.Size(123, 23);
+            this.btnCopyImage.TabIndex = 3;
+            this.btnCopyImage.Text = "Copy &Image and Close";
+            this.btnCopyImage.UseVisualStyleBackColor = true;
+            this.btnCopyImage.Click += new System.EventHandler(this.btnCopyImage_Click);
+            // 
+            // pbImage
+            // 
+            this.pbImage.BackColor = System.Drawing.Color.White;
+            this.pbImage.DisableViewer = false;
+            this.pbImage.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pbImage.Location = new System.Drawing.Point(224, 3);
+            this.pbImage.Name = "pbImage";
+            this.pbImage.Size = new System.Drawing.Size(383, 312);
+            this.pbImage.TabIndex = 0;
+            // 
             // WindowAfterCapture
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(618, 408);
+            this.Controls.Add(this.btnCopyImage);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.lblGeneralInfo);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(624, 432);
             this.Name = "WindowAfterCapture";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "After capture...";
             this.tabControl1.ResumeLayout(false);
+            this.tpActions.ResumeLayout(false);
             this.tpImageResize.ResumeLayout(false);
             this.tpImageQuality.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -167,5 +197,7 @@
         private ImageResizeUI ucImageResize;
         private System.Windows.Forms.TabPage tpImageQuality;
         private ImageQualityUI ucImageQuality;
+        private System.Windows.Forms.Button btnCopyImage;
+        private HelpersLib.MyPictureBox pbImage;
     }
 }
