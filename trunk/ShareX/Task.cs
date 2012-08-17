@@ -425,47 +425,28 @@ namespace ShareX
             }
         }
 
-        private void UploadFile_Print()
+        private void ThreadCompleted()
         {
-            if (imageData != null && imageData.Image != null)
+            OnUploadCompleted();
+        }
+
+        private void PrepareUploader(Uploader currentUploader)
+        {
+            uploader = currentUploader;
+            uploader.BufferSize = (int)Math.Pow(2, SettingsManager.ConfigCore.BufferSizePower) * 1024;
+            uploader.ProgressChanged += new Uploader.ProgressEventHandler(uploader_ProgressChanged);
+        }
+
+        private void uploader_ProgressChanged(ProgressManager progress)
+        {
+            if (progress != null)
             {
-                new PrintForm(imageData.ImageExported, SettingsManager.ConfigUser.PrintSettings).Show();
-            }
-            else if (Info.Job == TaskJob.TextUpload && !string.IsNullOrEmpty(tempText))
-            {
-                new PrintHelper(tempText) { Settings = SettingsManager.ConfigUser.PrintSettings }.Print();
+                Info.Progress = progress;
+                threadWorker.InvokeAsync(OnUploadProgressChanged);
             }
         }
 
-        private void EditImage(ref ImageData imageData_gse)
-        {
-            if (imageData_gse != null)
-            {
-                if (!Greenshot.IniFile.IniConfig.IsInited)
-                    Greenshot.IniFile.IniConfig.Init();
-
-                GreenshotPlugin.Core.CoreConfiguration conf = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>(); ;
-                conf.OutputFileFilenamePattern = "${title}";
-                conf.OutputFilePath = Program.ScreenshotsPath;
-
-                Greenshot.Plugin.ICapture capture = new GreenshotPlugin.Core.Capture();
-                capture.Image = imageData_gse.Image;
-                capture.CaptureDetails.Filename = Path.Combine(Program.ScreenshotsPath, imageData_gse.Filename);
-                capture.CaptureDetails.Title =
-                    Path.GetFileNameWithoutExtension(capture.CaptureDetails.Filename);
-                capture.CaptureDetails.AddMetaData("file", capture.CaptureDetails.Filename);
-                capture.CaptureDetails.AddMetaData("source", "file");
-
-                var surface = new Greenshot.Drawing.Surface(capture);
-                var editor = new Greenshot.ImageEditorForm(surface, true) { Icon = Resources.ShareX };
-
-                editor.SetImagePath(capture.CaptureDetails.Filename);
-                editor.Visible = false; // required before ShowDialog
-                editor.ShowDialog();
-
-                imageData_gse.Image = editor.GetImageForExport();
-            }
-        }
+        #region Upload Image
 
         private void DoBeforeImagePreparedJobs()
         {
@@ -519,24 +500,33 @@ namespace ShareX
             }
         }
 
-        private void ThreadCompleted()
+        private void EditImage(ref ImageData imageData_gse)
         {
-            OnUploadCompleted();
-        }
-
-        private void PrepareUploader(Uploader currentUploader)
-        {
-            uploader = currentUploader;
-            uploader.BufferSize = (int)Math.Pow(2, SettingsManager.ConfigCore.BufferSizePower) * 1024;
-            uploader.ProgressChanged += new Uploader.ProgressEventHandler(uploader_ProgressChanged);
-        }
-
-        private void uploader_ProgressChanged(ProgressManager progress)
-        {
-            if (progress != null)
+            if (imageData_gse != null)
             {
-                Info.Progress = progress;
-                threadWorker.InvokeAsync(OnUploadProgressChanged);
+                if (!Greenshot.IniFile.IniConfig.IsInited)
+                    Greenshot.IniFile.IniConfig.Init();
+
+                GreenshotPlugin.Core.CoreConfiguration conf = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>(); ;
+                conf.OutputFileFilenamePattern = "${title}";
+                conf.OutputFilePath = Program.ScreenshotsPath;
+
+                Greenshot.Plugin.ICapture capture = new GreenshotPlugin.Core.Capture();
+                capture.Image = imageData_gse.Image;
+                capture.CaptureDetails.Filename = Path.Combine(Program.ScreenshotsPath, imageData_gse.Filename);
+                capture.CaptureDetails.Title =
+                    Path.GetFileNameWithoutExtension(capture.CaptureDetails.Filename);
+                capture.CaptureDetails.AddMetaData("file", capture.CaptureDetails.Filename);
+                capture.CaptureDetails.AddMetaData("source", "file");
+
+                var surface = new Greenshot.Drawing.Surface(capture);
+                var editor = new Greenshot.ImageEditorForm(surface, true) { Icon = Resources.ShareX };
+
+                editor.SetImagePath(capture.CaptureDetails.Filename);
+                editor.Visible = false; // required before ShowDialog
+                editor.ShowDialog();
+
+                imageData_gse.Image = editor.GetImageForExport();
             }
         }
 
@@ -634,6 +624,8 @@ namespace ShareX
             return null;
         }
 
+        #endregion Upload Image
+
         public UploadResult UploadText(Stream stream)
         {
             TextUploader textUploader = null;
@@ -683,37 +675,7 @@ namespace ShareX
             return null;
         }
 
-        public Image GetImageForExport()
-        {
-            return imageData.ImageExported;
-        }
-
-        /// <summary>
-        /// Returns FTP/SFTP Uploader based on file extensions it supports
-        /// </summary>
-        /// <returns></returns>
-        private FileUploader get_FtpAccountByFileExtensionSupport()
-        {
-            foreach (FTPAccount account in SettingsManager.ConfigUploaders.FTPAccountList)
-            {
-                if (!string.IsNullOrEmpty(account.ExtensionsForTrigger))
-                {
-                    string[] extensions = account.ExtensionsForTrigger.Split(',');
-                    foreach (string ext in extensions)
-                    {
-                        if ("." + ext.ToLower() == Path.GetExtension(Info.FileName).ToLower())
-                        {
-                            if (account.Protocol == FTPProtocol.SFTP)
-                                return new SFTP(account);
-                            else
-                                return new FTPUploader(account);
-                        }
-                    }
-                }
-            }
-
-            return null;
-        }
+        #region Upload File
 
         public UploadResult UploadFile(Stream stream)
         {
@@ -811,8 +773,6 @@ namespace ShareX
             return null;
         }
 
-        #region Upload File
-
         private UploadResult UploadFile_Email(Stream stream)
         {
             using (EmailForm emailForm = new EmailForm(SettingsManager.ConfigUploaders.EmailRememberLastTo ? SettingsManager.ConfigUploaders.EmailLastTo : string.Empty,
@@ -846,6 +806,18 @@ namespace ShareX
             return null;
         }
 
+        private void UploadFile_Print()
+        {
+            if (imageData != null && imageData.Image != null)
+            {
+                new PrintForm(imageData.ImageExported, SettingsManager.ConfigUser.PrintSettings).Show();
+            }
+            else if (Info.Job == TaskJob.TextUpload && !string.IsNullOrEmpty(tempText))
+            {
+                new PrintHelper(tempText) { Settings = SettingsManager.ConfigUser.PrintSettings }.Print();
+            }
+        }
+
         private UploadResult UploadFile_SharedFolder(Stream stream)
         {
             int idLocalhost = SettingsManager.ConfigUploaders.GetLocalhostIndex(Info.DataType);
@@ -854,6 +826,33 @@ namespace ShareX
                 FileUploader fileUploader = new SharedFolderUploader(SettingsManager.ConfigUploaders.LocalhostAccountList[idLocalhost]);
                 PrepareUploader(fileUploader);
                 return fileUploader.Upload(stream, Info.FileName);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns FTP/SFTP Uploader based on file extensions it supports
+        /// </summary>
+        /// <returns></returns>
+        private FileUploader get_FtpAccountByFileExtensionSupport()
+        {
+            foreach (FTPAccount account in SettingsManager.ConfigUploaders.FTPAccountList)
+            {
+                if (!string.IsNullOrEmpty(account.ExtensionsForTrigger))
+                {
+                    string[] extensions = account.ExtensionsForTrigger.Split(',');
+                    foreach (string ext in extensions)
+                    {
+                        if ("." + ext.ToLower() == Path.GetExtension(Info.FileName).ToLower())
+                        {
+                            if (account.Protocol == FTPProtocol.SFTP)
+                                return new SFTP(account);
+                            else
+                                return new FTPUploader(account);
+                        }
+                    }
+                }
             }
 
             return null;
@@ -963,6 +962,11 @@ namespace ShareX
             }
 
             Dispose();
+        }
+
+        public Image GetImageForExport()
+        {
+            return imageData.ImageExported;
         }
 
         public void Dispose()

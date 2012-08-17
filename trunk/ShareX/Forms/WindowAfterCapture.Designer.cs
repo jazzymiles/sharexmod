@@ -33,12 +33,12 @@
             this.lblGeneralInfo = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpActions = new System.Windows.Forms.TabPage();
+            this.pbImage = new HelpersLib.MyPictureBox();
             this.tpImageResize = new System.Windows.Forms.TabPage();
             this.ucImageResize = new ShareX.ImageResizeUI();
             this.tpImageQuality = new System.Windows.Forms.TabPage();
             this.ucImageQuality = new ShareX.ImageQualityUI();
             this.btnCopyImage = new System.Windows.Forms.Button();
-            this.pbImage = new HelpersLib.MyPictureBox();
             this.tabControl1.SuspendLayout();
             this.tpActions.SuspendLayout();
             this.tpImageResize.SuspendLayout();
@@ -88,7 +88,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(618, 344);
+            this.tabControl1.Size = new System.Drawing.Size(618, 331);
             this.tabControl1.TabIndex = 0;
             // 
             // tpActions
@@ -97,10 +97,20 @@
             this.tpActions.Location = new System.Drawing.Point(4, 22);
             this.tpActions.Name = "tpActions";
             this.tpActions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpActions.Size = new System.Drawing.Size(610, 318);
+            this.tpActions.Size = new System.Drawing.Size(610, 305);
             this.tpActions.TabIndex = 0;
             this.tpActions.Text = "Actions";
             this.tpActions.UseVisualStyleBackColor = true;
+            // 
+            // pbImage
+            // 
+            this.pbImage.BackColor = System.Drawing.Color.White;
+            this.pbImage.DisableViewer = false;
+            this.pbImage.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pbImage.Location = new System.Drawing.Point(224, 3);
+            this.pbImage.Name = "pbImage";
+            this.pbImage.Size = new System.Drawing.Size(383, 299);
+            this.pbImage.TabIndex = 0;
             // 
             // tpImageResize
             // 
@@ -149,16 +159,6 @@
             this.btnCopyImage.Text = "Copy &Image and Close";
             this.btnCopyImage.UseVisualStyleBackColor = true;
             this.btnCopyImage.Click += new System.EventHandler(this.btnCopyImage_Click);
-            // 
-            // pbImage
-            // 
-            this.pbImage.BackColor = System.Drawing.Color.White;
-            this.pbImage.DisableViewer = false;
-            this.pbImage.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pbImage.Location = new System.Drawing.Point(224, 3);
-            this.pbImage.Name = "pbImage";
-            this.pbImage.Size = new System.Drawing.Size(383, 312);
-            this.pbImage.TabIndex = 0;
             // 
             // WindowAfterCapture
             // 
