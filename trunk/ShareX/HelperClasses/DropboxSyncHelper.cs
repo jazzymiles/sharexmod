@@ -41,14 +41,7 @@ namespace ShareX
                 bwLoad.DoWork += new DoWorkEventHandler(bwLoad_DoWork);
                 bwLoad.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bwLoad_RunWorkerCompleted);
                 bwLoad.RunWorkerAsync();
-
-                BackgroundWorker bwHistoryLoad = new BackgroundWorker();
-                bwHistoryLoad.DoWork += new DoWorkEventHandler(bwHistoryLoad_DoWork);
             }
-        }
-
-        private void bwHistoryLoad_DoWork(object sender, DoWorkEventArgs e)
-        {
         }
 
         private void bwLoad_DoWork(object sender, DoWorkEventArgs e)
@@ -122,11 +115,14 @@ namespace ShareX
 
                 BackgroundWorker bwSaveHistory = new BackgroundWorker();
                 bwSaveHistory.DoWork += new DoWorkEventHandler(bwSaveHistory_DoWork);
+                bwSaveHistory.RunWorkerAsync();
             }
         }
 
         private void bwSaveHistory_DoWork(object sender, DoWorkEventArgs e)
         {
+            if (dropbox.Upload(GetMemoryStream(File.ReadAllText(SettingsManager.HistoryFilePath)), pathDropboxHistory) != null)
+                log.InfoFormat("Updated {0}", pathDropboxHistory);
         }
 
         private void bwSave_DoWork(object sender, DoWorkEventArgs e)
