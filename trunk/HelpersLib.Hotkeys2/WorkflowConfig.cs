@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using HelpersLib;
+using HelpersLibMod;
 using UploadersLib;
 
 namespace HelpersLib.Hotkeys2
@@ -412,6 +413,7 @@ namespace HelpersLib.Hotkeys2
                     ShowAllUploaders();
                     gbSettings.Visible = true;
                     break;
+
                 case EHotkey.FileUpload:
                     ShowAllUploaders();
                     gbSettings.Visible = false;

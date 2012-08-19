@@ -32,6 +32,7 @@ using System.Threading;
 using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
+using HelpersLibMod;
 using HistoryLib;
 using ScreenCapture;
 using ShareX.Forms;
@@ -531,24 +532,29 @@ namespace ShareX
             {
                 case EListItemDoubleClickBehavior.DoNothing:
                     break;
+
                 case EListItemDoubleClickBehavior.OpenDirectory:
                     if (Directory.Exists(Path.GetDirectoryName(filepath)))
                         Helpers.OpenFolderWithFile(filepath);
                     break;
+
                 case EListItemDoubleClickBehavior.OpenFile:
                     if (File.Exists(filepath))
                         Process.Start(filepath);
                     break;
+
                 case EListItemDoubleClickBehavior.OpenFileOrUrl:
                     if (File.Exists(filepath))
                         Process.Start(filepath);
                     else if (!string.IsNullOrEmpty(link))
                         Helpers.LoadBrowserAsync(link);
                     break;
+
                 case EListItemDoubleClickBehavior.OpenUrl:
                     if (!string.IsNullOrEmpty(link))
                         Helpers.LoadBrowserAsync(link);
                     break;
+
                 case EListItemDoubleClickBehavior.OpenUrlOrFile:
                     if (!string.IsNullOrEmpty(link))
                         Helpers.LoadBrowserAsync(link);

@@ -61,6 +61,7 @@ namespace ShareX.HelperClasses
                 SettingsManager.UserConfigResetEvent.WaitOne();
 
             Filename = "Require image encoding...";
+            ConfigUser = SettingsManager.ConfigUser;
         }
 
         public ImageData(Image img, bool screenshot = false)
@@ -119,15 +120,19 @@ namespace ShareX.HelperClasses
                 case EImageFormat.PNG:
                     ext = "png";
                     break;
+
                 case EImageFormat.JPEG:
                     ext = "jpg";
                     break;
+
                 case EImageFormat.GIF:
                     ext = "gif";
                     break;
+
                 case EImageFormat.BMP:
                     ext = "bmp";
                     break;
+
                 case EImageFormat.TIFF:
                     ext = "tif";
                     break;
@@ -179,14 +184,17 @@ namespace ShareX.HelperClasses
                     width = img.Width * (ConfigUser.ImageScalePercentageWidth / 100f);
                     height = img.Height * (ConfigUser.ImageScalePercentageHeight / 100f);
                     break;
+
                 case ImageScaleType.Width:
                     width = ConfigUser.ImageScaleToWidth;
                     height = ConfigUser.ImageKeepAspectRatio ? img.Height * (width / img.Width) : img.Height;
                     break;
+
                 case ImageScaleType.Height:
                     height = ConfigUser.ImageScaleToHeight;
                     width = ConfigUser.ImageKeepAspectRatio ? img.Width * (height / img.Height) : img.Width;
                     break;
+
                 case ImageScaleType.Specific:
                     width = ConfigUser.ImageScaleSpecificWidth;
                     height = ConfigUser.ImageScaleSpecificHeight;

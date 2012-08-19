@@ -27,6 +27,7 @@ using System;
 using System.IO;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
+using HelpersLibMod;
 using HistoryLib;
 using ShareX.HelperClasses;
 using UploadersLib;
@@ -87,15 +88,19 @@ namespace ShareX
                 case EDataType.File:
                     _destination = DestConfig.ToStringFileUploaders();
                     break;
+
                 case EDataType.Image:
                     _destination = DestConfig.ToStringImageUploaders();
                     break;
+
                 case EDataType.Text:
                     _destination = DestConfig.ToStringTextUploaders();
                     break;
+
                 case EDataType.URL:
                     _destination = DestConfig.ToStringLinkUploaders();
                     break;
+
                 case EDataType.SocialNetworkingServiceRequest:
                     _destination = DestConfig.ToStringSocialNetworkingServices();
                     break;

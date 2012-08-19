@@ -19,3 +19,10 @@ Greenshot Image Editor Mods:
 - add Languages
 - add log4net.dll
 - modify CreateIniLocation
+
+Compatibility with ShareX: 
+
+- HistoryLib
+- ScreenCapture
+- ScreenCapture.Shapes
+- UploadersLib

@@ -1,4 +1,5 @@
-﻿namespace ShareX.Forms
+﻿using HelpersLib.UserControls;
+namespace ShareX.Forms
 {
     partial class OptionsWindow
     {
@@ -111,6 +112,7 @@
             this.ucImageResizeUI = new ShareX.ImageResizeUI();
             this.tpImageQuality2 = new System.Windows.Forms.TabPage();
             this.panelImageQuality = new System.Windows.Forms.Panel();
+            this.ucImageQualityUI = new ShareX.ImageQualityUI();
             this.tpPaths = new System.Windows.Forms.TabPage();
             this.panelPaths = new System.Windows.Forms.Panel();
             this.gbPathRoot = new System.Windows.Forms.GroupBox();
@@ -158,7 +160,6 @@
             this.tpUserConfig = new System.Windows.Forms.TabPage();
             this.panelUserConfig = new System.Windows.Forms.Panel();
             this.pgUserConfig = new System.Windows.Forms.PropertyGrid();
-            this.ucImageQualityUI = new ShareX.ImageQualityUI();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -555,7 +556,7 @@
             this.panelShapes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelShapes.Location = new System.Drawing.Point(3, 3);
             this.panelShapes.Name = "panelShapes";
-            this.panelShapes.Size = new System.Drawing.Size(537, 370);
+            this.panelShapes.Size = new System.Drawing.Size(537, 474);
             this.panelShapes.TabIndex = 0;
             // 
             // cbShapeForceWindowCapture
@@ -934,6 +935,13 @@
             this.panelImageQuality.Size = new System.Drawing.Size(537, 474);
             this.panelImageQuality.TabIndex = 0;
             // 
+            // ucImageQualityUI
+            // 
+            this.ucImageQualityUI.Location = new System.Drawing.Point(16, 16);
+            this.ucImageQualityUI.Name = "ucImageQualityUI";
+            this.ucImageQualityUI.Size = new System.Drawing.Size(382, 222);
+            this.ucImageQualityUI.TabIndex = 0;
+            // 
             // tpPaths
             // 
             this.tpPaths.Controls.Add(this.panelPaths);
@@ -1246,7 +1254,7 @@
             this.panelSync.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelSync.Location = new System.Drawing.Point(3, 3);
             this.panelSync.Name = "panelSync";
-            this.panelSync.Size = new System.Drawing.Size(537, 370);
+            this.panelSync.Size = new System.Drawing.Size(537, 474);
             this.panelSync.TabIndex = 0;
             // 
             // btnDropboxSyncExport
@@ -1255,7 +1263,7 @@
             this.btnDropboxSyncExport.Name = "btnDropboxSyncExport";
             this.btnDropboxSyncExport.Size = new System.Drawing.Size(184, 22);
             this.btnDropboxSyncExport.TabIndex = 1;
-            this.btnDropboxSyncExport.Text = "&Export Settings from Dropbox";
+            this.btnDropboxSyncExport.Text = "&Export Settings to Dropbox";
             this.btnDropboxSyncExport.UseVisualStyleBackColor = true;
             this.btnDropboxSyncExport.Click += new System.EventHandler(this.btnDropboxSyncExport_Click);
             // 
@@ -1287,7 +1295,7 @@
             this.panelFileNaming.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelFileNaming.Location = new System.Drawing.Point(3, 3);
             this.panelFileNaming.Name = "panelFileNaming";
-            this.panelFileNaming.Size = new System.Drawing.Size(537, 370);
+            this.panelFileNaming.Size = new System.Drawing.Size(537, 474);
             this.panelFileNaming.TabIndex = 0;
             // 
             // gbFilenamingPatternOthers
@@ -1385,7 +1393,7 @@
             this.panelUploaderConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelUploaderConfig.Location = new System.Drawing.Point(3, 3);
             this.panelUploaderConfig.Name = "panelUploaderConfig";
-            this.panelUploaderConfig.Size = new System.Drawing.Size(537, 370);
+            this.panelUploaderConfig.Size = new System.Drawing.Size(537, 474);
             this.panelUploaderConfig.TabIndex = 0;
             // 
             // pgUploaderConfig
@@ -1393,7 +1401,7 @@
             this.pgUploaderConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgUploaderConfig.Location = new System.Drawing.Point(0, 0);
             this.pgUploaderConfig.Name = "pgUploaderConfig";
-            this.pgUploaderConfig.Size = new System.Drawing.Size(537, 370);
+            this.pgUploaderConfig.Size = new System.Drawing.Size(537, 474);
             this.pgUploaderConfig.TabIndex = 0;
             // 
             // tpShapes2
@@ -1413,7 +1421,7 @@
             this.panelShapes2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelShapes2.Location = new System.Drawing.Point(3, 3);
             this.panelShapes2.Name = "panelShapes2";
-            this.panelShapes2.Size = new System.Drawing.Size(537, 370);
+            this.panelShapes2.Size = new System.Drawing.Size(537, 474);
             this.panelShapes2.TabIndex = 0;
             // 
             // pgShapes
@@ -1422,7 +1430,7 @@
             this.pgShapes.Location = new System.Drawing.Point(0, 0);
             this.pgShapes.Name = "pgShapes";
             this.pgShapes.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.pgShapes.Size = new System.Drawing.Size(537, 370);
+            this.pgShapes.Size = new System.Drawing.Size(537, 474);
             this.pgShapes.TabIndex = 0;
             this.pgShapes.ToolbarVisible = false;
             // 
@@ -1443,7 +1451,7 @@
             this.panelUserConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelUserConfig.Location = new System.Drawing.Point(3, 3);
             this.panelUserConfig.Name = "panelUserConfig";
-            this.panelUserConfig.Size = new System.Drawing.Size(537, 370);
+            this.panelUserConfig.Size = new System.Drawing.Size(537, 474);
             this.panelUserConfig.TabIndex = 0;
             // 
             // pgUserConfig
@@ -1451,16 +1459,8 @@
             this.pgUserConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgUserConfig.Location = new System.Drawing.Point(0, 0);
             this.pgUserConfig.Name = "pgUserConfig";
-            this.pgUserConfig.Size = new System.Drawing.Size(537, 370);
+            this.pgUserConfig.Size = new System.Drawing.Size(537, 474);
             this.pgUserConfig.TabIndex = 0;
-            // 
-            // ucImageQualityUI
-            // 
-
-            this.ucImageQualityUI.Location = new System.Drawing.Point(16, 16);
-            this.ucImageQualityUI.Name = "ucImageQualityUI";
-            this.ucImageQualityUI.Size = new System.Drawing.Size(382, 222);
-            this.ucImageQualityUI.TabIndex = 0;
             // 
             // OptionsWindow
             // 
@@ -1641,8 +1641,8 @@
         private System.Windows.Forms.TabPage tpUserConfig;
         private System.Windows.Forms.Panel panelUserConfig;
         private System.Windows.Forms.PropertyGrid pgUserConfig;
-        private HelpersLib.UserControls.AfterCaptureTasksUI ucAfterCaptureTasks;
-        private HelpersLib.UserControls.AfterUploadTasksUI ucAfterUploadTasks;
+        private AfterCaptureTasksUI ucAfterCaptureTasks;
+        private AfterUploadTasksUI ucAfterUploadTasks;
         private ImageResizeUI ucImageResizeUI;
         private ImageQualityUI ucImageQualityUI;
     }

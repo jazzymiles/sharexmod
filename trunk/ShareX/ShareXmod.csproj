@@ -243,6 +243,10 @@
       <Project>{B791C0EF-7DFD-4F2B-B004-91F7344EE146}</Project>
       <Name>HelpersLib.Hotkeys2</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HelpersLibMod\HelpersLibMod.csproj">
+      <Project>{a08691c6-5437-4e7b-8c8b-b576f7ce1b57}</Project>
+      <Name>HelpersLibMod</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HelpersLib\HelpersLib.csproj">
       <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
       <Name>HelpersLib</Name>
@@ -354,7 +358,6 @@
     <None Include="Resources\camera_add.png" />
     <None Include="Resources\world_link.png" />
     <None Include="Resources\image1.png" />
-    <Content Include="Todo.txt" />
     <None Include="Resources\Camera.wav" />
     <None Include="Resources\share2.png" />
     <None Include="Resources\folder.png" />

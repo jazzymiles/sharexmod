@@ -30,6 +30,7 @@ using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using HelpersLib;
+using HelpersLibMod;
 using HistoryLib;
 using ShareX.HelperClasses;
 using ShareX.Properties;
@@ -42,6 +43,7 @@ namespace ShareX
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static List<Task> Tasks;
+
         public static MyListView ListViewControl { get; set; }
 
         static TaskManager()
