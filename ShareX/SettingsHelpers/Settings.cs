@@ -30,6 +30,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
+using HelpersLibMod;
 using ScreenCapture;
 using UploadersLib;
 using UploadersLib.HelperClasses;

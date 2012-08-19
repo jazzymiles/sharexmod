@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
+using HelpersLibMod;
 using ShareX.Properties;
 using ShareX.SettingsHelpers;
 

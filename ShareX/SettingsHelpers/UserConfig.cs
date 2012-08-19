@@ -43,6 +43,10 @@ namespace ShareX.SettingsHelpers
         [Category(ComponentModelStrings.App), DefaultValue(EListItemDoubleClickBehavior.OpenDirectory), Description("Mouse double click behavior for items without a URL")]
         public EListItemDoubleClickBehavior ItemsWithoutUrlOnItemDoubleClick { get; set; }
 
+        // Image Editor
+        [Category(ComponentModelStrings.Screenshots), DefaultValue(EImageEditorOnKeyLock.None), Description("Automatically start Image Editor on a key press.")]
+        public EImageEditorOnKeyLock ImageEditorOnKeyPress { get; set; }
+
         public static void ApplyDefaultValues(object self)
         {
             foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(self))

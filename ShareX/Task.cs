@@ -33,6 +33,7 @@ using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.GraphicsHelper;
 using HelpersLib.Hotkeys2;
+using HelpersLibMod;
 using ShareX.HelperClasses;
 using ShareX.Properties;
 using UploadersLib;
@@ -448,6 +449,16 @@ namespace ShareX
 
         #region Upload Image
 
+        private bool ImageEditOnKeyPress
+        {
+            get
+            {
+                return Control.IsKeyLocked(Keys.CapsLock) && imageData.ConfigUser.ImageEditorOnKeyPress == EImageEditorOnKeyLock.CapsLock ||
+                 Control.IsKeyLocked(Keys.NumLock) && imageData.ConfigUser.ImageEditorOnKeyPress == EImageEditorOnKeyLock.NumLock ||
+                 Control.IsKeyLocked(Keys.Scroll) && imageData.ConfigUser.ImageEditorOnKeyPress == EImageEditorOnKeyLock.ScrollLock;
+            }
+        }
+
         private void DoBeforeImagePreparedJobs()
         {
             if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddTornEffect))
@@ -471,7 +482,7 @@ namespace ShareX
                 imageData.Image = new HelpersLibWatermark.WatermarkEffects(SettingsManager.ConfigUser.ConfigWatermark).ApplyWatermark(imageData.Image);
             }
 
-            if (Info.Jobs.HasFlag(Subtask.AnnotateImage))
+            if (Info.Jobs.HasFlag(Subtask.AnnotateImage) || ImageEditOnKeyPress)
             {
                 EditImage(ref imageData);
             }
@@ -723,6 +734,7 @@ namespace ShareX
                         Share = SettingsManager.ConfigUploaders.BoxShare
                     };
                     break;
+
                 case FileDestination.Ge_tt:
                     if (SettingsManager.ConfigUploaders.IsActive(FileDestination.Ge_tt))
                     {
@@ -732,6 +744,7 @@ namespace ShareX
                         };
                     }
                     break;
+
                 case FileDestination.CustomUploader:
                     if (SettingsManager.ConfigUploaders.CustomUploadersList.IsValidIndex(SettingsManager.ConfigUploaders.CustomUploaderSelected))
                     {

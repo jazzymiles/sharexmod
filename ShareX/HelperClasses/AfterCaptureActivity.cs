@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
+using HelpersLibMod;
 using UploadersLib;
 
 namespace ShareX.HelperClasses

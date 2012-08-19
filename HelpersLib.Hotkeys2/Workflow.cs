@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using HelpersLib.Hotkeys2;
+using HelpersLibMod;
 using UploadersLib;
 
 namespace HelpersLib.Hotkeys2

@@ -102,6 +102,10 @@
     <Compile Include="WorkflowSettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HelpersLibMod\HelpersLibMod.csproj">
+      <Project>{a08691c6-5437-4e7b-8c8b-b576f7ce1b57}</Project>
+      <Name>HelpersLibMod</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HelpersLib\HelpersLib.csproj">
       <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
       <Name>HelpersLib</Name>

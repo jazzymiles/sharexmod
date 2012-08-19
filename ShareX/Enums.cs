@@ -94,4 +94,19 @@ namespace ShareX
         [Description("Do nothing")]
         DoNothing,
     }
+
+    public enum EImageEditorOnKeyLock
+    {
+        [Description("None")]
+        None,
+
+        [Description("Caps Lock")]
+        CapsLock,
+
+        [Description("Num Lock")]
+        NumLock,
+
+        [Description("Scroll Lock")]
+        ScrollLock
+    }
 }

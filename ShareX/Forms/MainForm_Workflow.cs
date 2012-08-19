@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.Hotkeys2;
+using HelpersLibMod;
 using ScreenCapture;
 using ShareX.HelperClasses;
 using UploadersLib;
@@ -117,41 +118,54 @@ namespace ShareX
                 case EHotkey.ActiveMonitor:
                     imagedata_wf = CaptureActiveMonitor(autoHideForm);
                     break;
+
                 case EHotkey.ActiveWindow:
                     imagedata_wf = CaptureActiveWindow(autoHideForm);
                     break;
+
                 case EHotkey.ClipboardUpload:
                     jobs_wf.InputType = EInputType.Clipboard;
                     break;
+
                 case EHotkey.DiamondRegion:
                     break;
+
                 case EHotkey.EllipseRegion:
                     imagedata_wf = CaptureRegion(new EllipseRegion(), autoHideForm);
                     break;
+
                 case EHotkey.FileUpload:
                     jobs_wf.InputType = EInputType.FileSystem;
                     break;
+
                 case HelpersLib.Hotkeys2.EHotkey.FreeHandRegion:
                     imagedata_wf = CaptureRegion(new FreeHandRegion(), autoHideForm);
                     break;
+
                 case EHotkey.FullScreen:
                     imagedata_wf = CaptureScreen(autoHideForm);
                     break;
+
                 case EHotkey.LastRegion:
                     imagedata_wf = CaptureLastRegion(autoHideForm);
                     break;
+
                 case EHotkey.PolygonRegion:
                     imagedata_wf = CaptureRegion(new PolygonRegion(), autoHideForm);
                     break;
+
                 case EHotkey.RectangleRegion:
                     imagedata_wf = CaptureRegion(new RectangleRegion(), autoHideForm);
                     break;
+
                 case EHotkey.RoundedRectangleRegion:
                     imagedata_wf = CaptureRegion(new RoundedRectangleRegion(), autoHideForm);
                     break;
+
                 case EHotkey.TriangleRegion:
                     imagedata_wf = CaptureRegion(new TriangleRegion(), autoHideForm);
                     break;
+
                 case EHotkey.WindowRectangle:
                     imagedata_wf = WindowRectangleCapture(autoHideForm);
                     break;

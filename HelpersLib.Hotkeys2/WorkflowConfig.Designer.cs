@@ -1,4 +1,5 @@
-﻿namespace HelpersLib.Hotkeys2
+﻿using HelpersLib.UserControls;
+namespace HelpersLib.Hotkeys2
 {
     partial class WindowWorkflow
     {
@@ -593,7 +594,7 @@
         private System.Windows.Forms.ColumnHeader chActionsPath;
         private System.Windows.Forms.ColumnHeader chActionsArgs;
         private System.Windows.Forms.TabPage tpAfterCapture;
-        private UserControls.AfterCaptureTasksUI ucAfterCaptureTasks;
+        private AfterCaptureTasksUI ucAfterCaptureTasks;
         private System.Windows.Forms.TabPage tpSummary;
         private System.Windows.Forms.ComboBox cboCapture;
         private System.Windows.Forms.TabPage tpCapture;
