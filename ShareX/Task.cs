@@ -43,6 +43,7 @@ using UploadersLib.HelperClasses;
 using UploadersLib.ImageUploaders;
 using UploadersLib.TextUploaders;
 using UploadersLib.URLShorteners;
+using UploadersLibMod;
 
 namespace ShareX
 {
@@ -647,25 +648,25 @@ namespace ShareX
                 case TextDestination.Pastebin:
                     PastebinSettings pastebinSettings = SettingsManager.ConfigUploaders.PastebinSettings;
                     pastebinSettings.TextFormat = Workflow.Settings.DestConfig.TextFormat;
-                    textUploader = new PastebinUploader(ApiKeys.PastebinKey, pastebinSettings);
+                    textUploader = new Pastebin(ApiKeys.PastebinKey, pastebinSettings);
                     break;
 
                 case TextDestination.PastebinCA:
-                    textUploader = new PastebinCaUploader(ApiKeys.PastebinCaKey, new PastebinCaSettings()
+                    textUploader = new Pastebin_ca(ApiKeys.PastebinCaKey, new PastebinCaSettings()
                     {
                         TextFormat = Workflow.Settings.DestConfig.TextFormat
                     });
                     break;
 
                 case TextDestination.Paste2:
-                    textUploader = new Paste2Uploader(new Paste2Settings()
+                    textUploader = new Paste2(new Paste2Settings()
                     {
                         TextFormat = Workflow.Settings.DestConfig.TextFormat
                     });
                     break;
 
                 case TextDestination.Slexy:
-                    textUploader = new SlexyUploader(new SlexySettings()
+                    textUploader = new Slexy(new SlexySettings()
                     {
                         TextFormat = Workflow.Settings.DestConfig.TextFormat
                     });
@@ -679,8 +680,7 @@ namespace ShareX
             if (textUploader != null)
             {
                 PrepareUploader(textUploader);
-                string url = textUploader.UploadText(stream);
-                return new UploadResult(null, url);
+                return textUploader.UploadText(stream);
             }
 
             return null;
@@ -753,10 +753,10 @@ namespace ShareX
                     break;
 
                 case FileDestination.FTP:
-                    fileUploader = get_FtpAccountByFileExtensionSupport();
+                    // fileUploader = get_FtpAccountByFileExtensionSupport();
                     if (fileUploader == null)
                     {
-                        int idFtp = SettingsManager.ConfigUploaders.GetFtpIndex(Info.DataType);
+                        int idFtp = new UploadersConfigHelper(SettingsManager.ConfigUploaders).GetFtpIndex(Info.DataType);
                         if (SettingsManager.ConfigUploaders.FTPAccountList.IsValidIndex(idFtp))
                         {
                             FTPAccount account = SettingsManager.ConfigUploaders.FTPAccountList[idFtp];
@@ -844,6 +844,7 @@ namespace ShareX
             return null;
         }
 
+        /*
         /// <summary>
         /// Returns FTP/SFTP Uploader based on file extensions it supports
         /// </summary>
@@ -870,6 +871,7 @@ namespace ShareX
 
             return null;
         }
+        */
 
         #endregion Upload File
 
