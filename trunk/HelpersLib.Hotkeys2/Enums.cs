@@ -72,7 +72,7 @@ namespace HelpersLib.Hotkeys2
         [Description("Capture freehand region")]
         FreeHandRegion,
 
-        [Description("Last region")]
+        [Description("Capture Last region")]
         LastRegion
     }
 

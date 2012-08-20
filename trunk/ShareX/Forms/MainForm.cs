@@ -134,6 +134,19 @@ namespace ShareX
             }
         }
 
+        /// <summary>
+        /// This method is used to clear all checks in Uploader drop down items before DropBoxSync settings apply
+        /// </summary>
+        /// <param name="tsmi_parent"></param>
+        private void ClearToolStripMenuItems(ToolStripMenuItem tsmi_parent)
+        {
+            foreach (ToolStripItem tsmi in tsmi_parent.DropDownItems)
+            {
+                if (tsmi is ToolStripMenuItem)
+                    ((ToolStripMenuItem)tsmi).Checked = false;
+            }
+        }
+
         public void LoadSettings()
         {
             niTray.Visible = SettingsManager.ConfigCore.ShowTray;
@@ -147,21 +160,25 @@ namespace ShareX
 
             #region Upload Destinations
 
+            ClearToolStripMenuItems(tsmiImageUploaders);
             int imageUploaderIndex = Helpers.GetEnumMemberIndex(SettingsManager.ConfigCore.ImageUploaderDestination);
             ((ToolStripMenuItem)tsmiImageUploaders.DropDownItems[imageUploaderIndex]).Checked = true;
             ((ToolStripMenuItem)tsmiTrayImageUploaders.DropDownItems[imageUploaderIndex]).Checked = true;
             UploadManager.ImageUploader = SettingsManager.ConfigCore.ImageUploaderDestination;
 
+            ClearToolStripMenuItems(tsmiTextUploaders);
             int textUploaderIndex = Helpers.GetEnumMemberIndex(SettingsManager.ConfigCore.TextUploaderDestination);
             ((ToolStripMenuItem)tsmiTextUploaders.DropDownItems[textUploaderIndex]).Checked = true;
             ((ToolStripMenuItem)tsmiTrayTextUploaders.DropDownItems[textUploaderIndex]).Checked = true;
             UploadManager.TextUploader = SettingsManager.ConfigCore.TextUploaderDestination;
 
+            ClearToolStripMenuItems(tsmiFileUploaders);
             int fileUploaderIndex = Helpers.GetEnumMemberIndex(SettingsManager.ConfigCore.FileUploaderDestination);
             ((ToolStripMenuItem)tsmiFileUploaders.DropDownItems[fileUploaderIndex]).Checked = true;
             ((ToolStripMenuItem)tsmiTrayFileUploaders.DropDownItems[fileUploaderIndex]).Checked = true;
             UploadManager.FileUploader = SettingsManager.ConfigCore.FileUploaderDestination;
 
+            ClearToolStripMenuItems(tsmiURLShorteners);
             int urlShortenerIndex = Helpers.GetEnumMemberIndex(SettingsManager.ConfigCore.URLShortenerDestination);
             ((ToolStripMenuItem)tsmiURLShorteners.DropDownItems[urlShortenerIndex]).Checked = true;
             ((ToolStripMenuItem)tsmiTrayURLShorteners.DropDownItems[urlShortenerIndex]).Checked = true;

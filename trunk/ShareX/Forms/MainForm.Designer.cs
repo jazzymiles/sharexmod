@@ -107,6 +107,7 @@ namespace ShareX
             this.tsmiSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiWorkflows = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiWatermark = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiDebugOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.tsbAbout = new System.Windows.Forms.ToolStripButton();
             this.tsbDonate = new System.Windows.Forms.ToolStripButton();
@@ -151,7 +152,6 @@ namespace ShareX
             this.tsmiTrayDonate = new System.Windows.Forms.ToolStripMenuItem();
             this.tssTray2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiTrayExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsUploads.SuspendLayout();
             this.tsMain.SuspendLayout();
             this.tscMain.ContentPanel.SuspendLayout();
@@ -180,7 +180,7 @@ namespace ShareX
             this.tsmiContextMenuShare});
             this.cmsUploads.Name = "cmsUploads";
             this.cmsUploads.ShowItemToolTips = false;
-            this.cmsUploads.Size = new System.Drawing.Size(223, 334);
+            this.cmsUploads.Size = new System.Drawing.Size(223, 356);
             // 
             // openURLToolStripMenuItem
             // 
@@ -330,7 +330,7 @@ namespace ShareX
             this.tsMain.Name = "tsMain";
             this.tsMain.Padding = new System.Windows.Forms.Padding(4, 6, 4, 4);
             this.tsMain.ShowItemToolTips = false;
-            this.tsMain.Size = new System.Drawing.Size(937, 33);
+            this.tsMain.Size = new System.Drawing.Size(822, 33);
             this.tsMain.TabIndex = 0;
             this.tsMain.Text = "toolStrip1";
             // 
@@ -641,6 +641,11 @@ namespace ShareX
             this.tsmiWatermark.Size = new System.Drawing.Size(184, 22);
             this.tsmiWatermark.Text = "Watermark...";
             this.tsmiWatermark.Click += new System.EventHandler(this.tsmiWatermark_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(181, 6);
             // 
             // tsmiDebugOpen
             // 
@@ -1014,11 +1019,6 @@ namespace ShareX
             this.tsmiTrayExit.Size = new System.Drawing.Size(175, 22);
             this.tsmiTrayExit.Text = "Exit";
             this.tsmiTrayExit.Click += new System.EventHandler(this.tsmiTrayExit_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(181, 6);
             // 
             // MainForm
             // 
