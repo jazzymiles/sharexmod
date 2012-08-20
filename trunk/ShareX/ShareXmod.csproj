@@ -251,6 +251,10 @@
       <Project>{dbdb0daa-b3ae-4cc4-a8c2-20550b7f32e3}</Project>
       <Name>ScreenCapture</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\ShareX\trunk\UploadersLib\UploadersLib.csproj">
+      <Project>{e1c94415-3424-4517-a2a1-b2fdd1f59c67}</Project>
+      <Name>UploadersLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HelpersLib.Hotkeys2\HelpersLib.Hotkeys2.csproj">
       <Project>{B791C0EF-7DFD-4F2B-B004-91F7344EE146}</Project>
       <Name>HelpersLib.Hotkeys2</Name>
@@ -262,10 +266,6 @@
     <ProjectReference Include="..\..\..\ShareX\trunk\HistoryLib\HistoryLib.csproj">
       <Project>{E7DE6237-AEA2-498B-8F56-9B392472C490}</Project>
       <Name>HistoryLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UploadersLib\UploadersLib.csproj">
-      <Project>{E1C94415-3424-4517-A2A1-B2FDD1F59C67}</Project>
-      <Name>UploadersLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\HelpersLib.GraphicsHelper\HelpersLib.GraphicsHelper.csproj">
       <Project>{39CBF608-D7E7-405B-BCB4-A316BB76B562}</Project>
@@ -286,6 +286,10 @@
     <ProjectReference Include="..\Lib\Greenshot\Greenshot.csproj">
       <Project>{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}</Project>
       <Name>Greenshot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UploadersLibMod\UploadersLibMod.csproj">
+      <Project>{8e90666d-0921-41a3-a30c-52166c402404}</Project>
+      <Name>UploadersLibMod</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

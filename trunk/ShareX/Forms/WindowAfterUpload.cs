@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 using HelpersLib;
 using UploadersLib;
+using UploadersLibMod;
 
 namespace ShareX
 {
@@ -33,7 +34,7 @@ namespace ShareX
 
             foreach (LinkFormatEnum type in Enum.GetValues(typeof(LinkFormatEnum)))
             {
-                string url = info.Result.GetUrlByType(type, info.Result.URL);
+                string url = new UploadResultHelper(info.Result).GetUrlByType(type, info.Result.URL);
                 if (!string.IsNullOrEmpty(url))
                 {
                     TreeNode tviUrlType = new TreeNode();
