@@ -44,11 +44,15 @@ namespace ShareX
     {
         #region Main Form
 
+        // TODO: Remove after 7.1 is released
         public ImageDestination ImageUploaderDestination = ImageDestination.Imgur;
+
         public TextDestination TextUploaderDestination = TextDestination.Pastebin;
         public FileDestination FileUploaderDestination = FileDestination.Dropbox;
         public UrlShortenerType URLShortenerDestination = UrlShortenerType.Google;
         public SocialNetworkingService SocialNetworkingServiceDestination = SocialNetworkingService.Twitter;
+
+        public Workflow Workflow = new Workflow();
 
         public bool ShowClipboardContentViewer = true;
 
@@ -94,7 +98,7 @@ namespace ShareX
         public bool ShowCursor = false;
         public bool CaptureTransparent = true;
         public bool CaptureShadow = true;
-        public OutputEnum Outputs = OutputEnum.Clipboard | OutputEnum.LocalDisk | OutputEnum.RemoteHost;
+        public HelpersLibMod.OutputEnum Outputs = HelpersLibMod.OutputEnum.Clipboard | HelpersLibMod.OutputEnum.LocalDisk | HelpersLibMod.OutputEnum.RemoteHost;
         public Subtask AfterCaptureTasks = Subtask.CopyImageToClipboard | Subtask.SaveToFile | Subtask.UploadToRemoteHost;
         public AfterUploadTasks AfterUploadTasks = AfterUploadTasks.CopyURLToClipboard;
         public string SaveImageSubFolderPattern = "%y-%mo";

@@ -31,7 +31,8 @@ namespace HelpersLib.Hotkeys2
     public partial class HotkeyManagerControl : UserControl
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private HotkeyManager manager;
+        private HotkeyManager _manager;
+        private Workflow _workflow;
 
         public HotkeyManagerControl()
         {
@@ -48,12 +49,14 @@ namespace HelpersLib.Hotkeys2
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        public void PrepareHotkeys(HotkeyManager hotkeyManager)
+        public void PrepareHotkeys(HotkeyManager hotkeyManager, Workflow workflow)
         {
             if (hotkeyManager != null)
             {
-                manager = hotkeyManager;
-                log.DebugFormat("{0} hotkeys are ready.", manager.Workflows.Count);
+                _manager = hotkeyManager;
+                _workflow = workflow;
+
+                log.DebugFormat("{0} hotkeys are ready.", _manager.Workflows.Count);
 
                 flpHotkeys.Controls.Clear();
                 foreach (Control ctl in this.Controls)
@@ -61,7 +64,7 @@ namespace HelpersLib.Hotkeys2
                     ctl.Enabled = true;
                 }
 
-                foreach (Workflow wf in manager.Workflows)
+                foreach (Workflow wf in _manager.Workflows)
                 {
                     HotkeySelectionControl control = new HotkeySelectionControl(wf);
                     control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
@@ -88,7 +91,7 @@ namespace HelpersLib.Hotkeys2
         private void control_HotkeyChanged(object sender, EventArgs e)
         {
             HotkeySelectionControl control = (HotkeySelectionControl)sender;
-            manager.UpdateHotkey(control.Workflow.HotkeyConfig);
+            _manager.UpdateHotkey(control.Workflow.HotkeyConfig);
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -98,7 +101,7 @@ namespace HelpersLib.Hotkeys2
 
             if (wwf.ShowDialog() == DialogResult.OK)
             {
-                manager.Workflows.Add(wf);
+                _manager.Workflows.Add(wf);
                 HotkeySelectionControl control = new HotkeySelectionControl(wf);
                 control.HotkeyChanged += new EventHandler(control_HotkeyChanged);
                 flpHotkeys.Controls.Add(control);
@@ -140,7 +143,7 @@ namespace HelpersLib.Hotkeys2
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                         {
                             flpHotkeys.Controls.Remove(hksc);
-                            manager.Workflows.Remove(hksc.Workflow);
+                            _manager.Workflows.Remove(hksc.Workflow);
                         }
                     }
                     else
@@ -153,6 +156,20 @@ namespace HelpersLib.Hotkeys2
             if (userError)
                 MessageBox.Show("You cannot remove application generated workflows. \n\nHowever, you can configure them.",
                     Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void btnApplyDefaults_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure that you want to apply default settings for the selected workfows?", Application.ProductName,
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            {
+                foreach (HotkeySelectionControl hksc in flpHotkeys.Controls)
+                {
+                    HotkeySetting hotkeyConfig = hksc.Workflow.HotkeyConfig;
+                    hksc.Workflow = _workflow.Clone();
+                    hksc.Workflow.HotkeyConfig = hotkeyConfig;
+                }
+            }
         }
     }
 }

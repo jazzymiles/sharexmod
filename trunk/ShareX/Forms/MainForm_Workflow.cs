@@ -171,8 +171,8 @@ namespace ShareX
 
             if (jobs_wf.Workflow.Settings.PerformGlobalAfterCaptureTasks)
             {
-                jobs_wf.Workflow.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
-                jobs_wf.Workflow.AfterUploadTasks |= SettingsManager.ConfigCore.AfterUploadTasks;
+                jobs_wf.Workflow.Subtasks |= SettingsManager.ConfigCore.Workflow.Subtasks;
+                jobs_wf.Workflow.AfterUploadTasks |= SettingsManager.ConfigCore.Workflow.AfterUploadTasks;
             }
 
             AfterHotkeyPressed(imagedata_wf, jobs_wf);
@@ -191,7 +191,7 @@ namespace ShareX
             if (imageData != null)
             {
                 if (act.Workflow.Subtasks == Subtask.None)
-                    act.Workflow.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
+                    act.Workflow.Subtasks |= SettingsManager.ConfigCore.Workflow.Subtasks;
                 if (act.Workflow.Settings.DestConfig.ImageUploaders.Count > 0)
                     act.Workflow.Subtasks |= Subtask.UploadToRemoteHost;
                 log.Debug("After Capture initiated.");
@@ -200,7 +200,7 @@ namespace ShareX
             else if (act.InputType == EInputType.Clipboard)
             {
                 if (act.Workflow.Subtasks == Subtask.None)
-                    act.Workflow.Subtasks |= SettingsManager.ConfigCore.AfterCaptureTasks;
+                    act.Workflow.Subtasks |= SettingsManager.ConfigCore.Workflow.Subtasks;
 
                 log.Debug("ClipboardUpload initiated.");
                 UploadManager.ClipboardUpload(act);

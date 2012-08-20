@@ -130,8 +130,8 @@ namespace ShareX.Forms
             cbBufferSize.SelectedIndex = SettingsManager.ConfigCore.BufferSizePower.Between(0, MaxBufferSizePower);
 
             // Capture
-            ucAfterCaptureTasks.ConfigUI(SettingsManager.ConfigCore.AfterCaptureTasks, chkAfterCaptureTask_CheckedChanged);
-            ucAfterUploadTasks.ConfigUI(SettingsManager.ConfigCore.AfterUploadTasks, chkAfterUploadTask_CheckedChanged);
+            ucAfterCaptureTasks.ConfigUI(SettingsManager.ConfigCore.Workflow.Subtasks, chkAfterCaptureTask_CheckedChanged);
+            ucAfterUploadTasks.ConfigUI(SettingsManager.ConfigCore.Workflow.AfterUploadTasks, chkAfterUploadTask_CheckedChanged);
 
             cbShowCursor.Checked = SettingsManager.ConfigCore.ShowCursor;
             cbCaptureTransparent.Checked = SettingsManager.ConfigCore.CaptureTransparent;
@@ -184,9 +184,9 @@ namespace ShareX.Forms
         {
             CheckBox chkAfterCaptureTask = sender as CheckBox;
             if (chkAfterCaptureTask.Checked)
-                SettingsManager.ConfigCore.AfterCaptureTasks |= (Subtask)chkAfterCaptureTask.Tag;
+                SettingsManager.ConfigCore.Workflow.Subtasks |= (Subtask)chkAfterCaptureTask.Tag;
             else
-                SettingsManager.ConfigCore.AfterCaptureTasks &= ~(Subtask)chkAfterCaptureTask.Tag;
+                SettingsManager.ConfigCore.Workflow.Subtasks &= ~(Subtask)chkAfterCaptureTask.Tag;
         }
 
         private void chkAfterUploadTask_CheckedChanged(object sender, EventArgs e)
@@ -195,9 +195,9 @@ namespace ShareX.Forms
             AfterUploadTasks task = (AfterUploadTasks)chkAfterUploadTask.Tag;
 
             if (chkAfterUploadTask.Checked)
-                SettingsManager.ConfigCore.AfterUploadTasks |= (AfterUploadTasks)chkAfterUploadTask.Tag;
+                SettingsManager.ConfigCore.Workflow.AfterUploadTasks |= (AfterUploadTasks)chkAfterUploadTask.Tag;
             else
-                SettingsManager.ConfigCore.AfterUploadTasks &= ~(AfterUploadTasks)chkAfterUploadTask.Tag;
+                SettingsManager.ConfigCore.Workflow.AfterUploadTasks &= ~(AfterUploadTasks)chkAfterUploadTask.Tag;
         }
 
         private void BeforeClose()

@@ -50,7 +50,7 @@ namespace ShareX
         /// </summary>
         public static void ShowWorkflowManager()
         {
-            _WorkflowManager = new WorkflowManager(FormsHelper.Main.HotkeyManager) { Icon = Resources.ShareX };
+            _WorkflowManager = new WorkflowManager(FormsHelper.Main.HotkeyManager, SettingsManager.ConfigCore.Workflow) { Icon = Resources.ShareX };
             _WorkflowManager.ShowDialog();
             _WorkflowManager.Activate();
 
