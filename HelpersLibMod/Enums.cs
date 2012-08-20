@@ -64,4 +64,27 @@ namespace HelpersLibMod
         [Description("Copy URL to clipboard")]
         CopyURLToClipboard = 1 << 2
     }
+
+
+    [Flags]
+    public enum OutputEnum
+    {
+        [Description("Clipboard")]
+        Clipboard = 0,
+
+        [Description("Local disk")]
+        LocalDisk = 2 << 0,
+
+        [Description("Remote host")]
+        RemoteHost = 2 << 1,
+
+        [Description("E-mail")]
+        Email = 2 << 2,
+
+        [Description("Printer")]
+        Printer = 2 << 3,
+
+        [Description("Shared folder")]
+        SharedFolder = 2 << 4
+    }
 }

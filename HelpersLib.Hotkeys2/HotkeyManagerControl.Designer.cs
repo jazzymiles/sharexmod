@@ -34,6 +34,7 @@
             this.btnConfigure = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblHelp = new System.Windows.Forms.Label();
+            this.btnApplyDefaults = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -98,10 +99,21 @@
             this.lblHelp.Size = new System.Drawing.Size(0, 13);
             this.lblHelp.TabIndex = 3;
             // 
+            // btnApplyDefaults
+            // 
+            this.btnApplyDefaults.Location = new System.Drawing.Point(248, 8);
+            this.btnApplyDefaults.Name = "btnApplyDefaults";
+            this.btnApplyDefaults.Size = new System.Drawing.Size(138, 22);
+            this.btnApplyDefaults.TabIndex = 5;
+            this.btnApplyDefaults.Text = "Apply &Default Settings...";
+            this.btnApplyDefaults.UseVisualStyleBackColor = true;
+            this.btnApplyDefaults.Click += new System.EventHandler(this.btnApplyDefaults_Click);
+            // 
             // HotkeyManagerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnApplyDefaults);
             this.Controls.Add(this.lblHelp);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnConfigure);
@@ -123,5 +135,6 @@
         private System.Windows.Forms.Button btnConfigure;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblHelp;
+        private System.Windows.Forms.Button btnApplyDefaults;
     }
 }

@@ -169,6 +169,18 @@ namespace ShareX
 
             UpdateUploaderMenuNames();
 
+            if (SettingsManager.ConfigCore.Workflow.Settings.DestConfig.IsEmptyAll)
+            {
+                SettingsManager.ConfigCore.Workflow.Settings.DestConfig.ImageUploaders.Add(UploadManager.ImageUploader);
+                SettingsManager.ConfigCore.Workflow.Settings.DestConfig.TextUploaders.Add(UploadManager.TextUploader);
+                SettingsManager.ConfigCore.Workflow.Settings.DestConfig.FileUploaders.Add(UploadManager.FileUploader);
+                SettingsManager.ConfigCore.Workflow.Settings.DestConfig.LinkUploaders.Add(UploadManager.URLShortener);
+                SettingsManager.ConfigCore.Workflow.Settings.DestConfig.SocialNetworkingServices.Add(UploadManager.SocialNetworkingService);
+
+                SettingsManager.ConfigCore.Workflow.Subtasks = SettingsManager.ConfigCore.AfterCaptureTasks;
+                SettingsManager.ConfigCore.Workflow.AfterUploadTasks = SettingsManager.ConfigCore.AfterUploadTasks;
+            }
+
             #endregion Upload Destinations
 
             UploadManager.UpdateProxySettings();
@@ -178,7 +190,7 @@ namespace ShareX
         {
             #region Outputs
 
-            var outputs = Enum.GetValues(typeof(OutputEnum)).Cast<OutputEnum>().Select(x => new
+            var outputs = Enum.GetValues(typeof(HelpersLibMod.OutputEnum)).Cast<HelpersLibMod.OutputEnum>().Select(x => new
     {
         Description = x.GetDescription(),
         Enum = x
@@ -213,7 +225,7 @@ namespace ShareX
                     continue;
 
                 ToolStripMenuItem tsmi = new ToolStripMenuItem(task.Description);
-                tsmi.Checked = SettingsManager.ConfigCore.AfterCaptureTasks.HasFlag(task.Enum);
+                tsmi.Checked = SettingsManager.ConfigCore.Workflow.Subtasks.HasFlag(task.Enum);
                 tsmi.Tag = task.Enum;
                 tsmi.CheckOnClick = true;
                 tsmi.CheckedChanged += new EventHandler(tsmiAfterCaptureTask_CheckedChanged);
@@ -236,7 +248,7 @@ namespace ShareX
                     continue;
 
                 ToolStripMenuItem tsmi = new ToolStripMenuItem(task.Description);
-                tsmi.Checked = SettingsManager.ConfigCore.AfterUploadTasks.HasFlag(task.Enum);
+                tsmi.Checked = SettingsManager.ConfigCore.Workflow.AfterUploadTasks.HasFlag(task.Enum);
                 tsmi.Tag = task.Enum;
                 tsmi.CheckOnClick = true;
                 tsmi.CheckedChanged += new EventHandler(tsmiAfterUploadTasks_CheckedChanged);
@@ -248,29 +260,29 @@ namespace ShareX
         {
             ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
             if (tsmi.Checked)
-                SettingsManager.ConfigCore.AfterUploadTasks |= (AfterUploadTasks)tsmi.Tag;
+                SettingsManager.ConfigCore.Workflow.AfterUploadTasks |= (AfterUploadTasks)tsmi.Tag;
             else
-                SettingsManager.ConfigCore.AfterUploadTasks &= ~(AfterUploadTasks)tsmi.Tag;
+                SettingsManager.ConfigCore.Workflow.AfterUploadTasks &= ~(AfterUploadTasks)tsmi.Tag;
         }
 
         private void tsmiAfterCaptureTask_CheckedChanged(object sender, EventArgs e)
         {
             ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
             if (tsmi.Checked)
-                SettingsManager.ConfigCore.AfterCaptureTasks |= (Subtask)tsmi.Tag;
+                SettingsManager.ConfigCore.Workflow.Subtasks |= (Subtask)tsmi.Tag;
             else
-                SettingsManager.ConfigCore.AfterCaptureTasks &= ~(Subtask)tsmi.Tag;
+                SettingsManager.ConfigCore.Workflow.Subtasks &= ~(Subtask)tsmi.Tag;
         }
 
         private void tsmiOutputs_CheckedChanged(object sender, EventArgs e)
         {
             ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
             if (tsmi.Checked)
-                SettingsManager.ConfigCore.Outputs |= (OutputEnum)tsmi.Tag;
+                SettingsManager.ConfigCore.Outputs |= (HelpersLibMod.OutputEnum)tsmi.Tag;
             else
-                SettingsManager.ConfigCore.Outputs &= ~(OutputEnum)tsmi.Tag;
+                SettingsManager.ConfigCore.Outputs &= ~(HelpersLibMod.OutputEnum)tsmi.Tag;
 
-            tsddbDestinations.Visible = SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.RemoteHost);
+            tsddbDestinations.Visible = SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.RemoteHost);
         }
 
         private void InitControls()

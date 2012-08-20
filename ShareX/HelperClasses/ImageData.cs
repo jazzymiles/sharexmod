@@ -227,7 +227,7 @@ namespace ShareX.HelperClasses
         /// <returns></returns>
         public string WriteToFile(string folderPath)
         {
-            if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.LocalDisk))
+            if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.LocalDisk))
             {
                 if (ImageStream == null)
                 {

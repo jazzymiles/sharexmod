@@ -213,22 +213,22 @@ namespace ShareX
         {
             DoThreadJob();
 
-            if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.Email))
+            if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.Email))
             {
                 UploadFile_Email(data);
             }
 
-            if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.SharedFolder))
+            if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.SharedFolder))
             {
                 UploadFile_SharedFolder(data);
             }
 
-            if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.Printer))
+            if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.Printer))
             {
                 threadWorker.InvokeAsync(UploadFile_Print);
             }
 
-            if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.RemoteHost) && Info.Jobs.HasFlag(Subtask.UploadToRemoteHost))
+            if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.RemoteHost) && Info.Jobs.HasFlag(Subtask.UploadToRemoteHost))
             {
                 if (SettingsManager.ConfigUploaders == null)
                     SettingsManager.UploaderSettingsResetEvent.WaitOne();
@@ -495,7 +495,7 @@ namespace ShareX
                 imageData.Image = dlg.GetImageForExport();
             }
 
-            if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.Clipboard) &&
+            if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.Clipboard) &&
                 Info.Job == TaskJob.ImageUpload && imageData != null && Info.Jobs.HasFlag(Subtask.CopyImageToClipboard))
             {
                 Clipboard.SetImage(imageData.Image);

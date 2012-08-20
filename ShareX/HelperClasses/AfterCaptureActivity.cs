@@ -29,7 +29,7 @@ namespace ShareX.HelperClasses
         {
             AfterCaptureActivity act = new AfterCaptureActivity();
             act.Workflow = new Workflow();
-            act.Workflow.Subtasks = SettingsManager.ConfigCore.AfterCaptureTasks;
+            act.Workflow.Subtasks = SettingsManager.ConfigCore.Workflow.Subtasks;
             act.GetDefaults();
 
             return act;
@@ -66,7 +66,7 @@ namespace ShareX.HelperClasses
             //     this.Uploaders.LinkUploaders.Add(UploadManager.URLShortener);
 
             if (this.Workflow.Subtasks == Subtask.None)
-                this.Workflow.Subtasks = SettingsManager.ConfigCore.AfterCaptureTasks;
+                this.Workflow.Subtasks = SettingsManager.ConfigCore.Workflow.Subtasks;
         }
     }
 }

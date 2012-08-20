@@ -19,7 +19,7 @@ namespace HelpersLib.Hotkeys2
         /// </summary>
         public List<EActivity> Activities = new List<EActivity>();
 
-        public Subtask Subtasks = Subtask.CopyImageToClipboard;
+        public Subtask Subtasks = Subtask.CopyImageToClipboard | Subtask.SaveToFile;
         public AfterUploadTasks AfterUploadTasks = AfterUploadTasks.CopyURLToClipboard;
         public WorkflowSettings Settings = new WorkflowSettings();
 
@@ -30,9 +30,11 @@ namespace HelpersLib.Hotkeys2
 
         public Workflow Clone()
         {
-            Workflow wf_clone = new Workflow(Hotkey, HotkeyConfig);
+            Workflow wf_clone = new Workflow();
 
+            wf_clone.Hotkey = Hotkey;
             wf_clone.Subtasks = this.Subtasks;
+            wf_clone.AfterUploadTasks = this.AfterUploadTasks;
 
             wf_clone.Settings.PerformGlobalAfterCaptureTasks = this.Settings.PerformGlobalAfterCaptureTasks;
             wf_clone.Settings.DestConfig = this.Settings.DestConfig.Clone();

@@ -274,8 +274,8 @@ namespace ShareX
 
                         if (!string.IsNullOrEmpty(url_or_filepath))
                         {
-                            if (SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.Clipboard) &&
-                                SettingsManager.ConfigCore.AfterUploadTasks.HasFlag(AfterUploadTasks.CopyURLToClipboard))
+                            if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.Clipboard) &&
+                                SettingsManager.ConfigCore.Workflow.AfterUploadTasks.HasFlag(AfterUploadTasks.CopyURLToClipboard))
                             {
                                 Helpers.CopyTextSafely(url_or_filepath);
                             }
