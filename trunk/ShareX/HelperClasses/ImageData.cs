@@ -27,6 +27,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using HelpersLib;
+using HelpersLibMod;
 using ShareX.SettingsHelpers;
 using UploadersLib;
 
@@ -89,7 +90,7 @@ namespace ShareX.HelperClasses
             ImageData id = null;
             if (File.Exists(fp))
             {
-                id = new ImageData(Helpers.ImageFromFile(fp));
+                id = new ImageData(HelpersMod.ImageFromFile(fp));
             }
             return id;
         }
@@ -106,7 +107,7 @@ namespace ShareX.HelperClasses
             if (wtLenMax > 0 && windowText.Length > wtLenMax)
                 windowText = windowText.Substring(0, wtLenMax);
 
-            NameParser parser = new NameParser { Picture = this.Image, WindowText = windowText };
+            NameParser parser = new NameParser(NameParserType.FileName) { Picture = this.Image, WindowText = windowText };
 
             return parser.Convert(SettingsManager.ConfigCore.NameFormatPattern);
         }

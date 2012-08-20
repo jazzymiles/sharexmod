@@ -26,6 +26,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing.Design;
+using System.IO;
 using HelpersLib;
 using Starksoft.Net.Ftp;
 using UploadersLib.HelperClasses;
@@ -64,7 +65,7 @@ namespace UploadersLib
         [Category("FTP"), Description("Choose an appropriate protocol to be accessed by the browser"), DefaultValue(BrowserProtocol.Http)]
         public BrowserProtocol BrowserProtocol { get; set; }
 
-        [Category("FTP"), Description("HTTP Home Path, %host = Host e.g. google.com\nURL = HttpHomePath (+ SubFolderPath, if HttpHomePath does not start with @) + FileName\nURL = Host + SubFolderPath + FileName (if HttpHomePath is empty)"), DefaultValue("")]
+        [Category("FTP"), Description("URL = HttpHomePath + SubFolderPath + FileName\r\nIf HttpHomePath is empty: URL = Host + SubFolderPath + FileName\r\n%host = Host, @ = Ignore auto SubFolderPath"), DefaultValue("")]
         public string HttpHomePath { get; set; }
 
         [Category("FTP"), Description("Don't add file extension to URL"), DefaultValue(false)]
@@ -123,7 +124,19 @@ namespace UploadersLib
 
         public FTPAccount()
         {
-            ApplyDefaultValues(this);
+            Protocol = FTPProtocol.FTP;
+            Name = "New Account";
+            Host = "host";
+            Port = 21;
+            Username = "username";
+            Password = "password";
+            ServerProtocol = ServerProtocol.Ftp;
+            SubFolderPath = string.Empty;
+            BrowserProtocol = BrowserProtocol.Http;
+            HttpHomePath = string.Empty;
+            HttpHomePathNoExtension = false;
+            IsActive = false;
+            FtpsSecurityProtocol = FtpSecurityProtocol.Ssl2Explicit;
         }
 
         public FTPAccount(string name)
@@ -132,111 +145,91 @@ namespace UploadersLib
             Name = name;
         }
 
-        public static void ApplyDefaultValues(object self)
-        {
-            foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(self))
-            {
-                DefaultValueAttribute attr = prop.Attributes[typeof(DefaultValueAttribute)] as DefaultValueAttribute;
-                if (attr == null) continue;
-                prop.SetValue(self, attr.Value);
-            }
-        }
-
         public string GetSubFolderPath()
         {
-            NameParser parser = new NameParser { Host = this.Host, IsFolderPath = true };
-            return parser.Convert(this.SubFolderPath);
+            NameParser parser = new NameParser(NameParserType.URL) { Host = Host };
+            return parser.Convert(SubFolderPath);
         }
 
-        public string GetSubFolderPath(string fileName)
+        public string GetSubFolderPath(string filename)
         {
-            return FTPHelpers.CombineURL(GetSubFolderPath(), fileName);
+            return Helpers.CombineURL(GetSubFolderPath(), filename);
         }
 
-        public string GetHttpHomePath()
+        public string GetUriPath(string filename)
         {
-            NameParser parser = new NameParser { Host = this.Host, IsFolderPath = true };
-            HttpHomePath = parser.RemovePrefixes(HttpHomePath);
-            return parser.Convert(HttpHomePath);
-        }
-
-        public string GetUriPath(string fileName)
-        {
-            return GetUriPath(fileName, false);
-        }
-
-        public string GetUriPath(string fileName, bool customPath)
-        {
-            if (string.IsNullOrEmpty(this.Host))
+            if (string.IsNullOrEmpty(Host))
             {
                 return string.Empty;
             }
 
-            string path = string.Empty;
-            string host = this.Host;
-            string lHttpHomePath = GetHttpHomePath();
-            string lFolderPath = GetSubFolderPath();
-
             if (HttpHomePathNoExtension)
             {
-                int index = fileName.LastIndexOf('.');
-                if (index > -1)
+                filename = Path.GetFileNameWithoutExtension(filename);
+            }
+
+            string path = string.Empty;
+
+            HttpHomePath = FTPHelpers.RemovePrefixes(HttpHomePath);
+            NameParser nameParser = new NameParser(NameParserType.URL) { Host = Host };
+            string httpHomePath = nameParser.Convert(HttpHomePath);
+
+            string subFolderPath = GetSubFolderPath();
+            string browserProtocol = BrowserProtocol.GetDescription();
+
+            if (string.IsNullOrEmpty(httpHomePath))
+            {
+                string host = Host;
+
+                if (host.StartsWith("ftp."))
                 {
-                    fileName = fileName.Remove(index);
+                    host = host.Substring(4);
                 }
-            }
 
-            if (host.StartsWith("ftp."))
-            {
-                host = host.Remove(0, 4);
-            }
-
-            if (lHttpHomePath.StartsWith("@") || customPath)
-            {
-                lFolderPath = string.Empty;
-            }
-
-            if (string.IsNullOrEmpty(lHttpHomePath))
-            {
-                path = FTPHelpers.CombineURL(host, lFolderPath, fileName);
+                path = Helpers.CombineURL(host, subFolderPath, filename);
             }
             else
             {
-                string httppath = lHttpHomePath.Replace("%host", host).TrimStart('@');
-                path = FTPHelpers.CombineURL(httppath, lFolderPath, fileName);
+                if (!httpHomePath.StartsWith("@"))
+                {
+                    path = Helpers.CombineURL(httpHomePath, subFolderPath);
+                }
+                else
+                {
+                    path = httpHomePath.Substring(1);
+                }
+
+                if (path.EndsWith("="))
+                {
+                    path += filename;
+                }
+                else
+                {
+                    path = Helpers.CombineURL(path, filename);
+                }
             }
 
-            if (!path.StartsWith(BrowserProtocol.GetDescription()))
+            if (!path.StartsWith(browserProtocol))
             {
-                switch (BrowserProtocol)
-                {
-                    case BrowserProtocol.ServerProtocol:
-                        path = FTPHelpers.CombineURL(FTPAddress, lFolderPath, fileName);
-                        break;
-                    default:
-                        path = BrowserProtocol.GetDescription() + path;
-                        break;
-                }
+                path = browserProtocol + path;
             }
 
             return path;
         }
 
-        public string GetFtpPath(string fileName)
+        public string GetFtpPath(string filemame)
         {
-            string ftpAddress = FTPAddress;
-
-            if (string.IsNullOrEmpty(ftpAddress))
+            if (string.IsNullOrEmpty(FTPAddress))
             {
                 return string.Empty;
             }
 
-            return FTPHelpers.CombineURL(ftpAddress, GetSubFolderPath(fileName));
+            return Helpers.CombineURL(FTPAddress, GetSubFolderPath(filemame));
         }
 
         public override string ToString()
         {
-            return string.Format("{0} - {1}:{2}", this.Name, this.Host, this.Port);
+            return string.Format("{0} - {1}:{2}", Name, Host, Port);
         }
 
         public FTPAccount Clone()

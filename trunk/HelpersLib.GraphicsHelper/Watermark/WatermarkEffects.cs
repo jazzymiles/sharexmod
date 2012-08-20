@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.GraphicsHelper;
 using HelpersLibGradient;
+using HelpersLibMod;
 using HelpersLibWatermark;
 
 namespace HelpersLibWatermark
@@ -66,7 +67,7 @@ namespace HelpersLibWatermark
         {
             if (parser == null)
             {
-                parser = new NameParser(NameParserType.Watermark) { IsPreview = true, Picture = img };
+                parser = new NameParser(NameParserType.Text) { Picture = img };
             }
             return ApplyWatermark(img, parser, Config.WatermarkMode);
         }
@@ -93,7 +94,7 @@ namespace HelpersLibWatermark
                 if (!string.IsNullOrEmpty(imgPath) && File.Exists(imgPath))
                 {
                     int offset = (int)Config.WatermarkOffset;
-                    Image img2 = Helpers.ImageFromFile(imgPath);
+                    Image img2 = HelpersLibMod.HelpersMod.ImageFromFile(imgPath);
                     img2 = GraphicsHelper.ChangeImageSize((Bitmap)img2, (float)Config.WatermarkImageScale);
                     Point imgPos = FindPosition(Config.WatermarkPositionMode, offset, img.Size, img2.Size, 0);
                     if (Config.WatermarkAutoHide && ((img.Width < img2.Width + offset) ||
@@ -132,27 +133,35 @@ namespace HelpersLibWatermark
                 case WatermarkPositionType.TOP_LEFT:
                     position = new Point(offset, offset);
                     break;
+
                 case WatermarkPositionType.TOP_RIGHT:
                     position = new Point(img.Width - img2.Width - offset - add, offset);
                     break;
+
                 case WatermarkPositionType.BOTTOM_LEFT:
                     position = new Point(offset, img.Height - img2.Height - offset - add);
                     break;
+
                 case WatermarkPositionType.BOTTOM_RIGHT:
                     position = new Point(img.Width - img2.Width - offset - add, img.Height - img2.Height - offset - add);
                     break;
+
                 case WatermarkPositionType.CENTER:
                     position = new Point(img.Width / 2 - img2.Width / 2 - add, img.Height / 2 - img2.Height / 2 - add);
                     break;
+
                 case WatermarkPositionType.LEFT:
                     position = new Point(offset, img.Height / 2 - img2.Height / 2 - add);
                     break;
+
                 case WatermarkPositionType.TOP:
                     position = new Point(img.Width / 2 - img2.Width / 2 - add, offset);
                     break;
+
                 case WatermarkPositionType.RIGHT:
                     position = new Point(img.Width - img2.Width - offset - add, img.Height / 2 - img2.Height / 2 - add);
                     break;
+
                 case WatermarkPositionType.BOTTOM:
                     position = new Point(img.Width / 2 - img2.Width / 2 - add, img.Height - img2.Height - offset - add);
                     break;

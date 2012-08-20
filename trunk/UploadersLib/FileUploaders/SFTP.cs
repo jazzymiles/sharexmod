@@ -27,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using HelpersLib;
 using Renci.SshNet;
 using Renci.SshNet.Common;
@@ -183,9 +182,9 @@ namespace UploadersLib.FileUploaders
 
             if (Connect())
             {
-                fileName = FTPHelpers.FixFilename(fileName);
+                fileName = Helpers.GetValidURL(fileName);
                 string folderPath = Account.GetSubFolderPath();
-                string filePath = FTPHelpers.CombineURL(folderPath, fileName);
+                string filePath = Helpers.CombineURL(folderPath, fileName);
 
                 try
                 {

@@ -100,7 +100,7 @@ namespace ShareX
         {
             get
             {
-                string subFolderName = new NameParser(NameParserType.SaveFolder) { IsFolderPath = true }.Convert(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
+                string subFolderName = new NameParser(NameParserType.FolderPath).Convert(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
                 return Path.Combine(ScreenshotsRootPath, subFolderName);
             }
         }

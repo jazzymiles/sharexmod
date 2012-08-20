@@ -70,7 +70,7 @@ namespace ShareX
                 }
             } // if Workflows.Count == 0
 
-            Workflow wfLastRegion_r200 = FindAppWorkflowByHotkey(EHotkey.LastRegion);
+            Workflow wfLastRegion_r200 = FindAppWorkflowByHotkey(HelpersLib.Hotkeys2.EHotkey.LastRegion);
             if (wfLastRegion_r200 == null)
             {
                 wfLastRegion_r200 = new Workflow(HelpersLib.Hotkeys2.EHotkey.LastRegion, new HotkeySetting());
@@ -109,32 +109,30 @@ namespace ShareX
             }
 
             AfterCaptureActivity jobs_wf = new AfterCaptureActivity();
-            jobs_wf.Workflow.Hotkey = wf.Hotkey;
-            jobs_wf.Workflow.Subtasks = wf.Subtasks;
-            jobs_wf.Workflow.Settings = Helpers.Clone(wf.Settings) as WorkflowSettings;
+            jobs_wf.Workflow = wf.Clone();
 
             switch (jobs_wf.Workflow.Hotkey)
             {
-                case EHotkey.ActiveMonitor:
+                case HelpersLib.Hotkeys2.EHotkey.ActiveMonitor:
                     imagedata_wf = CaptureActiveMonitor(autoHideForm);
                     break;
 
-                case EHotkey.ActiveWindow:
+                case HelpersLib.Hotkeys2.EHotkey.ActiveWindow:
                     imagedata_wf = CaptureActiveWindow(autoHideForm);
                     break;
 
-                case EHotkey.ClipboardUpload:
+                case HelpersLib.Hotkeys2.EHotkey.ClipboardUpload:
                     jobs_wf.InputType = EInputType.Clipboard;
                     break;
 
-                case EHotkey.DiamondRegion:
+                case HelpersLib.Hotkeys2.EHotkey.DiamondRegion:
                     break;
 
-                case EHotkey.EllipseRegion:
+                case HelpersLib.Hotkeys2.EHotkey.EllipseRegion:
                     imagedata_wf = CaptureRegion(new EllipseRegion(), autoHideForm);
                     break;
 
-                case EHotkey.FileUpload:
+                case HelpersLib.Hotkeys2.EHotkey.FileUpload:
                     jobs_wf.InputType = EInputType.FileSystem;
                     break;
 
@@ -142,31 +140,31 @@ namespace ShareX
                     imagedata_wf = CaptureRegion(new FreeHandRegion(), autoHideForm);
                     break;
 
-                case EHotkey.FullScreen:
+                case HelpersLib.Hotkeys2.EHotkey.FullScreen:
                     imagedata_wf = CaptureScreen(autoHideForm);
                     break;
 
-                case EHotkey.LastRegion:
+                case HelpersLib.Hotkeys2.EHotkey.LastRegion:
                     imagedata_wf = CaptureLastRegion(autoHideForm);
                     break;
 
-                case EHotkey.PolygonRegion:
+                case HelpersLib.Hotkeys2.EHotkey.PolygonRegion:
                     imagedata_wf = CaptureRegion(new PolygonRegion(), autoHideForm);
                     break;
 
-                case EHotkey.RectangleRegion:
+                case HelpersLib.Hotkeys2.EHotkey.RectangleRegion:
                     imagedata_wf = CaptureRegion(new RectangleRegion(), autoHideForm);
                     break;
 
-                case EHotkey.RoundedRectangleRegion:
+                case HelpersLib.Hotkeys2.EHotkey.RoundedRectangleRegion:
                     imagedata_wf = CaptureRegion(new RoundedRectangleRegion(), autoHideForm);
                     break;
 
-                case EHotkey.TriangleRegion:
+                case HelpersLib.Hotkeys2.EHotkey.TriangleRegion:
                     imagedata_wf = CaptureRegion(new TriangleRegion(), autoHideForm);
                     break;
 
-                case EHotkey.WindowRectangle:
+                case HelpersLib.Hotkeys2.EHotkey.WindowRectangle:
                     imagedata_wf = WindowRectangleCapture(autoHideForm);
                     break;
             }

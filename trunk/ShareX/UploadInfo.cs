@@ -101,7 +101,7 @@ namespace ShareX
                     _destination = DestConfig.ToStringLinkUploaders();
                     break;
 
-                case EDataType.SocialNetworkingServiceRequest:
+                case EDataType.Default:
                     _destination = DestConfig.ToStringSocialNetworkingServices();
                     break;
             }

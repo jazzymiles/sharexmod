@@ -52,9 +52,11 @@ namespace UploadersLib
     public class FTPAdapter
     {
         public event ProgressEventHandler ProgressChanged;
+
         public delegate void ProgressEventHandler(ProgressManager progress);
 
         public event StringEventHandler FTPOutput;
+
         public delegate void StringEventHandler(string text);
 
         public FTPOptions Options;
@@ -264,11 +266,11 @@ namespace UploadersLib
             {
                 if (file.IsDirectory)
                 {
-                    RemoveDirectory(FTPHelpers.CombineURL(url, file.Name));
+                    RemoveDirectory(Helpers.CombineURL(url, file.Name));
                 }
                 else
                 {
-                    DeleteFile(FTPHelpers.CombineURL(url, file.Name));
+                    DeleteFile(Helpers.CombineURL(url, file.Name));
                 }
             }
 
@@ -396,8 +398,8 @@ namespace UploadersLib
             {
                 if (!string.IsNullOrEmpty(dir))
                 {
-                    path = FTPHelpers.CombineURL(path, dir);
-                    MakeDirectory(FTPHelpers.CombineURL(Options.Account.FTPAddress, path));
+                    path = Helpers.CombineURL(path, dir);
+                    MakeDirectory(Helpers.CombineURL(Options.Account.FTPAddress, path));
                 }
             }
 

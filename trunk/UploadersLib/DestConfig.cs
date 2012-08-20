@@ -219,5 +219,18 @@ namespace UploadersLib
         {
             return ToString<SocialNetworkingService>(SocialNetworkingServices);
         }
+
+        public DestConfig Clone()
+        {
+            DestConfig dc = new DestConfig();
+
+            dc.FileUploaders.AddRange(this.FileUploaders);
+            dc.ImageUploaders.AddRange(this.ImageUploaders);
+            dc.TextUploaders.AddRange(this.TextUploaders);
+            dc.LinkUploaders.AddRange(this.LinkUploaders);
+            dc.SocialNetworkingServices.AddRange(this.SocialNetworkingServices);
+
+            return dc;
+        }
     }
 }

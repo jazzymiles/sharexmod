@@ -23,7 +23,6 @@
 
 #endregion License Information (GPL v3)
 
-using System;
 using System.IO;
 using System.Threading;
 using HelpersLib;
@@ -46,7 +45,7 @@ namespace UploadersLib.FileUploaders
         {
             UploadResult result = new UploadResult();
 
-            fileName = FTPHelpers.FixFilename(fileName);
+            fileName = Helpers.GetValidURL(fileName);
             string path = Account.GetSubFolderPath(fileName);
 
             using (ftpClient = new FTP(Account))
@@ -82,16 +81,10 @@ namespace UploadersLib.FileUploaders
             }
         }
 
-        protected string GetRemotePath(string fileName)
+        protected string GetRemotePath(string filename)
         {
-            fileName = Helpers.ReplaceIllegalChars(fileName, '_');
-
-            while (fileName.IndexOf("__") != -1)
-            {
-                fileName = fileName.Replace("__", "_");
-            }
-
-            return FTPHelpers.CombineURL(Account.GetSubFolderPath(), fileName);
+            filename = Helpers.GetValidURL(filename);
+            return Account.GetSubFolderPath(filename);
         }
     }
 }

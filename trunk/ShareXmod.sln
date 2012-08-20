@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareXmod", "ShareX\ShareXmod.csproj", "{C5AE4585-E9EC-4FA3-B75A-E1210635ACB6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3} = {327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Greenshot", "Lib\Greenshot\Greenshot.csproj", "{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}"
 EndProject
@@ -9,13 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenshotPlugin", "Lib\Gree
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndexersLib", "IndexersLib\IndexersLib.csproj", "{47CD5EEF-C12D-4CEA-B88A-3AFAEC6DDAD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpersLib", "HelpersLib\HelpersLib.csproj", "{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HistoryLib", "HistoryLib\HistoryLib.csproj", "{E7DE6237-AEA2-498B-8F56-9B392472C490}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCapture", "ScreenCapture\ScreenCapture.csproj", "{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCapture.Shapes", "ScreenCapture.Shapes\ScreenCapture.Shapes.csproj", "{7F53BD0C-1BBD-416C-89CE-3FF39D4D3414}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HistoryLib", "..\..\ShareX\trunk\HistoryLib\HistoryLib.csproj", "{E7DE6237-AEA2-498B-8F56-9B392472C490}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UploadersLib", "UploadersLib\UploadersLib.csproj", "{E1C94415-3424-4517-A2A1-B2FDD1F59C67}"
 EndProject
@@ -32,6 +29,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpersLib.Hotkeys2", "HelpersLib.Hotkeys2\HelpersLib.Hotkeys2.csproj", "{B791C0EF-7DFD-4F2B-B004-91F7344EE146}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpersLibMod", "HelpersLibMod\HelpersLibMod.csproj", "{A08691C6-5437-4E7B-8C8B-B576F7CE1B57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpersLib", "..\..\ShareX\trunk\HelpersLib\HelpersLib.csproj", "{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCapture", "..\..\ShareX\trunk\ScreenCapture\ScreenCapture.csproj", "{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCapture.Shapes", "..\..\ShareX\trunk\ScreenCapture.Shapes\ScreenCapture.Shapes.csproj", "{7F53BD0C-1BBD-416C-89CE-3FF39D4D3414}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,22 +58,10 @@ Global
 		{47CD5EEF-C12D-4CEA-B88A-3AFAEC6DDAD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47CD5EEF-C12D-4CEA-B88A-3AFAEC6DDAD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47CD5EEF-C12D-4CEA-B88A-3AFAEC6DDAD8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E7DE6237-AEA2-498B-8F56-9B392472C490}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E7DE6237-AEA2-498B-8F56-9B392472C490}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7DE6237-AEA2-498B-8F56-9B392472C490}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7DE6237-AEA2-498B-8F56-9B392472C490}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7F53BD0C-1BBD-416C-89CE-3FF39D4D3414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F53BD0C-1BBD-416C-89CE-3FF39D4D3414}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F53BD0C-1BBD-416C-89CE-3FF39D4D3414}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F53BD0C-1BBD-416C-89CE-3FF39D4D3414}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E1C94415-3424-4517-A2A1-B2FDD1F59C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E1C94415-3424-4517-A2A1-B2FDD1F59C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1C94415-3424-4517-A2A1-B2FDD1F59C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -103,6 +94,18 @@ Global
 		{A08691C6-5437-4E7B-8C8B-B576F7CE1B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A08691C6-5437-4E7B-8C8B-B576F7CE1B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A08691C6-5437-4E7B-8C8B-B576F7CE1B57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F53BD0C-1BBD-416C-89CE-3FF39D4D3414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F53BD0C-1BBD-416C-89CE-3FF39D4D3414}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F53BD0C-1BBD-416C-89CE-3FF39D4D3414}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F53BD0C-1BBD-416C-89CE-3FF39D4D3414}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

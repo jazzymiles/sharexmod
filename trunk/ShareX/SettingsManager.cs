@@ -127,7 +127,7 @@ namespace ShareX
         public static void SaveCoreConfig()
         {
             ConfigCore.Save(ConfigCoreFilePath);
-            ConfigCore.Backup(ConfigCoreFilePath);
+            // ConfigCore.Backup(ConfigCoreFilePath);
         }
 
         public static void LoadAsync()
@@ -178,7 +178,7 @@ namespace ShareX
         public static void SaveCoreConfigAsync()
         {
             ConfigCore.SaveAsync(ConfigCoreFilePath);
-            ConfigCore.BackupAsync(ConfigCoreFilePath);
+            // ConfigCore.BackupAsync(ConfigCoreFilePath);
         }
 
         public static void SaveUploadersConfigAsync()

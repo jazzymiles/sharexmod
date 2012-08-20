@@ -41,35 +41,55 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AfterCaptureTasksUI.cs">
+    <Compile Include="ComponentModelStringsMod.cs" />
+    <Compile Include="EnumExtensions.cs" />
+    <Compile Include="HelpersMod.cs" />
+    <Compile Include="UpdateCheckerMod\UpdaterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateCheckerMod\UpdaterForm.designer.cs">
+      <DependentUpon>UpdaterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\AfterCaptureTasksUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AfterCaptureTasksUI.Designer.cs">
+    <Compile Include="UserControls\AfterCaptureTasksUI.Designer.cs">
       <DependentUpon>AfterCaptureTasksUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="AfterUploadTasksUI.cs">
+    <Compile Include="UserControls\AfterUploadTasksUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AfterUploadTasksUI.Designer.cs">
+    <Compile Include="UserControls\AfterUploadTasksUI.Designer.cs">
       <DependentUpon>AfterUploadTasksUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cryptography\AESEncryption.cs" />
+    <Compile Include="Cryptography\CryptHelper.cs" />
+    <Compile Include="Cryptography\CryptInfo.cs" />
+    <Compile Include="Cryptography\CryptKeys.cs" />
+    <Compile Include="Cryptography\CryptMethod.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="EnumToStringUsingDescription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializationHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AfterCaptureTasksUI.resx">
+    <EmbeddedResource Include="UpdateCheckerMod\UpdaterForm.resx">
+      <DependentUpon>UpdaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\AfterCaptureTasksUI.resx">
       <DependentUpon>AfterCaptureTasksUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AfterUploadTasksUI.resx">
+    <EmbeddedResource Include="UserControls\AfterUploadTasksUI.resx">
       <DependentUpon>AfterUploadTasksUI.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HelpersLib\HelpersLib.csproj">
+    <ProjectReference Include="..\..\..\ShareX\trunk\HelpersLib\HelpersLib.csproj">
       <Project>{327750e1-9fb7-4cc3-8aea-9bc42180cad3}</Project>
       <Name>HelpersLib</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
