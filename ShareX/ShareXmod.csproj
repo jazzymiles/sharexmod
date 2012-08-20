@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="HelperClasses\AfterCaptureActivity.cs" />
     <Compile Include="HelperClasses\DropboxSyncHelper.cs" />
+    <Compile Include="HelperClasses\FallbackDestHelper.cs" />
     <Compile Include="HelperClasses\FolderWatcher.cs" />
     <Compile Include="HelperClasses\FormsHelper.cs" />
     <Compile Include="Forms\MainForm_Capture.cs">
@@ -184,6 +185,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageEffectsGUI.resx">
       <DependentUpon>ImageEffectsGUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>

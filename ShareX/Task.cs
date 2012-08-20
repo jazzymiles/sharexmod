@@ -753,6 +753,7 @@ namespace ShareX
                     break;
 
                 case FileDestination.FTP:
+
                     // fileUploader = get_FtpAccountByFileExtensionSupport();
                     if (fileUploader == null)
                     {
@@ -845,6 +846,7 @@ namespace ShareX
         }
 
         /*
+
         /// <summary>
         /// Returns FTP/SFTP Uploader based on file extensions it supports
         /// </summary>
