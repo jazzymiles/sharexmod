@@ -51,7 +51,7 @@ namespace HelpersLibWatermark
         {
             if (parser == null)
             {
-                parser = new NameParser(NameParserType.Watermark) { IsPreview = true, Picture = img };
+                parser = new NameParser(NameParserType.Text) { Picture = img };
             }
             return new WatermarkEffects(config).ApplyWatermark(img, parser, config.WatermarkMode);
         }
@@ -356,13 +356,13 @@ namespace HelpersLibWatermark
 
             if (cboWatermarkType.Items.Count == 0)
             {
-                cboWatermarkType.Items.AddRange(typeof(WatermarkType).GetEnumDescriptions());
+                cboWatermarkType.Items.AddRange(Helpers.GetEnumDescriptions<WatermarkType>());
             }
 
             cboWatermarkType.SelectedIndex = (int)config.WatermarkMode;
             if (chkWatermarkPosition.Items.Count == 0)
             {
-                chkWatermarkPosition.Items.AddRange(typeof(WatermarkPositionType).GetEnumDescriptions());
+                chkWatermarkPosition.Items.AddRange(Helpers.GetEnumDescriptions<WatermarkPositionType>());
             }
 
             chkWatermarkPosition.SelectedIndex = (int)config.WatermarkPositionMode;

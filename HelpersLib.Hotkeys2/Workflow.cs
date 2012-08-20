@@ -28,6 +28,19 @@ namespace HelpersLib.Hotkeys2
             ApplyDefaultValues(this);
         }
 
+        public Workflow Clone()
+        {
+            Workflow wf_clone = new Workflow(Hotkey, HotkeyConfig);
+
+            wf_clone.Subtasks = this.Subtasks;
+
+            wf_clone.Settings.PerformGlobalAfterCaptureTasks = this.Settings.PerformGlobalAfterCaptureTasks;
+            wf_clone.Settings.DestConfig = this.Settings.DestConfig.Clone();
+            wf_clone.Settings.ExternalPrograms.AddRange(this.Settings.ExternalPrograms);
+
+            return wf_clone;
+        }
+
         public Workflow(EHotkey hotkey, HotkeySetting hotkeyConfig)
             : this(hotkey.GetDescription(), hotkeyConfig, true)
         {

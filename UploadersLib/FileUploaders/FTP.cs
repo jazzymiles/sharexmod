@@ -41,7 +41,9 @@ namespace UploadersLib
         public event Uploader.ProgressEventHandler ProgressChanged;
 
         public FTPAccount Account { get; set; }
+
         public FtpClient Client { get; set; }
+
         public bool AutoReconnect { get; set; }
 
         private ProgressManager progress;
@@ -191,14 +193,14 @@ namespace UploadersLib
                     string filename = Path.GetFileName(file);
                     if (File.Exists(file))
                     {
-                        UploadFile(file, FTPHelpers.CombineURL(remotePath, filename));
+                        UploadFile(file, Helpers.CombineURL(remotePath, filename));
                     }
                     else if (Directory.Exists(file))
                     {
                         List<string> filesList = new List<string>();
                         filesList.AddRange(Directory.GetFiles(file));
                         filesList.AddRange(Directory.GetDirectories(file));
-                        string path = FTPHelpers.CombineURL(remotePath, filename);
+                        string path = Helpers.CombineURL(remotePath, filename);
                         MakeDirectory(path);
                         UploadFiles(filesList.ToArray(), path);
                     }

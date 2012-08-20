@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.GraphicsHelper;
+using HelpersLibMod;
 using ImageEffects.IPlugin;
 
 namespace ShareX
@@ -18,7 +19,7 @@ namespace ShareX
         public Image DefaultImage { get; set; }
 
         public ImageEffectsGUI(string filePath)
-            : this(Helpers.ImageFromFile(filePath))
+            : this(HelpersMod.ImageFromFile(filePath))
         {
             this.Text = string.Format("Image Effects - {0}", filePath);
         }

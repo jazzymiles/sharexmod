@@ -118,7 +118,7 @@
     <Compile Include="Colors\DialogColor.designer.cs">
       <DependentUpon>DialogColor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Colors\Helpers.cs" />
+    <Compile Include="Colors\ColorHelper.cs" />
     <Compile Include="Colors\MyColors.cs" />
     <Compile Include="GraphicsHelper.cs" />
     <Compile Include="Extensions.cs" />
@@ -213,16 +213,20 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HelpersLib\HelpersLib.csproj">
-      <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
-      <Name>HelpersLib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Colors\Cursor.cur" />
     <Content Include="Colors\cursor.png" />
     <None Include="Resources\WatermarkTest.png" />
     <None Include="Resources\cursor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ShareX\trunk\HelpersLib\HelpersLib.csproj">
+      <Project>{327750e1-9fb7-4cc3-8aea-9bc42180cad3}</Project>
+      <Name>HelpersLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HelpersLibMod\HelpersLibMod.csproj">
+      <Project>{a08691c6-5437-4e7b-8c8b-b576f7ce1b57}</Project>
+      <Name>HelpersLibMod</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

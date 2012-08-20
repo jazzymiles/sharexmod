@@ -74,7 +74,6 @@
             // pbPreview
             // 
             this.pbPreview.BackColor = System.Drawing.Color.White;
-            this.pbPreview.DisableViewer = false;
             this.pbPreview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbPreview.Location = new System.Drawing.Point(3, 3);
             this.pbPreview.Name = "pbPreview";

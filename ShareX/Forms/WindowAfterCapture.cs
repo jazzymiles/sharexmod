@@ -24,7 +24,7 @@ namespace ShareX
         {
             InitializeComponent();
             this.Icon = Resources.ShareX;
-            this.pbImage.LoadImage(img, PictureBoxSizeMode.Zoom);
+            this.pbImage.LoadImage(img);
 
             ConfigSubtasks = config;
 

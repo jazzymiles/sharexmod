@@ -105,7 +105,7 @@
             // pbImage
             // 
             this.pbImage.BackColor = System.Drawing.Color.White;
-            this.pbImage.DisableViewer = false;
+ 
             this.pbImage.Dock = System.Windows.Forms.DockStyle.Right;
             this.pbImage.Location = new System.Drawing.Point(224, 3);
             this.pbImage.Name = "pbImage";

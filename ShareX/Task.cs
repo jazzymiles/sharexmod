@@ -152,12 +152,12 @@ namespace ShareX
             if (SettingsManager.ConfigCore.IndexFolderWhenPossible && Directory.Exists(text))
             {
                 bool html = destination == EDataType.File;
-                task.Info.FileName = new NameParser().Convert(SettingsManager.ConfigCore.NameFormatPatternOther) + (html ? ".html" : ".log");
+                task.Info.FileName = new NameParser(NameParserType.FileName).Convert(SettingsManager.ConfigCore.NameFormatPatternOther) + (html ? ".html" : ".log");
                 task.tempText = IndexersLib.QuickIndexer.Index(text, html, SettingsManager.ConfigUser.ConfigIndexer);
             }
             else
             {
-                task.Info.FileName = new NameParser().Convert(SettingsManager.ConfigCore.NameFormatPatternOther) + ".txt";
+                task.Info.FileName = new NameParser(NameParserType.FileName).Convert(SettingsManager.ConfigCore.NameFormatPatternOther) + ".txt";
                 task.tempText = text;
             }
             return task;
@@ -174,7 +174,7 @@ namespace ShareX
         public static Task CreatePostToSocialNetworkingServiceTask(UploadResult result)
         {
             Task task = new Task(EDataType.URL, TaskJob.ShareURL);
-            task.Info.UploadDestination = EDataType.SocialNetworkingServiceRequest;
+            task.Info.UploadDestination = EDataType.Default;
             task.Info.Result = result;
             return task;
         }
@@ -695,7 +695,7 @@ namespace ShareX
             switch (Workflow.Settings.DestConfig.FileUploaders[0])
             {
                 case FileDestination.Dropbox:
-                    NameParser parser = new NameParser { IsFolderPath = true };
+                    NameParser parser = new NameParser(NameParserType.FolderPath);
                     string uploadPath = parser.Convert(Dropbox.TidyUploadPath(SettingsManager.ConfigUploaders.DropboxUploadPath));
                     fileUploader = new Dropbox(SettingsManager.ConfigUploaders.DropboxOAuthInfo, uploadPath, SettingsManager.ConfigUploaders.DropboxAccountInfo)
                     {

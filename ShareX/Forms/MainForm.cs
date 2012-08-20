@@ -894,7 +894,7 @@ namespace ShareX
             UploadResult result = lvUploads.SelectedItems[0].Tag as UploadResult;
             if (File.Exists(result.LocalFilePath))
             {
-                using (ImageViewer viewer = new ImageViewer(Helpers.ImageFromFile(result.LocalFilePath)))
+                using (ImageViewer viewer = new ImageViewer(HelpersMod.ImageFromFile(result.LocalFilePath)))
                 {
                     viewer.ShowDialog();
                 }
@@ -906,7 +906,7 @@ namespace ShareX
             UploadResult result = lvUploads.SelectedItems[0].Tag as UploadResult;
             if (File.Exists(result.LocalFilePath))
             {
-                Clipboard.SetImage(Helpers.ImageFromFile(result.LocalFilePath));
+                Clipboard.SetImage(HelpersMod.ImageFromFile(result.LocalFilePath));
             }
         }
 

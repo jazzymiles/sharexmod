@@ -31,6 +31,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using HelpersLib;
+using HelpersLibMod;
 
 namespace ShareX.HelperClasses
 {
@@ -78,7 +79,7 @@ namespace ShareX.HelperClasses
             {
                 if (task.Info != null && File.Exists(task.Info.FilePath) && Helpers.IsImageFile(task.Info.FilePath))
                 {
-                    Thumbnails.Images.Add(task.Info.FileName, Helpers.ImageFromFile(task.Info.FilePath));
+                    Thumbnails.Images.Add(task.Info.FileName, HelpersMod.ImageFromFile(task.Info.FilePath));
                 }
             }
         }
@@ -111,7 +112,7 @@ namespace ShareX.HelperClasses
 
             if (File.Exists(info.FilePath) && Helpers.IsImageFile(info.FilePath))
             {
-                Thumbnails.Images.Add(info.FileName, Helpers.ImageFromFile(info.FilePath));
+                Thumbnails.Images.Add(info.FileName, HelpersMod.ImageFromFile(info.FilePath));
             }
             else
             {

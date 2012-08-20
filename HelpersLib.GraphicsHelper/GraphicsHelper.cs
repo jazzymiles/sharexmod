@@ -33,6 +33,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using HelpersLib;
 using HelpersLib.GraphicsHelper.Properties;
+using HelpersLibMod;
 
 namespace HelpersLib.GraphicsHelper
 {
@@ -111,7 +112,7 @@ namespace HelpersLib.GraphicsHelper
             {
                 try
                 {
-                    using (Image img = Helpers.ImageFromFile(fp))
+                    using (Image img = HelpersMod.ImageFromFile(fp))
                     {
                         bmp = new Bitmap(img);
                     }
@@ -220,7 +221,7 @@ namespace HelpersLib.GraphicsHelper
             {
                 if (IsValidImage(fp))
                 {
-                    tempImages.Add(Helpers.ImageFromFile(fp));
+                    tempImages.Add(HelpersMod.ImageFromFile(fp));
                     tempSize = tempImages[tempImages.Count - 1].Size;
                     if (tempImages.Count > 1)
                     {

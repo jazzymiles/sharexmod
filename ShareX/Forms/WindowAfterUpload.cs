@@ -24,8 +24,10 @@ namespace ShareX
             tmrClose.Start();
             mUploadInfo = info;
 
-            pbPreview.LoadingImage = ShareX.Properties.Resources.Loading;
-            pbPreview.LoadImage(info.FilePath, info.Result.URL);
+            if (File.Exists(info.FilePath))
+                pbPreview.LoadImageFromFile(info.FilePath);
+            else
+                pbPreview.LoadImageFromURL(info.Result.URL);
 
             this.Text = File.Exists(info.FilePath) ? info.FilePath : info.FileName;
 
