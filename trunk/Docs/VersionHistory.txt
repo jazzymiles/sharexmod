@@ -1,8 +1,9 @@
 ﻿Version 7.1 - 2012-09-15
 
+* Ability to automatically open Image Editor after a screenshot capture by using Caps Lock, Num Lock or Scroll Lock
 * Added Picasa Web Albums image uploader
 * Added support to post to social networking services
-* Rewrote Workflow system for a much more intuitive interface
+* Re-wrote Workflow system for a much more intuitive interface
 * Support multiple outputs: Clipboard, File, Shared folder, E-mail or Printer
 * Ability to choose FTP account based on file extension
 * Added thumbnail view for capture tasks

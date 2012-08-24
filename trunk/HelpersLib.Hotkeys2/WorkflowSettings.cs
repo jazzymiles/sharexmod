@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using HelpersLibMod;
 using Microsoft.Win32;
 using UploadersLib;
 

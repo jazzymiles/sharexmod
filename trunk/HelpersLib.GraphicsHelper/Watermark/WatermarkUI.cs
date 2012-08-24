@@ -7,7 +7,6 @@ using System.Linq;
 using System.Windows.Forms;
 using HelpersLib;
 using HelpersLib.GraphicsHelper.Properties;
-using HelpersLibColors;
 using HelpersLibGradient;
 using HelpersLibWatermark;
 

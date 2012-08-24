@@ -6,7 +6,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using HelpersLibColors;
+using HelpersLib;
 
 namespace HelpersLibGradient
 {
@@ -101,6 +101,7 @@ namespace HelpersLibGradient
                 case BrushData.GradientDirection.Horizontal:
                     endPoint = new PointF(1, 0);
                     break;
+
                 case BrushData.GradientDirection.Vertical:
                     endPoint = new PointF(0, 1);
                     break;
@@ -221,10 +222,6 @@ namespace HelpersLibGradient
         }
 
         #endregion Form events
-
-        private void GradientMaker_Load(object sender, EventArgs e)
-        {
-        }
 
         private void lbBrushData_SelectedIndexChanged(object sender, EventArgs e)
         {

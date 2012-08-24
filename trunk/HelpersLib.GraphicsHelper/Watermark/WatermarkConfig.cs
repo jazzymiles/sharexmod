@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using HelpersLib;
 using HelpersLibGradient;
+using HelpersLibMod;
 
 namespace HelpersLibWatermark
 {

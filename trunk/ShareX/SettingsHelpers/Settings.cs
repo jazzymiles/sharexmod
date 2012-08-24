@@ -146,7 +146,7 @@ namespace ShareX
         [Category(ComponentModelStrings.FileNaming), DefaultValue(100), Description("Maximum file name length")]
         public int MaxFilenameLength { get; set; }
 
-        [Category(ComponentModelStringsMod.URLShortener), DefaultValue(80), Description("Maximum character length at which the URL will be shortened.")]
+        [Category(ComponentModelStrings.URLShortener), DefaultValue(80), Description("Maximum character length at which the URL will be shortened.")]
         public int MaximumURLLength { get; set; }
 
         [Category(ComponentModelStrings.AppPasswords), DefaultValue(true), Description("Encrypt passwords using AES")]

@@ -34,6 +34,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComponentModelStringsMod.cs" />
+    <Compile Include="ComponentModelStrings.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="HelpersMod.cs" />
     <Compile Include="UpdateCheckerMod\UpdaterForm.cs">
