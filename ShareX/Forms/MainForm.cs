@@ -804,7 +804,7 @@ namespace ShareX
         private void tsbHistory_Click(object sender, EventArgs e)
         {
             HistoryManager.ConvertHistoryToNewFormat(SettingsManager.HistoryFilePath, SettingsManager.OldHistoryFilePath);
-            using (HistoryForm historyForm = new HistoryForm(SettingsManager.HistoryFilePath, Application.ProductName + " History: " + SettingsManager.HistoryFilePath))
+            using (HistoryForm historyForm = new HistoryForm(SettingsManager.HistoryFilePath))
             {
                 historyForm.Icon = Icon;
                 historyForm.ShowDialog();

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Drawing;
 using System.Globalization;
-using HelpersLibColors;
+using HelpersLib;
 
 namespace HelpersLibGradient
 {
     public class GradientStop
     {
         public Color Color { get; set; }
+
         public float Offset { get; set; }
 
         public GradientStop(Color color, float offset)

@@ -60,10 +60,12 @@ namespace ShareX
 
                 Image img = capture();
 
-                if (img != null && SettingsManager.ConfigCore.PlaySoundAfterCapture)
+                if (img != null)
                 {
                     imageData = new ImageData(img, screenshot: true);
-                    Helpers.PlaySoundAsync(Resources.CameraSound);
+
+                    if (SettingsManager.ConfigCore.PlaySoundAfterCapture)
+                        Helpers.PlaySoundAsync(Resources.CameraSound);
                 }
             }
             catch (Exception ex)

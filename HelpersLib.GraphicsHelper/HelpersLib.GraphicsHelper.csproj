@@ -100,26 +100,6 @@
     <Compile Include="BitmapCache.cs" />
     <Compile Include="ColorBgra.cs" />
     <Compile Include="ColorMatrixMgr.cs" />
-    <Compile Include="Colors\ColorBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Colors\ColorPicker.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Colors\ColorSlider.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Colors\ColorUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Colors\DialogColor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Colors\DialogColor.designer.cs">
-      <DependentUpon>DialogColor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Colors\ColorHelper.cs" />
-    <Compile Include="Colors\MyColors.cs" />
     <Compile Include="GraphicsHelper.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="ImageEffectsHelper.cs" />
@@ -151,9 +131,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Colors\DialogColor.resx">
-      <DependentUpon>DialogColor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -213,8 +190,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Colors\Cursor.cur" />
-    <Content Include="Colors\cursor.png" />
     <None Include="Resources\WatermarkTest.png" />
     <None Include="Resources\cursor.png" />
   </ItemGroup>
