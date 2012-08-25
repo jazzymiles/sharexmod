@@ -85,7 +85,15 @@ namespace ShareX
 
         private void btnCopyLink_Click(object sender, EventArgs e)
         {
-            string url = tvMain.SelectedNode.Text;
+            string url = string.Empty;
+            if (tvMain.SelectedNode != null)
+            {
+                url = tvMain.SelectedNode.Text;
+            }
+            else
+            {
+                url = tvMain.Nodes[0].Nodes[0].Text;
+            }
             if (!string.IsNullOrEmpty(url))
                 Helpers.CopyTextSafely(url);
         }
