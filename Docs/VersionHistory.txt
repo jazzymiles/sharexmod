@@ -1,4 +1,4 @@
-﻿Version 7.1 - 2012-09-15
+﻿Version 7.1 - 2012-08-30
 
 * Ability to automatically open Image Editor after a screenshot capture by using Caps Lock, Num Lock or Scroll Lock
 * Added Picasa Web Albums image uploader
