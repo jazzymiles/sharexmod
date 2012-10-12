@@ -213,7 +213,7 @@ namespace ShareX
             {
                 string text = Clipboard.GetText();
 
-                if (SettingsManager.ConfigCore.ClipboardUploadAutoDetectURL && Helpers.IsValidURL(text))
+                if (SettingsManager.ConfigCore.ClipboardUploadAutoDetectURL && Helpers.IsValidURLRegex(text))
                 {
                     ShortenURL(text.Trim(), jobs);
                 }

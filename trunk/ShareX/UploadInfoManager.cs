@@ -28,6 +28,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using HelpersLib;
+using ShareX.Properties;
 
 namespace ShareX
 {
@@ -242,9 +243,13 @@ namespace ShareX
 
         public void ShowResponse()
         {
-            if (IsSelectedItemsValid() && SelectedItems[0].Info.Result != null && !string.IsNullOrEmpty(SelectedItems[0].Info.Result.Source))
+            if (IsSelectedItemsValid() && SelectedItems[0].Info.Result != null && !string.IsNullOrEmpty(SelectedItems[0].Info.Result.Response))
             {
-                new ResponseForm(SelectedItems[0].Info.Result.Source).ShowDialog();
+                using (ResponseForm form = new ResponseForm(SelectedItems[0].Info.Result.Response))
+                {
+                    form.Icon = Resources.ShareX;
+                    form.ShowDialog();
+                }
             }
         }
 
