@@ -436,7 +436,7 @@ namespace ShareX
                         copyErrorsToolStripMenuItem.Visible = true;
                     }
 
-                    if (!string.IsNullOrEmpty(result.Source))
+                    if (!string.IsNullOrEmpty(result.Response))
                     {
                         showResponseToolStripMenuItem.Visible = true;
                     }
@@ -680,9 +680,9 @@ namespace ShareX
         {
             UploadResult result = GetCurrentUploadResult();
 
-            if (result != null && !string.IsNullOrEmpty(result.Source))
+            if (result != null && !string.IsNullOrEmpty(result.Response))
             {
-                ResponseForm form = new ResponseForm(result.Source);
+                ResponseForm form = new ResponseForm(result.Response);
                 form.Icon = this.Icon;
                 form.Show();
             }
