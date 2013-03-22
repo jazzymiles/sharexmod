@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -44,7 +44,7 @@ namespace Greenshot.Memento {
 		/// <summary>
 		/// Returns the language key for the action which is performed
 		/// </summary>
-		LangKey ActionKey {
+		LangKey ActionLanguageKey {
 			get;
 		}
 	}

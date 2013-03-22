@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -23,10 +23,17 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using GreenshotPlugin.Controls;
 
 namespace Greenshot.Controls {
-	public class ToolStripColorButton : ToolStripButton, INotifyPropertyChanged {
+	public class ToolStripColorButton : ToolStripButton, INotifyPropertyChanged, IGreenshotLanguageBindable {
 		public event PropertyChangedEventHandler PropertyChanged;
+
+		[Category("Greenshot"), DefaultValue(null), Description("Specifies key of the language file to use when displaying the text.")]
+		public string LanguageKey {
+			get;
+			set;
+		}
 
 		private Color selectedColor = Color.Transparent;
 		

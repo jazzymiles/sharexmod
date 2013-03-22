@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -91,7 +91,7 @@ namespace Greenshot.Forms {
 			this.linkLblBugs.Size = new System.Drawing.Size(465, 23);
 			this.linkLblBugs.TabIndex = 9;
 			this.linkLblBugs.TabStop = true;
-			this.linkLblBugs.Text = "http://sourceforge.net/tracker/?group_id=191585&atid=937972";
+			this.linkLblBugs.Text = "http://getgreenshot.org/tickets/";
 			this.linkLblBugs.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLblBugsLinkClicked);
 			// 
 			// BugReportForm

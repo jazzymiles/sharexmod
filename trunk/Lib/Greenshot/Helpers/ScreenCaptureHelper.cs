@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -44,7 +44,6 @@ namespace Greenshot.Helpers {
 	public class ScreenCaptureHelper {
 		private static log4net.ILog LOG = log4net.LogManager.GetLogger(typeof(ScreenCaptureHelper));
 		private static CoreConfiguration conf = IniConfig.GetIniSection<CoreConfiguration>();
-		private const int MAX_FRAMES = 500;
 		private const int ALIGNMENT = 8;
 		private IntPtr hWndDesktop = IntPtr.Zero;
 		private IntPtr hDCDesktop = IntPtr.Zero;
@@ -63,11 +62,19 @@ namespace Greenshot.Helpers {
 		private Bitmap GDIBitmap;
 		private string filename = null;
 		private Stopwatch stopwatch = new Stopwatch();
+		private bool disabledDWM = false;
 
-		public ScreenCaptureHelper(Rectangle recordingRectangle) {
+		private ScreenCaptureHelper() {
+			if (DWM.isDWMEnabled()) {
+				// with DWM Composition disabled the capture goes ~2x faster
+				DWM.DisableComposition();
+				disabledDWM = true;
+			}
+		}
+		public ScreenCaptureHelper(Rectangle recordingRectangle) : this() {
 			this.recordingRectangle = recordingRectangle;
 		}
-		public ScreenCaptureHelper(WindowDetails recordingWindow) {
+		public ScreenCaptureHelper(WindowDetails recordingWindow) : this() {
 			this.recordingWindow = recordingWindow;
 		}
 
@@ -86,6 +93,11 @@ namespace Greenshot.Helpers {
 			return exceptionToThrow;
 		}
 		
+		/// <summary>
+		/// Start the recording
+		/// </summary>
+		/// <param name="framesPerSecond"></param>
+		/// <returns></returns>
 		public bool Start(int framesPerSecond) {
 			if (recordingWindow != null) {
 				string windowTitle = Regex.Replace(recordingWindow.Text, @"[^\x20\d\w]", "");
@@ -111,14 +123,14 @@ namespace Greenshot.Helpers {
 				LOG.InfoFormat("Starting recording rectangle {0}", recordingRectangle);
 				recordingSize = recordingRectangle.Size;
 			}
-			if (recordingSize.Width % ALIGNMENT > 0) {
-				LOG.InfoFormat("Correcting width to be factor alignment, {0} => {1}", recordingSize.Width, recordingSize.Width + (ALIGNMENT - (recordingSize.Width % ALIGNMENT)));
-				recordingSize = new Size(recordingSize.Width + (ALIGNMENT - (recordingSize.Width % ALIGNMENT)), recordingSize.Height);
-			}
-			if (recordingSize.Height % ALIGNMENT > 0) {
-				LOG.InfoFormat("Correcting Height to be factor alignment, {0} => {1}", recordingSize.Height, recordingSize.Height + (ALIGNMENT - (recordingSize.Height % ALIGNMENT)));
-				recordingSize = new Size(recordingSize.Width, recordingSize.Height + (ALIGNMENT - (recordingSize.Height % ALIGNMENT)));
-			}
+			//if (recordingSize.Width % ALIGNMENT > 0) {
+			//	LOG.InfoFormat("Correcting width to be factor alignment, {0} => {1}", recordingSize.Width, recordingSize.Width + (ALIGNMENT - (recordingSize.Width % ALIGNMENT)));
+			//	recordingSize = new Size(recordingSize.Width + (ALIGNMENT - (recordingSize.Width % ALIGNMENT)), recordingSize.Height);
+			//}
+			//if (recordingSize.Height % ALIGNMENT > 0) {
+			//	LOG.InfoFormat("Correcting Height to be factor alignment, {0} => {1}", recordingSize.Height, recordingSize.Height + (ALIGNMENT - (recordingSize.Height % ALIGNMENT)));
+			//	recordingSize = new Size(recordingSize.Width, recordingSize.Height + (ALIGNMENT - (recordingSize.Height % ALIGNMENT)));
+			//}
 			this.framesPerSecond = framesPerSecond;
 			// "P/Invoke" Solution for capturing the screen
 			hWndDesktop = User32.GetDesktopWindow();
@@ -169,8 +181,8 @@ namespace Greenshot.Helpers {
 			
 			aviWriter = new AVIWriter();
 			// Comment the following 2 lines to make the user select it's own codec
-			//aviWriter.Codec = "msvc";
-			//aviWriter.Quality = 99;
+			aviWriter.Codec = "msvc";
+			aviWriter.Quality = 10000;
 
 			aviWriter.FrameRate = framesPerSecond;
 			if (aviWriter.Open(filename, recordingSize.Width, recordingSize.Height)) {
@@ -188,6 +200,9 @@ namespace Greenshot.Helpers {
 			return false;
 		}
 		
+		/// <summary>
+		/// Do the actual frame capture
+		/// </summary>
 		private void CaptureFrame() {
 			int MSBETWEENCAPTURES = 1000/framesPerSecond;
 			int msToNextCapture = MSBETWEENCAPTURES;
@@ -202,7 +217,8 @@ namespace Greenshot.Helpers {
 					captureLocation = new Point(recordingRectangle.X,  recordingRectangle.Y);
 				}
 				// "Capture"
-				GDI32.BitBlt(hDCDest, 0, 0, recordingSize.Width, recordingSize.Height, hDCDesktop, captureLocation.X,  captureLocation.Y, CopyPixelOperation.SourceCopy | CopyPixelOperation.CaptureBlt);
+				GDI32.BitBlt(hDCDest, 0, 0, recordingSize.Width, recordingSize.Height, hDCDesktop, captureLocation.X,  captureLocation.Y, CopyPixelOperation.SourceCopy);
+				//GDI32.BitBlt(hDCDest, 0, 0, recordingSize.Width, recordingSize.Height, hDCDesktop, captureLocation.X, captureLocation.Y, CopyPixelOperation.SourceCopy | CopyPixelOperation.CaptureBlt);
 
 				// Mouse
 				if (RecordMouse) {
@@ -254,6 +270,9 @@ namespace Greenshot.Helpers {
 			Cleanup();
 		}
 		
+		/// <summary>
+		/// Stop the recording, after the next frame
+		/// </summary>
 		public void Stop() {
 			stop = true;
 			if (backgroundTask != null) {
@@ -261,6 +280,7 @@ namespace Greenshot.Helpers {
 			}
 			Cleanup();
 		}
+
 		/// <summary>
 		///  Free resources
 		/// </summary>
@@ -277,10 +297,35 @@ namespace Greenshot.Helpers {
 				// free up the Bitmap object
 				GDI32.DeleteObject(hDIBSection);
 			}
+
+			if (disabledDWM) {
+				DWM.EnableComposition();
+			}
 			if (aviWriter != null) {
 				aviWriter.Dispose();
 				aviWriter = null;
-				MessageBox.Show("Recording written to " + filename);
+
+				string ffmpegexe = PluginUtils.GetExePath("ffmpeg.exe");
+				if (ffmpegexe != null) {
+					try {
+						string webMFile = filename.Replace(".avi", ".webm");
+						string arguments = "-i \"" + filename + "\" -codec:v libvpx -quality good -cpu-used 0 -b:v 1000k -qmin 10 -qmax 42 -maxrate 1000k -bufsize 4000k -threads 4 \"" + webMFile + "\"";
+						LOG.DebugFormat("Starting {0} with arguments {1}", ffmpegexe, arguments);
+						ProcessStartInfo processStartInfo = new ProcessStartInfo(ffmpegexe, arguments);
+						processStartInfo.CreateNoWindow = false;
+						processStartInfo.RedirectStandardOutput = false;
+						processStartInfo.UseShellExecute = false;
+						Process process = Process.Start(processStartInfo);
+						process.WaitForExit();
+						if (process.ExitCode == 0) {
+							MessageBox.Show("Recording written to " + webMFile);
+						}
+					} catch (Exception ex) {
+						MessageBox.Show("Recording written to " + filename + " couldn't convert due to an error: " + ex.Message);
+					}
+				} else {
+					MessageBox.Show("Recording written to " + filename);
+				}
 			}
 		}
 	}

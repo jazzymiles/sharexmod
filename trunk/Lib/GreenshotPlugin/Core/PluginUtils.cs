@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -20,16 +20,70 @@
  */
 using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
-
 using Greenshot.Plugin;
+using Microsoft.Win32;
 
 namespace GreenshotPlugin.Core {
 	/// <summary>
 	/// Description of PluginUtils.
 	/// </summary>
 	public static class PluginUtils {
-		
+		private static readonly log4net.ILog LOG = log4net.LogManager.GetLogger(typeof(PluginUtils));
+		private const string PATH_KEY = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\";
+
+		/// <summary>
+		/// Simple global property to get the Greenshot host
+		/// </summary>
+		public static IGreenshotHost Host {
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// Get the path of an executable
+		/// </summary>
+		/// <param name="exeName">e.g. cmd.exe</param>
+		/// <returns>Path to file</returns>
+		public static string GetExePath(string exeName) {
+			using (RegistryKey key = Registry.LocalMachine.OpenSubKey(PATH_KEY + exeName, false)) {
+				if (key != null) {
+					// "" is the default key, which should point to the requested location
+					return (string)key.GetValue("");
+				}
+			}
+			foreach (string test in (Environment.GetEnvironmentVariable("PATH") ?? "").Split(';')) {
+				string path = test.Trim();
+				if (!String.IsNullOrEmpty(path) && File.Exists(path = Path.Combine(path, exeName))) {
+					return Path.GetFullPath(path);
+				}
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// Get icon for executable
+		/// </summary>
+		/// <param name="path">path to the exe or dll</param>
+		/// <param name="index">index of the icon</param>
+		/// <returns>Bitmap with the icon or null if something happended</returns>
+		public static Bitmap GetExeIcon(string path, int index) {
+			if (!File.Exists(path)) {
+				return null;
+			}
+			try {
+				using (Icon appIcon = ImageHelper.ExtractAssociatedIcon(path, index, false)) {
+					if (appIcon != null) {
+						return appIcon.ToBitmap();
+					}
+				}
+			} catch (Exception exIcon) {
+				LOG.Error("error retrieving icon: ", exIcon);
+			}
+			return null;
+		}
+
 		/// <summary>
 		/// Helper method to add a MenuItem to the File MenuItem of an ImageEditor
 		/// </summary>
@@ -90,7 +144,7 @@ namespace GreenshotPlugin.Core {
 			}
 		}
 		/// <summary>
-		/// Helper method to add a MenuItem to the Greenshot context menu
+		/// Helper method to add a plugin MenuItem to the Greenshot context menu
 		/// </summary>
 		/// <param name="imageEditor"></param>
 		/// <param name="item"></param>
@@ -102,7 +156,16 @@ namespace GreenshotPlugin.Core {
 			// Try to find a separator, so we insert ourselves after it 
 			for(int i=0; i < contextMenu.Items.Count; i++) {
 				if (contextMenu.Items[i].GetType() == typeof(ToolStripSeparator)) {
-					contextMenu.Items.Insert(i+1, item);
+					// Check if we need to add a new separator, which is done if the first found has a Tag with the value "PluginsAreAddedBefore"
+					if ("PluginsAreAddedBefore".Equals(contextMenu.Items[i].Tag)) {
+						ToolStripSeparator separator = new ToolStripSeparator();
+						separator.Tag = "PluginsAreAddedAfter";
+						separator.Size = new Size(305, 6);
+						contextMenu.Items.Insert(i, separator);
+					} else if (!"PluginsAreAddedAfter".Equals(contextMenu.Items[i].Tag)) {
+						continue;
+					}
+					contextMenu.Items.Insert(i + 1, item);
 					addedItem = true;
 					break;
 				}

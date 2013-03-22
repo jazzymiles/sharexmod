@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -20,7 +20,6 @@
  */
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -30,10 +29,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-
+using Greenshot.IniFile;
+using Greenshot.Interop;
 using Greenshot.Plugin;
 using GreenshotPlugin.UnmanagedHelpers;
-using Greenshot.IniFile;
 
 /// <summary>
 /// Code for handling with "windows"
@@ -160,13 +159,35 @@ namespace GreenshotPlugin.Core  {
 	/// Provides details about a Window returned by the 
 	/// enumeration
 	/// </summary>
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1049:TypesThatOwnNativeResourcesShouldBeDisposable")]
 	public class WindowDetails : IEquatable<WindowDetails>{
+		private const string METRO_WINDOWS_CLASS = "Windows.UI.Core.CoreWindow";
+		private const string METRO_APPLAUNCHER_CLASS = "ImmersiveLauncher";
+		private const string METRO_GUTTER_CLASS = "ImmersiveGutter";
+		
 		private static log4net.ILog LOG = log4net.LogManager.GetLogger(typeof(WindowDetails));
 		private static Dictionary<string, List<string>> classnameTree = new Dictionary<string, List<string>>();
 		private static CoreConfiguration conf = IniConfig.GetIniSection<CoreConfiguration>();
 		private static List<IntPtr> ignoreHandles = new List<IntPtr>();
 		private static Dictionary<string, Image> iconCache = new Dictionary<string, Image>();
+		private static List<string> excludeProcessesFromFreeze = new List<string>();
+		private static IAppVisibility appVisibility = null;
 		
+		static WindowDetails() {
+			try {
+				// Only try to instanciate when Windows 8 or later.
+				if (Environment.OSVersion.Version.Major >= 6 && Environment.OSVersion.Version.Minor >= 2) {
+					appVisibility = COMWrapper.CreateInstance<IAppVisibility>();					
+				}
+			} catch {}
+		}
+
+		public static void AddProcessToExcludeFromFreeze(string processname) {
+			if (!excludeProcessesFromFreeze.Contains(processname)) {
+				excludeProcessesFromFreeze.Add(processname);
+			}
+		}
+
 		internal static bool isIgnoreHandle(IntPtr handle) {
 			return ignoreHandles.Contains(handle);
 		}
@@ -175,6 +196,34 @@ namespace GreenshotPlugin.Core  {
 		private IntPtr parentHandle = IntPtr.Zero;
 		private WindowDetails parent = null;
 		private bool frozen = false;
+
+		public bool isApp {
+			get {
+				return METRO_WINDOWS_CLASS.Equals(ClassName);
+			}
+		}
+		
+		
+		public bool isGutter {
+			get {
+				return METRO_GUTTER_CLASS.Equals(ClassName);
+			}
+		}
+		
+		public bool isAppLauncher {
+			get {
+				return METRO_APPLAUNCHER_CLASS.Equals(ClassName);
+			}
+		}
+
+		/// <summary>
+		/// Check if this window is the window of a metro app
+		/// </summary>
+		public bool isMetroApp {
+			get {
+				return isAppLauncher || isApp;
+			}
+		}
 
 		/// <summary>
 		/// The window handle.
@@ -223,20 +272,46 @@ namespace GreenshotPlugin.Core  {
 			frozen = false;
 		}
 
+		public string ProcessPath {
+			get {
+				if (Handle == IntPtr.Zero) {
+					// not a valid window handle
+					return string.Empty;
+				}
+				// Get the process id
+				IntPtr processid;
+				User32.GetWindowThreadProcessId(Handle, out processid);
+				return Kernel32.GetProcessPath(processid);
+			}
+		}
+
+
 		/// <summary>
 		/// Get the icon belonging to the process
 		/// </summary>
 		public Image DisplayIcon {
 			get {
 				try {
-					string filename = Process.MainModule.FileName;
+					using (Icon appIcon = GetAppIcon(this.Handle)) {
+						if (appIcon != null) {
+							return appIcon.ToBitmap();
+						}
+					}
+				} catch (Exception ex) {
+					LOG.WarnFormat("Couldn't get icon for window {0} due to: {1}", Text, ex.Message);
+					LOG.Warn(ex);
+				}
+				if (isMetroApp) {
+					// No method yet to get the metro icon
+					return null;
+				}
+				try {
+					string filename = ProcessPath;
 					if (!iconCache.ContainsKey(filename)) {
 						Image icon = null;
-						if (File.Exists(filename)) {
-							using (Icon appIcon = Icon.ExtractAssociatedIcon(filename)) {
-								if (appIcon != null) {
-									icon = appIcon.ToBitmap();
-								}
+						using (Icon appIcon = Shell32.ExtractAssociatedIcon(filename)) {
+							if (appIcon != null) {
+								icon = appIcon.ToBitmap();
 							}
 						}
 						iconCache.Add(filename, icon);
@@ -244,10 +319,45 @@ namespace GreenshotPlugin.Core  {
 					return iconCache[filename];
 				} catch (Exception ex) {
 					LOG.WarnFormat("Couldn't get icon for window {0} due to: {1}", Text, ex.Message);
+					LOG.Warn(ex);
 				}
 				return null;
 			}
-		}		
+		}
+
+		/// <summary>
+		/// Get the icon for a hWnd
+		/// </summary>
+		/// <param name="hwnd"></param>
+		/// <returns></returns>
+		private static Icon GetAppIcon(IntPtr hwnd) {
+			const int ICON_SMALL = 0;
+			const int ICON_BIG = 1;
+			const int ICON_SMALL2 = 2;
+
+			IntPtr iconHandle = User32.SendMessage(hwnd, (int)WindowsMessages.WM_GETICON, ICON_SMALL2, 0);
+			if (iconHandle == IntPtr.Zero) {
+				iconHandle = User32.SendMessage(hwnd, (int)WindowsMessages.WM_GETICON, ICON_SMALL, 0);
+			}
+			if (iconHandle == IntPtr.Zero) {
+				iconHandle = User32.GetClassLongWrapper(hwnd, (int)ClassLongIndex.GCL_HICONSM);
+			}
+			if (iconHandle == IntPtr.Zero) {
+				iconHandle = User32.SendMessage(hwnd, (int)WindowsMessages.WM_GETICON, ICON_BIG, 0);
+			}
+			if (iconHandle == IntPtr.Zero) {
+				iconHandle = User32.GetClassLongWrapper(hwnd, (int)ClassLongIndex.GCL_HICON);
+			}
+
+			if (iconHandle == IntPtr.Zero) {
+				return null;
+			}
+
+			Icon icon = Icon.FromHandle(iconHandle);
+
+			return icon;
+		}
+
 		/// <summary>
 		/// Use this to make remove internal windows, like the mainform and the captureforms, invisible
 		/// </summary>
@@ -312,7 +422,18 @@ namespace GreenshotPlugin.Core  {
 			}
 			return null;
 		}
-		
+
+		/// <summary>
+		/// Retrieve the children with mathing classname
+		/// </summary>
+		public IEnumerable<WindowDetails> GetChilden(string childClassname) {
+			foreach (WindowDetails child in Children) {
+				if (childClassname.Equals(child.ClassName)) {
+					yield return child;
+				}
+			}
+		}
+
 		public IntPtr ParentHandle {
 			get {
 				if (parentHandle == IntPtr.Zero) {
@@ -456,6 +577,9 @@ namespace GreenshotPlugin.Core  {
 		/// <returns>null if nothing found, otherwise the WindowDetails instance of the "child"</returns>
 		public WindowDetails GetWindow(GetWindowCommand gwCommand) {
 			IntPtr tmphWnd = User32.GetWindow(Handle, gwCommand);
+			if (IntPtr.Zero == tmphWnd) {
+				return null;
+			}
 			WindowDetails windowDetails = new WindowDetails(tmphWnd);
 			windowDetails.parent = this;
 			return windowDetails;
@@ -495,9 +619,7 @@ namespace GreenshotPlugin.Core  {
 		public string ClassName {
 			get {
 				if (className == null) {
-					StringBuilder classNameBuilder = new StringBuilder(260, 260);
-					User32.GetClassName(this.hWnd, classNameBuilder, classNameBuilder.Capacity);
-					className = classNameBuilder.ToString();
+					className = GetClassName(this.hWnd);
 				}
 				return className;
 			}
@@ -508,14 +630,17 @@ namespace GreenshotPlugin.Core  {
 		/// </summary>
 		public bool Iconic {
 			get {
+				if (isMetroApp) {
+					return !Visible;
+				}
 				return User32.IsIconic(this.hWnd) || Location.X <= -32000;
 			}
 			set {
-				User32.SendMessage(
-					this.hWnd, 
-					User32.WM_SYSCOMMAND, 
-					(IntPtr)User32.SC_MINIMIZE,
-					IntPtr.Zero);
+				if (value) {
+					User32.SendMessage(this.hWnd,  (int)WindowsMessages.WM_SYSCOMMAND, (IntPtr)User32.SC_MINIMIZE, IntPtr.Zero);
+				} else {
+					User32.SendMessage(this.hWnd,  (int)WindowsMessages.WM_SYSCOMMAND, (IntPtr)User32.SC_RESTORE, IntPtr.Zero);
+				}
 			}
 		}
 			
@@ -524,29 +649,83 @@ namespace GreenshotPlugin.Core  {
 		/// </summary>
 		public bool Maximised {
 			get {
+				if (isApp) {
+					if (Visible) {
+						Rectangle windowRectangle = WindowRectangle;
+						foreach (Screen screen in Screen.AllScreens) {
+							if (screen.Bounds.Contains(windowRectangle)) {
+								if (windowRectangle.Equals(screen.Bounds)) {
+									return true;
+								}
+							}
+						}
+					}
+					return false;
+				}
 				return User32.IsZoomed(this.hWnd);
 			}
 			set {
-				User32.SendMessage(
-					this.hWnd,
-					User32.WM_SYSCOMMAND, 
-					(IntPtr)User32.SC_MAXIMIZE,
-					IntPtr.Zero);
+				if (value) {
+					User32.SendMessage(this.hWnd, (int)WindowsMessages.WM_SYSCOMMAND, (IntPtr)User32.SC_MAXIMIZE, IntPtr.Zero);
+				} else {
+					User32.SendMessage(this.hWnd, (int)WindowsMessages.WM_SYSCOMMAND, (IntPtr)User32.SC_MINIMIZE, IntPtr.Zero);
+				}
 			}
 		}
-
+		
+		/// <summary>
+		/// This doesn't work as good as is should, but does move the App out of the way...
+		/// </summary>
+		public void HideApp() {
+			User32.ShowWindow(Handle, ShowWindowCommand.Hide);
+		}
+		
 		/// <summary>
 		/// Gets whether the window is visible.
 		/// </summary>
 		public bool Visible {
 			get {
+				if (isApp) {
+					Rectangle windowRectangle = WindowRectangle;
+					foreach (Screen screen in Screen.AllScreens) {
+						if (screen.Bounds.Contains(windowRectangle)) {
+							if (windowRectangle.Equals(screen.Bounds)) {
+								// Fullscreen, it's "visible" when AppVisibilityOnMonitor says yes
+								// Although it might be the other App, this is not "very" important
+								RECT rect = new RECT(screen.Bounds);
+								IntPtr monitor = User32.MonitorFromRect(ref rect, User32.MONITOR_DEFAULTTONULL);
+								if (monitor != IntPtr.Zero) {
+									if (appVisibility != null) {
+										MONITOR_APP_VISIBILITY monitorAppVisibility = appVisibility.GetAppVisibilityOnMonitor(monitor);
+										//LOG.DebugFormat("App {0} visible: {1} on {2}", Text, monitorAppVisibility, screen.Bounds);
+										if (monitorAppVisibility == MONITOR_APP_VISIBILITY.MAV_APP_VISIBLE) {
+											return true;
+										}
+									}
+								}
+							} else {
+								// Is only partly on the screen, when this happens the app is allways visible!
+								return true;
+							}
+						}
+					}
+					return false;
+				}
+				if (isGutter) {
+					// gutter is only made available when it's visible
+					return true;
+				}
+				if (isAppLauncher) {
+					return IsAppLauncherVisible;
+				}
 				return User32.IsWindowVisible(this.hWnd);
 			}
 		}
 		
 		public bool HasParent {
 			get {
-				return !IntPtr.Zero.Equals(parentHandle);
+				GetParent();
+				return parentHandle != IntPtr.Zero;
 			}
 		}
 		
@@ -602,7 +781,8 @@ namespace GreenshotPlugin.Core  {
 							GetWindowRect(out windowRect);
 						}
 	
-						if (!HasParent && this.Maximised) {
+						// Correction for maximized windows, only if it's not an app
+						if (!HasParent && !isApp && Maximised) {
 							Size size = Size.Empty;
 							GetBorderSize(out size);
 							windowRect = new Rectangle(windowRect.X + size.Width, windowRect.Y + size.Height, windowRect.Width - (2 * size.Width), windowRect.Height - (2 * size.Height));
@@ -666,36 +846,51 @@ namespace GreenshotPlugin.Core  {
 		/// </summary>
 		public void Restore() {
 			if (Iconic) {
-				User32.SendMessage(this.hWnd, User32.WM_SYSCOMMAND, (IntPtr)User32.SC_RESTORE, IntPtr.Zero);
+				User32.SendMessage(this.hWnd, (int)WindowsMessages.WM_SYSCOMMAND, (IntPtr)User32.SC_RESTORE, IntPtr.Zero);
 			}
 			User32.BringWindowToTop(this.hWnd);
 			User32.SetForegroundWindow(this.hWnd);
 			// Make sure windows has time to perform the action
-			Application.DoEvents();
+			while(Iconic) {
+				Application.DoEvents();
+			}
 		}
 
+		/// <summary>
+		/// Get / Set the WindowStyle
+		/// </summary>
 		public WindowStyleFlags WindowStyle {
 			get {
-				return (WindowStyleFlags)User32.GetWindowLong(this.hWnd, (int)WindowLongIndex.GWL_STYLE);
+				return (WindowStyleFlags)User32.GetWindowLongWrapper(this.hWnd, (int)WindowLongIndex.GWL_STYLE);
 			}
 			set {
-				User32.SetWindowLong(this.hWnd, (int)WindowLongIndex.GWL_STYLE, (uint)value);
+				User32.SetWindowLongWrapper(this.hWnd, (int)WindowLongIndex.GWL_STYLE, (uint)value);
 			}
 		}
 
-		public WindowPlacement GetWindowPlacement() {
-			WindowPlacement placement = WindowPlacement.Default;
-			User32.GetWindowPlacement(this.Handle, ref placement);
-			return placement;
+		/// <summary>
+		/// Get/Set the WindowPlacement
+		/// </summary>
+		public WindowPlacement WindowPlacement {
+			get {
+				WindowPlacement placement = WindowPlacement.Default;
+				User32.GetWindowPlacement(this.Handle, ref placement);
+				return placement;
+			}
+			set {
+				User32.SetWindowPlacement(this.Handle, ref value);
+			}
 		}
 
-		public void SetWindowPlacement(WindowPlacement placement) {
-			User32.SetWindowPlacement(this.Handle, ref placement);
-		}
-
+		/// <summary>
+		/// Get/Set the Extended WindowStyle
+		/// </summary>
 		public ExtendedWindowStyleFlags ExtendedWindowStyle {
 			get {
-				return (ExtendedWindowStyleFlags)User32.GetWindowLong(this.hWnd, (int)WindowLongIndex.GWL_EXSTYLE);
+				return (ExtendedWindowStyleFlags)User32.GetWindowLongWrapper(this.hWnd, (int)WindowLongIndex.GWL_EXSTYLE);
+			}
+			set {
+				User32.SetWindowLongWrapper(this.hWnd, (int)WindowLongIndex.GWL_EXSTYLE, (uint)value);
 			}
 		}
 
@@ -704,7 +899,7 @@ namespace GreenshotPlugin.Core  {
 		/// </summary>
 		/// <param name="capture">The capture to fill</param>
 		/// <returns>ICapture</returns>
-		public ICapture CaptureWindow(ICapture capture) {
+		public ICapture CaptureGDIWindow(ICapture capture) {
 			Image capturedImage = PrintWindow();
 			if (capturedImage != null) {
 				capture.Image = capturedImage;
@@ -738,7 +933,7 @@ namespace GreenshotPlugin.Core  {
 				SIZE sourceSize;
 				DWM.DwmQueryThumbnailSourceSize(thumbnailHandle, out sourceSize);
 
-				if (sourceSize.cx <= 0 || sourceSize.cy <= 0) {
+				if (sourceSize.width <= 0 || sourceSize.height <= 0) {
 					return null;
 				}
 
@@ -746,34 +941,32 @@ namespace GreenshotPlugin.Core  {
 				Point formLocation;
 				Rectangle windowRectangle = WindowRectangle;
 				Size borderSize = new Size();
-
+				bool doesCaptureFit = false;
 				if (!Maximised) {
-					Screen displayScreen = null;
-
-					// Find the screen where the window is and check if it fits
-					foreach(Screen screen in Screen.AllScreens) {
-						if (screen.WorkingArea.Contains(windowRectangle)) {
-							displayScreen = screen;
-							break;
-						}
-					}
-					if (displayScreen == null) {
-						// If none found we find the biggest screen
-						foreach(Screen screen in Screen.AllScreens) {
-							if (displayScreen == null || (screen.Bounds.Width >= displayScreen.Bounds.Width && screen.Bounds.Height >= displayScreen.Bounds.Height)) {
-								displayScreen = screen;
+					// Assume using it's own location
+					formLocation = windowRectangle.Location;
+					using (Region workingArea = new Region(Screen.PrimaryScreen.Bounds)) {
+						// Find the screen where the window is and check if it fits
+						foreach (Screen screen in Screen.AllScreens) {
+							if (screen != Screen.PrimaryScreen) {
+								workingArea.Union(screen.Bounds);
 							}
 						}
-						// check if the window will fit
-						if (displayScreen != null && displayScreen.Bounds.Contains(new Rectangle(Point.Empty, windowRectangle.Size))) {
-							formLocation = new Point(displayScreen.Bounds.X, displayScreen.Bounds.Y);
+
+						// If the formLocation is not inside the visible area
+						if (!workingArea.AreRectangleCornersVisisble(windowRectangle)) {
+							// If none found we find the biggest screen
+							foreach (Screen screen in Screen.AllScreens) {
+								Rectangle newWindowRectangle = new Rectangle(screen.WorkingArea.Location, windowRectangle.Size);
+								if (workingArea.AreRectangleCornersVisisble(newWindowRectangle)) {
+									formLocation = screen.Bounds.Location;
+									doesCaptureFit = true;
+									break;
+								}
+							}
 						} else {
-							// No, just use the primary screen
-							formLocation = new Point(Screen.PrimaryScreen.Bounds.X, Screen.PrimaryScreen.Bounds.Y);
+							doesCaptureFit = true;
 						}
-					} else {
-						// The window actually fits, so while capturing create the copy over the original
-						formLocation = new Point(windowRectangle.X, windowRectangle.Y);
 					}
 				} else {
 					//GetClientRect(out windowRectangle);
@@ -785,7 +978,7 @@ namespace GreenshotPlugin.Core  {
 				tempForm.Size = sourceSize.ToSize();
 
 				// Prepare rectangle to capture from the screen.
-				Rectangle captureRectangle = new Rectangle(formLocation.X, formLocation.Y, sourceSize.cx, sourceSize.cy);
+				Rectangle captureRectangle = new Rectangle(formLocation.X, formLocation.Y, sourceSize.width, sourceSize.height);
 				if (Maximised) {
 					// Correct capture size for maximized window by offsetting the X,Y with the border size
 					captureRectangle.X += borderSize.Width;
@@ -795,23 +988,20 @@ namespace GreenshotPlugin.Core  {
 					captureRectangle.Height -= 2 * borderSize.Height;
 				} else if (autoMode) {
 					// check if the capture fits
-					if (!capture.ScreenBounds.Contains(captureRectangle)) {
-						// if GDI is allowed..
-						if (conf.isGDIAllowed(Process)) {
+					if (!doesCaptureFit) {
+						// if GDI is allowed.. (a screenshot won't be better than we comes if we continue)
+						if (!isMetroApp && WindowCapture.isGDIAllowed(Process)) {
 							// we return null which causes the capturing code to try another method.
 							return null;
 						}
 					}
 				}
-				
-				// Make sure the to be captured window is active, important for the close/resize buttons
-				this.Restore();
 
 				// Prepare the displaying of the Thumbnail
 				DWM_THUMBNAIL_PROPERTIES props = new DWM_THUMBNAIL_PROPERTIES();
 				props.Opacity = (byte)255;
 				props.Visible = true;
-				props.Destination = new RECT(0, 0, sourceSize.cx, sourceSize.cy);
+				props.Destination = new RECT(0, 0, sourceSize.width, sourceSize.height);
 				DWM.DwmUpdateThumbnailProperties(thumbnailHandle, ref props);
 				tempForm.Show();
 				tempFormShown = true;
@@ -821,77 +1011,85 @@ namespace GreenshotPlugin.Core  {
 				
 				// Destination bitmap for the capture
 				Bitmap capturedBitmap = null;
+				bool frozen = false;
 				try {
-					this.FreezeWindow();
-					// Use red to make removal of the corners possible
-					tempForm.BackColor = Color.Red;
-					// Make sure everything is visible
-					tempForm.Refresh();
-					Application.DoEvents();
-					using (Bitmap redMask = WindowCapture.CaptureRectangle(captureRectangle)) {
-						// Check if we make a transparent capture
-						if (windowCaptureMode == WindowCaptureMode.AeroTransparent) {
-							// Use white, later black to capture transparent
-							tempForm.BackColor = Color.White;
-							// Make sure everything is visible
-							tempForm.Refresh();
-							Application.DoEvents();
+					// Check if we make a transparent capture
+					if (windowCaptureMode == WindowCaptureMode.AeroTransparent) {
+						frozen = this.FreezeWindow();
+						// Use white, later black to capture transparent
+						tempForm.BackColor = Color.White;
+						// Make sure everything is visible
+						tempForm.Refresh();
+						Application.DoEvents();
 
-							try {
-								using (Bitmap whiteBitmap = WindowCapture.CaptureRectangle(captureRectangle)) {
-									// Apply a white color
-									tempForm.BackColor = Color.Black;
-									// Make sure everything is visible
-									tempForm.Refresh();
-									Application.DoEvents();
-									using (Bitmap blackBitmap = WindowCapture.CaptureRectangle(captureRectangle)) {
-										capturedBitmap = ApplyTransparency(blackBitmap, whiteBitmap);
-									}
+						try {
+							using (Bitmap whiteBitmap = WindowCapture.CaptureRectangle(captureRectangle)) {
+								// Apply a white color
+								tempForm.BackColor = Color.Black;
+								// Make sure everything is visible
+								tempForm.Refresh();
+								if (!isMetroApp) {
+									// Make sure the application window is active, so the colors & buttons are right
+									ToForeground();
 								}
-							} catch (Exception e) {
-								LOG.Debug("Exception: ", e);
-								// Some problem occured, cleanup and make a normal capture
-								if (capturedBitmap != null) {
-									capturedBitmap.Dispose();
-									capturedBitmap = null;
+								// Make sure all changes are processed and visisble
+								Application.DoEvents();
+								using (Bitmap blackBitmap = WindowCapture.CaptureRectangle(captureRectangle)) {
+									capturedBitmap = ApplyTransparency(blackBitmap, whiteBitmap);
 								}
 							}
-						}
-						// If no capture up till now, create a normal capture.
-						if (capturedBitmap == null) {
-							// Remove transparency, this will break the capturing
-							if (!autoMode) {
-								tempForm.BackColor = Color.FromArgb(255, conf.DWMBackgroundColor.R, conf.DWMBackgroundColor.G, conf.DWMBackgroundColor.B);
-							} else {
-								Color colorizationColor = DWM.ColorizationColor;
-								// Modify by losing the transparency and increasing the intensity (as if the background color is white)
-								colorizationColor = Color.FromArgb(255, (colorizationColor.R + 255) >> 1, (colorizationColor.G + 255) >> 1, (colorizationColor.B + 255) >> 1);
-								tempForm.BackColor = colorizationColor; 
-							}
-							// Make sure everything is visible
-							tempForm.Refresh();
-							Application.DoEvents();
-							// Capture from the screen
-							capturedBitmap = WindowCapture.CaptureRectangle(captureRectangle);
-						}
-						if (capturedBitmap != null && redMask != null) {
-							// Remove corners
-							if (!Image.IsAlphaPixelFormat(capturedBitmap.PixelFormat)) {
-								LOG.Debug("Changing pixelformat to Alpha for the RemoveCorners");
-								Bitmap tmpBitmap = ImageHelper.Clone(capturedBitmap, PixelFormat.Format32bppArgb);
+						} catch (Exception e) {
+							LOG.Debug("Exception: ", e);
+							// Some problem occured, cleanup and make a normal capture
+							if (capturedBitmap != null) {
 								capturedBitmap.Dispose();
-								capturedBitmap = tmpBitmap;
+								capturedBitmap = null;
 							}
-							Color cornerColor = Color.Transparent;
-							if (!Image.IsAlphaPixelFormat(capturedBitmap.PixelFormat)) {
-								cornerColor = Color.FromArgb(255, conf.DWMBackgroundColor.R, conf.DWMBackgroundColor.G, conf.DWMBackgroundColor.B);
+						}
+					}
+					// If no capture up till now, create a normal capture.
+					if (capturedBitmap == null) {
+						// Remove transparency, this will break the capturing
+						if (!autoMode) {
+							tempForm.BackColor = Color.FromArgb(255, conf.DWMBackgroundColor.R, conf.DWMBackgroundColor.G, conf.DWMBackgroundColor.B);
+						} else {
+							Color colorizationColor = DWM.ColorizationColor;
+							// Modify by losing the transparency and increasing the intensity (as if the background color is white)
+							colorizationColor = Color.FromArgb(255, (colorizationColor.R + 255) >> 1, (colorizationColor.G + 255) >> 1, (colorizationColor.B + 255) >> 1);
+							tempForm.BackColor = colorizationColor; 
+						}
+						// Make sure everything is visible
+						tempForm.Refresh();
+						if (!isMetroApp) {
+							// Make sure the application window is active, so the colors & buttons are right
+							ToForeground();
+						}
+						// Make sure all changes are processed and visisble
+						Application.DoEvents();
+						// Capture from the screen
+						capturedBitmap = WindowCapture.CaptureRectangle(captureRectangle);
+					}
+					if (capturedBitmap != null) {
+						// Not needed for Windows 8
+						if (!(Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 2)) {
+							// Only if the Inivalue is set, not maximized and it's not a tool window.
+							if (conf.WindowCaptureRemoveCorners && !Maximised && (this.ExtendedWindowStyle & ExtendedWindowStyleFlags.WS_EX_TOOLWINDOW) == 0) {
+								// Remove corners
+								if (!Image.IsAlphaPixelFormat(capturedBitmap.PixelFormat)) {
+									LOG.Debug("Changing pixelformat to Alpha for the RemoveCorners");
+									Bitmap tmpBitmap = ImageHelper.Clone(capturedBitmap, PixelFormat.Format32bppArgb);
+									capturedBitmap.Dispose();
+									capturedBitmap = tmpBitmap;
+								}
+								RemoveCorners(capturedBitmap);
 							}
-							RemoveCorners(capturedBitmap, redMask, cornerColor);
 						}
 					}
 				} finally {
 					// Make sure to ALWAYS unfreeze!!
-					this.UnfreezeWindow();
+					if (frozen) {
+						this.UnfreezeWindow();
+					}
 				}
 				
 				capture.Image = capturedBitmap;
@@ -907,6 +1105,7 @@ namespace GreenshotPlugin.Core  {
 						tempForm.Close();
 					}
 					tempForm.Dispose();
+					tempForm = null;
 				}
 			}
 
@@ -916,45 +1115,15 @@ namespace GreenshotPlugin.Core  {
 		/// <summary>
 		/// Helper method to remove the corners from a DMW capture
 		/// </summary>
-		/// <param name="normalBitmap">The bitmap taken which would normally be returned to the editor etc.</param>
-		/// <param name="redBitmap">The bitmap taken with a red background</param>
-		/// <param name="cornerColor">The background color</param>
-		private void RemoveCorners(Bitmap normalBitmap, Bitmap redBitmap, Color cornerColor) {
-			using (BitmapBuffer redBuffer = new BitmapBuffer(redBitmap, false)) {
-				redBuffer.Lock();
-				using (BitmapBuffer normalBuffer = new BitmapBuffer(normalBitmap, false)) {
-					normalBuffer.Lock();
-					for (int y = 0; y < 8; y++) {
-						for (int x = 0; x < 8; x++) {
-							// top left
-							int cornerX = x;
-							int cornerY = y;
-							Color currentPixel = redBuffer.GetColorAt(cornerX, cornerY);
-							if (currentPixel.R > 0 && currentPixel.G == 0 && currentPixel.B == 0) {
-								normalBuffer.SetColorAt(cornerX, cornerY, cornerColor);
-							}
-							// top right
-							cornerX = normalBitmap.Width - x;
-							cornerY = y;
-							currentPixel = redBuffer.GetColorAt(cornerX, cornerY);
-							if (currentPixel.R > 0 && currentPixel.G == 0 && currentPixel.B == 0) {
-								normalBuffer.SetColorAt(cornerX, cornerY, cornerColor);
-							}
-							// bottom right
-							cornerX = normalBitmap.Width - x;
-							cornerY = normalBitmap.Height - y;
-							currentPixel = redBuffer.GetColorAt(cornerX, cornerY);
-							if (currentPixel.R > 0 && currentPixel.G == 0 && currentPixel.B == 0) {
-								normalBuffer.SetColorAt(cornerX, cornerY, cornerColor);
-							}
-							// bottom left
-							cornerX = x;
-							cornerY = normalBitmap.Height - y;
-							currentPixel = redBuffer.GetColorAt(cornerX, cornerY);
-							if (currentPixel.R > 0 && currentPixel.G == 0 && currentPixel.B == 0) {
-								normalBuffer.SetColorAt(cornerX, cornerY, cornerColor);
-							}
-						}
+		/// <param name="image">The bitmap to remove the corners from.</param>
+		private void RemoveCorners(Bitmap image) {
+			using (IFastBitmap fastBitmap = FastBitmap.Create(image)) {
+				for (int y = 0; y < conf.WindowCornerCutShape.Count; y++) {
+					for (int x = 0; x < conf.WindowCornerCutShape[y]; x++) {
+						fastBitmap.SetColorAt(x, y, Color.Transparent);
+						fastBitmap.SetColorAt(image.Width-1-x, y, Color.Transparent);
+						fastBitmap.SetColorAt(image.Width-1-x, image.Height-1-y, Color.Transparent);
+						fastBitmap.SetColorAt(x, image.Height-1-y, Color.Transparent);
 					}
 				}
 			}
@@ -969,22 +1138,19 @@ namespace GreenshotPlugin.Core  {
 		/// <param name="whiteBitmap">Bitmap with the black image</param>
 		/// <returns>Bitmap with transparency</returns>
 		private Bitmap ApplyTransparency(Bitmap blackBitmap, Bitmap whiteBitmap) {
-			Bitmap returnBitmap = new Bitmap(blackBitmap.Width, blackBitmap.Height, PixelFormat.Format32bppArgb);
-			using (BitmapBuffer blackBuffer = new BitmapBuffer(blackBitmap, false)) {
-				blackBuffer.Lock();
-				using (BitmapBuffer whiteBuffer = new BitmapBuffer(whiteBitmap, false)) {
-					whiteBuffer.Lock();
-					using (BitmapBuffer targetBuffer = new BitmapBuffer(returnBitmap, false)) {
-						targetBuffer.Lock();
-						for(int y=0; y<blackBuffer.Height;y++) {
-							for(int x=0; x<blackBuffer.Width;x++) {
-								Color c0 = blackBuffer.GetColorAt(x,y);
-								Color c1 = whiteBuffer.GetColorAt(x,y);
+			using (IFastBitmap targetBuffer = FastBitmap.CreateEmpty(blackBitmap.Size, PixelFormat.Format32bppArgb, Color.Transparent)) {
+				targetBuffer.SetResolution(blackBitmap.HorizontalResolution, blackBitmap.VerticalResolution);
+				using (IFastBitmap blackBuffer = FastBitmap.Create(blackBitmap)) {
+					using (IFastBitmap whiteBuffer = FastBitmap.Create(whiteBitmap)) {
+						for (int y = 0; y < blackBuffer.Height; y++) {
+							for (int x = 0; x < blackBuffer.Width; x++) {
+								Color c0 = blackBuffer.GetColorAt(x, y);
+								Color c1 = whiteBuffer.GetColorAt(x, y);
 								// Calculate alpha as double in range 0-1
 								double alpha = (c0.R - c1.R + 255) / 255d;
 								if (alpha == 1) {
 									// Alpha == 1 means no change!
-									targetBuffer.SetColorAt(x, y, c0); 
+									targetBuffer.SetColorAt(x, y, c0);
 								} else if (alpha == 0) {
 									// Complete transparency, use transparent pixel
 									targetBuffer.SetColorAt(x, y, Color.Transparent);
@@ -997,14 +1163,14 @@ namespace GreenshotPlugin.Core  {
 									byte originalBlue = (byte)Math.Min(255, c0.B / alpha);
 									Color originalColor = Color.FromArgb(originalAlpha, originalRed, originalGreen, originalBlue);
 									//Color originalColor = Color.FromArgb(originalAlpha, originalRed, c0.G, c0.B);
-									targetBuffer.SetColorAt(x, y, originalColor); 
+									targetBuffer.SetColorAt(x, y, originalColor);
 								}
 							}
 						}
 					}
 				}
+				return targetBuffer.UnlockAndReturnBitmap();
 			}
-			return returnBitmap;
 		}
 		
 		/// <summary>
@@ -1092,145 +1258,51 @@ namespace GreenshotPlugin.Core  {
 		/// Get the region for a window
 		/// </summary>
 		private Region GetRegion() {
-			IntPtr windowRegionPtr = GDI32.CreateRectRgn(0,0,0,0);
-			RegionResult result = User32.GetWindowRgn(Handle, windowRegionPtr);
-			Region returnRegion = null;
-			if (result != RegionResult.REGION_ERROR && result != RegionResult.REGION_NULLREGION) {
-				returnRegion = Region.FromHrgn(windowRegionPtr);
-			}
-			// Free the region object
-			GDI32.DeleteObject(windowRegionPtr);
-			return returnRegion;
-		}
-		
-		/// <summary>
-		/// PrintWindow but with VScroll loop
-		/// </summary>
-		/// <returns>Image with all the scroll contents</returns>
-		public Image PrintWithVScroll() {
-			SCROLLINFO scrollinfo = new SCROLLINFO();
-			scrollinfo.cbSize = Marshal.SizeOf( scrollinfo );
-			scrollinfo.fMask = (int) ScrollInfoMask.SIF_ALL;
-			User32.GetScrollInfo(Handle, (int) ScrollBarDirection.SB_VERT, ref scrollinfo );
-
-			LOG.DebugFormat("nMax {0}", scrollinfo.nMax);
-			LOG.DebugFormat("nMin {0}", scrollinfo.nMin);
-			LOG.DebugFormat("nPage {0}", scrollinfo.nPage);
-			LOG.DebugFormat("nPos {0}", scrollinfo.nPos);
-			LOG.DebugFormat("nTrackPos {0}", scrollinfo.nTrackPos);
-
-//			WindowStyleFlags style = WindowStyle;
-//			LOG.InfoFormat("before: {0}", style);
-//			style = style.Remove(WindowStyleFlags.WS_HSCROLL);
-//			WindowStyle = style;
-//			if (!User32.SetWindowPos(Handle, IntPtr.Zero, 0,0,0,0, WindowPos.SWP_NOMOVE | WindowPos.SWP_NOSIZE | WindowPos.SWP_NOZORDER | WindowPos.SWP_FRAMECHANGED| WindowPos.SWP_DRAWFRAME | WindowPos.SWP_NOACTIVATE)) {
-//				Exception e = new Win32Exception();
-//				LOG.Error("error with SetWindowPos", e);
-//			}
-//			style = WindowStyle;
-//			LOG.InfoFormat("before: {0}", style);
-//			style = style.Remove(WindowStyleFlags.WS_VSCROLL);
-//			WindowStyle = style;
-//			LOG.InfoFormat("After: {0}", style);
-//			if (!User32.SetWindowPos(Handle, IntPtr.Zero, 0,0,0,0, WindowPos.SWP_NOMOVE | WindowPos.SWP_NOSIZE | WindowPos.SWP_NOZORDER | WindowPos.SWP_FRAMECHANGED| WindowPos.SWP_DRAWFRAME | WindowPos.SWP_NOACTIVATE)) {
-//				Exception e = new Win32Exception();
-//				LOG.Error("error with SetWindowPos", e);
-//			}
-
-			Rectangle viewableRectangle = ClientRectangle;
-			// As we work with bitmap coordinates, recalculate the location
-			viewableRectangle.Offset(-WindowRectangle.X, -WindowRectangle.Y);
-
-			int width = viewableRectangle.Width;
-			int height = viewableRectangle.Height * (scrollinfo.nMax / scrollinfo.nPage);
-			int pageSkip = scrollinfo.nPage;
-			if (width * height == 0) {
-				LOG.Error("No window content!!");
-				return null;
-			}
-			Bitmap returnBitmap = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-
-			using (Graphics graphicsTarget = Graphics.FromImage(returnBitmap)) {
-				int location = 0;
-				int y = 0;
-				do {
-					VScroll(location);
-					Thread.Sleep(200);
-
-					Rectangle destination = new Rectangle(0, y, viewableRectangle.Width, viewableRectangle.Height);
-					using (Image printedWindow = PrintWindow()) {
-						if (printedWindow != null) {
-							graphicsTarget.DrawImage(printedWindow, destination, viewableRectangle, GraphicsUnit.Pixel);
-							graphicsTarget.Flush();
-							y += viewableRectangle.Height;
-						}
+			using (SafeRegionHandle region = GDI32.CreateRectRgn(0, 0, 0, 0)) {
+				if (!region.IsInvalid) {
+					RegionResult result = User32.GetWindowRgn(Handle, region);
+					if (result != RegionResult.REGION_ERROR && result != RegionResult.REGION_NULLREGION) {
+						return Region.FromHrgn(region.DangerousGetHandle());
 					}
-					location += pageSkip;
-					//if (location < scrollinfo.nMax && location > scrollinfo.nMax - scrollinfo.nPage) {
-					//	location = scrollinfo.nMax - scrollinfo.nPage;
-					//}
-				} while (location < scrollinfo.nMax);
+				}
 			}
-			VScroll(scrollinfo.nPos);
-			return returnBitmap;
-		}
-
-		/// <summary>
-		/// Does the window have a HScrollbar?
-		/// </summary>
-		/// <returns>true if a HScrollbar is available</returns>
-		public bool HasHScroll() {
-			return WindowStyle.Has(WindowStyleFlags.WS_HSCROLL);
-		}		
-
-		/// <summary>
-		/// Does the window have a VScrollbar?
-		/// </summary>
-		/// <returns>true if a VScrollbar is available</returns>
-		public bool HasVScroll() {
-			return WindowStyle.Has(WindowStyleFlags.WS_VSCROLL);
-		}
-
-		/// <summary>
-		/// Scroll the window to the hpos location
-		/// </summary>
-		/// <param name="hpos"></param>
-		public void HScroll(int hpos) {
-			User32.SetScrollPos(Handle, Orientation.Horizontal, hpos, true);
-			User32.PostMessage(Handle, (int)WindowsMessages.WM_HSCROLL, (int)ScrollbarCommand.SB_THUMBPOSITION + (hpos<<16), 0);
+			return null;
 		}
 		
-		/// <summary>
-		/// Scroll the window to the vpos location
-		/// </summary>
-		/// <param name="vpos"></param>
-		public void VScroll(int vpos) {
-			User32.SetScrollPos(Handle, Orientation.Vertical, vpos, true);
-			int ptrWparam = (int)ScrollbarCommand.SB_THUMBTRACK + (vpos << 16);
-			int ptrLparam = 0;
-			User32.SendMessage(Handle, (int)WindowsMessages.WM_VSCROLL, ptrWparam, ptrLparam);
+		private bool CanFreezeOrUnfreeze(string titleOrProcessname) {
+			if (string.IsNullOrEmpty(titleOrProcessname)) {
+				return false;
+			}
+			if (titleOrProcessname.ToLower().Contains("greenshot")) {
+				return false;
+			}
+
+			foreach (string excludeProcess in excludeProcessesFromFreeze) {
+				if (titleOrProcessname.ToLower().Contains(excludeProcess)) {
+					return false;
+				}
+			}
+			return true;
 		}
 
 		/// <summary>
 		/// Freezes the process belonging to the window
 		/// Warning: Use only if no other way!!
 		/// </summary>
-		private void FreezeWindow() {
+		private bool FreezeWindow() {
 			Process proc = Process.GetProcessById(this.ProcessId.ToInt32());
-		
-			if (proc.ProcessName == string.Empty){
-				return;
+			string processName = proc.ProcessName;
+			if (!CanFreezeOrUnfreeze(processName)) {
+				LOG.DebugFormat("Not freezing {0}", processName);
+				return false;
 			}
-			if (proc.ProcessName.ToLower().Contains("greenshot")) {
-				LOG.DebugFormat("Not freezing ourselves, process was: {0}", proc.ProcessName);
-				return;
+			if (!CanFreezeOrUnfreeze(Text)) {
+				LOG.DebugFormat("Not freezing {0}", processName);
+				return false;
 			}
-			// TODO: Check Outlook, Office etc?
-			if (proc.ProcessName.ToLower().Contains("outlook")) {
-				LOG.DebugFormat("Not freezing outlook due to Destinations, process was: {0}", proc.ProcessName);
-				return;
-			}
-			LOG.DebugFormat("Freezing process: {0}", proc.ProcessName);
+			LOG.DebugFormat("Freezing process: {0}", processName);
+			
+			bool frozen = false;
 		
 			foreach (ProcessThread pT in proc.Threads) {
 				IntPtr pOpenThread = Kernel32.OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
@@ -1238,9 +1310,10 @@ namespace GreenshotPlugin.Core  {
 				if (pOpenThread == IntPtr.Zero) {
 					break;
 				}
-		
+				frozen = true;
 				Kernel32.SuspendThread(pOpenThread);
 			}
+			return frozen;
 		}
 
 		/// <summary>
@@ -1248,15 +1321,17 @@ namespace GreenshotPlugin.Core  {
 		/// </summary>
 		public void UnfreezeWindow() {
 			Process proc = Process.GetProcessById(this.ProcessId.ToInt32());
-		
-			if (proc.ProcessName == string.Empty) {
+
+			string processName = proc.ProcessName;
+			if (!CanFreezeOrUnfreeze(processName)) {
+				LOG.DebugFormat("Not unfreezing {0}", processName);
 				return;
 			}
-			if (proc.ProcessName.ToLower().Contains("greenshot")) {
-				LOG.DebugFormat("Not unfreezing ourselves, process was: {0}", proc.ProcessName);
+			if (!CanFreezeOrUnfreeze(Text)) {
+				LOG.DebugFormat("Not unfreezing {0}", processName);
 				return;
 			}
-			LOG.DebugFormat("Unfreezing process: {0}", proc.ProcessName);
+			LOG.DebugFormat("Unfreezing process: {0}", processName);
 			
 			foreach (ProcessThread pT in proc.Threads) {
 				IntPtr pOpenThread = Kernel32.OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
@@ -1274,9 +1349,7 @@ namespace GreenshotPlugin.Core  {
 		/// As GDI+ draws it, it will be without Aero borders!
 		/// </summary>
 		public Image PrintWindow() {
-			Rectangle windowRect = Rectangle.Empty;
-			GetWindowRect(out windowRect);
-			
+			Rectangle windowRect = WindowRectangle;
 			// Start the capture
 			Exception exceptionOccured = null;
 			Image returnImage = null;
@@ -1343,9 +1416,13 @@ namespace GreenshotPlugin.Core  {
 		public static WindowDetails GetActiveWindow() {
 			IntPtr hWnd = User32.GetForegroundWindow();
 			if (hWnd != null && hWnd != IntPtr.Zero) {
+				if (ignoreHandles.Contains(hWnd)) {
+					return WindowDetails.GetDesktopWindow();
+				}
+
 				WindowDetails activeWindow = new WindowDetails(hWnd);
 				// Invisible Windows should not be active
-				if (!activeWindow.Visible || ignoreHandles.Contains(activeWindow.Handle)) {
+				if (!activeWindow.Visible) {
 					return WindowDetails.GetDesktopWindow();
 				}
 				return activeWindow;
@@ -1359,7 +1436,9 @@ namespace GreenshotPlugin.Core  {
 		public bool IsGreenshot {
 			get {
 				try {
-					return "Greenshot".Equals(Process.MainModule.FileVersionInfo.ProductName);
+					if (!isMetroApp) {
+						return "Greenshot".Equals(Process.MainModule.FileVersionInfo.ProductName);
+					}
 				} catch (Exception ex) {
 					LOG.Warn(ex);
 				}
@@ -1408,7 +1487,18 @@ namespace GreenshotPlugin.Core  {
 			}
 			return this;
 		}
-		
+
+		/// <summary>
+		/// Retrieves the classname for a hWnd
+		/// </summary>
+		/// <param name="hWnd">IntPtr with the windows handle</param>
+		/// <returns>String with ClassName</returns>
+		public static String GetClassName(IntPtr hWnd) {
+			StringBuilder classNameBuilder = new StringBuilder(260, 260);
+			User32.GetClassName(hWnd, classNameBuilder, classNameBuilder.Capacity);
+			return classNameBuilder.ToString();
+		}
+
 		/// <summary>
 		/// Get all the visible top level windows
 		/// </summary>
@@ -1416,7 +1506,8 @@ namespace GreenshotPlugin.Core  {
 		public static List<WindowDetails> GetVisibleWindows() {
 			List<WindowDetails> windows = new List<WindowDetails>();
 			Rectangle screenBounds = WindowCapture.GetScreenBounds();
-			List<WindowDetails> allWindows = WindowDetails.GetAllWindows();
+			List<WindowDetails> allWindows = GetMetroApps();
+			allWindows.AddRange(WindowDetails.GetAllWindows());
 			foreach(WindowDetails window in allWindows) {
 				// Ignore windows without title
 				if (window.Text.Length == 0) {
@@ -1426,12 +1517,8 @@ namespace GreenshotPlugin.Core  {
 				if (!window.Visible) {
 					continue;
 				}
-				// Ignore internal windows
-				if (ignoreHandles.Contains(window.Handle)) {
-					continue;
-				}
 				// Ignore some classes
-				List<string> ignoreClasses = new List<string>(new string[] {"Progman", "XLMAIN", "Button"}); //"MS-SDIa"
+				List<string> ignoreClasses = new List<string>(new string[] { "Progman", "XLMAIN", "Button", "Dwm" }); //"MS-SDIa"
 				if (ignoreClasses.Contains(window.ClassName)) {
 					continue;
 				}
@@ -1439,6 +1526,87 @@ namespace GreenshotPlugin.Core  {
 				Rectangle windowRect = window.WindowRectangle;
 				windowRect.Intersect(screenBounds);
 				if (windowRect.Size.IsEmpty) {
+					continue;
+				}
+				windows.Add(window);
+			}
+			return windows;
+		}
+
+		/// <summary>
+		/// Get the WindowDetails for all Metro Apps
+		/// These are all Windows with Classname "Windows.UI.Core.CoreWindow"
+		/// </summary>
+		/// <returns>List<WindowDetails> with visible metro apps</returns>
+		public static List<WindowDetails> GetMetroApps() {
+			List<WindowDetails> metroApps = new List<WindowDetails>();
+			// if the appVisibility != null we have Windows 8.
+			if (appVisibility == null) {
+				return metroApps;
+			}
+			//string[] wcs = {"ImmersiveGutter", "Snapped Desktop", "ImmersiveBackgroundWindow","ImmersiveLauncher","Windows.UI.Core.CoreWindow","ApplicationManager_ImmersiveShellWindow","SearchPane","MetroGhostWindow","EdgeUiInputWndClass", "NativeHWNDHost", "Shell_CharmWindow"};
+			//List<WindowDetails> specials = new List<WindowDetails>();
+			//foreach(string wc in wcs) {
+			//	IntPtr wcHandle = User32.FindWindow(null, null);
+			//	while (wcHandle != IntPtr.Zero) {
+			//		WindowDetails special = new WindowDetails(wcHandle);
+			//		if (special.WindowRectangle.Left >= 1920 && special.WindowRectangle.Size != Size.Empty) {
+			//			specials.Add(special);
+			//			LOG.DebugFormat("Found special {0} : {1} at {2} visible: {3} {4} {5}", special.ClassName, special.Text, special.WindowRectangle, special.Visible, special.ExtendedWindowStyle, special.WindowStyle);
+			//		}
+			//		wcHandle = User32.FindWindowEx(IntPtr.Zero, wcHandle, null, null);
+			//	};
+			//}
+			IntPtr nextHandle = User32.FindWindow(METRO_WINDOWS_CLASS, null);
+			while (nextHandle != IntPtr.Zero) {
+				WindowDetails metroApp = new WindowDetails(nextHandle);
+				metroApps.Add(metroApp);
+				// Check if we have a gutter!
+				if (metroApp.Visible && !metroApp.Maximised) {
+					IntPtr gutterHandle = User32.FindWindow(METRO_GUTTER_CLASS, null);
+					if (gutterHandle != IntPtr.Zero) {
+						metroApps.Add(new WindowDetails(gutterHandle));
+					}
+				}
+				nextHandle = User32.FindWindowEx(IntPtr.Zero, nextHandle, METRO_WINDOWS_CLASS, null);
+			};
+			
+			return metroApps;
+		}
+
+		/// <summary>
+		/// Get all the top level windows
+		/// </summary>
+		/// <returns>List<WindowDetails> with all the top level windows</returns>
+		public static List<WindowDetails> GetTopLevelWindows() {
+			List<WindowDetails> windows = new List<WindowDetails>();
+			var possibleTopLevelWindows = GetMetroApps();
+			possibleTopLevelWindows.AddRange(WindowDetails.GetAllWindows());
+			foreach (WindowDetails window in possibleTopLevelWindows) {
+				// Ignore windows without title
+				if (window.Text.Length == 0) {
+					continue;
+				}
+				// Ignore some classes
+				List<string> ignoreClasses = new List<string>(new string[] { "Progman", "XLMAIN", "Button", "Dwm" }); //"MS-SDIa"
+				if (ignoreClasses.Contains(window.ClassName)) {
+					continue;
+				}
+				// Windows without size
+				if (window.WindowRectangle.Size.IsEmpty) {
+					continue;
+				}
+				if (window.HasParent) {
+					continue;
+				}
+				if ((window.ExtendedWindowStyle & ExtendedWindowStyleFlags.WS_EX_TOOLWINDOW) != 0) {
+					continue;
+				}
+				// Skip preview windows, like the one from Firefox
+				if ((window.WindowStyle & WindowStyleFlags.WS_VISIBLE) == 0) {
+					continue;
+				}
+				if (!window.Visible && !window.Iconic) {
 					continue;
 				}
 				windows.Add(window);
@@ -1468,7 +1636,7 @@ namespace GreenshotPlugin.Core  {
 				if (window.Iconic) {
 					continue;
 				}
-				    
+				
 				// Windows without size
 				Size windowSize = window.WindowRectangle.Size;
 				if (windowSize.Width == 0 ||  windowSize.Height == 0) {
@@ -1482,49 +1650,7 @@ namespace GreenshotPlugin.Core  {
 			}
 			return null;
 		}
-		
-		/// <summary>
-		/// Sort the list of WindowDetails according Z-Order, all not found "windows" come at the end
-		/// </summary>
-		/// <param name="hWndParent">IntPtr of the parent</param>
-		/// <param name="windows">List of windows to sort</param>
-		/// <returns></returns>
-		public static List<WindowDetails> SortByZOrder(IntPtr hWndParent, List<WindowDetails> windows) {
-			List<WindowDetails> sortedWindows = new List<WindowDetails>();
-			Dictionary<IntPtr, WindowDetails> allWindows = new Dictionary<IntPtr, WindowDetails>();
-			foreach(WindowDetails window in windows) {
-				if (!allWindows.ContainsKey(window.Handle)) {
-					allWindows.Add(window.Handle, window);
-				}
-			}
-			// Sort by Z-Order, from top to bottom
-			for(IntPtr hWnd = User32.GetTopWindow(hWndParent); hWnd!=IntPtr.Zero; hWnd = User32.GetWindow(hWnd, GetWindowCommand.GW_HWNDNEXT)) {
-				if (allWindows.ContainsKey(hWnd)) {
-					WindowDetails childWindow = allWindows[hWnd];
-					// Force getting the clientRectangle, used for caching
-					Rectangle rect = childWindow.WindowRectangle;
-					sortedWindows.Add(childWindow);
-					// Remove so we can add the ones that were left over
-					allWindows.Remove(hWnd);
-				}
-			}
-			// Add missing children, those that didn't show up in the GetWindow enumeration
-			if (allWindows.Count > 0) {
-				Rectangle screenBounds = WindowCapture.GetScreenBounds();
-				// Copy not copied windows to the back, but only if visible
-				foreach(IntPtr hWnd in allWindows.Keys) {
-					WindowDetails notAddedChild = allWindows[hWnd];
-					Rectangle windowRect = notAddedChild.WindowRectangle;
-					if (windowRect.Width * windowRect.Height > 0 && screenBounds.Contains(windowRect)) {
-						sortedWindows.Add(notAddedChild);
-					} else {
-						LOG.DebugFormat("Skipping {0}", notAddedChild.ClassName);
-					}
-				}
-			}
-			return sortedWindows;
-		}
-		
+
 		/// <summary>
 		/// Helper method to "active" all windows that are not in the supplied list.
 		/// One should preferably call "GetVisibleWindows" for the oldWindows.
@@ -1536,6 +1662,35 @@ namespace GreenshotPlugin.Core  {
 				if (!oldWindows.Contains(window)) {
 					window.ToForeground();
 				}
+			}
+		}
+		
+		/// <summary>
+		/// Get the AppLauncher
+		/// </summary>
+		/// <returns></returns>
+		public static WindowDetails GetAppLauncher() {
+			// Only if Windows 8 (or higher)
+			if (appVisibility == null) {
+				return null;
+			}
+			IntPtr appLauncher = User32.FindWindow(METRO_APPLAUNCHER_CLASS, null);
+			if (appLauncher != IntPtr.Zero) {
+				return new WindowDetails (appLauncher);
+			}
+			return null;
+		}
+		
+		/// <summary>
+		/// Return true if the metro-app-launcher is visible
+		/// </summary>
+		/// <returns></returns>
+		public static bool IsAppLauncherVisible {
+			get {
+				if (appVisibility != null) {
+					return appVisibility.IsLauncherVisible;
+				}
+				return false;
 			}
 		}
 	}

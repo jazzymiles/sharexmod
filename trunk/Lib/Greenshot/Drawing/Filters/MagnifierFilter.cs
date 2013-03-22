@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -23,40 +23,40 @@ using System.Drawing;
 using Greenshot.Drawing.Fields;
 using Greenshot.Plugin.Drawing;
 using GreenshotPlugin.Core;
+using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 
 namespace Greenshot.Drawing.Filters {
-	[Serializable()] 
+	[Serializable] 
 	public class MagnifierFilter : AbstractFilter {
-		
-		private BitmapBuffer bbbSrc;
-		private int magnificationFactor;
-				
 		public MagnifierFilter(DrawableContainer parent) : base(parent) {
 			AddField(GetType(), FieldType.MAGNIFICATION_FACTOR, 2);
 		}
-		
+
 		public override void Apply(Graphics graphics, Bitmap applyBitmap, Rectangle rect, RenderMode renderMode) {
-			magnificationFactor = GetFieldValueAsInt(FieldType.MAGNIFICATION_FACTOR);
-			applyRect = ImageHelper.CreateIntersectRectangle(applyBitmap.Size, rect, Invert);
-			
-			bbbSrc = new BitmapBuffer(applyBitmap, applyRect);
-			try {
-				bbbSrc.Lock();
-				base.Apply(graphics, applyBitmap, applyRect, renderMode);
-			} finally {
-				bbbSrc.Dispose();
-				bbbSrc = null;
+			Rectangle applyRect = ImageHelper.CreateIntersectRectangle(applyBitmap.Size, rect, Invert);
+
+			if (applyRect.Width == 0 || applyRect.Height == 0) {
+				// nothing to do
+				return;
 			}
-		}
-		
-		protected override void IteratePixel(int x, int y) {
-			int halfWidth = bbb.Size.Width/2;
-			int halfHeight = bbb.Size.Height/2;
-			int yDistanceFromCenter = halfHeight-y;
-			int xDistanceFromCenter = halfWidth-x;
-			Color color = bbbSrc.GetColorAt(halfWidth-xDistanceFromCenter/magnificationFactor,halfHeight-yDistanceFromCenter/magnificationFactor);
-			bbb.SetColorAt(x, y, color);
+			int magnificationFactor = GetFieldValueAsInt(FieldType.MAGNIFICATION_FACTOR);
+			GraphicsState state =  graphics.Save();
+			if (Invert) {
+				graphics.SetClip(applyRect);
+				graphics.ExcludeClip(rect);
+			}
+			graphics.SmoothingMode = SmoothingMode.None;
+			graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+			graphics.CompositingQuality = CompositingQuality.HighQuality;
+			graphics.PixelOffsetMode = PixelOffsetMode.None;
+			int halfWidth = rect.Width / 2;
+			int halfHeight = rect.Height / 2;
+			int newWidth = rect.Width / magnificationFactor;
+			int newHeight = rect.Width / magnificationFactor;
+			Rectangle source = new Rectangle(rect.X + halfWidth - (newWidth / 2), rect.Y + halfHeight - (newHeight / 2), newWidth, newHeight);
+			graphics.DrawImage(applyBitmap, rect, source, GraphicsUnit.Pixel);
+			graphics.Restore(state);
 		}
 	}
-	
 }

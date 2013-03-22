@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -30,6 +30,7 @@ using GreenshotPlugin.Core;
 using Greenshot.Plugin;
 using Greenshot.Helpers;
 using Greenshot.IniFile;
+using Greenshot.Core;
 
 namespace Greenshot.Destinations {
 	/// <summary>
@@ -87,30 +88,46 @@ namespace Greenshot.Destinations {
 			}
 		}
 
+		/// <summary>
+		/// Create destinations for all the installed printers
+		/// </summary>
+		/// <returns>IEnumerable<IDestination></returns>
 		public override IEnumerable<IDestination> DynamicDestinations() {
 			foreach (string printer in PrinterSettings.InstalledPrinters) {
 				yield return new PrinterDestination(printer);
 			}
 		}
 
-		public override bool ExportCapture(bool manuallyInitiated, ISurface surface, ICaptureDetails captureDetails) {
+		/// <summary>
+		/// Export the capture to the printer
+		/// </summary>
+		/// <param name="manuallyInitiated"></param>
+		/// <param name="surface"></param>
+		/// <param name="captureDetails"></param>
+		/// <returns>ExportInformation</returns>
+		public override ExportInformation ExportCapture(bool manuallyInitiated, ISurface surface, ICaptureDetails captureDetails) {
+			ExportInformation exportInformation = new ExportInformation(this.Designation, this.Description);
 			PrinterSettings printerSettings = null;
-			using (Image image = surface.GetImageForExport()) {
-				if (!string.IsNullOrEmpty(printerName)) {
-					printerSettings = new PrintHelper(image, captureDetails).PrintTo(printerName);
-				} else if (!manuallyInitiated) {
-					PrinterSettings settings = new PrinterSettings();
-					printerSettings = new PrintHelper(image, captureDetails).PrintTo(settings.PrinterName);
-				} else {
-					printerSettings = new PrintHelper(image, captureDetails).PrintWithDialog();
+			if (!string.IsNullOrEmpty(printerName)) {
+				using (PrintHelper printHelper = new PrintHelper(surface, captureDetails)) {
+					printerSettings = printHelper.PrintTo(printerName);
 				}
-				if (printerSettings != null) {
-					surface.Modified = false;
-					surface.SendMessageEvent(this, SurfaceMessageTyp.Info, Language.GetFormattedString(LangKey.editor_senttoprinter, printerSettings.PrinterName));
+			} else if (!manuallyInitiated) {
+				PrinterSettings settings = new PrinterSettings();
+				using (PrintHelper printHelper = new PrintHelper(surface, captureDetails)) {
+					printerSettings = printHelper.PrintTo(settings.PrinterName);
+				}
+			} else {
+				using (PrintHelper printHelper = new PrintHelper(surface, captureDetails)) {
+					printerSettings = printHelper.PrintWithDialog();
 				}
 			}
+			if (printerSettings != null) {
+				exportInformation.ExportMade = true;
+			}
 
-			return printerSettings != null;
+			ProcessExport(exportInformation, surface);
+			return exportInformation;
 		}
 	}
 }

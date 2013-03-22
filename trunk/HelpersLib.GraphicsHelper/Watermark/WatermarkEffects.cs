@@ -1,15 +1,15 @@
-﻿using System;
+﻿using HelpersLib;
+using HelpersLib.GraphicsHelper;
+using HelpersLibGradient;
+using HelpersLibMod;
+using HelpersLibWatermark;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
 using System.Windows.Forms;
-using HelpersLib;
-using HelpersLib.GraphicsHelper;
-using HelpersLibGradient;
-using HelpersLibMod;
-using HelpersLibWatermark;
 
 namespace HelpersLibWatermark
 {
@@ -81,7 +81,7 @@ namespace HelpersLibWatermark
                 case WatermarkType.NONE:
                     return img;
                 case WatermarkType.TEXT:
-                    return DrawWatermark(img, parser.Convert(Config.WatermarkText));
+                    return DrawWatermark(img, parser.Parse(Config.WatermarkText));
                 case WatermarkType.IMAGE:
                     return DrawImageWatermark(img, Config.WatermarkImageLocation);
             }
@@ -101,6 +101,7 @@ namespace HelpersLibWatermark
                         (img.Height < img2.Height + offset)))
                     {
                         return img;
+
                         //throw new Exception("Image size smaller than watermark size.");
                     }
 
@@ -165,6 +166,7 @@ namespace HelpersLibWatermark
                 case WatermarkPositionType.BOTTOM:
                     position = new Point(img.Width / 2 - img2.Width / 2 - add, img.Height - img2.Height - offset - add);
                     break;
+
                 default:
                     position = Point.Empty;
                     break;
@@ -192,6 +194,7 @@ namespace HelpersLibWatermark
                         (img.Height < labelSize.Height + offset)))
                     {
                         return img;
+
                         //throw new Exception("Image size smaller than watermark size.");
                     }
                     Rectangle labelRectangle = new Rectangle(Point.Empty, labelSize);

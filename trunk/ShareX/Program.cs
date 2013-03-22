@@ -23,6 +23,10 @@
 
 #endregion License Information (GPL v3)
 
+using HelpersLib;
+using HelpersLib.Hotkeys2;
+using ShareX.Forms;
+using SingleInstanceApplication;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,10 +34,6 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
-using HelpersLib;
-using HelpersLib.Hotkeys2;
-using ShareX.Forms;
-using SingleInstanceApplication;
 using UploadersLib;
 
 namespace ShareX
@@ -100,7 +100,7 @@ namespace ShareX
         {
             get
             {
-                string subFolderName = new NameParser(NameParserType.FolderPath).Convert(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
+                string subFolderName = new NameParser(NameParserType.FolderPath).Parse(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
                 return Path.Combine(ScreenshotsRootPath, subFolderName);
             }
         }

@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -46,15 +46,6 @@ namespace Greenshot.Plugin {
 		Image GetImageForExport();
 		
 		/// <summary>
-		/// Will save the current Image in the supplied format to the given stream
-		/// </summary>
-		/// <param name="stream">The stream the image is stored on</param>
-		/// <param name="extension">The image type (extension), e.g. "png", "jpg", "bmp"</param>
-		/// <param name="quality">Only needed for "jpg"</param>
-		/// <param name="reduceColors">reduce the amount of colors to 256</param>
-		void SaveToStream(Stream stream, OutputFormat extension, int quality, bool reduceColors);
-		
-		/// <summary>
 		/// Get the ToolStripMenuItem where plugins can place their Menu entrys
 		/// </summary>
 		/// <returns>ToolStripMenuItem</returns>
@@ -72,9 +63,10 @@ namespace Greenshot.Plugin {
 		ICaptureDetails CaptureDetails {
 			get;
 		}
-		
+
 		ISurface Surface {
 			get;
+			set;
 		}
 	}
 }

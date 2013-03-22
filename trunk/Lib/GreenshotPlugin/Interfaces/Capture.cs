@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -26,7 +26,7 @@ namespace Greenshot.Plugin {
 	/// <summary>
 	/// The capture mode for Greenshot
 	/// </summary>
-	public enum CaptureMode { None, Region, FullScreen, ActiveWindow, Window, LastRegion, Clipboard, File, IE, Video, Import };
+	public enum CaptureMode { None, Region, FullScreen, ActiveWindow, Window, LastRegion, Clipboard, File, IE, Import}; //, Video };
 	public enum ScreenCaptureMode { Auto, FullScreen, Fixed};
 
 	/// <summary>
@@ -96,8 +96,6 @@ namespace Greenshot.Plugin {
 			get;
 			set;
 		}
-
-		ICaptureElement FindElementUnderPoint(Point p);
 	}
 	
 	/// <summary>
@@ -115,6 +113,8 @@ namespace Greenshot.Plugin {
 			get;
 			set;
 		}
+
+		void NullImage();
 		
 		Rectangle ScreenBounds {
 			get;
@@ -155,26 +155,27 @@ namespace Greenshot.Plugin {
 		/// <param name="y">y coordinates to move the mouse</param>
 		void MoveMouseLocation(int x, int y);
 
-		/// <summary>
-		/// Apply a translate to the elements e.g. needed for crop
-		/// </summary>
-		/// <param name="x">x coordinates to move the elements</param>
-		/// <param name="y">y coordinates to move the elements</param>
-		void MoveElements(int x, int y);
+		// / TODO: Enable when the elements are usable again.
+		///// <summary>
+		///// Apply a translate to the elements e.g. needed for crop
+		///// </summary>
+		///// <param name="x">x coordinates to move the elements</param>
+		///// <param name="y">y coordinates to move the elements</param>
+		//void MoveElements(int x, int y);
 		
-		/// <summary>
-		/// Add a new element to the capture
-		/// </summary>
-		/// <param name="element">Rectangle</param>
-		void AddElement(ICaptureElement element);
+		///// <summary>
+		///// Add a new element to the capture
+		///// </summary>
+		///// <param name="element">Rectangle</param>
+		//void AddElement(ICaptureElement element);
 
-		/// <summary>
-		/// Returns a list of rectangles which represent objects that are "on" the capture
-		/// </summary>
-		List<ICaptureElement> Elements {
-			get;
-			set;
-		}
+		///// <summary>
+		///// Returns a list of rectangles which represent objects that are "on" the capture
+		///// </summary>
+		//List<ICaptureElement> Elements {
+		//    get;
+		//    set;
+		//}
 	}
 
 }

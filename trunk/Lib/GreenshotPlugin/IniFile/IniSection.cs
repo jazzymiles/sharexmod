@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
+using GreenshotPlugin.Core;
 
 namespace Greenshot.IniFile {
 	/// <summary>
@@ -33,6 +34,16 @@ namespace Greenshot.IniFile {
 
 		[NonSerialized]
 		private IDictionary<string, IniValue> values = new Dictionary<string, IniValue>();
+		[NonSerialized]
+		private IniSectionAttribute iniSectionAttribute = null;
+		public IniSectionAttribute IniSectionAttribute {
+			get {
+				if (iniSectionAttribute == null) {
+					iniSectionAttribute = GetIniSectionAttribute(this.GetType());
+				}
+				return iniSectionAttribute;
+			}
+		}
 
 		/// <summary>
 		/// Get the dictionary with all the IniValues
@@ -87,6 +98,21 @@ namespace Greenshot.IniFile {
 		}
 
 		/// <summary>
+		/// Helper method to get the IniSectionAttribute of a type
+		/// </summary>
+		/// <param name="iniSectionType"></param>
+		/// <returns></returns>
+		public static IniSectionAttribute GetIniSectionAttribute(Type iniSectionType) {
+			Attribute[] classAttributes = Attribute.GetCustomAttributes(iniSectionType);
+			foreach (Attribute attribute in classAttributes) {
+				if (attribute is IniSectionAttribute) {
+					return (IniSectionAttribute)attribute;
+				}
+			}
+			return null;
+		}
+
+		/// <summary>
 		/// Fill the section with the supplied properties
 		/// </summary>
 		/// <param name="properties"></param>
@@ -96,9 +122,9 @@ namespace Greenshot.IniFile {
 			// Iterate over the members and create IniValueContainers
 			foreach (FieldInfo fieldInfo in iniSectionType.GetFields()) {
 				if (Attribute.IsDefined(fieldInfo, typeof(IniPropertyAttribute))) {
-					if (!Values.ContainsKey(fieldInfo.Name)) {
-						IniPropertyAttribute iniPropertyAttribute = (IniPropertyAttribute)fieldInfo.GetCustomAttributes(typeof(IniPropertyAttribute), false)[0];
-						Values.Add(fieldInfo.Name, new IniValue(this, fieldInfo, iniPropertyAttribute));
+					IniPropertyAttribute iniPropertyAttribute = (IniPropertyAttribute)fieldInfo.GetCustomAttributes(typeof(IniPropertyAttribute), false)[0];
+					if (!Values.ContainsKey(iniPropertyAttribute.Name)) {
+						Values.Add(iniPropertyAttribute.Name, new IniValue(this, fieldInfo, iniPropertyAttribute));
 					}
 				}
 			}
@@ -107,7 +133,7 @@ namespace Greenshot.IniFile {
 				if (Attribute.IsDefined(propertyInfo, typeof(IniPropertyAttribute))) {
 					if (!Values.ContainsKey(propertyInfo.Name)) {
 						IniPropertyAttribute iniPropertyAttribute = (IniPropertyAttribute)propertyInfo.GetCustomAttributes(typeof(IniPropertyAttribute), false)[0];
-						Values.Add(propertyInfo.Name, new IniValue(this, propertyInfo, iniPropertyAttribute));
+						Values.Add(iniPropertyAttribute.Name, new IniValue(this, propertyInfo, iniPropertyAttribute));
 					}
 				}
 			}
@@ -116,6 +142,12 @@ namespace Greenshot.IniFile {
 				IniValue iniValue = Values[fieldName];
 				try {
 					iniValue.SetValueFromProperties(properties);
+					if (iniValue.Attributes.Encrypted) {
+						string stringValue = iniValue.Value as string;
+						if (stringValue != null && stringValue.Length > 2) {
+							iniValue.Value = stringValue.Decrypt();
+						}
+					}
 				} catch (Exception ex) {
 					LOG.Error(ex);
 				}
@@ -129,27 +161,32 @@ namespace Greenshot.IniFile {
 		/// <param name="writer"></param>
 		/// <param name="onlyProperties"></param>
 		public void Write(TextWriter writer, bool onlyProperties) {
+			if (IniSectionAttribute == null) {
+				throw new ArgumentException("Section didn't implement the IniSectionAttribute");
+			}
 			BeforeSave();
 			try {
-				Attribute[] classAttributes = Attribute.GetCustomAttributes(this.GetType());
-				IniSectionAttribute iniSectionAttribute = null;
-				foreach (Attribute attribute in classAttributes) {
-					if (attribute is IniSectionAttribute) {
-						iniSectionAttribute = (IniSectionAttribute)attribute;
-						break;
-					}
-				}
-				if (iniSectionAttribute == null) {
-					throw new ArgumentException("Section didn't implement the IniSectionAttribute");
-				}
 
 				if (!onlyProperties) {
-					writer.WriteLine("; {0}", iniSectionAttribute.Description);
+					writer.WriteLine("; {0}", IniSectionAttribute.Description);
 				}
-				writer.WriteLine("[{0}]", iniSectionAttribute.Name);
+				writer.WriteLine("[{0}]", IniSectionAttribute.Name);
 
 				foreach (IniValue value in Values.Values) {
+					if (value.Attributes.Encrypted) {
+						string stringValue = value.Value as string;
+						if (stringValue != null && stringValue.Length > 2) {
+							value.Value = stringValue.Encrypt();
+						}
+					}
+					// Write the value
 					value.Write(writer, onlyProperties);
+					if (value.Attributes.Encrypted) {
+						string stringValue = value.Value as string;
+						if (stringValue != null && stringValue.Length > 2) {
+							value.Value = stringValue.Decrypt();
+						}
+					}
 				}
 			} finally {
 				AfterSave();

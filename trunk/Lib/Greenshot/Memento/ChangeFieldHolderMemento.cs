@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -40,9 +40,16 @@ namespace Greenshot.Memento {
 		}
 
 		public void Dispose() {
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 
-		public LangKey ActionKey {
+		protected virtual void Dispose(bool disposing) {
+			//if (disposing) { }
+			drawableContainer = null;
+		}
+
+		public LangKey ActionLanguageKey {
 			get {
 				return LangKey.none;
 			}

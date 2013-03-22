@@ -1,6 +1,6 @@
 /*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -19,12 +19,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using Greenshot.Plugin;
-using Greenshot.Forms;
 using System.Drawing;
+using System.Windows.Forms;
+using Greenshot.Forms;
 using GreenshotPlugin.UnmanagedHelpers;
 
 namespace Greenshot.Controls {
@@ -59,25 +56,16 @@ namespace Greenshot.Controls {
 		/// <param name="hotspotY">Hotspot Y coordinate</param>
 		/// <returns>Cursor</returns>
 		private static Cursor CreateCursor(Bitmap bitmap, int hotspotX, int hotspotY) {
-			IntPtr iconHandle = bitmap.GetHicon();
-			IntPtr icon;
-			IconInfo iconInfo = new IconInfo();
-			User32.GetIconInfo(iconHandle, out iconInfo);
-			iconInfo.xHotspot = hotspotX;
-			iconInfo.yHotspot = hotspotY;
-			iconInfo.fIcon = false;
-			icon = User32.CreateIconIndirect(ref iconInfo);
-			Cursor returnCursor = new Cursor(icon);
-			//User32.DestroyIcon(icon);
-			User32.DestroyIcon(iconHandle);
-			return returnCursor;
-		}
-
-		/// <summary>
-		/// Destructor
-		/// </summary>
-		~Pipette() {
-			Dispose(false);
+			using (SafeIconHandle iconHandle = new SafeIconHandle( bitmap.GetHicon())) {
+				IntPtr icon;
+				IconInfo iconInfo = new IconInfo();
+				User32.GetIconInfo(iconHandle, out iconInfo);
+				iconInfo.xHotspot = hotspotX;
+				iconInfo.yHotspot = hotspotY;
+				iconInfo.fIcon = false;
+				icon = User32.CreateIconIndirect(ref iconInfo);
+				return new Cursor(icon);
+			}
 		}
 
 		/// <summary>

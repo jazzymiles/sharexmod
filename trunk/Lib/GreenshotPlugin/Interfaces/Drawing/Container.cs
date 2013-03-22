@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -22,12 +22,13 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace Greenshot.Plugin.Drawing {
 	public enum RenderMode {EDIT, EXPORT};
 	public enum EditStatus {UNDRAWN, DRAWING, MOVING, RESIZING, IDLE};
 
-	public interface IDrawableContainer {
+	public interface IDrawableContainer : INotifyPropertyChanged, IDisposable {
 		ISurface Parent {
 			get;
 		}
@@ -76,9 +77,21 @@ namespace Greenshot.Plugin.Drawing {
 			get;
 		}
 
+		EditStatus Status {
+			get;
+			set;
+		}
 		void AlignToParent(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment);
 		void Invalidate();
-		void Dispose();
+		bool ClickableAt(int x, int y);
+		void HideGrippers();
+		void ShowGrippers();
+		void MoveBy(int x, int y);
+		bool HandleMouseDown(int x, int y);
+		void HandleMouseUp(int x, int y);
+		bool HandleMouseMove(int x, int y);
+		bool InitContent();
+		void MakeBoundsChangeUndoable(bool allowMerge);
 	}
 
 	public interface ITextContainer: IDrawableContainer {
@@ -89,8 +102,8 @@ namespace Greenshot.Plugin.Drawing {
 		void FitToText();
 	}
 
-	public interface IBitmapContainer: IDrawableContainer {
-		Bitmap Bitmap {
+	public interface IImageContainer: IDrawableContainer {
+		Image Image {
 			get;
 			set;
 		}

@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -89,7 +89,6 @@ namespace Greenshot {
 			this.lblHost.Name = "lblHost";
 			this.lblHost.Size = new System.Drawing.Size(466, 23);
 			this.lblHost.TabIndex = 4;
-			this.lblHost.Text = "Greenshot wird von sourceforge.net gehostet unter";
 			// 
 			// linkLblLicense
 			// 
@@ -118,7 +117,7 @@ namespace Greenshot {
 			this.linkLblBugs.Size = new System.Drawing.Size(465, 23);
 			this.linkLblBugs.TabIndex = 8;
 			this.linkLblBugs.TabStop = true;
-			this.linkLblBugs.Text = "http://sourceforge.net/tracker/?group_id=191585&atid=937972";
+			this.linkLblBugs.Text = "http://getgreenshot.org/tickets/";
 			this.linkLblBugs.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelClicked);
 			// 
 			// lblBugs
@@ -128,7 +127,6 @@ namespace Greenshot {
 			this.lblBugs.Name = "lblBugs";
 			this.lblBugs.Size = new System.Drawing.Size(466, 23);
 			this.lblBugs.TabIndex = 7;
-			this.lblBugs.Text = "Bitte melden Sie Fehler unter";
 			// 
 			// linkLblDonations
 			// 
@@ -147,7 +145,6 @@ namespace Greenshot {
 			this.lblDonations.Name = "lblDonations";
 			this.lblDonations.Size = new System.Drawing.Size(466, 23);
 			this.lblDonations.TabIndex = 9;
-			this.lblDonations.Text = "Wenn Sie Greenshot mögen, können Sie uns gerne unterstützen:";
 			// 
 			// linkLblIcons
 			// 
@@ -164,10 +161,8 @@ namespace Greenshot {
 			this.lblIcons.LanguageKey = "about_icons";
 			this.lblIcons.Location = new System.Drawing.Point(12, 224);
 			this.lblIcons.Name = "lblIcons";
-			this.lblIcons.Size = new System.Drawing.Size(466, 23);
+            this.lblIcons.Size = new System.Drawing.Size(530, 23);
 			this.lblIcons.TabIndex = 11;
-			this.lblIcons.Text = "Icons aus Yusuke Kamiyamane\'s Fugue icon set (Creative Commons Attribution 3.0 li" +
-				"cense)";
 			// 
 			// linkLabel1
 			// 
@@ -201,7 +196,7 @@ namespace Greenshot {
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(519, 293);
+			this.ClientSize = new System.Drawing.Size(530, 293);
 			this.Controls.Add(this.lblTranslation);
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.linkLabel1);
@@ -216,7 +211,7 @@ namespace Greenshot {
 			this.Controls.Add(this.lblHost);
 			this.Controls.Add(this.lblLicense);
 			this.Controls.Add(this.lblTitle);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.LanguageKey = "about_title";
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;

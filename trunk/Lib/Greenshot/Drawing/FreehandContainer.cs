@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -58,9 +58,11 @@ namespace Greenshot.Drawing {
 		}
 		
 		protected void Init() {
-			for(int i=0; i<grippers.Length; i++) {
-				grippers[i].Enabled = false;
-				grippers[i].Visible = false;
+			if (grippers != null) {
+				for (int i = 0; i < grippers.Length; i++) {
+					grippers[i].Enabled = false;
+					grippers[i].Visible = false;
+				}
 			}
 		}
 		
@@ -73,27 +75,11 @@ namespace Greenshot.Drawing {
 		}
 
 		/// <summary>
-		/// Destructor
-		/// </summary>
-		~FreehandContainer() {
-			Dispose(false);
-		}
-
-		/// <summary>
-		/// The public accessible Dispose
-		/// Will call the GarbageCollector to SuppressFinalize, preventing being cleaned twice
-		/// </summary>
-		public new void Dispose() {
-			Dispose(true);
-			base.Dispose();
-			GC.SuppressFinalize(this);
-		}
-
-		/// <summary>
 		/// This Dispose is called from the Dispose and the Destructor.
 		/// </summary>
 		/// <param name="disposing">When disposing==true all non-managed resources should be freed too!</param>
-		protected virtual void Dispose(bool disposing) {
+		protected override void Dispose(bool disposing) {
+			base.Dispose(disposing);
 			if (disposing) {
 				if (freehandPath != null) {
 					freehandPath.Dispose();
@@ -118,11 +104,11 @@ namespace Greenshot.Drawing {
 		/// <returns>true if the surface doesn't need to handle the event</returns>
 		public override bool HandleMouseMove(int mouseX, int mouseY) {
 			Point previousPoint = capturePoints[capturePoints.Count-1];
-			
-			if (GeometryHelper.Distance2D(previousPoint.X, previousPoint.Y, mouseX, mouseY ) > 5) {
+
+			if (GeometryHelper.Distance2D(previousPoint.X, previousPoint.Y, mouseX, mouseY) >= (2*editorConfig.FreehandSensitivity)) {
 				capturePoints.Add(new Point(mouseX, mouseY));
 			}
-			if (GeometryHelper.Distance2D(lastMouse.X, lastMouse.Y, mouseX, mouseY) > 2 ) {
+			if (GeometryHelper.Distance2D(lastMouse.X, lastMouse.Y, mouseX, mouseY) >= editorConfig.FreehandSensitivity) {
 				//path.AddCurve(new Point[]{lastMouse, new Point(mouseX, mouseY)});
 				freehandPath.AddLine(lastMouse, new Point(mouseX, mouseY));
 				lastMouse = new Point(mouseX, mouseY);
@@ -138,7 +124,7 @@ namespace Greenshot.Drawing {
 		/// </summary>
 		public override void HandleMouseUp(int mouseX, int mouseY) {
 			// Make sure we don't loose the ending point
-			if (GeometryHelper.Distance2D(lastMouse.X, lastMouse.Y, mouseX, mouseY) > 2) {
+			if (GeometryHelper.Distance2D(lastMouse.X, lastMouse.Y, mouseX, mouseY) >= editorConfig.FreehandSensitivity) {
 				capturePoints.Add(new Point(mouseX, mouseY));
 			}
 			RecalculatePath();
@@ -156,13 +142,15 @@ namespace Greenshot.Drawing {
 			freehandPath = new GraphicsPath();
 
 			// Here we can put some cleanup... like losing all the uninteresting  points.
-			if (capturePoints.Count > 3) {
+			if (capturePoints.Count >= 3) {
 				int index = 0;
 				while ((capturePoints.Count - 1) % 3 != 0) {
 					// duplicate points, first at 50% than 25% than 75%
 					capturePoints.Insert((int)(capturePoints.Count*POINT_OFFSET[index]), capturePoints[(int)(capturePoints.Count*POINT_OFFSET[index++])]);
 				}
 				freehandPath.AddBeziers(capturePoints.ToArray());
+			} else if (capturePoints.Count == 2) {
+				freehandPath.AddLine(capturePoints[0], capturePoints[1]);
 			}
 
 			// Recalculate the bounds

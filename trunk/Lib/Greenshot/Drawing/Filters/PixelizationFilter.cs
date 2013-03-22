@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -35,51 +35,50 @@ namespace Greenshot.Drawing.Filters {
 			AddField(GetType(), FieldType.PIXEL_SIZE, 5);
 		}
 		
-		public static void Apply(Graphics graphics, Bitmap applyBitmap, Rectangle rect, int pixelSize) {
-
-			if(pixelSize <= 1 || rect.Width == 0 || rect.Height == 0) {
+		public override void Apply(Graphics graphics, Bitmap applyBitmap, Rectangle rect, RenderMode renderMode) {
+			int pixelSize = GetFieldValueAsInt(FieldType.PIXEL_SIZE);
+			Rectangle applyRect = ImageHelper.CreateIntersectRectangle(applyBitmap.Size, rect, Invert);
+			if (pixelSize <= 1 || rect.Width == 0 || rect.Height == 0) {
 				// Nothing to do
 				return;
 			}
-			if(rect.Width < pixelSize) pixelSize = rect.Width;
-			if(rect.Height < pixelSize) pixelSize = rect.Height;
-		
-			using (BitmapBuffer bbbDest = new BitmapBuffer(applyBitmap, rect)) {
-				bbbDest.Lock();
-				using(BitmapBuffer bbbSrc = new BitmapBuffer(applyBitmap, rect)) {
-					bbbSrc.Lock();
+			if (rect.Width < pixelSize) {
+				pixelSize = rect.Width;
+			}
+			if (rect.Height < pixelSize) {
+				pixelSize = rect.Height;
+			}
+			using (IFastBitmap dest = FastBitmap.CreateCloneOf(applyBitmap, rect)) {
+				using (IFastBitmap src = FastBitmap.Create(applyBitmap, rect)) {
 					List<Color> colors = new List<Color>();
-					int halbPixelSize = pixelSize/2;
-					for(int y=-halbPixelSize;y<bbbSrc.Height+halbPixelSize; y=y+pixelSize) {
-						for(int x=-halbPixelSize;x<=bbbSrc.Width+halbPixelSize; x=x+pixelSize) {
+					int halbPixelSize = pixelSize / 2;
+					for (int y = src.Top - halbPixelSize; y < src.Bottom + halbPixelSize; y = y + pixelSize) {
+						for (int x = src.Left - halbPixelSize; x <= src.Right + halbPixelSize; x = x + pixelSize) {
 							colors.Clear();
-							for(int yy=y;yy<y+pixelSize;yy++) {
-								if (yy >=0 && yy < bbbSrc.Height) {
-									for(int xx=x;xx<x+pixelSize;xx++) {
-										colors.Add(bbbSrc.GetColorAt(xx,yy));
+							for (int yy = y; yy < y + pixelSize; yy++) {
+								if (yy >= src.Top && yy < src.Bottom) {
+									for (int xx = x; xx < x + pixelSize; xx++) {
+										if (xx >= src.Left && xx < src.Right) {
+											colors.Add(src.GetColorAt(xx, yy));
+										}
 									}
 								}
 							}
 							Color currentAvgColor = Colors.Mix(colors);
-							for(int yy=y;yy<=y+pixelSize;yy++) {
-								if (yy >=0 && yy < bbbSrc.Height) {
-									for(int xx=x;xx<=x+pixelSize;xx++) {
-										bbbDest.SetColorAt(xx, yy, currentAvgColor);
+							for (int yy = y; yy <= y + pixelSize; yy++) {
+								if (yy >= src.Top && yy < src.Bottom) {
+									for (int xx = x; xx <= x + pixelSize; xx++) {
+										if (xx >= src.Left && xx < src.Right) {
+											dest.SetColorAt(xx, yy, currentAvgColor);
+										}
 									}
 								}
 							}
 						}
 					}
 				}
-				bbbDest.DrawTo(graphics, rect.Location);
+				dest.DrawTo(graphics, rect.Location);
 			}
-		}
-		
-		public override void Apply(Graphics graphics, Bitmap applyBitmap, Rectangle rect, RenderMode renderMode) {
-			int pixelSize = GetFieldValueAsInt(FieldType.PIXEL_SIZE);
-			applyRect = ImageHelper.CreateIntersectRectangle(applyBitmap.Size, rect, Invert);
-
-			Apply(graphics, applyBitmap, applyRect, pixelSize);
 		}
 	}
 }

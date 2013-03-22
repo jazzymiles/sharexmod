@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -22,6 +22,9 @@ using System;
 using GreenshotPlugin.Controls;
 
 namespace Greenshot {
+	/// <summary>
+	/// This class is only here to help in the Designer mode, so it's clear where the language files are
+	/// </summary>
 	public class BaseForm : GreenshotForm {
 	}
 }

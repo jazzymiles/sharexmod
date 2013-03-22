@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -20,9 +20,9 @@
  */
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Collections.Generic;
 
 namespace GreenshotPlugin.Core {
 	internal class WuColorCube {
@@ -69,7 +69,7 @@ namespace GreenshotPlugin.Core {
 		public Int32 Volume { get; set; }
 	}
 
-	public class WuQuantizer {
+	public class WuQuantizer : IDisposable {
 		private static log4net.ILog LOG = log4net.LogManager.GetLogger(typeof(WuQuantizer));
 
 		private const Int32 MAXCOLOR = 512;
@@ -99,6 +99,20 @@ namespace GreenshotPlugin.Core {
 		private WuColorCube[] cubes;
 		private Bitmap sourceBitmap;
 		private Bitmap resultBitmap;
+
+		public void Dispose() {
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing) {
+			if (disposing) {
+				if (resultBitmap != null) {
+					resultBitmap.Dispose();
+					resultBitmap = null;
+				}
+			}
+		}
 
 		/// <summary>
 		/// See <see cref="IColorQuantizer.Prepare"/> for more details.
@@ -140,14 +154,19 @@ namespace GreenshotPlugin.Core {
 			}
 
 			// Use a bitmap to store the initial match, which is just as good as an array and saves us 2x the storage
-			resultBitmap = new Bitmap(sourceBitmap.Width, sourceBitmap.Height, PixelFormat.Format8bppIndexed);
-			using (BitmapBuffer bbbSrc = new BitmapBuffer(sourceBitmap, false)) {
-				bbbSrc.Lock();
-				using (BitmapBuffer bbbDest = new BitmapBuffer(resultBitmap, false)) {
-					bbbDest.Lock();
-					for (int y = 0; y < bbbSrc.Height; y++) {
-						for (int x = 0; x < bbbSrc.Width; x++) {
-							Color color = bbbSrc.GetColorAtWithoutAlpha(x, y);
+			using (IFastBitmap sourceFastBitmap = FastBitmap.Create(sourceBitmap)) {
+				IFastBitmapWithBlend sourceFastBitmapWithBlend = sourceFastBitmap as IFastBitmapWithBlend;
+				sourceFastBitmap.Lock();
+				using (FastChunkyBitmap destinationFastBitmap = FastBitmap.CreateEmpty(sourceBitmap.Size, PixelFormat.Format8bppIndexed, Color.White) as FastChunkyBitmap) {
+					destinationFastBitmap.Lock();
+					for (int y = 0; y < sourceFastBitmap.Height; y++) {
+						for (int x = 0; x < sourceFastBitmap.Width; x++) {
+							Color color;
+							if (sourceFastBitmapWithBlend == null) {
+								color = sourceFastBitmap.GetColorAt(x, y);
+							} else {
+								color = sourceFastBitmapWithBlend.GetBlendedColorAt(x, y);
+							}
 							// To count the colors
 							int index = color.ToArgb() & 0x00ffffff;
 							// Check if we already have this color
@@ -169,9 +188,10 @@ namespace GreenshotPlugin.Core {
 
 							// Store the initial "match"
 							Int32 paletteIndex = (indexRed << 10) + (indexRed << 6) + indexRed + (indexGreen << 5) + indexGreen + indexBlue;
-							bbbDest.SetColorIndexAt(x, y, (byte)(paletteIndex & 0xff));
+							destinationFastBitmap.SetColorIndexAt(x, y, (byte)(paletteIndex & 0xff));
 						}
 					}
+					resultBitmap = destinationFastBitmap.UnlockAndReturnBitmap();
 				}
 			}
 		}
@@ -184,9 +204,70 @@ namespace GreenshotPlugin.Core {
 		}
 
 		/// <summary>
+		/// Reindex the 24/32 BPP (A)RGB image to a 8BPP
+		/// </summary>
+		/// <returns>Bitmap</returns>
+		public Bitmap SimpleReindex() {
+			List<Color> colors = new List<Color>();
+			Dictionary<Color, byte> lookup = new Dictionary<Color, byte>();
+			using (FastChunkyBitmap bbbDest = FastBitmap.Create(resultBitmap) as FastChunkyBitmap) {
+				bbbDest.Lock();
+				using (IFastBitmap bbbSrc = FastBitmap.Create(sourceBitmap)) {
+					IFastBitmapWithBlend bbbSrcBlend = bbbSrc as IFastBitmapWithBlend;
+
+					bbbSrc.Lock();
+					byte index;
+					for (int y = 0; y < bbbSrc.Height; y++) {
+						for (int x = 0; x < bbbSrc.Width; x++) {
+							Color color;
+							if (bbbSrcBlend != null) {
+								color = bbbSrcBlend.GetBlendedColorAt(x, y);
+							} else {
+								color = bbbSrc.GetColorAt(x, y);
+							}
+							if (lookup.ContainsKey(color)) {
+								index = lookup[color];
+							} else {
+								colors.Add(color);
+								index = (byte)(colors.Count - 1);
+								lookup.Add(color, index);
+							}
+							bbbDest.SetColorIndexAt(x, y, index);
+						}
+					}
+				}
+			}
+
+			// generates palette
+			ColorPalette imagePalette = resultBitmap.Palette;
+			Color[] entries = imagePalette.Entries;
+			for (Int32 paletteIndex = 0; paletteIndex < 256; paletteIndex++) {
+				if (paletteIndex < colorCount) {
+					entries[paletteIndex] = colors[paletteIndex];
+				} else {
+					entries[paletteIndex] = Color.Black;
+				}
+			}
+			resultBitmap.Palette = imagePalette;
+
+			// Make sure the bitmap is not disposed, as we return it.
+			Bitmap tmpBitmap = resultBitmap;
+			resultBitmap = null;
+			return tmpBitmap;
+		}
+
+		/// <summary>
 		/// Get the image
 		/// </summary>
 		public Bitmap GetQuantizedImage(int allowedColorCount) {
+			if (allowedColorCount > 256) {
+				throw new ArgumentOutOfRangeException("Quantizing muss be done to get less than 256 colors");
+			}
+			if (colorCount < allowedColorCount) {
+				// Simple logic to reduce to 8 bit
+				LOG.Info("Colors in the image are already less as whished for, using simple copy to indexed image, no quantizing needed!");
+				return SimpleReindex();
+			}
 			// preprocess the colors
 			CalculateMoments();
 			LOG.Info("Calculated the moments...");
@@ -228,7 +309,7 @@ namespace GreenshotPlugin.Core {
 			tag = new byte[MAXVOLUME];
 
 			// precalculates lookup tables
-			for (byte k = 0; k < allowedColorCount; ++k) {
+			for (int k = 0; k < allowedColorCount; ++k) {
 				Mark(cubes[k], k, tag);
 
 				long weight = Volume(cubes[k], weights);
@@ -251,25 +332,31 @@ namespace GreenshotPlugin.Core {
 
 			LOG.Info("Starting bitmap reconstruction...");
 
-			using (BitmapBuffer bbbDest = new BitmapBuffer(resultBitmap, false)) {
-				bbbDest.Lock();
-				using (BitmapBuffer bbbSrc = new BitmapBuffer(sourceBitmap, false)) {
-					bbbSrc.Lock();
+			using (FastChunkyBitmap dest = FastBitmap.Create(resultBitmap) as FastChunkyBitmap) {
+				using (IFastBitmap src = FastBitmap.Create(sourceBitmap)) {
+					IFastBitmapWithBlend srcBlend = src as IFastBitmapWithBlend;
 					Dictionary<Color, byte> lookup = new Dictionary<Color, byte>();
 					byte bestMatch;
-					for (int y = 0; y < bbbSrc.Height; y++) {
-						for (int x = 0; x < bbbSrc.Width; x++) {
-							Color color = bbbSrc.GetColorAtWithoutAlpha(x, y);
+					for (int y = 0; y < src.Height; y++) {
+						for (int x = 0; x < src.Width; x++) {
+							Color color;
+							if (srcBlend != null) {
+								// WithoutAlpha, this makes it possible to ignore the alpha
+								color = srcBlend.GetBlendedColorAt(x, y);
+							} else {
+								color = src.GetColorAt(x, y);
+							}
+
 							// Check if we already matched the color
 							if (!lookup.ContainsKey(color)) {
 								// If not we need to find the best match
 
 								// First get initial match
-								bestMatch = bbbDest.GetColorIndexAt(x, y);
+								bestMatch = dest.GetColorIndexAt(x, y);
 								bestMatch = tag[bestMatch];
 
 								Int32 bestDistance = 100000000;
-								for (byte lookupIndex = 0; lookupIndex < allowedColorCount; lookupIndex++) {
+								for (int lookupIndex = 0; lookupIndex < allowedColorCount; lookupIndex++) {
 									Int32 foundRed = lookupRed[lookupIndex];
 									Int32 foundGreen = lookupGreen[lookupIndex];
 									Int32 foundBlue = lookupBlue[lookupIndex];
@@ -281,7 +368,7 @@ namespace GreenshotPlugin.Core {
 
 									if (distance < bestDistance) {
 										bestDistance = distance;
-										bestMatch = lookupIndex;
+										bestMatch = (byte)lookupIndex;
 									}
 								}
 								lookup.Add(color, bestMatch);
@@ -295,15 +382,16 @@ namespace GreenshotPlugin.Core {
 							blues[bestMatch] += color.B;
 							sums[bestMatch]++;
 
-							bbbDest.SetColorIndexAt(x, y, bestMatch);
+							dest.SetColorIndexAt(x, y, bestMatch);
 						}
 					}
 				}
 			}
 
-			ColorPalette imagePalette = resultBitmap.Palette;
 
 			// generates palette
+			ColorPalette imagePalette = resultBitmap.Palette;
+			Color[] entries = imagePalette.Entries;
 			for (Int32 paletteIndex = 0; paletteIndex < allowedColorCount; paletteIndex++) {
 				if (sums[paletteIndex] > 0) {
 					reds[paletteIndex] /= sums[paletteIndex];
@@ -311,10 +399,14 @@ namespace GreenshotPlugin.Core {
 					blues[paletteIndex] /= sums[paletteIndex];
 				}
 
-				imagePalette.Entries[paletteIndex] = Color.FromArgb(255, reds[paletteIndex], greens[paletteIndex], blues[paletteIndex]);
+				entries[paletteIndex] = Color.FromArgb(255, reds[paletteIndex], greens[paletteIndex], blues[paletteIndex]);
 			}
 			resultBitmap.Palette = imagePalette;
-			return resultBitmap;
+
+			// Make sure the bitmap is not disposed, as we return it.
+			Bitmap tmpBitmap = resultBitmap;
+			resultBitmap = null;
+			return tmpBitmap;
 		}
 
 		/// <summary>
@@ -585,5 +677,5 @@ namespace GreenshotPlugin.Core {
 				}
 			}
 		}
-	}
+    }
 }

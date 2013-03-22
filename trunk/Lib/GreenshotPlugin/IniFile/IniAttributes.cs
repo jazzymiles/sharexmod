@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -50,6 +50,9 @@ namespace Greenshot.IniFile {
 		public string Separator = ",";
 		public string DefaultValue;
 		public string LanguageKey;
+		// If Encrypted is set to true, the value will be decrypted on load and encrypted on save
+		public bool Encrypted = false;
+		public bool FixedValue = false;
 		public bool ExcludeIfNull=false;
 		
 		public string Name {

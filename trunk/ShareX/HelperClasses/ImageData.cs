@@ -23,12 +23,12 @@
 
 #endregion License Information (GPL v3)
 
-using System;
-using System.Drawing;
-using System.IO;
 using HelpersLib;
 using HelpersLibMod;
 using ShareX.SettingsHelpers;
+using System;
+using System.Drawing;
+using System.IO;
 using UploadersLib;
 
 namespace ShareX.HelperClasses
@@ -109,7 +109,7 @@ namespace ShareX.HelperClasses
 
             NameParser parser = new NameParser(NameParserType.FileName) { Picture = this.Image, WindowText = windowText };
 
-            return parser.Convert(SettingsManager.ConfigCore.NameFormatPattern);
+            return parser.Parse(SettingsManager.ConfigCore.NameFormatPattern);
         }
 
         private string PrepareFilename()

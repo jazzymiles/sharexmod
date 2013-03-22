@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -50,6 +50,10 @@ namespace Greenshot.Configuration {
 		public Point WindowMaxPosition;
 		[IniProperty("WindowNormalPosition", Description="Position of normal window", DefaultValue="100,100,400,400")]
 		public Rectangle WindowNormalPosition;
+		[IniProperty("ReuseEditor", Description = "Reuse already open editor", DefaultValue = "false")]
+		public bool ReuseEditor;
+		[IniProperty("FreehandSensitivity", Description = "The smaller this number, the less smoothing is used. Decrease for detailed drawing, e.g. when using a pen. Increase for smoother lines. e.g. when you want to draw a smooth line.", DefaultValue = "3")]
+		public int FreehandSensitivity;
 
 		[IniProperty("SuppressSaveDialogAtClose", Description="Suppressed the 'do you want to save' dialog when closing the editor.", DefaultValue="False")]
 		public bool SuppressSaveDialogAtClose;

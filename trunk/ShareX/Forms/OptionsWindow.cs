@@ -372,7 +372,7 @@ namespace ShareX.Forms
         private void txtNameFormatPattern_TextChanged(object sender, EventArgs e)
         {
             SettingsManager.ConfigCore.NameFormatPattern = txtNameFormatPatternImages.Text;
-            lblNameFormatPatternPreviewImages.Text = new NameParser(NameParserType.FileName) { WindowText = NativeMethods.GetForegroundWindowText() }.Convert(SettingsManager.ConfigCore.NameFormatPattern);
+            lblNameFormatPatternPreviewImages.Text = new NameParser(NameParserType.FileName) { WindowText = NativeMethods.GetForegroundWindowText() }.Parse(SettingsManager.ConfigCore.NameFormatPattern);
         }
 
         private void cbClipboardUploadAutoDetectURL_CheckedChanged(object sender, EventArgs e)
@@ -383,7 +383,7 @@ namespace ShareX.Forms
         private void txtNameFormatPatternOther_TextChanged(object sender, EventArgs e)
         {
             SettingsManager.ConfigCore.NameFormatPatternOther = txtNameFormatPatternOther.Text;
-            lblNameFormatPatternPreviewOther.Text = new NameParser(NameParserType.FileName).Convert(SettingsManager.ConfigCore.NameFormatPatternOther);
+            lblNameFormatPatternPreviewOther.Text = new NameParser(NameParserType.FileName).Parse(SettingsManager.ConfigCore.NameFormatPatternOther);
         }
 
         #endregion File Naming
@@ -489,7 +489,7 @@ namespace ShareX.Forms
                         if (File.Exists(image))
                         {
                             time = File.GetLastWriteTime(image);
-                            string subDirName = new NameParser(NameParserType.FolderPath).Convert(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
+                            string subDirName = new NameParser(NameParserType.FolderPath).Parse(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
                             string subDirPath = Path.Combine(rootDir, subDirName);
 
                             if (!Directory.Exists(subDirPath))
@@ -528,7 +528,7 @@ namespace ShareX.Forms
         private void txtSaveImageSubFolderPattern_TextChanged(object sender, EventArgs e)
         {
             SettingsManager.ConfigCore.SaveImageSubFolderPattern = txtSaveImageSubFolderPattern.Text;
-            string subFolderName = new NameParser(NameParserType.FolderPath).Convert(txtSaveImageSubFolderPattern.Text);
+            string subFolderName = new NameParser(NameParserType.FolderPath).Parse(txtSaveImageSubFolderPattern.Text);
             txtSaveImageSubFolderPatternPreview.Text = subFolderName;
         }
 

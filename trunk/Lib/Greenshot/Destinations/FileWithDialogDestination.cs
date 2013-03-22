@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -69,19 +69,19 @@ namespace Greenshot.Destinations {
 			}
 		}
 
-		public override bool ExportCapture(bool manuallyInitiated, ISurface surface, ICaptureDetails captureDetails) {
+		public override ExportInformation ExportCapture(bool manuallyInitiated, ISurface surface, ICaptureDetails captureDetails) {
+			ExportInformation exportInformation = new ExportInformation(this.Designation, this.Description);
 			string savedTo = null;
-			using (Image image = surface.GetImageForExport()) {
-				// Bug #2918756 don't overwrite path if SaveWithDialog returns null!
-				savedTo = ImageOutput.SaveWithDialog(image, captureDetails);
-				if (savedTo != null) {
-					surface.Modified = false;
-					surface.LastSaveFullPath = savedTo;
-					captureDetails.Filename = savedTo;
-					surface.SendMessageEvent(this, SurfaceMessageTyp.FileSaved, Language.GetFormattedString(LangKey.editor_imagesaved, surface.LastSaveFullPath));
-				}
+			// Bug #2918756 don't overwrite path if SaveWithDialog returns null!
+			savedTo = ImageOutput.SaveWithDialog(surface, captureDetails);
+			if (savedTo != null) {
+				exportInformation.ExportMade = true;
+				exportInformation.Filepath = savedTo;
+				captureDetails.Filename = savedTo;
+				conf.OutputFileAsFullpath = savedTo;
 			}
-			return savedTo != null;
+			ProcessExport(exportInformation, surface);
+			return exportInformation;
 		}
 	}
 }

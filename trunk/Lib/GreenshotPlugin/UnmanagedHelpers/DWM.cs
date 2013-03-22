@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -93,6 +93,9 @@ namespace GreenshotPlugin.UnmanagedHelpers {
 	/// Description of DWM.
 	/// </summary>
 	public class DWM {
+		public static readonly uint DWM_EC_DISABLECOMPOSITION = 0;
+		public static readonly uint DWM_EC_ENABLECOMPOSITION = 1;
+
 		// DWM
 		[DllImport("dwmapi", SetLastError = true)]
 		public static extern int DwmRegisterThumbnail(IntPtr dest, IntPtr src, out IntPtr thumb);
@@ -102,12 +105,23 @@ namespace GreenshotPlugin.UnmanagedHelpers {
 		public static extern int DwmQueryThumbnailSourceSize(IntPtr thumb, out SIZE size);
 		[DllImport("dwmapi", SetLastError = true)]
 		public static extern int DwmUpdateThumbnailProperties(IntPtr hThumb, ref DWM_THUMBNAIL_PROPERTIES props);
+
+		// Deprecated as of Windows 8 Release Preview
 		[DllImport("dwmapi", SetLastError = true)]
 		public static extern int DwmIsCompositionEnabled(out bool enabled);
 		[DllImport("dwmapi", SetLastError = true)]
 		public static extern int DwmGetWindowAttribute(IntPtr hwnd, int dwAttribute, out RECT lpRect, int size);
 		[DllImport("dwmapi", SetLastError = true)] 
 		public static extern int DwmEnableBlurBehindWindow(IntPtr hwnd, ref DWM_BLURBEHIND blurBehind);
+		[DllImport("dwmapi", SetLastError = true)]
+		public static extern uint DwmEnableComposition(uint uCompositionAction);
+
+		public static void EnableComposition() {
+			DWM.DwmEnableComposition(DWM.DWM_EC_ENABLECOMPOSITION);
+		}
+		public static void DisableComposition() {
+			DWM.DwmEnableComposition(DWM.DWM_EC_DISABLECOMPOSITION);
+		}
 
 		// Key to ColorizationColor for DWM
 		private const string COLORIZATION_COLOR_KEY = @"SOFTWARE\Microsoft\Windows\DWM";
@@ -117,6 +131,12 @@ namespace GreenshotPlugin.UnmanagedHelpers {
 		/// </summary>
 		/// <returns>bool true if DWM is available AND active</returns>
 		public static bool isDWMEnabled() {
+			// According to: http://technet.microsoft.com/en-us/subscriptions/aa969538%28v=vs.85%29.aspx
+			// And: http://msdn.microsoft.com/en-us/library/windows/desktop/aa969510%28v=vs.85%29.aspx
+			// DMW is always enabled on Windows 8! So return true and save a check! ;-)
+			if (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 2) {
+				return true;
+			}
 			if (Environment.OSVersion.Version.Major >= 6) {
 				bool dwmEnabled;
 				DWM.DwmIsCompositionEnabled(out dwmEnabled);

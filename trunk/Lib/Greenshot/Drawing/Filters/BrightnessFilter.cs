@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -22,31 +22,41 @@ using System;
 using System.Drawing;
 using Greenshot.Drawing.Fields;
 using Greenshot.Plugin.Drawing;
+using GreenshotPlugin.Core;
+using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 
 namespace Greenshot.Drawing.Filters {
 	[Serializable()] 
 	public class BrightnessFilter : AbstractFilter {
 		
-		private double brightness;
-		
 		public BrightnessFilter(DrawableContainer parent) : base(parent) {
 			AddField(GetType(), FieldType.BRIGHTNESS, 0.9d);
 		}
-		
-		protected override void IteratePixel(int x, int y) {
-			Color color = bbb.GetColorAt(x, y);
-			int r = Convert.ToInt16(color.R*brightness);
-			int g = Convert.ToInt16(color.G*brightness);
-			int b = Convert.ToInt16(color.B*brightness);
-			r = (r>255) ? 255 : r;
-			g = (g>255) ? 255 : g;
-			b = (b>255) ? 255 : b;
-			bbb.SetColorAt(x, y, Color.FromArgb(color.A, r, g, b));
-		}
-		
-		public override void Apply(Graphics graphics, Bitmap bmp, Rectangle rect, RenderMode renderMode) {
-			brightness = GetFieldValueAsDouble(FieldType.BRIGHTNESS);
-			base.Apply(graphics, bmp, rect, renderMode);
+
+		/// <summary>
+		/// Implements the Apply code for the Brightness Filet
+		/// </summary>
+		/// <param name="graphics"></param>
+		/// <param name="applyBitmap"></param>
+		/// <param name="rect"></param>
+		/// <param name="renderMode"></param>
+		public override void Apply(Graphics graphics, Bitmap applyBitmap, Rectangle rect, RenderMode renderMode) {
+			Rectangle applyRect = ImageHelper.CreateIntersectRectangle(applyBitmap.Size, rect, Invert);
+
+			if (applyRect.Width == 0 || applyRect.Height == 0) {
+				// nothing to do
+				return;
+			}
+
+			GraphicsState state =  graphics.Save();
+			if (Invert) {
+				graphics.SetClip(applyRect);
+				graphics.ExcludeClip(rect);
+			}
+			ImageAttributes ia = ImageHelper.CreateAdjustAttributes(0.9f, 1f, 1f);
+			graphics.DrawImage(applyBitmap, applyRect, applyRect.X, applyRect.Y, applyRect.Width, applyRect.Height, GraphicsUnit.Pixel, ia);
+			graphics.Restore(state);
 		}
 	}
 }

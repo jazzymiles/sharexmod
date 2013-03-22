@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -20,6 +20,10 @@
  */
 using System;
 using System.Drawing;
+using GreenshotPlugin.Core;
+using Greenshot.Plugin.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 namespace Greenshot.Drawing.Filters {
 	/// <summary>
@@ -29,12 +33,31 @@ namespace Greenshot.Drawing.Filters {
 	public class GrayscaleFilter : AbstractFilter {
 		public GrayscaleFilter(DrawableContainer parent) : base(parent) {
 		}
-		
-		protected override void IteratePixel(int x, int y) {
-			Color color = bbb.GetColorAt(x, y);
-			int luma  = (int)((0.3*color.R) + (0.59*color.G) + (0.11*color.B));
-			color = Color.FromArgb(luma, luma, luma);
-			bbb.SetColorAt(x, y, color);
+
+		public override void Apply(Graphics graphics, Bitmap applyBitmap, Rectangle rect, RenderMode renderMode) {
+			Rectangle applyRect = ImageHelper.CreateIntersectRectangle(applyBitmap.Size, rect, Invert);
+
+			if (applyRect.Width == 0 || applyRect.Height == 0) {
+				// nothing to do
+				return;
+			}
+			GraphicsState state = graphics.Save();
+			if (Invert) {
+				graphics.SetClip(applyRect);
+				graphics.ExcludeClip(rect);
+			}
+			ColorMatrix grayscaleMatrix = new ColorMatrix(new float[][] {
+				new float[] {.3f, .3f, .3f, 0, 0},
+				new float[] {.59f, .59f, .59f, 0, 0},
+				new float[] {.11f, .11f, .11f, 0, 0},
+				new float[] {0, 0, 0, 1, 0},
+				new float[] {0, 0, 0, 0, 1}
+			});
+			ImageAttributes ia = new ImageAttributes();
+			ia.SetColorMatrix(grayscaleMatrix);
+			graphics.DrawImage(applyBitmap, applyRect, applyRect.X, applyRect.Y, applyRect.Width, applyRect.Height, GraphicsUnit.Pixel, ia);
+			graphics.Restore(state);
+
 		}
 	}
 }

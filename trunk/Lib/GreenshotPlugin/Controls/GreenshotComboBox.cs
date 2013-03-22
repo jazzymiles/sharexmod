@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -53,12 +53,7 @@ namespace GreenshotPlugin.Controls {
 		public void SetValue(Enum currentValue) {
 			if (currentValue != null) {
 				selectedEnum = currentValue;
-				string selectedEnumKey = enumType.Name + "." + currentValue.ToString();
-				if (Language.hasKey(selectedEnumKey)) {
-					this.SelectedItem = Language.GetString(selectedEnumKey);
-				} else {
-					this.SelectedItem = currentValue.ToString();
-				}
+				this.SelectedItem = Language.Translate(currentValue);
 			}
 		}
 
@@ -75,13 +70,7 @@ namespace GreenshotPlugin.Controls {
 			this.Items.Clear();
 			string enumTypeName = enumType.Name;
 			foreach (var enumValue in availableValues) {
-				string enumKey = enumTypeName + "." + enumValue.ToString();
-				if (Language.hasKey(enumKey)) {
-					string translation = Language.GetString(enumKey);
-					this.Items.Add(translation);
-				} else {
-					this.Items.Add(enumValue.ToString());
-				}
+				this.Items.Add(Language.Translate((Enum)enumValue));
 			}
 		}
 
