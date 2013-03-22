@@ -1,6 +1,6 @@
 /*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -20,11 +20,12 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-
+using Greenshot.IniFile;
 using Greenshot.Plugin;
 using GreenshotPlugin.UnmanagedHelpers;
 
@@ -170,7 +171,7 @@ namespace GreenshotPlugin.Core {
 							value.Dispose();
 						}
 					}
-					LOG.Debug("Image is set with the following specifications: " + image.Width + "," + image.Height + " - " + image.PixelFormat);
+					LOG.DebugFormat("Image is set with the following specifications: {0} - {1}", image.Size, image.PixelFormat);
 				} else {
 					LOG.Debug("Image is removed.");
 				}
@@ -293,7 +294,8 @@ namespace GreenshotPlugin.Core {
 				// Change mouse location according to the cropRegtangle (including screenbounds) offset
 				MoveMouseLocation(-cropRectangle.Location.X, -cropRectangle.Location.Y);
 				// Move all the elements
-				MoveElements(-cropRectangle.Location.X, -cropRectangle.Location.Y);
+				// TODO: Enable when the elements are usable again.
+				// MoveElements(-cropRectangle.Location.X, -cropRectangle.Location.Y);
 				
 				// Remove invisible elements
 				List <ICaptureElement> newElements = new List<ICaptureElement>();
@@ -318,62 +320,55 @@ namespace GreenshotPlugin.Core {
 		public void MoveMouseLocation(int x, int y) {
 			cursorLocation.Offset(x, y);
 		}
-		
-		/// <summary>
-		/// Apply a translate to the elements
-		/// e.g. needed for crop
-		/// </summary>
-		/// <param name="x">x coordinates to move the elements</param>
-		/// <param name="y">y coordinates to move the elements</param>
-		public void MoveElements(int x, int y) {
-			MoveElements(elements, x, y);
-		}
 
-		private void MoveElements(List<ICaptureElement> listOfElements, int x, int y) {
-			foreach(ICaptureElement childElement in listOfElements) {
-				Rectangle bounds = childElement.Bounds;
-				bounds.Offset(x, y);
-				childElement.Bounds = bounds;
-				MoveElements(childElement.Children, x, y);
-			}
-		}
+		// TODO: Enable when the elements are usable again.
+		///// <summary>
+		///// Apply a translate to the elements
+		///// e.g. needed for crop
+		///// </summary>
+		///// <param name="x">x coordinates to move the elements</param>
+		///// <param name="y">y coordinates to move the elements</param>
+		//public void MoveElements(int x, int y) {
+		//    MoveElements(elements, x, y);
+		//}
+
+		//private void MoveElements(List<ICaptureElement> listOfElements, int x, int y) {
+		//    foreach(ICaptureElement childElement in listOfElements) {
+		//        Rectangle bounds = childElement.Bounds;
+		//        bounds.Offset(x, y);
+		//        childElement.Bounds = bounds;
+		//        MoveElements(childElement.Children, x, y);
+		//    }
+		//}
 		
-		/// <summary>
-		/// Add a new element to the capture
-		/// </summary>
-		/// <param name="element">CaptureElement</param>
-		public void AddElement(ICaptureElement element) {
-			int match = elements.IndexOf(element);
-			if (match >= 0) {
-				if (elements[match].Children.Count < element.Children.Count) {
-					elements.RemoveAt(match);
-					elements.Add(element);
-				}
-			} else {
-				elements.Add(element);
-			}
-		}
+		///// <summary>
+		///// Add a new element to the capture
+		///// </summary>
+		///// <param name="element">CaptureElement</param>
+		//public void AddElement(ICaptureElement element) {
+		//    int match = elements.IndexOf(element);
+		//    if (match >= 0) {
+		//        if (elements[match].Children.Count < element.Children.Count) {
+		//            elements.RemoveAt(match);
+		//            elements.Add(element);
+		//        }
+		//    } else {
+		//        elements.Add(element);
+		//    }
+		//}
 		
-		/// <summary>
-		/// Returns a list of rectangles which represent object that are on the capture
-		/// </summary>
-		public List<ICaptureElement> Elements {
-			get {
-				return elements;
-			}
-			set {
-				elements = value;
-			}
-		}
+		///// <summary>
+		///// Returns a list of rectangles which represent object that are on the capture
+		///// </summary>
+		//public List<ICaptureElement> Elements {
+		//    get {
+		//        return elements;
+		//    }
+		//    set {
+		//        elements = value;
+		//    }
+		//}
 		
-		public ICaptureElement FindElementUnderPoint(Point p) {
-			foreach(ICaptureElement element in elements) {
-				if (element.Bounds.Contains(p)) {
-					return element.FindElementUnderPoint(p);
-				}
-			}
-			return null;
-		}
 	}
 	
 	/// <summary>
@@ -410,19 +405,6 @@ namespace GreenshotPlugin.Core {
 			set;
 		}
 
-		public ICaptureElement FindElementUnderPoint(Point point) {
-			if (!Bounds.Contains(point)) {
-				return null;
-			}
-			foreach(CaptureElement childElement in children) {
-				if (childElement.Bounds.Contains(point)) {
-					ICaptureElement selectedElement = childElement.FindElementUnderPoint(point);
-					return selectedElement;
-				}
-			}
-			return this;
-		}
-
 		// CaptureElements are regarded equal if their bounds are equal. this should be sufficient.
 		public override bool Equals(object obj) {
 			bool ret = false;
@@ -444,6 +426,15 @@ namespace GreenshotPlugin.Core {
 	/// </summary>
 	public class WindowCapture {
 		private static readonly log4net.ILog LOG = log4net.LogManager.GetLogger(typeof(WindowCapture));
+		private static CoreConfiguration conf = IniConfig.GetIniSection<CoreConfiguration>();
+
+		/// <summary>
+		/// Used to cleanup the unmanged resource in the iconInfo for the CaptureCursor method
+		/// </summary>
+		/// <param name="hObject"></param>
+		/// <returns></returns>
+		[DllImport("gdi32", SetLastError = true)]
+		private static extern bool DeleteObject(IntPtr hObject);
 
 		private WindowCapture() {
 		}
@@ -466,8 +457,9 @@ namespace GreenshotPlugin.Core {
 		}
 		
 		/// <summary>
-		/// Retrieves the cursor location safely, accounting for DPI settings in Vista/Windows 7
-		/// <returns>Point with cursor location</returns>
+		/// Retrieves the cursor location safely, accounting for DPI settings in Vista/Windows 7.
+		/// <returns>Point with cursor location, relative to the origin of the monitor setup (i.e. negative coordinates are
+		/// possible in multiscreen setups)</returns>
 		public static Point GetCursorLocation() {
 			if (Environment.OSVersion.Version.Major >= 6) {
 				POINT cursorLocation;
@@ -480,6 +472,29 @@ namespace GreenshotPlugin.Core {
 			}
 			return new Point(Cursor.Position.X, Cursor.Position.Y);
 		}
+		
+		/// <summary>
+		/// Retrieves the cursor location safely, accounting for DPI settings in Vista/Windows 7. This implementation
+		/// can conveniently be used when the cursor location is needed to deal with a fullscreen bitmap.
+		/// <returns>Point with cursor location, relative to the top left corner of the monitor setup (which itself might
+		/// actually not be on any screen)</returns>
+		public static Point GetCursorLocationRelativeToScreenBounds() {
+			return GetLocationRelativeToScreenBounds(GetCursorLocation());
+		}
+		
+		/// <summary>
+		/// Converts locationRelativeToScreenOrigin to be relative to top left corner of all screen bounds, which might
+		/// be different in multiscreen setups. This implementation
+		/// can conveniently be used when the cursor location is needed to deal with a fullscreen bitmap.
+		/// </summary>
+		/// <param name="locationRelativeToScreenOrigin"></param>
+		/// <returns></returns>
+		public static Point GetLocationRelativeToScreenBounds(Point locationRelativeToScreenOrigin) {
+			Point ret = locationRelativeToScreenOrigin;
+			Rectangle bounds = GetScreenBounds();
+			ret.Offset(-bounds.X, -bounds.Y);
+			return ret;
+		}
 
 		/// <summary>
 		/// This method will capture the current Cursor by using User32 Code
@@ -491,33 +506,32 @@ namespace GreenshotPlugin.Core {
 				capture = new Capture();
 			}
 			int x,y;
-			IntPtr hicon;
 			CursorInfo cursorInfo = new CursorInfo(); 
 			IconInfo iconInfo;
 			cursorInfo.cbSize = Marshal.SizeOf(cursorInfo);
 			if (User32.GetCursorInfo(out cursorInfo)) {
 				if (cursorInfo.flags == User32.CURSOR_SHOWING) { 
-					hicon = User32.CopyIcon(cursorInfo.hCursor);
-					if (User32.GetIconInfo(hicon, out iconInfo)) {
-						Point cursorLocation = GetCursorLocation();
-						// Allign cursor location to Bitmap coordinates (instead of Screen coordinates)
-						x = cursorLocation.X - iconInfo.xHotspot - capture.ScreenBounds.X;
-						y = cursorLocation.Y - iconInfo.yHotspot - capture.ScreenBounds.Y;
-						// Set the location
-						capture.CursorLocation = new Point(x, y);
-
-						using (Icon icon = Icon.FromHandle(hicon)) {
-							capture.Cursor = icon;
-						}
-
-						if (iconInfo.hbmMask != IntPtr.Zero) {
-							GDI32.DeleteObject(iconInfo.hbmMask);
-						}
-						if (iconInfo.hbmColor != IntPtr.Zero) {
-							GDI32.DeleteObject(iconInfo.hbmColor);
+					using (SafeIconHandle safeIcon = User32.CopyIcon(cursorInfo.hCursor)) {
+						if (User32.GetIconInfo(safeIcon, out iconInfo)) {
+							Point cursorLocation = GetCursorLocation();
+							// Allign cursor location to Bitmap coordinates (instead of Screen coordinates)
+							x = cursorLocation.X - iconInfo.xHotspot - capture.ScreenBounds.X;
+							y = cursorLocation.Y - iconInfo.yHotspot - capture.ScreenBounds.Y;
+							// Set the location
+							capture.CursorLocation = new Point(x, y);
+	
+							using (Icon icon = Icon.FromHandle(safeIcon.DangerousGetHandle())) {
+								capture.Cursor = icon;
+							}
+	
+							if (iconInfo.hbmMask != IntPtr.Zero) {
+								DeleteObject(iconInfo.hbmMask);
+							}
+							if (iconInfo.hbmColor != IntPtr.Zero) {
+								DeleteObject(iconInfo.hbmColor);
+							}
 						}
 					}
-					User32.DestroyIcon(hicon);
 				}
 			}
 			return capture;
@@ -551,6 +565,48 @@ namespace GreenshotPlugin.Core {
 		}
 
 		/// <summary>
+		/// Helper method to check if it is allowed to capture the process using DWM
+		/// </summary>
+		/// <param name="process">Process owning the window</param>
+		/// <returns>true if it's allowed</returns>
+		public static bool isDWMAllowed(Process process) {
+			if (process != null) {
+				if (conf.NoDWMCaptureForProduct != null && conf.NoDWMCaptureForProduct.Count > 0) {
+					try {
+						string productName = process.MainModule.FileVersionInfo.ProductName;
+						if (productName != null && conf.NoDWMCaptureForProduct.Contains(productName.ToLower())) {
+							return false;
+						}
+					} catch (Exception ex) {
+						LOG.Warn(ex.Message);
+					}
+				}
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// Helper method to check if it is allowed to capture the process using GDI
+		/// </summary>
+		/// <param name="processName">Process owning the window</param>
+		/// <returns>true if it's allowed</returns>
+		public static bool isGDIAllowed(Process process) {
+			if (process != null) {
+				if (conf.NoGDICaptureForProduct != null && conf.NoGDICaptureForProduct.Count > 0) {
+					try {
+						string productName = process.MainModule.FileVersionInfo.ProductName;
+						if (productName != null && conf.NoGDICaptureForProduct.Contains(productName.ToLower())) {
+							return false;
+						}
+					} catch (Exception ex) {
+						LOG.Warn(ex.Message);
+					}
+				}
+			}
+			return true;
+		}
+
+		/// <summary>
 		/// This method will use User32 code to capture the specified captureBounds from the screen
 		/// </summary>
 		/// <param name="capture">ICapture where the captured Bitmap will be stored</param>
@@ -562,7 +618,9 @@ namespace GreenshotPlugin.Core {
 			}
 			capture.Image = CaptureRectangle(captureBounds);
 			capture.Location = captureBounds.Location;
-			((Bitmap)capture.Image).SetResolution(capture.CaptureDetails.DpiX, capture.CaptureDetails.DpiY);
+			if (capture.CaptureDetails != null) {
+				((Bitmap)capture.Image).SetResolution(capture.CaptureDetails.DpiX, capture.CaptureDetails.DpiY);
+			}
 			if (capture.Image == null) {
 				return null;
 			}
@@ -582,7 +640,6 @@ namespace GreenshotPlugin.Core {
 			} else {
 				LOG.Debug("CaptureRectangle Called!");
 			}
-			
 			// .NET GDI+ Solution, according to some post this has a GDI+ leak...
 			// See http://connect.microsoft.com/VisualStudio/feedback/details/344752/gdi-object-leak-when-calling-graphics-copyfromscreen
 			// Bitmap capturedBitmap = new Bitmap(captureBounds.Width, captureBounds.Height);
@@ -591,86 +648,111 @@ namespace GreenshotPlugin.Core {
 			// }
 			// capture.Image = capturedBitmap;
 			// capture.Location = captureBounds.Location;
-				
-			// "P/Invoke" Solution for capturing the screen
-			IntPtr hWndDesktop = User32.GetDesktopWindow();
-			// get te hDC of the target window
-			IntPtr hDCDesktop = User32.GetWindowDC(hWndDesktop);
- 
-			// Make sure the last error is set to 0
-			Win32.SetLastError(0);
 
-			// create a device context we can copy to
-			IntPtr hDCDest = GDI32.CreateCompatibleDC(hDCDesktop);
-			// Check if the device context is there, if not throw an error with as much info as possible!
-			if (hDCDest == IntPtr.Zero) {
-				// Get Exception before the error is lost
-				Exception exceptionToThrow = CreateCaptureException("CreateCompatibleDC", captureBounds);
-				// Cleanup
-				User32.ReleaseDC(hWndDesktop, hDCDesktop);
-				// throw exception
-				throw exceptionToThrow;
-			}
+			using (SafeWindowDCHandle desktopDCHandle = SafeWindowDCHandle.fromDesktop()) {
+				if (desktopDCHandle.IsInvalid) {
+					// Get Exception before the error is lost
+					Exception exceptionToThrow = CreateCaptureException("desktopDCHandle", captureBounds);
+					// throw exception
+					throw exceptionToThrow;
+				}
 
-			// Create BitmapInfoHeader for CreateDIBSection
-			BitmapInfoHeader bmi = new BitmapInfoHeader(captureBounds.Width, captureBounds.Height, 24);
+				// create a device context we can copy to
+				using (SafeCompatibleDCHandle safeCompatibleDCHandle = GDI32.CreateCompatibleDC(desktopDCHandle)) {
+					// Check if the device context is there, if not throw an error with as much info as possible!
+					if (safeCompatibleDCHandle.IsInvalid) {
+						// Get Exception before the error is lost
+						Exception exceptionToThrow = CreateCaptureException("CreateCompatibleDC", captureBounds);
+						// throw exception
+						throw exceptionToThrow;
+					}
+					// Create BitmapInfoHeader for CreateDIBSection
+					BitmapInfoHeader bmi = new BitmapInfoHeader(captureBounds.Width, captureBounds.Height, 24);
 
-			// Make sure the last error is set to 0
-			Win32.SetLastError(0);
+					// Make sure the last error is set to 0
+					Win32.SetLastError(0);
 
-			// create a bitmap we can copy it to, using GetDeviceCaps to get the width/height
-			IntPtr bits0; // not used for our purposes. It returns a pointer to the raw bits that make up the bitmap.
-			IntPtr hDIBSection = GDI32.CreateDIBSection(hDCDesktop, ref bmi, BitmapInfoHeader.DIB_RGB_COLORS, out bits0, IntPtr.Zero, 0);
+					// create a bitmap we can copy it to, using GetDeviceCaps to get the width/height
+					IntPtr bits0; // not used for our purposes. It returns a pointer to the raw bits that make up the bitmap.
+					using (SafeDibSectionHandle safeDibSectionHandle = GDI32.CreateDIBSection(desktopDCHandle, ref bmi, BitmapInfoHeader.DIB_RGB_COLORS, out bits0, IntPtr.Zero, 0)) {
+						if (safeDibSectionHandle.IsInvalid) {
+							// Get Exception before the error is lost
+							Exception exceptionToThrow = CreateCaptureException("CreateDIBSection", captureBounds);
+							exceptionToThrow.Data.Add("hdcDest", safeCompatibleDCHandle.DangerousGetHandle().ToInt32());
+							exceptionToThrow.Data.Add("hdcSrc", desktopDCHandle.DangerousGetHandle().ToInt32());
 
-			if (hDIBSection == IntPtr.Zero) {
-				// Get Exception before the error is lost
-				Exception exceptionToThrow = CreateCaptureException("CreateDIBSection", captureBounds);
-				exceptionToThrow.Data.Add("hdcDest", hDCDest.ToInt32());
-				exceptionToThrow.Data.Add("hdcSrc", hDCDesktop.ToInt32());
-				
-				// clean up
-				GDI32.DeleteDC(hDCDest);
-				User32.ReleaseDC(hWndDesktop, hDCDesktop);
+							// Throw so people can report the problem
+							throw exceptionToThrow;
+						} else {
+							// select the bitmap object and store the old handle
+							using (SafeSelectObjectHandle selectObject = safeCompatibleDCHandle.SelectObject(safeDibSectionHandle)) {
+								// bitblt over (make copy)
+								GDI32.BitBlt(safeCompatibleDCHandle, 0, 0, captureBounds.Width, captureBounds.Height, desktopDCHandle, captureBounds.X, captureBounds.Y, CopyPixelOperation.SourceCopy | CopyPixelOperation.CaptureBlt);
+							}
 
-				// Throw so people can report the problem
-				throw exceptionToThrow;
-			} else {
-				// select the bitmap object and store the old handle
-				IntPtr hOldObject = GDI32.SelectObject(hDCDest, hDIBSection);
-	
-				// bitblt over (make copy)
-				GDI32.BitBlt(hDCDest, 0, 0, captureBounds.Width, captureBounds.Height, hDCDesktop, captureBounds.X,  captureBounds.Y, CopyPixelOperation.SourceCopy | CopyPixelOperation.CaptureBlt);
-				
-				// restore selection (old handle)
-				GDI32.SelectObject(hDCDest, hOldObject);
-				// clean up
-				GDI32.DeleteDC(hDCDest);
-				User32.ReleaseDC(hWndDesktop, hDCDesktop);
-
-				// get a .NET image object for it
-				// A suggestion for the "A generic error occurred in GDI+." E_FAIL/0×80004005 error is to re-try...
-				bool success = false;
-				ExternalException exception = null;
-				for(int i = 0; i < 3; i++) {
-					try {
-						// assign image to Capture, the image will be disposed there..
-						returnBitmap = Bitmap.FromHbitmap(hDIBSection);
-						success = true;
-						break;
-					} catch (ExternalException ee) {
-						LOG.Warn("Problem getting bitmap at try " + i + " : ", ee);
-						exception = ee;
+							// get a .NET image object for it
+							// A suggestion for the "A generic error occurred in GDI+." E_FAIL/0×80004005 error is to re-try...
+							bool success = false;
+							ExternalException exception = null;
+							for (int i = 0; i < 3; i++) {
+								try {
+									// Collect all screens inside this capture
+									List<Screen> screensInsideCapture = new List<Screen>();
+									foreach (Screen screen in Screen.AllScreens) {
+										if (screen.Bounds.IntersectsWith(captureBounds)) {
+											screensInsideCapture.Add(screen);
+										}
+									}
+									// Check all all screens are of an equal size
+									bool offscreenContent = false;
+									using (Region captureRegion = new Region(captureBounds)) {
+										// Exclude every visible part
+										foreach (Screen screen in screensInsideCapture) {
+											captureRegion.Exclude(screen.Bounds);
+										}
+										// If the region is not empty, we have "offscreenContent"
+										using (Graphics screenGraphics = Graphics.FromHwnd(User32.GetDesktopWindow())) {
+											offscreenContent = !captureRegion.IsEmpty(screenGraphics);
+										}
+									}
+									// Check if we need to have a transparent background, needed for offscreen content
+									if (offscreenContent) {
+										using (Bitmap tmpBitmap = Bitmap.FromHbitmap(safeDibSectionHandle.DangerousGetHandle())) {
+											// Create a new bitmap which has a transparent background
+											returnBitmap = ImageHelper.CreateEmpty(tmpBitmap.Width, tmpBitmap.Height, PixelFormat.Format32bppArgb, Color.Transparent, tmpBitmap.HorizontalResolution, tmpBitmap.VerticalResolution);
+											// Content will be copied here
+											using (Graphics graphics = Graphics.FromImage(returnBitmap)) {
+												// For all screens copy the content to the new bitmap
+												foreach (Screen screen in Screen.AllScreens) {
+													Rectangle screenBounds = screen.Bounds;
+													// Make sure the bounds are offsetted to the capture bounds
+													screenBounds.Offset(-captureBounds.X, -captureBounds.Y);
+													graphics.DrawImage(tmpBitmap, screenBounds, screenBounds.X, screenBounds.Y, screenBounds.Width, screenBounds.Height, GraphicsUnit.Pixel);
+												}
+											}
+										}
+									} else {
+										// All screens, which are inside the capture, are of equal size
+										// assign image to Capture, the image will be disposed there..
+										returnBitmap = Bitmap.FromHbitmap(safeDibSectionHandle.DangerousGetHandle());
+									}
+									// We got through the capture without exception
+									success = true;
+									break;
+								} catch (ExternalException ee) {
+									LOG.Warn("Problem getting bitmap at try " + i + " : ", ee);
+									exception = ee;
+								}
+							}
+							if (!success) {
+								LOG.Error("Still couldn't create Bitmap!");
+								throw exception;
+							}
+						}
 					}
 				}
-				if (!success) {
-					LOG.Error("Still couldn't create Bitmap!");
-					throw exception;
-				}
-				// free up the Bitmap object
-				GDI32.DeleteObject(hDIBSection);
-				
 			}
-            return returnBitmap;
-        }
+			return returnBitmap;
+		}
 	}
 }

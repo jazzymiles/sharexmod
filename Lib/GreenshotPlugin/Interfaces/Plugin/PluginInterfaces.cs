@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -25,6 +25,8 @@ using System.IO;
 using System.Windows.Forms;
 
 using GreenshotPlugin.Core;
+using Greenshot.IniFile;
+using Greenshot.Core;
 
 namespace Greenshot.Plugin {
 	[Serializable]
@@ -73,6 +75,81 @@ namespace Greenshot.Plugin {
 	// Delegates for hooking up events.
 	public delegate void HotKeyHandler();
 
+	public class SurfaceOutputSettings {
+		private static CoreConfiguration conf = IniConfig.GetIniSection<CoreConfiguration>();
+		private bool reduceColors;
+		private bool disableReduceColors;
+		private List<IEffect> effects = new List<IEffect>();
+
+		public SurfaceOutputSettings() {
+			disableReduceColors = false;
+			Format = conf.OutputFileFormat;
+			JPGQuality = conf.OutputFileJpegQuality;
+			ReduceColors = conf.OutputFileReduceColors;
+		}
+
+		public SurfaceOutputSettings(OutputFormat format) : this() {
+			Format = format;
+		}
+
+		public SurfaceOutputSettings(OutputFormat format, int quality) : this(format) {
+			JPGQuality = quality;
+		}
+
+		public SurfaceOutputSettings(OutputFormat format, int quality, bool reduceColors) : this(format, quality) {
+			ReduceColors = reduceColors;
+		}
+
+		public OutputFormat Format {
+			get;
+			set;
+		}
+
+		public int JPGQuality {
+			get;
+			set;
+		}
+
+		public bool SaveBackgroundOnly {
+			get;
+			set;
+		}
+
+		public List<IEffect> Effects {
+			get {
+				return effects;
+			}
+		}
+
+		public bool ReduceColors {
+				get {
+					// Fix for Bug #3468436, force quantizing when output format is gif as this has only 256 colors!
+					if (OutputFormat.gif.Equals(Format)) {
+						return true;
+					}
+					return reduceColors;
+				}
+				set {
+					reduceColors = value;
+				}
+		}
+
+		/// <summary>
+		/// Disable the reduce colors option, this overrules the enabling
+		/// </summary>
+		public bool DisableReduceColors {
+			get {
+				return disableReduceColors;
+			}
+			set {
+				// Quantizing os needed when output format is gif as this has only 256 colors!
+				if (!OutputFormat.gif.Equals(Format)) {
+					disableReduceColors = value;
+				}
+			}
+		}
+	}
+
 	/// <summary>
 	/// This interface is the GreenshotPluginHost, that which "Hosts" the plugin.
 	/// For Greenshot this is implmented in the PluginHelper
@@ -81,44 +158,15 @@ namespace Greenshot.Plugin {
 		ContextMenuStrip MainMenu {
 			get;
 		}
+
+		// This is a reference to the MainForm, can be used for Invoking on the UI thread.
+		Form GreenshotForm {
+			get;
+		}
 		
-		/// <summary>
-		/// Saves the image to the supplied stream using the specified extension as the format
-		/// </summary>
-		/// <param name="image">The Image to save</param>
-		/// <param name="stream">The Stream to save to</param>
-		/// <param name="format">The format to save with (png, jpg etc)</param>
-		/// <param name="quality">Jpeg quality</param>
-		/// <param name="reduceColors">reduce the amount of colors to 256</param>
-		void SaveToStream(Image image, Stream stream, OutputFormat format, int quality, bool reduceColors);
-
-		/// <summary>
-		/// Saves the image to a temp file (random name) using the specified outputformat
-		/// </summary>
-		/// <param name="image">The Image to save</param>
-		/// <param name="format">The format to save with (png, jpg etc)</param>
-		/// <param name="quality">Jpeg quality</param>
-		/// <param name="reduceColors">reduce the amount of colors to 256</param>
-		string SaveToTmpFile(Image image, OutputFormat outputFormat, int quality, bool reduceColors);
-
-		/// <summary>
-		/// Saves the image to a temp file, but the name is build with the capture details & pattern
-		/// </summary>
-		/// <param name="image">The Image to save</param>
-		/// <param name="captureDetails">captureDetails with the information to build the filename</param>
-		/// <param name="outputformat">The format to save with (png, jpg etc)</param>
-		/// <param name="quality">Jpeg quality</param>
-		/// <param name="reduceColors">reduce the amount of colors to 256</param>
-		string SaveNamedTmpFile(Image image, ICaptureDetails captureDetails, OutputFormat outputFormat, int quality, bool reduceColors);
-
-		/// <summary>
-		/// Return a filename for the current image format (png,jpg etc) with the default file pattern
-		/// that is specified in the configuration
-		/// </summary>
-		/// <param name="format">A string with the format</param>
-		/// <returns>The filename which should be used to save the image</returns>
-		string GetFilename(OutputFormat format, ICaptureDetails captureDetails);
-		
+		NotifyIcon NotifyIcon {
+			get;
+		}
 		/// <summary>
 		/// Create a Thumbnail
 		/// </summary>
@@ -133,7 +181,29 @@ namespace Greenshot.Plugin {
 		IDictionary<PluginAttribute, IGreenshotPlugin> Plugins {
 			get;
 		}
-		
+
+		/// <summary>
+		/// Get a destination by it's designation
+		/// </summary>
+		/// <param name="destination"></param>
+		/// <returns>IDestination</returns>
+		IDestination GetDestination(string designation);
+
+		/// <summary>
+		/// Get a list of all available destinations
+		/// </summary>
+		/// <returns>List<IDestination></returns>
+		List<IDestination> GetAllDestinations();
+
+		/// <summary>
+		/// Export a surface to the destination with has the supplied designation
+		/// </summary>
+		/// <param name="manuallyInitiated"></param>
+		/// <param name="designation"></param>
+		/// <param name="surface"></param>
+		/// <param name="captureDetails"></param>
+		ExportInformation ExportCapture(bool manuallyInitiated, string designation, ISurface surface, ICaptureDetails captureDetails);
+
 		/// <summary>
 		/// Make region capture with specified Handler
 		/// </summary>
@@ -155,7 +225,7 @@ namespace Greenshot.Plugin {
 		ICapture GetCapture(Image imageToCapture);
 	}
 
-	public interface IGreenshotPlugin {
+	public interface IGreenshotPlugin : IDisposable {
 		/// <summary>
 		/// Is called after the plugin is instanciated, the Plugin should keep a copy of the host and pluginAttribute.
 		/// </summary>

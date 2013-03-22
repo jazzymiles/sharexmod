@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -21,28 +21,36 @@
 using System;
 using Greenshot.Configuration;
 using Greenshot.Drawing;
+using Greenshot.Plugin.Drawing;
 
 namespace Greenshot.Memento {
 	/// <summary>
 	/// The DeleteElementMemento makes it possible to undo deleting an element
 	/// </summary>
 	public class DeleteElementMemento : IMemento  {
-		private DrawableContainer drawableContainer;
+		private IDrawableContainer drawableContainer;
 		private Surface surface;
-		
-		public DeleteElementMemento(Surface surface, DrawableContainer drawableContainer) {
+
+		public DeleteElementMemento(Surface surface, IDrawableContainer drawableContainer) {
 			this.surface = surface;
 			this.drawableContainer = drawableContainer;
 		}
 
 		public void Dispose() {
-			if (drawableContainer != null) {
-				drawableContainer.Dispose();
-				drawableContainer = null;
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing) {
+			if (disposing) {
+				if (drawableContainer != null) {
+					drawableContainer.Dispose();
+					drawableContainer = null;
+				}
 			}
 		}
 
-		public LangKey ActionKey {
+		public LangKey ActionLanguageKey {
 			get {
 				//return LangKey.editor_deleteelement;
 				return LangKey.none;
@@ -59,6 +67,10 @@ namespace Greenshot.Memento {
 
 			AddElementMemento oldState = new AddElementMemento(surface, drawableContainer);
 			surface.AddElement(drawableContainer, false);
+			// The container has a selected flag which represents the state at the moment it was deleted.
+			if (drawableContainer.Selected) {
+				surface.SelectElement(drawableContainer);
+			}
 
 			// After
 			drawableContainer.Invalidate();

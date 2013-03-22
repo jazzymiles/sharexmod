@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -19,10 +19,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 using System;
-using System.Threading;
-using System.Reflection;
 using System.Collections.Generic;
-
+using System.Reflection;
+using System.Threading;
 using Greenshot.Plugin;
 
 namespace GreenshotPlugin.Core {
@@ -49,7 +48,7 @@ namespace GreenshotPlugin.Core {
 						}
 					}
 				} catch (Exception ex) {
-					LOG.Warn(ex);
+					LOG.WarnFormat("Problem getting subclasses of type: {0}, message: {1}", type.FullName, ex.Message);
 				}
 			}
 			return list;

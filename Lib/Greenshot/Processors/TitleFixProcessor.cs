@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -73,20 +73,21 @@ namespace Greenshot.Processors  {
 		public override bool ProcessCapture(ISurface surface, ICaptureDetails captureDetails) {
 			bool changed = false;
 			string title = captureDetails.Title;
-			LOG.Debug("Title before: " + title);
-			if (title != null && title.Length > 0) {
+			if (!string.IsNullOrEmpty(title)) {
 				title = title.Trim();
 				foreach(string titleIdentifier in config.ActiveTitleFixes) {
 					string regexpString = config.TitleFixMatcher[titleIdentifier];
 					string replaceString = config.TitleFixReplacer[titleIdentifier];
-					if (regexpString != null && regexpString.Length > 0) {
+					if (replaceString == null) {
+						replaceString = "";
+					}
+					if (!string.IsNullOrEmpty(regexpString)) {
 						Regex regex = new Regex(regexpString);
 						title = regex.Replace(title, replaceString);
 						changed = true;
 					}
 				}
 			}
-			LOG.Debug("Title after: " + title);
 			captureDetails.Title = title;
 			return changed;
 		}

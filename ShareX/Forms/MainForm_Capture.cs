@@ -23,6 +23,12 @@
 
 #endregion License Information (GPL v3)
 
+using HelpersLib;
+using HelpersLib.Hotkeys2;
+using HelpersLibWatermark;
+using ScreenCapture;
+using ShareX.HelperClasses;
+using ShareX.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -30,12 +36,6 @@ using System.IO;
 using System.Media;
 using System.Threading;
 using System.Windows.Forms;
-using HelpersLib;
-using HelpersLib.Hotkeys2;
-using HelpersLibWatermark;
-using ScreenCapture;
-using ShareX.HelperClasses;
-using ShareX.Properties;
 
 namespace ShareX
 {
@@ -55,7 +55,7 @@ namespace ShareX
 
             try
             {
-                Screenshot.DrawCursor = SettingsManager.ConfigCore.ShowCursor;
+                Screenshot.CaptureCursor = SettingsManager.ConfigCore.ShowCursor;
                 Screenshot.CaptureShadow = SettingsManager.ConfigCore.CaptureShadow;
 
                 Image img = capture();

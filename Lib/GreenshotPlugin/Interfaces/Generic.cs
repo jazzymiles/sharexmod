@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -24,6 +24,9 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 
 using Greenshot.Plugin.Drawing;
+using System.IO;
+using System.Collections.Generic;
+using Greenshot.Core;
 
 namespace Greenshot.Plugin {
 	/// <summary>
@@ -31,13 +34,12 @@ namespace Greenshot.Plugin {
 	/// </summary>
 	//public enum HorizontalAlignment {LEFT, CENTER, RIGHT};
 	public enum VerticalAlignment {TOP, CENTER, BOTTOM};
-	public enum Effects { Shadow, TornEdge, Border, Grayscale, RotateClockwise, RotateCounterClockwise, Invert };
 
 	public enum SurfaceMessageTyp {
 		FileSaved,
 		Error,
 		Info,
-		UploadedUrl
+		UploadedUri
 	}
 
 	public class SurfaceMessageEventArgs : EventArgs {
@@ -54,16 +56,35 @@ namespace Greenshot.Plugin {
 			set;
 		}
 	}
+
+	public class SurfaceElementEventArgs : EventArgs {
+		public IList<IDrawableContainer> Elements {
+			get;
+			set;
+		}
+	}
+
+	public class SurfaceDrawingModeEventArgs : EventArgs {
+		public DrawingModes DrawingMode {
+			get;
+			set;
+		}
+	}
 	
-	public delegate void SurfaceSizeChangeEventHandler(object source);
-	public delegate void SurfaceMessageEventHandler(object source, SurfaceMessageEventArgs eventArgs);
+	public delegate void SurfaceSizeChangeEventHandler(object sender, EventArgs eventArgs);
+	public delegate void SurfaceMessageEventHandler(object sender, SurfaceMessageEventArgs eventArgs);
+	public delegate void SurfaceElementEventHandler(object sender, SurfaceElementEventArgs eventArgs);
+	public delegate void SurfaceDrawingModeEventHandler(object sender, SurfaceDrawingModeEventArgs eventArgs);
+	public enum DrawingModes { None, Rect, Ellipse, Text, Line, Arrow, Crop, Highlight, Obfuscate, Bitmap, Path }
 
 	/// <summary>
 	/// The interface to the Surface object, so Plugins can use it.
 	/// </summary>
 	public interface ISurface : IDisposable {
 		event SurfaceSizeChangeEventHandler SurfaceSizeChanged;
-		event SurfaceMessageEventHandler SurfaceMessage;		
+		event SurfaceMessageEventHandler SurfaceMessage;
+		event SurfaceDrawingModeEventHandler DrawingModeChanged;
+		event SurfaceElementEventHandler MovingElementChanged;
 
 		/// <summary>
 		/// Get/Set the image to the Surface
@@ -103,16 +124,18 @@ namespace Greenshot.Plugin {
 		/// <param name="fillColor">Color of background (e.g. Color.Transparent)</param>
 		ITextContainer AddTextContainer(string text, HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, FontFamily family, float size, bool italic, bool bold, bool shadow, int borderSize, Color color, Color fillColor);
 
-		IBitmapContainer AddBitmapContainer(Bitmap bitmap, int x, int y);
+		IImageContainer AddImageContainer(Image image, int x, int y);
 		ICursorContainer AddCursorContainer(Cursor cursor, int x, int y);
 		IIconContainer AddIconContainer(Icon icon, int x, int y);
-		IMetafileContainer AddMetafileContainer(Metafile metafile, int x, int y);
-		IBitmapContainer AddBitmapContainer(string filename, int x, int y);
+		IImageContainer AddImageContainer(string filename, int x, int y);
 		ICursorContainer AddCursorContainer(string filename, int x, int y);
 		IIconContainer AddIconContainer(string filename, int x, int y);
-		IMetafileContainer AddMetafileContainer(string filename, int x, int y);
+		long SaveElementsToStream(Stream stream);
+		void LoadElementsFromStream(Stream stream);
 
-		bool HasSelectedElements();
+		bool HasSelectedElements {
+			get;
+		}
 		void RemoveSelectedElements();
 		void CutSelectedElements();
 		void CopySelectedElements();
@@ -137,10 +160,15 @@ namespace Greenshot.Plugin {
 		}
 		void RemoveElement(IDrawableContainer elementToRemove, bool makeUndoable);
 		void SendMessageEvent(object source, SurfaceMessageTyp messageType, string message);
-		void ApplyBitmapEffect(Effects effect);
+		void ApplyBitmapEffect(IEffect effect);
 		void RemoveCursor();
 		bool HasCursor {
 			get;
+		}
+
+		ICaptureDetails CaptureDetails {
+			get;
+			set;
 		}
 	}
 }

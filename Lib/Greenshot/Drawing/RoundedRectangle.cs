@@ -1,6 +1,6 @@
 /*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -23,6 +23,9 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace Greenshot.Drawing {
+	/// <summary>
+	/// TODO: currently this is only used in the capture form, we might move this code directly to there!
+	/// </summary>
 	public abstract class RoundedRectangle {
 	    public enum RectangleCorners {
 	      None = 0, TopLeft = 1, TopRight = 2, 

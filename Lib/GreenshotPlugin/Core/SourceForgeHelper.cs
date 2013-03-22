@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -55,7 +55,34 @@ namespace GreenshotPlugin.Core {
 			get {return language;}
 			set {language = value;}
 		}
-		
+
+		public bool isExe {
+			get {
+				if (file != null) {
+					return file.ToLower().EndsWith(".exe");
+				}
+				return false;
+			}
+		}
+
+		public bool isUnstable {
+			get {
+				if (file != null) {
+					return file.ToLower().Contains("unstable");
+				}
+				return false;
+			}
+		}
+
+		public bool isReleaseCandidate {
+			get {
+				if (file != null) {
+					return Regex.IsMatch(file.ToLower(), "rc[0-9]+");
+				}
+				return false;
+			}
+		}
+
 		public SourceforgeFile(string file, string pubdate, string link, string directLink) {
 			this.file = file;
 			this.pubdate = DateTime.Parse(pubdate);
@@ -68,7 +95,7 @@ namespace GreenshotPlugin.Core {
 	/// </summary>
 	public class SourceForgeHelper {
 		private static log4net.ILog LOG = log4net.LogManager.GetLogger(typeof(SourceForgeHelper));
-		private const String RSSFEED = "http://sourceforge.net/api/file/index/project-id/191585/mtime/desc/rss";
+		private const String RSSFEED = "http://getgreenshot.org/project-feed/";
 
 		/// <summary>
 		/// Read the Greenshot RSS feed, so we can use this information to check for updates
@@ -78,7 +105,7 @@ namespace GreenshotPlugin.Core {
 			HttpWebRequest webRequest;
 			XmlDocument rssDoc = new XmlDocument();
 			try {
-				webRequest = (HttpWebRequest)GreenshotPlugin.Core.NetworkHelper.CreateWebRequest(RSSFEED);
+				webRequest = (HttpWebRequest)NetworkHelper.CreateWebRequest(RSSFEED);
 				XmlTextReader rssReader = new XmlTextReader(webRequest.GetResponse().GetResponseStream());
 	
 				// Load the XML content into a XmlDocument
@@ -148,24 +175,31 @@ namespace GreenshotPlugin.Core {
 							}
 							SourceforgeFile rssFile = new SourceforgeFile(file, pubdate, sfLink, directLink);
 							if (file.EndsWith(".exe") ||file.EndsWith(".zip")) {
-								string version = Regex.Replace(file, ".*[a-zA-Z]-", "");
-								version = version.Replace("-[a-zA-Z]+.*","");
-								version = Regex.Replace(version, ".exe$", "");
-								version = Regex.Replace(version, ".zip$", "");
+								string version = Regex.Replace(file, @".*[a-zA-Z_]\-", "");
+								version = version.Replace(@"\-[a-zA-Z]+.*","");
+								version = Regex.Replace(version, @"\.exe$", "");
+								version = Regex.Replace(version, @"\.zip$", "");
+								version = Regex.Replace(version, @"RC[0-9]+", "");
 								if (version.Trim().Length > 0) {
 									version = version.Replace('-','.');
 									version = version.Replace(',','.');
+									version = Regex.Replace(version, @"^[a-zA-Z_]*\.", "");
+									version = Regex.Replace(version, @"\.[a-zA-Z_]*$", "");
+
 									try {
 										rssFile.Version = new Version(version);
 									} catch (Exception) {
 										LOG.DebugFormat("Found invalid version {0} in file {1}", version, file);
 									}
 								}
-						    }
-							if (type.Equals("Translations")) {
+							} else if (type.Equals("Translations")) {
 								string culture = Regex.Replace(file, @"[a-zA-Z]+-(..-..)\.(xml|html)", "$1");
-								CultureInfo cultureInfo = new CultureInfo(culture);
-								rssFile.Language = cultureInfo.NativeName;
+								try {
+									//CultureInfo cultureInfo = new CultureInfo(culture);
+									rssFile.Language = culture;//cultureInfo.NativeName;
+								} catch (Exception) {
+									LOG.WarnFormat("Can't read the native name of the culture {0}", culture);
+								}
 							}
 							filesForType.Add(file, rssFile);
 						}

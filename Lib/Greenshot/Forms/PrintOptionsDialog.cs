@@ -1,6 +1,6 @@
 /*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -29,8 +29,6 @@ namespace Greenshot.Forms {
 	/// Description of PrintOptionsDialog.
 	/// </summary>
 	public partial class PrintOptionsDialog : BaseForm {
-		private static CoreConfiguration conf = IniConfig.GetIniSection<CoreConfiguration>();
-		
 		public PrintOptionsDialog() {
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
@@ -43,9 +41,16 @@ namespace Greenshot.Forms {
 		
 		void Button_okClick(object sender, EventArgs e) {
 			// update config
-			conf.OutputPrintPromptOptions = !this.checkbox_dontaskagain.Checked;
+			coreConfiguration.OutputPrintPromptOptions = !this.checkbox_dontaskagain.Checked;
 			IniConfig.Save();
 			DialogResult = DialogResult.OK;
 		}
+
+        protected override void OnFieldsFilled() {
+            // the color radio button is not actually bound to a setting, but checked when monochrome/grayscale are not checked
+            if(!radioBtnGrayScale.Checked && !radioBtnMonochrome.Checked) {
+                radioBtnColorPrint.Checked = true;
+            }
+        }
 	}
 }

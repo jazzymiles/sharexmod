@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -631,8 +631,12 @@ namespace GreenshotPlugin.UnmanagedHelpers {
 		DWMWA_FORCE_ICONIC_REPRESENTATION,
 		DWMWA_FLIP3D_POLICY,
 		DWMWA_EXTENDED_FRAME_BOUNDS, // This is the one we need for retrieving the Window size since Windows Vista
-		DWMWA_HAS_ICONIC_BITMAP,
-		DWMWA_DISALLOW_PEEK,
+        DWMWA_HAS_ICONIC_BITMAP,        // Since Windows 7
+        DWMWA_DISALLOW_PEEK,            // Since Windows 7
+        DWMWA_EXCLUDED_FROM_PEEK,       // Since Windows 7
+        DWMWA_CLOAK,                    // Since Windows 8
+        DWMWA_CLOAKED,                  // Since Windows 8
+        DWMWA_FREEZE_REPRESENTATION,    // Since Windows 8
 		DWMWA_LAST
 	}
 	
@@ -652,7 +656,20 @@ namespace GreenshotPlugin.UnmanagedHelpers {
 		BlurRegion = 2,
 		TransitionMaximized = 4
 	}
-	
+
+	public enum ClassLongIndex : int {
+		GCL_CBCLSEXTRA = -20, // the size, in bytes, of the extra memory associated with the class. Setting this value does not change the number of extra bytes already allocated.
+		GCL_CBWNDEXTRA = -18, // the size, in bytes, of the extra window memory associated with each window in the class. Setting this value does not change the number of extra bytes already allocated. For information on how to access this memory, see SetWindowLong.
+		GCL_HBRBACKGROUND = -10, // a handle to the background brush associated with the class.
+		GCL_HCURSOR = -12, // a handle to the cursor associated with the class.
+		GCL_HICON = -14, // a handle to the icon associated with the class.
+		GCL_HICONSM = -34, // a handle to the small icon associated with the class.
+		GCL_HMODULE = -16, // a handle to the module that registered the class.
+		GCL_MENUNAME = -8, // the address of the menu name string. The string identifies the menu resource associated with the class.
+		GCL_STYLE = -26, // the window-class style bits.
+		GCL_WNDPROC = -24, // the address of the window procedure, or a handle representing the address of the window procedure. You must use the CallWindowProc function to call the window procedure. 
+	}
+
 	public enum WindowsMessages : int {
 		WM_NULL = 0x0000,
 		WM_CREATE = 0x0001,
@@ -925,5 +942,283 @@ namespace GreenshotPlugin.UnmanagedHelpers {
 		SMTO_BLOCK				= 0x1,
 		SMTO_ABORTIFHUNG		= 0x2,
 		SMTO_NOTIMEOUTIFNOTHUNG	= 0x8
+	}
+
+	[Flags]
+	public enum ProcessAccessFlags : uint {
+		All = 0x001F0FFF,
+		Terminate = 0x00000001,
+		CreateThread = 0x00000002,
+		VMOperation = 0x00000008,
+		VMRead = 0x00000010,
+		VMWrite = 0x00000020,
+		DupHandle = 0x00000040,
+		SetInformation = 0x00000200,
+		QueryInformation = 0x00000400,
+		Synchronize = 0x00100000
+	}
+
+    /// <summary>
+    /// See: http://msdn.microsoft.com/en-us/library/aa909766.aspx
+    /// </summary>
+    [Flags]
+    public enum SoundFlags : int {
+        SND_SYNC = 0x0000,			// play synchronously (default)
+        SND_ASYNC = 0x0001,			// play asynchronously
+        SND_NODEFAULT = 0x0002,		// silence (!default) if sound not found
+        SND_MEMORY = 0x0004,		// pszSound points to a memory file
+        SND_LOOP = 0x0008,			// loop the sound until next sndPlaySound
+        SND_NOSTOP = 0x0010,		// don't stop any currently playing sound
+        SND_NOWAIT = 0x00002000,	// don't wait if the driver is busy
+        SND_ALIAS = 0x00010000,		// name is a registry alias
+        SND_ALIAS_ID = 0x00110000,	// alias is a predefined id
+        SND_FILENAME = 0x00020000,	// name is file name
+    }
+    
+	/// <summary>
+	/// Used by GDI32.GetDeviceCaps
+	/// See: http://msdn.microsoft.com/en-us/library/windows/desktop/dd144877%28v=vs.85%29.aspx
+	/// </summary>
+	public enum DeviceCaps {
+        /// <summary>
+        /// Device driver version
+        /// </summary>
+        DRIVERVERSION = 0,
+        /// <summary>
+        /// Device classification
+        /// </summary>
+        TECHNOLOGY = 2,
+        /// <summary>
+        /// Horizontal size in millimeters
+        /// </summary>
+        HORZSIZE = 4,
+        /// <summary>
+        /// Vertical size in millimeters
+        /// </summary>
+        VERTSIZE = 6,
+        /// <summary>
+        /// Horizontal width in pixels
+        /// </summary>
+        HORZRES = 8,
+        /// <summary>
+        /// Vertical height in pixels
+        /// </summary>
+        VERTRES = 10,
+        /// <summary>
+        /// Number of bits per pixel
+        /// </summary>
+        BITSPIXEL = 12,
+        /// <summary>
+        /// Number of planes
+        /// </summary>
+        PLANES = 14,
+        /// <summary>
+        /// Number of brushes the device has
+        /// </summary>
+        NUMBRUSHES = 16,
+        /// <summary>
+        /// Number of pens the device has
+        /// </summary>
+        NUMPENS = 18,
+        /// <summary>
+        /// Number of markers the device has
+        /// </summary>
+        NUMMARKERS = 20,
+        /// <summary>
+        /// Number of fonts the device has
+        /// </summary>
+        NUMFONTS = 22,
+        /// <summary>
+        /// Number of colors the device supports
+        /// </summary>
+        NUMCOLORS = 24,
+        /// <summary>
+        /// Size required for device descriptor
+        /// </summary>
+        PDEVICESIZE = 26,
+        /// <summary>
+        /// Curve capabilities
+        /// </summary>
+        CURVECAPS = 28,
+        /// <summary>
+        /// Line capabilities
+        /// </summary>
+        LINECAPS = 30,
+        /// <summary>
+        /// Polygonal capabilities
+        /// </summary>
+        POLYGONALCAPS = 32,
+        /// <summary>
+        /// Text capabilities
+        /// </summary>
+        TEXTCAPS = 34,
+        /// <summary>
+        /// Clipping capabilities
+        /// </summary>
+        CLIPCAPS = 36,
+        /// <summary>
+        /// Bitblt capabilities
+        /// </summary>
+        RASTERCAPS = 38,
+        /// <summary>
+        /// Length of the X leg
+        /// </summary>
+        ASPECTX = 40,
+        /// <summary>
+        /// Length of the Y leg
+        /// </summary>
+        ASPECTY = 42,
+        /// <summary>
+        /// Length of the hypotenuse
+        /// </summary>
+        ASPECTXY = 44,
+        /// <summary>
+        /// Shading and Blending caps
+        /// </summary>
+        SHADEBLENDCAPS = 45,
+
+        /// <summary>
+        /// Logical pixels inch in X
+        /// </summary>
+        LOGPIXELSX = 88,
+        /// <summary>
+        /// Logical pixels inch in Y
+        /// </summary>
+        LOGPIXELSY = 90,
+
+        /// <summary>
+        /// Number of entries in physical palette
+        /// </summary>
+        SIZEPALETTE = 104,
+        /// <summary>
+        /// Number of reserved entries in palette
+        /// </summary>
+        NUMRESERVED = 106,
+        /// <summary>
+        /// Actual color resolution
+        /// </summary>
+        COLORRES = 108,
+
+        // Printing related DeviceCaps. These replace the appropriate Escapes
+        /// <summary>
+        /// Physical Width in device units
+        /// </summary>
+        PHYSICALWIDTH = 110,
+        /// <summary>
+        /// Physical Height in device units
+        /// </summary>
+        PHYSICALHEIGHT = 111,
+        /// <summary>
+        /// Physical Printable Area x margin
+        /// </summary>
+        PHYSICALOFFSETX = 112,
+        /// <summary>
+        /// Physical Printable Area y margin
+        /// </summary>
+        PHYSICALOFFSETY = 113,
+        /// <summary>
+        /// Scaling factor x
+        /// </summary>
+        SCALINGFACTORX = 114,
+        /// <summary>
+        /// Scaling factor y
+        /// </summary>
+        SCALINGFACTORY = 115,
+
+        /// <summary>
+        /// Current vertical refresh rate of the display device (for displays only) in Hz
+        /// </summary>
+        VREFRESH = 116,
+        /// <summary>
+        /// Horizontal width of entire desktop in pixels
+        /// </summary>
+        DESKTOPVERTRES = 117,
+        /// <summary>
+        /// Vertical height of entire desktop in pixels
+        /// </summary>
+        DESKTOPHORZRES = 118,
+        /// <summary>
+        /// Preferred blt alignment
+        /// </summary>
+        BLTALIGNMENT = 119
+    }
+
+	/// <summary>
+	/// Used for User32.SetWinEventHook
+	/// See: http://msdn.microsoft.com/en-us/library/windows/desktop/dd373640%28v=vs.85%29.aspx
+	/// </summary>
+	public enum WinEventHookFlags : int {
+		WINEVENT_SKIPOWNTHREAD = 1,
+		WINEVENT_SKIPOWNPROCESS = 2,
+		WINEVENT_OUTOFCONTEXT = 0,
+		WINEVENT_INCONTEXT = 4
+	}
+
+	/// <summary>
+	/// Used for User32.SetWinEventHook
+	/// See MSDN: http://msdn.microsoft.com/en-us/library/windows/desktop/dd318066%28v=vs.85%29.aspx
+	/// </summary>
+	public enum WinEvent : uint {
+		EVENT_OBJECT_ACCELERATORCHANGE = 32786,
+		EVENT_OBJECT_CREATE = 32768,
+		EVENT_OBJECT_DESTROY = 32769,
+		EVENT_OBJECT_DEFACTIONCHANGE = 32785,
+		EVENT_OBJECT_DESCRIPTIONCHANGE = 32781,
+		EVENT_OBJECT_FOCUS = 32773,
+		EVENT_OBJECT_HELPCHANGE = 32784,
+		EVENT_OBJECT_SHOW = 32770,
+		EVENT_OBJECT_HIDE = 32771,
+		EVENT_OBJECT_LOCATIONCHANGE = 32779,
+		EVENT_OBJECT_NAMECHANGE = 32780,
+		EVENT_OBJECT_PARENTCHANGE = 32783,
+		EVENT_OBJECT_REORDER = 32772,
+		EVENT_OBJECT_SELECTION = 32774,
+		EVENT_OBJECT_SELECTIONADD = 32775,
+		EVENT_OBJECT_SELECTIONREMOVE = 32776,
+		EVENT_OBJECT_SELECTIONWITHIN = 32777,
+		EVENT_OBJECT_STATECHANGE = 32778,
+		EVENT_OBJECT_VALUECHANGE = 32782,
+		EVENT_SYSTEM_ALERT = 2,
+		EVENT_SYSTEM_CAPTUREEND = 9,
+		EVENT_SYSTEM_CAPTURESTART = 8,
+		EVENT_SYSTEM_CONTEXTHELPEND = 13,
+		EVENT_SYSTEM_CONTEXTHELPSTART = 12,
+		EVENT_SYSTEM_DIALOGEND = 17,
+		EVENT_SYSTEM_DIALOGSTART = 16,
+		EVENT_SYSTEM_DRAGDROPEND = 15,
+		EVENT_SYSTEM_DRAGDROPSTART = 14,
+		EVENT_SYSTEM_FOREGROUND = 3,
+		EVENT_SYSTEM_MENUEND = 5,
+		EVENT_SYSTEM_MENUPOPUPEND = 7,
+		EVENT_SYSTEM_MENUPOPUPSTART = 6,
+		EVENT_SYSTEM_MENUSTART = 4,
+		EVENT_SYSTEM_MINIMIZEEND = 23,
+		EVENT_SYSTEM_MINIMIZESTART = 22,
+		EVENT_SYSTEM_MOVESIZEEND = 11,
+		EVENT_SYSTEM_MOVESIZESTART = 10,
+		EVENT_SYSTEM_SCROLLINGEND = 19,
+		EVENT_SYSTEM_SCROLLINGSTART = 18,
+		EVENT_SYSTEM_SOUND = 1,
+		EVENT_SYSTEM_SWITCHEND = 21,
+		EVENT_SYSTEM_SWITCHSTART = 20
+	}
+
+	/// <summary>
+	/// Used for User32.SetWinEventHook
+	/// See: http://msdn.microsoft.com/en-us/library/windows/desktop/dd373606%28v=vs.85%29.aspx#OBJID_WINDOW
+	/// </summary>
+	public enum EventObjects : int {
+		OBJID_ALERT = -10,
+		OBJID_CARET = -8,
+		OBJID_CLIENT = -4,
+		OBJID_CURSOR = -9,
+		OBJID_HSCROLL = -6,
+		OBJID_MENU = -3,
+		OBJID_SIZEGRIP = -7,
+		OBJID_SOUND = -11,
+		OBJID_SYSMENU = -1,
+		OBJID_TITLEBAR = -2,
+		OBJID_VSCROLL = -5,
+		OBJID_WINDOW = 0
 	}
 }

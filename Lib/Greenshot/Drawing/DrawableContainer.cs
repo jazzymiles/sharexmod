@@ -1,6 +1,6 @@
 /*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -24,15 +24,15 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-using Greenshot.Configuration;
 using Greenshot.Drawing.Fields;
 using Greenshot.Drawing.Filters;
 using Greenshot.Helpers;
 using Greenshot.Plugin;
-using GreenshotPlugin.Core;
 using Greenshot.Plugin.Drawing;
 using Greenshot.Memento;
 using System.Drawing.Drawing2D;
+using Greenshot.Configuration;
+using Greenshot.IniFile;
 
 namespace Greenshot.Drawing {
 	/// <summary>
@@ -44,9 +44,34 @@ namespace Greenshot.Drawing {
 	[Serializable()]
 	public abstract class DrawableContainer : AbstractFieldHolderWithChildren, INotifyPropertyChanged, IDrawableContainer {
 		private static readonly log4net.ILog LOG = log4net.LogManager.GetLogger(typeof(DrawableContainer));
-
+		protected static readonly EditorConfiguration editorConfig = IniConfig.GetIniSection<EditorConfiguration>();
 		private bool isMadeUndoable = false;
-		
+
+		public virtual void Dispose() {
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing) {
+			if (disposing) {
+				if (grippers != null) {
+					for (int i = 0; i < grippers.Length; i++) {
+						if (grippers[i] != null) {
+							grippers[i].Dispose();
+							grippers[i] = null;
+						}
+					}
+				}
+
+				FieldAggregator aggProps = parent.FieldAggregator;
+				aggProps.UnbindElement(this);
+			}
+		}
+
+		~DrawableContainer() {
+			Dispose(false);
+		}
+
 		[NonSerialized]
 		private PropertyChangedEventHandler propertyChanged;
 		public event PropertyChangedEventHandler PropertyChanged {
@@ -87,7 +112,16 @@ namespace Greenshot.Drawing {
 		}
 		
 		[NonSerialized]
-		public EditStatus Status = EditStatus.UNDRAWN;
+		private EditStatus status = EditStatus.UNDRAWN;
+		public EditStatus Status {
+			get {
+				return status;
+			}
+			set {
+				status = value;
+			}
+		}
+
 		
 		private int left = 0;
 		public int Left {
@@ -291,6 +325,9 @@ namespace Greenshot.Drawing {
 		}
 		
 		protected virtual void DoLayout() {
+			if (grippers == null) {
+				return;
+			}
 			if (!layoutSuspended) {
 				int[] xChoords = new int[]{this.Left-2,this.Left+this.Width/2-2,this.Left+this.Width-2};
 				int[] yChoords = new int[]{this.Top-2,this.Top+this.Height/2-2,this.Top+this.Height-2};
@@ -324,15 +361,6 @@ namespace Greenshot.Drawing {
 					grippers[Gripper.POSITION_BOTTOM_RIGHT].Cursor = Cursors.SizeWE;
 				}
 			}
-		}
-		
-		public virtual void Dispose() {
-			for(int i=0; i<grippers.Length; i++) {
-				grippers[i].Dispose();
-			}
-			
-			FieldAggregator aggProps = parent.FieldAggregator;
-			aggProps.UnbindElement(this);
 		}
 		
 		int mx;
@@ -448,17 +476,24 @@ namespace Greenshot.Drawing {
 		}
 		
 		public virtual void ShowGrippers() {
-			for (int i=0; i<grippers.Length; i++) {
-				if(grippers[i].Enabled) grippers[i].Show();
-				else grippers[i].Hide();
+			if (grippers != null) {
+				for (int i = 0; i < grippers.Length; i++) {
+					if (grippers[i].Enabled) {
+						grippers[i].Show();
+					} else {
+						grippers[i].Hide();
+					}
+				}
 			}
 			this.ResumeLayout();
 		}
 		
 		public void HideGrippers() {
 			this.SuspendLayout();
-			for (int i=0; i<grippers.Length; i++) {
-				grippers[i].Hide();
+			if (grippers != null) {
+				for (int i = 0; i < grippers.Length; i++) {
+					grippers[i].Hide();
+				}
 			}
 		}
 		
@@ -531,11 +566,11 @@ namespace Greenshot.Drawing {
 		}
 		
 		private void SwitchParent(Surface newParent) {
-			if (parent != null) {
+			if (parent != null && grippers != null) {
 				for (int i=0; i<grippers.Length; i++) {
 					parent.Controls.Remove(grippers[i]);
 				}
-			} else if(grippers == null) {
+			} else if (grippers == null) {
 				InitControls();
 			}
 			parent = newParent;

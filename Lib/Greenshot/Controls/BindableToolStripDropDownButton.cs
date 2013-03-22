@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -18,9 +18,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using GreenshotPlugin.Controls;
 
 namespace Greenshot.Controls {
 	/// <summary>
@@ -28,10 +28,16 @@ namespace Greenshot.Controls {
 	/// Also, when a DropDownItem is selected, the DropDownButton adops its Tag and Image.
 	/// The selected tag can be accessed via SelectedTag property.
 	/// </summary>
-	public class BindableToolStripDropDownButton : ToolStripDropDownButton, INotifyPropertyChanged {
+	public class BindableToolStripDropDownButton : ToolStripDropDownButton, INotifyPropertyChanged, IGreenshotLanguageBindable {
 		
 		public event PropertyChangedEventHandler PropertyChanged;
-		
+
+		[Category("Greenshot"), DefaultValue(null), Description("Specifies key of the language file to use when displaying the text.")]
+		public string LanguageKey {
+			get;
+			set;
+		}
+
 		public BindableToolStripDropDownButton() {
 		}
 		

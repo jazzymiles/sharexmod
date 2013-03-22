@@ -1,6 +1,6 @@
 /*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -23,9 +23,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
-
 using Greenshot.Drawing.Fields;
 using Greenshot.Helpers;
+using Greenshot.Plugin;
 using Greenshot.Plugin.Drawing;
 using Greenshot.Memento;
 using System.Drawing.Drawing2D;
@@ -35,13 +35,19 @@ namespace Greenshot.Drawing {
 	/// <summary>
 	/// Represents a textbox (extends RectangleContainer for border/background support
 	/// </summary>
-	[Serializable()] 
+	[Serializable] 
 	public class TextContainer : RectangleContainer, ITextContainer {
 		private bool fontInvalidated = true;
 		// If makeUndoable is true the next text-change will make the change undoable.
 		// This is set to true AFTER the first change is made, as there is already a "add element" on the undo stack
 		private bool makeUndoable = false;
 		private Font font;
+
+		/// <summary>
+		/// The StringFormat object is not serializable!!
+		/// </summary>
+		[NonSerialized]
+		StringFormat stringFormat;
 		
 		private string text;
 		// there is a binding on the following property!
@@ -76,46 +82,35 @@ namespace Greenshot.Drawing {
 			AddField(GetType(), FieldType.FILL_COLOR, Color.Transparent);
 			AddField(GetType(), FieldType.FONT_FAMILY, FontFamily.GenericSansSerif.Name);
 			AddField(GetType(), FieldType.FONT_SIZE, 11f);
+			AddField(GetType(), FieldType.TEXT_HORIZONTAL_ALIGNMENT, HorizontalAlignment.Center);
+			AddField(GetType(), FieldType.TEXT_VERTICAL_ALIGNMENT, VerticalAlignment.CENTER);
+			stringFormat = new StringFormat();
+			stringFormat.Trimming = StringTrimming.EllipsisWord;
 		}
 		
-		[OnDeserializedAttribute()]
+		[OnDeserializedAttribute]
 		private void OnDeserialized(StreamingContext context) {
+			stringFormat = new StringFormat();
 			Init();
-			UpdateFont();
-		}
-		
-		/**
-		 * Destructor
-		 */
-		~TextContainer() {
-			Dispose(false);
+			UpdateFormat();
 		}
 
-		/**
-		 * The public accessible Dispose
-		 * Will call the GarbageCollector to SuppressFinalize, preventing being cleaned twice
-		 */
-		public override void Dispose() {
-			Dispose(true);
-			base.Dispose();
-			GC.SuppressFinalize(this);
-		}
-
-		/**
-		 * This Dispose is called from the Dispose and the Destructor.
-		 * When disposing==true all non-managed resources should be freed too!
-		 */
-		protected virtual void Dispose(bool disposing) {
+		protected override void Dispose(bool disposing) {
 			if (disposing) {
-				if (textBox != null) {
-					textBox.Dispose();
-				}
 				if (font != null) {
 					font.Dispose();
+					font = null;
+				}
+				if (stringFormat != null) {
+					stringFormat.Dispose();
+					stringFormat = null;
+				}
+				if (textBox != null) {
+					textBox.Dispose();
+					textBox = null;
 				}
 			}
-			textBox = null;
-			font = null;
+			base.Dispose(disposing);
 		}
 		
 		private void Init() {
@@ -125,7 +120,7 @@ namespace Greenshot.Drawing {
 		}
 		
 		public void FitToText() {
-			UpdateFont();
+			UpdateFormat();
 			Size textSize = TextRenderer.MeasureText(text, font);
 			int lineThickness = GetFieldValueAsInt(FieldType.LINE_THICKNESS);
 			Width = textSize.Width + lineThickness;
@@ -152,7 +147,7 @@ namespace Greenshot.Drawing {
 				UpdateTextBoxFormat();
 				textBox.Invalidate();
 			} else {
-				UpdateFont();
+				UpdateFormat();
 				//Invalidate();
 			}
 			font.Dispose();
@@ -192,7 +187,7 @@ namespace Greenshot.Drawing {
 			parent.Controls.Remove(textBox);
 		}
 		
-		private void UpdateFont() {
+		private void UpdateFormat() {
 			string fontFamily = GetFieldValueAsString(FieldType.FONT_FAMILY);
 			bool fontBold = GetFieldValueAsBool(FieldType.FONT_BOLD);
 			bool fontItalic = GetFieldValueAsBool(FieldType.FONT_ITALIC);
@@ -231,6 +226,9 @@ namespace Greenshot.Drawing {
 				}
 				fontInvalidated = false;
 			}
+			
+			stringFormat.Alignment = (StringAlignment)GetFieldValue(FieldType.TEXT_HORIZONTAL_ALIGNMENT);
+			stringFormat.LineAlignment = (StringAlignment)GetFieldValue(FieldType.TEXT_VERTICAL_ALIGNMENT);
 		}
 		
 		private void UpdateTextBoxPosition() {
@@ -246,7 +244,7 @@ namespace Greenshot.Drawing {
 		}
 
 		private void UpdateTextBoxFormat() {
-			UpdateFont();
+			UpdateFormat();
 			Color lineColor = GetFieldValueAsColor(FieldType.LINE_COLOR);
 			textBox.ForeColor = lineColor;
 			textBox.Font = font;
@@ -268,11 +266,11 @@ namespace Greenshot.Drawing {
 	
 		public override void Draw(Graphics graphics, RenderMode rm) {
 			base.Draw(graphics, rm);
-			UpdateFont();
+			UpdateFormat();
 			graphics.SmoothingMode = SmoothingMode.HighQuality;
 			graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
 			graphics.CompositingQuality = CompositingQuality.HighQuality;
-			graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+			graphics.PixelOffsetMode = PixelOffsetMode.None;
 			graphics.TextRenderingHint = TextRenderingHint.SystemDefault;
 
 			Rectangle rect = GuiRectangle.GetGuiRectangle(this.Left, this.Top, this.Width, this.Height);
@@ -302,20 +300,21 @@ namespace Greenshot.Drawing {
 						shadowRect.Inflate(-textOffset, -textOffset);
 					}
 					using (Brush fontBrush = new SolidBrush(Color.FromArgb(alpha, 100, 100, 100))) {
-						graphics.DrawString(text, font, fontBrush, shadowRect);
+						graphics.DrawString(text, font, fontBrush, shadowRect, stringFormat);
 						currentStep++;
 						alpha = alpha - basealpha / steps;
 					}
 				}
 			}
-
 			Color lineColor = GetFieldValueAsColor(FieldType.LINE_COLOR);
 			Rectangle fontRect = rect;
 			if (lineThickness > 0) {
-				fontRect.Inflate(-textOffset,-textOffset);
+				graphics.SmoothingMode = SmoothingMode.HighSpeed;
+				fontRect.Inflate(-textOffset, -textOffset);
 			}
+			graphics.SmoothingMode = SmoothingMode.HighQuality;
 			using (Brush fontBrush = new SolidBrush(lineColor)) {
-				graphics.DrawString(text, font, fontBrush, fontRect);
+				graphics.DrawString(text, font, fontBrush, fontRect, stringFormat);
 			}
 		}
 		

@@ -35,17 +35,18 @@
             // 
             this.hmHotkeys.Dock = System.Windows.Forms.DockStyle.Fill;
             this.hmHotkeys.Location = new System.Drawing.Point(0, 0);
+            this.hmHotkeys.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.hmHotkeys.Name = "hmHotkeys";
-            this.hmHotkeys.Size = new System.Drawing.Size(556, 498);
+            this.hmHotkeys.Size = new System.Drawing.Size(741, 613);
             this.hmHotkeys.TabIndex = 0;
             // 
             // WorkflowManager
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(556, 498);
+            this.ClientSize = new System.Drawing.Size(741, 613);
             this.Controls.Add(this.hmHotkeys);
-            this.MinimumSize = new System.Drawing.Size(572, 536);
+            this.MinimumSize = new System.Drawing.Size(757, 649);
             this.Name = "WorkflowManager";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Workflows";

@@ -23,6 +23,12 @@
 
 #endregion License Information (GPL v3)
 
+using HelpersLib;
+using HelpersLib.GraphicsHelper;
+using HelpersLib.Hotkeys2;
+using HelpersLibMod;
+using ShareX.HelperClasses;
+using ShareX.Properties;
 using System;
 using System.Drawing;
 using System.IO;
@@ -30,12 +36,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using HelpersLib;
-using HelpersLib.GraphicsHelper;
-using HelpersLib.Hotkeys2;
-using HelpersLibMod;
-using ShareX.HelperClasses;
-using ShareX.Properties;
 using UploadersLib;
 using UploadersLib.FileUploaders;
 using UploadersLib.GUI;
@@ -153,12 +153,12 @@ namespace ShareX
             if (SettingsManager.ConfigCore.IndexFolderWhenPossible && Directory.Exists(text))
             {
                 bool html = destination == EDataType.File;
-                task.Info.FileName = new NameParser(NameParserType.FileName).Convert(SettingsManager.ConfigCore.NameFormatPatternOther) + (html ? ".html" : ".log");
+                task.Info.FileName = new NameParser(NameParserType.FileName).Parse(SettingsManager.ConfigCore.NameFormatPatternOther) + (html ? ".html" : ".log");
                 task.tempText = IndexersLib.QuickIndexer.Index(text, html, SettingsManager.ConfigUser.ConfigIndexer);
             }
             else
             {
-                task.Info.FileName = new NameParser(NameParserType.FileName).Convert(SettingsManager.ConfigCore.NameFormatPatternOther) + ".txt";
+                task.Info.FileName = new NameParser(NameParserType.FileName).Parse(SettingsManager.ConfigCore.NameFormatPatternOther) + ".txt";
                 task.tempText = text;
             }
             return task;
@@ -255,7 +255,7 @@ namespace ShareX
                                 break;
 
                             case EDataType.Text:
-                                Info.Result = UploadText(data);
+                                Info.Result = UploadText(data, Info.FileName);
                                 break;
                         }
                     }
@@ -369,7 +369,7 @@ namespace ShareX
 
             if ((Workflow.AfterUploadTasks.HasFlag(AfterUploadTasks.UseURLShortener) || Info.Job == TaskJob.ShortenURL) && Info.Result.URL.Length >= SettingsManager.ConfigCore.MaximumURLLength)
             {
-                Info.Result.ShortenedURL = ShortenURL(Info.Result.URL);
+                Info.Result.ShortenedURL = ShortenURL(Info.Result.URL).URL;
             }
 
             // Share using Social Networking Services
@@ -464,18 +464,23 @@ namespace ShareX
         {
             if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddTornEffect))
             {
-                if (!Greenshot.IniFile.IniConfig.IsInited)
+                if (!Greenshot.IniFile.IniConfig.isInitialized)
                     Greenshot.IniFile.IniConfig.Init();
 
-                imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateTornEdge(new Bitmap(imageData.Image));
+                int toothHeight = 12, horizontalToothRange = 20, verticalToothRange = 20;
+
+                imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateTornEdge(new Bitmap(imageData.Image),
+                    toothHeight, horizontalToothRange, verticalToothRange);
             }
 
             if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddShadowBorder))
             {
-                if (!Greenshot.IniFile.IniConfig.IsInited)
+                if (!Greenshot.IniFile.IniConfig.isInitialized)
                     Greenshot.IniFile.IniConfig.Init();
 
-                imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateShadow(imageData.Image, 1f, 7, new Point(7, 7), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                // 			return ImageHelper.CreateShadow(sourceImage, Darkness, ShadowSize, ShadowOffset, out offsetChange, PixelFormat.Format32bppArgb);
+                Point offsetChange;
+                imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateShadow(imageData.Image, 1f, 7, new Point(7, 7), out offsetChange, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             }
 
             if (Info.Jobs.HasFlag(Subtask.AddWatermark))
@@ -516,7 +521,7 @@ namespace ShareX
         {
             if (imageData_gse != null)
             {
-                if (!Greenshot.IniFile.IniConfig.IsInited)
+                if (!Greenshot.IniFile.IniConfig.isInitialized)
                     Greenshot.IniFile.IniConfig.Init();
 
                 GreenshotPlugin.Core.CoreConfiguration conf = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>(); ;
@@ -638,7 +643,7 @@ namespace ShareX
 
         #endregion Upload Image
 
-        public UploadResult UploadText(Stream stream)
+        public UploadResult UploadText(Stream stream, string fileName)
         {
             TextUploader textUploader = null;
             TextDestination textDestination = Workflow.Settings.DestConfig.TextUploaders[0];
@@ -680,7 +685,7 @@ namespace ShareX
             if (textUploader != null)
             {
                 PrepareUploader(textUploader);
-                return textUploader.UploadText(stream);
+                return textUploader.UploadText(stream, fileName);
             }
 
             return null;
@@ -696,7 +701,7 @@ namespace ShareX
             {
                 case FileDestination.Dropbox:
                     NameParser parser = new NameParser(NameParserType.FolderPath);
-                    string uploadPath = parser.Convert(Dropbox.TidyUploadPath(SettingsManager.ConfigUploaders.DropboxUploadPath));
+                    string uploadPath = parser.Parse(Dropbox.TidyUploadPath(SettingsManager.ConfigUploaders.DropboxUploadPath));
                     fileUploader = new Dropbox(SettingsManager.ConfigUploaders.DropboxOAuthInfo, uploadPath, SettingsManager.ConfigUploaders.DropboxAccountInfo)
                     {
                         AutoCreateShareableLink = SettingsManager.ConfigUploaders.DropboxAutoCreateShareableLink
@@ -745,10 +750,10 @@ namespace ShareX
                     }
                     break;
 
-                case FileDestination.CustomUploader:
-                    if (SettingsManager.ConfigUploaders.CustomUploadersList.IsValidIndex(SettingsManager.ConfigUploaders.CustomUploaderSelected))
+                case FileDestination.CustomFileUploader:
+                    if (SettingsManager.ConfigUploaders.CustomUploadersList.IsValidIndex(SettingsManager.ConfigUploaders.CustomFileUploaderSelected))
                     {
-                        fileUploader = new CustomUploader(SettingsManager.ConfigUploaders.CustomUploadersList[SettingsManager.ConfigUploaders.CustomUploaderSelected]);
+                        fileUploader = new CustomFileUploader(SettingsManager.ConfigUploaders.CustomUploadersList[SettingsManager.ConfigUploaders.CustomFileUploaderSelected]);
                     }
                     break;
 
@@ -877,7 +882,7 @@ namespace ShareX
 
         #endregion Upload File
 
-        public string ShortenURL(string url)
+        public UploadResult ShortenURL(string url)
         {
             URLShortener urlShortener = null;
 
@@ -933,6 +938,7 @@ namespace ShareX
                 case TaskJob.TextUpload:
                     Info.Status = "Preparing";
                     break;
+
                 default:
                     Info.Status = "Starting";
                     break;

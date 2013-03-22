@@ -1,6 +1,6 @@
 /*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2012  Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2013  Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on Sourceforge: http://sourceforge.net/projects/greenshot/
@@ -86,16 +86,13 @@ namespace Greenshot.Forms {
 		/// <param name="screenCoordinates">Point with the coordinates</param>
 		/// <returns>Color at the specified screenCoordinates</returns>
 		static private Color GetPixelColor(Point screenCoordinates) {
-			IntPtr hdc = User32.GetDC(IntPtr.Zero);
-			try {
-				uint pixel = GDI32.GetPixel(hdc, screenCoordinates.X, screenCoordinates.Y);
-				Color color = Color.FromArgb(255, (int)(pixel & 0xFF), (int)(pixel & 0xFF00) >> 8, (int)(pixel & 0xFF0000) >> 16);
-				return color;
-			} catch (Exception) {
-				return Color.Empty;
-			} finally {
-				if (hdc != IntPtr.Zero) {
-					User32.ReleaseDC(IntPtr.Zero, hdc);
+			using (SafeWindowDCHandle screenDC = SafeWindowDCHandle.fromDesktop()) {
+				try {
+					uint pixel = GDI32.GetPixel(screenDC, screenCoordinates.X, screenCoordinates.Y);
+					Color color = Color.FromArgb(255, (int)(pixel & 0xFF), (int)(pixel & 0xFF00) >> 8, (int)(pixel & 0xFF0000) >> 16);
+					return color;
+				} catch (Exception) {
+					return Color.Empty;
 				}
 			}
 		}
