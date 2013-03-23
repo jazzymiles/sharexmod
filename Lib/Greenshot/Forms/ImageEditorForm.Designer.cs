@@ -90,8 +90,6 @@ namespace Greenshot {
             this.preferencesToolStripMenuItem = new GreenshotPlugin.Controls.GreenshotToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.autoCropToolStripMenuItem = new GreenshotPlugin.Controls.GreenshotToolStripMenuItem();
-            this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
-            this.insert_window_toolstripmenuitem = new GreenshotPlugin.Controls.GreenshotToolStripMenuItem();
             this.objectToolStripMenuItem = new GreenshotPlugin.Controls.GreenshotToolStripMenuItem();
             this.addRectangleToolStripMenuItem = new GreenshotPlugin.Controls.GreenshotToolStripMenuItem();
             this.addEllipseToolStripMenuItem = new GreenshotPlugin.Controls.GreenshotToolStripMenuItem();
@@ -208,7 +206,7 @@ namespace Greenshot {
             // 
             this.toolStripContainer1.ContentPanel.AutoScroll = true;
             this.toolStripContainer1.ContentPanel.Controls.Add(this.tableLayoutPanel1);
-            this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4);
             this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(957, 494);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
@@ -216,7 +214,7 @@ namespace Greenshot {
             // 
             this.toolStripContainer1.LeftToolStripPanel.Controls.Add(this.toolStrip2);
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
-            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.toolStripContainer1.Name = "toolStripContainer1";
             this.toolStripContainer1.Size = new System.Drawing.Size(981, 606);
             this.toolStripContainer1.TabIndex = 2;
@@ -224,9 +222,9 @@ namespace Greenshot {
             // 
             // toolStripContainer1.TopToolStripPanel
             // 
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.menuStrip1);
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.propertiesToolStrip);
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.menuStrip1);
             // 
             // statusStrip1
             // 
@@ -270,11 +268,11 @@ namespace Greenshot {
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 481F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 494F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(957, 494);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
@@ -285,7 +283,7 @@ namespace Greenshot {
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(4, 4);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(949, 486);
             this.panel1.TabIndex = 2;
@@ -540,7 +538,7 @@ namespace Greenshot {
             this.objectToolStripMenuItem,
             this.pluginToolStripMenuItem,
             this.helpToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 55);
+            this.menuStrip1.Location = new System.Drawing.Point(0, 25);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(981, 28);
             this.menuStrip1.TabIndex = 1;
@@ -567,9 +565,7 @@ namespace Greenshot {
             this.toolStripSeparator12,
             this.preferencesToolStripMenuItem,
             this.toolStripSeparator5,
-            this.autoCropToolStripMenuItem,
-            this.toolStripSeparator17,
-            this.insert_window_toolstripmenuitem});
+            this.autoCropToolStripMenuItem});
             this.editToolStripMenuItem.LanguageKey = "editor_edit";
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(47, 24);
@@ -675,19 +671,6 @@ namespace Greenshot {
             this.autoCropToolStripMenuItem.Size = new System.Drawing.Size(312, 24);
             this.autoCropToolStripMenuItem.Text = "Auto crop";
             this.autoCropToolStripMenuItem.Click += new System.EventHandler(this.AutoCropToolStripMenuItemClick);
-            // 
-            // toolStripSeparator17
-            // 
-            this.toolStripSeparator17.Name = "toolStripSeparator17";
-            this.toolStripSeparator17.Size = new System.Drawing.Size(309, 6);
-            // 
-            // insert_window_toolstripmenuitem
-            // 
-            this.insert_window_toolstripmenuitem.LanguageKey = "editor_insertwindow";
-            this.insert_window_toolstripmenuitem.Name = "insert_window_toolstripmenuitem";
-            this.insert_window_toolstripmenuitem.Size = new System.Drawing.Size(312, 24);
-            this.insert_window_toolstripmenuitem.Text = "Insert window";
-            this.insert_window_toolstripmenuitem.MouseEnter += new System.EventHandler(this.Insert_window_toolstripmenuitemMouseEnter);
             // 
             // objectToolStripMenuItem
             // 
@@ -1111,7 +1094,7 @@ namespace Greenshot {
             this.toolStripSeparator10,
             this.btnConfirm,
             this.btnCancel});
-            this.propertiesToolStrip.Location = new System.Drawing.Point(0, 25);
+            this.propertiesToolStrip.Location = new System.Drawing.Point(0, 53);
             this.propertiesToolStrip.MinimumSize = new System.Drawing.Size(0, 27);
             this.propertiesToolStrip.Name = "propertiesToolStrip";
             this.propertiesToolStrip.Size = new System.Drawing.Size(981, 30);
@@ -1753,7 +1736,7 @@ namespace Greenshot {
             this.Controls.Add(this.toolStripContainer1);
             this.KeyPreview = true;
             this.LanguageKey = "editor_title";
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ImageEditorForm";
             this.Text = "Greenshot image editor";
             this.Activated += new System.EventHandler(this.ImageEditorFormActivated);
@@ -1800,8 +1783,7 @@ namespace Greenshot {
 		private GreenshotPlugin.Controls.GreenshotToolStripMenuItem tornEdgesToolStripMenuItem;
 		private GreenshotPlugin.Controls.GreenshotToolStripMenuItem addDropshadowToolStripMenuItem;
 		private GreenshotPlugin.Controls.GreenshotToolStripDropDownButton toolStripSplitButton1;
-		private System.Windows.Forms.ToolStripStatusLabel dimensionsLabel;
-		private GreenshotPlugin.Controls.GreenshotToolStripMenuItem insert_window_toolstripmenuitem;
+        private System.Windows.Forms.ToolStripStatusLabel dimensionsLabel;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
 		private GreenshotPlugin.Controls.GreenshotToolStripMenuItem grayscaleHighlightMenuItem;
 		private GreenshotPlugin.Controls.GreenshotToolStripMenuItem areaHighlightMenuItem;
@@ -1918,7 +1900,6 @@ namespace Greenshot {
 		private GreenshotPlugin.Controls.NonJumpingPanel panel1;
 		private Greenshot.Controls.ToolStripColorButton btnFillColor;
 		private Greenshot.Controls.ToolStripColorButton btnLineColor;
-		private GreenshotPlugin.Controls.GreenshotToolStripMenuItem autoCropToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
+        private GreenshotPlugin.Controls.GreenshotToolStripMenuItem autoCropToolStripMenuItem;
 	}
 }

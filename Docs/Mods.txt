@@ -22,6 +22,7 @@ Greenshot Image Editor Mods:
 
 Compatibility with ShareX: 
 
+- HelpersLib
 - HistoryLib
 - ScreenCapture
 - ScreenCapture.Shapes
