@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Imaging;
-using HelpersLib;
+﻿using HelpersLib;
 using HelpersLib.GraphicsHelper;
 using ImageEffects.IPlugin;
+using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace ImageFilters
 {
@@ -88,7 +88,7 @@ namespace ImageFilters
                         long gSum = 0;
                         long rSum = 0;
 
-                        ColorBgra* dstPtr = dst.GetPointAddress(rect.Left, y);
+                        HelpersLib.GraphicsHelper.ColorBgra* dstPtr = dst.GetPointAddress(rect.Left, y);
 
                         for (int wx = 0; wx < wlen; ++wx)
                         {
@@ -108,7 +108,7 @@ namespace ImageFilters
 
                                     if (srcY >= 0 && srcY < src.BitmapSize.Height)
                                     {
-                                        ColorBgra c = src.GetPoint(srcX, srcY);
+                                        HelpersLib.GraphicsHelper.ColorBgra c = src.GetPoint(srcX, srcY);
                                         int wp = w[wy];
 
                                         waSums[wx] += wp;
@@ -146,7 +146,7 @@ namespace ImageFilters
                             int green = (int)(gSum / wcSum);
                             int red = (int)(rSum / wcSum);
 
-                            dstPtr->Bgra = ColorBgra.BgraToUInt32(blue, green, red, alpha);
+                            dstPtr->Bgra = HelpersLib.GraphicsHelper.ColorBgra.BgraToUInt32(blue, green, red, alpha);
                         }
 
                         ++dstPtr;
@@ -201,7 +201,7 @@ namespace ImageFilters
 
                                     if (srcY >= 0 && srcY < src.BitmapSize.Height)
                                     {
-                                        ColorBgra c = src.GetPoint(srcX, srcY);
+                                        HelpersLib.GraphicsHelper.ColorBgra c = src.GetPoint(srcX, srcY);
                                         int wp = w[wy];
 
                                         waSums[wx] += wp;
@@ -238,7 +238,7 @@ namespace ImageFilters
                                 int green = (int)(gSum / wcSum);
                                 int red = (int)(rSum / wcSum);
 
-                                dstPtr->Bgra = ColorBgra.BgraToUInt32(blue, green, red, alpha);
+                                dstPtr->Bgra = HelpersLib.GraphicsHelper.ColorBgra.BgraToUInt32(blue, green, red, alpha);
                             }
 
                             ++dstPtr;
