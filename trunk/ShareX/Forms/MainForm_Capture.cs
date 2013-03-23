@@ -25,6 +25,7 @@
 
 using HelpersLib;
 using HelpersLib.Hotkeys2;
+using HelpersLibMod;
 using HelpersLibWatermark;
 using ScreenCapture;
 using ShareX.HelperClasses;

@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.btnOk = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnAbort = new System.Windows.Forms.Button();
             this.lblGeneralInfo = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tcAfterCapture = new System.Windows.Forms.TabControl();
             this.tpActions = new System.Windows.Forms.TabPage();
             this.pbImage = new HelpersLib.MyPictureBox();
             this.tpImageResize = new System.Windows.Forms.TabPage();
-            this.ucImageResize = new ShareX.ImageResizeUI();
             this.tpImageQuality = new System.Windows.Forms.TabPage();
-            this.ucImageQuality = new ShareX.ImageQualityUI();
             this.btnCopyImage = new System.Windows.Forms.Button();
-            this.tabControl1.SuspendLayout();
+            this.ucImageResize = new ShareX.ImageResizeUI();
+            this.ucImageQuality = new ShareX.ImageQualityUI();
+            this.tcAfterCapture.SuspendLayout();
             this.tpActions.SuspendLayout();
             this.tpImageResize.SuspendLayout();
             this.tpImageQuality.SuspendLayout();
@@ -48,56 +48,61 @@
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Location = new System.Drawing.Point(541, 350);
+            this.btnOk.Location = new System.Drawing.Point(721, 362);
+            this.btnOk.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(74, 22);
+            this.btnOk.Size = new System.Drawing.Size(99, 27);
             this.btnOk.TabIndex = 2;
             this.btnOk.Text = "&OK";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
-            // btnCancel
+            // btnAbort
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.Location = new System.Drawing.Point(461, 350);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(74, 22);
-            this.btnCancel.TabIndex = 1;
-            this.btnCancel.Text = "&Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnAbort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAbort.Location = new System.Drawing.Point(615, 362);
+            this.btnAbort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAbort.Name = "btnAbort";
+            this.btnAbort.Size = new System.Drawing.Size(99, 27);
+            this.btnAbort.TabIndex = 1;
+            this.btnAbort.Text = "&Abort";
+            this.btnAbort.UseVisualStyleBackColor = true;
+            this.btnAbort.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // lblGeneralInfo
             // 
             this.lblGeneralInfo.BackColor = System.Drawing.Color.DimGray;
             this.lblGeneralInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblGeneralInfo.ForeColor = System.Drawing.Color.White;
-            this.lblGeneralInfo.Location = new System.Drawing.Point(0, 379);
+            this.lblGeneralInfo.Location = new System.Drawing.Point(0, 397);
+            this.lblGeneralInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblGeneralInfo.Name = "lblGeneralInfo";
-            this.lblGeneralInfo.Size = new System.Drawing.Size(618, 29);
+            this.lblGeneralInfo.Size = new System.Drawing.Size(824, 36);
             this.lblGeneralInfo.TabIndex = 4;
             this.lblGeneralInfo.Text = "Disable this prompt by going to Settings > Configuration > Advanced";
             this.lblGeneralInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // tabControl1
+            // tcAfterCapture
             // 
-            this.tabControl1.Controls.Add(this.tpActions);
-            this.tabControl1.Controls.Add(this.tpImageResize);
-            this.tabControl1.Controls.Add(this.tpImageQuality);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(618, 331);
-            this.tabControl1.TabIndex = 0;
+            this.tcAfterCapture.Controls.Add(this.tpActions);
+            this.tcAfterCapture.Controls.Add(this.tpImageResize);
+            this.tcAfterCapture.Controls.Add(this.tpImageQuality);
+            this.tcAfterCapture.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tcAfterCapture.Location = new System.Drawing.Point(0, 0);
+            this.tcAfterCapture.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tcAfterCapture.Name = "tcAfterCapture";
+            this.tcAfterCapture.SelectedIndex = 0;
+            this.tcAfterCapture.Size = new System.Drawing.Size(824, 352);
+            this.tcAfterCapture.TabIndex = 0;
             // 
             // tpActions
             // 
             this.tpActions.Controls.Add(this.pbImage);
-            this.tpActions.Location = new System.Drawing.Point(4, 22);
+            this.tpActions.Location = new System.Drawing.Point(4, 25);
+            this.tpActions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tpActions.Name = "tpActions";
-            this.tpActions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpActions.Size = new System.Drawing.Size(610, 305);
+            this.tpActions.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpActions.Size = new System.Drawing.Size(816, 323);
             this.tpActions.TabIndex = 0;
             this.tpActions.Text = "Actions";
             this.tpActions.UseVisualStyleBackColor = true;
@@ -105,79 +110,85 @@
             // pbImage
             // 
             this.pbImage.BackColor = System.Drawing.Color.White;
- 
             this.pbImage.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pbImage.Location = new System.Drawing.Point(224, 3);
+            this.pbImage.Location = new System.Drawing.Point(301, 4);
+            this.pbImage.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.pbImage.Name = "pbImage";
-            this.pbImage.Size = new System.Drawing.Size(383, 299);
+            this.pbImage.Size = new System.Drawing.Size(511, 315);
             this.pbImage.TabIndex = 0;
             // 
             // tpImageResize
             // 
             this.tpImageResize.Controls.Add(this.ucImageResize);
-            this.tpImageResize.Location = new System.Drawing.Point(4, 22);
+            this.tpImageResize.Location = new System.Drawing.Point(4, 25);
+            this.tpImageResize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tpImageResize.Name = "tpImageResize";
-            this.tpImageResize.Padding = new System.Windows.Forms.Padding(3);
-            this.tpImageResize.Size = new System.Drawing.Size(610, 318);
+            this.tpImageResize.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpImageResize.Size = new System.Drawing.Size(816, 323);
             this.tpImageResize.TabIndex = 1;
             this.tpImageResize.Text = "Image Resize";
             this.tpImageResize.UseVisualStyleBackColor = true;
             // 
-            // ucImageResize
-            // 
-            this.ucImageResize.Location = new System.Drawing.Point(8, 8);
-            this.ucImageResize.Name = "ucImageResize";
-            this.ucImageResize.Size = new System.Drawing.Size(440, 296);
-            this.ucImageResize.TabIndex = 0;
-            // 
             // tpImageQuality
             // 
             this.tpImageQuality.Controls.Add(this.ucImageQuality);
-            this.tpImageQuality.Location = new System.Drawing.Point(4, 22);
+            this.tpImageQuality.Location = new System.Drawing.Point(4, 25);
+            this.tpImageQuality.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tpImageQuality.Name = "tpImageQuality";
-            this.tpImageQuality.Size = new System.Drawing.Size(610, 318);
+            this.tpImageQuality.Size = new System.Drawing.Size(816, 323);
             this.tpImageQuality.TabIndex = 2;
             this.tpImageQuality.Text = "Image Quality";
             this.tpImageQuality.UseVisualStyleBackColor = true;
-            // 
-            // ucImageQuality
-            // 
-            this.ucImageQuality.Location = new System.Drawing.Point(8, 8);
-            this.ucImageQuality.Name = "ucImageQuality";
-            this.ucImageQuality.Size = new System.Drawing.Size(382, 222);
-            this.ucImageQuality.TabIndex = 0;
             // 
             // btnCopyImage
             // 
             this.btnCopyImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCopyImage.AutoSize = true;
             this.btnCopyImage.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnCopyImage.Location = new System.Drawing.Point(8, 351);
+            this.btnCopyImage.Location = new System.Drawing.Point(11, 364);
+            this.btnCopyImage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCopyImage.Name = "btnCopyImage";
-            this.btnCopyImage.Size = new System.Drawing.Size(123, 23);
+            this.btnCopyImage.Size = new System.Drawing.Size(159, 27);
             this.btnCopyImage.TabIndex = 3;
             this.btnCopyImage.Text = "Copy &Image and Close";
             this.btnCopyImage.UseVisualStyleBackColor = true;
             this.btnCopyImage.Click += new System.EventHandler(this.btnCopyImage_Click);
             // 
+            // ucImageResize
+            // 
+            this.ucImageResize.Location = new System.Drawing.Point(11, 10);
+            this.ucImageResize.Margin = new System.Windows.Forms.Padding(5);
+            this.ucImageResize.Name = "ucImageResize";
+            this.ucImageResize.Size = new System.Drawing.Size(587, 364);
+            this.ucImageResize.TabIndex = 0;
+            // 
+            // ucImageQuality
+            // 
+            this.ucImageQuality.Location = new System.Drawing.Point(11, 10);
+            this.ucImageQuality.Margin = new System.Windows.Forms.Padding(5);
+            this.ucImageQuality.Name = "ucImageQuality";
+            this.ucImageQuality.Size = new System.Drawing.Size(509, 273);
+            this.ucImageQuality.TabIndex = 0;
+            // 
             // WindowAfterCapture
             // 
             this.AcceptButton = this.btnOk;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(618, 408);
+            this.ClientSize = new System.Drawing.Size(824, 433);
             this.Controls.Add(this.btnCopyImage);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tcAfterCapture);
             this.Controls.Add(this.lblGeneralInfo);
-            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnAbort);
             this.Controls.Add(this.btnOk);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(624, 432);
+            this.MinimumSize = new System.Drawing.Size(842, 480);
             this.Name = "WindowAfterCapture";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "After capture...";
-            this.tabControl1.ResumeLayout(false);
+            this.tcAfterCapture.ResumeLayout(false);
             this.tpActions.ResumeLayout(false);
             this.tpImageResize.ResumeLayout(false);
             this.tpImageQuality.ResumeLayout(false);
@@ -189,9 +200,9 @@
         #endregion
 
         private System.Windows.Forms.Button btnOk;
-        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnAbort;
         private System.Windows.Forms.Label lblGeneralInfo;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tcAfterCapture;
         private System.Windows.Forms.TabPage tpActions;
         private System.Windows.Forms.TabPage tpImageResize;
         private ImageResizeUI ucImageResize;

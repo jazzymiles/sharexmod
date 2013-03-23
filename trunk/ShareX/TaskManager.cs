@@ -23,17 +23,17 @@
 
 #endregion License Information (GPL v3)
 
+using HelpersLib;
+using HelpersLibMod;
+using HistoryLib;
+using ShareX.HelperClasses;
+using ShareX.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Media;
 using System.Windows.Forms;
-using HelpersLib;
-using HelpersLibMod;
-using HistoryLib;
-using ShareX.HelperClasses;
-using ShareX.Properties;
 using UploadersLib;
 
 namespace ShareX
@@ -277,7 +277,10 @@ namespace ShareX
                             if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.Clipboard) &&
                                 SettingsManager.ConfigCore.Workflow.AfterUploadTasks.HasFlag(AfterUploadTasks.CopyURLToClipboard))
                             {
-                                Helpers.CopyTextSafely(url_or_filepath);
+                                if (!string.IsNullOrEmpty(info.Result.URL))
+                                    Helpers.CopyTextSafely(info.Result.URL);
+                                else if (!SettingsManager.ConfigCore.Workflow.Subtasks.HasFlag(Subtask.CopyImageToClipboard))
+                                    Helpers.CopyTextSafely(url_or_filepath);
                             }
 
                             if (FormsHelper.Main.niTray.Visible && SettingsManager.ConfigCore.ShowBalloonAfterUpload)
