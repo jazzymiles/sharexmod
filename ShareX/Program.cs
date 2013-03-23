@@ -25,6 +25,7 @@
 
 using HelpersLib;
 using HelpersLib.Hotkeys2;
+using Microsoft.WindowsAPICodePack.Taskbar;
 using ShareX.Forms;
 using SingleInstanceApplication;
 using System;
@@ -138,6 +139,14 @@ namespace ShareX
         public static Stopwatch StartTimer { get; private set; }
 
         private static log4net.ILog log = null;
+
+        #region Windows 7 Taskbar
+
+        public static readonly string appId = Application.ProductName;  // need for Windows 7 Taskbar
+        private static readonly string progId = Application.ProductName; // need for Windows 7 Taskbar
+        public static TaskbarManager _WindowsTaskbar;
+
+        #endregion Windows 7 Taskbar
 
         public static string Title
         {
