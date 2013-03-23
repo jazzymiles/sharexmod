@@ -75,7 +75,7 @@ namespace ShareX.HelperClasses
 
             Thumbnails = get_NewLargeImageList();
 
-            foreach (Task task in TaskManager.Tasks)
+            foreach (UploadTask task in TaskManager.Tasks)
             {
                 if (task.Info != null && File.Exists(task.Info.FilePath) && Helpers.IsImageFile(task.Info.FilePath))
                 {
@@ -107,7 +107,7 @@ namespace ShareX.HelperClasses
 
         private static void bwAddThumbnail_DoWork()
         {
-            Task task = TaskManager.Tasks.Last();
+            UploadTask task = TaskManager.Tasks.Last();
             UploadInfo info = task.Info;
 
             if (File.Exists(info.FilePath) && Helpers.IsImageFile(info.FilePath))
