@@ -227,7 +227,7 @@
     <Compile Include="SettingsHelpers\UserConfig.cs" />
     <Compile Include="SettingsManager.cs" />
     <Compile Include="SettingsHelpers\WorkflowsConfig.cs" />
-    <Compile Include="Task.cs" />
+    <Compile Include="UploadTask.cs" />
     <Compile Include="HelperClasses\TrayIconManager.cs" />
     <Compile Include="TaskManager.cs" />
     <Compile Include="UploadInfoManager.cs" />

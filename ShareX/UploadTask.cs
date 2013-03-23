@@ -47,11 +47,11 @@ using UploadersLibMod;
 
 namespace ShareX
 {
-    public class Task : IDisposable
+    public class UploadTask : IDisposable
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public delegate void TaskEventHandler(Task task);
+        public delegate void TaskEventHandler(UploadTask task);
 
         public event TaskEventHandler UploadStarted;
 
@@ -85,7 +85,7 @@ namespace ShareX
 
         #region Constructors
 
-        private Task(EDataType dataType, TaskJob job)
+        private UploadTask(EDataType dataType, TaskJob job)
         {
             Status = TaskStatus.InQueue;
             Info = new UploadInfo();
@@ -101,9 +101,9 @@ namespace ShareX
             this.Info.SetDestination(wf.Settings.DestConfig);
         }
 
-        public static Task CreateDataUploaderTask(EDataType dataType, Stream stream, string filePath, EDataType destination = EDataType.Default)
+        public static UploadTask CreateDataUploaderTask(EDataType dataType, Stream stream, string filePath, EDataType destination = EDataType.Default)
         {
-            Task task = new Task(dataType, TaskJob.DataUpload);
+            UploadTask task = new UploadTask(dataType, TaskJob.DataUpload);
             if (destination != EDataType.Default) task.Info.UploadDestination = destination;
             task.Info.FileName = Path.GetFileName(filePath);
             task.Info.FilePath = filePath;
@@ -112,7 +112,7 @@ namespace ShareX
         }
 
         // string filePath -> FileStream data
-        public static Task CreateFileUploaderTask(EDataType dataType, string filePath, EDataType destination = EDataType.Default)
+        public static UploadTask CreateFileUploaderTask(EDataType dataType, string filePath, EDataType destination = EDataType.Default)
         {
             TaskJob taskJob = TaskJob.FileUpload;
             switch (dataType)
@@ -125,7 +125,7 @@ namespace ShareX
                     taskJob = TaskJob.TextUpload;
                     break;
             }
-            Task task = new Task(dataType, taskJob);
+            UploadTask task = new UploadTask(dataType, taskJob);
             if (destination != EDataType.Default) task.Info.UploadDestination = destination;
             task.Info.FilePath = filePath;
             if (taskJob == TaskJob.ImageUpload)
@@ -135,9 +135,9 @@ namespace ShareX
         }
 
         // Image image -> MemoryStream data (in thread)
-        public static Task CreateImageUploaderTask(ImageData imageData, EDataType destination = EDataType.Default)
+        public static UploadTask CreateImageUploaderTask(ImageData imageData, EDataType destination = EDataType.Default)
         {
-            Task task = new Task(EDataType.Image, TaskJob.ImageUpload);
+            UploadTask task = new UploadTask(EDataType.Image, TaskJob.ImageUpload);
             if (destination != EDataType.Default) task.Info.UploadDestination = destination;
             task.Info.FileName = imageData.Filename;
             task.imageData = imageData;
@@ -145,9 +145,9 @@ namespace ShareX
         }
 
         // string text -> MemoryStream data (in thread)
-        public static Task CreateTextUploaderTask(string text, EDataType destination = EDataType.Default)
+        public static UploadTask CreateTextUploaderTask(string text, EDataType destination = EDataType.Default)
         {
-            Task task = new Task(EDataType.Text, TaskJob.TextUpload);
+            UploadTask task = new UploadTask(EDataType.Text, TaskJob.TextUpload);
             if (destination != EDataType.Default) task.Info.UploadDestination = destination;
 
             if (SettingsManager.ConfigCore.IndexFolderWhenPossible && Directory.Exists(text))
@@ -164,17 +164,17 @@ namespace ShareX
             return task;
         }
 
-        public static Task CreateURLShortenerTask(string url)
+        public static UploadTask CreateURLShortenerTask(string url)
         {
-            Task task = new Task(EDataType.URL, TaskJob.ShortenURL);
+            UploadTask task = new UploadTask(EDataType.URL, TaskJob.ShortenURL);
             task.Info.FileName = url;
             task.Info.Result.URL = url;
             return task;
         }
 
-        public static Task CreatePostToSocialNetworkingServiceTask(UploadResult result)
+        public static UploadTask CreatePostToSocialNetworkingServiceTask(UploadResult result)
         {
-            Task task = new Task(EDataType.URL, TaskJob.ShareURL);
+            UploadTask task = new UploadTask(EDataType.URL, TaskJob.ShareURL);
             task.Info.UploadDestination = EDataType.Default;
             task.Info.Result = result;
             return task;

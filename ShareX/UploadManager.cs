@@ -120,7 +120,7 @@ namespace ShareX
 
                     foreach (FileDestination fileUploader in act.Workflow.Settings.DestConfig.FileUploaders)
                     {
-                        Task task = Task.CreateFileUploaderTask(type, path, destination);
+                        UploadTask task = UploadTask.CreateFileUploaderTask(type, path, destination);
                         task.SetWorkflow(act.Workflow);
                         TaskManager.Start(task);
                         break;
@@ -145,7 +145,7 @@ namespace ShareX
                 EDataType destination = EDataType.Image;
                 if (act.Workflow.Settings.DestConfig.ImageUploaders.Count > 0)
                     destination = act.Workflow.Settings.DestConfig.ImageUploaders[0] == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
-                Task task = Task.CreateImageUploaderTask(imageData, destination);
+                UploadTask task = UploadTask.CreateImageUploaderTask(imageData, destination);
                 task.SetWorkflow(act.Workflow);
                 TaskManager.Start(task);
             }
@@ -175,7 +175,7 @@ namespace ShareX
                 EDataType destination = EDataType.Text;
                 if (act.Workflow.Settings.DestConfig.TextUploaders.Count > 0)
                     destination = act.Workflow.Settings.DestConfig.TextUploaders[0] == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
-                Task task = Task.CreateTextUploaderTask(text, destination);
+                UploadTask task = UploadTask.CreateTextUploaderTask(text, destination);
                 task.SetWorkflow(act.Workflow);
                 TaskManager.Start(task);
             }
@@ -187,7 +187,7 @@ namespace ShareX
 
             if (!string.IsNullOrEmpty(url))
             {
-                Task task = Task.CreateURLShortenerTask(url);
+                UploadTask task = UploadTask.CreateURLShortenerTask(url);
                 task.SetWorkflow(act.Workflow);
                 TaskManager.Start(task);
             }
@@ -273,7 +273,7 @@ namespace ShareX
         {
             AfterCaptureActivity.Prepare(ref act);
 
-            Task task = Task.CreatePostToSocialNetworkingServiceTask(result);
+            UploadTask task = UploadTask.CreatePostToSocialNetworkingServiceTask(result);
             task.SetWorkflow(act.Workflow);
             TaskManager.Start(task);
         }
@@ -285,7 +285,7 @@ namespace ShareX
                 AfterCaptureActivity.Prepare(ref act);
 
                 EDataType destination = ImageUploader == ImageDestination.FileUploader ? EDataType.File : dataType;
-                Task task = Task.CreateDataUploaderTask(EDataType.Image, stream, filePath, destination);
+                UploadTask task = UploadTask.CreateDataUploaderTask(EDataType.Image, stream, filePath, destination);
                 task.SetWorkflow(act.Workflow);
                 TaskManager.Start(task);
             }

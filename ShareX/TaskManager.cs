@@ -42,16 +42,16 @@ namespace ShareX
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static List<Task> Tasks;
+        public static List<UploadTask> Tasks;
 
         public static MyListView ListViewControl { get; set; }
 
         static TaskManager()
         {
-            Tasks = new List<Task>();
+            Tasks = new List<UploadTask>();
         }
 
-        private static void ChangeListViewItemStatus(Task task)
+        private static void ChangeListViewItemStatus(UploadTask task)
         {
             if (ListViewControl != null)
             {
@@ -64,7 +64,7 @@ namespace ShareX
             }
         }
 
-        private static void CreateListViewItem(Task task)
+        private static void CreateListViewItem(UploadTask task)
         {
             if (ListViewControl != null)
             {
@@ -115,13 +115,13 @@ namespace ShareX
             }
         }
 
-        private static ListViewItem FindListViewItem(Task task)
+        private static ListViewItem FindListViewItem(UploadTask task)
         {
             if (ListViewControl != null)
             {
                 foreach (ListViewItem lvi in ListViewControl.Items)
                 {
-                    Task tag = lvi.Tag as Task;
+                    UploadTask tag = lvi.Tag as UploadTask;
 
                     if (tag != null && tag == task)
                     {
@@ -133,13 +133,13 @@ namespace ShareX
             return null;
         }
 
-        public static void Start(Task task)
+        public static void Start(UploadTask task)
         {
             Tasks.Add(task);
-            task.UploadPreparing += new Task.TaskEventHandler(task_UploadPreparing);
-            task.UploadStarted += new Task.TaskEventHandler(task_UploadStarted);
-            task.UploadProgressChanged += new Task.TaskEventHandler(task_UploadProgressChanged);
-            task.UploadCompleted += new Task.TaskEventHandler(task_UploadCompleted);
+            task.UploadPreparing += new UploadTask.TaskEventHandler(task_UploadPreparing);
+            task.UploadStarted += new UploadTask.TaskEventHandler(task_UploadStarted);
+            task.UploadProgressChanged += new UploadTask.TaskEventHandler(task_UploadProgressChanged);
+            task.UploadCompleted += new UploadTask.TaskEventHandler(task_UploadCompleted);
             CreateListViewItem(task);
             StartTasks();
             TrayIconManager.UpdateTrayIcon();
@@ -148,7 +148,7 @@ namespace ShareX
         private static void StartTasks()
         {
             int workingTasksCount = Tasks.Count(x => x.IsWorking);
-            Task[] inQueueTasks = Tasks.Where(x => x.Status == TaskStatus.InQueue).ToArray();
+            UploadTask[] inQueueTasks = Tasks.Where(x => x.Status == TaskStatus.InQueue).ToArray();
 
             if (inQueueTasks.Length > 0)
             {
@@ -178,13 +178,14 @@ namespace ShareX
             }
         }
 
-        private static void task_UploadPreparing(Task task)
+        private static void task_UploadPreparing(UploadTask task)
         {
             log.Info("Preparing task.");
             ChangeListViewItemStatus(task);
+            UpdateProgressUI();
         }
 
-        private static void task_UploadStarted(Task task)
+        private static void task_UploadStarted(UploadTask task)
         {
             UploadInfo info = task.Info;
 
@@ -201,7 +202,7 @@ namespace ShareX
             }
         }
 
-        private static void task_UploadProgressChanged(Task task)
+        private static void task_UploadProgressChanged(UploadTask task)
         {
             if (ListViewControl != null)
             {
@@ -222,6 +223,8 @@ namespace ShareX
                     lvi.SubItems[4].Text = Helpers.ProperTimeSpan(info.Progress.Elapsed);
                     lvi.SubItems[5].Text = Helpers.ProperTimeSpan(info.Progress.Remaining);
                 }
+
+                UpdateProgressUI();
             }
         }
 
@@ -229,7 +232,7 @@ namespace ShareX
         /// Mod 01: Not just uploads, everything gets added to List e.g. Saving to file
         /// </summary>
         /// <param name="info">UploadInfo</param>
-        private static void task_UploadCompleted(Task task)
+        private static void task_UploadCompleted(UploadTask task)
         {
             try
             {
@@ -314,6 +317,43 @@ namespace ShareX
             finally
             {
                 StartTasks();
+                UpdateProgressUI();
+            }
+        }
+
+        public static void UpdateProgressUI()
+        {
+            bool isWorkingTasks = false;
+            double averageProgress = 0;
+
+            IEnumerable<UploadTask> workingTasks = Tasks.Where(x => x != null && x.IsWorking && x.Info != null);
+
+            if (workingTasks.Count() > 0)
+            {
+                isWorkingTasks = true;
+
+                workingTasks = workingTasks.Where(x => x.Info.Progress != null);
+
+                if (workingTasks.Count() > 0)
+                {
+                    averageProgress = workingTasks.Average(x => x.Info.Progress.Percentage);
+                }
+            }
+
+            string title;
+
+            if (isWorkingTasks)
+            {
+                title = string.Format("{1:0.0}% - {0}", Program.Title, averageProgress);
+            }
+            else
+            {
+                title = Program.Title;
+            }
+
+            if (FormsHelper.Main.Text != title)
+            {
+                FormsHelper.Main.Text = title;
             }
         }
     }
