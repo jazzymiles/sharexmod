@@ -100,7 +100,7 @@ namespace ShareX
 
                 if (SettingsManager.ConfigCore.ShowAfterCaptureWizard)
                 {
-                    Program._WindowsTaskbar.SetProgressState(Microsoft.WindowsAPICodePack.Taskbar.TaskbarProgressBarState.Indeterminate);
+                    TaskbarHelper.TaskbarSetProgressState(TaskbarProgressBarState.Indeterminate);
 
                     WindowAfterCapture dlg = new WindowAfterCapture(imageData.Image, act.Workflow.Subtasks) { Icon = Resources.ShareX };
                     result = dlg.ShowDialog();
@@ -127,7 +127,7 @@ namespace ShareX
                 }
                 else
                 {
-                    Program._WindowsTaskbar.SetProgressState(TaskbarProgressBarState.NoProgress);
+                    TaskbarHelper.TaskbarSetProgressState(TaskbarProgressBarState.NoProgress);
                 }
             }
         }

@@ -26,6 +26,7 @@
 using HelpersLib;
 using HelpersLibMod;
 using HistoryLib;
+using Microsoft.WindowsAPICodePack.Taskbar;
 using ShareX.HelperClasses;
 using ShareX.Properties;
 using System;
@@ -183,7 +184,7 @@ namespace ShareX
             log.Info("Preparing task.");
             ChangeListViewItemStatus(task);
             UpdateProgressUI();
-            Program._WindowsTaskbar.SetProgressState(Microsoft.WindowsAPICodePack.Taskbar.TaskbarProgressBarState.Normal);
+            TaskbarHelper.TaskbarSetProgressState(TaskbarProgressBarState.Normal);
         }
 
         private static void task_UploadStarted(UploadTask task)
@@ -351,12 +352,12 @@ namespace ShareX
             else
             {
                 title = Program.Title;
-                Program._WindowsTaskbar.SetProgressState(Microsoft.WindowsAPICodePack.Taskbar.TaskbarProgressBarState.NoProgress);
+                TaskbarHelper.TaskbarSetProgressState(TaskbarProgressBarState.NoProgress);
             }
 
             if (FormsHelper.Main.Text != title && averageProgress_int > 0)
             {
-                Program._WindowsTaskbar.SetProgressValue(averageProgress_int, 100);
+                TaskbarHelper.TaskbarSetProgressValue(averageProgress_int);
                 FormsHelper.Main.Text = title;
             }
         }

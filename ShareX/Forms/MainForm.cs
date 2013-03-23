@@ -93,9 +93,9 @@ namespace ShareX
 
         internal void TaskbarIntegration()
         {
-            Program._WindowsTaskbar = TaskbarManager.Instance;
-            Program._WindowsTaskbar.ApplicationId = Program.appId;
-
+            TaskbarHelper.WindowsTaskbar = TaskbarManager.Instance;
+            TaskbarHelper.WindowsTaskbar.ApplicationId = TaskbarHelper.appId;
+            TaskbarHelper.WindowHandle = this.Handle;
         }
 
         internal void AfterUploadersConfigClosed()
