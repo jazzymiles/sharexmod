@@ -342,11 +342,11 @@ namespace ShareX
             }
 
             string title;
+            int averageProgress_int = (int)averageProgress;
 
             if (isWorkingTasks)
             {
                 title = string.Format("{1:0.0}% - {0}", Program.Title, averageProgress);
-                Program._WindowsTaskbar.SetProgressValue((int)averageProgress, 100);
             }
             else
             {
@@ -354,8 +354,9 @@ namespace ShareX
                 Program._WindowsTaskbar.SetProgressState(Microsoft.WindowsAPICodePack.Taskbar.TaskbarProgressBarState.NoProgress);
             }
 
-            if (FormsHelper.Main.Text != title)
+            if (FormsHelper.Main.Text != title && averageProgress_int > 0)
             {
+                Program._WindowsTaskbar.SetProgressValue(averageProgress_int, 100);
                 FormsHelper.Main.Text = title;
             }
         }

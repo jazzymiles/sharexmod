@@ -221,9 +221,9 @@ namespace ShareX
             // 
             this.copyThumbnailURLToolStripMenuItem.Name = "copyThumbnailURLToolStripMenuItem";
             this.copyThumbnailURLToolStripMenuItem.Size = new System.Drawing.Size(263, 24);
-            this.copyThumbnailURLToolStripMenuItem.Text = "Copy Thumbnail URL";
+            this.copyThumbnailURLToolStripMenuItem.Text = "Copy URL";
             this.copyThumbnailURLToolStripMenuItem.Visible = false;
-            this.copyThumbnailURLToolStripMenuItem.Click += new System.EventHandler(this.copyThumbnailURLToolStripMenuItem_Click);
+            this.copyThumbnailURLToolStripMenuItem.Click += new System.EventHandler(this.copyURLToolStripMenuItem_Click);
             // 
             // copyDeletionURLToolStripMenuItem
             // 
