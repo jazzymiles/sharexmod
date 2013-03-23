@@ -27,6 +27,7 @@ using HelpersLib;
 using HelpersLib.Hotkeys2;
 using HelpersLibMod;
 using HelpersLibWatermark;
+using Microsoft.WindowsAPICodePack.Taskbar;
 using ScreenCapture;
 using ShareX.HelperClasses;
 using ShareX.Properties;
@@ -36,6 +37,7 @@ using System.Drawing;
 using System.IO;
 using System.Media;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ShareX
@@ -44,7 +46,7 @@ namespace ShareX
     {
         private delegate Image ScreenCaptureDelegate();
 
-        private new ImageData Capture(ScreenCaptureDelegate capture, bool autoHideForm = true)
+        private new ImageData DoCapture(ScreenCaptureDelegate capture, bool autoHideForm = true)
         {
             if (autoHideForm)
             {
@@ -123,36 +125,40 @@ namespace ShareX
                 {
                     UploadManager.DoImageWork(imageData, act);
                 }
+                else
+                {
+                    Program._WindowsTaskbar.SetProgressState(TaskbarProgressBarState.NoProgress);
+                }
             }
         }
 
         private ImageData CaptureScreen(bool autoHideForm = true)
         {
-            return Capture(Screenshot.CaptureFullscreen, autoHideForm);
+            return DoCapture(Screenshot.CaptureFullscreen, autoHideForm);
         }
 
         private ImageData CaptureActiveWindow(bool autoHideForm = true)
         {
             if (SettingsManager.ConfigCore.CaptureTransparent)
             {
-                return Capture(Screenshot.CaptureActiveWindowTransparent, autoHideForm);
+                return DoCapture(Screenshot.CaptureActiveWindowTransparent, autoHideForm);
             }
             else
             {
-                return Capture(Screenshot.CaptureActiveWindow, autoHideForm);
+                return DoCapture(Screenshot.CaptureActiveWindow, autoHideForm);
             }
         }
 
         private ImageData CaptureActiveMonitor(bool autoHideForm = true)
         {
-            return Capture(Screenshot.CaptureActiveMonitor, autoHideForm);
+            return DoCapture(Screenshot.CaptureActiveMonitor, autoHideForm);
         }
 
         private ImageData CaptureWindow(IntPtr handle, bool autoHideForm = true)
         {
             autoHideForm = autoHideForm && handle != this.Handle;
 
-            return Capture(() =>
+            return DoCapture(() =>
              {
                  if (NativeMethods.IsIconic(handle))
                  {
@@ -173,7 +179,7 @@ namespace ShareX
 
         private ImageData CaptureRegion(Surface surface, bool autoHideForm = true)
         {
-            return Capture(() =>
+            return DoCapture(() =>
             {
                 Image img = null;
                 Image screenshot = Screenshot.CaptureFullscreen();
@@ -203,7 +209,7 @@ namespace ShareX
         {
             if (Surface.LastRegionFillPath != null)
             {
-                return Capture(() =>
+                return DoCapture(() =>
                     {
                         using (Image screenshot = Screenshot.CaptureFullscreen())
                         {
@@ -224,35 +230,42 @@ namespace ShareX
             return CaptureRegion(rectangleRegion, autoHideForm);
         }
 
-        private void PrepareWindowsMenu(ToolStripMenuItem tsmi, EventHandler handler)
+        private async void PrepareWindowsMenuAsync(ToolStripMenuItem tsmi, EventHandler handler)
         {
             tsmi.DropDownItems.Clear();
 
+            List<WindowInfo> windows = null;
+
             WindowsList windowsList = new WindowsList();
-            List<WindowInfo> windows = windowsList.GetVisibleWindowsList();
+            windows = await TaskEx.Run(() => windowsList.GetVisibleWindowsList());
 
-            foreach (WindowInfo window in windows)
+            if (windows != null)
             {
-                string title = window.Text.Truncate(50);
-                ToolStripItem tsi = tsmi.DropDownItems.Add(title);
-                tsi.Click += handler;
-
-                try
+                foreach (WindowInfo window in windows)
                 {
-                    using (Icon icon = window.Icon)
+                    string title = window.Text.Truncate(50);
+                    ToolStripItem tsi = tsmi.DropDownItems.Add(title);
+                    tsi.Click += handler;
+
+                    try
                     {
-                        if (icon != null)
+                        using (Icon icon = window.Icon)
                         {
-                            tsi.Image = icon.ToBitmap();
+                            if (icon != null)
+                            {
+                                tsi.Image = icon.ToBitmap();
+                            }
                         }
                     }
-                }
-                catch (Exception e)
-                {
-                    log.Error(e.ToString());
+                    catch (Exception e)
+                    {
+                        log.Error(e);
+                    }
+
+                    tsi.Tag = window;
                 }
 
-                tsi.Tag = window;
+                tsmi.Invalidate();
             }
         }
 
@@ -265,7 +278,7 @@ namespace ShareX
 
         private void tsddbCapture_DropDownOpening(object sender, EventArgs e)
         {
-            PrepareWindowsMenu(tsmiWindow, tsmiWindowItems_Click);
+            PrepareWindowsMenuAsync(tsmiWindow, tsmiWindowItems_Click);
         }
 
         private void tsmiWindowItems_Click(object sender, EventArgs e)
@@ -331,7 +344,7 @@ namespace ShareX
 
         private void tsmiCapture_DropDownOpening(object sender, EventArgs e)
         {
-            PrepareWindowsMenu(tsmiTrayWindow, tsmiTrayWindowItems_Click);
+            PrepareWindowsMenuAsync(tsmiTrayWindow, tsmiTrayWindowItems_Click);
         }
 
         private void tsmiTrayWindowItems_Click(object sender, EventArgs e)

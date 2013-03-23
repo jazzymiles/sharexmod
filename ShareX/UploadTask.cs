@@ -367,9 +367,14 @@ namespace ShareX
         {
             // Shorten URL
 
-            if ((Workflow.AfterUploadTasks.HasFlag(AfterUploadTasks.UseURLShortener) || Info.Job == TaskJob.ShortenURL) && Info.Result.URL.Length >= SettingsManager.ConfigCore.MaximumURLLength)
+            if ((Workflow.AfterUploadTasks.HasFlag(AfterUploadTasks.UseURLShortener) && Info.Result.URL.Length >= SettingsManager.ConfigCore.MaximumURLLength) || Info.Job == TaskJob.ShortenURL)
             {
-                Info.Result.ShortenedURL = ShortenURL(Info.Result.URL).URL;
+                UploadResult result = ShortenURL(Info.Result.URL);
+
+                if (result != null)
+                {
+                    Info.Result.ShortenedURL = result.ShortenedURL;
+                }
             }
 
             // Share using Social Networking Services
@@ -924,6 +929,13 @@ namespace ShareX
 
                 case UrlShortenerType.TURL:
                     urlShortener = new TurlURLShortener();
+                    break;
+
+                case UrlShortenerType.CustomURLShortener:
+                    if (SettingsManager.ConfigUploaders.CustomUploadersList.IsValidIndex(SettingsManager.ConfigUploaders.CustomURLShortenerSelected))
+                    {
+                        urlShortener = new CustomURLShortener(SettingsManager.ConfigUploaders.CustomUploadersList[SettingsManager.ConfigUploaders.CustomURLShortenerSelected]);
+                    }
                     break;
             }
 
