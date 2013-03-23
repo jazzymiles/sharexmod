@@ -92,6 +92,14 @@
       <Project>{327750e1-9fb7-4cc3-8aea-9bc42180cad3}</Project>
       <Name>HelpersLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lib\GreenshotPlugin\GreenshotPlugin.csproj">
+      <Project>{5b924697-4dcd-4f98-85f1-105cb84b7341}</Project>
+      <Name>GreenshotPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\Greenshot\Greenshot.csproj">
+      <Project>{cd642bf4-d815-4d67-a0b5-c69f0b8231af}</Project>
+      <Name>Greenshot</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
