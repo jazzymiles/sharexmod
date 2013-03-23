@@ -98,6 +98,8 @@ namespace ShareX
 
                 if (SettingsManager.ConfigCore.ShowAfterCaptureWizard)
                 {
+                    Program._WindowsTaskbar.SetProgressState(Microsoft.WindowsAPICodePack.Taskbar.TaskbarProgressBarState.Indeterminate);
+
                     WindowAfterCapture dlg = new WindowAfterCapture(imageData.Image, act.Workflow.Subtasks) { Icon = Resources.ShareX };
                     result = dlg.ShowDialog();
 
