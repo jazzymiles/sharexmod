@@ -1,6 +1,8 @@
-﻿Version 7.2 - 2013-06-15
+﻿Version 7.2 - 2013-03-31
 
-* Windows 7 Taskbar integration
+* Windows 7 Taskbar integration to display progress
+* Added support for paste.ee text uploader
+* Added support for Custom file uploader upload images/text/files and shorten URLs
 * Added support for Localhostr file uploader
 
 Version 7.1 - 2012-08-30

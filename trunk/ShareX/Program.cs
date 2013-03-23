@@ -140,14 +140,6 @@ namespace ShareX
 
         private static log4net.ILog log = null;
 
-        #region Windows 7 Taskbar
-
-        public static readonly string appId = Application.ProductName;  // need for Windows 7 Taskbar
-        private static readonly string progId = Application.ProductName; // need for Windows 7 Taskbar
-        public static TaskbarManager _WindowsTaskbar;
-
-        #endregion Windows 7 Taskbar
-
         public static string Title
         {
             get

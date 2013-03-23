@@ -635,6 +635,13 @@ namespace ShareX
                 case ImageDestination.Immio:
                     imageUploader = new ImmioUploader();
                     break;
+
+                case ImageDestination.CustomImageUploader:
+                    if (SettingsManager.ConfigUploaders.CustomUploadersList.IsValidIndex(SettingsManager.ConfigUploaders.CustomImageUploaderSelected))
+                    {
+                        imageUploader = new CustomImageUploader(SettingsManager.ConfigUploaders.CustomUploadersList[SettingsManager.ConfigUploaders.CustomImageUploaderSelected]);
+                    }
+                    break;
             }
 
             if (imageUploader != null)
@@ -684,6 +691,17 @@ namespace ShareX
 
                 case TextDestination.Pastee:
                     textUploader = new Pastee() { Lexer = Workflow.Settings.DestConfig.TextFormat };
+                    break;
+
+                case TextDestination.Paste_ee:
+                    textUploader = new Paste_ee(SettingsManager.ConfigUploaders.Paste_eeUserAPIKey);
+                    break;
+
+                case TextDestination.CustomTextUploader:
+                    if (SettingsManager.ConfigUploaders.CustomUploadersList.IsValidIndex(SettingsManager.ConfigUploaders.CustomTextUploaderSelected))
+                    {
+                        textUploader = new CustomTextUploader(SettingsManager.ConfigUploaders.CustomUploadersList[SettingsManager.ConfigUploaders.CustomTextUploaderSelected]);
+                    }
                     break;
             }
 
