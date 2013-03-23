@@ -750,6 +750,13 @@ namespace ShareX
                     }
                     break;
 
+                case FileDestination.Localhostr:
+                    fileUploader = new Localhostr(SettingsManager.ConfigUploaders.LocalhostrEmail, SettingsManager.ConfigUploaders.LocalhostrPassword)
+                    {
+                        DirectURL = SettingsManager.ConfigUploaders.LocalhostrDirectURL
+                    };
+                    break;
+
                 case FileDestination.CustomFileUploader:
                     if (SettingsManager.ConfigUploaders.CustomUploadersList.IsValidIndex(SettingsManager.ConfigUploaders.CustomFileUploaderSelected))
                     {
