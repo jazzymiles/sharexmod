@@ -929,10 +929,10 @@ namespace ShareX
             this.tsmiTrayURLShorteners,
             this.toolStripSeparator2,
             this.tsmiConfiguration});
-            this.tsmiDestinations.Image = global::ShareX.Properties.Resources.share;
+            this.tsmiDestinations.Image = global::ShareX.Properties.Resources.server;
             this.tsmiDestinations.Name = "tsmiDestinations";
             this.tsmiDestinations.Size = new System.Drawing.Size(204, 24);
-            this.tsmiDestinations.Text = "&Share using";
+            this.tsmiDestinations.Text = "Destinations";
             // 
             // tsmiTrayImageUploaders
             // 
@@ -1010,6 +1010,7 @@ namespace ShareX
             this.tsmiTrayDonate.Name = "tsmiTrayDonate";
             this.tsmiTrayDonate.Size = new System.Drawing.Size(204, 24);
             this.tsmiTrayDonate.Text = "Donate...";
+            this.tsmiTrayDonate.Visible = false;
             this.tsmiTrayDonate.Click += new System.EventHandler(this.tsbDonate_Click);
             // 
             // tssTray2
