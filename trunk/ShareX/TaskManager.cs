@@ -183,6 +183,7 @@ namespace ShareX
             log.Info("Preparing task.");
             ChangeListViewItemStatus(task);
             UpdateProgressUI();
+            Program._WindowsTaskbar.SetProgressState(Microsoft.WindowsAPICodePack.Taskbar.TaskbarProgressBarState.Normal);
         }
 
         private static void task_UploadStarted(UploadTask task)
@@ -345,10 +346,12 @@ namespace ShareX
             if (isWorkingTasks)
             {
                 title = string.Format("{1:0.0}% - {0}", Program.Title, averageProgress);
+                Program._WindowsTaskbar.SetProgressValue((int)averageProgress, 100);
             }
             else
             {
                 title = Program.Title;
+                Program._WindowsTaskbar.SetProgressState(Microsoft.WindowsAPICodePack.Taskbar.TaskbarProgressBarState.NoProgress);
             }
 
             if (FormsHelper.Main.Text != title)

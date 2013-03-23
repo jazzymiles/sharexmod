@@ -7,7 +7,7 @@
 
 [Setup]
 AllowNoIcons=true
-AppCopyright=Copyright (C) 2012 {#MyAppPublisher}
+AppCopyright=Copyright (C) 2013 {#MyAppPublisher}
 AppId=82E6AC09-0FEF-4390-AD9F-0DD3F5561EFC
 AppMutex=Global\82E6AC09-0FEF-4390-AD9F-0DD3F5561EFC
 AppName={#MyAppName}
@@ -28,7 +28,7 @@ InfoBeforeFile=Docs\VersionHistory.txt
 ;InfoBeforeFile=Docs\license.txt
 InternalCompressLevel=ultra64
 LanguageDetectionMethod=uilanguage
-MinVersion=6
+MinVersion=6.0
 OutputBaseFilename={#MyAppName}-{#MyAppVersion}-setup
 OutputDir=Output\
 PrivilegesRequired=none

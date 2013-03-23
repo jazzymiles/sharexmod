@@ -23,6 +23,15 @@
 
 #endregion License Information (GPL v3)
 
+using HelpersLib;
+using HelpersLib.Hotkeys2;
+using HelpersLibMod;
+using HistoryLib;
+using Microsoft.WindowsAPICodePack.Taskbar;
+using ScreenCapture;
+using ShareX.Forms;
+using ShareX.HelperClasses;
+using ShareX.Properties;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -30,14 +39,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using HelpersLib;
-using HelpersLib.Hotkeys2;
-using HelpersLibMod;
-using HistoryLib;
-using ScreenCapture;
-using ShareX.Forms;
-using ShareX.HelperClasses;
-using ShareX.Properties;
 using UpdateCheckerLib;
 using UploadersLib;
 using UploadersLib.HelperClasses;
@@ -87,6 +88,14 @@ namespace ShareX
         {
             ShowActivate();
             AfterUploadersConfigClosed();
+            TaskbarIntegration();
+        }
+
+        internal void TaskbarIntegration()
+        {
+            Program._WindowsTaskbar = TaskbarManager.Instance;
+            Program._WindowsTaskbar.ApplicationId = Program.appId;
+
         }
 
         internal void AfterUploadersConfigClosed()
