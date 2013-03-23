@@ -1,4 +1,9 @@
-﻿using System;
+﻿using HelpersLib;
+using HelpersLib.Hotkeys2;
+using HelpersLibMod;
+using ShareX.Properties;
+using ShareX.SettingsHelpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,11 +11,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using HelpersLib;
-using HelpersLib.Hotkeys2;
-using HelpersLibMod;
-using ShareX.Properties;
-using ShareX.SettingsHelpers;
 
 namespace ShareX
 {
@@ -55,11 +55,12 @@ namespace ShareX
                 this.tpActions.Controls.Add(chkJob);
 
                 maxWidth = Math.Max(maxWidth, chkJob.Width);
-                yGap += 24;
+                yGap += chkJob.Height + 8;
             }
 
             this.Width = Math.Max(400, maxWidth + btnOk.Width * 2);
-            this.Height = yGap + 60;
+            this.tcAfterCapture.Height = yGap;
+            this.Height = yGap + 8;
 
             ConfigUser = Helpers.Clone(SettingsManager.ConfigUser) as UserConfig;
 
