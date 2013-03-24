@@ -44,6 +44,8 @@ namespace ShareX.HelperClasses
 
         public string WindowText { get; private set; }
 
+        public string UserText { get; set; }
+
         public string Filename { get; private set; }
 
         public UserConfig ConfigUser { get; set; }
@@ -97,19 +99,19 @@ namespace ShareX.HelperClasses
 
         private string PrepareFilenameWithoutExtension()
         {
-            string windowText = this.WindowText;
-            if (string.IsNullOrEmpty(windowText))
-                windowText = "Screenshot";
+            string imageName = string.IsNullOrEmpty(this.UserText) ? this.WindowText : this.UserText;
+            if (string.IsNullOrEmpty(imageName))
+                imageName = "Screenshot";
             int fnweLenMax = SettingsManager.ConfigCore.MaxFilenameLength - 5;
             int wtLenMax = fnweLenMax - 20;
 
             // Truncate window text
-            if (wtLenMax > 0 && windowText.Length > wtLenMax)
-                windowText = windowText.Substring(0, wtLenMax);
+            if (wtLenMax > 0 && imageName.Length > wtLenMax)
+                imageName = imageName.Substring(0, wtLenMax);
 
-            NameParser parser = new NameParser(NameParserType.FileName) { Picture = this.Image, WindowText = windowText };
+            NameParser parser = new NameParser(NameParserType.FileName) { Picture = this.Image, WindowText = WindowText };
 
-            return parser.Parse(SettingsManager.ConfigCore.NameFormatPattern);
+            return parser.Parse(string.IsNullOrEmpty(this.UserText) ? SettingsManager.ConfigCore.NameFormatPattern : this.UserText);
         }
 
         private string PrepareFilename()

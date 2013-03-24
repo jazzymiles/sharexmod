@@ -1,4 +1,9 @@
-﻿using System;
+﻿using HelpersLib;
+using HelpersLib.Hotkeys2;
+using HelpersLibMod;
+using ScreenCapture;
+using ShareX.HelperClasses;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -6,11 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using HelpersLib;
-using HelpersLib.Hotkeys2;
-using HelpersLibMod;
-using ScreenCapture;
-using ShareX.HelperClasses;
 using UploadersLib;
 
 namespace ShareX
@@ -126,6 +126,7 @@ namespace ShareX
                     break;
 
                 case HelpersLib.Hotkeys2.EHotkey.DiamondRegion:
+                    imagedata_wf = CaptureRegion(new DiamondRegion(), autoHideForm);
                     break;
 
                 case HelpersLib.Hotkeys2.EHotkey.EllipseRegion:

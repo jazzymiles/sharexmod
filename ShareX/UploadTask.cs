@@ -313,6 +313,15 @@ namespace ShareX
                 if (Info.Jobs.HasFlagAny(Subtask.UploadToRemoteHost, Subtask.SaveToFile,
                     Subtask.SaveImageToFileWithDialog))
                 {
+                    /*
+                    InputBox ib = new InputBox("Specify custom filename...", imageData.Filename);
+                    if (ib.ShowDialog() == DialogResult.OK)
+                    {
+                        if (!string.IsNullOrEmpty(ib.InputText))
+                            imageData.UserText = ib.InputText;
+                    }
+                    */
+
                     imageData.PrepareImageAndFilename();
 
                     Info.FileName = imageData.Filename;

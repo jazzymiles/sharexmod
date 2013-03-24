@@ -37,22 +37,16 @@ namespace ShareX
             InitializeComponent();
         }
 
-        public static string GetInputText()
+        public InputBox(string title, string text)
+            : this()
         {
-            using (InputBox form = new InputBox())
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    return form.InputText;
-                }
-
-                return null;
-            }
+            this.Text = title;
+            this.txtInput.Text = text;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            InputText = tbInput.Text;
+            InputText = txtInput.Text;
             DialogResult = DialogResult.OK;
         }
 
