@@ -45,14 +45,12 @@ namespace ShareX.Forms
             System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Paths");
             System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Proxy");
             System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Shapes");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Uploader config");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("User config");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Sync");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Advanced", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("User config");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Sync");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Advanced", new System.Windows.Forms.TreeNode[] {
             treeNode12,
             treeNode13,
-            treeNode14,
-            treeNode15});
+            treeNode14});
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.tvMain = new System.Windows.Forms.TreeView();
             this.tcBase = new System.Windows.Forms.TabControl();
@@ -151,15 +149,15 @@ namespace ShareX.Forms
             this.lblNameFormatPatternPreviewImages = new System.Windows.Forms.Label();
             this.txtNameFormatPatternImages = new System.Windows.Forms.TextBox();
             this.btnNameFormatPatternHelpImages = new System.Windows.Forms.Button();
-            this.tpUploaderConfig = new System.Windows.Forms.TabPage();
-            this.panelUploaderConfig = new System.Windows.Forms.Panel();
-            this.pgUploaderConfig = new System.Windows.Forms.PropertyGrid();
             this.tpShapes2 = new System.Windows.Forms.TabPage();
             this.panelShapes2 = new System.Windows.Forms.Panel();
             this.pgShapes = new System.Windows.Forms.PropertyGrid();
             this.tpUserConfig = new System.Windows.Forms.TabPage();
             this.panelUserConfig = new System.Windows.Forms.Panel();
             this.pgUserConfig = new System.Windows.Forms.PropertyGrid();
+            this.tpImageProcessing = new System.Windows.Forms.TabPage();
+            this.chkFileUploadImageProcess = new System.Windows.Forms.CheckBox();
+            this.panelImageProcessing = new System.Windows.Forms.Panel();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -199,12 +197,12 @@ namespace ShareX.Forms
             this.panelFileNaming.SuspendLayout();
             this.gbFilenamingPatternOthers.SuspendLayout();
             this.gbFilenamingPatternImages.SuspendLayout();
-            this.tpUploaderConfig.SuspendLayout();
-            this.panelUploaderConfig.SuspendLayout();
             this.tpShapes2.SuspendLayout();
             this.panelShapes2.SuspendLayout();
             this.tpUserConfig.SuspendLayout();
             this.panelUserConfig.SuspendLayout();
+            this.tpImageProcessing.SuspendLayout();
+            this.panelImageProcessing.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpMain
@@ -215,7 +213,7 @@ namespace ShareX.Forms
             this.tlpMain.Controls.Add(this.tvMain, 0, 0);
             this.tlpMain.Controls.Add(this.tcBase, 1, 0);
             this.tlpMain.Location = new System.Drawing.Point(0, 0);
-            this.tlpMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tlpMain.Margin = new System.Windows.Forms.Padding(4);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 1;
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -226,7 +224,7 @@ namespace ShareX.Forms
             // 
             this.tvMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvMain.Location = new System.Drawing.Point(4, 4);
-            this.tvMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tvMain.Margin = new System.Windows.Forms.Padding(4);
             this.tvMain.Name = "tvMain";
             treeNode1.Name = "tnGeneral";
             treeNode1.Tag = "panelGeneral";
@@ -245,7 +243,7 @@ namespace ShareX.Forms
             treeNode6.Text = "Quality";
             treeNode7.Name = "tnImageResize";
             treeNode7.Text = "Resize";
-            treeNode8.Name = "tnImage";
+            treeNode8.Name = "tnImageProcessing";
             treeNode8.Text = "Image Processing";
             treeNode9.Name = "tnUpload";
             treeNode9.Text = "Upload";
@@ -255,14 +253,12 @@ namespace ShareX.Forms
             treeNode11.Text = "Proxy";
             treeNode12.Name = "tnShapes2";
             treeNode12.Text = "Shapes";
-            treeNode13.Name = "tnUploaderConfig";
-            treeNode13.Text = "Uploader config";
-            treeNode14.Name = "tnUserConfig";
-            treeNode14.Text = "User config";
-            treeNode15.Name = "tnSync";
-            treeNode15.Text = "Sync";
-            treeNode16.Name = "tnAdvanced";
-            treeNode16.Text = "Advanced";
+            treeNode13.Name = "tnUserConfig";
+            treeNode13.Text = "User config";
+            treeNode14.Name = "tnSync";
+            treeNode14.Text = "Sync";
+            treeNode15.Name = "tnAdvanced";
+            treeNode15.Text = "Advanced";
             this.tvMain.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode4,
@@ -271,7 +267,7 @@ namespace ShareX.Forms
             treeNode9,
             treeNode10,
             treeNode11,
-            treeNode16});
+            treeNode15});
             this.tvMain.Size = new System.Drawing.Size(177, 622);
             this.tvMain.TabIndex = 0;
             this.tvMain.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvMain_AfterSelect);
@@ -290,12 +286,12 @@ namespace ShareX.Forms
             this.tcBase.Controls.Add(this.tpPaths);
             this.tcBase.Controls.Add(this.tpSync);
             this.tcBase.Controls.Add(this.tpFileNaming);
-            this.tcBase.Controls.Add(this.tpUploaderConfig);
             this.tcBase.Controls.Add(this.tpShapes2);
             this.tcBase.Controls.Add(this.tpUserConfig);
+            this.tcBase.Controls.Add(this.tpImageProcessing);
             this.tcBase.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcBase.Location = new System.Drawing.Point(189, 4);
-            this.tcBase.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tcBase.Margin = new System.Windows.Forms.Padding(4);
             this.tcBase.Name = "tcBase";
             this.tcBase.SelectedIndex = 0;
             this.tcBase.Size = new System.Drawing.Size(735, 622);
@@ -306,7 +302,7 @@ namespace ShareX.Forms
             // 
             this.tpGeneral.Controls.Add(this.panelGeneral);
             this.tpGeneral.Location = new System.Drawing.Point(4, 25);
-            this.tpGeneral.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpGeneral.Margin = new System.Windows.Forms.Padding(4);
             this.tpGeneral.Name = "tpGeneral";
             this.tpGeneral.Size = new System.Drawing.Size(727, 593);
             this.tpGeneral.TabIndex = 0;
@@ -324,7 +320,7 @@ namespace ShareX.Forms
             this.panelGeneral.Controls.Add(this.cbShellContextMenu);
             this.panelGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelGeneral.Location = new System.Drawing.Point(0, 0);
-            this.panelGeneral.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelGeneral.Margin = new System.Windows.Forms.Padding(4);
             this.panelGeneral.Name = "panelGeneral";
             this.panelGeneral.Size = new System.Drawing.Size(727, 593);
             this.panelGeneral.TabIndex = 0;
@@ -335,9 +331,9 @@ namespace ShareX.Forms
             this.gbNotifications.Controls.Add(this.chkPlaySoundAfterUpload);
             this.gbNotifications.Controls.Add(this.cbPlaySoundAfterCapture);
             this.gbNotifications.Location = new System.Drawing.Point(21, 167);
-            this.gbNotifications.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbNotifications.Margin = new System.Windows.Forms.Padding(4);
             this.gbNotifications.Name = "gbNotifications";
-            this.gbNotifications.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbNotifications.Padding = new System.Windows.Forms.Padding(4);
             this.gbNotifications.Size = new System.Drawing.Size(683, 129);
             this.gbNotifications.TabIndex = 4;
             this.gbNotifications.TabStop = false;
@@ -347,7 +343,7 @@ namespace ShareX.Forms
             // 
             this.chkShowBalloonAfterUpload.AutoSize = true;
             this.chkShowBalloonAfterUpload.Location = new System.Drawing.Point(21, 87);
-            this.chkShowBalloonAfterUpload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkShowBalloonAfterUpload.Margin = new System.Windows.Forms.Padding(4);
             this.chkShowBalloonAfterUpload.Name = "chkShowBalloonAfterUpload";
             this.chkShowBalloonAfterUpload.Size = new System.Drawing.Size(277, 21);
             this.chkShowBalloonAfterUpload.TabIndex = 2;
@@ -359,7 +355,7 @@ namespace ShareX.Forms
             // 
             this.chkPlaySoundAfterUpload.AutoSize = true;
             this.chkPlaySoundAfterUpload.Location = new System.Drawing.Point(21, 59);
-            this.chkPlaySoundAfterUpload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkPlaySoundAfterUpload.Margin = new System.Windows.Forms.Padding(4);
             this.chkPlaySoundAfterUpload.Name = "chkPlaySoundAfterUpload";
             this.chkPlaySoundAfterUpload.Size = new System.Drawing.Size(263, 21);
             this.chkPlaySoundAfterUpload.TabIndex = 1;
@@ -371,7 +367,7 @@ namespace ShareX.Forms
             // 
             this.cbPlaySoundAfterCapture.AutoSize = true;
             this.cbPlaySoundAfterCapture.Location = new System.Drawing.Point(21, 30);
-            this.cbPlaySoundAfterCapture.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbPlaySoundAfterCapture.Margin = new System.Windows.Forms.Padding(4);
             this.cbPlaySoundAfterCapture.Name = "cbPlaySoundAfterCapture";
             this.cbPlaySoundAfterCapture.Size = new System.Drawing.Size(238, 21);
             this.cbPlaySoundAfterCapture.TabIndex = 0;
@@ -396,7 +392,7 @@ namespace ShareX.Forms
             // 
             this.cbCheckUpdates.AutoSize = true;
             this.cbCheckUpdates.Location = new System.Drawing.Point(21, 108);
-            this.cbCheckUpdates.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbCheckUpdates.Margin = new System.Windows.Forms.Padding(4);
             this.cbCheckUpdates.Name = "cbCheckUpdates";
             this.cbCheckUpdates.Size = new System.Drawing.Size(273, 21);
             this.cbCheckUpdates.TabIndex = 3;
@@ -408,7 +404,7 @@ namespace ShareX.Forms
             // 
             this.cbStartWithWindows.AutoSize = true;
             this.cbStartWithWindows.Location = new System.Drawing.Point(21, 49);
-            this.cbStartWithWindows.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbStartWithWindows.Margin = new System.Windows.Forms.Padding(4);
             this.cbStartWithWindows.Name = "cbStartWithWindows";
             this.cbStartWithWindows.Size = new System.Drawing.Size(199, 21);
             this.cbStartWithWindows.TabIndex = 1;
@@ -420,7 +416,7 @@ namespace ShareX.Forms
             // 
             this.cbShowTray.AutoSize = true;
             this.cbShowTray.Location = new System.Drawing.Point(21, 20);
-            this.cbShowTray.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbShowTray.Margin = new System.Windows.Forms.Padding(4);
             this.cbShowTray.Name = "cbShowTray";
             this.cbShowTray.Size = new System.Drawing.Size(173, 21);
             this.cbShowTray.TabIndex = 0;
@@ -432,7 +428,7 @@ namespace ShareX.Forms
             // 
             this.cbShellContextMenu.AutoSize = true;
             this.cbShellContextMenu.Location = new System.Drawing.Point(21, 79);
-            this.cbShellContextMenu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbShellContextMenu.Margin = new System.Windows.Forms.Padding(4);
             this.cbShellContextMenu.Name = "cbShellContextMenu";
             this.cbShellContextMenu.Size = new System.Drawing.Size(270, 21);
             this.cbShellContextMenu.TabIndex = 2;
@@ -444,9 +440,9 @@ namespace ShareX.Forms
             // 
             this.tpAdvanced.Controls.Add(this.panelAdvanced);
             this.tpAdvanced.Location = new System.Drawing.Point(4, 25);
-            this.tpAdvanced.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpAdvanced.Margin = new System.Windows.Forms.Padding(4);
             this.tpAdvanced.Name = "tpAdvanced";
-            this.tpAdvanced.Size = new System.Drawing.Size(727, 594);
+            this.tpAdvanced.Size = new System.Drawing.Size(727, 593);
             this.tpAdvanced.TabIndex = 1;
             this.tpAdvanced.Text = "Advanced";
             this.tpAdvanced.UseVisualStyleBackColor = true;
@@ -457,28 +453,28 @@ namespace ShareX.Forms
             this.panelAdvanced.Controls.Add(this.pgSettings);
             this.panelAdvanced.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAdvanced.Location = new System.Drawing.Point(0, 0);
-            this.panelAdvanced.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelAdvanced.Margin = new System.Windows.Forms.Padding(4);
             this.panelAdvanced.Name = "panelAdvanced";
-            this.panelAdvanced.Size = new System.Drawing.Size(727, 594);
+            this.panelAdvanced.Size = new System.Drawing.Size(727, 593);
             this.panelAdvanced.TabIndex = 0;
             // 
             // pgSettings
             // 
             this.pgSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgSettings.Location = new System.Drawing.Point(0, 0);
-            this.pgSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pgSettings.Margin = new System.Windows.Forms.Padding(4);
             this.pgSettings.Name = "pgSettings";
-            this.pgSettings.Size = new System.Drawing.Size(727, 594);
+            this.pgSettings.Size = new System.Drawing.Size(727, 593);
             this.pgSettings.TabIndex = 0;
             // 
             // tpCapture
             // 
             this.tpCapture.Controls.Add(this.panelCapture);
             this.tpCapture.Location = new System.Drawing.Point(4, 25);
-            this.tpCapture.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpCapture.Margin = new System.Windows.Forms.Padding(4);
             this.tpCapture.Name = "tpCapture";
-            this.tpCapture.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tpCapture.Size = new System.Drawing.Size(727, 594);
+            this.tpCapture.Padding = new System.Windows.Forms.Padding(4);
+            this.tpCapture.Size = new System.Drawing.Size(727, 593);
             this.tpCapture.TabIndex = 2;
             this.tpCapture.Text = "Capture";
             this.tpCapture.UseVisualStyleBackColor = true;
@@ -492,18 +488,18 @@ namespace ShareX.Forms
             this.panelCapture.Controls.Add(this.cbCaptureTransparent);
             this.panelCapture.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCapture.Location = new System.Drawing.Point(4, 4);
-            this.panelCapture.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelCapture.Margin = new System.Windows.Forms.Padding(4);
             this.panelCapture.Name = "panelCapture";
-            this.panelCapture.Size = new System.Drawing.Size(719, 586);
+            this.panelCapture.Size = new System.Drawing.Size(719, 585);
             this.panelCapture.TabIndex = 0;
             // 
             // gbCaptureAfter
             // 
             this.gbCaptureAfter.Controls.Add(this.ucAfterCaptureTasks);
             this.gbCaptureAfter.Location = new System.Drawing.Point(15, 118);
-            this.gbCaptureAfter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbCaptureAfter.Margin = new System.Windows.Forms.Padding(4);
             this.gbCaptureAfter.Name = "gbCaptureAfter";
-            this.gbCaptureAfter.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbCaptureAfter.Padding = new System.Windows.Forms.Padding(4);
             this.gbCaptureAfter.Size = new System.Drawing.Size(668, 364);
             this.gbCaptureAfter.TabIndex = 3;
             this.gbCaptureAfter.TabStop = false;
@@ -514,7 +510,7 @@ namespace ShareX.Forms
             // 
             this.ucAfterCaptureTasks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucAfterCaptureTasks.Location = new System.Drawing.Point(4, 19);
-            this.ucAfterCaptureTasks.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucAfterCaptureTasks.Margin = new System.Windows.Forms.Padding(5);
             this.ucAfterCaptureTasks.Name = "ucAfterCaptureTasks";
             this.ucAfterCaptureTasks.Size = new System.Drawing.Size(660, 341);
             this.ucAfterCaptureTasks.TabIndex = 0;
@@ -523,7 +519,7 @@ namespace ShareX.Forms
             // 
             this.cbCaptureShadow.AutoSize = true;
             this.cbCaptureShadow.Location = new System.Drawing.Point(21, 79);
-            this.cbCaptureShadow.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbCaptureShadow.Margin = new System.Windows.Forms.Padding(4);
             this.cbCaptureShadow.Name = "cbCaptureShadow";
             this.cbCaptureShadow.Size = new System.Drawing.Size(362, 21);
             this.cbCaptureShadow.TabIndex = 2;
@@ -535,7 +531,7 @@ namespace ShareX.Forms
             // 
             this.cbShowCursor.AutoSize = true;
             this.cbShowCursor.Location = new System.Drawing.Point(21, 20);
-            this.cbShowCursor.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbShowCursor.Margin = new System.Windows.Forms.Padding(4);
             this.cbShowCursor.Name = "cbShowCursor";
             this.cbShowCursor.Size = new System.Drawing.Size(204, 21);
             this.cbShowCursor.TabIndex = 0;
@@ -547,7 +543,7 @@ namespace ShareX.Forms
             // 
             this.cbCaptureTransparent.AutoSize = true;
             this.cbCaptureTransparent.Location = new System.Drawing.Point(21, 49);
-            this.cbCaptureTransparent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbCaptureTransparent.Margin = new System.Windows.Forms.Padding(4);
             this.cbCaptureTransparent.Name = "cbCaptureTransparent";
             this.cbCaptureTransparent.Size = new System.Drawing.Size(244, 21);
             this.cbCaptureTransparent.TabIndex = 1;
@@ -559,10 +555,10 @@ namespace ShareX.Forms
             // 
             this.tpShapes.Controls.Add(this.panelShapes);
             this.tpShapes.Location = new System.Drawing.Point(4, 25);
-            this.tpShapes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpShapes.Margin = new System.Windows.Forms.Padding(4);
             this.tpShapes.Name = "tpShapes";
-            this.tpShapes.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tpShapes.Size = new System.Drawing.Size(727, 594);
+            this.tpShapes.Padding = new System.Windows.Forms.Padding(4);
+            this.tpShapes.Size = new System.Drawing.Size(727, 593);
             this.tpShapes.TabIndex = 3;
             this.tpShapes.Text = "Shapes";
             this.tpShapes.UseVisualStyleBackColor = true;
@@ -582,16 +578,16 @@ namespace ShareX.Forms
             this.panelShapes.Controls.Add(this.cbFixedShapeSize);
             this.panelShapes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelShapes.Location = new System.Drawing.Point(4, 4);
-            this.panelShapes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelShapes.Margin = new System.Windows.Forms.Padding(4);
             this.panelShapes.Name = "panelShapes";
-            this.panelShapes.Size = new System.Drawing.Size(719, 586);
+            this.panelShapes.Size = new System.Drawing.Size(719, 585);
             this.panelShapes.TabIndex = 0;
             // 
             // cbShapeForceWindowCapture
             // 
             this.cbShapeForceWindowCapture.AutoSize = true;
             this.cbShapeForceWindowCapture.Location = new System.Drawing.Point(21, 217);
-            this.cbShapeForceWindowCapture.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbShapeForceWindowCapture.Margin = new System.Windows.Forms.Padding(4);
             this.cbShapeForceWindowCapture.Name = "cbShapeForceWindowCapture";
             this.cbShapeForceWindowCapture.Size = new System.Drawing.Size(378, 21);
             this.cbShapeForceWindowCapture.TabIndex = 9;
@@ -603,7 +599,7 @@ namespace ShareX.Forms
             // 
             this.cbShapeIncludeControls.AutoSize = true;
             this.cbShapeIncludeControls.Location = new System.Drawing.Point(21, 187);
-            this.cbShapeIncludeControls.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbShapeIncludeControls.Margin = new System.Windows.Forms.Padding(4);
             this.cbShapeIncludeControls.Name = "cbShapeIncludeControls";
             this.cbShapeIncludeControls.Size = new System.Drawing.Size(433, 21);
             this.cbShapeIncludeControls.TabIndex = 8;
@@ -625,7 +621,7 @@ namespace ShareX.Forms
             // 
             this.cbDrawBorder.AutoSize = true;
             this.cbDrawBorder.Location = new System.Drawing.Point(21, 20);
-            this.cbDrawBorder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbDrawBorder.Margin = new System.Windows.Forms.Padding(4);
             this.cbDrawBorder.Name = "cbDrawBorder";
             this.cbDrawBorder.Size = new System.Drawing.Size(224, 21);
             this.cbDrawBorder.TabIndex = 0;
@@ -647,7 +643,7 @@ namespace ShareX.Forms
             // 
             this.cbQuickCrop.AutoSize = true;
             this.cbQuickCrop.Location = new System.Drawing.Point(21, 79);
-            this.cbQuickCrop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbQuickCrop.Margin = new System.Windows.Forms.Padding(4);
             this.cbQuickCrop.Name = "cbQuickCrop";
             this.cbQuickCrop.Size = new System.Drawing.Size(604, 21);
             this.cbQuickCrop.TabIndex = 2;
@@ -659,7 +655,7 @@ namespace ShareX.Forms
             // nudFixedShapeSizeHeight
             // 
             this.nudFixedShapeSizeHeight.Location = new System.Drawing.Point(277, 138);
-            this.nudFixedShapeSizeHeight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nudFixedShapeSizeHeight.Margin = new System.Windows.Forms.Padding(4);
             this.nudFixedShapeSizeHeight.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -684,7 +680,7 @@ namespace ShareX.Forms
             // 
             this.cbDrawCheckerboard.AutoSize = true;
             this.cbDrawCheckerboard.Location = new System.Drawing.Point(21, 49);
-            this.cbDrawCheckerboard.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbDrawCheckerboard.Margin = new System.Windows.Forms.Padding(4);
             this.cbDrawCheckerboard.Name = "cbDrawCheckerboard";
             this.cbDrawCheckerboard.Size = new System.Drawing.Size(381, 21);
             this.cbDrawCheckerboard.TabIndex = 1;
@@ -695,7 +691,7 @@ namespace ShareX.Forms
             // nudFixedShapeSizeWidth
             // 
             this.nudFixedShapeSizeWidth.Location = new System.Drawing.Point(117, 138);
-            this.nudFixedShapeSizeWidth.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nudFixedShapeSizeWidth.Margin = new System.Windows.Forms.Padding(4);
             this.nudFixedShapeSizeWidth.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -720,7 +716,7 @@ namespace ShareX.Forms
             // 
             this.cbFixedShapeSize.AutoSize = true;
             this.cbFixedShapeSize.Location = new System.Drawing.Point(21, 108);
-            this.cbFixedShapeSize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbFixedShapeSize.Margin = new System.Windows.Forms.Padding(4);
             this.cbFixedShapeSize.Name = "cbFixedShapeSize";
             this.cbFixedShapeSize.Size = new System.Drawing.Size(139, 21);
             this.cbFixedShapeSize.TabIndex = 3;
@@ -732,10 +728,10 @@ namespace ShareX.Forms
             // 
             this.tpProxy.Controls.Add(this.panelProxy);
             this.tpProxy.Location = new System.Drawing.Point(4, 25);
-            this.tpProxy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpProxy.Margin = new System.Windows.Forms.Padding(4);
             this.tpProxy.Name = "tpProxy";
-            this.tpProxy.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tpProxy.Size = new System.Drawing.Size(727, 594);
+            this.tpProxy.Padding = new System.Windows.Forms.Padding(4);
+            this.tpProxy.Size = new System.Drawing.Size(727, 593);
             this.tpProxy.TabIndex = 4;
             this.tpProxy.Text = "Proxy";
             this.tpProxy.UseVisualStyleBackColor = true;
@@ -746,16 +742,16 @@ namespace ShareX.Forms
             this.panelProxy.Controls.Add(this.pgProxy);
             this.panelProxy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelProxy.Location = new System.Drawing.Point(4, 4);
-            this.panelProxy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelProxy.Margin = new System.Windows.Forms.Padding(4);
             this.panelProxy.Name = "panelProxy";
-            this.panelProxy.Size = new System.Drawing.Size(719, 586);
+            this.panelProxy.Size = new System.Drawing.Size(719, 585);
             this.panelProxy.TabIndex = 0;
             // 
             // btnAutofillProxy
             // 
             this.btnAutofillProxy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAutofillProxy.Location = new System.Drawing.Point(606, 542);
-            this.btnAutofillProxy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAutofillProxy.Location = new System.Drawing.Point(606, 541);
+            this.btnAutofillProxy.Margin = new System.Windows.Forms.Padding(4);
             this.btnAutofillProxy.Name = "btnAutofillProxy";
             this.btnAutofillProxy.Size = new System.Drawing.Size(100, 28);
             this.btnAutofillProxy.TabIndex = 1;
@@ -767,10 +763,10 @@ namespace ShareX.Forms
             // 
             this.pgProxy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgProxy.Location = new System.Drawing.Point(0, 0);
-            this.pgProxy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pgProxy.Margin = new System.Windows.Forms.Padding(4);
             this.pgProxy.Name = "pgProxy";
             this.pgProxy.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.pgProxy.Size = new System.Drawing.Size(719, 586);
+            this.pgProxy.Size = new System.Drawing.Size(719, 585);
             this.pgProxy.TabIndex = 0;
             this.pgProxy.ToolbarVisible = false;
             // 
@@ -778,10 +774,10 @@ namespace ShareX.Forms
             // 
             this.tpClipboardUpload.Controls.Add(this.panelClipboardUpload);
             this.tpClipboardUpload.Location = new System.Drawing.Point(4, 25);
-            this.tpClipboardUpload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpClipboardUpload.Margin = new System.Windows.Forms.Padding(4);
             this.tpClipboardUpload.Name = "tpClipboardUpload";
-            this.tpClipboardUpload.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tpClipboardUpload.Size = new System.Drawing.Size(727, 594);
+            this.tpClipboardUpload.Padding = new System.Windows.Forms.Padding(4);
+            this.tpClipboardUpload.Size = new System.Drawing.Size(727, 593);
             this.tpClipboardUpload.TabIndex = 5;
             this.tpClipboardUpload.Text = "Clipboard Upload";
             this.tpClipboardUpload.UseVisualStyleBackColor = true;
@@ -792,16 +788,16 @@ namespace ShareX.Forms
             this.panelClipboardUpload.Controls.Add(this.lblClipboardUploadInfo);
             this.panelClipboardUpload.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelClipboardUpload.Location = new System.Drawing.Point(4, 4);
-            this.panelClipboardUpload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelClipboardUpload.Margin = new System.Windows.Forms.Padding(4);
             this.panelClipboardUpload.Name = "panelClipboardUpload";
-            this.panelClipboardUpload.Size = new System.Drawing.Size(719, 586);
+            this.panelClipboardUpload.Size = new System.Drawing.Size(719, 585);
             this.panelClipboardUpload.TabIndex = 0;
             // 
             // cbClipboardUploadAutoDetectURL
             // 
             this.cbClipboardUploadAutoDetectURL.AutoSize = true;
             this.cbClipboardUploadAutoDetectURL.Location = new System.Drawing.Point(21, 20);
-            this.cbClipboardUploadAutoDetectURL.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbClipboardUploadAutoDetectURL.Margin = new System.Windows.Forms.Padding(4);
             this.cbClipboardUploadAutoDetectURL.Name = "cbClipboardUploadAutoDetectURL";
             this.cbClipboardUploadAutoDetectURL.Size = new System.Drawing.Size(529, 21);
             this.cbClipboardUploadAutoDetectURL.TabIndex = 0;
@@ -815,7 +811,7 @@ namespace ShareX.Forms
             this.lblClipboardUploadInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblClipboardUploadInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblClipboardUploadInfo.ForeColor = System.Drawing.Color.White;
-            this.lblClipboardUploadInfo.Location = new System.Drawing.Point(0, 551);
+            this.lblClipboardUploadInfo.Location = new System.Drawing.Point(0, 550);
             this.lblClipboardUploadInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblClipboardUploadInfo.Name = "lblClipboardUploadInfo";
             this.lblClipboardUploadInfo.Size = new System.Drawing.Size(719, 35);
@@ -828,10 +824,10 @@ namespace ShareX.Forms
             // 
             this.tpUpload.Controls.Add(this.panelUpload);
             this.tpUpload.Location = new System.Drawing.Point(4, 25);
-            this.tpUpload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpUpload.Margin = new System.Windows.Forms.Padding(4);
             this.tpUpload.Name = "tpUpload";
-            this.tpUpload.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tpUpload.Size = new System.Drawing.Size(727, 594);
+            this.tpUpload.Padding = new System.Windows.Forms.Padding(4);
+            this.tpUpload.Size = new System.Drawing.Size(727, 593);
             this.tpUpload.TabIndex = 6;
             this.tpUpload.Text = "Upload";
             this.tpUpload.UseVisualStyleBackColor = true;
@@ -847,18 +843,18 @@ namespace ShareX.Forms
             this.panelUpload.Controls.Add(this.cbBufferSize);
             this.panelUpload.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelUpload.Location = new System.Drawing.Point(4, 4);
-            this.panelUpload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelUpload.Margin = new System.Windows.Forms.Padding(4);
             this.panelUpload.Name = "panelUpload";
-            this.panelUpload.Size = new System.Drawing.Size(719, 586);
+            this.panelUpload.Size = new System.Drawing.Size(719, 585);
             this.panelUpload.TabIndex = 0;
             // 
             // gbAfterUpload
             // 
             this.gbAfterUpload.Controls.Add(this.ucAfterUploadTasks);
             this.gbAfterUpload.Location = new System.Drawing.Point(21, 108);
-            this.gbAfterUpload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbAfterUpload.Margin = new System.Windows.Forms.Padding(4);
             this.gbAfterUpload.Name = "gbAfterUpload";
-            this.gbAfterUpload.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbAfterUpload.Padding = new System.Windows.Forms.Padding(4);
             this.gbAfterUpload.Size = new System.Drawing.Size(644, 138);
             this.gbAfterUpload.TabIndex = 6;
             this.gbAfterUpload.TabStop = false;
@@ -869,7 +865,7 @@ namespace ShareX.Forms
             // 
             this.ucAfterUploadTasks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucAfterUploadTasks.Location = new System.Drawing.Point(4, 19);
-            this.ucAfterUploadTasks.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucAfterUploadTasks.Margin = new System.Windows.Forms.Padding(5);
             this.ucAfterUploadTasks.Name = "ucAfterUploadTasks";
             this.ucAfterUploadTasks.Size = new System.Drawing.Size(636, 115);
             this.ucAfterUploadTasks.TabIndex = 0;
@@ -887,7 +883,7 @@ namespace ShareX.Forms
             // nudUploadLimit
             // 
             this.nudUploadLimit.Location = new System.Drawing.Point(203, 25);
-            this.nudUploadLimit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nudUploadLimit.Margin = new System.Windows.Forms.Padding(4);
             this.nudUploadLimit.Maximum = new decimal(new int[] {
             25,
             0,
@@ -939,7 +935,7 @@ namespace ShareX.Forms
             this.cbBufferSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbBufferSize.FormattingEnabled = true;
             this.cbBufferSize.Location = new System.Drawing.Point(107, 64);
-            this.cbBufferSize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbBufferSize.Margin = new System.Windows.Forms.Padding(4);
             this.cbBufferSize.Name = "cbBufferSize";
             this.cbBufferSize.Size = new System.Drawing.Size(84, 24);
             this.cbBufferSize.TabIndex = 4;
@@ -949,9 +945,9 @@ namespace ShareX.Forms
             // 
             this.tpImageResize.Controls.Add(this.panelImageResize);
             this.tpImageResize.Location = new System.Drawing.Point(4, 25);
-            this.tpImageResize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpImageResize.Margin = new System.Windows.Forms.Padding(4);
             this.tpImageResize.Name = "tpImageResize";
-            this.tpImageResize.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpImageResize.Padding = new System.Windows.Forms.Padding(4);
             this.tpImageResize.Size = new System.Drawing.Size(727, 593);
             this.tpImageResize.TabIndex = 7;
             this.tpImageResize.Text = "Resize";
@@ -962,7 +958,7 @@ namespace ShareX.Forms
             this.panelImageResize.Controls.Add(this.ucImageResizeUI);
             this.panelImageResize.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelImageResize.Location = new System.Drawing.Point(4, 4);
-            this.panelImageResize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelImageResize.Margin = new System.Windows.Forms.Padding(4);
             this.panelImageResize.Name = "panelImageResize";
             this.panelImageResize.Size = new System.Drawing.Size(719, 585);
             this.panelImageResize.TabIndex = 0;
@@ -970,7 +966,7 @@ namespace ShareX.Forms
             // ucImageResizeUI
             // 
             this.ucImageResizeUI.Location = new System.Drawing.Point(11, 10);
-            this.ucImageResizeUI.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucImageResizeUI.Margin = new System.Windows.Forms.Padding(5);
             this.ucImageResizeUI.Name = "ucImageResizeUI";
             this.ucImageResizeUI.Size = new System.Drawing.Size(619, 381);
             this.ucImageResizeUI.TabIndex = 0;
@@ -979,9 +975,9 @@ namespace ShareX.Forms
             // 
             this.tpImageQuality2.Controls.Add(this.panelImageQuality);
             this.tpImageQuality2.Location = new System.Drawing.Point(4, 25);
-            this.tpImageQuality2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpImageQuality2.Margin = new System.Windows.Forms.Padding(4);
             this.tpImageQuality2.Name = "tpImageQuality2";
-            this.tpImageQuality2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpImageQuality2.Padding = new System.Windows.Forms.Padding(4);
             this.tpImageQuality2.Size = new System.Drawing.Size(727, 593);
             this.tpImageQuality2.TabIndex = 8;
             this.tpImageQuality2.Text = "Quality";
@@ -992,7 +988,7 @@ namespace ShareX.Forms
             this.panelImageQuality.Controls.Add(this.ucImageQualityUI);
             this.panelImageQuality.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelImageQuality.Location = new System.Drawing.Point(4, 4);
-            this.panelImageQuality.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelImageQuality.Margin = new System.Windows.Forms.Padding(4);
             this.panelImageQuality.Name = "panelImageQuality";
             this.panelImageQuality.Size = new System.Drawing.Size(719, 585);
             this.panelImageQuality.TabIndex = 0;
@@ -1000,7 +996,7 @@ namespace ShareX.Forms
             // ucImageQualityUI
             // 
             this.ucImageQualityUI.Location = new System.Drawing.Point(21, 20);
-            this.ucImageQualityUI.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucImageQualityUI.Margin = new System.Windows.Forms.Padding(5);
             this.ucImageQualityUI.Name = "ucImageQualityUI";
             this.ucImageQualityUI.Size = new System.Drawing.Size(509, 273);
             this.ucImageQualityUI.TabIndex = 0;
@@ -1009,10 +1005,10 @@ namespace ShareX.Forms
             // 
             this.tpPaths.Controls.Add(this.panelPaths);
             this.tpPaths.Location = new System.Drawing.Point(4, 25);
-            this.tpPaths.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpPaths.Margin = new System.Windows.Forms.Padding(4);
             this.tpPaths.Name = "tpPaths";
-            this.tpPaths.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tpPaths.Size = new System.Drawing.Size(727, 594);
+            this.tpPaths.Padding = new System.Windows.Forms.Padding(4);
+            this.tpPaths.Size = new System.Drawing.Size(727, 593);
             this.tpPaths.TabIndex = 9;
             this.tpPaths.Text = "Paths";
             this.tpPaths.UseVisualStyleBackColor = true;
@@ -1026,9 +1022,9 @@ namespace ShareX.Forms
             this.panelPaths.Controls.Add(this.gbHistory);
             this.panelPaths.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelPaths.Location = new System.Drawing.Point(4, 4);
-            this.panelPaths.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelPaths.Margin = new System.Windows.Forms.Padding(4);
             this.panelPaths.Name = "panelPaths";
-            this.panelPaths.Size = new System.Drawing.Size(719, 586);
+            this.panelPaths.Size = new System.Drawing.Size(719, 585);
             this.panelPaths.TabIndex = 0;
             // 
             // gbPathRoot
@@ -1038,9 +1034,9 @@ namespace ShareX.Forms
             this.gbPathRoot.Controls.Add(this.lblOpenZUploaderPath);
             this.gbPathRoot.Controls.Add(this.btnOpenZUploaderPath);
             this.gbPathRoot.Location = new System.Drawing.Point(11, 443);
-            this.gbPathRoot.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbPathRoot.Margin = new System.Windows.Forms.Padding(4);
             this.gbPathRoot.Name = "gbPathRoot";
-            this.gbPathRoot.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbPathRoot.Padding = new System.Windows.Forms.Padding(4);
             this.gbPathRoot.Size = new System.Drawing.Size(564, 108);
             this.gbPathRoot.TabIndex = 3;
             this.gbPathRoot.TabStop = false;
@@ -1059,7 +1055,7 @@ namespace ShareX.Forms
             // btnOpenZUploaderPath
             // 
             this.btnOpenZUploaderPath.Location = new System.Drawing.Point(21, 30);
-            this.btnOpenZUploaderPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnOpenZUploaderPath.Margin = new System.Windows.Forms.Padding(4);
             this.btnOpenZUploaderPath.Name = "btnOpenZUploaderPath";
             this.btnOpenZUploaderPath.Size = new System.Drawing.Size(235, 28);
             this.btnOpenZUploaderPath.TabIndex = 0;
@@ -1078,9 +1074,9 @@ namespace ShareX.Forms
             this.gbScreenshots.Controls.Add(this.btnBrowseScreenshotsDir);
             this.gbScreenshots.Controls.Add(this.txtScreenshotsPath);
             this.gbScreenshots.Location = new System.Drawing.Point(11, 10);
-            this.gbScreenshots.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbScreenshots.Margin = new System.Windows.Forms.Padding(4);
             this.gbScreenshots.Name = "gbScreenshots";
-            this.gbScreenshots.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbScreenshots.Padding = new System.Windows.Forms.Padding(4);
             this.gbScreenshots.Size = new System.Drawing.Size(619, 108);
             this.gbScreenshots.TabIndex = 0;
             this.gbScreenshots.TabStop = false;
@@ -1092,7 +1088,7 @@ namespace ShareX.Forms
             this.btnImagesOrganise.AutoSize = true;
             this.btnImagesOrganise.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnImagesOrganise.Location = new System.Drawing.Point(504, 63);
-            this.btnImagesOrganise.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnImagesOrganise.Margin = new System.Windows.Forms.Padding(4);
             this.btnImagesOrganise.Name = "btnImagesOrganise";
             this.btnImagesOrganise.Size = new System.Drawing.Size(88, 27);
             this.btnImagesOrganise.TabIndex = 5;
@@ -1103,7 +1099,7 @@ namespace ShareX.Forms
             // txtSaveImageSubFolderPatternPreview
             // 
             this.txtSaveImageSubFolderPatternPreview.Location = new System.Drawing.Point(331, 65);
-            this.txtSaveImageSubFolderPatternPreview.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSaveImageSubFolderPatternPreview.Margin = new System.Windows.Forms.Padding(4);
             this.txtSaveImageSubFolderPatternPreview.Name = "txtSaveImageSubFolderPatternPreview";
             this.txtSaveImageSubFolderPatternPreview.ReadOnly = true;
             this.txtSaveImageSubFolderPatternPreview.Size = new System.Drawing.Size(159, 22);
@@ -1122,7 +1118,7 @@ namespace ShareX.Forms
             // txtSaveImageSubFolderPattern
             // 
             this.txtSaveImageSubFolderPattern.Location = new System.Drawing.Point(160, 65);
-            this.txtSaveImageSubFolderPattern.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSaveImageSubFolderPattern.Margin = new System.Windows.Forms.Padding(4);
             this.txtSaveImageSubFolderPattern.Name = "txtSaveImageSubFolderPattern";
             this.txtSaveImageSubFolderPattern.Size = new System.Drawing.Size(159, 22);
             this.txtSaveImageSubFolderPattern.TabIndex = 3;
@@ -1134,7 +1130,7 @@ namespace ShareX.Forms
             this.btnBrowseScreenshotsDir.AutoSize = true;
             this.btnBrowseScreenshotsDir.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnBrowseScreenshotsDir.Location = new System.Drawing.Point(516, 27);
-            this.btnBrowseScreenshotsDir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBrowseScreenshotsDir.Margin = new System.Windows.Forms.Padding(4);
             this.btnBrowseScreenshotsDir.Name = "btnBrowseScreenshotsDir";
             this.btnBrowseScreenshotsDir.Size = new System.Drawing.Size(76, 27);
             this.btnBrowseScreenshotsDir.TabIndex = 1;
@@ -1149,7 +1145,7 @@ namespace ShareX.Forms
             this.txtScreenshotsPath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.txtScreenshotsPath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystemDirectories;
             this.txtScreenshotsPath.Location = new System.Drawing.Point(28, 30);
-            this.txtScreenshotsPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtScreenshotsPath.Margin = new System.Windows.Forms.Padding(4);
             this.txtScreenshotsPath.Name = "txtScreenshotsPath";
             this.txtScreenshotsPath.Size = new System.Drawing.Size(451, 22);
             this.txtScreenshotsPath.TabIndex = 0;
@@ -1164,9 +1160,9 @@ namespace ShareX.Forms
             this.gbUploadersConfig.Controls.Add(this.txtCustomUploadersConfigPath);
             this.gbUploadersConfig.Controls.Add(this.cbUseCustomUploadersConfigPath);
             this.gbUploadersConfig.Location = new System.Drawing.Point(11, 138);
-            this.gbUploadersConfig.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbUploadersConfig.Margin = new System.Windows.Forms.Padding(4);
             this.gbUploadersConfig.Name = "gbUploadersConfig";
-            this.gbUploadersConfig.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbUploadersConfig.Padding = new System.Windows.Forms.Padding(4);
             this.gbUploadersConfig.Size = new System.Drawing.Size(619, 98);
             this.gbUploadersConfig.TabIndex = 1;
             this.gbUploadersConfig.TabStop = false;
@@ -1178,7 +1174,7 @@ namespace ShareX.Forms
             this.btnLoadUploadersConfig.AutoSize = true;
             this.btnLoadUploadersConfig.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnLoadUploadersConfig.Location = new System.Drawing.Point(539, 21);
-            this.btnLoadUploadersConfig.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLoadUploadersConfig.Margin = new System.Windows.Forms.Padding(4);
             this.btnLoadUploadersConfig.Name = "btnLoadUploadersConfig";
             this.btnLoadUploadersConfig.Size = new System.Drawing.Size(50, 27);
             this.btnLoadUploadersConfig.TabIndex = 0;
@@ -1192,7 +1188,7 @@ namespace ShareX.Forms
             this.btnBrowseCustomUploadersConfigPath.AutoSize = true;
             this.btnBrowseCustomUploadersConfigPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnBrowseCustomUploadersConfigPath.Location = new System.Drawing.Point(515, 56);
-            this.btnBrowseCustomUploadersConfigPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBrowseCustomUploadersConfigPath.Margin = new System.Windows.Forms.Padding(4);
             this.btnBrowseCustomUploadersConfigPath.Name = "btnBrowseCustomUploadersConfigPath";
             this.btnBrowseCustomUploadersConfigPath.Size = new System.Drawing.Size(76, 27);
             this.btnBrowseCustomUploadersConfigPath.TabIndex = 3;
@@ -1205,7 +1201,7 @@ namespace ShareX.Forms
             this.txtCustomUploadersConfigPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCustomUploadersConfigPath.Location = new System.Drawing.Point(21, 59);
-            this.txtCustomUploadersConfigPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCustomUploadersConfigPath.Margin = new System.Windows.Forms.Padding(4);
             this.txtCustomUploadersConfigPath.Name = "txtCustomUploadersConfigPath";
             this.txtCustomUploadersConfigPath.Size = new System.Drawing.Size(458, 22);
             this.txtCustomUploadersConfigPath.TabIndex = 2;
@@ -1215,7 +1211,7 @@ namespace ShareX.Forms
             // 
             this.cbUseCustomUploadersConfigPath.AutoSize = true;
             this.cbUseCustomUploadersConfigPath.Location = new System.Drawing.Point(21, 30);
-            this.cbUseCustomUploadersConfigPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbUseCustomUploadersConfigPath.Margin = new System.Windows.Forms.Padding(4);
             this.cbUseCustomUploadersConfigPath.Name = "cbUseCustomUploadersConfigPath";
             this.cbUseCustomUploadersConfigPath.Size = new System.Drawing.Size(271, 21);
             this.cbUseCustomUploadersConfigPath.TabIndex = 1;
@@ -1234,9 +1230,9 @@ namespace ShareX.Forms
             this.gbHistory.Controls.Add(this.cbUseCustomHistoryPath);
             this.gbHistory.Controls.Add(this.cbHistorySave);
             this.gbHistory.Location = new System.Drawing.Point(11, 266);
-            this.gbHistory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbHistory.Margin = new System.Windows.Forms.Padding(4);
             this.gbHistory.Name = "gbHistory";
-            this.gbHistory.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbHistory.Padding = new System.Windows.Forms.Padding(4);
             this.gbHistory.Size = new System.Drawing.Size(619, 167);
             this.gbHistory.TabIndex = 2;
             this.gbHistory.TabStop = false;
@@ -1245,7 +1241,7 @@ namespace ShareX.Forms
             // nudHistoryMaxItemCount
             // 
             this.nudHistoryMaxItemCount.Location = new System.Drawing.Point(288, 123);
-            this.nudHistoryMaxItemCount.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nudHistoryMaxItemCount.Margin = new System.Windows.Forms.Padding(4);
             this.nudHistoryMaxItemCount.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -1284,7 +1280,7 @@ namespace ShareX.Forms
             this.btnBrowseCustomHistoryPath.AutoSize = true;
             this.btnBrowseCustomHistoryPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnBrowseCustomHistoryPath.Location = new System.Drawing.Point(517, 89);
-            this.btnBrowseCustomHistoryPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBrowseCustomHistoryPath.Margin = new System.Windows.Forms.Padding(4);
             this.btnBrowseCustomHistoryPath.Name = "btnBrowseCustomHistoryPath";
             this.btnBrowseCustomHistoryPath.Size = new System.Drawing.Size(76, 27);
             this.btnBrowseCustomHistoryPath.TabIndex = 3;
@@ -1297,7 +1293,7 @@ namespace ShareX.Forms
             this.txtCustomHistoryPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCustomHistoryPath.Location = new System.Drawing.Point(21, 89);
-            this.txtCustomHistoryPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCustomHistoryPath.Margin = new System.Windows.Forms.Padding(4);
             this.txtCustomHistoryPath.Name = "txtCustomHistoryPath";
             this.txtCustomHistoryPath.Size = new System.Drawing.Size(458, 22);
             this.txtCustomHistoryPath.TabIndex = 2;
@@ -1307,7 +1303,7 @@ namespace ShareX.Forms
             // 
             this.cbUseCustomHistoryPath.AutoSize = true;
             this.cbUseCustomHistoryPath.Location = new System.Drawing.Point(21, 59);
-            this.cbUseCustomHistoryPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbUseCustomHistoryPath.Margin = new System.Windows.Forms.Padding(4);
             this.cbUseCustomHistoryPath.Name = "cbUseCustomHistoryPath";
             this.cbUseCustomHistoryPath.Size = new System.Drawing.Size(208, 21);
             this.cbUseCustomHistoryPath.TabIndex = 1;
@@ -1319,7 +1315,7 @@ namespace ShareX.Forms
             // 
             this.cbHistorySave.AutoSize = true;
             this.cbHistorySave.Location = new System.Drawing.Point(21, 30);
-            this.cbHistorySave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbHistorySave.Margin = new System.Windows.Forms.Padding(4);
             this.cbHistorySave.Name = "cbHistorySave";
             this.cbHistorySave.Size = new System.Drawing.Size(154, 21);
             this.cbHistorySave.TabIndex = 0;
@@ -1331,10 +1327,10 @@ namespace ShareX.Forms
             // 
             this.tpSync.Controls.Add(this.panelSync);
             this.tpSync.Location = new System.Drawing.Point(4, 25);
-            this.tpSync.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpSync.Margin = new System.Windows.Forms.Padding(4);
             this.tpSync.Name = "tpSync";
-            this.tpSync.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tpSync.Size = new System.Drawing.Size(727, 594);
+            this.tpSync.Padding = new System.Windows.Forms.Padding(4);
+            this.tpSync.Size = new System.Drawing.Size(727, 593);
             this.tpSync.TabIndex = 10;
             this.tpSync.Text = "Sync";
             this.tpSync.UseVisualStyleBackColor = true;
@@ -1345,15 +1341,15 @@ namespace ShareX.Forms
             this.panelSync.Controls.Add(this.btnDropboxSyncImport);
             this.panelSync.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelSync.Location = new System.Drawing.Point(4, 4);
-            this.panelSync.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelSync.Margin = new System.Windows.Forms.Padding(4);
             this.panelSync.Name = "panelSync";
-            this.panelSync.Size = new System.Drawing.Size(719, 586);
+            this.panelSync.Size = new System.Drawing.Size(719, 585);
             this.panelSync.TabIndex = 0;
             // 
             // btnDropboxSyncExport
             // 
             this.btnDropboxSyncExport.Location = new System.Drawing.Point(11, 49);
-            this.btnDropboxSyncExport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDropboxSyncExport.Margin = new System.Windows.Forms.Padding(4);
             this.btnDropboxSyncExport.Name = "btnDropboxSyncExport";
             this.btnDropboxSyncExport.Size = new System.Drawing.Size(245, 27);
             this.btnDropboxSyncExport.TabIndex = 1;
@@ -1364,7 +1360,7 @@ namespace ShareX.Forms
             // btnDropboxSyncImport
             // 
             this.btnDropboxSyncImport.Location = new System.Drawing.Point(11, 10);
-            this.btnDropboxSyncImport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDropboxSyncImport.Margin = new System.Windows.Forms.Padding(4);
             this.btnDropboxSyncImport.Name = "btnDropboxSyncImport";
             this.btnDropboxSyncImport.Size = new System.Drawing.Size(245, 27);
             this.btnDropboxSyncImport.TabIndex = 0;
@@ -1376,10 +1372,10 @@ namespace ShareX.Forms
             // 
             this.tpFileNaming.Controls.Add(this.panelFileNaming);
             this.tpFileNaming.Location = new System.Drawing.Point(4, 25);
-            this.tpFileNaming.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpFileNaming.Margin = new System.Windows.Forms.Padding(4);
             this.tpFileNaming.Name = "tpFileNaming";
-            this.tpFileNaming.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tpFileNaming.Size = new System.Drawing.Size(727, 594);
+            this.tpFileNaming.Padding = new System.Windows.Forms.Padding(4);
+            this.tpFileNaming.Size = new System.Drawing.Size(727, 593);
             this.tpFileNaming.TabIndex = 11;
             this.tpFileNaming.Text = "File Naming";
             this.tpFileNaming.UseVisualStyleBackColor = true;
@@ -1390,9 +1386,9 @@ namespace ShareX.Forms
             this.panelFileNaming.Controls.Add(this.gbFilenamingPatternImages);
             this.panelFileNaming.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelFileNaming.Location = new System.Drawing.Point(4, 4);
-            this.panelFileNaming.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelFileNaming.Margin = new System.Windows.Forms.Padding(4);
             this.panelFileNaming.Name = "panelFileNaming";
-            this.panelFileNaming.Size = new System.Drawing.Size(719, 586);
+            this.panelFileNaming.Size = new System.Drawing.Size(719, 585);
             this.panelFileNaming.TabIndex = 0;
             // 
             // gbFilenamingPatternOthers
@@ -1401,9 +1397,9 @@ namespace ShareX.Forms
             this.gbFilenamingPatternOthers.Controls.Add(this.lblNameFormatPatternPreviewOther);
             this.gbFilenamingPatternOthers.Controls.Add(this.btnNameFormatPatternHelpOther);
             this.gbFilenamingPatternOthers.Location = new System.Drawing.Point(11, 128);
-            this.gbFilenamingPatternOthers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbFilenamingPatternOthers.Margin = new System.Windows.Forms.Padding(4);
             this.gbFilenamingPatternOthers.Name = "gbFilenamingPatternOthers";
-            this.gbFilenamingPatternOthers.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbFilenamingPatternOthers.Padding = new System.Windows.Forms.Padding(4);
             this.gbFilenamingPatternOthers.Size = new System.Drawing.Size(679, 98);
             this.gbFilenamingPatternOthers.TabIndex = 1;
             this.gbFilenamingPatternOthers.TabStop = false;
@@ -1412,7 +1408,7 @@ namespace ShareX.Forms
             // txtNameFormatPatternOther
             // 
             this.txtNameFormatPatternOther.Location = new System.Drawing.Point(21, 30);
-            this.txtNameFormatPatternOther.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtNameFormatPatternOther.Margin = new System.Windows.Forms.Padding(4);
             this.txtNameFormatPatternOther.Name = "txtNameFormatPatternOther";
             this.txtNameFormatPatternOther.Size = new System.Drawing.Size(553, 22);
             this.txtNameFormatPatternOther.TabIndex = 0;
@@ -1431,7 +1427,7 @@ namespace ShareX.Forms
             // btnNameFormatPatternHelpOther
             // 
             this.btnNameFormatPatternHelpOther.Location = new System.Drawing.Point(587, 30);
-            this.btnNameFormatPatternHelpOther.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnNameFormatPatternHelpOther.Margin = new System.Windows.Forms.Padding(4);
             this.btnNameFormatPatternHelpOther.Name = "btnNameFormatPatternHelpOther";
             this.btnNameFormatPatternHelpOther.Size = new System.Drawing.Size(32, 28);
             this.btnNameFormatPatternHelpOther.TabIndex = 1;
@@ -1445,9 +1441,9 @@ namespace ShareX.Forms
             this.gbFilenamingPatternImages.Controls.Add(this.txtNameFormatPatternImages);
             this.gbFilenamingPatternImages.Controls.Add(this.btnNameFormatPatternHelpImages);
             this.gbFilenamingPatternImages.Location = new System.Drawing.Point(11, 10);
-            this.gbFilenamingPatternImages.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbFilenamingPatternImages.Margin = new System.Windows.Forms.Padding(4);
             this.gbFilenamingPatternImages.Name = "gbFilenamingPatternImages";
-            this.gbFilenamingPatternImages.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbFilenamingPatternImages.Padding = new System.Windows.Forms.Padding(4);
             this.gbFilenamingPatternImages.Size = new System.Drawing.Size(679, 98);
             this.gbFilenamingPatternImages.TabIndex = 0;
             this.gbFilenamingPatternImages.TabStop = false;
@@ -1466,7 +1462,7 @@ namespace ShareX.Forms
             // txtNameFormatPatternImages
             // 
             this.txtNameFormatPatternImages.Location = new System.Drawing.Point(21, 30);
-            this.txtNameFormatPatternImages.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtNameFormatPatternImages.Margin = new System.Windows.Forms.Padding(4);
             this.txtNameFormatPatternImages.Name = "txtNameFormatPatternImages";
             this.txtNameFormatPatternImages.Size = new System.Drawing.Size(553, 22);
             this.txtNameFormatPatternImages.TabIndex = 0;
@@ -1475,7 +1471,7 @@ namespace ShareX.Forms
             // btnNameFormatPatternHelpImages
             // 
             this.btnNameFormatPatternHelpImages.Location = new System.Drawing.Point(587, 30);
-            this.btnNameFormatPatternHelpImages.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnNameFormatPatternHelpImages.Margin = new System.Windows.Forms.Padding(4);
             this.btnNameFormatPatternHelpImages.Name = "btnNameFormatPatternHelpImages";
             this.btnNameFormatPatternHelpImages.Size = new System.Drawing.Size(32, 28);
             this.btnNameFormatPatternHelpImages.TabIndex = 1;
@@ -1483,45 +1479,14 @@ namespace ShareX.Forms
             this.btnNameFormatPatternHelpImages.UseVisualStyleBackColor = true;
             this.btnNameFormatPatternHelpImages.Click += new System.EventHandler(this.btnNameFormatPatternHelp_Click);
             // 
-            // tpUploaderConfig
-            // 
-            this.tpUploaderConfig.Controls.Add(this.panelUploaderConfig);
-            this.tpUploaderConfig.Location = new System.Drawing.Point(4, 25);
-            this.tpUploaderConfig.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tpUploaderConfig.Name = "tpUploaderConfig";
-            this.tpUploaderConfig.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tpUploaderConfig.Size = new System.Drawing.Size(727, 594);
-            this.tpUploaderConfig.TabIndex = 12;
-            this.tpUploaderConfig.Text = "Uploader Config";
-            this.tpUploaderConfig.UseVisualStyleBackColor = true;
-            // 
-            // panelUploaderConfig
-            // 
-            this.panelUploaderConfig.Controls.Add(this.pgUploaderConfig);
-            this.panelUploaderConfig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelUploaderConfig.Location = new System.Drawing.Point(4, 4);
-            this.panelUploaderConfig.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.panelUploaderConfig.Name = "panelUploaderConfig";
-            this.panelUploaderConfig.Size = new System.Drawing.Size(719, 586);
-            this.panelUploaderConfig.TabIndex = 0;
-            // 
-            // pgUploaderConfig
-            // 
-            this.pgUploaderConfig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pgUploaderConfig.Location = new System.Drawing.Point(0, 0);
-            this.pgUploaderConfig.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.pgUploaderConfig.Name = "pgUploaderConfig";
-            this.pgUploaderConfig.Size = new System.Drawing.Size(719, 586);
-            this.pgUploaderConfig.TabIndex = 0;
-            // 
             // tpShapes2
             // 
             this.tpShapes2.Controls.Add(this.panelShapes2);
             this.tpShapes2.Location = new System.Drawing.Point(4, 25);
-            this.tpShapes2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpShapes2.Margin = new System.Windows.Forms.Padding(4);
             this.tpShapes2.Name = "tpShapes2";
-            this.tpShapes2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tpShapes2.Size = new System.Drawing.Size(727, 594);
+            this.tpShapes2.Padding = new System.Windows.Forms.Padding(4);
+            this.tpShapes2.Size = new System.Drawing.Size(727, 593);
             this.tpShapes2.TabIndex = 13;
             this.tpShapes2.Text = "Shapes";
             this.tpShapes2.UseVisualStyleBackColor = true;
@@ -1531,19 +1496,19 @@ namespace ShareX.Forms
             this.panelShapes2.Controls.Add(this.pgShapes);
             this.panelShapes2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelShapes2.Location = new System.Drawing.Point(4, 4);
-            this.panelShapes2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelShapes2.Margin = new System.Windows.Forms.Padding(4);
             this.panelShapes2.Name = "panelShapes2";
-            this.panelShapes2.Size = new System.Drawing.Size(719, 586);
+            this.panelShapes2.Size = new System.Drawing.Size(719, 585);
             this.panelShapes2.TabIndex = 0;
             // 
             // pgShapes
             // 
             this.pgShapes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgShapes.Location = new System.Drawing.Point(0, 0);
-            this.pgShapes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pgShapes.Margin = new System.Windows.Forms.Padding(4);
             this.pgShapes.Name = "pgShapes";
             this.pgShapes.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.pgShapes.Size = new System.Drawing.Size(719, 586);
+            this.pgShapes.Size = new System.Drawing.Size(719, 585);
             this.pgShapes.TabIndex = 0;
             this.pgShapes.ToolbarVisible = false;
             // 
@@ -1551,10 +1516,10 @@ namespace ShareX.Forms
             // 
             this.tpUserConfig.Controls.Add(this.panelUserConfig);
             this.tpUserConfig.Location = new System.Drawing.Point(4, 25);
-            this.tpUserConfig.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tpUserConfig.Margin = new System.Windows.Forms.Padding(4);
             this.tpUserConfig.Name = "tpUserConfig";
-            this.tpUserConfig.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tpUserConfig.Size = new System.Drawing.Size(727, 594);
+            this.tpUserConfig.Padding = new System.Windows.Forms.Padding(4);
+            this.tpUserConfig.Size = new System.Drawing.Size(727, 593);
             this.tpUserConfig.TabIndex = 14;
             this.tpUserConfig.Text = "User Config";
             this.tpUserConfig.UseVisualStyleBackColor = true;
@@ -1564,19 +1529,50 @@ namespace ShareX.Forms
             this.panelUserConfig.Controls.Add(this.pgUserConfig);
             this.panelUserConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelUserConfig.Location = new System.Drawing.Point(4, 4);
-            this.panelUserConfig.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelUserConfig.Margin = new System.Windows.Forms.Padding(4);
             this.panelUserConfig.Name = "panelUserConfig";
-            this.panelUserConfig.Size = new System.Drawing.Size(719, 586);
+            this.panelUserConfig.Size = new System.Drawing.Size(719, 585);
             this.panelUserConfig.TabIndex = 0;
             // 
             // pgUserConfig
             // 
             this.pgUserConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgUserConfig.Location = new System.Drawing.Point(0, 0);
-            this.pgUserConfig.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pgUserConfig.Margin = new System.Windows.Forms.Padding(4);
             this.pgUserConfig.Name = "pgUserConfig";
-            this.pgUserConfig.Size = new System.Drawing.Size(719, 586);
+            this.pgUserConfig.Size = new System.Drawing.Size(719, 585);
             this.pgUserConfig.TabIndex = 0;
+            // 
+            // tpImageProcessing
+            // 
+            this.tpImageProcessing.Controls.Add(this.panelImageProcessing);
+            this.tpImageProcessing.Location = new System.Drawing.Point(4, 25);
+            this.tpImageProcessing.Name = "tpImageProcessing";
+            this.tpImageProcessing.Padding = new System.Windows.Forms.Padding(3);
+            this.tpImageProcessing.Size = new System.Drawing.Size(727, 593);
+            this.tpImageProcessing.TabIndex = 15;
+            this.tpImageProcessing.Text = "Image Processing";
+            this.tpImageProcessing.UseVisualStyleBackColor = true;
+            // 
+            // chkFileUploadImageProcess
+            // 
+            this.chkFileUploadImageProcess.AutoSize = true;
+            this.chkFileUploadImageProcess.Location = new System.Drawing.Point(8, 8);
+            this.chkFileUploadImageProcess.Name = "chkFileUploadImageProcess";
+            this.chkFileUploadImageProcess.Size = new System.Drawing.Size(458, 21);
+            this.chkFileUploadImageProcess.TabIndex = 0;
+            this.chkFileUploadImageProcess.Text = "Process image files during File Upload or Drag n Drop from Explorer";
+            this.chkFileUploadImageProcess.UseVisualStyleBackColor = true;
+            this.chkFileUploadImageProcess.CheckedChanged += new System.EventHandler(this.chkFileUploadImageProcess_CheckedChanged);
+            // 
+            // panelImageProcessing
+            // 
+            this.panelImageProcessing.Controls.Add(this.chkFileUploadImageProcess);
+            this.panelImageProcessing.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelImageProcessing.Location = new System.Drawing.Point(3, 3);
+            this.panelImageProcessing.Name = "panelImageProcessing";
+            this.panelImageProcessing.Size = new System.Drawing.Size(721, 587);
+            this.panelImageProcessing.TabIndex = 1;
             // 
             // OptionsWindow
             // 
@@ -1584,7 +1580,7 @@ namespace ShareX.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(949, 697);
             this.Controls.Add(this.tlpMain);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(954, 728);
             this.Name = "OptionsWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -1643,12 +1639,13 @@ namespace ShareX.Forms
             this.gbFilenamingPatternOthers.PerformLayout();
             this.gbFilenamingPatternImages.ResumeLayout(false);
             this.gbFilenamingPatternImages.PerformLayout();
-            this.tpUploaderConfig.ResumeLayout(false);
-            this.panelUploaderConfig.ResumeLayout(false);
             this.tpShapes2.ResumeLayout(false);
             this.panelShapes2.ResumeLayout(false);
             this.tpUserConfig.ResumeLayout(false);
             this.panelUserConfig.ResumeLayout(false);
+            this.tpImageProcessing.ResumeLayout(false);
+            this.panelImageProcessing.ResumeLayout(false);
+            this.panelImageProcessing.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1749,9 +1746,6 @@ namespace ShareX.Forms
         private System.Windows.Forms.Label lblNameFormatPatternPreviewImages;
         private System.Windows.Forms.Button btnImagesOrganise;
         private System.Windows.Forms.CheckBox chkShowBalloonAfterUpload;
-        private System.Windows.Forms.TabPage tpUploaderConfig;
-        private System.Windows.Forms.Panel panelUploaderConfig;
-        private System.Windows.Forms.PropertyGrid pgUploaderConfig;
         private System.Windows.Forms.TabPage tpShapes2;
         private System.Windows.Forms.Panel panelShapes2;
         private System.Windows.Forms.PropertyGrid pgShapes;
@@ -1762,5 +1756,8 @@ namespace ShareX.Forms
         private AfterUploadTasksUI ucAfterUploadTasks;
         private ImageResizeUI ucImageResizeUI;
         private ImageQualityUI ucImageQualityUI;
+        private System.Windows.Forms.TabPage tpImageProcessing;
+        private System.Windows.Forms.CheckBox chkFileUploadImageProcess;
+        private System.Windows.Forms.Panel panelImageProcessing;
     }
 }

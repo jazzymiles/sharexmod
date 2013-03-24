@@ -112,19 +112,26 @@ namespace ShareX
         }
 
         // string filePath -> FileStream data
-        public static UploadTask CreateFileUploaderTask(EDataType dataType, string filePath, EDataType destination = EDataType.Default)
+        public static UploadTask CreateFileUploaderTask(string filePath, EDataType destination = EDataType.Default)
         {
-            TaskJob taskJob = TaskJob.FileUpload;
-            switch (dataType)
-            {
-                case EDataType.Image:
-                    taskJob = TaskJob.ImageUpload;
-                    break;
+            EDataType dataType = Helpers.FindDataType(filePath);
 
-                case EDataType.Text:
-                    taskJob = TaskJob.TextUpload;
-                    break;
+            TaskJob taskJob = TaskJob.FileUpload;
+
+            if (SettingsManager.ConfigCore.FileUploadImageProcess)
+            {
+                switch (dataType)
+                {
+                    case EDataType.Image:
+                        taskJob = TaskJob.ImageUpload;
+                        break;
+
+                    case EDataType.Text:
+                        taskJob = TaskJob.TextUpload;
+                        break;
+                }
             }
+
             UploadTask task = new UploadTask(dataType, taskJob);
             if (destination != EDataType.Default) task.Info.UploadDestination = destination;
             task.Info.FilePath = filePath;
@@ -299,6 +306,8 @@ namespace ShareX
         /// </summary>
         private void DoThreadJob()
         {
+            threadWorker.InvokeAsync(ListViewManager.AddThumbnail);
+
             if (Info.Job == TaskJob.ImageUpload && imageData != null)
             {
                 DoBeforeImagePreparedJobs();
@@ -339,8 +348,6 @@ namespace ShareX
                             data = new FileStream(Info.FilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
                         }
                     }
-
-                    threadWorker.InvokeAsync(ListViewManager.AddThumbnail);
 
                     if (data == null)
                         data = imageData.ImageStream;
@@ -1026,7 +1033,10 @@ namespace ShareX
 
         public Image GetImageForExport()
         {
-            return imageData.ImageExported;
+            if (imageData != null)
+                return imageData.ImageExported;
+
+            return null;
         }
 
         public void Dispose()

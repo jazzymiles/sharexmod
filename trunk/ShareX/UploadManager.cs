@@ -23,6 +23,11 @@
 
 #endregion License Information (GPL v3)
 
+using HelpersLib;
+using HelpersLib.Hotkeys2;
+using HistoryLib;
+using ShareX.HelperClasses;
+using ShareX.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -32,11 +37,6 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Windows.Forms;
-using HelpersLib;
-using HelpersLib.Hotkeys2;
-using HistoryLib;
-using ShareX.HelperClasses;
-using ShareX.Properties;
 using UploadersLib;
 using UploadersLib.HelperClasses;
 
@@ -90,37 +90,31 @@ namespace ShareX
             {
                 if (File.Exists(path))
                 {
-                    EDataType type;
+                    EDataType type = Helpers.FindDataType(path);
                     EDataType destination = EDataType.Default;
 
-                    if (Helpers.IsImageFile(path))
+                    switch (type)
                     {
-                        type = EDataType.Image;
+                        case EDataType.Image:
+                            if (ImageUploader == ImageDestination.FileUploader)
+                            {
+                                destination = EDataType.File;
+                            }
+                            break;
 
-                        if (ImageUploader == ImageDestination.FileUploader)
-                        {
-                            destination = EDataType.File;
-                        }
-                    }
-                    else if (Helpers.IsTextFile(path))
-                    {
-                        type = EDataType.Text;
-
-                        if (TextUploader == TextDestination.FileUploader)
-                        {
-                            destination = EDataType.File;
-                        }
-                    }
-                    else
-                    {
-                        type = EDataType.File;
+                        case EDataType.Text:
+                            if (TextUploader == TextDestination.FileUploader)
+                            {
+                                destination = EDataType.File;
+                            }
+                            break;
                     }
 
                     AfterCaptureActivity.Prepare(ref act);
 
                     foreach (FileDestination fileUploader in act.Workflow.Settings.DestConfig.FileUploaders)
                     {
-                        UploadTask task = UploadTask.CreateFileUploaderTask(type, path, destination);
+                        UploadTask task = UploadTask.CreateFileUploaderTask(path, destination);
                         task.SetWorkflow(act.Workflow);
                         TaskManager.Start(task);
                         break;

@@ -23,6 +23,8 @@
 
 #endregion License Information (GPL v3)
 
+using HelpersLib;
+using HelpersLibMod;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -30,8 +32,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using HelpersLib;
-using HelpersLibMod;
 
 namespace ShareX.HelperClasses
 {
@@ -116,7 +116,9 @@ namespace ShareX.HelperClasses
             }
             else
             {
-                Thumbnails.Images.Add(task.Info.FileName, task.GetImageForExport());
+                Image img = task.GetImageForExport();
+                if (img != null)
+                    Thumbnails.Images.Add(task.Info.FileName, img);
             }
         }
 
