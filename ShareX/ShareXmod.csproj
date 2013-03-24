@@ -258,6 +258,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ShareX\trunk\GreenshotImageEditor\GreenshotImageEditor.csproj">
+      <Project>{cd642bf4-d815-4d67-a0b5-c69f0b8231af}</Project>
+      <Name>GreenshotImageEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\ShareX\trunk\HelpersLib\HelpersLib.csproj">
       <Project>{327750e1-9fb7-4cc3-8aea-9bc42180cad3}</Project>
       <Name>HelpersLib</Name>
@@ -297,14 +301,6 @@
     <ProjectReference Include="..\IndexersLib\IndexersLib.csproj">
       <Project>{47CD5EEF-C12D-4CEA-B88A-3AFAEC6DDAD8}</Project>
       <Name>IndexersLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lib\GreenshotPlugin\GreenshotPlugin.csproj">
-      <Project>{5B924697-4DCD-4F98-85F1-105CB84B7341}</Project>
-      <Name>GreenshotPlugin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lib\Greenshot\Greenshot.csproj">
-      <Project>{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}</Project>
-      <Name>Greenshot</Name>
     </ProjectReference>
     <ProjectReference Include="..\UploadersLibMod\UploadersLibMod.csproj">
       <Project>{8e90666d-0921-41a3-a30c-52166c402404}</Project>

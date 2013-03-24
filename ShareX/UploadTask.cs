@@ -476,8 +476,7 @@ namespace ShareX
         {
             if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddTornEffect))
             {
-                if (!Greenshot.IniFile.IniConfig.isInitialized)
-                    Greenshot.IniFile.IniConfig.Init();
+                InitGreenshot();
 
                 int toothHeight = 12, horizontalToothRange = 20, verticalToothRange = 20;
 
@@ -487,10 +486,7 @@ namespace ShareX
 
             if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddShadowBorder))
             {
-                if (!Greenshot.IniFile.IniConfig.isInitialized)
-                    Greenshot.IniFile.IniConfig.Init();
-
-                // 			return ImageHelper.CreateShadow(sourceImage, Darkness, ShadowSize, ShadowOffset, out offsetChange, PixelFormat.Format32bppArgb);
+                InitGreenshot();
                 Point offsetChange;
                 imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateShadow(imageData.Image, 1f, 7, new Point(7, 7), out offsetChange, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             }
@@ -529,13 +525,20 @@ namespace ShareX
             }
         }
 
+        private void InitGreenshot()
+        {
+            if (!Greenshot.IniFile.IniConfig.isInitialized)
+            {
+                Greenshot.IniFile.IniConfig.Init(Program.PersonalPath);
+                Greenshot.IniFile.IniConfig.AllowSave = true;
+            }
+        }
+
         private void EditImage(ref ImageData imageData_gse)
         {
             if (imageData_gse != null)
             {
-                if (!Greenshot.IniFile.IniConfig.isInitialized)
-                    Greenshot.IniFile.IniConfig.Init();
-
+                InitGreenshot();
                 GreenshotPlugin.Core.CoreConfiguration conf = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>(); ;
                 conf.OutputFileFilenamePattern = "${title}";
                 conf.OutputFilePath = Program.ScreenshotsPath;
