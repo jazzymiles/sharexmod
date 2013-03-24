@@ -102,7 +102,7 @@ namespace ShareX
                 {
                     TaskbarHelper.TaskbarSetProgressState(TaskbarProgressBarState.Indeterminate);
 
-                    WindowAfterCapture dlg = new WindowAfterCapture(imageData.Image, act.Workflow.Subtasks) { Icon = Resources.ShareX };
+                    WindowAfterCapture dlg = new WindowAfterCapture(imageData, act.Workflow.Subtasks) { Icon = Resources.ShareX };
                     result = dlg.ShowDialog();
 
                     switch (dlg.DialogResult)

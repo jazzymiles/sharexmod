@@ -1,6 +1,7 @@
 ﻿using HelpersLib;
 using HelpersLib.Hotkeys2;
 using HelpersLibMod;
+using ShareX.HelperClasses;
 using ShareX.Properties;
 using ShareX.SettingsHelpers;
 using System;
@@ -20,11 +21,16 @@ namespace ShareX
 
         public UserConfig ConfigUser { get; set; }
 
-        public WindowAfterCapture(Image img, Subtask config)
+        private ImageData _imgdata = null;
+
+        public WindowAfterCapture(ImageData imgData, Subtask config)
         {
             InitializeComponent();
+            _imgdata = imgData;
+
             this.Icon = Resources.ShareX;
-            this.pbImage.LoadImage(img);
+            this.pbImage.LoadImage(_imgdata.Image);
+            this.txtImageName.Text = _imgdata.Filename;
 
             ConfigSubtasks = config;
 
@@ -79,6 +85,9 @@ namespace ShareX
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            if (!string.IsNullOrEmpty(txtImageName.Text))
+                _imgdata.UserText = txtImageName.Text;
+
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
         }
 
