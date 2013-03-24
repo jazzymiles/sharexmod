@@ -306,8 +306,6 @@ namespace ShareX
         /// </summary>
         private void DoThreadJob()
         {
-            threadWorker.InvokeAsync(ListViewManager.AddThumbnail);
-
             if (Info.Job == TaskJob.ImageUpload && imageData != null)
             {
                 DoBeforeImagePreparedJobs();
@@ -368,6 +366,8 @@ namespace ShareX
                 byte[] byteArray = Encoding.UTF8.GetBytes(tempText);
                 data = new MemoryStream(byteArray);
             }
+
+            threadWorker.InvokeAsync(ListViewManager.AddThumbnail);
         }
 
         private void DoPostUploadTasks()
