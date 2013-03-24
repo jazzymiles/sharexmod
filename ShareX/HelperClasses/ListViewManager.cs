@@ -25,6 +25,7 @@
 
 using HelpersLib;
 using HelpersLibMod;
+using ShareX.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -117,8 +118,9 @@ namespace ShareX.HelperClasses
             else
             {
                 Image img = task.GetImageForExport();
-                if (img != null)
-                    Thumbnails.Images.Add(task.Info.FileName, img);
+                if (img == null)
+                    img = Resources.folder;
+                Thumbnails.Images.Add(task.Info.FileName, img);
             }
         }
 

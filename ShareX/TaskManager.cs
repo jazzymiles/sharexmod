@@ -215,7 +215,7 @@ namespace ShareX
                 if (lvi != null)
                 {
                     lvi.SubItems[1].Text = string.Format("{0:0.0}%", info.Progress.Percentage);
-                    lvi.SubItems[2].Text = string.Format("{0} / {1}", Helpers.ProperFileSize(info.Progress.Position), Helpers.ProperFileSize(info.Progress.Length));
+                    lvi.SubItems[2].Text = string.Format("{0} / {1}", Helpers.ProperFileSize(info.Progress.Position, "", true), Helpers.ProperFileSize(info.Progress.Length, "", true));
 
                     if (info.Progress.Speed > 0)
                     {
