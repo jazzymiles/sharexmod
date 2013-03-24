@@ -23,15 +23,15 @@
 
 #endregion License Information (GPL v3)
 
+using HelpersLib;
+using HelpersLib.Hotkeys2;
+using HelpersLibMod;
+using ScreenCapture;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
-using HelpersLib;
-using HelpersLib.Hotkeys2;
-using HelpersLibMod;
-using ScreenCapture;
 using UploadersLib;
 using UploadersLib.HelperClasses;
 
@@ -103,6 +103,7 @@ namespace ShareX
         public AfterUploadTasks AfterUploadTasks = AfterUploadTasks.CopyURLToClipboard;
         public string SaveImageSubFolderPattern = "%y-%mo";
         public SurfaceOptions SurfaceOptions = new SurfaceOptions() { QuickCrop = true, IncludeControls = true };
+        public bool FileUploadImageProcess = false;
 
         // History
 

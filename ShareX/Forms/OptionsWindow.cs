@@ -1,4 +1,9 @@
-﻿using System;
+﻿using HelpersLib;
+using HelpersLib.Hotkeys2;
+using HelpersLibMod;
+using ScreenCapture;
+using ShareX.HelperClasses;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,11 +14,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Windows.Forms;
-using HelpersLib;
-using HelpersLib.Hotkeys2;
-using HelpersLibMod;
-using ScreenCapture;
-using ShareX.HelperClasses;
 
 namespace ShareX.Forms
 {
@@ -137,6 +137,7 @@ namespace ShareX.Forms
             cbCaptureTransparent.Checked = SettingsManager.ConfigCore.CaptureTransparent;
             cbCaptureShadow.Enabled = SettingsManager.ConfigCore.CaptureTransparent;
             cbCaptureShadow.Checked = SettingsManager.ConfigCore.CaptureShadow;
+            chkFileUploadImageProcess.Checked = SettingsManager.ConfigCore.FileUploadImageProcess;
 
             txtScreenshotsPath.Text = Program.ScreenshotsRootPath;
             txtSaveImageSubFolderPattern.Text = SettingsManager.ConfigCore.SaveImageSubFolderPattern;
@@ -173,7 +174,6 @@ namespace ShareX.Forms
 
             // Advanced
             pgSettings.SelectedObject = SettingsManager.ConfigCore;
-            pgUploaderConfig.SelectedObject = SettingsManager.ConfigUploaders;
             pgShapes.SelectedObject = SettingsManager.ConfigCore.SurfaceOptions;
             pgUserConfig.SelectedObject = SettingsManager.ConfigUser;
 
@@ -629,6 +629,11 @@ namespace ShareX.Forms
         private void btnDropboxSyncExport_Click(object sender, EventArgs e)
         {
             new DropboxSyncHelper().Save();
+        }
+
+        private void chkFileUploadImageProcess_CheckedChanged(object sender, EventArgs e)
+        {
+            SettingsManager.ConfigCore.FileUploadImageProcess = chkFileUploadImageProcess.Checked;
         }
     }
 }
