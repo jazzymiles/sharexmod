@@ -1,4 +1,5 @@
 ﻿using Microsoft.WindowsAPICodePack.Taskbar;
+using MS.WindowsAPICodePack.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,23 @@ namespace ShareX
     {
         #region Windows 7 Taskbar
 
-        public static readonly string appId = Application.ProductName;  // need for Windows 7 Taskbar
+        private static readonly string appId = Application.ProductName;  // need for Windows 7 Taskbar
         private static readonly string progId = Application.ProductName; // need for Windows 7 Taskbar
 
-        public static IntPtr WindowHandle = IntPtr.Zero;
-        public static TaskbarManager WindowsTaskbar;
+        private static IntPtr WindowHandle = IntPtr.Zero;
+        private static TaskbarManager WindowsTaskbar;
 
         #endregion Windows 7 Taskbar
+
+        public static void Init(Form form)
+        {
+            if (TaskbarManager.IsPlatformSupported)
+            {
+                WindowsTaskbar = TaskbarManager.Instance;
+                WindowsTaskbar.ApplicationId = TaskbarHelper.appId;
+                WindowHandle = form.Handle;
+            }
+        }
 
         public static void TaskbarSetProgressState(TaskbarProgressBarState tbps)
         {
