@@ -34,11 +34,11 @@
             this.pbPreview = new HelpersLib.MyPictureBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnCopyImage = new System.Windows.Forms.Button();
+            this.btnCopyLink = new System.Windows.Forms.Button();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnFolderOpen = new System.Windows.Forms.Button();
             this.btnOpenLink = new System.Windows.Forms.Button();
             this.tmrClose = new System.Windows.Forms.Timer(this.components);
-            this.btnCopyLink = new System.Windows.Forms.Button();
             this.tlpMain.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -55,19 +55,21 @@
             this.tlpMain.Controls.Add(this.flowLayoutPanel2, 1, 1);
             this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpMain.Location = new System.Drawing.Point(0, 0);
+            this.tlpMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 2;
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
-            this.tlpMain.Size = new System.Drawing.Size(584, 262);
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
+            this.tlpMain.Size = new System.Drawing.Size(782, 329);
             this.tlpMain.TabIndex = 0;
             // 
             // tvMain
             // 
             this.tvMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tvMain.Location = new System.Drawing.Point(236, 3);
+            this.tvMain.Location = new System.Drawing.Point(316, 4);
+            this.tvMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tvMain.Name = "tvMain";
-            this.tvMain.Size = new System.Drawing.Size(345, 222);
+            this.tvMain.Size = new System.Drawing.Size(462, 279);
             this.tvMain.TabIndex = 1;
             this.tvMain.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvMain_NodeMouseDoubleClick);
             // 
@@ -75,9 +77,10 @@
             // 
             this.pbPreview.BackColor = System.Drawing.Color.White;
             this.pbPreview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbPreview.Location = new System.Drawing.Point(3, 3);
+            this.pbPreview.Location = new System.Drawing.Point(5, 5);
+            this.pbPreview.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.pbPreview.Name = "pbPreview";
-            this.pbPreview.Size = new System.Drawing.Size(227, 222);
+            this.pbPreview.Size = new System.Drawing.Size(302, 277);
             this.pbPreview.TabIndex = 0;
             // 
             // flowLayoutPanel1
@@ -85,38 +88,54 @@
             this.flowLayoutPanel1.Controls.Add(this.btnCopyImage);
             this.flowLayoutPanel1.Controls.Add(this.btnCopyLink);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 231);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(4, 291);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(227, 28);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(304, 34);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // btnCopyImage
             // 
             this.btnCopyImage.AutoSize = true;
-            this.btnCopyImage.Location = new System.Drawing.Point(3, 3);
+            this.btnCopyImage.Location = new System.Drawing.Point(4, 4);
+            this.btnCopyImage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCopyImage.Name = "btnCopyImage";
-            this.btnCopyImage.Size = new System.Drawing.Size(74, 23);
+            this.btnCopyImage.Size = new System.Drawing.Size(123, 33);
             this.btnCopyImage.TabIndex = 0;
             this.btnCopyImage.Text = "Copy image";
             this.btnCopyImage.UseVisualStyleBackColor = true;
             this.btnCopyImage.Click += new System.EventHandler(this.btnCopyImage_Click);
+            // 
+            // btnCopyLink
+            // 
+            this.btnCopyLink.AutoSize = true;
+            this.btnCopyLink.Location = new System.Drawing.Point(135, 4);
+            this.btnCopyLink.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCopyLink.Name = "btnCopyLink";
+            this.btnCopyLink.Size = new System.Drawing.Size(100, 33);
+            this.btnCopyLink.TabIndex = 2;
+            this.btnCopyLink.Text = "Copy link";
+            this.btnCopyLink.UseVisualStyleBackColor = true;
+            this.btnCopyLink.Click += new System.EventHandler(this.btnCopyLink_Click);
             // 
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.Controls.Add(this.btnFolderOpen);
             this.flowLayoutPanel2.Controls.Add(this.btnOpenLink);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(236, 231);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(316, 291);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(345, 28);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(462, 34);
             this.flowLayoutPanel2.TabIndex = 3;
             // 
             // btnFolderOpen
             // 
             this.btnFolderOpen.AutoSize = true;
-            this.btnFolderOpen.Location = new System.Drawing.Point(3, 3);
+            this.btnFolderOpen.Location = new System.Drawing.Point(4, 4);
+            this.btnFolderOpen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnFolderOpen.Name = "btnFolderOpen";
-            this.btnFolderOpen.Size = new System.Drawing.Size(81, 23);
+            this.btnFolderOpen.Size = new System.Drawing.Size(140, 33);
             this.btnFolderOpen.TabIndex = 0;
             this.btnFolderOpen.Text = "Open folder...";
             this.btnFolderOpen.UseVisualStyleBackColor = true;
@@ -125,9 +144,10 @@
             // btnOpenLink
             // 
             this.btnOpenLink.AutoSize = true;
-            this.btnOpenLink.Location = new System.Drawing.Point(90, 3);
+            this.btnOpenLink.Location = new System.Drawing.Point(152, 4);
+            this.btnOpenLink.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnOpenLink.Name = "btnOpenLink";
-            this.btnOpenLink.Size = new System.Drawing.Size(81, 23);
+            this.btnOpenLink.Size = new System.Drawing.Size(120, 33);
             this.btnOpenLink.TabIndex = 1;
             this.btnOpenLink.Text = "Open link...";
             this.btnOpenLink.UseVisualStyleBackColor = true;
@@ -139,23 +159,14 @@
             this.tmrClose.Interval = 60000;
             this.tmrClose.Tick += new System.EventHandler(this.tmrClose_Tick);
             // 
-            // btnCopyLink
-            // 
-            this.btnCopyLink.AutoSize = true;
-            this.btnCopyLink.Location = new System.Drawing.Point(83, 3);
-            this.btnCopyLink.Name = "btnCopyLink";
-            this.btnCopyLink.Size = new System.Drawing.Size(74, 23);
-            this.btnCopyLink.TabIndex = 2;
-            this.btnCopyLink.Text = "Copy link";
-            this.btnCopyLink.UseVisualStyleBackColor = true;
-            this.btnCopyLink.Click += new System.EventHandler(this.btnCopyLink_Click);
-            // 
             // WindowAfterUpload
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 262);
+            this.ClientSize = new System.Drawing.Size(782, 329);
             this.Controls.Add(this.tlpMain);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MinimumSize = new System.Drawing.Size(800, 376);
             this.Name = "WindowAfterUpload";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "After Upload";

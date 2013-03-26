@@ -72,17 +72,17 @@
     <Reference Include="Microsoft.Expression.Encoder, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Microsoft.Expression.Encoder.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Expression.Encoder.Types, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Microsoft.Expression.Encoder.Types.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Expression.Encoder.Utilities, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Microsoft.Expression.Encoder.Utilities.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack">
       <HintPath>..\Lib\Microsoft.WindowsAPICodePack.dll</HintPath>
@@ -382,13 +382,6 @@
     <None Include="Resources\ShareXSmallIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Languages\help-en-US.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Languages\language-en-US.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="Resources\ShareXLogo2.png" />
     <None Include="Resources\camcorder-image.png" />
     <None Include="Resources\stop.png" />
