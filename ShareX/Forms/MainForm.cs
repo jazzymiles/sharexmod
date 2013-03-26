@@ -26,6 +26,7 @@
 using HelpersLib;
 using HelpersLib.Hotkeys2;
 using HelpersLibMod;
+using HelpersLibWatermark;
 using HistoryLib;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using ScreenCapture;
@@ -996,5 +997,159 @@ namespace ShareX
                 FormsHelper.ShowWorkflowManager();
             }
         }
+
+        #region Main Window Menu events
+
+        private void tsmiFullscreen_Click(object sender, EventArgs e)
+        {
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.FullScreen));
+        }
+
+        private void tsddbCapture_DropDownOpening(object sender, EventArgs e)
+        {
+            PrepareWindowsMenu(tsmiWindow, tsmiWindowItems_Click);
+        }
+
+        private void tsmiWindowItems_Click(object sender, EventArgs e)
+        {
+            ToolStripItem tsi = (ToolStripItem)sender;
+            WindowInfo wi = tsi.Tag as WindowInfo;
+            if (wi != null) AfterCapture(CaptureWindow(wi.Handle));
+        }
+
+        private void tsmiWindowRectangle_Click(object sender, EventArgs e)
+        {
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.WindowRectangle));
+        }
+
+        private void tsmiRectangle_Click(object sender, EventArgs e)
+        {
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.RectangleRegion));
+        }
+
+        private void tsmiRoundedRectangle_Click(object sender, EventArgs e)
+        {
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.RoundedRectangleRegion));
+        }
+
+        private void tsmiEllipse_Click(object sender, EventArgs e)
+        {
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.EllipseRegion));
+        }
+
+        private void tsmiTriangle_Click(object sender, EventArgs e)
+        {
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.TriangleRegion));
+        }
+
+        private void tsmiDiamond_Click(object sender, EventArgs e)
+        {
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.DiamondRegion));
+        }
+
+        private void tsmiPolygon_Click(object sender, EventArgs e)
+        {
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.PolygonRegion));
+        }
+
+        private void tsmiFreeHand_Click(object sender, EventArgs e)
+        {
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.FreeHandRegion));
+        }
+
+        private void tsmiLastRegion_Click(object sender, EventArgs e)
+        {
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.LastRegion));
+        }
+
+        private void screencastToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.Screencast));
+        }
+
+        #endregion Main Window Menu events
+
+        #region Tray events
+
+        private void tsmiTrayFullscreen_Click(object sender, EventArgs e)
+        {
+            tsmiFullscreen_Click(sender, e);
+        }
+
+        private void tsmiCapture_DropDownOpening(object sender, EventArgs e)
+        {
+            PrepareWindowsMenu(tsmiTrayWindow, tsmiTrayWindowItems_Click);
+        }
+
+        private void tsmiTrayWindowItems_Click(object sender, EventArgs e)
+        {
+            tsmiWindowItems_Click(sender, e);
+        }
+
+        private void tsmiTrayWindowRectangle_Click(object sender, EventArgs e)
+        {
+            tsmiWindowRectangle_Click(sender, e);
+        }
+
+        private void tsmiTrayRectangle_Click(object sender, EventArgs e)
+        {
+            tsmiRectangle_Click(sender, e);
+        }
+
+        private void tsmiTrayRoundedRectangle_Click(object sender, EventArgs e)
+        {
+            tsmiRoundedRectangle_Click(sender, e);
+        }
+
+        private void tsmiTrayEllipse_Click(object sender, EventArgs e)
+        {
+            tsmiEllipse_Click(sender, e);
+        }
+
+        private void tsmiTrayTriangle_Click(object sender, EventArgs e)
+        {
+            tsmiTriangle_Click(sender, e);
+        }
+
+        private void tsmiTrayDiamond_Click(object sender, EventArgs e)
+        {
+            tsmiDiamond_Click(sender, e);
+        }
+
+        private void tsmiTrayPolygon_Click(object sender, EventArgs e)
+        {
+            tsmiPolygon_Click(sender, e);
+        }
+
+        private void tsmiTrayFreeHand_Click(object sender, EventArgs e)
+        {
+            tsmiFreeHand_Click(sender, e);
+        }
+
+        private void tsmiTrayLastRegion_Click(object sender, EventArgs e)
+        {
+            tsmiLastRegion_Click(sender, e);
+        }
+
+        private void tsmiSettings_Click(object sender, EventArgs e)
+        {
+            tsmiTraySettings_Click(sender, e);
+        }
+
+        private void tsmiWatermark_Click(object sender, EventArgs e)
+        {
+            WatermarkUI ui = new WatermarkUI(SettingsManager.ConfigUser.ConfigWatermark)
+            {
+                Icon = this.Icon
+            };
+            ui.Show();
+        }
+
+        private void tsmiTrayScreencast_Click(object sender, EventArgs e)
+        {
+            screencastToolStripMenuItem_Click(sender, e);
+        }
+
+        #endregion Tray events
     }
 }

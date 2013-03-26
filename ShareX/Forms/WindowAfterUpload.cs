@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HelpersLib;
+using ShareX.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using HelpersLib;
 using UploadersLib;
 using UploadersLibMod;
 
@@ -25,10 +26,17 @@ namespace ShareX
             tmrClose.Start();
             mUploadInfo = info;
 
-            if (File.Exists(info.FilePath))
-                pbPreview.LoadImageFromFile(info.FilePath);
+            if (info.DataType == EDataType.Image)
+            {
+                if (File.Exists(info.FilePath))
+                    pbPreview.LoadImageFromFile(info.FilePath);
+                else
+                    pbPreview.LoadImageFromURL(info.Result.URL);
+            }
             else
-                pbPreview.LoadImageFromURL(info.Result.URL);
+            {
+                pbPreview.LoadImage(Resources.folder);
+            }
 
             this.Text = File.Exists(info.FilePath) ? info.FilePath : info.FileName;
 

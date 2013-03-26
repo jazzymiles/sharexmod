@@ -23,12 +23,12 @@
 
 #endregion License Information (GPL v3)
 
+using HelpersLibMod;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using HelpersLibMod;
 
 namespace HelpersLib.Hotkeys2
 {
@@ -73,8 +73,11 @@ namespace HelpersLib.Hotkeys2
         [Description("Capture freehand region")]
         FreeHandRegion,
 
-        [Description("Capture Last region")]
-        LastRegion
+        [Description("Capture last region")]
+        LastRegion,
+
+        [Description("Capture screencast")]
+        Screencast
     }
 
     /// <summary>

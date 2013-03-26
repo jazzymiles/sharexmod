@@ -42,11 +42,15 @@ namespace ShareX.HelperClasses
 
         public Image Image = null;
 
+        public Rectangle CaptureRectangle { get; set; }
+
         public string WindowText { get; private set; }
 
         public string UserText { get; set; }
 
         public string Filename { get; private set; }
+
+        public string FilePath { get; set; }
 
         public UserConfig ConfigUser { get; set; }
 
@@ -67,11 +71,11 @@ namespace ShareX.HelperClasses
             ConfigUser = SettingsManager.ConfigUser;
         }
 
-        public ImageData(Image img, bool screenshot = false)
+        public ImageData(Image img, bool screenCapture = false)
             : this()
         {
             this.Image = img;
-            if (screenshot)
+            if (screenCapture)
                 this.WindowText = NativeMethods.GetForegroundWindowText();
             this.Filename = PrepareFilenameWithoutExtension();
         }
