@@ -27,6 +27,7 @@ using HelpersLib;
 using HelpersLib.Hotkeys2;
 using HelpersLibMod;
 using HelpersLibWatermark;
+using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using ScreenCapture;
 using ShareX.HelperClasses;
@@ -240,21 +241,35 @@ namespace ShareX
         {
             ImageData id_screencast = null;
 
-            Hide();
-            Thread.Sleep(250);
+            RegistryKey localKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Default);
+            localKey = localKey.OpenSubKey(@"SOFTWARE\Microsoft\Expression\Encoder\4.0");
 
-            using (RectangleRegion surface = new RectangleRegion())
+            if (localKey == null)
             {
-                surface.AreaManager.WindowCaptureMode = true;
-                surface.Config = SettingsManager.ConfigCore.SurfaceOptions;
-                surface.Config.QuickCrop = true;
-                surface.Prepare();
-                surface.ShowDialog();
-
-                if (surface.Result != SurfaceResult.Close && surface.AreaManager.IsCurrentAreaValid)
+                MessageBox.Show("Microsoft Expression Encoder 4 is required to perform screencast.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Helpers.LoadBrowserAsync("http://www.microsoft.com/en-au/download/details.aspx?id=27870");
+            }
+            else
+            {
+                if (autoHideForm)
                 {
-                    id_screencast = new ImageData(null, screenCapture: true);
-                    id_screencast.CaptureRectangle = CaptureHelpers.ClientToScreen(surface.AreaManager.CurrentArea);
+                    Hide();
+                    Thread.Sleep(250);
+                }
+
+                using (RectangleRegion surface = new RectangleRegion())
+                {
+                    surface.AreaManager.WindowCaptureMode = true;
+                    surface.Config = SettingsManager.ConfigCore.SurfaceOptions;
+                    surface.Config.QuickCrop = true;
+                    surface.Prepare();
+                    surface.ShowDialog();
+
+                    if (surface.Result != SurfaceResult.Close && surface.AreaManager.IsCurrentAreaValid)
+                    {
+                        id_screencast = new ImageData(null, screenCapture: true);
+                        id_screencast.CaptureRectangle = CaptureHelpers.ClientToScreen(surface.AreaManager.CurrentArea);
+                    }
                 }
             }
 

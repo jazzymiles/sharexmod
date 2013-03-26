@@ -52,6 +52,9 @@ namespace ShareX.SettingsHelpers
         [Category(ComponentModelStrings.Screencasts), DefaultValue(250), Description("Screencast bitrate")]
         public int ScreencastBitrate { get; set; }
 
+        [Category(ComponentModelStrings.Screencasts), DefaultValue(false), Description("Autopan so that the capture window follows the mouse cursor.")]
+        public bool FollowMouseCursor { get; set; }
+
         public static void ApplyDefaultValues(object self)
         {
             foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(self))

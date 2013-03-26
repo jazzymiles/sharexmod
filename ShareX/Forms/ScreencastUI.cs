@@ -37,6 +37,7 @@ namespace ShareX.Forms
             capRect.Width = Math.Max(RoundOff(capRect.Width, 4.0), 4);
             capRect.Height = Math.Max(RoundOff(capRect.Height, 4.0), 4);
 
+            _screenCaptureJob.CaptureFollowCursor = SettingsManager.ConfigUser.FollowMouseCursor;
             _screenCaptureJob.CaptureRectangle = capRect;
             _screenCaptureJob.OutputPath = Program.ScreenshotsPath;
             _screenCaptureJob.Start();
