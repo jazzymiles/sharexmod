@@ -26,6 +26,7 @@
 using HelpersLib;
 using HelpersLib.Hotkeys2;
 using HistoryLib;
+using ShareX.Forms;
 using ShareX.HelperClasses;
 using ShareX.Properties;
 using System;
@@ -140,6 +141,19 @@ namespace ShareX
                 if (act.Workflow.Settings.DestConfig.ImageUploaders.Count > 0)
                     destination = act.Workflow.Settings.DestConfig.ImageUploaders[0] == ImageDestination.FileUploader ? EDataType.File : EDataType.Image;
                 UploadTask task = UploadTask.CreateImageUploaderTask(imageData, destination);
+                task.SetWorkflow(act.Workflow);
+                TaskManager.Start(task);
+            }
+        }
+
+        public static void DoScreencast(ImageData imageData, AfterCaptureActivity act)
+        {
+            if (imageData != null)
+            {
+                ScreencastUI ui = new ScreencastUI(imageData) { Icon = FormsHelper.Main.Icon };
+                ui.ShowDialog();
+
+                UploadTask task = UploadTask.CreateFileUploaderTask(ui.Screencast.FilePath, EDataType.File);
                 task.SetWorkflow(act.Workflow);
                 TaskManager.Start(task);
             }

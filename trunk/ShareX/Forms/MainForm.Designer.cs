@@ -82,13 +82,16 @@ namespace ShareX
             this.tsmiWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiWindowRectangle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiRectangle = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiLastRegion = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiRoundedRectangle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiEllipse = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTriangle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDiamond = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiPolygon = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFreeHand = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiLastRegion = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.screencastToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsbDebug = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsmiTestImageUpload = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTestTextUpload = new System.Windows.Forms.ToolStripMenuItem();
@@ -152,6 +155,9 @@ namespace ShareX
             this.tsmiTrayDonate = new System.Windows.Forms.ToolStripMenuItem();
             this.tssTray2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiTrayExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiTrayScreencast = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsUploads.SuspendLayout();
             this.tsMain.SuspendLayout();
             this.tscMain.ContentPanel.SuspendLayout();
@@ -387,13 +393,16 @@ namespace ShareX
             this.tsmiWindow,
             this.tsmiWindowRectangle,
             this.tsmiRectangle,
+            this.tsmiLastRegion,
+            this.toolStripSeparator1,
             this.tsmiRoundedRectangle,
             this.tsmiEllipse,
             this.tsmiTriangle,
             this.tsmiDiamond,
             this.tsmiPolygon,
             this.tsmiFreeHand,
-            this.tsmiLastRegion});
+            this.toolStripSeparator4,
+            this.screencastToolStripMenuItem});
             this.tsddbCapture.Image = global::ShareX.Properties.Resources.camera;
             this.tsddbCapture.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsddbCapture.Name = "tsddbCapture";
@@ -431,6 +440,19 @@ namespace ShareX
             this.tsmiRectangle.Size = new System.Drawing.Size(219, 24);
             this.tsmiRectangle.Text = "Rectangle";
             this.tsmiRectangle.Click += new System.EventHandler(this.tsmiRectangle_Click);
+            // 
+            // tsmiLastRegion
+            // 
+            this.tsmiLastRegion.Image = global::ShareX.Properties.Resources.Rectangle;
+            this.tsmiLastRegion.Name = "tsmiLastRegion";
+            this.tsmiLastRegion.Size = new System.Drawing.Size(219, 24);
+            this.tsmiLastRegion.Text = "Last Region";
+            this.tsmiLastRegion.Click += new System.EventHandler(this.tsmiLastRegion_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(216, 6);
             // 
             // tsmiRoundedRectangle
             // 
@@ -480,13 +502,18 @@ namespace ShareX
             this.tsmiFreeHand.Text = "Free Hand";
             this.tsmiFreeHand.Click += new System.EventHandler(this.tsmiFreeHand_Click);
             // 
-            // tsmiLastRegion
+            // toolStripSeparator4
             // 
-            this.tsmiLastRegion.Image = global::ShareX.Properties.Resources.Rectangle;
-            this.tsmiLastRegion.Name = "tsmiLastRegion";
-            this.tsmiLastRegion.Size = new System.Drawing.Size(219, 24);
-            this.tsmiLastRegion.Text = "Last Region";
-            this.tsmiLastRegion.Click += new System.EventHandler(this.tsmiLastRegion_Click);
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(216, 6);
+            // 
+            // screencastToolStripMenuItem
+            // 
+            this.screencastToolStripMenuItem.Image = global::ShareX.Properties.Resources.camcorder_image;
+            this.screencastToolStripMenuItem.Name = "screencastToolStripMenuItem";
+            this.screencastToolStripMenuItem.Size = new System.Drawing.Size(219, 24);
+            this.screencastToolStripMenuItem.Text = "Screencast";
+            this.screencastToolStripMenuItem.Click += new System.EventHandler(this.screencastToolStripMenuItem_Click);
             // 
             // tsbDebug
             // 
@@ -795,7 +822,7 @@ namespace ShareX
             this.tssTray2,
             this.tsmiTrayExit});
             this.cmsTray.Name = "cmsTray";
-            this.cmsTray.Size = new System.Drawing.Size(205, 232);
+            this.cmsTray.Size = new System.Drawing.Size(205, 254);
             // 
             // tsmiTrayClipboardUpload
             // 
@@ -820,13 +847,16 @@ namespace ShareX
             this.tsmiTrayWindow,
             this.tsmiTrayWindowRectangle,
             this.tsmiTrayRectangle,
+            this.tsmiTrayLastRegion,
+            this.toolStripSeparator5,
             this.tsmiTrayRoundedRectangle,
             this.tsmiTrayEllipse,
             this.tsmiTrayTriangle,
             this.tsmiTrayDiamond,
             this.tsmiTrayPolygon,
             this.tsmiTrayFreeHand,
-            this.tsmiTrayLastRegion});
+            this.toolStripSeparator6,
+            this.tsmiTrayScreencast});
             this.tsmiCapture.Image = global::ShareX.Properties.Resources.camera;
             this.tsmiCapture.Name = "tsmiCapture";
             this.tsmiCapture.Size = new System.Drawing.Size(204, 24);
@@ -1026,6 +1056,24 @@ namespace ShareX
             this.tsmiTrayExit.Text = "Exit";
             this.tsmiTrayExit.Click += new System.EventHandler(this.tsmiTrayExit_Click);
             // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(216, 6);
+            // 
+            // tsmiTrayScreencast
+            // 
+            this.tsmiTrayScreencast.Image = global::ShareX.Properties.Resources.camcorder_image;
+            this.tsmiTrayScreencast.Name = "tsmiTrayScreencast";
+            this.tsmiTrayScreencast.Size = new System.Drawing.Size(219, 24);
+            this.tsmiTrayScreencast.Text = "Screencast";
+            this.tsmiTrayScreencast.Click += new System.EventHandler(this.tsmiTrayScreencast_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(216, 6);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -1157,5 +1205,11 @@ namespace ShareX
         private System.Windows.Forms.ToolStripMenuItem tsmiTrayLastRegion;
         private System.Windows.Forms.ToolStripMenuItem tsmiWorkflows;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem screencastToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTrayScreencast;
     }
 }

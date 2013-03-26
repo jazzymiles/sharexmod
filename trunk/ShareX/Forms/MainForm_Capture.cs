@@ -65,7 +65,7 @@ namespace ShareX
 
                 if (img != null)
                 {
-                    imageData = new ImageData(img, screenshot: true);
+                    imageData = new ImageData(img, screenCapture: true);
 
                     if (SettingsManager.ConfigCore.PlaySoundAfterCapture)
                         Helpers.PlaySoundAsync(Resources.CameraSound);
@@ -98,7 +98,10 @@ namespace ShareX
                 AfterCaptureActivity.Prepare(ref act);
                 DialogResult result = System.Windows.Forms.DialogResult.OK;
 
-                if (SettingsManager.ConfigCore.ShowAfterCaptureWizard)
+                // ignore WindowAfterCapture for screencasting
+
+                if (act.Workflow.Hotkey != HelpersLib.Hotkeys2.EHotkey.Screencast &&
+                    SettingsManager.ConfigCore.ShowAfterCaptureWizard)
                 {
                     TaskbarHelper.TaskbarSetProgressState(TaskbarProgressBarState.Indeterminate);
 
@@ -123,7 +126,10 @@ namespace ShareX
 
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
-                    UploadManager.DoImageWork(imageData, act);
+                    if (act.Workflow.Hotkey == HelpersLib.Hotkeys2.EHotkey.Screencast)
+                        UploadManager.DoScreencast(imageData, act);
+                    else
+                        UploadManager.DoImageWork(imageData, act);
                 }
                 else
                 {
@@ -223,21 +229,44 @@ namespace ShareX
             }
         }
 
-        private ImageData WindowRectangleCapture(bool autoHideForm = true)
+        private ImageData CaptureWindowRectangle(bool autoHideForm = true)
         {
             RectangleRegion rectangleRegion = new RectangleRegion();
             rectangleRegion.AreaManager.WindowCaptureMode = true;
             return CaptureRegion(rectangleRegion, autoHideForm);
         }
 
-        private async void PrepareWindowsMenuAsync(ToolStripMenuItem tsmi, EventHandler handler)
+        private ImageData CaptureScreencast(bool autoHideForm = true)
+        {
+            ImageData id_screencast = null;
+
+            Hide();
+            Thread.Sleep(250);
+
+            using (RectangleRegion surface = new RectangleRegion())
+            {
+                surface.AreaManager.WindowCaptureMode = true;
+                surface.Config = SettingsManager.ConfigCore.SurfaceOptions;
+                surface.Config.QuickCrop = true;
+                surface.Prepare();
+                surface.ShowDialog();
+
+                if (surface.Result != SurfaceResult.Close && surface.AreaManager.IsCurrentAreaValid)
+                {
+                    id_screencast = new ImageData(null, screenCapture: true);
+                    id_screencast.CaptureRectangle = CaptureHelpers.ClientToScreen(surface.AreaManager.CurrentArea);
+                }
+            }
+
+            return id_screencast;
+        }
+
+        private void PrepareWindowsMenu(ToolStripMenuItem tsmi, EventHandler handler)
         {
             tsmi.DropDownItems.Clear();
 
-            List<WindowInfo> windows = null;
-
             WindowsList windowsList = new WindowsList();
-            windows = await TaskEx.Run(() => windowsList.GetVisibleWindowsList());
+            List<WindowInfo> windows = windowsList.GetVisibleWindowsList();
 
             if (windows != null)
             {
@@ -268,149 +297,5 @@ namespace ShareX
                 tsmi.Invalidate();
             }
         }
-
-        #region Menu events
-
-        private void tsmiFullscreen_Click(object sender, EventArgs e)
-        {
-            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.FullScreen));
-        }
-
-        private void tsddbCapture_DropDownOpening(object sender, EventArgs e)
-        {
-            PrepareWindowsMenuAsync(tsmiWindow, tsmiWindowItems_Click);
-        }
-
-        private void tsmiWindowItems_Click(object sender, EventArgs e)
-        {
-            ToolStripItem tsi = (ToolStripItem)sender;
-            WindowInfo wi = tsi.Tag as WindowInfo;
-            if (wi != null) AfterCapture(CaptureWindow(wi.Handle));
-        }
-
-        private void tsmiWindowRectangle_Click(object sender, EventArgs e)
-        {
-            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.WindowRectangle));
-        }
-
-        private void tsmiRectangle_Click(object sender, EventArgs e)
-        {
-            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.RectangleRegion));
-        }
-
-        private void tsmiRoundedRectangle_Click(object sender, EventArgs e)
-        {
-            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.RoundedRectangleRegion));
-        }
-
-        private void tsmiEllipse_Click(object sender, EventArgs e)
-        {
-            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.EllipseRegion));
-        }
-
-        private void tsmiTriangle_Click(object sender, EventArgs e)
-        {
-            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.TriangleRegion));
-        }
-
-        private void tsmiDiamond_Click(object sender, EventArgs e)
-        {
-            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.DiamondRegion));
-        }
-
-        private void tsmiPolygon_Click(object sender, EventArgs e)
-        {
-            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.PolygonRegion));
-        }
-
-        private void tsmiFreeHand_Click(object sender, EventArgs e)
-        {
-            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.FreeHandRegion));
-        }
-
-        private void tsmiLastRegion_Click(object sender, EventArgs e)
-        {
-            DoWork(FindTagByHotkey(HelpersLib.Hotkeys2.EHotkey.LastRegion));
-        }
-
-        #endregion Menu events
-
-        #region Tray events
-
-        private void tsmiTrayFullscreen_Click(object sender, EventArgs e)
-        {
-            tsmiFullscreen_Click(sender, e);
-        }
-
-        private void tsmiCapture_DropDownOpening(object sender, EventArgs e)
-        {
-            PrepareWindowsMenuAsync(tsmiTrayWindow, tsmiTrayWindowItems_Click);
-        }
-
-        private void tsmiTrayWindowItems_Click(object sender, EventArgs e)
-        {
-            tsmiWindowItems_Click(sender, e);
-        }
-
-        private void tsmiTrayWindowRectangle_Click(object sender, EventArgs e)
-        {
-            tsmiWindowRectangle_Click(sender, e);
-        }
-
-        private void tsmiTrayRectangle_Click(object sender, EventArgs e)
-        {
-            tsmiRectangle_Click(sender, e);
-        }
-
-        private void tsmiTrayRoundedRectangle_Click(object sender, EventArgs e)
-        {
-            tsmiRoundedRectangle_Click(sender, e);
-        }
-
-        private void tsmiTrayEllipse_Click(object sender, EventArgs e)
-        {
-            tsmiEllipse_Click(sender, e);
-        }
-
-        private void tsmiTrayTriangle_Click(object sender, EventArgs e)
-        {
-            tsmiTriangle_Click(sender, e);
-        }
-
-        private void tsmiTrayDiamond_Click(object sender, EventArgs e)
-        {
-            tsmiDiamond_Click(sender, e);
-        }
-
-        private void tsmiTrayPolygon_Click(object sender, EventArgs e)
-        {
-            tsmiPolygon_Click(sender, e);
-        }
-
-        private void tsmiTrayFreeHand_Click(object sender, EventArgs e)
-        {
-            tsmiFreeHand_Click(sender, e);
-        }
-
-        private void tsmiTrayLastRegion_Click(object sender, EventArgs e)
-        {
-            tsmiLastRegion_Click(sender, e);
-        }
-
-        private void tsmiSettings_Click(object sender, EventArgs e)
-        {
-            tsmiTraySettings_Click(sender, e);
-        }
-
-        private void tsmiWatermark_Click(object sender, EventArgs e)
-        {
-            WatermarkUI ui = new WatermarkUI(SettingsManager.ConfigUser.ConfigWatermark)
-            {
-                Icon = this.Icon
-            };
-            ui.Show();
-        }
-
-        #endregion Tray events
     }
 }

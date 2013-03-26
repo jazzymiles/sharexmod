@@ -42,6 +42,7 @@ namespace ShareX
                 Workflow wfPolygonRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.PolygonRegion, new HotkeySetting());
                 Workflow wfFreeHandRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.FreeHandRegion, new HotkeySetting());
                 Workflow wfLastRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.LastRegion, new HotkeySetting());
+                Workflow wfScreencast = new Workflow(HelpersLib.Hotkeys2.EHotkey.Screencast, new HotkeySetting());
 
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfClipboardUpload);
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfFileUpload);
@@ -57,6 +58,7 @@ namespace ShareX
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfPolygonRegion);
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfFreeHandRegion);
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfLastRegion);
+                SettingsManager.ConfigWorkflows.Workflows.Add(wfScreencast);
 
                 foreach (Workflow wf in SettingsManager.ConfigWorkflows.Workflows)
                 {
@@ -70,6 +72,8 @@ namespace ShareX
                 }
             } // if Workflows.Count == 0
 
+            #region Backward compatiblity
+
             Workflow wfLastRegion_r200 = FindAppWorkflowByHotkey(HelpersLib.Hotkeys2.EHotkey.LastRegion);
             if (wfLastRegion_r200 == null)
             {
@@ -77,6 +81,16 @@ namespace ShareX
                 wfLastRegion_r200.Settings.PerformGlobalAfterCaptureTasks = true;
                 SettingsManager.ConfigWorkflows.Workflows.Insert(13, wfLastRegion_r200);
             }
+
+            Workflow wfScreencast_r275 = FindAppWorkflowByHotkey(HelpersLib.Hotkeys2.EHotkey.Screencast);
+            if (wfScreencast_r275 == null)
+            {
+                wfScreencast_r275 = new Workflow(HelpersLib.Hotkeys2.EHotkey.Screencast, new HotkeySetting());
+                wfScreencast_r275.Settings.PerformGlobalAfterCaptureTasks = true;
+                SettingsManager.ConfigWorkflows.Workflows.Insert(14, wfScreencast_r275);
+            }
+
+            #endregion Backward compatiblity
 
             foreach (Workflow wf in SettingsManager.ConfigWorkflows.Workflows)
             {
@@ -166,7 +180,11 @@ namespace ShareX
                     break;
 
                 case HelpersLib.Hotkeys2.EHotkey.WindowRectangle:
-                    imagedata_wf = WindowRectangleCapture(autoHideForm);
+                    imagedata_wf = CaptureWindowRectangle(autoHideForm);
+                    break;
+
+                case HelpersLib.Hotkeys2.EHotkey.Screencast:
+                    imagedata_wf = CaptureScreencast(autoHideForm);
                     break;
             }
 

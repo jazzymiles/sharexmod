@@ -1,5 +1,7 @@
 ﻿Version 7.2 - 2013-03-31
 
+* Added support for screencast using Expression Encoder
+* Ability to enter to custom filename
 * Windows 7 Taskbar integration to display progress
 * Added support for paste.ee text uploader
 * Added support for Custom file uploader upload images/text/files and shorten URLs

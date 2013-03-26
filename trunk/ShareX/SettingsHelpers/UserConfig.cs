@@ -1,12 +1,12 @@
-﻿using System;
+﻿using HelpersLib;
+using HelpersLibMod;
+using HelpersLibWatermark;
+using IndexersLib;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using HelpersLib;
-using HelpersLibMod;
-using HelpersLibWatermark;
-using IndexersLib;
 
 namespace ShareX.SettingsHelpers
 {
@@ -47,6 +47,10 @@ namespace ShareX.SettingsHelpers
         // Image Editor
         [Category(ComponentModelStrings.Screenshots), DefaultValue(EImageEditorOnKeyLock.None), Description("Automatically start Image Editor on a key press.")]
         public EImageEditorOnKeyLock ImageEditorOnKeyPress { get; set; }
+
+        // Screencasts
+        [Category(ComponentModelStrings.Screencasts), DefaultValue(250), Description("Screencast bitrate")]
+        public int ScreencastBitrate { get; set; }
 
         public static void ApplyDefaultValues(object self)
         {
