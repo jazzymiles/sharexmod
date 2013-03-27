@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShareX.SettingsHelpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,7 +7,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ShareX.SettingsHelpers;
 
 namespace ShareX
 {
@@ -32,17 +32,21 @@ namespace ShareX
                 case ImageScaleType.Percentage:
                     rbImageScaleTypePercentage.Checked = true;
                     break;
+
                 case ImageScaleType.Width:
                     rbImageScaleTypeToWidth.Checked = true;
                     break;
+
                 case ImageScaleType.Height:
                     rbImageScaleTypeToHeight.Checked = true;
                     break;
+
                 case ImageScaleType.Specific:
                     rbImageScaleTypeSpecific.Checked = true;
                     break;
             }
 
+            gbImageScaleSettings.Enabled = Config.ImageAutoResize;
             nudImageScalePercentageWidth.Value = Config.ImageScalePercentageWidth;
             nudImageScalePercentageHeight.Value = Config.ImageScalePercentageHeight;
             nudImageScaleToWidth.Value = Config.ImageScaleToWidth;
@@ -103,7 +107,7 @@ namespace ShareX
 
         private void cbImageAutoResize_CheckedChanged(object sender, EventArgs e)
         {
-            Config.ImageAutoResize = cbImageAutoResize.Checked;
+            gbImageScaleSettings.Enabled = Config.ImageAutoResize = cbImageAutoResize.Checked;
         }
 
         private void nudImageScaleSpecificHeight_ValueChanged(object sender, EventArgs e)

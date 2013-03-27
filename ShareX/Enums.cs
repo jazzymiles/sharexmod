@@ -23,9 +23,9 @@
 
 #endregion License Information (GPL v3)
 
+using HelpersLib;
 using System;
 using System.ComponentModel;
-using HelpersLib;
 
 namespace ShareX
 {
@@ -95,6 +95,7 @@ namespace ShareX
         DoNothing,
     }
 
+    [TypeConverter(typeof(EnumToStringUsingDescription))]
     public enum EImageEditorOnKeyLock
     {
         [Description("None")]
@@ -108,5 +109,17 @@ namespace ShareX
 
         [Description("Scroll Lock")]
         ScrollLock
+    }
+
+    public enum EScreencastFileType
+    {
+        [Description("Windows Media Video")]
+        wmv,
+
+        [Description("Expression Encoder Screen Capture")]
+        xesc,
+
+        //    [Description("Graphics Interchange Format")]
+        //    gif,
     }
 }
