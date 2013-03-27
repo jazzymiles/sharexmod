@@ -120,6 +120,12 @@
     <Compile Include="Forms\ScreencastUI.Designer.cs">
       <DependentUpon>ScreencastUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ScreenRegionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ScreenRegionForm.designer.cs">
+      <DependentUpon>ScreenRegionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="HelperClasses\AfterCaptureActivity.cs" />
     <Compile Include="HelperClasses\DropboxSyncHelper.cs" />
     <Compile Include="HelperClasses\FallbackDestHelper.cs" />
@@ -236,6 +242,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ScreencastUI.resx">
       <DependentUpon>ScreencastUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScreenRegionForm.resx">
+      <DependentUpon>ScreenRegionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ImageQualityUI.resx">
       <DependentUpon>ImageQualityUI.cs</DependentUpon>

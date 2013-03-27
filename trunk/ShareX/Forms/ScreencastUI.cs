@@ -1,6 +1,8 @@
-﻿using Microsoft.Expression.Encoder;
+﻿using HelpersLib;
+using Microsoft.Expression.Encoder;
 using Microsoft.Expression.Encoder.Profiles;
 using Microsoft.Expression.Encoder.ScreenCapture;
+using ScreenCapture;
 using ShareX.HelperClasses;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ShareX.Forms
@@ -18,32 +21,52 @@ namespace ShareX.Forms
     {
         public ImageData Screencast { get; set; }
 
+        private AfterCaptureActivity _act;
+
+        private Rectangle CaptureRectangle;
+
         private ScreenCaptureJob _screenCaptureJob = new ScreenCaptureJob();
         private BackgroundWorker _wmEncoder = new BackgroundWorker();
 
-        public ScreencastUI(ImageData imagedata)
+        public ScreencastUI(ImageData imagedata, AfterCaptureActivity act)
         {
             InitializeComponent();
+            _act = act;
 
             this.Text = Application.ProductName + " - Screencast";
             this.Location = new Point(0, 0);
 
             Screencast = imagedata;
+            CaptureRectangle = Screencast.CaptureRectangle;
+            CaptureRectangle.Width = Math.Max(RoundOff(CaptureRectangle.Width, 4.0), 4);
+            CaptureRectangle.Height = Math.Max(RoundOff(CaptureRectangle.Height, 4.0), 4);
 
+            switch (SettingsManager.ConfigUser.ScreencastFileType)
+            {
+                default:
+                    ScreencastExpressionEncoderStart();
+                    break;
+            }
+        }
+
+        private void GifEncoderStart()
+        {
+            // TODO: record GIF until user hits okay
+            ScreenRecorder screenRecorder = null;
+            string path = "";
+        }
+
+        private void ScreencastExpressionEncoderStart()
+        {
             ScreenCaptureVideoProfile video = new ScreenCaptureVideoProfile();
 
-            Rectangle capRect = imagedata.CaptureRectangle;
-
-            capRect.Width = Math.Max(RoundOff(capRect.Width, 4.0), 4);
-            capRect.Height = Math.Max(RoundOff(capRect.Height, 4.0), 4);
-
             _screenCaptureJob.CaptureFollowCursor = SettingsManager.ConfigUser.FollowMouseCursor;
-            _screenCaptureJob.CaptureRectangle = capRect;
+            _screenCaptureJob.CaptureRectangle = CaptureRectangle;
             _screenCaptureJob.OutputPath = Program.ScreenshotsPath;
             _screenCaptureJob.Start();
         }
 
-        private void ScreencastStop()
+        private void ScreencastExpressionEncoderStop()
         {
             _screenCaptureJob.Stop();
 
@@ -97,10 +120,23 @@ namespace ShareX.Forms
 
         private void WMEncoder_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            Screencast.FilePath = Path.ChangeExtension(_screenCaptureJob.ScreenCaptureFileName, "wmv");
+            switch (SettingsManager.ConfigUser.ScreencastFileType)
+            {
+                case EScreencastFileType.wmv:
+                    Screencast.FilePath = Path.ChangeExtension(_screenCaptureJob.ScreenCaptureFileName, "wmv");
 
-            if (File.Exists(Screencast.FilePath))
-                File.Delete(_screenCaptureJob.ScreenCaptureFileName);
+                    if (File.Exists(Screencast.FilePath))
+                        File.Delete(_screenCaptureJob.ScreenCaptureFileName);
+                    break;
+
+                case EScreencastFileType.xesc:
+                    Screencast.FilePath = _screenCaptureJob.ScreenCaptureFileName;
+                    break;
+            }
+
+            UploadTask task = UploadTask.CreateFileUploaderTask(Screencast.FilePath, EDataType.File);
+            task.SetWorkflow(_act.Workflow);
+            TaskManager.Start(task);
 
             this.Close();
         }
@@ -124,18 +160,18 @@ namespace ShareX.Forms
         {
             if (e.KeyCode == Keys.Escape)
             {
-                ScreencastStop();
+                ScreencastExpressionEncoderStop();
             }
         }
 
         private void ScreencastUI_MouseClick(object sender, MouseEventArgs e)
         {
-            ScreencastStop();
+            ScreencastExpressionEncoderStop();
         }
 
         private void ScreencastUI_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            ScreencastStop();
+            ScreencastExpressionEncoderStop();
         }
     }
 }

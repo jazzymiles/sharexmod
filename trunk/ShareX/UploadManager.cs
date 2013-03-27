@@ -150,12 +150,8 @@ namespace ShareX
         {
             if (imageData != null)
             {
-                ScreencastUI ui = new ScreencastUI(imageData) { Icon = FormsHelper.Main.Icon };
-                ui.ShowDialog();
-
-                UploadTask task = UploadTask.CreateFileUploaderTask(ui.Screencast.FilePath, EDataType.File);
-                task.SetWorkflow(act.Workflow);
-                TaskManager.Start(task);
+                ScreencastUI ui = new ScreencastUI(imageData, act) { Icon = FormsHelper.Main.Icon };
+                ui.Show();
             }
         }
 
