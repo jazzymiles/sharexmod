@@ -1150,6 +1150,11 @@ namespace ShareX
             screencastToolStripMenuItem_Click(sender, e);
         }
 
+        private void screenshotsFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Helpers.OpenFolder(Program.ScreenshotsPath);
+        }
+
         #endregion Tray events
     }
 }

@@ -150,22 +150,22 @@ namespace ShareX.HelperClasses
             return string.Format("{0}.{1}", fnwe, ext);
         }
 
-        private MemoryStream PrepareImage(Image img, out EImageFormat imageFormat)
+        private MemoryStream PrepareImage(out EImageFormat imageFormat)
         {
             if (ConfigUser == null)
                 ConfigUser = SettingsManager.ConfigUser;
 
             if (ConfigUser.ImageAutoResize)
             {
-                img = ResizeImage(img, ConfigUser.ImageScaleType);
+                this.Image = ResizeImage(this.Image, ConfigUser.ImageScaleType);
             }
 
-            MemoryStream stream = img.SaveImage(ConfigUser.ImageFormat);
+            MemoryStream stream = this.Image.SaveImage(ConfigUser.ImageFormat);
 
             int sizeLimit = ConfigUser.ImageSizeLimit * 1024;
             if (ConfigUser.ImageFormat != ConfigUser.ImageFormat2 && sizeLimit > 0 && stream.Length > sizeLimit)
             {
-                stream = img.SaveImage(ConfigUser.ImageFormat2);
+                stream = this.Image.SaveImage(ConfigUser.ImageFormat2);
                 imageFormat = ConfigUser.ImageFormat2;
             }
             else
@@ -219,9 +219,13 @@ namespace ShareX.HelperClasses
         public void PrepareImageAndFilename()
         {
             if (Image != null)
-                log.DebugFormat("Preparing image {0}x{1} and filename", Image.Width, Image.Height);
+                log.DebugFormat("Preparing image {0}x{1}", Image.Width, Image.Height);
 
-            this.ImageStream = PrepareImage(this.Image, out imageFormat);
+            this.ImageStream = PrepareImage(out imageFormat);
+
+            if (Image != null)
+                log.DebugFormat("Prepared image {0}x{1}", Image.Width, Image.Height);
+
             this.Filename = PrepareFilename();
         }
 
