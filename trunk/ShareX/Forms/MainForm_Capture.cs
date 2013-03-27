@@ -47,7 +47,7 @@ namespace ShareX
     {
         private delegate Image ScreenCaptureDelegate();
 
-        private new ImageData DoCapture(ScreenCaptureDelegate capture, bool autoHideForm = true)
+        private ImageData DoCapture(ScreenCaptureDelegate capture, bool autoHideForm = true)
         {
             if (autoHideForm)
             {
