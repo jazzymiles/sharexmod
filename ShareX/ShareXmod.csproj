@@ -409,7 +409,9 @@
     <None Include="Resources\sharex-16px-6.ico" />
     <None Include="Resources\Loading.gif" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\folder-open-image.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

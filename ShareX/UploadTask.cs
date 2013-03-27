@@ -599,8 +599,9 @@ namespace ShareX
                     break;
 
                 case ImageDestination.Imgur:
-                    imageUploader = new Imgur(SettingsManager.ConfigUploaders.ImgurAccountType, ApiKeys.ImgurAnonymousKey, SettingsManager.ConfigUploaders.ImgurOAuthInfo)
+                    imageUploader = new Imgur_v3(SettingsManager.ConfigUploaders.ImgurOAuth2Info)
                     {
+                        UploadMethod = SettingsManager.ConfigUploaders.ImgurAccountType,
                         ThumbnailType = SettingsManager.ConfigUploaders.ImgurThumbnailType
                     };
                     break;
