@@ -44,9 +44,7 @@ namespace ShareX
     {
         #region Main Form
 
-        // TODO: Remove after 7.1 is released
-        public ImageDestination ImageUploaderDestination = ImageDestination.Imgur;
-
+        public ImageDestination ImageUploaderDestination = ImageDestination.ImageShack;
         public TextDestination TextUploaderDestination = TextDestination.Pastebin;
         public FileDestination FileUploaderDestination = FileDestination.Dropbox;
         public UrlShortenerType URLShortenerDestination = UrlShortenerType.Google;
