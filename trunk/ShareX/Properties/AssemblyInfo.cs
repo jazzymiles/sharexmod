@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ShareX Developers")]
 [assembly: AssemblyProduct("ShareXmod")]
-[assembly: AssemblyCopyright("Copyright (C) 2012 ShareX Developers")]
+[assembly: AssemblyCopyright("Copyright (C) 2013 ShareX Developers")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("7.2.0.275")]
-[assembly: AssemblyFileVersion("7.2")]
+[assembly: AssemblyVersion("7.1.3.275")]
+[assembly: AssemblyFileVersion("7.1")]
