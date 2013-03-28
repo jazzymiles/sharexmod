@@ -124,11 +124,14 @@
   <data name="tr" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tr.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="gear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gear.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="target" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\target.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="sharex_16px_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sharex-16px-0.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="sharex_16px_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sharex-16px-1.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="block" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\block.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -145,11 +148,11 @@
   <data name="cross_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cross-button.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="notebook" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\notebook.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\folder.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="application-form" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\application-form.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="navigation_090_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\navigation-090-button.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -168,9 +171,6 @@
   </data>
   <data name="folder--plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\folder--plus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="image" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\image.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="share2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\share2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -199,20 +199,23 @@
   <data name="au" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\au.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CameraSound" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Camera.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ShareXLogo2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ShareXLogo2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="sharex_16px_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sharex-16px-3.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Diamond" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\diamond.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="present" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\present.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Triangle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Triangle.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Fullscreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fullscreen.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="sharex_16px_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sharex-16px-3.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="notebook" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\notebook.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="drive-globe" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\drive-globe.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -235,8 +238,8 @@
   <data name="application-block" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\application-block.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="document--arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\document--arrow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="sharex_16px_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sharex-16px-0.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Ellipse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ellipse.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -247,40 +250,43 @@
   <data name="FreeHand" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FreeHand.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="application-form" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\application-form.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="us" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\us.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="image" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\image.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="calculator_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\calculator_add.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="sharex_16px_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sharex-16px-1.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="share" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\share.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Window" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Window.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Triangle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Triangle.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CameraSound" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Camera.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Loading" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Loading.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="gear" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\gear.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ShareXLogo2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ShareXLogo2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="server" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\server.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="share" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\share.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="present" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\present.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="folder-open-image" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\folder-open-image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="us" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\us.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="document--arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\document--arrow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="record" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\record.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

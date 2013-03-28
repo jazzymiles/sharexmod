@@ -119,7 +119,7 @@ namespace ShareX
         [Description("Expression Encoder Screen Capture")]
         xesc,
 
-        //    [Description("Graphics Interchange Format")]
-        //    gif,
+        [Description("Graphics Interchange Format")]
+        gif,
     }
 }

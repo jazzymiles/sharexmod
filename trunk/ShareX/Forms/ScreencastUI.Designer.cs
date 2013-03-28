@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.progress = new System.Windows.Forms.ProgressBar();
             this.ttApp = new System.Windows.Forms.ToolTip(this.components);
+            this.timerScreencast = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // progress
@@ -43,22 +44,32 @@
             this.ttApp.SetToolTip(this.progress, "ShareXmod - Encoding in progresss");
             this.progress.Visible = false;
             // 
+            // timerScreencast
+            // 
+            this.timerScreencast.Enabled = true;
+            this.timerScreencast.Interval = 750;
+            this.timerScreencast.Tick += new System.EventHandler(this.timerScreencast_Tick);
+            // 
             // ScreencastUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::ShareX.Properties.Resources.ShareXLogo2;
+            this.BackgroundImage = global::ShareX.Properties.Resources.record;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(32, 32);
             this.Controls.Add(this.progress);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(32, 32);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(32, 32);
             this.Name = "ScreencastUI";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.ttApp.SetToolTip(this, "ShareXmod");
             this.TopMost = true;
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ScreencastUI_KeyDown);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ScreencastUI_MouseClick);
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ScreencastUI_MouseDoubleClick);
             this.ResumeLayout(false);
@@ -69,5 +80,6 @@
 
         private System.Windows.Forms.ProgressBar progress;
         private System.Windows.Forms.ToolTip ttApp;
+        private System.Windows.Forms.Timer timerScreencast;
     }
 }
