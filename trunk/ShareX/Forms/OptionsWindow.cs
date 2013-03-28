@@ -1,6 +1,7 @@
 ﻿using HelpersLib;
 using HelpersLib.Hotkeys2;
 using HelpersLibMod;
+using Microsoft.Win32;
 using ScreenCapture;
 using ShareX.HelperClasses;
 using System;
@@ -634,6 +635,28 @@ namespace ShareX.Forms
         private void chkFileUploadImageProcess_CheckedChanged(object sender, EventArgs e)
         {
             SettingsManager.ConfigCore.FileUploadImageProcess = chkFileUploadImageProcess.Checked;
+        }
+
+        private bool HasExpressionEncoder()
+        {
+            RegistryKey localKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Default);
+            localKey = localKey.OpenSubKey(@"SOFTWARE\Microsoft\Expression\Encoder\4.0");
+
+            return localKey != null;
+        }
+
+        private void pgUserConfig_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            if (loaded)
+            {
+                if (SettingsManager.ConfigUser.ScreencastFileType != EScreencastFileType.gif &&
+                    !HasExpressionEncoder())
+                {
+                    MessageBox.Show("Microsoft Expression Encoder 4 is required to perform screencast.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Helpers.LoadBrowserAsync("http://www.microsoft.com/en-au/download/details.aspx?id=27870");
+                    SettingsManager.ConfigUser.ScreencastFileType = EScreencastFileType.gif;
+                }
+            }
         }
     }
 }

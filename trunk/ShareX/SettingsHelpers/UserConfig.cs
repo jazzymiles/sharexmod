@@ -49,7 +49,7 @@ namespace ShareX.SettingsHelpers
         public EImageEditorOnKeyLock ImageEditorOnKeyPress { get; set; }
 
         // Screencasts
-        [Category(ComponentModelStrings.Screencasts), DefaultValue(EScreencastFileType.wmv), Description("Screencast file type")]
+        [Category(ComponentModelStrings.Screencasts), DefaultValue(EScreencastFileType.gif), Description("Screencast file type")]
         public EScreencastFileType ScreencastFileType { get; set; }
 
         [Category(ComponentModelStrings.Screencasts), DefaultValue(512), Description("Screencast bitrate")]
