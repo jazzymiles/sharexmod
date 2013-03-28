@@ -23,13 +23,28 @@
 
 #endregion License Information (GPL v3)
 
+using HelpersLib;
 using System.Drawing;
 using System.IO;
-using HelpersLib;
 
 namespace ShareX.HelperClasses
 {
     public static class TaskHelper
     {
+        public static string GetFilename(string extension = "")
+        {
+            NameParser nameParser = new NameParser(NameParserType.FileName)
+            {
+                AutoIncrementNumber = SettingsManager.ConfigCore.AutoIncrementNumber,
+                MaxNameLength = 100
+            };
+
+            string filename = nameParser.Parse(SettingsManager.ConfigCore.NameFormatPattern);
+            if (!string.IsNullOrEmpty(extension)) filename += "." + extension;
+
+            SettingsManager.ConfigCore.AutoIncrementNumber = nameParser.AutoIncrementNumber;
+
+            return filename;
+        }
     }
 }

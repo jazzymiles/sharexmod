@@ -23,6 +23,8 @@
 
 #endregion License Information (GPL v3)
 
+using Greenshot.Configuration;
+using Greenshot.IniFile;
 using HelpersLib;
 using HelpersLib.GraphicsHelper;
 using HelpersLib.Hotkeys2;
@@ -551,6 +553,9 @@ namespace ShareX
                 GreenshotPlugin.Core.CoreConfiguration conf = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>(); ;
                 conf.OutputFileFilenamePattern = "${title}";
                 conf.OutputFilePath = Program.ScreenshotsPath;
+
+                EditorConfiguration editorConfiguration = IniConfig.GetIniSection<EditorConfiguration>();
+                editorConfiguration.SuppressSaveDialogAtClose = true;
 
                 Greenshot.Plugin.ICapture capture = new GreenshotPlugin.Core.Capture();
                 capture.Image = imageData_gse.Image;

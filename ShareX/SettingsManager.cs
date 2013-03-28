@@ -1,12 +1,12 @@
-﻿using System;
+﻿using HistoryLib;
+using ShareX.SettingsHelpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using HistoryLib;
-using ShareX.SettingsHelpers;
 using UploadersLib;
 
 namespace ShareX
@@ -108,6 +108,14 @@ namespace ShareX
             }
         }
 
+        public static string ScreenRecorderCacheFilePath
+        {
+            get
+            {
+                return Path.Combine(Program.PersonalPath, "ScreenRecorder.cache");
+            }
+        }
+
         public static void SaveAsync()
         {
             ConfigWorkflows.SaveAsync(ConfigWorkflowsFilePath);
@@ -127,6 +135,7 @@ namespace ShareX
         public static void SaveCoreConfig()
         {
             ConfigCore.Save(ConfigCoreFilePath);
+
             // ConfigCore.Backup(ConfigCoreFilePath);
         }
 
@@ -178,6 +187,7 @@ namespace ShareX
         public static void SaveCoreConfigAsync()
         {
             ConfigCore.SaveAsync(ConfigCoreFilePath);
+
             // ConfigCore.BackupAsync(ConfigCoreFilePath);
         }
 
