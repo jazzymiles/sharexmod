@@ -156,8 +156,8 @@ namespace ShareX.Forms
             this.panelUserConfig = new System.Windows.Forms.Panel();
             this.pgUserConfig = new System.Windows.Forms.PropertyGrid();
             this.tpImageProcessing = new System.Windows.Forms.TabPage();
-            this.chkFileUploadImageProcess = new System.Windows.Forms.CheckBox();
             this.panelImageProcessing = new System.Windows.Forms.Panel();
+            this.chkFileUploadImageProcess = new System.Windows.Forms.CheckBox();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -1542,6 +1542,7 @@ namespace ShareX.Forms
             this.pgUserConfig.Name = "pgUserConfig";
             this.pgUserConfig.Size = new System.Drawing.Size(719, 585);
             this.pgUserConfig.TabIndex = 0;
+            this.pgUserConfig.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pgUserConfig_PropertyValueChanged);
             // 
             // tpImageProcessing
             // 
@@ -1554,6 +1555,15 @@ namespace ShareX.Forms
             this.tpImageProcessing.Text = "Image Processing";
             this.tpImageProcessing.UseVisualStyleBackColor = true;
             // 
+            // panelImageProcessing
+            // 
+            this.panelImageProcessing.Controls.Add(this.chkFileUploadImageProcess);
+            this.panelImageProcessing.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelImageProcessing.Location = new System.Drawing.Point(3, 3);
+            this.panelImageProcessing.Name = "panelImageProcessing";
+            this.panelImageProcessing.Size = new System.Drawing.Size(721, 587);
+            this.panelImageProcessing.TabIndex = 1;
+            // 
             // chkFileUploadImageProcess
             // 
             this.chkFileUploadImageProcess.AutoSize = true;
@@ -1564,15 +1574,6 @@ namespace ShareX.Forms
             this.chkFileUploadImageProcess.Text = "Process image files during File Upload or Drag n Drop from Explorer";
             this.chkFileUploadImageProcess.UseVisualStyleBackColor = true;
             this.chkFileUploadImageProcess.CheckedChanged += new System.EventHandler(this.chkFileUploadImageProcess_CheckedChanged);
-            // 
-            // panelImageProcessing
-            // 
-            this.panelImageProcessing.Controls.Add(this.chkFileUploadImageProcess);
-            this.panelImageProcessing.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelImageProcessing.Location = new System.Drawing.Point(3, 3);
-            this.panelImageProcessing.Name = "panelImageProcessing";
-            this.panelImageProcessing.Size = new System.Drawing.Size(721, 587);
-            this.panelImageProcessing.TabIndex = 1;
             // 
             // OptionsWindow
             // 
