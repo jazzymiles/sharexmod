@@ -579,19 +579,17 @@ namespace ShareX
         /// <returns>Returns an UploadResult object with URLs</returns>
         public UploadResult UploadImage(Stream stream)
         {
-            UploadResult result = null;
-
             try
             {
-                UploadImage(stream, Workflow.Settings.DestConfig.ImageUploaders[0]);
+                return UploadImage(stream, Workflow.Settings.DestConfig.ImageUploaders[0]);
             }
             catch (Exception)
             {
                 if (Workflow.Settings.DestConfig.ImageUploaders2.Count > 0)
-                    result = UploadImage(stream, Workflow.Settings.DestConfig.ImageUploaders2[0]);
+                    return UploadImage(stream, Workflow.Settings.DestConfig.ImageUploaders2[0]);
             }
 
-            return result;
+            return null;
         }
 
         private UploadResult UploadImage(Stream stream, ImageDestination imageDestination)
@@ -694,19 +692,17 @@ namespace ShareX
 
         public UploadResult UploadText(Stream stream, string fileName)
         {
-            UploadResult result = null;
-
             try
             {
-                UploadText(stream, fileName, Workflow.Settings.DestConfig.TextUploaders[0]);
+                return UploadText(stream, fileName, Workflow.Settings.DestConfig.TextUploaders[0]);
             }
             catch (Exception)
             {
                 if (Workflow.Settings.DestConfig.TextUploaders2.Count > 0)
-                    result = UploadText(stream, fileName, Workflow.Settings.DestConfig.TextUploaders2[0]);
+                    return UploadText(stream, fileName, Workflow.Settings.DestConfig.TextUploaders2[0]);
             }
 
-            return result;
+            return null;
         }
 
         private UploadResult UploadText(Stream stream, string fileName, TextDestination textDestination)
@@ -773,19 +769,17 @@ namespace ShareX
 
         public UploadResult UploadFile(Stream stream)
         {
-            UploadResult result = null;
-
             try
             {
-                result = UploadFile(stream, Workflow.Settings.DestConfig.FileUploaders[0]);
+                return UploadFile(stream, Workflow.Settings.DestConfig.FileUploaders[0]);
             }
             catch (Exception)
             {
                 if (Workflow.Settings.DestConfig.FileUploaders2.Count > 0)
-                    result = UploadFile(stream, Workflow.Settings.DestConfig.FileUploaders2[0]);
+                    return UploadFile(stream, Workflow.Settings.DestConfig.FileUploaders2[0]);
             }
 
-            return result;
+            return null;
         }
 
         private UploadResult UploadFile(Stream stream, FileDestination fileDestination)
