@@ -578,9 +578,24 @@ namespace ShareX
         /// <returns>Returns an UploadResult object with URLs</returns>
         public UploadResult UploadImage(Stream stream)
         {
-            ImageUploader imageUploader = null;
+            UploadResult result = null;
 
-            ImageDestination imageDestination = Workflow.Settings.DestConfig.ImageUploaders[0];
+            try
+            {
+                UploadImage(stream, Workflow.Settings.DestConfig.ImageUploaders[0]);
+            }
+            catch (Exception)
+            {
+                if (Workflow.Settings.DestConfig.ImageUploaders2.Count > 0)
+                    result = UploadImage(stream, Workflow.Settings.DestConfig.ImageUploaders2[0]);
+            }
+
+            return result;
+        }
+
+        private UploadResult UploadImage(Stream stream, ImageDestination imageDestination)
+        {
+            ImageUploader imageUploader = null;
 
             switch (imageDestination)
             {
@@ -674,10 +689,28 @@ namespace ShareX
 
         #endregion Upload Image
 
+        #region Upload Text
+
         public UploadResult UploadText(Stream stream, string fileName)
         {
+            UploadResult result = null;
+
+            try
+            {
+                UploadText(stream, fileName, Workflow.Settings.DestConfig.TextUploaders[0]);
+            }
+            catch (Exception)
+            {
+                if (Workflow.Settings.DestConfig.TextUploaders2.Count > 0)
+                    result = UploadText(stream, fileName, Workflow.Settings.DestConfig.TextUploaders2[0]);
+            }
+
+            return result;
+        }
+
+        private UploadResult UploadText(Stream stream, string fileName, TextDestination textDestination)
+        {
             TextUploader textUploader = null;
-            TextDestination textDestination = Workflow.Settings.DestConfig.TextUploaders[0];
 
             switch (textDestination)
             {
@@ -733,13 +766,32 @@ namespace ShareX
             return null;
         }
 
+        #endregion Upload Text
+
         #region Upload File
 
         public UploadResult UploadFile(Stream stream)
         {
+            UploadResult result = null;
+
+            try
+            {
+                result = UploadFile(stream, Workflow.Settings.DestConfig.FileUploaders[0]);
+            }
+            catch (Exception)
+            {
+                if (Workflow.Settings.DestConfig.FileUploaders2.Count > 0)
+                    result = UploadFile(stream, Workflow.Settings.DestConfig.FileUploaders2[0]);
+            }
+
+            return result;
+        }
+
+        private UploadResult UploadFile(Stream stream, FileDestination fileDestination)
+        {
             FileUploader fileUploader = null;
 
-            switch (Workflow.Settings.DestConfig.FileUploaders[0])
+            switch (fileDestination)
             {
                 case FileDestination.Dropbox:
                     NameParser parser = new NameParser(NameParserType.FolderPath);

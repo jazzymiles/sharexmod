@@ -23,12 +23,12 @@
 
 #endregion License Information (GPL v3)
 
+using HelpersLib;
+using HelpersLibMod;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-using HelpersLib;
-using HelpersLibMod;
 
 namespace UploadersLib
 {
@@ -44,6 +44,10 @@ namespace UploadersLib
         public List<FileDestination> FileUploaders = new List<FileDestination>();
         public List<UrlShortenerType> LinkUploaders = new List<UrlShortenerType>();
         public List<SocialNetworkingService> SocialNetworkingServices = new List<SocialNetworkingService>();
+
+        public List<ImageDestination> ImageUploaders2 = new List<ImageDestination>();
+        public List<TextDestination> TextUploaders2 = new List<TextDestination>();
+        public List<FileDestination> FileUploaders2 = new List<FileDestination>();
 
         [Category(ComponentModelStrings.ActivitiesUploadersText), DefaultValue("text"), Description("Text format e.g. csharp, cpp, etc.")]
         public string TextFormat { get; set; }
@@ -100,6 +104,28 @@ namespace UploadersLib
 
         #endregion Add uploader
 
+        #region Add Secondary Uploader
+
+        public void AddUploader2(FileDestination uploader)
+        {
+            if (!FileUploaders2.Contains(uploader))
+                FileUploaders2.Add(uploader);
+        }
+
+        public void AddUploader2(ImageDestination uploader)
+        {
+            if (!ImageUploaders2.Contains(uploader))
+                ImageUploaders2.Add(uploader);
+        }
+
+        public void AddUploader2(TextDestination uploader)
+        {
+            if (!TextUploaders2.Contains(uploader))
+                TextUploaders2.Add(uploader);
+        }
+
+        #endregion Add Secondary Uploader
+
         #region Remove uploader
 
         public void RemoveUploader(FileDestination uploader)
@@ -133,6 +159,28 @@ namespace UploadersLib
         }
 
         #endregion Remove uploader
+
+        #region Remove Secondary Uploader
+
+        public void RemoveUploader2(FileDestination uploader)
+        {
+            if (FileUploaders2.Contains(uploader))
+                FileUploaders2.Remove(uploader);
+        }
+
+        public void RemoveUploader2(ImageDestination uploader)
+        {
+            if (ImageUploaders2.Contains(uploader))
+                ImageUploaders2.Remove(uploader);
+        }
+
+        public void RemoveUploader2(TextDestination uploader)
+        {
+            if (TextUploaders2.Contains(uploader))
+                TextUploaders2.Remove(uploader);
+        }
+
+        #endregion Remove Secondary Uploader
 
         public override string ToString()
         {
@@ -230,6 +278,10 @@ namespace UploadersLib
             dc.TextUploaders.AddRange(this.TextUploaders);
             dc.LinkUploaders.AddRange(this.LinkUploaders);
             dc.SocialNetworkingServices.AddRange(this.SocialNetworkingServices);
+
+            dc.FileUploaders2.AddRange(this.FileUploaders2);
+            dc.ImageUploaders2.AddRange(this.ImageUploaders2);
+            dc.TextUploaders2.AddRange(this.TextUploaders2);
 
             return dc;
         }

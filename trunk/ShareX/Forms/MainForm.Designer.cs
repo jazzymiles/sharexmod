@@ -308,7 +308,6 @@ namespace ShareX
             // 
             // tsmiContextMenuShare
             // 
-            this.tsmiContextMenuShare.Enabled = false;
             this.tsmiContextMenuShare.Image = global::ShareX.Properties.Resources.share;
             this.tsmiContextMenuShare.Name = "tsmiContextMenuShare";
             this.tsmiContextMenuShare.Size = new System.Drawing.Size(263, 24);

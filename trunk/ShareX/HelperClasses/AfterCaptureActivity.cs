@@ -1,10 +1,10 @@
-﻿using System;
+﻿using HelpersLib;
+using HelpersLib.Hotkeys2;
+using HelpersLibMod;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using HelpersLib;
-using HelpersLib.Hotkeys2;
-using HelpersLibMod;
 using UploadersLib;
 
 namespace ShareX.HelperClasses
