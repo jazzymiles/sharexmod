@@ -330,7 +330,7 @@ namespace ShareX
 
             foreach (ToolStripMenuItem tsmi in tsmiShare.DropDownItems)
             {
-                tsmi.Click += new EventHandler(tsmiContextMenuShare_Click);
+                tsmi.Click += new EventHandler(tsmiShare_Click);
             }
 
             #endregion Uploaders
@@ -346,7 +346,7 @@ namespace ShareX
                 tsbDebug.Visible = true;
         }
 
-        private void tsmiContextMenuShare_Click(object sender, EventArgs e)
+        private void tsmiShare_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
 
@@ -354,11 +354,15 @@ namespace ShareX
             {
                 foreach (int index in lvUploads.SelectedIndices)
                 {
-                    UploadResult result = lvUploads.Items[index].Tag as UploadResult;
-                    AfterCaptureActivity act = new AfterCaptureActivity();
-                    act.Workflow.Settings.DestConfig.SocialNetworkingServices.Add((SocialNetworkingService)tsmi.Tag);
-                    act.Workflow.AfterUploadTasks = AfterUploadTasks.ShareUsingSocialNetworkingService;
-                    UploadManager.ShareUsingSocialNetworkingService(result, act);
+                    UploadTask task = lvUploads.Items[index].Tag as UploadTask;
+                    if (task != null && task.Info != null && task.Info.Result != null)
+                    {
+                        UploadResult result = task.Info.Result;
+                        AfterCaptureActivity act = new AfterCaptureActivity();
+                        act.Workflow.Settings.DestConfig.SocialNetworkingServices.Add((SocialNetworkingService)tsmi.Tag);
+                        act.Workflow.AfterUploadTasks = AfterUploadTasks.ShareUsingSocialNetworkingService;
+                        UploadManager.ShareUsingSocialNetworkingService(result, act);
+                    }
                 }
             }
         }

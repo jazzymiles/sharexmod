@@ -369,7 +369,10 @@ namespace ShareX
                 data = new MemoryStream(byteArray);
             }
 
-            threadWorker.InvokeAsync(ListViewManager.AddThumbnail);
+            if (Info.Job != TaskJob.ShareURL)
+            {
+                threadWorker.InvokeAsync(ListViewManager.AddThumbnail);
+            }
         }
 
         private void DoPostUploadTasks()
@@ -380,7 +383,8 @@ namespace ShareX
                 (Workflow.AfterUploadTasks.HasFlag(AfterUploadTasks.UseURLShortener) &&
                 !string.IsNullOrEmpty(Info.Result.URL) &&
                 Info.Result.URL.Length >= SettingsManager.ConfigCore.MaximumURLLength) ||
-                Info.Job == TaskJob.ShortenURL)
+                Info.Job == TaskJob.ShortenURL ||
+                Info.Job == TaskJob.ShareURL && string.IsNullOrEmpty(Info.Result.ShortenedURL))
             {
                 UploadResult result = ShortenURL(Info.Result.URL);
 

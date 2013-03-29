@@ -115,7 +115,7 @@ namespace ShareX.HelperClasses
             {
                 Thumbnails.Images.Add(info.FileName, HelpersMod.ImageFromFile(info.FilePath));
             }
-            else
+            else if (task.Info.Job != TaskJob.ShareURL)
             {
                 Image img = task.GetImageForExport();
                 if (img == null)
