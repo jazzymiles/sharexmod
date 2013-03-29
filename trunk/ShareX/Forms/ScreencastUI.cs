@@ -286,7 +286,7 @@ namespace ShareX.Forms
                     break;
             }
 
-            UploadTask task = UploadTask.CreateFileUploaderTask(Screencast.FilePath, EDataType.File);
+            UploadTask task = UploadTask.CreateFileUploaderTask(Screencast.FilePath, dataType);
             task.SetWorkflow(_act.Workflow);
             TaskManager.Start(task);
 
