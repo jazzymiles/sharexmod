@@ -592,11 +592,11 @@ namespace ShareX
             return null;
         }
 
-        private UploadResult UploadImage(Stream stream, ImageDestination imageDestination)
+        private UploadResult UploadImage(Stream stream, ImageDestination destination)
         {
             ImageUploader imageUploader = null;
 
-            switch (imageDestination)
+            switch (destination)
             {
                 case ImageDestination.ImageShack:
                     imageUploader = new ImageShackUploader(ApiKeys.ImageShackKey, SettingsManager.ConfigUploaders.ImageShackAccountType,
@@ -675,6 +675,9 @@ namespace ShareX
                         imageUploader = new CustomImageUploader(SettingsManager.ConfigUploaders.CustomUploadersList[SettingsManager.ConfigUploaders.CustomImageUploaderSelected]);
                     }
                     break;
+
+                default:
+                    throw new Exception("Unsupported image uploader: " + destination.GetDescription());
             }
 
             if (imageUploader != null)
@@ -705,11 +708,11 @@ namespace ShareX
             return null;
         }
 
-        private UploadResult UploadText(Stream stream, string fileName, TextDestination textDestination)
+        private UploadResult UploadText(Stream stream, string fileName, TextDestination destination)
         {
             TextUploader textUploader = null;
 
-            switch (textDestination)
+            switch (destination)
             {
                 case TextDestination.Pastebin:
                     PastebinSettings pastebinSettings = SettingsManager.ConfigUploaders.PastebinSettings;
@@ -752,6 +755,9 @@ namespace ShareX
                         textUploader = new CustomTextUploader(SettingsManager.ConfigUploaders.CustomUploadersList[SettingsManager.ConfigUploaders.CustomTextUploaderSelected]);
                     }
                     break;
+
+                default:
+                    throw new Exception("Unsupported text uploader: " + destination.GetDescription());
             }
 
             if (textUploader != null)
@@ -782,11 +788,11 @@ namespace ShareX
             return null;
         }
 
-        private UploadResult UploadFile(Stream stream, FileDestination fileDestination)
+        private UploadResult UploadFile(Stream stream, FileDestination destination)
         {
             FileUploader fileUploader = null;
 
-            switch (fileDestination)
+            switch (destination)
             {
                 case FileDestination.Dropbox:
                     NameParser parser = new NameParser(NameParserType.FolderPath);
@@ -877,6 +883,9 @@ namespace ShareX
                 case FileDestination.Email:
                     UploadFile_Email(stream);
                     break;
+
+                default:
+                    throw new Exception("Unsupported file uploader: " + destination.GetDescription());
             }
 
             if (fileUploader != null)
