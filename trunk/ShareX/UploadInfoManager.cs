@@ -23,12 +23,13 @@
 
 #endregion License Information (GPL v3)
 
+using HelpersLib;
+using HelpersLibMod;
+using ShareX.Properties;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using HelpersLib;
-using ShareX.Properties;
 
 namespace ShareX
 {
@@ -119,12 +120,61 @@ namespace ShareX
                 }
                 else if (SelectedItems[0].IsURLExist)
                 {
-                    Helpers.LoadBrowserAsync(SelectedItems[0].Info.Result.URL);
+                    OpenItem(SettingsManager.ConfigUser.ItemsWithUrlOnItemDoubleClick, SelectedItems[0].Info.Result.URL, SelectedItems[0].Info.FilePath);
                 }
                 else if (SelectedItems[0].IsFileExist)
                 {
-                    Helpers.LoadBrowserAsync(SelectedItems[0].Info.FilePath);
+                    OpenItem(SettingsManager.ConfigUser.ItemsWithoutUrlOnItemDoubleClick, SelectedItems[0].Info.Result.URL, SelectedItems[0].Info.FilePath);
                 }
+            }
+        }
+
+        public void TryView()
+        {
+            if (IsSelectedItemsValid() && SelectedItems[0].IsFileExist)
+            {
+                using (ImageViewer viewer = new ImageViewer(SelectedItems[0].Info.FilePath))
+                {
+                    viewer.ShowDialog();
+                }
+            }
+        }
+
+        private void OpenItem(EListItemDoubleClickBehavior behavior, string link, string filepath)
+        {
+            switch (behavior)
+            {
+                case EListItemDoubleClickBehavior.DoNothing:
+                    break;
+
+                case EListItemDoubleClickBehavior.OpenDirectory:
+                    if (Directory.Exists(Path.GetDirectoryName(filepath)))
+                        Helpers.OpenFolderWithFile(filepath);
+                    break;
+
+                case EListItemDoubleClickBehavior.OpenFile:
+                    if (File.Exists(filepath))
+                        Helpers.LoadBrowserAsync(filepath);
+                    break;
+
+                case EListItemDoubleClickBehavior.OpenFileOrUrl:
+                    if (File.Exists(filepath))
+                        Helpers.LoadBrowserAsync(filepath);
+                    else if (!string.IsNullOrEmpty(link))
+                        Helpers.LoadBrowserAsync(link);
+                    break;
+
+                case EListItemDoubleClickBehavior.OpenUrl:
+                    if (!string.IsNullOrEmpty(link))
+                        Helpers.LoadBrowserAsync(link);
+                    break;
+
+                case EListItemDoubleClickBehavior.OpenUrlOrFile:
+                    if (!string.IsNullOrEmpty(link))
+                        Helpers.LoadBrowserAsync(link);
+                    else if (File.Exists(filepath))
+                        Helpers.LoadBrowserAsync(filepath);
+                    break;
             }
         }
 

@@ -291,7 +291,7 @@ namespace ShareX
 
             if (!IsStopped && Info.Result != null && !Info.Result.IsError)
             {
-                if (string.IsNullOrEmpty(Info.Result.URL))
+                if (Info.Result.IsURLExpected && string.IsNullOrEmpty(Info.Result.URL))
                 {
                     Info.Result.Errors.Add("URL is empty.");
                 }
