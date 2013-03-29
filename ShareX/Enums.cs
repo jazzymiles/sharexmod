@@ -121,5 +121,8 @@ namespace ShareX
 
         [Description("Graphics Interchange Format")]
         gif,
+
+        [Description("Audio Video Interleave")]
+        avi,
     }
 }
