@@ -260,12 +260,9 @@ namespace ShareX.Forms
 
         private void Encoder_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            EDataType dataType = EDataType.File;
-
             switch (SettingsManager.ConfigUser.ScreencastFileType)
             {
                 case EScreencastFileType.gif:
-                    dataType = EDataType.Image;
                     if (GifCache != null)
                         GifCache.Dispose();
 
@@ -285,7 +282,7 @@ namespace ShareX.Forms
                     break;
             }
 
-            UploadTask task = UploadTask.CreateFileUploaderTask(Screencast.FilePath, dataType);
+            UploadTask task = UploadTask.CreateFileUploaderTask(Screencast.FilePath, EDataType.File);
             task.SetWorkflow(_act.Workflow);
             TaskManager.Start(task);
 
