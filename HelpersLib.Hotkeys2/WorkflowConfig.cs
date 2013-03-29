@@ -59,8 +59,6 @@ namespace HelpersLib.Hotkeys2
                 AddFileAction(fileAction);
             }
 
-            HideTabRunExternalPrograms();
-
             #endregion External Programs
 
             #region Share
