@@ -378,6 +378,7 @@ namespace ShareX
 
             if (Info.Result.IsURLExpected &&
                 (Workflow.AfterUploadTasks.HasFlag(AfterUploadTasks.UseURLShortener) &&
+                !string.IsNullOrEmpty(Info.Result.URL) &&
                 Info.Result.URL.Length >= SettingsManager.ConfigCore.MaximumURLLength) ||
                 Info.Job == TaskJob.ShortenURL)
             {
