@@ -24,8 +24,10 @@
 #endregion License Information (GPL v3)
 
 using HelpersLib;
+using HelpersLibMod;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 
 namespace ShareX.HelperClasses
 {
@@ -45,6 +47,18 @@ namespace ShareX.HelperClasses
             SettingsManager.ConfigCore.AutoIncrementNumber = nameParser.AutoIncrementNumber;
 
             return filename;
+        }
+
+        public static bool CheckExpressionEncoder()
+        {
+            if (SettingsManager.ConfigUser.ScreencastFileType != EScreencastFileType.gif && !HelpersMod.HasExpressionEncoder())
+            {
+                System.Windows.Forms.MessageBox.Show("Microsoft Expression Encoder 4 is required to perform screencast.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Helpers.LoadBrowserAsync("http://www.microsoft.com/en-au/download/details.aspx?id=27870");
+                return false;
+            }
+
+            return true;
         }
     }
 }

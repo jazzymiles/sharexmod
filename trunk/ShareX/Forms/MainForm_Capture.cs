@@ -241,24 +241,27 @@ namespace ShareX
         {
             ImageData id_screencast = null;
 
-            if (autoHideForm)
+            if (TaskHelper.CheckExpressionEncoder())
             {
-                Hide();
-                Thread.Sleep(250);
-            }
-
-            using (RectangleRegion surface = new RectangleRegion())
-            {
-                surface.AreaManager.WindowCaptureMode = true;
-                surface.Config = SettingsManager.ConfigCore.SurfaceOptions;
-                surface.Config.QuickCrop = true;
-                surface.Prepare();
-                surface.ShowDialog();
-
-                if (surface.Result != SurfaceResult.Close && surface.AreaManager.IsCurrentAreaValid)
+                if (autoHideForm)
                 {
-                    id_screencast = new ImageData(null, screenCapture: true);
-                    id_screencast.CaptureRectangle = CaptureHelpers.ClientToScreen(surface.AreaManager.CurrentArea);
+                    Hide();
+                    Thread.Sleep(250);
+                }
+
+                using (RectangleRegion surface = new RectangleRegion())
+                {
+                    surface.AreaManager.WindowCaptureMode = true;
+                    surface.Config = SettingsManager.ConfigCore.SurfaceOptions;
+                    surface.Config.QuickCrop = true;
+                    surface.Prepare();
+                    surface.ShowDialog();
+
+                    if (surface.Result != SurfaceResult.Close && surface.AreaManager.IsCurrentAreaValid)
+                    {
+                        id_screencast = new ImageData(null, screenCapture: true);
+                        id_screencast.CaptureRectangle = CaptureHelpers.ClientToScreen(surface.AreaManager.CurrentArea);
+                    }
                 }
             }
 

@@ -37,7 +37,7 @@ namespace ShareX.Forms
             WorkerSupportsCancellation = true
         };
 
-        private ScreenCaptureJob XescScreenCaptureJob = new ScreenCaptureJob();
+        private ScreenCaptureJob XescScreenCaptureJob;
 
         private BackgroundWorker Encoder = new BackgroundWorker() { WorkerReportsProgress = true };
 
@@ -174,8 +174,7 @@ namespace ShareX.Forms
 
         private void ScreencastExpressionEncoderStart()
         {
-            ScreenCaptureVideoProfile video = new ScreenCaptureVideoProfile();
-
+            XescScreenCaptureJob = new ScreenCaptureJob();
             XescScreenCaptureJob.CaptureFollowCursor = SettingsManager.ConfigUser.FollowMouseCursor;
             XescScreenCaptureJob.CaptureRectangle = CaptureRectangle;
             XescScreenCaptureJob.OutputPath = Program.ScreenshotsPath;

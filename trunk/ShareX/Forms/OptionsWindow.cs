@@ -637,25 +637,12 @@ namespace ShareX.Forms
             SettingsManager.ConfigCore.FileUploadImageProcess = chkFileUploadImageProcess.Checked;
         }
 
-        private bool HasExpressionEncoder()
-        {
-            RegistryKey localKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Default);
-            localKey = localKey.OpenSubKey(@"SOFTWARE\Microsoft\Expression\Encoder\4.0");
-
-            return localKey != null;
-        }
-
         private void pgUserConfig_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             if (loaded)
             {
-                if (SettingsManager.ConfigUser.ScreencastFileType != EScreencastFileType.gif &&
-                    !HasExpressionEncoder())
-                {
-                    MessageBox.Show("Microsoft Expression Encoder 4 is required to perform screencast.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Helpers.LoadBrowserAsync("http://www.microsoft.com/en-au/download/details.aspx?id=27870");
+                if (!TaskHelper.CheckExpressionEncoder())
                     SettingsManager.ConfigUser.ScreencastFileType = EScreencastFileType.gif;
-                }
             }
         }
     }
