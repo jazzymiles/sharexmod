@@ -208,7 +208,7 @@ namespace ShareX.HelperClasses
                     break;
             }
 
-            if (width > 0 && height > 0)
+            if (width > 0 && height > 0 && (width != img.Width || height != img.Height))
             {
                 return CaptureHelpers.ResizeImage(img, (int)width, (int)height, ConfigUser.ImageUseSmoothScaling);
             }

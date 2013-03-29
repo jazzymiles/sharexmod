@@ -289,7 +289,7 @@ namespace ShareX
                 Info.Result.IsURLExpected = false;
             }
 
-            if (!IsStopped && Info.Result != null && Info.Result.IsURLExpected && !Info.Result.IsError)
+            if (!IsStopped && Info.Result != null && !Info.Result.IsError)
             {
                 if (string.IsNullOrEmpty(Info.Result.URL))
                 {
@@ -315,15 +315,6 @@ namespace ShareX
                 if (Info.Jobs.HasFlagAny(Subtask.UploadToRemoteHost, Subtask.SaveToFile,
                     Subtask.SaveImageToFileWithDialog))
                 {
-                    /*
-                    InputBox ib = new InputBox("Specify custom filename...", imageData.Filename);
-                    if (ib.ShowDialog() == DialogResult.OK)
-                    {
-                        if (!string.IsNullOrEmpty(ib.InputText))
-                            imageData.UserText = ib.InputText;
-                    }
-                    */
-
                     imageData.PrepareImageAndFilename();
 
                     Info.FileName = imageData.Filename;
@@ -385,7 +376,10 @@ namespace ShareX
         {
             // Shorten URL
 
-            if ((Workflow.AfterUploadTasks.HasFlag(AfterUploadTasks.UseURLShortener) && Info.Result.URL.Length >= SettingsManager.ConfigCore.MaximumURLLength) || Info.Job == TaskJob.ShortenURL)
+            if (Info.Result.IsURLExpected &&
+                (Workflow.AfterUploadTasks.HasFlag(AfterUploadTasks.UseURLShortener) &&
+                Info.Result.URL.Length >= SettingsManager.ConfigCore.MaximumURLLength) ||
+                Info.Job == TaskJob.ShortenURL)
             {
                 UploadResult result = ShortenURL(Info.Result.URL);
 
