@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HelpersLib;
+using HelpersLibMod;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,8 +8,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using HelpersLib;
-using HelpersLibMod;
 using UploadersLib;
 
 namespace HelpersLib.Hotkeys2
@@ -140,6 +140,49 @@ namespace HelpersLib.Hotkeys2
             }
 
             #endregion Share
+
+            #region Secondary Upload
+
+            foreach (FileDestination uploader in Enum.GetValues(typeof(FileDestination)))
+            {
+                RadioButton rbUploader = new RadioButton()
+                {
+                    AutoSize = true,
+                    Text = uploader.GetDescription(),
+                    Checked = Workflow.Settings.DestConfig.FileUploaders2.Contains(uploader),
+                    Tag = uploader
+                };
+                rbUploader.CheckedChanged += new EventHandler(rbUploader2_CheckedChanged);
+                flpFileUploaders2.Controls.Add(rbUploader);
+            }
+
+            foreach (ImageDestination uploader in Enum.GetValues(typeof(ImageDestination)))
+            {
+                RadioButton rbUploader = new RadioButton()
+                {
+                    AutoSize = true,
+                    Text = uploader.GetDescription(),
+                    Checked = Workflow.Settings.DestConfig.ImageUploaders2.Contains(uploader),
+                    Tag = uploader
+                };
+                rbUploader.CheckedChanged += new EventHandler(rbUploader2_CheckedChanged);
+                flpImageUploaders2.Controls.Add(rbUploader);
+            }
+
+            foreach (TextDestination uploader in Enum.GetValues(typeof(TextDestination)))
+            {
+                RadioButton rbUploader = new RadioButton()
+                {
+                    AutoSize = true,
+                    Text = uploader.GetDescription(),
+                    Checked = Workflow.Settings.DestConfig.TextUploaders.Contains(uploader),
+                    Tag = uploader
+                };
+                rbUploader.CheckedChanged += new EventHandler(rbUploader2_CheckedChanged);
+                flpTextUploaders2.Controls.Add(rbUploader);
+            }
+
+            #endregion Secondary Upload
         }
 
         private void chkAfterUploadTask_CheckedChanged(object sender, EventArgs e)
@@ -222,6 +265,35 @@ namespace HelpersLib.Hotkeys2
                     Workflow.Settings.DestConfig.AddUploader(uploader);
                 else
                     Workflow.Settings.DestConfig.RemoveUploader(uploader);
+            }
+        }
+
+        private void rbUploader2_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton rbUploader = sender as RadioButton;
+            if (rbUploader.Tag.GetType() == typeof(FileDestination))
+            {
+                FileDestination uploader = (FileDestination)rbUploader.Tag;
+                if (rbUploader.Checked)
+                    Workflow.Settings.DestConfig.AddUploader2(uploader);
+                else
+                    Workflow.Settings.DestConfig.RemoveUploader2(uploader);
+            }
+            else if (rbUploader.Tag.GetType() == typeof(ImageDestination))
+            {
+                ImageDestination uploader = (ImageDestination)rbUploader.Tag;
+                if (rbUploader.Checked)
+                    Workflow.Settings.DestConfig.AddUploader2(uploader);
+                else
+                    Workflow.Settings.DestConfig.RemoveUploader2(uploader);
+            }
+            else if (rbUploader.Tag.GetType() == typeof(TextDestination))
+            {
+                TextDestination uploader = (TextDestination)rbUploader.Tag;
+                if (rbUploader.Checked)
+                    Workflow.Settings.DestConfig.AddUploader2(uploader);
+                else
+                    Workflow.Settings.DestConfig.RemoveUploader2(uploader);
             }
         }
 
@@ -418,6 +490,7 @@ namespace HelpersLib.Hotkeys2
                     ShowAllUploaders();
                     gbSettings.Visible = false;
                     break;
+
                 default:
                     HideTextUploaders();
                     ShowTabAfterCapture();
