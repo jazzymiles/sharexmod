@@ -134,6 +134,24 @@ namespace ShareX
             return null;
         }
 
+        public static void Remove(UploadTask task)
+        {
+            if (task != null)
+            {
+                task.Stop();
+                Tasks.Remove(task);
+
+                ListViewItem lvi = FindListViewItem(task);
+
+                if (lvi != null)
+                {
+                    ListViewControl.Items.Remove(lvi);
+                }
+
+                task.Dispose();
+            }
+        }
+
         public static void Start(UploadTask task)
         {
             Tasks.Add(task);
@@ -244,7 +262,6 @@ namespace ShareX
                 {
                     info.Result.LocalFilePath = info.FilePath;
                     ListViewItem lvi = FindListViewItem(task);
-                    lvi.Tag = info.Result;
 
                     if (string.IsNullOrEmpty(lvi.SubItems[7].Text))
                         lvi.SubItems[7].Text = info.UploaderHost; // update Destination if not empty; this applies for URL Shortening
