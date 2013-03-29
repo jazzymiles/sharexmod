@@ -187,7 +187,7 @@ namespace ShareX
             this.tsmiContextMenuShare});
             this.cmsUploads.Name = "cmsUploads";
             this.cmsUploads.ShowItemToolTips = false;
-            this.cmsUploads.Size = new System.Drawing.Size(264, 386);
+            this.cmsUploads.Size = new System.Drawing.Size(264, 364);
             // 
             // openURLToolStripMenuItem
             // 
@@ -320,13 +320,13 @@ namespace ShareX
             this.tsMain.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsddbOutputs,
+            this.tsddbCapture,
             this.tsddbAfterCaptureTasks,
+            this.tsddbDestinations,
             this.tsddbAfterUploadTasks,
             this.tsbClipboardUpload,
             this.tsbFileUpload,
-            this.tsddbCapture,
             this.tsbDebug,
-            this.tsddbDestinations,
             this.tsddbShare,
             this.tssMain1,
             this.tsbHistory,

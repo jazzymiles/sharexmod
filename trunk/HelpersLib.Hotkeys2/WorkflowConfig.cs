@@ -500,7 +500,7 @@ namespace HelpersLib.Hotkeys2
 
         private void ShowAllUploaders()
         {
-            gbFileUploaders.Visible = true;
+            gbFileUploaders.Visible = gbFileUploaders2.Visible = true;
             gbImageUploaders.Visible = true;
             gbTextUploaders.Visible = true;
             ShowTabUploadAndShare();
@@ -511,7 +511,7 @@ namespace HelpersLib.Hotkeys2
         {
             gbFileUploaders.Visible = true;
             gbImageUploaders.Visible = true;
-            gbTextUploaders.Visible = false;
+            gbTextUploaders.Visible = gbTextUploaders2.Visible = false;
         }
 
         public string ToSummaryString()
