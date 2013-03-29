@@ -106,11 +106,18 @@ namespace ShareX.Forms
         /// <param name="e"></param>
         private void GifRecorder_DoWork(object sender, DoWorkEventArgs e)
         {
+            GifRecord();
+        }
+
+        private ScreenRecorderCache GifRecord()
+        {
             using (GifCache = new ScreenRecorderCache(SettingsManager.ScreenRecorderCacheFilePath))
             {
                 while (!GifRecorder.CancellationPending)
                 {
                     Stopwatch timer = Stopwatch.StartNew();
+
+                    Screenshot.CaptureCursor = SettingsManager.ConfigCore.ShowCursor;
                     Image img = Screenshot.CaptureRectangle(CaptureRectangle);
 
                     GifCache.AddImageAsync(img);
@@ -128,6 +135,8 @@ namespace ShareX.Forms
                 }
                 GifCache.Finish();
             }
+
+            return GifCache;
         }
 
         private void GifRecorder_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -277,7 +286,7 @@ namespace ShareX.Forms
                     break;
             }
 
-            UploadTask task = UploadTask.CreateFileUploaderTask(Screencast.FilePath, dataType);
+            UploadTask task = UploadTask.CreateFileUploaderTask(Screencast.FilePath, EDataType.File);
             task.SetWorkflow(_act.Workflow);
             TaskManager.Start(task);
 
