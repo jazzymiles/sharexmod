@@ -636,14 +636,5 @@ namespace ShareX.Forms
         {
             SettingsManager.ConfigCore.FileUploadImageProcess = chkFileUploadImageProcess.Checked;
         }
-
-        private void pgUserConfig_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            if (loaded)
-            {
-                if (!TaskHelper.CheckExpressionEncoder())
-                    SettingsManager.ConfigUser.ScreencastFileType = EScreencastFileType.gif;
-            }
-        }
     }
 }

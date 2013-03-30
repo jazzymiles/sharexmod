@@ -52,10 +52,19 @@ namespace ShareX.SettingsHelpers
         [Category(ComponentModelStrings.Screencasts), DefaultValue(EScreencastFileType.gif), Description("Screencast file type")]
         public EScreencastFileType ScreencastFileType { get; set; }
 
-        [Category(ComponentModelStrings.Screencasts), DefaultValue(512), Description("Screencast bitrate")]
+        [Category(ComponentModelStrings.ScreencastsApp), DefaultValue(5), Description("Frames per second for GIF and AVI files")]
+        public int ScreencastFPS { get; set; }
+
+        [Category(ComponentModelStrings.ScreencastsEEWMV), DefaultValue(EBitrateType.ConstantBitrate), Description("Screencast VC1 video profile type")]
+        public EBitrateType ScreencastBitrateType { get; set; }
+
+        [Category(ComponentModelStrings.ScreencastsEEWMV), DefaultValue(90), Description("Screencast variable bitrate quality")]
+        public int ScreencastVBRQuality { get; set; }
+
+        [Category(ComponentModelStrings.ScreencastsEEWMV), DefaultValue(512), Description("Screencast bitrate")]
         public int ScreencastBitrate { get; set; }
 
-        [Category(ComponentModelStrings.Screencasts), DefaultValue(false), Description("Autopan so that the capture window follows the mouse cursor.")]
+        [Category(ComponentModelStrings.ScreencastsEE), DefaultValue(false), Description("Autopan so that the capture window follows the mouse cursor.")]
         public bool FollowMouseCursor { get; set; }
 
         public static void ApplyDefaultValues(object self)
