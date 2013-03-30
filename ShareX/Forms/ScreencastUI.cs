@@ -38,8 +38,6 @@ namespace ShareX.Forms
             WorkerSupportsCancellation = true
         };
 
-        private Microsoft.Expression.Encoder.ScreenCapture.ScreenCaptureJob XescScreenCaptureJob;
-
         private BackgroundWorker Encoder = new BackgroundWorker() { WorkerReportsProgress = true };
 
         public ScreencastUI(ImageData imagedata, AfterCaptureActivity act)
@@ -79,12 +77,12 @@ namespace ShareX.Forms
             {
                 case EScreencastFileType.avi:
                 case EScreencastFileType.gif:
-                    ScreencastImgEncoderStart();
+                    ImgEncoderStart();
                     break;
 
                 case EScreencastFileType.wmv:
                 case EScreencastFileType.xesc:
-                    ScreencastExpressionEncoderStart();
+                    ExpressionEncoderStart();
                     break;
 
                 default:
@@ -104,14 +102,18 @@ namespace ShareX.Forms
             ImgRecord();
         }
 
+        private void ImgRecorder_ReportProgress(int count, int total)
+        {
+            int progress = (int)((double)count / (double)total * 100);
+            Encoder.ReportProgress(progress);
+        }
+
         private void ImgRecorder_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             Encoder.RunWorkerAsync();
         }
 
-        #region Gif
-
-        private void ScreencastImgEncoderStart()
+        private void ImgEncoderStart()
         {
             string fileExt = ".gif";
             switch (SettingsManager.ConfigUser.ScreencastFileType)
@@ -168,12 +170,6 @@ namespace ShareX.Forms
             return ImgCache;
         }
 
-        private void ImgReportProgress(int count, int total)
-        {
-            int progress = (int)((double)count / (double)total * 100);
-            Encoder.ReportProgress(progress);
-        }
-
         private void GifEncode()
         {
             using (GifCreator gifEncoder = new GifCreator(delay))
@@ -186,7 +182,7 @@ namespace ShareX.Forms
                     {
                         gifEncoder.AddFrame(img, SettingsManager.ConfigUser.ImageGIFQuality);
                         count++;
-                        ImgReportProgress(count, total);
+                        ImgRecorder_ReportProgress(count, total);
                     }
                 }
 
@@ -194,10 +190,6 @@ namespace ShareX.Forms
                 gifEncoder.Save(Screencast.FilePath);
             }
         }
-
-        #endregion Gif
-
-        #region Avi
 
         private void AviEncode()
         {
@@ -219,7 +211,7 @@ namespace ShareX.Forms
 
                         aviManager.AddFrame(img2);
                         count++;
-                        ImgReportProgress(count, total);
+                        ImgRecorder_ReportProgress(count, total);
                     }
                     finally
                     {
@@ -228,73 +220,6 @@ namespace ShareX.Forms
                 }
             }
         }
-
-        #endregion Avi
-
-        #region Expression Encoder
-
-        private void ScreencastExpressionEncoderStart()
-        {
-            XescScreenCaptureJob = new Microsoft.Expression.Encoder.ScreenCapture.ScreenCaptureJob();
-            XescScreenCaptureJob.CaptureFollowCursor = SettingsManager.ConfigUser.FollowMouseCursor;
-            XescScreenCaptureJob.CaptureRectangle = CaptureRectangle;
-            XescScreenCaptureJob.OutputPath = Program.ScreenshotsPath;
-            XescScreenCaptureJob.Start();
-        }
-
-        private void WMEncode()
-        {
-            // Create the media item and validates it.
-            Microsoft.Expression.Encoder.MediaItem mediaItem;
-            try
-            {
-                mediaItem = new Microsoft.Expression.Encoder.MediaItem(XescScreenCaptureJob.ScreenCaptureFileName);
-            }
-            catch (Microsoft.Expression.Encoder.InvalidMediaFileException exp)
-            {
-                Console.WriteLine(exp.Message);
-                return;
-            }
-
-            // Create the job, add the media item and encode.
-            using (Microsoft.Expression.Encoder.Job job = new Microsoft.Expression.Encoder.Job())
-            {
-                job.MediaItems.Add(mediaItem);
-
-                mediaItem.OutputFormat.VideoProfile = new Microsoft.Expression.Encoder.Profiles.AdvancedVC1VideoProfile()
-                {
-                    Size = mediaItem.MainMediaFile.VideoStreams[0].VideoSize,
-                };
-
-                switch (SettingsManager.ConfigUser.ScreencastBitrateType)
-                {
-                    case EBitrateType.ConstantBitrate:
-                        mediaItem.OutputFormat.VideoProfile.Bitrate = new ConstantBitrate(SettingsManager.ConfigUser.ScreencastBitrate);
-                        break;
-
-                    case EBitrateType.VariableConstrainedBitrate:
-                        mediaItem.OutputFormat.VideoProfile.Bitrate = new VariableConstrainedBitrate(SettingsManager.ConfigUser.ScreencastBitrate, SettingsManager.ConfigUser.ScreencastBitrate * 2);
-                        break;
-
-                    case EBitrateType.VariableQualityBitrate:
-                        mediaItem.OutputFormat.VideoProfile.Bitrate = new VariableQualityBitrate(SettingsManager.ConfigUser.ScreencastVBRQuality);
-                        break;
-
-                    case EBitrateType.VariableUnconstrainedBitrate:
-                        mediaItem.OutputFormat.VideoProfile.Bitrate = new VariableUnconstrainedBitrate(SettingsManager.ConfigUser.ScreencastBitrate);
-                        break;
-                }
-
-                job.CreateSubfolder = false;
-                job.OutputDirectory = Program.ScreenshotsPath;
-
-                job.EncodeProgress += new EventHandler<Microsoft.Expression.Encoder.EncodeProgressEventArgs>(WMEncoderOnProgress);
-
-                job.Encode();
-            }
-        }
-
-        #endregion Expression Encoder
 
         private void ScreencastStop()
         {
@@ -338,11 +263,6 @@ namespace ShareX.Forms
                 default:
                     throw new Exception("Unsupported screencast filetype: " + SettingsManager.ConfigUser.ScreencastFileType.GetDescription());
             }
-        }
-
-        private void WMEncoderOnProgress(object sender, Microsoft.Expression.Encoder.EncodeProgressEventArgs e)
-        {
-            Encoder.ReportProgress((int)e.Progress);
         }
 
         private void Encoder_ProgressChanged(object sender, ProgressChangedEventArgs e)
