@@ -34,6 +34,9 @@ namespace HelpersLibMod
         public const string OutputsRemoteImage = "Outputs / Remote / Image Uploaders";
         public const string Screenshots = "Inputs / Screenshots";
         public const string Screencasts = "Inputs / Screencasts";
+        public const string ScreencastsApp = "Inputs / Screencasts / Built-in Encoder";
+        public const string ScreencastsEE = "Inputs / Screencasts / Expression Encoder";
+        public const string ScreencastsEEWMV = "Inputs / Screencasts / Expression Encoder / Windows Media Video";
         public const string ScreenshotsActiveWindow = "Inputs / Screenshots / Capture / Active Window";
         public const string ScreenshotsBevel = "Inputs / Screenshots / Effects / Bevel";
         public const string ScreenshotsBorder = "Inputs / Screenshots / Effects / Border";

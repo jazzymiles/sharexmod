@@ -1542,7 +1542,6 @@ namespace ShareX.Forms
             this.pgUserConfig.Name = "pgUserConfig";
             this.pgUserConfig.Size = new System.Drawing.Size(719, 585);
             this.pgUserConfig.TabIndex = 0;
-            this.pgUserConfig.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pgUserConfig_PropertyValueChanged);
             // 
             // tpImageProcessing
             // 

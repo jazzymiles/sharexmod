@@ -1,7 +1,5 @@
 ﻿using HelpersLib;
-using Microsoft.Expression.Encoder;
 using Microsoft.Expression.Encoder.Profiles;
-using Microsoft.Expression.Encoder.ScreenCapture;
 using ScreenCapture;
 using ShareX.HelperClasses;
 using ShareX.Properties;
@@ -24,15 +22,12 @@ namespace ShareX.Forms
     {
         public ImageData Screencast { get; set; }
 
-        private AfterCaptureActivity _act;
+        private AfterCaptureActivity act;
 
         private Rectangle CaptureRectangle;
 
-        // Gif settings
-        private int fps = 5;
-
-        private int delay = 200;
         private ScreenRecorderCache ImgCache;
+        private int delay = 200;
 
         // Avi settings
         private int heightLimit = 720;
@@ -43,22 +38,28 @@ namespace ShareX.Forms
             WorkerSupportsCancellation = true
         };
 
-        private ScreenCaptureJob XescScreenCaptureJob;
+        private Microsoft.Expression.Encoder.ScreenCapture.ScreenCaptureJob XescScreenCaptureJob;
 
         private BackgroundWorker Encoder = new BackgroundWorker() { WorkerReportsProgress = true };
 
         public ScreencastUI(ImageData imagedata, AfterCaptureActivity act)
         {
             InitializeComponent();
-            _act = act;
-
             this.Text = Application.ProductName + " - Screencast";
             this.Location = new Point(0, 0);
 
+            this.act = act;
+
+            if (SettingsManager.ConfigUser.ScreencastFPS == 0)
+                SettingsManager.ConfigUser.ScreencastFPS = 5;
+            this.delay = 1000 / SettingsManager.ConfigUser.ScreencastFPS;
+
             Screencast = imagedata;
             CaptureRectangle = Screencast.CaptureRectangle;
-            CaptureRectangle.Width = Math.Max(RoundOff(CaptureRectangle.Width, 4.0), 4);
-            CaptureRectangle.Height = Math.Max(RoundOff(CaptureRectangle.Height, 4.0), 4);
+
+            int pixelRound = 8;
+            CaptureRectangle.Width = Math.Max(RoundOff(CaptureRectangle.Width, pixelRound), pixelRound);
+            CaptureRectangle.Height = Math.Max(RoundOff(CaptureRectangle.Height, pixelRound), pixelRound);
 
             Encoder.DoWork += Encoder_DoWork;
             Encoder.ProgressChanged += Encoder_ProgressChanged;
@@ -200,7 +201,7 @@ namespace ShareX.Forms
 
         private void AviEncode()
         {
-            using (AVIManager aviManager = new AVIManager(Screencast.FilePath, fps))
+            using (AVIManager aviManager = new AVIManager(Screencast.FilePath, SettingsManager.ConfigUser.ScreencastFPS))
             {
                 int total = ImgCache.GetImageEnumerator().Count();
                 int count = 0;
@@ -234,7 +235,7 @@ namespace ShareX.Forms
 
         private void ScreencastExpressionEncoderStart()
         {
-            XescScreenCaptureJob = new ScreenCaptureJob();
+            XescScreenCaptureJob = new Microsoft.Expression.Encoder.ScreenCapture.ScreenCaptureJob();
             XescScreenCaptureJob.CaptureFollowCursor = SettingsManager.ConfigUser.FollowMouseCursor;
             XescScreenCaptureJob.CaptureRectangle = CaptureRectangle;
             XescScreenCaptureJob.OutputPath = Program.ScreenshotsPath;
@@ -244,32 +245,50 @@ namespace ShareX.Forms
         private void WMEncode()
         {
             // Create the media item and validates it.
-            MediaItem mediaItem;
+            Microsoft.Expression.Encoder.MediaItem mediaItem;
             try
             {
-                mediaItem = new MediaItem(XescScreenCaptureJob.ScreenCaptureFileName);
+                mediaItem = new Microsoft.Expression.Encoder.MediaItem(XescScreenCaptureJob.ScreenCaptureFileName);
             }
-            catch (InvalidMediaFileException exp)
+            catch (Microsoft.Expression.Encoder.InvalidMediaFileException exp)
             {
                 Console.WriteLine(exp.Message);
                 return;
             }
 
             // Create the job, add the media item and encode.
-            using (Job job = new Job())
+            using (Microsoft.Expression.Encoder.Job job = new Microsoft.Expression.Encoder.Job())
             {
                 job.MediaItems.Add(mediaItem);
 
-                mediaItem.OutputFormat.VideoProfile = new AdvancedVC1VideoProfile()
+                mediaItem.OutputFormat.VideoProfile = new Microsoft.Expression.Encoder.Profiles.AdvancedVC1VideoProfile()
                 {
                     Size = mediaItem.MainMediaFile.VideoStreams[0].VideoSize,
-                    Bitrate = new ConstantBitrate(SettingsManager.ConfigUser.ScreencastBitrate)
                 };
+
+                switch (SettingsManager.ConfigUser.ScreencastBitrateType)
+                {
+                    case EBitrateType.ConstantBitrate:
+                        mediaItem.OutputFormat.VideoProfile.Bitrate = new ConstantBitrate(SettingsManager.ConfigUser.ScreencastBitrate);
+                        break;
+
+                    case EBitrateType.VariableConstrainedBitrate:
+                        mediaItem.OutputFormat.VideoProfile.Bitrate = new VariableConstrainedBitrate(SettingsManager.ConfigUser.ScreencastBitrate, SettingsManager.ConfigUser.ScreencastBitrate * 2);
+                        break;
+
+                    case EBitrateType.VariableQualityBitrate:
+                        mediaItem.OutputFormat.VideoProfile.Bitrate = new VariableQualityBitrate(SettingsManager.ConfigUser.ScreencastVBRQuality);
+                        break;
+
+                    case EBitrateType.VariableUnconstrainedBitrate:
+                        mediaItem.OutputFormat.VideoProfile.Bitrate = new VariableUnconstrainedBitrate(SettingsManager.ConfigUser.ScreencastBitrate);
+                        break;
+                }
 
                 job.CreateSubfolder = false;
                 job.OutputDirectory = Program.ScreenshotsPath;
 
-                job.EncodeProgress += new EventHandler<EncodeProgressEventArgs>(OnProgress);
+                job.EncodeProgress += new EventHandler<Microsoft.Expression.Encoder.EncodeProgressEventArgs>(WMEncoderOnProgress);
 
                 job.Encode();
             }
@@ -321,7 +340,7 @@ namespace ShareX.Forms
             }
         }
 
-        private void OnProgress(object sender, EncodeProgressEventArgs e)
+        private void WMEncoderOnProgress(object sender, Microsoft.Expression.Encoder.EncodeProgressEventArgs e)
         {
             Encoder.ReportProgress((int)e.Progress);
         }
@@ -357,7 +376,7 @@ namespace ShareX.Forms
             }
 
             UploadTask task = UploadTask.CreateFileUploaderTask(Screencast.FilePath, EDataType.File);
-            task.SetWorkflow(_act.Workflow);
+            task.SetWorkflow(act.Workflow);
             TaskManager.Start(task);
 
             this.Close();

@@ -125,4 +125,19 @@ namespace ShareX
         [Description("Audio Video Interleave")]
         avi,
     }
+
+    public enum EBitrateType
+    {
+        [Description("Used to specify a constant bitrate")]
+        ConstantBitrate,
+
+        [Description("Used to specify a variable constrained bitrate")]
+        VariableConstrainedBitrate,
+
+        [Description("Used to specify a variable quality bitrate")]
+        VariableQualityBitrate,
+
+        [Description("Used to specify a variable unconstrained bitrate")]
+        VariableUnconstrainedBitrate,
+    }
 }
