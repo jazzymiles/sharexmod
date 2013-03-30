@@ -139,7 +139,17 @@ namespace ShareX
             task.Info.FilePath = filePath;
             if (taskJob == TaskJob.ImageUpload)
                 task.imageData = ImageData.GetNew(filePath);
-            task.data = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+
+            try
+            {
+                task.data = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error while creating FileUploader task", ex);
+                return null;
+            }
+
             return task;
         }
 

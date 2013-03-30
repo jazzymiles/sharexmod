@@ -57,7 +57,7 @@ namespace ShareX.Forms
             Screencast = imagedata;
             CaptureRectangle = Screencast.CaptureRectangle;
 
-            int pixelRound = 8;
+            int pixelRound = 16;
             CaptureRectangle.Width = Math.Max(RoundOff(CaptureRectangle.Width, pixelRound), pixelRound);
             CaptureRectangle.Height = Math.Max(RoundOff(CaptureRectangle.Height, pixelRound), pixelRound);
 
@@ -376,9 +376,11 @@ namespace ShareX.Forms
             }
 
             UploadTask task = UploadTask.CreateFileUploaderTask(Screencast.FilePath, EDataType.File);
-            task.SetWorkflow(act.Workflow);
-            TaskManager.Start(task);
-
+            if (task != null)
+            {
+                task.SetWorkflow(act.Workflow);
+                TaskManager.Start(task);
+            }
             this.Close();
         }
 
