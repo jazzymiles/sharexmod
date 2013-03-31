@@ -42,7 +42,7 @@ namespace ShareX
                 Workflow wfPolygonRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.PolygonRegion, new HotkeySetting());
                 Workflow wfFreeHandRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.FreeHandRegion, new HotkeySetting());
                 Workflow wfLastRegion = new Workflow(HelpersLib.Hotkeys2.EHotkey.LastRegion, new HotkeySetting());
-                Workflow wfScreencast = new Workflow(HelpersLib.Hotkeys2.EHotkey.Screencast, new HotkeySetting());
+                Workflow wfScreencast = new Workflow(HelpersLib.Hotkeys2.EHotkey.Screencast, Program.HotkeyScreencast);
 
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfClipboardUpload);
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfFileUpload);

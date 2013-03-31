@@ -58,6 +58,10 @@ namespace ShareX.Forms
             Encoder.DoWork += Encoder_DoWork;
             Encoder.ProgressChanged += Encoder_ProgressChanged;
             Encoder.RunWorkerCompleted += Encoder_RunWorkerCompleted;
+
+            if (SettingsManager.ConfigUser.ScreencastFileType == EScreencastFileType.wmv ||
+                SettingsManager.ConfigUser.ScreencastFileType == EScreencastFileType.xesc)
+                SettingsManager.ConfigUser.ScreencastFileType = EScreencastFileType.gif;
         }
 
         private int RoundOff(int round, double roundOffTo)
@@ -79,7 +83,6 @@ namespace ShareX.Forms
 
                 case EScreencastFileType.wmv:
                 case EScreencastFileType.xesc:
-                    ExpressionEncoderStart();
                     break;
 
                 default:
@@ -87,6 +90,27 @@ namespace ShareX.Forms
             }
 
             timerScreencast.Stop();
+        }
+
+        /// <summary>
+        /// Gif recording has to be in a thread to have response in ScreencastUI for stopping
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ImgRecorder_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ImgRecord();
+        }
+
+        private void ImgRecorder_ReportProgress(int count, int total)
+        {
+            int progress = (int)((double)count / (double)total * 100);
+            Encoder.ReportProgress(progress);
+        }
+
+        private void ImgRecorder_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Encoder.RunWorkerAsync();
         }
 
         private void ImgEncoderStart()
@@ -111,27 +135,6 @@ namespace ShareX.Forms
             ImgRecorder.RunWorkerAsync();
         }
 
-        /// <summary>
-        /// Gif recording has to be in a thread to have response in ScreencastUI for stopping
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ImgRecorder_DoWork(object sender, DoWorkEventArgs e)
-        {
-            ImgRecord();
-        }
-
-        private void ImgRecorder_ReportProgress(int count, int total)
-        {
-            int progress = (int)((double)count / (double)total * 100);
-            Encoder.ReportProgress(progress);
-        }
-
-        private void ImgRecorder_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            Encoder.RunWorkerAsync();
-        }
-        
         private ScreenRecorderCache ImgRecord()
         {
             using (ImgCache = new ScreenRecorderCache(SettingsManager.ScreenRecorderCacheFilePath))
@@ -214,8 +217,9 @@ namespace ShareX.Forms
         }
 
         private void ScreencastStop()
-        {
+        { 
             Program.ScreencastCancellationPending = true;
+            Program.IsRecordingScreencast = false;
 
             switch (SettingsManager.ConfigUser.ScreencastFileType)
             {
@@ -225,9 +229,7 @@ namespace ShareX.Forms
 
                 case EScreencastFileType.wmv:
                 case EScreencastFileType.xesc:
-                    this.XescScreenCaptureJob.Stop();
-                    if (!Encoder.IsBusy) // XescTimer_Tick can fire this twice
-                        Encoder.RunWorkerAsync();
+                    Encoder.RunWorkerAsync();
                     break;
 
                 default:
@@ -236,7 +238,7 @@ namespace ShareX.Forms
 
             progress.Visible = true;
 
-            Program.IsRecordingScreencast = false;
+           
         }
 
         private void Encoder_DoWork(object sender, DoWorkEventArgs e)
@@ -253,7 +255,6 @@ namespace ShareX.Forms
 
                 case EScreencastFileType.wmv:
                 case EScreencastFileType.xesc:
-                    WMEncode();
                     break;
 
                 default:
@@ -282,14 +283,7 @@ namespace ShareX.Forms
                     break;
 
                 case EScreencastFileType.wmv:
-                    Screencast.FilePath = Path.ChangeExtension(XescScreenCaptureJob.ScreenCaptureFileName, "wmv");
-
-                    if (File.Exists(Screencast.FilePath))
-                        File.Delete(XescScreenCaptureJob.ScreenCaptureFileName); // if wmv exists then delete xesc
-                    break;
-
                 case EScreencastFileType.xesc:
-                    Screencast.FilePath = XescScreenCaptureJob.ScreenCaptureFileName;
                     break;
             }
 

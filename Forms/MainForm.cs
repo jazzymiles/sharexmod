@@ -225,7 +225,6 @@ namespace ShareX
 
         void tsmiEmailAddress_CheckedChanged(object sender, EventArgs e)
         {
-            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
             List<string> emails = new List<string>();
             foreach (ToolStripMenuItem tsmiOutput in tsddbOutputs.DropDownItems)
             {
@@ -243,14 +242,22 @@ namespace ShareX
 
             if (emails.Count > 0)
                 AddressBookHelper.CurrentRecipient = string.Join(",", emails.ToArray());
+            else
+                AddressBookHelper.CurrentRecipient = string.Empty;
 
             foreach (ToolStripMenuItem tsmiAfterUploadTask in tsddbAfterUploadTasks.DropDownItems)
             {
                 AfterUploadTasks task = (AfterUploadTasks)tsmiAfterUploadTask.Tag;
                 if (task == AfterUploadTasks.SendEmail)
                 {
-                    if (task == AfterUploadTasks.SendEmail && !string.IsNullOrEmpty(AddressBookHelper.CurrentRecipient))
-                        tsmiAfterUploadTask.Text = task.GetDescription() + " to " + AddressBookHelper.CurrentRecipient;
+                    if (task == AfterUploadTasks.SendEmail)
+                    {
+                        tsmiAfterUploadTask.Enabled = tsmiAfterUploadTask.Checked = !string.IsNullOrEmpty(AddressBookHelper.CurrentRecipient);
+                        if (!string.IsNullOrEmpty(AddressBookHelper.CurrentRecipient))
+                            tsmiAfterUploadTask.Text = task.GetDescription() + " to " + AddressBookHelper.CurrentRecipient;
+                        else
+                            tsmiAfterUploadTask.Text = task.GetDescription();
+                    }
                     break;
                 }
             }
@@ -329,6 +336,8 @@ namespace ShareX
                 tsmi.CheckedChanged += new EventHandler(tsmiAfterUploadTasks_CheckedChanged);
                 tsddbAfterUploadTasks.DropDownItems.Add(tsmi);
             }
+
+            tsmiEmailAddress_CheckedChanged(null, null);
 
             #endregion
         }

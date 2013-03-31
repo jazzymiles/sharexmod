@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ShareXmod")]
+[assembly: AssemblyTitle("ShareXmod_x64")]
 [assembly: AssemblyDescription("A program that allows you to take screenshots and share any file type")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ShareX Developers")]
-[assembly: AssemblyProduct("ShareXmod")]
+[assembly: AssemblyProduct("ShareXmod_x64")]
 [assembly: AssemblyCopyright("Copyright (C) 2013 ShareX Developers")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
