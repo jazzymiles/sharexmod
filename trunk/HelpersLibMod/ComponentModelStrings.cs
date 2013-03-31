@@ -31,6 +31,7 @@ namespace HelpersLibMod
         public const string Outputs = "Outputs";
         public const string OutputsClipboard = "Outputs / Clipboard";
         public const string OutputsRemoteFTP = "Outputs / Remote / FTP";
+        public const string OutputsRemoteEmail = "Outputs / Remote / Email";
         public const string OutputsRemoteImage = "Outputs / Remote / Image Uploaders";
         public const string Screenshots = "Inputs / Screenshots";
         public const string Screencasts = "Inputs / Screencasts";

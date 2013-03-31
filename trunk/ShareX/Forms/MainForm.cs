@@ -34,6 +34,7 @@ using ShareX.Forms;
 using ShareX.HelperClasses;
 using ShareX.Properties;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -210,6 +211,8 @@ namespace ShareX
         public void GetAddressBook(ToolStripMenuItem tsmiOutputEmail)
         {
             tsmiOutputEmail.DropDownItems.Clear();
+            if (SettingsManager.ConfigUser.AddressBook == null)
+                SettingsManager.ConfigUser.AddressBook = new List<string>();
 
             foreach (string email in SettingsManager.ConfigUser.AddressBook)
             {
