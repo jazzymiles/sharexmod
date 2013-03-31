@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComponentModelStrings.cs" />
+    <Compile Include="CsvConverter.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="HelpersMod.cs" />
     <Compile Include="UpdateCheckerMod\UpdaterForm.cs">
