@@ -1,4 +1,5 @@
 ﻿using HelpersLib;
+using HelpersLibMod;
 using Microsoft.Expression.Encoder.Profiles;
 using ScreenCapture;
 using ShareX.HelperClasses;
@@ -32,12 +33,7 @@ namespace ShareX.Forms
         // Avi settings
         private int heightLimit = 720;
 
-        private BackgroundWorker ImgRecorder = new BackgroundWorker()
-        {
-            WorkerReportsProgress = true,
-            WorkerSupportsCancellation = true
-        };
-
+        private BackgroundWorker ImgRecorder = new BackgroundWorker() { WorkerReportsProgress = true };
         private BackgroundWorker Encoder = new BackgroundWorker() { WorkerReportsProgress = true };
 
         public ScreencastUI(ImageData imagedata, AfterCaptureActivity act)
@@ -62,6 +58,10 @@ namespace ShareX.Forms
             Encoder.DoWork += Encoder_DoWork;
             Encoder.ProgressChanged += Encoder_ProgressChanged;
             Encoder.RunWorkerCompleted += Encoder_RunWorkerCompleted;
+
+            if (SettingsManager.ConfigUser.ScreencastFileType == EScreencastFileType.wmv ||
+                SettingsManager.ConfigUser.ScreencastFileType == EScreencastFileType.xesc)
+                SettingsManager.ConfigUser.ScreencastFileType = EScreencastFileType.gif;
         }
 
         private int RoundOff(int round, double roundOffTo)
@@ -71,6 +71,7 @@ namespace ShareX.Forms
 
         private void timerScreencast_Tick(object sender, EventArgs e)
         {
+            Program.IsRecordingScreencast = true;
             this.BackgroundImage = Resources.stop;
 
             switch (SettingsManager.ConfigUser.ScreencastFileType)
@@ -82,7 +83,6 @@ namespace ShareX.Forms
 
                 case EScreencastFileType.wmv:
                 case EScreencastFileType.xesc:
-                    ExpressionEncoderStart();
                     break;
 
                 default:
@@ -135,16 +135,11 @@ namespace ShareX.Forms
             ImgRecorder.RunWorkerAsync();
         }
 
-        private void ImgScreenCaptureJobStop()
-        {
-            ImgRecorder.CancelAsync();
-        }
-
         private ScreenRecorderCache ImgRecord()
         {
             using (ImgCache = new ScreenRecorderCache(SettingsManager.ScreenRecorderCacheFilePath))
             {
-                while (!ImgRecorder.CancellationPending)
+                while (!Program.ScreencastCancellationPending)
                 {
                     Stopwatch timer = Stopwatch.StartNew();
 
@@ -222,17 +217,18 @@ namespace ShareX.Forms
         }
 
         private void ScreencastStop()
-        {
+        { 
+            Program.ScreencastCancellationPending = true;
+            Program.IsRecordingScreencast = false;
+
             switch (SettingsManager.ConfigUser.ScreencastFileType)
             {
                 case EScreencastFileType.avi:
                 case EScreencastFileType.gif:
-                    this.ImgScreenCaptureJobStop();
                     break;
 
                 case EScreencastFileType.wmv:
                 case EScreencastFileType.xesc:
-                    this.XescScreenCaptureJob.Stop();
                     Encoder.RunWorkerAsync();
                     break;
 
@@ -241,6 +237,8 @@ namespace ShareX.Forms
             }
 
             progress.Visible = true;
+
+           
         }
 
         private void Encoder_DoWork(object sender, DoWorkEventArgs e)
@@ -257,7 +255,6 @@ namespace ShareX.Forms
 
                 case EScreencastFileType.wmv:
                 case EScreencastFileType.xesc:
-                    WMEncode();
                     break;
 
                 default:
@@ -272,6 +269,8 @@ namespace ShareX.Forms
 
         private void Encoder_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            Program.ScreencastCancellationPending = false;
+
             switch (SettingsManager.ConfigUser.ScreencastFileType)
             {
                 case EScreencastFileType.avi:
@@ -284,22 +283,18 @@ namespace ShareX.Forms
                     break;
 
                 case EScreencastFileType.wmv:
-                    Screencast.FilePath = Path.ChangeExtension(XescScreenCaptureJob.ScreenCaptureFileName, "wmv");
-
-                    if (File.Exists(Screencast.FilePath))
-                        File.Delete(XescScreenCaptureJob.ScreenCaptureFileName); // if wmv exists then delete xesc
-                    break;
-
                 case EScreencastFileType.xesc:
-                    Screencast.FilePath = XescScreenCaptureJob.ScreenCaptureFileName;
                     break;
             }
 
-            UploadTask task = UploadTask.CreateFileUploaderTask(Screencast.FilePath, EDataType.File);
-            if (task != null)
+            if (act.Workflow.Subtasks.HasFlag(Subtask.UploadToRemoteHost))
             {
-                task.SetWorkflow(act.Workflow);
-                TaskManager.Start(task);
+                UploadTask task = UploadTask.CreateFileUploaderTask(Screencast.FilePath, EDataType.File);
+                if (task != null)
+                {
+                    task.SetWorkflow(act.Workflow);
+                    TaskManager.Start(task);
+                }
             }
             this.Close();
         }
