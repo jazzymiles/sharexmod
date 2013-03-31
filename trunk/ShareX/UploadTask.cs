@@ -419,7 +419,7 @@ namespace ShareX
             }
 
             // Send an email
-            threadWorker.InvokeAsync(() => UploadText_Email(Info.Result));
+            new Thread(() => UploadText_Email(Info.Result)).Start();
 
             // Share using Social Networking Services
 

@@ -226,8 +226,34 @@ namespace ShareX
         void tsmiEmailAddress_CheckedChanged(object sender, EventArgs e)
         {
             ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
-            if (tsmi.Checked)
-                AddressBookHelper.CurrentRecipient = tsmi.Text;
+            List<string> emails = new List<string>();
+            foreach (ToolStripMenuItem tsmiOutput in tsddbOutputs.DropDownItems)
+            {
+                HelpersLibMod.OutputEnum task = (HelpersLibMod.OutputEnum)tsmiOutput.Tag;
+                if (task == HelpersLibMod.OutputEnum.Email)
+                {
+                    foreach (ToolStripMenuItem tsmiEmail in tsmiOutput.DropDownItems)
+                    {
+                        if (tsmiEmail.Checked)
+                            emails.Add(tsmiEmail.Text);
+                    }
+                    break;
+                }
+            }
+
+            if (emails.Count > 0)
+                AddressBookHelper.CurrentRecipient = string.Join(",", emails.ToArray());
+
+            foreach (ToolStripMenuItem tsmiAfterUploadTask in tsddbAfterUploadTasks.DropDownItems)
+            {
+                AfterUploadTasks task = (AfterUploadTasks)tsmiAfterUploadTask.Tag;
+                if (task == AfterUploadTasks.SendEmail)
+                {
+                    if (task == AfterUploadTasks.SendEmail && !string.IsNullOrEmpty(AddressBookHelper.CurrentRecipient))
+                        tsmiAfterUploadTask.Text = task.GetDescription() + " to " + AddressBookHelper.CurrentRecipient;
+                    break;
+                }
+            }
         }
 
         public void ReloadOutputsMenu()
@@ -235,24 +261,24 @@ namespace ShareX
             #region Outputs
 
             var outputs = Enum.GetValues(typeof(HelpersLibMod.OutputEnum)).Cast<HelpersLibMod.OutputEnum>().Select(x => new
-    {
-        Description = x.GetDescription(),
-        Enum = x
-    });
+            {
+                Description = x.GetDescription(),
+                Enum = x
+            });
 
             tsddbOutputs.DropDownItems.Clear();
 
             foreach (var output in outputs)
             {
-                ToolStripMenuItem tsmi = new ToolStripMenuItem(output.Description);
-                tsmi.Checked = SettingsManager.ConfigCore.Outputs.HasFlag(output.Enum);
-                tsmi.Tag = output.Enum;
-                tsmi.CheckOnClick = true;
-                tsmi.CheckedChanged += new EventHandler(tsmiOutputs_CheckedChanged);
-                tsddbOutputs.DropDownItems.Add(tsmi);
+                ToolStripMenuItem tsmiOutput = new ToolStripMenuItem(output.Description);
+                tsmiOutput.Checked = SettingsManager.ConfigCore.Outputs.HasFlag(output.Enum);
+                tsmiOutput.Tag = output.Enum;
+                tsmiOutput.CheckOnClick = true;
+                tsmiOutput.CheckedChanged += new EventHandler(tsmiOutputs_CheckedChanged);
+                tsddbOutputs.DropDownItems.Add(tsmiOutput);
 
                 if (output.Enum == HelpersLibMod.OutputEnum.Email)
-                    GetAddressBook(tsmi);
+                    GetAddressBook(tsmiOutput);
             }
 
             #endregion Outputs
@@ -260,10 +286,10 @@ namespace ShareX
             #region After Capture Tasks
 
             var afterCaptureTasks = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new
-    {
-        Description = x.GetDescription(),
-        Enum = x
-    });
+            {
+                Description = x.GetDescription(),
+                Enum = x
+            });
 
             tsddbAfterCaptureTasks.DropDownItems.Clear();
             foreach (var task in afterCaptureTasks)
@@ -281,11 +307,13 @@ namespace ShareX
 
             #endregion After Capture Tasks
 
+            #region After Upload Tasks
+
             var afterUploadTasks = Enum.GetValues(typeof(AfterUploadTasks)).Cast<AfterUploadTasks>().Select(x => new
-                {
-                    Description = x.GetDescription(),
-                    Enum = x
-                });
+            {
+                Description = x.GetDescription(),
+                Enum = x
+            });
 
             tsddbAfterUploadTasks.DropDownItems.Clear();
 
@@ -301,6 +329,8 @@ namespace ShareX
                 tsmi.CheckedChanged += new EventHandler(tsmiAfterUploadTasks_CheckedChanged);
                 tsddbAfterUploadTasks.DropDownItems.Add(tsmi);
             }
+
+            #endregion
         }
 
         private void tsmiAfterUploadTasks_CheckedChanged(object sender, EventArgs e)
