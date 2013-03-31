@@ -210,16 +210,19 @@ namespace ShareX
 
         public void GetAddressBook(ToolStripMenuItem tsmiOutputEmail)
         {
-            tsmiOutputEmail.DropDownItems.Clear();
-            if (SettingsManager.ConfigUser.AddressBook == null)
-                SettingsManager.ConfigUser.AddressBook = new List<string>();
-
-            foreach (string email in SettingsManager.ConfigUser.AddressBook)
+            if (tsmiOutputEmail.DropDownItems != null)
             {
-                ToolStripMenuItem tsmiEmailAddress = new ToolStripMenuItem(email);
-                tsmiEmailAddress.CheckOnClick = true;
-                tsmiEmailAddress.CheckedChanged += tsmiEmailAddress_CheckedChanged;
-                tsmiOutputEmail.DropDownItems.Add(tsmiEmailAddress);
+                tsmiOutputEmail.DropDownItems.Clear();
+                if (SettingsManager.ConfigUser.AddressBook == null)
+                    SettingsManager.ConfigUser.AddressBook = new List<string>();
+
+                foreach (string email in SettingsManager.ConfigUser.AddressBook)
+                {
+                    ToolStripMenuItem tsmiEmailAddress = new ToolStripMenuItem(email);
+                    tsmiEmailAddress.CheckOnClick = true;
+                    tsmiEmailAddress.CheckedChanged += tsmiEmailAddress_CheckedChanged;
+                    tsmiOutputEmail.DropDownItems.Add(tsmiEmailAddress);
+                }
             }
         }
 

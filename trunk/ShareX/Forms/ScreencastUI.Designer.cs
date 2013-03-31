@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.progress = new System.Windows.Forms.ProgressBar();
             this.ttApp = new System.Windows.Forms.ToolTip(this.components);
-            this.timerScreencast = new System.Windows.Forms.Timer(this.components);
+            this.timerScreencastDelay = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // progress
@@ -46,9 +46,9 @@
             // 
             // timerScreencast
             // 
-            this.timerScreencast.Enabled = true;
-            this.timerScreencast.Interval = 750;
-            this.timerScreencast.Tick += new System.EventHandler(this.timerScreencast_Tick);
+            this.timerScreencastDelay.Enabled = true;
+            this.timerScreencastDelay.Interval = 750;
+            this.timerScreencastDelay.Tick += new System.EventHandler(this.timerScreencast_Tick);
             // 
             // ScreencastUI
             // 
@@ -80,6 +80,6 @@
 
         private System.Windows.Forms.ProgressBar progress;
         private System.Windows.Forms.ToolTip ttApp;
-        private System.Windows.Forms.Timer timerScreencast;
+        private System.Windows.Forms.Timer timerScreencastDelay;
     }
 }

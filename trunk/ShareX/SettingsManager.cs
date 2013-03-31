@@ -128,15 +128,9 @@ namespace ShareX
         {
             ConfigWorkflows.Save(ConfigWorkflowsFilePath);
             ConfigUploaders.Save(ConfigUploadersFilePath);
-            SaveCoreConfig();
-            ConfigUser.Save(ConfigUserFilePath);
-        }
-
-        public static void SaveCoreConfig()
-        {
             ConfigCore.Save(ConfigCoreFilePath);
-
-            // ConfigCore.Backup(ConfigCoreFilePath);
+            ConfigUser.Save(ConfigUserFilePath);
+            log.Info("Settings saved.");
         }
 
         public static void LoadAsync()
