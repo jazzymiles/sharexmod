@@ -12,6 +12,7 @@ namespace ShareX.Forms
     public partial class ScreencastUI
     {
         private ScreenCaptureJob XescScreenCaptureJob;
+        private Timer XescTimer = new Timer() { Enabled = true };
 
         private void ExpressionEncoderStart()
         {
@@ -20,6 +21,17 @@ namespace ShareX.Forms
             XescScreenCaptureJob.CaptureRectangle = CaptureRectangle;
             XescScreenCaptureJob.OutputPath = Program.ScreenshotsPath;
             XescScreenCaptureJob.Start();
+
+            XescTimer.Tick += XescTimer_Tick;
+        }
+
+        void XescTimer_Tick(object sender, EventArgs e)
+        {
+            if (Program.ScreencastCancellationPending)
+            {
+                ScreencastStop();
+                XescTimer.Stop();
+            }
         }
 
         private void WMEncode()

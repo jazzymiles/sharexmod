@@ -123,18 +123,18 @@ namespace ShareX
         public static HotkeySetting HotkeyDiamondRegion = new HotkeySetting(Keys.Control | Keys.Shift | Keys.D);
         public static HotkeySetting HotkeyPolygonRegion = new HotkeySetting(Keys.Control | Keys.Shift | Keys.P);
         public static HotkeySetting HotkeyFreeHandRegion = new HotkeySetting(Keys.Control | Keys.Shift | Keys.F);
+        public static HotkeySetting HotkeyScreencast = new HotkeySetting(Keys.Control | Keys.F11);
 
         #endregion Hotkeys / Workflows
 
         public static bool IsMultiInstance { get; private set; }
-
         public static bool IsPortable { get; private set; }
-
         public static bool IsSilentRun { get; private set; }
-
         public static bool IsHotkeysAllowed { get; private set; }
-
         public static bool IsDebug { get; private set; }
+
+        public static bool IsRecordingScreencast { get; set; }
+        public static bool ScreencastCancellationPending { get; set; }
 
         public static Stopwatch StartTimer { get; private set; }
 
