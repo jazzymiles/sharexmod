@@ -297,13 +297,10 @@ namespace ShareX
 
         public static void UpdateProxySettings()
         {
-            ProxySettings proxy = new ProxySettings();
-            if (!string.IsNullOrEmpty(SettingsManager.ConfigCore.ProxySettings.Host))
+            Uploader.ProxySettings = new ProxySettings()
             {
-                proxy.ProxyConfig = EProxyConfigType.ManualProxy;
-            }
-            proxy.ProxyActive = SettingsManager.ConfigCore.ProxySettings;
-            Uploader.ProxySettings = proxy;
+                ProxyActive = SettingsManager.ConfigCore.ProxySettings
+            };
         }
 
         #region Task Event Handler Methods

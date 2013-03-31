@@ -85,6 +85,14 @@ namespace ShareX
         private ThreadWorker threadWorker;
         private Uploader uploader;
 
+        private Stream DataCopy
+        {
+            get
+            {
+                return Helpers.Clone(data) as Stream;
+            }
+        }
+
         #region Constructors
 
         private UploadTask(EDataType dataType, TaskJob job)
@@ -234,12 +242,12 @@ namespace ShareX
 
             if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.Email))
             {
-                UploadFile_Email(data);
+                threadWorker.InvokeAsync(() => UploadFile_Email(DataCopy));
             }
 
             if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.SharedFolder))
             {
-                UploadFile_SharedFolder(data);
+                threadWorker.InvokeAsync(() => UploadFile_SharedFolder(DataCopy));
             }
 
             if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.Printer))
@@ -259,24 +267,19 @@ namespace ShareX
 
                 try
                 {
-                    if (data != null && data.CanSeek)
+                    switch (Info.UploadDestination)
                     {
-                        data.Position = 0;
+                        case EDataType.Image:
+                            Info.Result = UploadImage(data);
+                            break;
 
-                        switch (Info.UploadDestination)
-                        {
-                            case EDataType.Image:
-                                Info.Result = UploadImage(data);
-                                break;
+                        case EDataType.File:
+                            Info.Result = UploadFile(data);
+                            break;
 
-                            case EDataType.File:
-                                Info.Result = UploadFile(data);
-                                break;
-
-                            case EDataType.Text:
-                                Info.Result = UploadText(data, Info.FileName);
-                                break;
-                        }
+                        case EDataType.Text:
+                            Info.Result = UploadText(data, Info.FileName);
+                            break;
                     }
                 }
                 catch (Exception ex)
@@ -377,6 +380,11 @@ namespace ShareX
 
                 byte[] byteArray = Encoding.UTF8.GetBytes(tempText);
                 data = new MemoryStream(byteArray);
+            }
+
+            if (data != null && data.CanSeek)
+            {
+                data.Position = 0;
             }
 
             if (Info.Job != TaskJob.ShareURL)
