@@ -118,6 +118,7 @@
     <Compile Include="Forms\ScreencastUI.Designer.cs">
       <DependentUpon>ScreencastUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="HelperClasses\AddressBookHelper.cs" />
     <Compile Include="HelperClasses\AfterCaptureActivity.cs" />
     <Compile Include="HelperClasses\DropboxSyncHelper.cs" />
     <Compile Include="HelperClasses\FallbackDestHelper.cs" />

@@ -207,6 +207,26 @@ namespace ShareX
             UploadManager.UpdateProxySettings();
         }
 
+        public void GetAddressBook(ToolStripMenuItem tsmiOutputEmail)
+        {
+            tsmiOutputEmail.DropDownItems.Clear();
+
+            foreach (string email in SettingsManager.ConfigUser.AddressBook)
+            {
+                ToolStripMenuItem tsmiEmailAddress = new ToolStripMenuItem(email);
+                tsmiEmailAddress.CheckOnClick = true;
+                tsmiEmailAddress.CheckedChanged += tsmiEmailAddress_CheckedChanged;
+                tsmiOutputEmail.DropDownItems.Add(tsmiEmailAddress);
+            }
+        }
+
+        void tsmiEmailAddress_CheckedChanged(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+            if (tsmi.Checked)
+                AddressBookHelper.CurrentRecipient = tsmi.Text;
+        }
+
         public void ReloadOutputsMenu()
         {
             #region Outputs
@@ -227,6 +247,9 @@ namespace ShareX
                 tsmi.CheckOnClick = true;
                 tsmi.CheckedChanged += new EventHandler(tsmiOutputs_CheckedChanged);
                 tsddbOutputs.DropDownItems.Add(tsmi);
+
+                if (output.Enum == HelpersLibMod.OutputEnum.Email)
+                    GetAddressBook(tsmi);
             }
 
             #endregion Outputs
