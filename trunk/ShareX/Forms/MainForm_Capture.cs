@@ -239,12 +239,13 @@ namespace ShareX
 
         private ImageData CaptureScreencast(bool autoHideForm = true)
         {
-            if (Program.IsRecordingScreencast)
-                Program.ScreencastCancellationPending = true;
-
             ImageData id_screencast = null;
 
-            if (!Program.IsRecordingScreencast && TaskHelper.CheckExpressionEncoder())
+            if (Program.IsRecordingScreencast)
+            {
+                Program.ScreencastCancellationPending = true; // request stopping current screencast
+            }
+            else if (TaskHelper.CheckExpressionEncoder())
             {
                 if (autoHideForm)
                 {

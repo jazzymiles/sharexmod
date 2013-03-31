@@ -269,7 +269,7 @@ namespace ShareX.Forms
 
         private void Encoder_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            Program.ScreencastCancellationPending = false;
+            Program.ScreencastCancellationPending = false; // to prepare for another screencast
 
             switch (SettingsManager.ConfigUser.ScreencastFileType)
             {
@@ -278,8 +278,15 @@ namespace ShareX.Forms
                     if (ImgCache != null)
                         ImgCache.Dispose();
 
-                    if (File.Exists(SettingsManager.ScreenRecorderCacheFilePath))
-                        File.Delete(SettingsManager.ScreenRecorderCacheFilePath);
+                    try
+                    {
+                        if (File.Exists(SettingsManager.ScreenRecorderCacheFilePath))
+                            File.Delete(SettingsManager.ScreenRecorderCacheFilePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        DebugHelper.WriteLine(ex.Message);
+                    }
                     break;
 
                 case EScreencastFileType.wmv:
