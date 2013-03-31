@@ -1,9 +1,9 @@
-﻿using System;
+﻿using HelpersLib;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using HelpersLib;
 
 namespace HelpersLibMod
 {
@@ -62,9 +62,8 @@ namespace HelpersLibMod
         ShareUsingSocialNetworkingService = 1 << 1,
 
         [Description("Copy URL to clipboard")]
-        CopyURLToClipboard = 1 << 2
+        CopyURLToClipboard = 1 << 2,
     }
-
 
     [Flags]
     public enum OutputEnum
@@ -78,7 +77,7 @@ namespace HelpersLibMod
         [Description("Remote host")]
         RemoteHost = 2 << 1,
 
-        [Description("E-mail")]
+        [Description("Email")]
         Email = 2 << 2,
 
         [Description("Printer")]
