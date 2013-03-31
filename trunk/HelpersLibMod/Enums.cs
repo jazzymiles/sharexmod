@@ -63,6 +63,9 @@ namespace HelpersLibMod
 
         [Description("Copy URL to clipboard")]
         CopyURLToClipboard = 1 << 2,
+
+        [Description("Send email")]
+        SendEmail = 1 << 3,
     }
 
     [Flags]

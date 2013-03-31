@@ -89,6 +89,10 @@ namespace ShareX
         {
             get
             {
+                if (data != null && data.CanSeek)
+                {
+                    data.Position = 0;
+                }
                 return Helpers.Clone(data) as Stream;
             }
         }
@@ -242,7 +246,7 @@ namespace ShareX
 
             if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.Email))
             {
-                threadWorker.InvokeAsync(() => UploadFile_Email(DataCopy));
+                new Thread(() => UploadFile_Email(DataCopy)).Start();
             }
 
             if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.SharedFolder))
@@ -395,6 +399,8 @@ namespace ShareX
 
         private void DoPostUploadTasks()
         {
+            Info.Result.LocalFilePath = Info.FilePath;
+
             // Shorten URL
 
             if (Info.Result.IsURLExpected &&
@@ -411,6 +417,9 @@ namespace ShareX
                     Info.Result.ShortenedURL = result.ShortenedURL;
                 }
             }
+
+            // Send an email
+            threadWorker.InvokeAsync(() => UploadText_Email(Info.Result));
 
             // Share using Social Networking Services
 
@@ -919,6 +928,26 @@ namespace ShareX
             return null;
         }
 
+        private void UploadText_Email(UploadResult result)
+        {
+            if (result != null && !string.IsNullOrEmpty(AddressBookHelper.CurrentRecipient))
+            {
+                FileUploader fileUploader = new Email
+                {
+                    SmtpServer = SettingsManager.ConfigUploaders.EmailSmtpServer,
+                    SmtpPort = SettingsManager.ConfigUploaders.EmailSmtpPort,
+                    FromEmail = SettingsManager.ConfigUploaders.EmailFrom,
+                    Password = SettingsManager.ConfigUploaders.EmailPassword,
+                    ToEmail = AddressBookHelper.CurrentRecipient,
+                    Subject = SettingsManager.ConfigUploaders.EmailDefaultSubject,
+                    Body = result.ToSummaryString()
+                };
+
+                PrepareUploader(fileUploader);
+                fileUploader.Upload(DataCopy, Info.FileName);
+            }
+        }
+
         private UploadResult UploadFile_Email(Stream stream)
         {
             using (EmailForm emailForm = new EmailForm(SettingsManager.ConfigUploaders.EmailRememberLastTo ? SettingsManager.ConfigUploaders.EmailLastTo : string.Empty,
@@ -929,6 +958,7 @@ namespace ShareX
                     if (SettingsManager.ConfigUploaders.EmailRememberLastTo)
                     {
                         SettingsManager.ConfigUploaders.EmailLastTo = emailForm.ToEmail;
+                        AddressBookHelper.AddEmail(emailForm.ToEmail);
                     }
 
                     FileUploader fileUploader = new Email

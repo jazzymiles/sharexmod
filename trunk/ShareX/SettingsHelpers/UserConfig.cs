@@ -77,6 +77,9 @@ namespace ShareX.SettingsHelpers
             }
         }
 
+        // Email 
+        public List<string> AddressBook = new List<string>();
+
         public UserConfig()
         {
             ApplyDefaultValues(this);
