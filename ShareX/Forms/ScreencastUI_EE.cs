@@ -29,8 +29,8 @@ namespace ShareX.Forms
         {
             if (Program.ScreencastCancellationPending)
             {
-                ScreencastStop();
                 XescTimer.Stop();
+                ScreencastStop();
             }
         }
 

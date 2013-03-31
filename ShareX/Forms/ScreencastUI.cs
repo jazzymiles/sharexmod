@@ -86,7 +86,7 @@ namespace ShareX.Forms
                     throw new Exception("Unsupported screencast filetype: " + SettingsManager.ConfigUser.ScreencastFileType.GetDescription());
             }
 
-            timerScreencast.Stop();
+            timerScreencastDelay.Stop();
         }
 
         private void ImgEncoderStart()
@@ -293,15 +293,13 @@ namespace ShareX.Forms
                     break;
             }
 
-            if (act.Workflow.Subtasks.HasFlag(Subtask.UploadToRemoteHost))
+            UploadTask task = UploadTask.CreateFileUploaderTask(Screencast.FilePath, EDataType.File);
+            if (task != null)
             {
-                UploadTask task = UploadTask.CreateFileUploaderTask(Screencast.FilePath, EDataType.File);
-                if (task != null)
-                {
-                    task.SetWorkflow(act.Workflow);
-                    TaskManager.Start(task);
-                }
+                task.SetWorkflow(act.Workflow);
+                TaskManager.Start(task);
             }
+
             this.Close();
         }
 
