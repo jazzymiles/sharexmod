@@ -1,31 +1,30 @@
 ﻿using HelpersLib;
 using HelpersLibMod;
-using Microsoft.Expression.Encoder.Profiles;
 using ScreenCapture;
 using ShareX.HelperClasses;
 using ShareX.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ShareX.Forms
 {
-    public partial class ScreencastUI : Form
+    public partial class ScreencastUI
     {
         public ImageData Screencast { get; set; }
 
         private AfterCaptureActivity act;
 
         private Rectangle CaptureRectangle;
+        int pixelRound = 8;
 
         private ScreenRecorderCache ImgCache;
         private int delay = 200;
@@ -39,6 +38,7 @@ namespace ShareX.Forms
         public ScreencastUI(ImageData imagedata, AfterCaptureActivity act)
         {
             InitializeComponent();
+
             this.Text = Application.ProductName + " - Screencast";
             this.Location = new Point(0, 0);
 
@@ -51,18 +51,17 @@ namespace ShareX.Forms
             Screencast = imagedata;
             CaptureRectangle = Screencast.CaptureRectangle;
 
-            int pixelRound = 16;
-            CaptureRectangle.Width = Math.Max(RoundOff(CaptureRectangle.Width, pixelRound), pixelRound);
-            CaptureRectangle.Height = Math.Max(RoundOff(CaptureRectangle.Height, pixelRound), pixelRound);
+            CaptureRectangle.Width = FixRes(CaptureRectangle.Width);
+            CaptureRectangle.Height = FixRes(CaptureRectangle.Height);
 
             Encoder.DoWork += Encoder_DoWork;
             Encoder.ProgressChanged += Encoder_ProgressChanged;
             Encoder.RunWorkerCompleted += Encoder_RunWorkerCompleted;
         }
 
-        private int RoundOff(int round, double roundOffTo)
+        private int FixRes(int round)
         {
-            return ((int)Math.Round(round / roundOffTo)) * (int)roundOffTo;
+            return ((int)Math.Ceiling(round / (double)pixelRound)) * pixelRound;
         }
 
         private void timerScreencast_Tick(object sender, EventArgs e)
@@ -74,6 +73,7 @@ namespace ShareX.Forms
             {
                 case EScreencastFileType.avi:
                 case EScreencastFileType.gif:
+                case EScreencastFileType.custom:
                     ImgEncoderStart();
                     break;
 
@@ -89,49 +89,6 @@ namespace ShareX.Forms
             timerScreencastDelay.Stop();
         }
 
-        private void ImgEncoderStart()
-        {
-            string fileExt = ".gif";
-            switch (SettingsManager.ConfigUser.ScreencastFileType)
-            {
-                case EScreencastFileType.avi:
-                    fileExt = ".avi";
-                    break;
-
-                case EScreencastFileType.gif:
-                    fileExt = ".gif";
-                    break;
-            }
-
-            Screencast.FilePath = Path.Combine(Program.ScreenshotsPath, Screencast.Filename + fileExt);
-
-            ImgRecorder.DoWork += ImgRecorder_DoWork;
-            ImgRecorder.RunWorkerCompleted += ImgRecorder_RunWorkerCompleted;
-
-            ImgRecorder.RunWorkerAsync();
-        }
-
-        /// <summary>
-        /// Gif recording has to be in a thread to have response in ScreencastUI for stopping
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ImgRecorder_DoWork(object sender, DoWorkEventArgs e)
-        {
-            ImgRecord();
-        }
-
-        private void ImgRecorder_ReportProgress(int count, int total)
-        {
-            int progress = (int)((double)count / (double)total * 100);
-            Encoder.ReportProgress(progress);
-        }
-
-        private void ImgRecorder_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            Encoder.RunWorkerAsync();
-        }
-        
         private ScreenRecorderCache ImgRecord()
         {
             using (ImgCache = new ScreenRecorderCache(SettingsManager.ScreenRecorderCacheFilePath))
@@ -162,6 +119,50 @@ namespace ShareX.Forms
             return ImgCache;
         }
 
+        /// <summary>
+        /// Gif recording has to be in a thread to have response in ScreencastUI for stopping
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ImgRecorder_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ImgRecord();
+        }
+
+        private void ImgRecorder_ReportProgress(int count, int total)
+        {
+            int progress = (int)((double)count / (double)total * 100);
+            Encoder.ReportProgress(progress);
+        }
+
+        private void ImgRecorder_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Encoder.RunWorkerAsync();
+        }
+
+        private void ImgEncoderStart()
+        {
+            string fileExt = string.Empty;
+            switch (SettingsManager.ConfigUser.ScreencastFileType)
+            {
+                case EScreencastFileType.avi:
+                case EScreencastFileType.custom:
+                    fileExt = ".avi";
+                    break;
+
+                case EScreencastFileType.gif:
+                    fileExt = ".gif";
+                    break;
+            }
+
+            Screencast.FilePath = Path.Combine(Program.ScreenshotsPath, Screencast.Filename + fileExt);
+
+            ImgRecorder.DoWork += ImgRecorder_DoWork;
+            ImgRecorder.RunWorkerCompleted += ImgRecorder_RunWorkerCompleted;
+
+            ImgRecorder.RunWorkerAsync();
+        }
+
         private void GifEncode()
         {
             using (GifCreator gifEncoder = new GifCreator(delay))
@@ -183,7 +184,7 @@ namespace ShareX.Forms
             }
         }
 
-        private void AviEncode()
+        private void AviEncode(bool writeCompressed)
         {
             using (AVIManager aviManager = new AVIManager(Screencast.FilePath, SettingsManager.ConfigUser.ScreencastFPS))
             {
@@ -198,10 +199,10 @@ namespace ShareX.Forms
                         if (heightLimit > 0 && CaptureRectangle.Height > heightLimit)
                         {
                             int width = (int)((float)heightLimit / CaptureRectangle.Height * CaptureRectangle.Width);
-                            img2 = CaptureHelpers.ResizeImage(img2, width, heightLimit);
+                            img2 = CaptureHelpers.ResizeImage(img2, FixRes(width), heightLimit);
                         }
 
-                        aviManager.AddFrame(img2);
+                        aviManager.AddFrame(img2, writeCompressed);
                         count++;
                         ImgRecorder_ReportProgress(count, total);
                     }
@@ -213,30 +214,36 @@ namespace ShareX.Forms
             }
         }
 
-        private void ScreencastStop()
+        private void CommandlineEncode()
         {
-            Program.ScreencastCancellationPending = true;
+            AviEncode(false); // create uncompressed RAW video
 
-            switch (SettingsManager.ConfigUser.ScreencastFileType)
+            if (File.Exists(Screencast.FilePath) && File.Exists(SettingsManager.ConfigUser.ScreencastCmdEncoderPath))
             {
-                case EScreencastFileType.avi:
-                case EScreencastFileType.gif:
-                    break;
+                Process p = new Process();
+                ProcessStartInfo psi = new ProcessStartInfo(SettingsManager.ConfigUser.ScreencastCmdEncoderPath);
 
-                case EScreencastFileType.wmv:
-                case EScreencastFileType.xesc:
-                    this.XescScreenCaptureJob.Stop();
-                    if (!Encoder.IsBusy) // XescTimer_Tick can fire this twice
-                        Encoder.RunWorkerAsync();
-                    break;
+                string fpCompressed = Path.ChangeExtension(Screencast.FilePath, SettingsManager.ConfigUser.ScreencastEncoderTargetFileExtension);
+                string args = SettingsManager.ConfigUser.ScreencastEncoderArgs;
+                args = Regex.Replace(SettingsManager.ConfigUser.ScreencastEncoderArgs, "%source%", "\"" + Screencast.FilePath + "\"");
+                args = Regex.Replace(args, "%target%", "\"" + fpCompressed + "\"");
+                psi.Arguments = args;
+                p.StartInfo = psi;
+                p.Start();
+                p.WaitForExit();
 
-                default:
-                    throw new Exception("Unsupported screencast filetype: " + SettingsManager.ConfigUser.ScreencastFileType.GetDescription());
+                if (File.Exists(fpCompressed))
+                {
+                    try
+                    {
+                        File.Delete(Screencast.FilePath);
+                    }
+                    finally
+                    {
+                        Screencast.FilePath = fpCompressed;
+                    }
+                }
             }
-
-            progress.Visible = true;
-
-            Program.IsRecordingScreencast = false;
         }
 
         private void Encoder_DoWork(object sender, DoWorkEventArgs e)
@@ -244,11 +251,15 @@ namespace ShareX.Forms
             switch (SettingsManager.ConfigUser.ScreencastFileType)
             {
                 case EScreencastFileType.avi:
-                    AviEncode();
+                    AviEncode(true);
                     break;
 
                 case EScreencastFileType.gif:
                     GifEncode();
+                    break;
+
+                case EScreencastFileType.custom:
+                    CommandlineEncode();
                     break;
 
                 case EScreencastFileType.wmv:
@@ -266,59 +277,59 @@ namespace ShareX.Forms
             progress.Value = e.ProgressPercentage;
         }
 
-        private void Encoder_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void Encoder_RunWorkerCompleted_Img()
         {
-            Program.ScreencastCancellationPending = false;
+            if (ImgCache != null)
+                ImgCache.Dispose();
 
-            switch (SettingsManager.ConfigUser.ScreencastFileType)
+            try
             {
-                case EScreencastFileType.avi:
-                case EScreencastFileType.gif:
-                    if (ImgCache != null)
-                        ImgCache.Dispose();
-
-                    if (File.Exists(SettingsManager.ScreenRecorderCacheFilePath))
-                        File.Delete(SettingsManager.ScreenRecorderCacheFilePath);
-                    break;
-
-                case EScreencastFileType.wmv:
-                    Screencast.FilePath = Path.ChangeExtension(XescScreenCaptureJob.ScreenCaptureFileName, "wmv");
-
-                    if (File.Exists(Screencast.FilePath))
-                        File.Delete(XescScreenCaptureJob.ScreenCaptureFileName); // if wmv exists then delete xesc
-                    break;
-
-                case EScreencastFileType.xesc:
-                    Screencast.FilePath = XescScreenCaptureJob.ScreenCaptureFileName;
-                    break;
+                if (File.Exists(SettingsManager.ScreenRecorderCacheFilePath))
+                    File.Delete(SettingsManager.ScreenRecorderCacheFilePath);
             }
-
-            UploadTask task = UploadTask.CreateFileUploaderTask(Screencast.FilePath, EDataType.File);
-            if (task != null)
+            catch (Exception ex)
             {
-                task.SetWorkflow(act.Workflow);
-                TaskManager.Start(task);
+                DebugHelper.WriteLine(ex.Message);
             }
+        }
 
+        private void Encoder_RunWorkerCompleted_Publish()
+        {
+            if (act.Workflow.Subtasks.HasFlag(Subtask.UploadToRemoteHost))
+            {
+                UploadTask task = UploadTask.CreateFileUploaderTask(Screencast.FilePath, EDataType.File);
+                if (task != null)
+                {
+                    task.SetWorkflow(act.Workflow);
+                    TaskManager.Start(task);
+                }
+            }
             this.Close();
+        }
+
+        private void ScreencastStop_Common()
+        {
+            Program.IsRecordingScreencast = false;
+            Program.ScreencastCancellationPending = true;
+            progress.Visible = true;
         }
 
         private void ScreencastUI_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
             {
-                ScreencastStop();
+                Stop();
             }
         }
 
         private void ScreencastUI_MouseClick(object sender, MouseEventArgs e)
         {
-            ScreencastStop();
+            Stop();
         }
 
         private void ScreencastUI_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            ScreencastStop();
+            Stop();
         }
     }
 }

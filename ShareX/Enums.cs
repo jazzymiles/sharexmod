@@ -124,6 +124,9 @@ namespace ShareX
 
         [Description("Audio Video Interleave")]
         avi,
+
+        [Description("Command-line Encoder")]
+        custom,
     }
 
     public enum EBitrateType

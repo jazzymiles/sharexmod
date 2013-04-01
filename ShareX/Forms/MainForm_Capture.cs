@@ -243,7 +243,7 @@ namespace ShareX
 
             if (Program.IsRecordingScreencast)
             {
-                Program.ScreencastCancellationPending = true; // request stopping current screencast
+                FormsHelper.ScreencastUi.Stop();
             }
             else if (TaskHelper.CheckExpressionEncoder())
             {

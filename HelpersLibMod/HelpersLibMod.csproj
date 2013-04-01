@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Runtime.Serialization" />
@@ -48,6 +49,7 @@
     <Compile Include="ComponentModelStrings.cs" />
     <Compile Include="CsvConverter.cs" />
     <Compile Include="EnumExtensions.cs" />
+    <Compile Include="ExeFileNameEditor.cs" />
     <Compile Include="HelpersMod.cs" />
     <Compile Include="UpdateCheckerMod\UpdaterForm.cs">
       <SubType>Form</SubType>

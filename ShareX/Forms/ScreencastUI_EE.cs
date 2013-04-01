@@ -30,7 +30,7 @@ namespace ShareX.Forms
             if (Program.ScreencastCancellationPending)
             {
                 XescTimer.Stop();
-                ScreencastStop();
+                Stop();
             }
         }
 

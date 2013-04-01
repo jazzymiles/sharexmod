@@ -15,6 +15,7 @@ namespace ShareX
     public static class FormsHelper
     {
         private static MainForm _MainForm;
+        public static ScreencastUI ScreencastUi;
         private static OptionsWindow _OptionsWindow;
         private static WorkflowManager _WorkflowManager;
 
