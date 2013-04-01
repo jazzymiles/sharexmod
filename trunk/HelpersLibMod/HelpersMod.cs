@@ -12,7 +12,7 @@ namespace HelpersLibMod
     {
         public static bool HasExpressionEncoder()
         {
-            using (RegistryKey regkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Expression\Encoder\4.0"))
+            using (RegistryKey regkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Expression\Encoder"))
             {
                 return regkey != null && regkey.SubKeyCount > 0;
             }
