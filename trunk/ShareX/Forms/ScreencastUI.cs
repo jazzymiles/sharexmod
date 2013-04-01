@@ -223,6 +223,7 @@ namespace ShareX.Forms
                 args = Regex.Replace(SettingsManager.ConfigUser.ScreencastEncoderArgs, "%source%", "\"" + Screencast.FilePath + "\"");
                 args = Regex.Replace(args, "%target%", "\"" + fpCompressed + "\"");
                 psi.Arguments = args;
+                psi.WindowStyle = ProcessWindowStyle.Minimized;
                 p.StartInfo = psi;
                 p.Start();
                 p.WaitForExit();
