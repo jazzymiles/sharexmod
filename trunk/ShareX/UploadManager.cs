@@ -150,8 +150,8 @@ namespace ShareX
         {
             if (imageData != null)
             {
-                ScreencastUI ui = new ScreencastUI(imageData, act) { Icon = FormsHelper.Main.Icon };
-                ui.Show();
+                FormsHelper.ScreencastUi = new ScreencastUI(imageData, act) { Icon = FormsHelper.Main.Icon };
+                FormsHelper.ScreencastUi.Show();
             }
         }
 

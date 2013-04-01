@@ -120,6 +120,9 @@
     <Compile Include="Forms\ImageEffectsGUI.Designer.cs">
       <DependentUpon>ImageEffectsGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ScreencastUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HelperClasses\AddressBookHelper.cs" />
     <Compile Include="HelperClasses\AfterCaptureActivity.cs" />
     <Compile Include="HelperClasses\DropboxSyncHelper.cs" />

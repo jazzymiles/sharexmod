@@ -70,7 +70,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.ttApp.SetToolTip(this, "ShareXmod");
             this.TopMost = true;
-            this.Load += new System.EventHandler(this.ScreencastUI_Load);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ScreencastUI_MouseClick);
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ScreencastUI_MouseDoubleClick);
             this.ResumeLayout(false);

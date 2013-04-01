@@ -112,11 +112,14 @@
     <Compile Include="Forms\ImageEffectsGUI.Designer.cs">
       <DependentUpon>ImageEffectsGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ScreencastUI.cs">
+    <Compile Include="Forms\ScreencastUI_x32.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ScreencastUI.Designer.cs">
-      <DependentUpon>ScreencastUI.cs</DependentUpon>
+    <Compile Include="Forms\ScreencastUI_x32.Designer.cs">
+      <DependentUpon>ScreencastUI_x32.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ScreencastUI.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="HelperClasses\AddressBookHelper.cs" />
     <Compile Include="HelperClasses\AfterCaptureActivity.cs" />
@@ -236,8 +239,8 @@
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScreencastUI.resx">
-      <DependentUpon>ScreencastUI.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ScreencastUI_x32.resx">
+      <DependentUpon>ScreencastUI_x32.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ImageQualityUI.resx">
       <DependentUpon>ImageQualityUI.cs</DependentUpon>

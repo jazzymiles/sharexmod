@@ -5,6 +5,7 @@ using IndexersLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.Linq;
 using System.Text;
 
@@ -52,8 +53,18 @@ namespace ShareX.SettingsHelpers
         [Category(ComponentModelStrings.Screencasts), DefaultValue(EScreencastFileType.wmv), Description("Screencast file type")]
         public EScreencastFileType ScreencastFileType { get; set; }
 
-        [Category(ComponentModelStrings.ScreencastsApp), DefaultValue(5), Description("Frames per second for GIF and AVI files")]
+        [Category(ComponentModelStrings.Screencasts), DefaultValue(5), Description("Frames per second for GIF and AVI files")]
         public int ScreencastFPS { get; set; }
+
+        [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
+        [Category(ComponentModelStrings.ScreencastsCmd), Description("Command-line Encoder path")]
+        public string ScreencastCmdEncoderPath { get; set; }
+
+        [Category(ComponentModelStrings.ScreencastsCmd), DefaultValue("mkv"), Description("Specify the file extension of the target file produced by the Command-line Encoder")]
+        public string ScreencastEncoderTargetFileExtension { get; set; }
+
+        [Category(ComponentModelStrings.ScreencastsCmd),  DefaultValue("--output %target% %source%"), Description("Command-line Encoder arguments")]
+        public string ScreencastEncoderArgs { get; set; }
 
         [Category(ComponentModelStrings.ScreencastsEEWMV), DefaultValue(EBitrateType.ConstantBitrate), Description("Screencast VC1 video profile type")]
         public EBitrateType ScreencastBitrateType { get; set; }
