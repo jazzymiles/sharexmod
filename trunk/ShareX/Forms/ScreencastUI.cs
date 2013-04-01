@@ -146,8 +146,11 @@ namespace ShareX.Forms
             switch (SettingsManager.ConfigUser.ScreencastEncoderType)
             {
                 case EScreencastEncoderType.PromptUser:
-                case EScreencastEncoderType.CommandLineEncoder:
                     fileExt = ".avi";
+                    break;
+
+                case EScreencastEncoderType.CommandLineEncoder:
+                    fileExt = ".mp4";
                     break;
 
                 case EScreencastEncoderType.GraphicsInterchangeFormat:
@@ -228,6 +231,7 @@ namespace ShareX.Forms
                 args = Regex.Replace(SettingsManager.ConfigUser.ScreencastEncoderArgs, "%source%", "\"" + Screencast.FilePath + "\"");
                 args = Regex.Replace(args, "%target%", "\"" + fpCompressed + "\"");
                 psi.Arguments = args;
+                psi.WindowStyle = ProcessWindowStyle.Minimized;
                 p.StartInfo = psi;
                 p.Start();
                 p.WaitForExit();

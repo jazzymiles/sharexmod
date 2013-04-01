@@ -2,17 +2,17 @@
 <Update>
   <ShareXmod>
     <Stable>
-      <Version>7.2.0.300</Version>
-      <URL>https://sharexmod.googlecode.com/files/ShareXmod-7.2.0.300-setup.exe</URL>
-      <Date>2013-03-31</Date>
+      <Version>7.2.1.308</Version>
+      <URL>https://sharexmod.googlecode.com/files/ShareXmod-7.2.1.308-setup.exe</URL>
+      <Date>2013-04-01</Date>
       <Summary>http://sharexmod.googlecode.com/svn/trunk/Docs/VersionHistory.txt</Summary>
     </Stable>
   </ShareXmod>
    <ShareXmod_x64>
     <Stable>
-      <Version>7.2.0.300</Version>
-      <URL>https://sharexmod.googlecode.com/files/ShareXmod_x64-7.2.0.300-setup.exe</URL>
-      <Date>2013-03-31</Date>
+      <Version>7.2.1.308</Version>
+      <URL>https://sharexmod.googlecode.com/files/ShareXmod_x64-7.2.1.308-setup.exe</URL>
+      <Date>2013-04-01</Date>
       <Summary>http://sharexmod.googlecode.com/svn/trunk/Docs/VersionHistory.txt</Summary>
     </Stable>
   </ShareXmod_x64>

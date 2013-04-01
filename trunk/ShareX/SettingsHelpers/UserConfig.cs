@@ -53,14 +53,14 @@ namespace ShareX.SettingsHelpers
         [Category(ComponentModelStrings.Screencasts), DefaultValue(EScreencastEncoderType.WindowsMediaVideo), Description("Screencast file type")]
         public EScreencastEncoderType ScreencastEncoderType { get; set; }
 
-        [Category(ComponentModelStrings.Screencasts), DefaultValue(5), Description("Frames per second for GIF and AVI files")]
+        [Category(ComponentModelStrings.Screencasts), DefaultValue(5), Description("Frames per second for encoders other than Expression Encoder")]
         public int ScreencastFPS { get; set; }
 
         [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
-        [Category(ComponentModelStrings.ScreencastsCmd), Description("Command-line Encoder path")]
+        [Category(ComponentModelStrings.ScreencastsCmd), Description("Command-line Encoder path e.g. x264.exe")]
         public string ScreencastCmdEncoderPath { get; set; }
 
-        [Category(ComponentModelStrings.ScreencastsCmd), DefaultValue("mkv"), Description("Specify the file extension of the target file produced by the Command-line Encoder")]
+        [Category(ComponentModelStrings.ScreencastsCmd), DefaultValue("mp4"), Description("Specify the file extension of the target file produced by the Command-line Encoder")]
         public string ScreencastEncoderTargetFileExtension { get; set; }
 
         [Category(ComponentModelStrings.ScreencastsCmd),  DefaultValue("--output %target% %source%"), Description("Command-line Encoder arguments")]
