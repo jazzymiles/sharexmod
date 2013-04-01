@@ -111,22 +111,22 @@ namespace ShareX
         ScrollLock
     }
 
-    public enum EScreencastFileType
+    public enum EScreencastEncoderType
     {
         [Description("Windows Media Video")]
-        wmv,
+        WindowsMediaVideo,
 
-        [Description("Expression Encoder Screen Capture")]
-        xesc,
+        [Description("Expression Encoder Screen Capture codec")]
+        ExpressionEncoderScreenCaptureCodec,
 
         [Description("Graphics Interchange Format")]
-        gif,
+        GraphicsInterchangeFormat,
 
-        [Description("Audio Video Interleave")]
-        avi,
+        [Description("Video for Windows Compression Manager")]
+        PromptUser,
 
-        [Description("Command-line Encoder")]
-        custom,
+        [Description("Command-line Interface Encoder")]
+        CommandLineEncoder,
     }
 
     public enum EBitrateType

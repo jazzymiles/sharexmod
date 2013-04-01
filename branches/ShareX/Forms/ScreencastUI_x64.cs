@@ -23,9 +23,9 @@ namespace ShareX.Forms
     {
         private void ScreencastUI_Load(object sender, EventArgs e)
         {
-            if (SettingsManager.ConfigUser.ScreencastFileType == EScreencastFileType.wmv ||
-                SettingsManager.ConfigUser.ScreencastFileType == EScreencastFileType.xesc)
-                SettingsManager.ConfigUser.ScreencastFileType = EScreencastFileType.gif;
+            if (SettingsManager.ConfigUser.ScreencastEncoderType == EScreencastEncoderType.WindowsMediaVideo ||
+                SettingsManager.ConfigUser.ScreencastEncoderType == EScreencastEncoderType.ExpressionEncoderScreenCaptureCodec)
+                SettingsManager.ConfigUser.ScreencastEncoderType = EScreencastEncoderType.GraphicsInterchangeFormat;
         }
 
         private void ExpressionEncoderStart()
@@ -42,15 +42,15 @@ namespace ShareX.Forms
         {
             Program.ScreencastCancellationPending = false; // to prepare for another screencast
 
-            switch (SettingsManager.ConfigUser.ScreencastFileType)
+            switch (SettingsManager.ConfigUser.ScreencastEncoderType)
             {
-                case EScreencastFileType.avi:
-                case EScreencastFileType.gif:
-                case EScreencastFileType.custom:
+                case EScreencastEncoderType.PromptUser:
+                case EScreencastEncoderType.GraphicsInterchangeFormat:
+                case EScreencastEncoderType.CommandLineEncoder:
                     Encoder_RunWorkerCompleted_Img();
                     break;
-                case EScreencastFileType.wmv:
-                case EScreencastFileType.xesc:
+                case EScreencastEncoderType.WindowsMediaVideo:
+                case EScreencastEncoderType.ExpressionEncoderScreenCaptureCodec:
                     break;
             }
 

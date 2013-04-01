@@ -78,9 +78,14 @@ namespace ShareX.HelperClasses
 
             foreach (UploadTask task in TaskManager.Tasks)
             {
-                if (task.Info != null && File.Exists(task.Info.FilePath) && Helpers.IsImageFile(task.Info.FilePath))
+                if (task.Info != null && File.Exists(task.Info.FilePath))
                 {
-                    Thumbnails.Images.Add(task.Info.FileName, HelpersMod.ImageFromFile(task.Info.FilePath));
+                    if (Helpers.IsImageFile(task.Info.FilePath))
+                        Thumbnails.Images.Add(task.Info.FileName, HelpersMod.ImageFromFile(task.Info.FilePath));
+                    else
+                    {
+                        Thumbnails.Images.Add(Resources.folder);
+                    }
                 }
             }
         }
