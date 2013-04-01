@@ -542,7 +542,7 @@ namespace ShareX
                             tsmiShowResponse.Visible = true;
                         }
 
-                        tsmiViewInFullscreen.Visible = uim.SelectedItems[0].IsFileExist;
+                        tsmiViewInFullscreen.Visible = uim.SelectedItems[0].IsImageFile;
                         tsmiUploadSelectedFile.Visible = uim.SelectedItems[0].IsFileExist;
                     }
                 }
