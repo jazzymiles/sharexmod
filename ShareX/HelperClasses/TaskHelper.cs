@@ -51,8 +51,8 @@ namespace ShareX.HelperClasses
 
         public static bool CheckExpressionEncoder()
         {
-            if ((SettingsManager.ConfigUser.ScreencastFileType == EScreencastFileType.wmv ||
-                SettingsManager.ConfigUser.ScreencastFileType == EScreencastFileType.xesc)
+            if ((SettingsManager.ConfigUser.ScreencastEncoderType == EScreencastEncoderType.WindowsMediaVideo ||
+                SettingsManager.ConfigUser.ScreencastEncoderType == EScreencastEncoderType.ExpressionEncoderScreenCaptureCodec)
                 && !HelpersMod.HasExpressionEncoder())
             {
                 System.Windows.Forms.MessageBox.Show("Microsoft Expression Encoder 4 is required to perform screencast.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -199,6 +199,9 @@ namespace ShareX
                 SettingsManager.ConfigCore.Workflow.Settings.DestConfig.LinkUploaders.Add(UploadManager.URLShortener);
                 SettingsManager.ConfigCore.Workflow.Settings.DestConfig.SocialNetworkingServices.Add(UploadManager.SocialNetworkingService);
 
+                SettingsManager.ConfigCore.Workflow.Settings.DestConfig.ImageUploaders2.Add(ImageDestination.FileUploader);
+                SettingsManager.ConfigCore.Workflow.Settings.DestConfig.TextUploaders2.Add(TextDestination.FileUploader);
+
                 SettingsManager.ConfigCore.Workflow.Subtasks = SettingsManager.ConfigCore.AfterCaptureTasks;
                 SettingsManager.ConfigCore.Workflow.AfterUploadTasks = SettingsManager.ConfigCore.AfterUploadTasks;
             }
@@ -210,7 +213,7 @@ namespace ShareX
 
         public void GetAddressBook(ToolStripMenuItem tsmiOutputEmail)
         {
-            if (tsmiOutputEmail.DropDownItems != null)
+            if (tsmiOutputEmail.DropDownItems != null && SettingsManager.ConfigUser != null)
             {
                 tsmiOutputEmail.DropDownItems.Clear();
                 if (SettingsManager.ConfigUser.AddressBook == null)
@@ -548,7 +551,7 @@ namespace ShareX
 
         private void UpdateUploaderMenuFileUploaderName(ToolStripMenuItem tsmi)
         {
-            tsmi.DropDownItems[tsmi.DropDownItems.Count - 1].Text = UploadManager.FileUploader.GetDescription();
+            tsmi.DropDownItems[tsmi.DropDownItems.Count - 1].Text = UploadManager.FileUploader.GetDescription() + " (file uploader)";
         }
 
         private void UpdateUploaderMenuNames()
@@ -560,13 +563,13 @@ namespace ShareX
 
             tsmiImageUploaders.Text = "Image uploader: ";
             if (UploadManager.ImageUploader == ImageDestination.FileUploader)
-                tsmiTrayImageUploaders.Text = tsmiImageUploaders.Text += UploadManager.FileUploader.GetDescription();
+                tsmiTrayImageUploaders.Text = tsmiImageUploaders.Text += UploadManager.FileUploader.GetDescription() + " (via file uploader)";
             else
                 tsmiTrayImageUploaders.Text = tsmiImageUploaders.Text += UploadManager.ImageUploader.GetDescription();
 
             tsmiTextUploaders.Text = "Text uploader: ";
             if (UploadManager.TextUploader == TextDestination.FileUploader)
-                tsmiTrayTextUploaders.Text = tsmiTextUploaders.Text += UploadManager.FileUploader.GetDescription();
+                tsmiTrayTextUploaders.Text = tsmiTextUploaders.Text += UploadManager.FileUploader.GetDescription() + " (via file uploader)";
             else
                 tsmiTrayTextUploaders.Text = tsmiTextUploaders.Text += UploadManager.TextUploader.GetDescription();
 

@@ -69,21 +69,21 @@ namespace ShareX.Forms
             Program.IsRecordingScreencast = true;
             this.BackgroundImage = Resources.stop;
 
-            switch (SettingsManager.ConfigUser.ScreencastFileType)
+            switch (SettingsManager.ConfigUser.ScreencastEncoderType)
             {
-                case EScreencastFileType.avi:
-                case EScreencastFileType.gif:
-                case EScreencastFileType.custom:
+                case EScreencastEncoderType.PromptUser:
+                case EScreencastEncoderType.GraphicsInterchangeFormat:
+                case EScreencastEncoderType.CommandLineEncoder:
                     ImgEncoderStart();
                     break;
 
-                case EScreencastFileType.wmv:
-                case EScreencastFileType.xesc:
+                case EScreencastEncoderType.WindowsMediaVideo:
+                case EScreencastEncoderType.ExpressionEncoderScreenCaptureCodec:
                     ExpressionEncoderStart();
                     break;
 
                 default:
-                    throw new Exception("Unsupported screencast filetype: " + SettingsManager.ConfigUser.ScreencastFileType.GetDescription());
+                    throw new Exception("Unsupported screencast filetype: " + SettingsManager.ConfigUser.ScreencastEncoderType.GetDescription());
             }
 
             timerScreencastDelay.Stop();
@@ -143,14 +143,14 @@ namespace ShareX.Forms
         private void ImgEncoderStart()
         {
             string fileExt = string.Empty;
-            switch (SettingsManager.ConfigUser.ScreencastFileType)
+            switch (SettingsManager.ConfigUser.ScreencastEncoderType)
             {
-                case EScreencastFileType.avi:
-                case EScreencastFileType.custom:
+                case EScreencastEncoderType.PromptUser:
+                case EScreencastEncoderType.CommandLineEncoder:
                     fileExt = ".avi";
                     break;
 
-                case EScreencastFileType.gif:
+                case EScreencastEncoderType.GraphicsInterchangeFormat:
                     fileExt = ".gif";
                     break;
             }
@@ -248,27 +248,27 @@ namespace ShareX.Forms
 
         private void Encoder_DoWork(object sender, DoWorkEventArgs e)
         {
-            switch (SettingsManager.ConfigUser.ScreencastFileType)
+            switch (SettingsManager.ConfigUser.ScreencastEncoderType)
             {
-                case EScreencastFileType.avi:
+                case EScreencastEncoderType.PromptUser:
                     AviEncode(true);
                     break;
 
-                case EScreencastFileType.gif:
+                case EScreencastEncoderType.GraphicsInterchangeFormat:
                     GifEncode();
                     break;
 
-                case EScreencastFileType.custom:
+                case EScreencastEncoderType.CommandLineEncoder:
                     CommandlineEncode();
                     break;
 
-                case EScreencastFileType.wmv:
-                case EScreencastFileType.xesc:
+                case EScreencastEncoderType.WindowsMediaVideo:
+                case EScreencastEncoderType.ExpressionEncoderScreenCaptureCodec:
                     WMEncode();
                     break;
 
                 default:
-                    throw new Exception("Unsupported screencast filetype: " + SettingsManager.ConfigUser.ScreencastFileType.GetDescription());
+                    throw new Exception("Unsupported screencast filetype: " + SettingsManager.ConfigUser.ScreencastEncoderType.GetDescription());
             }
         }
 

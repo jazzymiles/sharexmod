@@ -50,8 +50,8 @@ namespace ShareX.SettingsHelpers
         public EImageEditorOnKeyLock ImageEditorOnKeyPress { get; set; }
 
         // Screencasts
-        [Category(ComponentModelStrings.Screencasts), DefaultValue(EScreencastFileType.wmv), Description("Screencast file type")]
-        public EScreencastFileType ScreencastFileType { get; set; }
+        [Category(ComponentModelStrings.Screencasts), DefaultValue(EScreencastEncoderType.WindowsMediaVideo), Description("Screencast file type")]
+        public EScreencastEncoderType ScreencastEncoderType { get; set; }
 
         [Category(ComponentModelStrings.Screencasts), DefaultValue(5), Description("Frames per second for GIF and AVI files")]
         public int ScreencastFPS { get; set; }
