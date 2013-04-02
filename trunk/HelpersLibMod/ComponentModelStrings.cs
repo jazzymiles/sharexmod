@@ -34,6 +34,7 @@ namespace HelpersLibMod
         public const string OutputsRemoteEmail = "Outputs / Remote / Email";
         public const string OutputsRemoteImage = "Outputs / Remote / Image Uploaders";
         public const string Screenshots = "Inputs / Screenshots";
+        public const string ScreenshotsShadow = "Inputs / Screenshots / Shadow";
         public const string Screencasts = "Inputs / Screencasts";
         public const string ScreencastsApp = "Inputs / Screencasts / Built-in Encoder";
         public const string ScreencastsCmd = "Inputs / Screencasts / Command-line Encoder";
