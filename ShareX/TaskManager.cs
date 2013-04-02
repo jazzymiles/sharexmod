@@ -92,12 +92,12 @@ namespace ShareX
                             continue;
                     }
 
-                    if (info.Jobs.HasFlag(Subtask.UploadToRemoteHost))
+                    if (info.Subtasks.HasFlag(Subtask.UploadToRemoteHost))
                     {
                         lvi.SubItems.Add(info.UploaderHost);
                         break;
                     }
-                    else if (info.Jobs.HasFlag(job))
+                    else if (info.Subtasks.HasFlag(job))
                     {
                         lvi.SubItems.Add(job.GetDescription());
                         break;
@@ -288,9 +288,8 @@ namespace ShareX
                         lvi.SubItems[1].Text = info.Status;
                         ListViewManager.set_IconCompleted(lvi);
 
-                        string url_or_filepath = string.IsNullOrEmpty(info.Result.ShortenedURL) ? info.Result.URL : info.Result.ShortenedURL;
-                        if (string.IsNullOrEmpty(url_or_filepath))
-                            url_or_filepath = info.FilePath;
+                        string url = string.IsNullOrEmpty(info.Result.ShortenedURL) ? info.Result.URL : info.Result.ShortenedURL;
+                        string url_or_filepath = string.IsNullOrEmpty(url) ? info.FilePath : url;
 
                         lvi.SubItems[8].Text = url_or_filepath;
 
@@ -299,10 +298,20 @@ namespace ShareX
                             if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.Clipboard) &&
                                 SettingsManager.ConfigCore.Workflow.AfterUploadTasks.HasFlag(AfterUploadTasks.CopyURLToClipboard))
                             {
-                                if (!string.IsNullOrEmpty(info.Result.URL))
-                                    Helpers.CopyTextSafely(info.Result.URL);
-                                else if (!SettingsManager.ConfigCore.Workflow.Subtasks.HasFlag(Subtask.CopyImageToClipboard))
-                                    Helpers.CopyTextSafely(url_or_filepath);
+                                // Save to file only 
+                                if (info.Subtasks.HasFlagAny(Subtask.SaveToFile, Subtask.SaveImageToFileWithDialog) &&
+                                   !info.Subtasks.HasFlag(Subtask.UploadToRemoteHost) &&
+                                   !info.Subtasks.HasFlag(Subtask.CopyImageToClipboard))
+                                {
+                                    if (!string.IsNullOrEmpty(info.FilePath))
+                                        Helpers.CopyTextSafely(info.FilePath);
+                                }
+                                // Upload to Remote
+                                else if (info.Subtasks.HasFlag(Subtask.UploadToRemoteHost))
+                                {
+                                    if (!string.IsNullOrEmpty(url))
+                                        Helpers.CopyTextSafely(url);
+                                }
                             }
 
                             if (FormsHelper.Main.niTray.Visible && SettingsManager.ConfigCore.ShowBalloonAfterUpload)
@@ -312,7 +321,7 @@ namespace ShareX
                             }
                         }
 
-                        if (!string.IsNullOrEmpty(info.Result.URL))
+                        if (!string.IsNullOrEmpty(url_or_filepath))
                         {
                             if (SettingsManager.ConfigCore.SaveHistory)
                             {

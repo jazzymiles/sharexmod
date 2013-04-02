@@ -39,7 +39,7 @@ namespace HelpersLib.Hotkeys2
             }
             cboCapture.SelectedIndex = (int)Workflow.Hotkey;
 
-            chkPerformGlobalAfterCaptureTasks.Checked = Workflow.Settings.PerformGlobalAfterCaptureTasks;
+            chkPerformGlobalAfterCaptureTasks.Checked = Workflow.Settings.ApplyDefaultSettings;
             txtTextFormat.Text = this.Workflow.Settings.DestConfig.TextFormat;
 
             #endregion Capture
@@ -128,7 +128,7 @@ namespace HelpersLib.Hotkeys2
                 flpSocialNetworkingServices.Controls.Add(rbUploader);
             }
 
-            if (Workflow.Subtasks.HasFlag(Subtask.UploadToRemoteHost) || Workflow.Settings.PerformGlobalAfterCaptureTasks)
+            if (Workflow.Subtasks.HasFlag(Subtask.UploadToRemoteHost) || Workflow.Settings.ApplyDefaultSettings)
             {
                 ShowTabUploadAndShare();
             }
@@ -380,7 +380,7 @@ namespace HelpersLib.Hotkeys2
 
         private void chkPerformGlobalAfterCaptureTasks_CheckedChanged(object sender, EventArgs e)
         {
-            Workflow.Settings.PerformGlobalAfterCaptureTasks = chkPerformGlobalAfterCaptureTasks.Checked;
+            Workflow.Settings.ApplyDefaultSettings = chkPerformGlobalAfterCaptureTasks.Checked;
 
             if (chkPerformGlobalAfterCaptureTasks.Checked)
                 HideTabUploadAndShare();
@@ -605,7 +605,7 @@ namespace HelpersLib.Hotkeys2
                 }
             }
 
-            if (Workflow.Settings.PerformGlobalAfterCaptureTasks)
+            if (Workflow.Settings.ApplyDefaultSettings)
             {
                 sb.AppendLine("Apply default settings.");
             }

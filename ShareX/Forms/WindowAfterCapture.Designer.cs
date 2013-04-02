@@ -33,14 +33,14 @@
             this.lblGeneralInfo = new System.Windows.Forms.Label();
             this.tcAfterCapture = new System.Windows.Forms.TabControl();
             this.tpActions = new System.Windows.Forms.TabPage();
+            this.pbImage = new HelpersLib.MyPictureBox();
             this.tpImageResize = new System.Windows.Forms.TabPage();
+            this.ucImageResize = new ShareX.ImageResizeUI();
             this.tpImageQuality = new System.Windows.Forms.TabPage();
+            this.ucImageQuality = new ShareX.ImageQualityUI();
             this.tpImageName = new System.Windows.Forms.TabPage();
             this.txtImageName = new System.Windows.Forms.TextBox();
             this.btnCopyImage = new System.Windows.Forms.Button();
-            this.pbImage = new HelpersLib.MyPictureBox();
-            this.ucImageResize = new ShareX.ImageResizeUI();
-            this.ucImageQuality = new ShareX.ImageQualityUI();
             this.tcAfterCapture.SuspendLayout();
             this.tpActions.SuspendLayout();
             this.tpImageResize.SuspendLayout();
@@ -112,6 +112,16 @@
             this.tpActions.Text = "Actions";
             this.tpActions.UseVisualStyleBackColor = true;
             // 
+            // pbImage
+            // 
+            this.pbImage.BackColor = System.Drawing.Color.White;
+            this.pbImage.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pbImage.Location = new System.Drawing.Point(301, 4);
+            this.pbImage.Margin = new System.Windows.Forms.Padding(5);
+            this.pbImage.Name = "pbImage";
+            this.pbImage.Size = new System.Drawing.Size(511, 371);
+            this.pbImage.TabIndex = 0;
+            // 
             // tpImageResize
             // 
             this.tpImageResize.Controls.Add(this.ucImageResize);
@@ -124,6 +134,14 @@
             this.tpImageResize.Text = "Image Resize";
             this.tpImageResize.UseVisualStyleBackColor = true;
             // 
+            // ucImageResize
+            // 
+            this.ucImageResize.Location = new System.Drawing.Point(11, 10);
+            this.ucImageResize.Margin = new System.Windows.Forms.Padding(5);
+            this.ucImageResize.Name = "ucImageResize";
+            this.ucImageResize.Size = new System.Drawing.Size(587, 358);
+            this.ucImageResize.TabIndex = 0;
+            // 
             // tpImageQuality
             // 
             this.tpImageQuality.Controls.Add(this.ucImageQuality);
@@ -134,6 +152,14 @@
             this.tpImageQuality.TabIndex = 2;
             this.tpImageQuality.Text = "Image Quality";
             this.tpImageQuality.UseVisualStyleBackColor = true;
+            // 
+            // ucImageQuality
+            // 
+            this.ucImageQuality.Location = new System.Drawing.Point(11, 10);
+            this.ucImageQuality.Margin = new System.Windows.Forms.Padding(5);
+            this.ucImageQuality.Name = "ucImageQuality";
+            this.ucImageQuality.Size = new System.Drawing.Size(509, 273);
+            this.ucImageQuality.TabIndex = 0;
             // 
             // tpImageName
             // 
@@ -161,37 +187,11 @@
             this.btnCopyImage.Location = new System.Drawing.Point(11, 424);
             this.btnCopyImage.Margin = new System.Windows.Forms.Padding(4);
             this.btnCopyImage.Name = "btnCopyImage";
-            this.btnCopyImage.Size = new System.Drawing.Size(159, 27);
+            this.btnCopyImage.Size = new System.Drawing.Size(158, 27);
             this.btnCopyImage.TabIndex = 3;
-            this.btnCopyImage.Text = "Copy &Image and Close";
+            this.btnCopyImage.Text = "Copy &Image and Abort";
             this.btnCopyImage.UseVisualStyleBackColor = true;
             this.btnCopyImage.Click += new System.EventHandler(this.btnCopyImage_Click);
-            // 
-            // pbImage
-            // 
-            this.pbImage.BackColor = System.Drawing.Color.White;
-            this.pbImage.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pbImage.Location = new System.Drawing.Point(301, 4);
-            this.pbImage.Margin = new System.Windows.Forms.Padding(5);
-            this.pbImage.Name = "pbImage";
-            this.pbImage.Size = new System.Drawing.Size(511, 371);
-            this.pbImage.TabIndex = 0;
-            // 
-            // ucImageResize
-            // 
-            this.ucImageResize.Location = new System.Drawing.Point(11, 10);
-            this.ucImageResize.Margin = new System.Windows.Forms.Padding(5);
-            this.ucImageResize.Name = "ucImageResize";
-            this.ucImageResize.Size = new System.Drawing.Size(587, 358);
-            this.ucImageResize.TabIndex = 0;
-            // 
-            // ucImageQuality
-            // 
-            this.ucImageQuality.Location = new System.Drawing.Point(11, 10);
-            this.ucImageQuality.Margin = new System.Windows.Forms.Padding(5);
-            this.ucImageQuality.Name = "ucImageQuality";
-            this.ucImageQuality.Size = new System.Drawing.Size(509, 273);
-            this.ucImageQuality.TabIndex = 0;
             // 
             // WindowAfterCapture
             // 

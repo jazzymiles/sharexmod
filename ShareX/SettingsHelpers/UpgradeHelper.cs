@@ -60,7 +60,7 @@ namespace ShareX.SettingsHelpers
                     switch (act)
                     {
                         case EActivity.AfterCaptureTasks:
-                            wf.Settings.PerformGlobalAfterCaptureTasks = true;
+                            wf.Settings.ApplyDefaultSettings = true;
                             break;
 
                         case EActivity.CaptureActiveMonitor:

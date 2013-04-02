@@ -60,16 +60,6 @@ namespace ShareX
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfLastRegion);
                 SettingsManager.ConfigWorkflows.Workflows.Add(wfScreencast);
 
-                foreach (Workflow wf in SettingsManager.ConfigWorkflows.Workflows)
-                {
-                    if (wf.Hotkey == HelpersLib.Hotkeys2.EHotkey.ClipboardUpload || wf.Hotkey == HelpersLib.Hotkeys2.EHotkey.FileUpload)
-                    {
-                        wf.Subtasks |= Subtask.UploadToRemoteHost;
-                        wf.AfterUploadTasks |= AfterUploadTasks.CopyURLToClipboard;
-                    }
-                    else
-                        wf.Settings.PerformGlobalAfterCaptureTasks = true;
-                }
             } // if Workflows.Count == 0
 
             #region Backward compatiblity
@@ -78,7 +68,7 @@ namespace ShareX
             if (wfLastRegion_r200 == null)
             {
                 wfLastRegion_r200 = new Workflow(HelpersLib.Hotkeys2.EHotkey.LastRegion, new HotkeySetting());
-                wfLastRegion_r200.Settings.PerformGlobalAfterCaptureTasks = true;
+                wfLastRegion_r200.Settings.ApplyDefaultSettings = true;
                 SettingsManager.ConfigWorkflows.Workflows.Insert(13, wfLastRegion_r200);
             }
 
@@ -86,7 +76,7 @@ namespace ShareX
             if (wfScreencast_r275 == null)
             {
                 wfScreencast_r275 = new Workflow(HelpersLib.Hotkeys2.EHotkey.Screencast, new HotkeySetting());
-                wfScreencast_r275.Settings.PerformGlobalAfterCaptureTasks = true;
+                wfScreencast_r275.Settings.ApplyDefaultSettings = true;
                 SettingsManager.ConfigWorkflows.Workflows.Insert(14, wfScreencast_r275);
             }
 
@@ -188,7 +178,7 @@ namespace ShareX
                     break;
             }
 
-            if (jobs_wf.Workflow.Settings.PerformGlobalAfterCaptureTasks)
+            if (jobs_wf.Workflow.Settings.ApplyDefaultSettings)
             {
                 jobs_wf.Workflow.Subtasks |= SettingsManager.ConfigCore.Workflow.Subtasks;
                 jobs_wf.Workflow.AfterUploadTasks |= SettingsManager.ConfigCore.Workflow.AfterUploadTasks;
