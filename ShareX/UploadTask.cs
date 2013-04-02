@@ -24,7 +24,9 @@
 #endregion License Information (GPL v3)
 
 using Greenshot.Configuration;
+using Greenshot.Core;
 using Greenshot.IniFile;
+using GreenshotPlugin.Core;
 using HelpersLib;
 using HelpersLib.GraphicsHelper;
 using HelpersLib.Hotkeys2;
@@ -33,6 +35,7 @@ using ShareX.HelperClasses;
 using ShareX.Properties;
 using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -519,8 +522,13 @@ namespace ShareX
             if (Info.Subtasks.HasFlag(Subtask.AnnotateImageAddShadowBorder))
             {
                 InitGreenshot();
-                Point offsetChange;
-                imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateShadow(imageData.Image, 1f, 7, new Point(7, 7), out offsetChange, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                Point shadowOffset = new Point();
+                imageData.Image = ImageHelper.ApplyEffect(imageData.Image, new DropShadowEffect()
+                {
+                    Darkness = SettingsManager.ConfigUser.ShadowDarkness,
+                    ShadowSize = SettingsManager.ConfigUser.ShadowSize,
+                    ShadowOffset = SettingsManager.ConfigUser.ShadowOffset
+                }, out shadowOffset);
             }
 
             if (Info.Subtasks.HasFlag(Subtask.AddWatermark))

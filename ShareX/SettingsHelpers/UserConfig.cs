@@ -5,6 +5,7 @@ using IndexersLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Drawing.Design;
 using System.Linq;
 using System.Text;
@@ -49,6 +50,15 @@ namespace ShareX.SettingsHelpers
         [Category(ComponentModelStrings.Screenshots), DefaultValue(EImageEditorOnKeyLock.None), Description("Automatically start Image Editor on a key press.")]
         public EImageEditorOnKeyLock ImageEditorOnKeyPress { get; set; }
 
+        [Category(ComponentModelStrings.ScreenshotsShadow), DefaultValue(0.6f), Description("Specify darkness factor for screenshots (default is 0.6)")]
+        public float ShadowDarkness { get; set; }
+
+        [Category(ComponentModelStrings.ScreenshotsShadow), DefaultValue(7), Description("Specify shadow size for screenshots (default is 7)")]
+        public int ShadowSize { get; set; }
+
+        [Category(ComponentModelStrings.ScreenshotsShadow), Description("Specify shadow offset for screenshots (default is 0,0)")]
+        public Point ShadowOffset { get; set; }
+
         // Screencasts
         [Category(ComponentModelStrings.Screencasts), DefaultValue(EScreencastEncoderType.WindowsMediaVideo), Description("Screencast file type")]
         public EScreencastEncoderType ScreencastEncoderType { get; set; }
@@ -63,7 +73,7 @@ namespace ShareX.SettingsHelpers
         [Category(ComponentModelStrings.ScreencastsCmd), DefaultValue("mp4"), Description("Specify the file extension of the target file produced by the Command-line Encoder")]
         public string ScreencastEncoderTargetFileExtension { get; set; }
 
-        [Category(ComponentModelStrings.ScreencastsCmd),  DefaultValue("--output %target% %source%"), Description("Command-line Encoder arguments")]
+        [Category(ComponentModelStrings.ScreencastsCmd), DefaultValue("--output %target% %source%"), Description("Command-line Encoder arguments")]
         public string ScreencastEncoderArgs { get; set; }
 
         [Category(ComponentModelStrings.ScreencastsEEWMV), DefaultValue(EBitrateType.ConstantBitrate), Description("Screencast VC1 video profile type")]
@@ -78,6 +88,11 @@ namespace ShareX.SettingsHelpers
         [Category(ComponentModelStrings.ScreencastsEE), DefaultValue(false), Description("Autopan so that the capture window follows the mouse cursor.")]
         public bool FollowMouseCursor { get; set; }
 
+        [Editor("System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(System.Drawing.Design.UITypeEditor))]
+        [TypeConverter(typeof(CsvConverter))]
+        [Category(ComponentModelStrings.OutputsRemoteEmail), Description("Email address book")]
+        public List<string> AddressBook { get; set; }
+
         public static void ApplyDefaultValues(object self)
         {
             foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(self))
@@ -87,11 +102,6 @@ namespace ShareX.SettingsHelpers
                 prop.SetValue(self, attr.Value);
             }
         }
-
-        [Editor("System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(System.Drawing.Design.UITypeEditor))]
-        [TypeConverter(typeof(CsvConverter))]
-        [Category(ComponentModelStrings.OutputsRemoteEmail), Description("Email address book")]
-        public List<string> AddressBook { get; set; }
 
         public UserConfig()
         {
