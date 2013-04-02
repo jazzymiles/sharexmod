@@ -14,7 +14,7 @@ namespace HelpersLib.Hotkeys2
     public class WorkflowSettings
     {
         [Category(ComponentModelStrings.ActivitiesAfterCapture), Description("Apply default after capture and upload settings."), DefaultValue(true)]
-        public bool PerformGlobalAfterCaptureTasks { get; set; }
+        public bool ApplyDefaultSettings { get; set; }
 
         public DestConfig DestConfig = new DestConfig();
         public List<ExternalProgram> ExternalPrograms = new List<ExternalProgram>();

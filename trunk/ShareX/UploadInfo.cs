@@ -41,7 +41,7 @@ namespace ShareX
 
         public TaskJob Job { get; set; }
 
-        public Subtask Jobs { get; set; }
+        public Subtask Subtasks { get; set; }
 
         public ProgressManager Progress { get; set; }
 
@@ -121,7 +121,7 @@ namespace ShareX
         public UploadInfo()
         {
             Result = new UploadResult();
-            Jobs = Subtask.UploadToRemoteHost;
+            Subtasks = Subtask.UploadToRemoteHost;
         }
 
         public HistoryItem GetHistoryItem()

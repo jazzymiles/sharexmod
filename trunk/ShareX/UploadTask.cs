@@ -56,17 +56,12 @@ namespace ShareX
         public delegate void TaskEventHandler(UploadTask task);
 
         public event TaskEventHandler UploadStarted;
-
         public event TaskEventHandler UploadPreparing;
-
         public event TaskEventHandler UploadProgressChanged;
-
         public event TaskEventHandler UploadCompleted;
 
         private Workflow Workflow = new Workflow();
-
         public UploadInfo Info { get; private set; }
-
         public TaskStatus Status { get; private set; }
 
         public bool IsWorking
@@ -111,7 +106,7 @@ namespace ShareX
         public void SetWorkflow(Workflow wf)
         {
             this.Workflow = wf;
-            this.Info.Jobs = wf.Subtasks;
+            this.Info.Subtasks = wf.Subtasks;
             this.Info.SetDestination(wf.Settings.DestConfig);
         }
 
@@ -259,7 +254,7 @@ namespace ShareX
                 threadWorker.InvokeAsync(UploadFile_Print);
             }
 
-            if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.RemoteHost) && Info.Jobs.HasFlag(Subtask.UploadToRemoteHost))
+            if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.RemoteHost) && Info.Subtasks.HasFlag(Subtask.UploadToRemoteHost))
             {
                 if (SettingsManager.ConfigUploaders == null)
                     SettingsManager.UploaderSettingsResetEvent.WaitOne();
@@ -329,19 +324,19 @@ namespace ShareX
             {
                 DoBeforeImagePreparedJobs();
 
-                if (Info.Jobs.HasFlagAny(Subtask.UploadToRemoteHost, Subtask.SaveToFile,
+                if (Info.Subtasks.HasFlagAny(Subtask.UploadToRemoteHost, Subtask.SaveToFile,
                     Subtask.SaveImageToFileWithDialog))
                 {
                     imageData.PrepareImageAndFilename();
 
                     Info.FileName = imageData.Filename;
 
-                    if (Info.Jobs.HasFlag(Subtask.SaveToFile))
+                    if (Info.Subtasks.HasFlag(Subtask.SaveToFile))
                     {
                         Info.FilePath = imageData.WriteToFile(Program.ScreenshotsPath);
                     }
 
-                    if (Info.Jobs.HasFlag(Subtask.SaveImageToFileWithDialog))
+                    if (Info.Subtasks.HasFlag(Subtask.SaveImageToFileWithDialog))
                     {
                         string fp = imageData.WriteToFile(Info.FolderPath);
                         if (string.IsNullOrEmpty(Info.FilePath))
@@ -372,12 +367,12 @@ namespace ShareX
             }
             else if (Info.Job == TaskJob.TextUpload && !string.IsNullOrEmpty(tempText))
             {
-                if (Info.Jobs.HasFlag(Subtask.Print))
+                if (Info.Subtasks.HasFlag(Subtask.Print))
                 {
                     threadWorker.InvokeAsync(UploadFile_Print);
                 }
 
-                if (Info.Jobs.HasFlag(Subtask.SaveImageToFileWithDialog))
+                if (Info.Subtasks.HasFlag(Subtask.SaveImageToFileWithDialog))
                 {
                     threadWorker.InvokeAsync(SaveTextToFileWithDialog);
                 }
@@ -511,7 +506,7 @@ namespace ShareX
 
         private void DoBeforeImagePreparedJobs()
         {
-            if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddTornEffect))
+            if (Info.Subtasks.HasFlag(Subtask.AnnotateImageAddTornEffect))
             {
                 InitGreenshot();
 
@@ -521,24 +516,24 @@ namespace ShareX
                     toothHeight, horizontalToothRange, verticalToothRange);
             }
 
-            if (Info.Jobs.HasFlag(Subtask.AnnotateImageAddShadowBorder))
+            if (Info.Subtasks.HasFlag(Subtask.AnnotateImageAddShadowBorder))
             {
                 InitGreenshot();
                 Point offsetChange;
                 imageData.Image = GreenshotPlugin.Core.ImageHelper.CreateShadow(imageData.Image, 1f, 7, new Point(7, 7), out offsetChange, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             }
 
-            if (Info.Jobs.HasFlag(Subtask.AddWatermark))
+            if (Info.Subtasks.HasFlag(Subtask.AddWatermark))
             {
                 imageData.Image = new HelpersLibWatermark.WatermarkEffects(SettingsManager.ConfigUser.ConfigWatermark).ApplyWatermark(imageData.Image);
             }
 
-            if (Info.Jobs.HasFlag(Subtask.AnnotateImage) || ImageEditOnKeyPress)
+            if (Info.Subtasks.HasFlag(Subtask.AnnotateImage) || ImageEditOnKeyPress)
             {
                 EditImage(ref imageData);
             }
 
-            if (Info.Jobs.HasFlag(Subtask.ShowImageEffectsStudio))
+            if (Info.Subtasks.HasFlag(Subtask.ShowImageEffectsStudio))
             {
                 ImageEffectsGUI dlg = new ImageEffectsGUI(imageData.Image);
                 dlg.ShowDialog();
@@ -546,17 +541,17 @@ namespace ShareX
             }
 
             if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.Clipboard) &&
-                Info.Job == TaskJob.ImageUpload && imageData != null && Info.Jobs.HasFlag(Subtask.CopyImageToClipboard))
+                Info.Job == TaskJob.ImageUpload && imageData != null && Info.Subtasks.HasFlag(Subtask.CopyImageToClipboard))
             {
                 Clipboard.SetImage(imageData.Image);
             }
 
-            if (Info.Jobs.HasFlag(Subtask.Print))
+            if (Info.Subtasks.HasFlag(Subtask.Print))
             {
                 threadWorker.InvokeAsync(UploadFile_Print);
             }
 
-            if (Info.Jobs.HasFlag(Subtask.SaveImageToFileWithDialog))
+            if (Info.Subtasks.HasFlag(Subtask.SaveImageToFileWithDialog))
             {
                 threadWorker.Invoke(SaveImageToFileWithDialog);
             }
@@ -834,6 +829,10 @@ namespace ShareX
                     };
                     break;
 
+                case FileDestination.GoogleDrive:
+                    fileUploader = new GoogleDrive(SettingsManager.ConfigUploaders.GoogleDriveOAuth2Info);
+                    break;
+
                 case FileDestination.RapidShare:
                     fileUploader = new RapidShare(SettingsManager.ConfigUploaders.RapidShareUsername, SettingsManager.ConfigUploaders.RapidSharePassword,
                         SettingsManager.ConfigUploaders.RapidShareFolderID);
@@ -1056,8 +1055,8 @@ namespace ShareX
                     break;
 
                 case UrlShortenerType.Google:
-                    urlShortener = new GoogleURLShortener(SettingsManager.ConfigUploaders.GoogleURLShortenerAccountType, ApiKeys.GoogleApiKey,
-                        SettingsManager.ConfigUploaders.GoogleURLShortenerOAuthInfo);
+                    urlShortener = new GoogleURLShortener(SettingsManager.ConfigUploaders.GoogleURLShortenerAccountType, ApiKeys.GoogleAPIKey,
+                      SettingsManager.ConfigUploaders.GoogleURLShortenerOAuth2Info);
                     break;
 
                 case UrlShortenerType.ISGD:

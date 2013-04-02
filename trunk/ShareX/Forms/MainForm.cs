@@ -894,10 +894,9 @@ namespace ShareX
                 foreach (int index in lvUploads.SelectedIndices)
                 {
                     UploadResult result = lvUploads.Items[index].Tag as UploadResult;
-                    UploadManager.UploadFile(result.LocalFilePath, new HelperClasses.AfterCaptureActivity()
-                    {
-                        Workflow = new Workflow() { Subtasks = Subtask.UploadToRemoteHost }
-                    });
+                    AfterCaptureActivity actFileUpload = AfterCaptureActivity.GetNew();
+                    actFileUpload.Workflow.Subtasks |= Subtask.UploadToRemoteHost;
+                    UploadManager.UploadFile(result.LocalFilePath, actFileUpload);
                 }
             }
         }

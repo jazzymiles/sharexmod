@@ -30,8 +30,8 @@ namespace ShareX.HelperClasses
             AfterCaptureActivity act = new AfterCaptureActivity();
             act.Workflow = new Workflow();
             act.Workflow.Subtasks = SettingsManager.ConfigCore.Workflow.Subtasks;
+            act.Workflow.AfterUploadTasks = SettingsManager.ConfigCore.Workflow.AfterUploadTasks;
             act.GetDefaults();
-
             return act;
         }
 
