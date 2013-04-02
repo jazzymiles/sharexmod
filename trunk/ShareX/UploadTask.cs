@@ -646,7 +646,7 @@ namespace ShareX
                     break;
 
                 case ImageDestination.Picasa:
-                    imageUploader = new Picasa(SettingsManager.ConfigUploaders.PicasaOAuthInfo);
+                    imageUploader = new Picasa(SettingsManager.ConfigUploaders.PicasaOAuth2Info);
                     break;
 
                 case ImageDestination.Flickr:

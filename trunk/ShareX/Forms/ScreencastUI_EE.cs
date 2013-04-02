@@ -34,6 +34,13 @@ namespace ShareX.Forms
             }
         }
 
+        private void ExpressionEncoderScreenCaptureStop()
+        {
+            this.XescScreenCaptureJob.Stop();
+            if (!Encoder.IsBusy) // XescTimer_Tick can fire this twice
+                Encoder.RunWorkerAsync();
+        }
+
         private void WMEncode()
         {
             // Create the media item and validates it.

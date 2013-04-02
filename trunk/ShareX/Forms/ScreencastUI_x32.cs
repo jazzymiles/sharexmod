@@ -34,9 +34,7 @@ namespace ShareX.Forms
 
                 case EScreencastEncoderType.WindowsMediaVideo:
                 case EScreencastEncoderType.ExpressionEncoderScreenCaptureCodec:
-                    this.XescScreenCaptureJob.Stop();
-                    if (!Encoder.IsBusy) // XescTimer_Tick can fire this twice
-                        Encoder.RunWorkerAsync();
+                    ExpressionEncoderScreenCaptureStop();
                     break;
 
                 default:
