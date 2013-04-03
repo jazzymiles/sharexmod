@@ -389,5 +389,13 @@ namespace ShareX
                 FormsHelper.Main.Text = title;
             }
         }
+
+        public static void StopAllTasks()
+        {
+            foreach (UploadTask task in Tasks)
+            {
+                if (task != null) task.Stop();
+            }
+        }
     }
 }

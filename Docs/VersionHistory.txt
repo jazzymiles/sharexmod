@@ -1,9 +1,13 @@
-﻿* Command-line encoder support for screencasting
+﻿* Imgur album support
+* Google Drive file uploader
+* Command-line encoder support for screencasting
 
 Version 7.2 - 2013-03-31
 
+* Send email with URL after upload
+* Better proxy support
 * Fallback destinations
-* Screencast with gif, wmv and xesc support
+* Screencast with gif, avi, wmv and xesc support
 * Enter custom filename after capture
 * Windows 7 Taskbar integration to display progress
 * paste.ee text uploader

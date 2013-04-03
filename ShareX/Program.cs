@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using UploadersLib;
@@ -41,6 +42,9 @@ namespace ShareX
 {
     internal static class Program
     {
+        [DllImport("user32.dll")]
+        private static extern bool SetProcessDPIAware();
+
         private static readonly string ApplicationName = Application.ProductName;
 
         #region Links
@@ -199,6 +203,7 @@ namespace ShareX
                 IsDebug = CLIHelper.CheckArgs(args, "d", "debug");
                 IsHotkeysAllowed = !CLIHelper.CheckArgs(args, "nohotkeys");
 
+                if (Environment.OSVersion.Version.Major >= 6) SetProcessDPIAware();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
