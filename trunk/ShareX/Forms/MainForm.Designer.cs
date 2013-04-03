@@ -986,7 +986,7 @@ namespace ShareX
             this.tsmiViewInFullscreen,
             this.tsmiShare});
             this.cmsUploadInfo.Name = "cmsHistory";
-            this.cmsUploadInfo.Size = new System.Drawing.Size(196, 272);
+            this.cmsUploadInfo.Size = new System.Drawing.Size(196, 250);
             // 
             // tsmiStopUpload
             // 
@@ -1286,6 +1286,7 @@ namespace ShareX
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ShareX";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
