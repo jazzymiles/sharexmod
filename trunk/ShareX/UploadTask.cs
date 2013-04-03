@@ -317,7 +317,7 @@ namespace ShareX
             {
                 if (Info.Result.IsURLExpected && string.IsNullOrEmpty(Info.Result.URL))
                 {
-                    Info.Result.Errors.Add("URL is empty.");
+                    Info.Result.Errors.Add("URL is empty. Press F2 to review destinations configuration.");
                 }
 
                 DoPostUploadTasks();

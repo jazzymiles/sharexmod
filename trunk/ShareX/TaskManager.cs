@@ -314,15 +314,17 @@ namespace ShareX
                                 }
                             }
 
+                        }
+
+                        if ((!info.Result.IsURLExpected || info.Result.IsSuccess) && 
+                            !string.IsNullOrEmpty(url_or_filepath))
+                        {
                             if (FormsHelper.Main.niTray.Visible && SettingsManager.ConfigCore.ShowBalloonAfterUpload)
                             {
                                 FormsHelper.Main.niTray.Tag = url_or_filepath;
                                 FormsHelper.Main.niTray.ShowBalloonTip(5000, Application.ProductName + " - completed", url_or_filepath, ToolTipIcon.Info);
                             }
-                        }
 
-                        if (!string.IsNullOrEmpty(url_or_filepath))
-                        {
                             if (SettingsManager.ConfigCore.SaveHistory)
                             {
                                 HistoryManager.AddHistoryItemAsync(SettingsManager.HistoryFilePath, info.GetHistoryItem());
