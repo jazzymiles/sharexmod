@@ -54,14 +54,11 @@ namespace ShareX.Forms
                     break;
 
                 case EScreencastEncoderType.WindowsMediaVideo:
-                    Screencast.FilePath = Path.ChangeExtension(XescScreenCaptureJob.ScreenCaptureFileName, "wmv");
-
-                    if (File.Exists(Screencast.FilePath))
-                        File.Delete(XescScreenCaptureJob.ScreenCaptureFileName); // if wmv exists then delete xesc
+                    Encoder_RunWorkerCompleted_WMV();
                     break;
 
                 case EScreencastEncoderType.ExpressionEncoderScreenCaptureCodec:
-                    Screencast.FilePath = XescScreenCaptureJob.ScreenCaptureFileName;
+                    Encoder_RunWorkerCompleted_XESC();
                     break;
             }
 
