@@ -3,6 +3,7 @@ using Microsoft.Expression.Encoder.Profiles;
 using Microsoft.Expression.Encoder.ScreenCapture;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -96,6 +97,20 @@ namespace ShareX.Forms
         private void WMEncoderOnProgress(object sender, Microsoft.Expression.Encoder.EncodeProgressEventArgs e)
         {
             Encoder.ReportProgress((int)e.Progress);
+        }
+
+        private void Encoder_RunWorkerCompleted_WMV()
+        {
+            Screencast.FilePath = Path.ChangeExtension(XescScreenCaptureJob.ScreenCaptureFileName, "wmv");
+
+            if (File.Exists(Screencast.FilePath))
+                File.Delete(XescScreenCaptureJob.ScreenCaptureFileName); // if wmv exists then delete xesc
+
+        }
+
+        private void Encoder_RunWorkerCompleted_XESC()
+        {
+            Screencast.FilePath = XescScreenCaptureJob.ScreenCaptureFileName;
         }
     }
 }
