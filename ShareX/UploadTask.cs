@@ -83,16 +83,25 @@ namespace ShareX
         private ThreadWorker threadWorker;
         private Uploader uploader;
 
-        private Stream DataCopy
+        private Stream GetDataCopy(Stream data)
         {
-            get
+            long dataPos = 0;
+            if (data != null && data.CanSeek)
             {
-                if (data != null && data.CanSeek)
-                {
-                    data.Position = 0;
-                }
-                return Helpers.Clone(data) as Stream;
+                dataPos = data.Position;
+                data.Position = 0;
             }
+
+            Stream dataCopy = new MemoryStream();
+            data.CopyStreamTo(dataCopy);
+
+            if (data != null && data.CanSeek)
+                data.Position = dataPos; // restore data position for the src data
+
+            if (dataCopy != null && data.CanSeek)
+                dataCopy.Position = 0;
+
+            return dataCopy;
         }
 
         #region Constructors
@@ -244,12 +253,12 @@ namespace ShareX
 
             if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.Email))
             {
-                new Thread(() => UploadFile_Email(DataCopy)).Start();
+                new Thread(() => UploadFile_Email(GetDataCopy(data))).Start();
             }
 
             if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.SharedFolder))
             {
-                threadWorker.InvokeAsync(() => UploadFile_SharedFolder(DataCopy));
+                threadWorker.InvokeAsync(() => UploadFile_SharedFolder(GetDataCopy(data)));
             }
 
             if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.Printer))
@@ -417,7 +426,7 @@ namespace ShareX
             }
 
             // Send an email
-            new Thread(() => UploadText_Email(Info.Result)).Start();
+            new Thread(() => UploadFile_Email(Info.Result)).Start();
 
             // Share using Social Networking Services
 
@@ -935,11 +944,36 @@ namespace ShareX
             return null;
         }
 
-        private void UploadText_Email(UploadResult result)
+        /// <summary>
+        /// Looks for exe and compresses to 7z
+        /// </summary>
+        private string PrepareEmailAttachment(ref Stream attachment, string fileName)
+        {
+            string[] badExtArray = new string[] { ".ade", ".adp", ".bat", ".chm", ".cmd", 
+                                             ".com", ".cpl", ".exe", ".hta", ".ins", 
+                                             ".isp", ".jse", ".lib", ".mde", ".msc", 
+                                             ".msp", ".mst", ".pif", ".scr", ".sct", 
+                                             ".shb", ".sys", ".vb", ".vbe", ".vbs", 
+                                             ".vxd", ".wsc", ".wsf", ".wsh" 
+                                           };
+
+            string ext = Path.GetExtension(fileName).ToLower();
+            string result = badExtArray.SingleOrDefault(badExt => badExt.Contains(ext));
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                fileName = Path.ChangeExtension(fileName, ".7z");
+                attachment = ZipHelper.CompressFileLZMA(attachment);
+            }
+
+            return fileName;
+        }
+
+        private void UploadFile_Email(UploadResult result)
         {
             if (result != null && !string.IsNullOrEmpty(AddressBookHelper.CurrentRecipient))
             {
-                FileUploader fileUploader = new Email
+                Email email = new Email
                 {
                     SmtpServer = SettingsManager.ConfigUploaders.EmailSmtpServer,
                     SmtpPort = SettingsManager.ConfigUploaders.EmailSmtpPort,
@@ -950,8 +984,8 @@ namespace ShareX
                     Body = result.ToSummaryString()
                 };
 
-                PrepareUploader(fileUploader);
-                fileUploader.Upload(DataCopy, Info.FileName);
+                PrepareUploader(email);
+                email.Send(email.ToEmail, email.Subject, email.Body);
             }
         }
 
@@ -968,7 +1002,7 @@ namespace ShareX
                         AddressBookHelper.AddEmail(emailForm.ToEmail);
                     }
 
-                    FileUploader fileUploader = new Email
+                    Email emailUploader = new Email
                       {
                           SmtpServer = SettingsManager.ConfigUploaders.EmailSmtpServer,
                           SmtpPort = SettingsManager.ConfigUploaders.EmailSmtpPort,
@@ -978,8 +1012,10 @@ namespace ShareX
                           Subject = emailForm.Subject,
                           Body = emailForm.Body
                       };
-                    PrepareUploader(fileUploader);
-                    return fileUploader.Upload(stream, Info.FileName);
+
+                    string fileName = PrepareEmailAttachment(ref stream, Info.FileName);
+                    PrepareUploader(emailUploader);
+                    return emailUploader.Upload(stream, fileName);
                 }
                 else
                 {
