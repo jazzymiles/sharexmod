@@ -35,6 +35,14 @@ namespace ShareX.Forms
         private BackgroundWorker ImgRecorder = new BackgroundWorker() { WorkerReportsProgress = true };
         private BackgroundWorker Encoder = new BackgroundWorker() { WorkerReportsProgress = true };
 
+        public string ScreenRecorderCacheFilePath
+        {
+            get
+            {
+                return Path.Combine(Program.PersonalPath, "ScreenRecorder" + Screencast.Filename + ".cache");
+            }
+        }
+
         public ScreencastUI(ImageData imagedata, AfterCaptureActivity act)
         {
             InitializeComponent();
@@ -91,7 +99,7 @@ namespace ShareX.Forms
 
         private ScreenRecorderCache ImgRecord()
         {
-            using (ImgCache = new ScreenRecorderCache(SettingsManager.ScreenRecorderCacheFilePath))
+            using (ImgCache = new ScreenRecorderCache(ScreenRecorderCacheFilePath))
             {
                 while (!Program.ScreencastCancellationPending)
                 {
@@ -280,8 +288,8 @@ namespace ShareX.Forms
 
             try
             {
-                if (File.Exists(SettingsManager.ScreenRecorderCacheFilePath))
-                    File.Delete(SettingsManager.ScreenRecorderCacheFilePath);
+                if (File.Exists(ScreenRecorderCacheFilePath))
+                    File.Delete(ScreenRecorderCacheFilePath);
             }
             catch (Exception ex)
             {
