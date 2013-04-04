@@ -108,14 +108,6 @@ namespace ShareX
             }
         }
 
-        public static string ScreenRecorderCacheFilePath
-        {
-            get
-            {
-                return Path.Combine(Program.PersonalPath, "ScreenRecorder.cache");
-            }
-        }
-
         public static void SaveAsync()
         {
             ConfigWorkflows.SaveAsync(ConfigWorkflowsFilePath);

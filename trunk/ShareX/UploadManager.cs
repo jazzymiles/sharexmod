@@ -48,13 +48,9 @@ namespace ShareX
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static ImageDestination ImageUploader { get; set; }
-
         public static TextDestination TextUploader { get; set; }
-
         public static FileDestination FileUploader { get; set; }
-
         public static UrlShortenerType URLShortener { get; set; }
-
         public static SocialNetworkingService SocialNetworkingService { get; set; }
 
         private static object uploadManagerLock = new object();

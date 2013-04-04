@@ -50,6 +50,7 @@ namespace ShareX.Forms
             {
                 case EScreencastEncoderType.PromptUser:
                 case EScreencastEncoderType.GraphicsInterchangeFormat:
+                case EScreencastEncoderType.CommandLineEncoder:
                     Encoder_RunWorkerCompleted_Img();
                     break;
 
@@ -60,6 +61,10 @@ namespace ShareX.Forms
                 case EScreencastEncoderType.ExpressionEncoderScreenCaptureCodec:
                     Encoder_RunWorkerCompleted_XESC();
                     break;
+
+                default:
+                    throw new Exception("Unhandled screencast filetype: " + SettingsManager.ConfigUser.ScreencastEncoderType.GetDescription());
+
             }
 
             Encoder_RunWorkerCompleted_Publish();
