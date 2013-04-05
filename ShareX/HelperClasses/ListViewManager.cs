@@ -87,6 +87,10 @@ namespace ShareX.HelperClasses
                         Thumbnails.Images.Add(Resources.folder);
                     }
                 }
+                else
+                {
+                    Thumbnails.Images.Add(task.Info.FileName, Resources.ShareXLogo2);
+                }
             }
         }
 
