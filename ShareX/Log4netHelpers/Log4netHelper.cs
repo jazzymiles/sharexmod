@@ -30,7 +30,7 @@ namespace HelpersLib
                 fa.AppendToFile = true;
                 fa.Threshold = log4net.Core.Level.All;
                 fa.RollingStyle = RollingFileAppender.RollingMode.Date;
-                fa.DatePattern = "yyyy-MM";
+                fa.DatePattern = "yyyy-MM.log";
                 fa.File = fpLog;
                 fa.Layout = new log4net.Layout.PatternLayout("%date{ISO8601} [%thread] %-5level - [%logger] %m%n%exception");
                 log4net.Config.BasicConfigurator.Configure(fa);
