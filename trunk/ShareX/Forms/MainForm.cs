@@ -231,6 +231,9 @@ namespace ShareX
 
         void tsmiEmailAddress_CheckedChanged(object sender, EventArgs e)
         {
+            if (!IsReady)
+                return;
+
             List<string> emails = new List<string>();
             foreach (ToolStripMenuItem tsmiOutput in tsddbOutputs.DropDownItems)
             {

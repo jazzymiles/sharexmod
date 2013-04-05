@@ -145,6 +145,7 @@ namespace ShareX.Forms
 
         private void ImgRecorder_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            progress.Style = ProgressBarStyle.Continuous;
             Encoder.RunWorkerAsync();
         }
 
@@ -316,6 +317,7 @@ namespace ShareX.Forms
             Program.IsRecordingScreencast = false;
             Program.ScreencastCancellationPending = true;
             progress.Visible = true;
+            progress.Style = ProgressBarStyle.Marquee;
         }
 
         private void ScreencastUI_KeyDown(object sender, KeyEventArgs e)
