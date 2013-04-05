@@ -202,7 +202,7 @@ namespace ShareX
                 SettingsManager.ConfigCore.Workflow.Settings.DestConfig.ImageUploaders2.Add(ImageDestination.FileUploader);
                 SettingsManager.ConfigCore.Workflow.Settings.DestConfig.TextUploaders2.Add(TextDestination.FileUploader);
 
-                SettingsManager.ConfigCore.Workflow.Subtasks = SettingsManager.ConfigCore.AfterCaptureTasks;
+                SettingsManager.ConfigCore.Workflow.Subtasks = Subtask.CopyImageToClipboard | Subtask.SaveToFile | Subtask.UploadToRemoteHost;
                 SettingsManager.ConfigCore.Workflow.AfterUploadTasks = SettingsManager.ConfigCore.AfterUploadTasks;
             }
 
@@ -301,6 +301,11 @@ namespace ShareX
 
             #region After Capture Tasks
 
+            /*
+            AddMultiEnumItems<Subtask>(x => SettingsManager.ConfigCore.Workflow.Subtasks = SettingsManager.ConfigCore.Workflow.Subtasks.Swap(x),
+                tsddbAfterCaptureTasks);
+            */
+
             var afterCaptureTasks = Enum.GetValues(typeof(Subtask)).Cast<Subtask>().Select(x => new
             {
                 Description = x.GetDescription(),
@@ -320,7 +325,7 @@ namespace ShareX
                 tsmi.CheckedChanged += new EventHandler(tsmiAfterCaptureTask_CheckedChanged);
                 tsddbAfterCaptureTasks.DropDownItems.Add(tsmi);
             }
-
+            
             #endregion After Capture Tasks
 
             #region After Upload Tasks
@@ -440,6 +445,40 @@ namespace ShareX
                 }
             }
         }
+
+        private void AddMultiEnumItems<T>(Action<T> selectedEnum, params ToolStripDropDownItem[] parents)
+        {
+            string[] enums = Enum.GetValues(typeof(T)).Cast<Enum>().Skip(1).Select(x => x.GetDescription()).ToArray();
+
+            foreach (ToolStripDropDownItem parent in parents)
+            {
+                parent.DropDownItems.Clear();
+
+                for (int i = 0; i < enums.Length; i++)
+                {
+                    ToolStripMenuItem tsmi = new ToolStripMenuItem(enums[i]);
+
+                    int index = i;
+
+                    tsmi.Tag = enums[i];
+                    tsmi.Click += (sender, e) =>
+                    {
+                        foreach (ToolStripDropDownItem parent2 in parents)
+                        {
+                            ToolStripMenuItem tsmi2 = (ToolStripMenuItem)parent2.DropDownItems[index];
+                            tsmi2.Checked = !tsmi2.Checked;
+                        }
+
+                        selectedEnum((T)Enum.ToObject(typeof(T), 1 << index));
+
+                        UpdateUploaderMenuNames();
+                    };
+
+                    parent.DropDownItems.Add(tsmi);
+                }
+            }
+        }
+
 
         private void AddEnumItems<T>(Action<int> selectedIndex, bool addEvent = true, params ToolStripMenuItem[] parents)
         {
