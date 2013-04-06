@@ -39,7 +39,6 @@ namespace ShareX.HelperClasses
     public static class ListViewManager
     {
         private static ImageList Thumbnails { get; set; }
-
         private static ImageList DetailViewImageList { get; set; }
 
         public static void RefreshThumbnails()
