@@ -1,0 +1,1 @@
+Window Text is not always accurate until improvements have been made in ScreenCapture.dll
