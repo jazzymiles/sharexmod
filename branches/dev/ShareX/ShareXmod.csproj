@@ -106,6 +106,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\WatchFolder.cs">
+      <Link>HelperClasses\WatchFolder.cs</Link>
+    </Compile>
     <Compile Include="Forms\ImageEffectsGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,7 +128,6 @@
     <Compile Include="HelperClasses\AfterCaptureActivity.cs" />
     <Compile Include="HelperClasses\DropboxSyncHelper.cs" />
     <Compile Include="HelperClasses\FallbackDestHelper.cs" />
-    <Compile Include="HelperClasses\FolderWatcher.cs" />
     <Compile Include="HelperClasses\FormsHelper.cs" />
     <Compile Include="Forms\MainForm_Capture.cs">
       <SubType>Form</SubType>
