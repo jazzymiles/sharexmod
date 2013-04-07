@@ -106,9 +106,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\ShareX\trunk\ShareX\WatchFolder.cs">
-      <Link>HelperClasses\WatchFolder.cs</Link>
-    </Compile>
     <Compile Include="Forms\ImageEffectsGUI.cs">
       <SubType>Form</SubType>
     </Compile>
