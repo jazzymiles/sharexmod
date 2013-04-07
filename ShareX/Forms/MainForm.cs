@@ -123,6 +123,7 @@ namespace ShareX
             if (SettingsManager.ConfigCore.FolderMonitoring)
             {
                 log.Info("Monitoring folder: " + folderWatcher.FolderPath);
+                folderWatcher.FileWatcherTrigger += path => UploadManager.UploadFile(path);
                 folderWatcher.Enable();
             }
             else
