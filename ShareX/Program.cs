@@ -114,7 +114,7 @@ namespace ShareX
 
         #region Hotkeys / Workflows
 
-        public static HotkeySetting HotkeyClipboardUpload = new HotkeySetting(Keys.Control | Keys.F12);
+        public static HotkeySetting HotkeyClipboardUpload = new HotkeySetting(Keys.Control | Keys.Alt | Keys.F12);
         public static HotkeySetting HotkeyFileUpload = new HotkeySetting(Keys.Shift | Keys.PageUp);
         public static HotkeySetting HotkeyPrintScreen = new HotkeySetting(Keys.PrintScreen);
         public static HotkeySetting HotkeyActiveWindow = new HotkeySetting(Keys.Alt | Keys.PrintScreen);
