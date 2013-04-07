@@ -655,6 +655,8 @@ namespace ShareX
                     break;
 
                 case ImageDestination.Imgur:
+                    if (SettingsManager.ConfigUploaders.ImgurOAuth2Info == null)
+                    	SettingsManager.ConfigUploaders.ImgurOAuth2Info = new OAuth2Info(ApiKeys.ImgurClientID, ApiKeys.ImgurClientSecret);
                     imageUploader = new Imgur_v3(SettingsManager.ConfigUploaders.ImgurOAuth2Info)
                     {
                         UploadMethod = SettingsManager.ConfigUploaders.ImgurAccountType,
