@@ -112,15 +112,23 @@ namespace ShareX
         /// </summary>
         public void ReloadConfig()
         {
-            FolderWatcher folderWatcher = new FolderWatcher(this);
+            WatchFolder folderWatcher = new WatchFolder()
+            {
+                IncludeSubdirectories = true,
+                Filter = "*.*",
+                FolderPath = SettingsManager.ConfigCore.FolderMonitorPath
+            };
+
             folderWatcher.FolderPath = SettingsManager.ConfigCore.FolderMonitorPath;
             if (SettingsManager.ConfigCore.FolderMonitoring)
             {
-                folderWatcher.StartWatching();
+                log.Info("Monitoring folder: " + folderWatcher.FolderPath);
+                folderWatcher.FileWatcherTrigger += path => UploadManager.UploadFile(path);
+                folderWatcher.Enable();
             }
             else
             {
-                folderWatcher.StopWatching();
+                folderWatcher.Dispose();
             }
 
             lvUploads.View = SettingsManager.ConfigCore.ListViewMode;
@@ -325,7 +333,7 @@ namespace ShareX
                 tsmi.CheckedChanged += new EventHandler(tsmiAfterCaptureTask_CheckedChanged);
                 tsddbAfterCaptureTasks.DropDownItems.Add(tsmi);
             }
-            
+
             #endregion After Capture Tasks
 
             #region After Upload Tasks
