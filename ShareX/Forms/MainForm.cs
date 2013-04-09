@@ -57,6 +57,7 @@ namespace ShareX
 
         private bool trayClose;
         private UploadInfoManager uim;
+        private ListViewColumnSorter lvwColumnSorter;
 
         public MainForm()
         {
@@ -401,6 +402,8 @@ namespace ShareX
             this.Icon = Resources.ShareX;
             niTray.Text = this.Text;
             niTray.Icon = Resources.ShareXSmallIcon;
+            lvwColumnSorter = new ListViewColumnSorter();
+ 
 
             #region Uploaders
 
@@ -422,7 +425,8 @@ namespace ShareX
 
             #endregion Uploaders
 
-            lvUploads.FillLastColumn();
+            this.lvUploads.ListViewItemSorter = lvwColumnSorter;
+            this.lvUploads.FillLastColumn();
 
             TaskManager.ListViewControl = lvUploads;
             uim = new UploadInfoManager(lvUploads);
@@ -1348,6 +1352,32 @@ namespace ShareX
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             TaskManager.StopAllTasks();
+        }
+
+        private void lvUploads_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            // Determine if clicked column is already the column that is being sorted.
+            if (e.Column == lvwColumnSorter.SortColumn)
+            {
+                // Reverse the current sort direction for this column.
+                if (lvwColumnSorter.Order == SortOrder.Ascending)
+                {
+                    lvwColumnSorter.Order = SortOrder.Descending;
+                }
+                else
+                {
+                    lvwColumnSorter.Order = SortOrder.Ascending;
+                }
+            }
+            else
+            {
+                // Set the column number that is to be sorted; default to ascending.
+                lvwColumnSorter.SortColumn = e.Column;
+                lvwColumnSorter.Order = SortOrder.Ascending;
+            }
+
+            // Perform the sort with these new sort options.
+            this.lvUploads.Sort();
         }
     }
 }
