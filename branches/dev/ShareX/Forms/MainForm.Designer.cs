@@ -628,7 +628,6 @@ namespace ShareX
             this.lvUploads.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvUploads.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lvUploads.FullRowSelect = true;
-            this.lvUploads.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvUploads.HideSelection = false;
             this.lvUploads.Location = new System.Drawing.Point(4, 4);
             this.lvUploads.Margin = new System.Windows.Forms.Padding(4);
@@ -638,6 +637,7 @@ namespace ShareX
             this.lvUploads.TabIndex = 0;
             this.lvUploads.UseCompatibleStateImageBehavior = false;
             this.lvUploads.View = System.Windows.Forms.View.Details;
+            this.lvUploads.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvUploads_ColumnClick);
             this.lvUploads.SelectedIndexChanged += new System.EventHandler(this.lvUploads_SelectedIndexChanged);
             this.lvUploads.DoubleClick += new System.EventHandler(this.lvUploads_DoubleClick);
             this.lvUploads.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvUploads_KeyDown);
