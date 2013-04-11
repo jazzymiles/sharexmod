@@ -82,6 +82,9 @@ namespace ShareX
                 lvi.SubItems.Add(string.Empty);
                 lvi.SubItems.Add(string.Empty);
                 lvi.SubItems.Add(info.DataType.ToString());
+                lvi.SubItems.Add(string.Empty);
+                lvi.SubItems.Add(string.Empty);
+                lvi.SubItems.Add(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                 var taskImageJobs = Enum.GetValues(typeof(Subtask)).Cast<Subtask>();
                 foreach (Subtask job in taskImageJobs)
