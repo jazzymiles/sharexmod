@@ -403,7 +403,7 @@ namespace ShareX
             niTray.Text = this.Text;
             niTray.Icon = Resources.ShareXSmallIcon;
             lvwColumnSorter = new ListViewColumnSorter();
- 
+
 
             #region Uploaders
 
@@ -1011,7 +1011,8 @@ namespace ShareX
 
         private void lvUploads_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
         {
-            SettingsManager.ConfigCore.ColumnWidths[e.ColumnIndex] = lvUploads.Columns[e.ColumnIndex].Width;
+            if (SettingsManager.ConfigCore.ColumnWidths.Length > e.ColumnIndex)
+                SettingsManager.ConfigCore.ColumnWidths[e.ColumnIndex] = lvUploads.Columns[e.ColumnIndex].Width;
         }
 
         #endregion Form events
