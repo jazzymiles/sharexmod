@@ -41,7 +41,7 @@ namespace ShareX
         {
             InitializeComponent();
             Text = Program.Title;
-            lblProductName.Text = Program.Title;
+            lblProductName.Text = Application.ProductName + " " + Program.AssemblyVersion;
             lblCopyright.Text = AssemblyCopyright;
 
             AppendBoldLine("Committers:");

@@ -82,6 +82,9 @@ namespace ShareX
                 lvi.SubItems.Add(string.Empty);
                 lvi.SubItems.Add(string.Empty);
                 lvi.SubItems.Add(info.DataType.ToString());
+                lvi.SubItems.Add(string.Empty);
+                lvi.SubItems.Add(string.Empty);
+                lvi.SubItems.Add(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                 var taskImageJobs = Enum.GetValues(typeof(Subtask)).Cast<Subtask>();
                 foreach (Subtask job in taskImageJobs)
@@ -110,7 +113,7 @@ namespace ShareX
                 }
 
                 lvi.SubItems.Add(string.Empty);
-                ListViewControl.Items.Add(lvi);
+                ListViewControl.Items.Insert(0, lvi);
                 lvi.EnsureVisible();
                 ListViewControl.FillLastColumn();
             }
@@ -293,6 +296,7 @@ namespace ShareX
 
                         lvi.SubItems[8].Text = url_or_filepath;
 
+                        bool showBalloon = false;
                         if (!string.IsNullOrEmpty(url_or_filepath))
                         {
                             if (SettingsManager.ConfigCore.Outputs.HasFlag(HelpersLibMod.OutputEnum.Clipboard) &&
@@ -304,20 +308,25 @@ namespace ShareX
                                    !info.Subtasks.HasFlag(Subtask.CopyImageToClipboard))
                                 {
                                     if (!string.IsNullOrEmpty(info.FilePath))
+                                    {
+                                        showBalloon = true;
                                         Helpers.CopyTextSafely(info.FilePath);
+                                    }
                                 }
                                 // Upload to Remote
                                 else if (info.Subtasks.HasFlag(Subtask.UploadToRemoteHost))
                                 {
                                     if (!string.IsNullOrEmpty(url))
+                                    {
+                                        showBalloon = true;
                                         Helpers.CopyTextSafely(url);
+                                    }
                                 }
                             }
 
                         }
 
-                        if ((!info.Result.IsURLExpected || info.Result.IsSuccess) && 
-                            !string.IsNullOrEmpty(url_or_filepath))
+                        if (showBalloon)
                         {
                             if (FormsHelper.Main.niTray.Visible && SettingsManager.ConfigCore.ShowBalloonAfterUpload)
                             {
@@ -375,7 +384,7 @@ namespace ShareX
 
             if (isWorkingTasks && averageProgress_int > 0)
             {
-                title = string.Format("{1:0.0}% - {0}", Program.Title, averageProgress);
+                title = string.Format("{1:0}% - {0}", Program.Title, averageProgress);
             }
             else
             {

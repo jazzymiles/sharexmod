@@ -588,29 +588,19 @@ namespace ShareX
             if (imageData_gse != null)
             {
                 InitGreenshot();
-                GreenshotPlugin.Core.CoreConfiguration conf = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>(); ;
-                conf.OutputFileFilenamePattern = "${title}";
-                conf.OutputFilePath = Program.ScreenshotsPath;
 
-                EditorConfiguration editorConfiguration = IniConfig.GetIniSection<EditorConfiguration>();
-                editorConfiguration.SuppressSaveDialogAtClose = true;
+                var capture = new GreenshotPlugin.Core.Capture() { Image = imageData_gse.Image };
 
-                Greenshot.Plugin.ICapture capture = new GreenshotPlugin.Core.Capture();
-                capture.Image = imageData_gse.Image;
                 capture.CaptureDetails.Filename = Path.Combine(Program.ScreenshotsPath, imageData_gse.Filename);
-                capture.CaptureDetails.Title =
-                    Path.GetFileNameWithoutExtension(capture.CaptureDetails.Filename);
-                capture.CaptureDetails.AddMetaData("file", capture.CaptureDetails.Filename);
-                capture.CaptureDetails.AddMetaData("source", "file");
+                capture.CaptureDetails.Title = Path.GetFileNameWithoutExtension(capture.CaptureDetails.Filename);
 
                 var surface = new Greenshot.Drawing.Surface(capture);
                 var editor = new Greenshot.ImageEditorForm(surface, true) { Icon = Resources.ShareX };
 
-                editor.SetImagePath(capture.CaptureDetails.Filename);
-                editor.Visible = false; // required before ShowDialog
-                editor.ShowDialog();
-
-                imageData_gse.Image = editor.GetImageForExport();
+                if (editor.ShowDialog() == DialogResult.OK)
+                {
+                    imageData_gse.Image = editor.GetImageForExport();
+                }
             }
         }
 
@@ -656,7 +646,7 @@ namespace ShareX
 
                 case ImageDestination.Imgur:
                     if (SettingsManager.ConfigUploaders.ImgurOAuth2Info == null)
-                    	SettingsManager.ConfigUploaders.ImgurOAuth2Info = new OAuth2Info(ApiKeys.ImgurClientID, ApiKeys.ImgurClientSecret);
+                        SettingsManager.ConfigUploaders.ImgurOAuth2Info = new OAuth2Info(ApiKeys.ImgurClientID, ApiKeys.ImgurClientSecret);
                     imageUploader = new Imgur_v3(SettingsManager.ConfigUploaders.ImgurOAuth2Info)
                     {
                         UploadMethod = SettingsManager.ConfigUploaders.ImgurAccountType,
