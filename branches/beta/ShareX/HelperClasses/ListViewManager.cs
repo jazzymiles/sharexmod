@@ -63,7 +63,7 @@ namespace ShareX.HelperClasses
 
                 for (int i = 1; i <= Thumbnails.Images.Count; i++)
                 {
-                    TaskManager.ListViewControl.Items[TaskManager.ListViewControl.Items.Count - i].ImageIndex = Thumbnails.Images.Count - i;
+                    TaskManager.ListViewControl.Items[i - 1].ImageIndex = Thumbnails.Images.Count - i;
                 }
             }
         }
@@ -83,7 +83,7 @@ namespace ShareX.HelperClasses
                         Thumbnails.Images.Add(task.Info.FileName, HelpersMod.ImageFromFile(task.Info.FilePath));
                     else
                     {
-                        Thumbnails.Images.Add(Resources.folder);
+                        Thumbnails.Images.Add(task.Info.FileName, Resources.folder);
                     }
                 }
                 else
@@ -109,7 +109,7 @@ namespace ShareX.HelperClasses
 
                 if (SettingsManager.ConfigCore.ListViewMode != View.Details && TaskManager.ListViewControl.Items.Count >= Thumbnails.Images.Count)
                 {
-                    TaskManager.ListViewControl.Items[TaskManager.ListViewControl.Items.Count - 1].ImageIndex = Thumbnails.Images.Count - 1;
+                    TaskManager.ListViewControl.Items[0].ImageIndex = Thumbnails.Images.Count - 1;
                 }
             }
         }

@@ -1,8 +1,10 @@
 ﻿using Microsoft.Expression.Encoder;
+using Microsoft.Expression.Encoder.Devices;
 using Microsoft.Expression.Encoder.Profiles;
 using Microsoft.Expression.Encoder.ScreenCapture;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,15 +14,36 @@ namespace ShareX.Forms
 {
     public partial class ScreencastUI
     {
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private ScreenCaptureJob XescScreenCaptureJob;
         private Timer XescTimer = new Timer() { Enabled = true };
 
         private void ExpressionEncoderStart()
         {
             XescScreenCaptureJob = new Microsoft.Expression.Encoder.ScreenCapture.ScreenCaptureJob();
-            XescScreenCaptureJob.CaptureFollowCursor = SettingsManager.ConfigUser.FollowMouseCursor;
+            XescScreenCaptureJob.CaptureFollowCursor = SettingsManager.ConfigUser.ScreencastFollowMouseCursor;
             XescScreenCaptureJob.CaptureRectangle = CaptureRectangle;
             XescScreenCaptureJob.OutputPath = Program.ScreenshotsPath;
+
+            if (SettingsManager.ConfigUser.ScreencastEnableAudio)
+            {
+                Collection<EncoderDevice> audioDevices = EncoderDevices.FindDevices(EncoderDeviceType.Audio);
+                try
+                {
+                    EncoderDevice foundDevice = audioDevices.First(delegate(EncoderDevice item)
+                    {
+                        return item.Name.Contains(@"Microphone");
+                    });
+                    XescScreenCaptureJob.AddAudioDeviceSource(foundDevice);
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Error while finding audio devices.", ex);
+                    XescScreenCaptureJob.AddAudioDeviceSource(audioDevices[0]);
+                }
+            }
+
             XescScreenCaptureJob.Start();
 
             XescTimer.Tick += XescTimer_Tick;
@@ -66,23 +89,36 @@ namespace ShareX.Forms
                     Size = mediaItem.MainMediaFile.VideoStreams[0].VideoSize,
                 };
 
-                switch (SettingsManager.ConfigUser.ScreencastBitrateType)
+                try
                 {
-                    case EBitrateType.ConstantBitrate:
-                        mediaItem.OutputFormat.VideoProfile.Bitrate = new ConstantBitrate(SettingsManager.ConfigUser.ScreencastBitrate);
-                        break;
+                    mediaItem.OutputFormat.AudioProfile.Bitrate = new ConstantBitrate(SettingsManager.ConfigUser.ScreencastAudioBitrate);
 
-                    case EBitrateType.VariableConstrainedBitrate:
-                        mediaItem.OutputFormat.VideoProfile.Bitrate = new VariableConstrainedBitrate(SettingsManager.ConfigUser.ScreencastBitrate, SettingsManager.ConfigUser.ScreencastBitrate * 2);
-                        break;
+                    switch (SettingsManager.ConfigUser.ScreencastBitrateType)
+                    {
+                        case EBitrateType.ConstantBitrate:
+                            mediaItem.OutputFormat.VideoProfile.Bitrate =
+                                new ConstantBitrate(SettingsManager.ConfigUser.ScreencastVideoBitrate);
+                            break;
 
-                    case EBitrateType.VariableQualityBitrate:
-                        mediaItem.OutputFormat.VideoProfile.Bitrate = new VariableQualityBitrate(SettingsManager.ConfigUser.ScreencastVBRQuality);
-                        break;
+                        case EBitrateType.VariableConstrainedBitrate:
+                            mediaItem.OutputFormat.VideoProfile.Bitrate =
+                                new VariableConstrainedBitrate(SettingsManager.ConfigUser.ScreencastVideoBitrate, SettingsManager.ConfigUser.ScreencastVideoBitrate * 2);
+                            break;
 
-                    case EBitrateType.VariableUnconstrainedBitrate:
-                        mediaItem.OutputFormat.VideoProfile.Bitrate = new VariableUnconstrainedBitrate(SettingsManager.ConfigUser.ScreencastBitrate);
-                        break;
+                        case EBitrateType.VariableQualityBitrate:
+                            mediaItem.OutputFormat.VideoProfile.Bitrate =
+                                new VariableQualityBitrate(SettingsManager.ConfigUser.ScreencastVBRQuality);
+                            break;
+
+                        case EBitrateType.VariableUnconstrainedBitrate:
+                            mediaItem.OutputFormat.VideoProfile.Bitrate =
+                                new VariableUnconstrainedBitrate(SettingsManager.ConfigUser.ScreencastVideoBitrate);
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Error while customising audio/video profile.", ex);
                 }
 
                 job.CreateSubfolder = false;
