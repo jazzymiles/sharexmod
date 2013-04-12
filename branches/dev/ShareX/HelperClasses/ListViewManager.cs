@@ -63,7 +63,7 @@ namespace ShareX.HelperClasses
 
                 for (int i = 1; i <= Thumbnails.Images.Count; i++)
                 {
-                    TaskManager.ListViewControl.Items[i].ImageIndex = Thumbnails.Images.Count - i;
+                    TaskManager.ListViewControl.Items[i - 1].ImageIndex = Thumbnails.Images.Count - i;
                 }
             }
         }
