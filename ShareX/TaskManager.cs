@@ -113,7 +113,7 @@ namespace ShareX
                 }
 
                 lvi.SubItems.Add(string.Empty);
-                ListViewControl.Items.Add(lvi);
+                ListViewControl.Items.Insert(0, lvi);
                 lvi.EnsureVisible();
                 ListViewControl.FillLastColumn();
             }

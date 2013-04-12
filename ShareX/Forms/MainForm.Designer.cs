@@ -1399,7 +1399,6 @@ namespace ShareX
         private System.Windows.Forms.ToolStripMenuItem tsmiTrayScreencast;
         private System.Windows.Forms.ToolStripMenuItem screenshotsFolderToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip cmsUploadInfo;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem tsmiOpen;
         private System.Windows.Forms.ToolStripMenuItem tsmiOpenURL;
         private System.Windows.Forms.ToolStripMenuItem tsmiOpenShortenedURL;
