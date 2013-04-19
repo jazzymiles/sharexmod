@@ -1338,8 +1338,17 @@ namespace ShareX
                     uim.OpenFile();
                     break;
 
+                case Keys.Control | Keys.X:
+                    uim.CopyURL();
+                    RemoveSelectedItems();
+                    break;
+
                 case Keys.Control | Keys.C:
                     uim.CopyURL();
+                    break;
+
+                case Keys.Control | Keys.V:
+                    UploadManager.ClipboardUploadWithContentViewer();
                     break;
 
                 case Keys.Delete:
