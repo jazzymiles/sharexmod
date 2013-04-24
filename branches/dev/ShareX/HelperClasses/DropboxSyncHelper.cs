@@ -30,7 +30,11 @@ namespace ShareX
             if (SettingsManager.ConfigUploaders == null)
                 SettingsManager.LoadUploadersConfig();
 
-            dropbox = new Dropbox(SettingsManager.ConfigUploaders.DropboxOAuthInfo, Application.ProductName, SettingsManager.ConfigUploaders.DropboxAccountInfo);
+            dropbox = new Dropbox(SettingsManager.ConfigUploaders.DropboxOAuthInfo,
+                SettingsManager.ConfigUploaders.DropboxAccountInfo)
+                {
+                    UploadPath = Application.ProductName
+                };
         }
 
         public void Sync()
