@@ -655,7 +655,10 @@ namespace ShareX
                     break;
 
                 case ImageDestination.Picasa:
-                    imageUploader = new Picasa(SettingsManager.ConfigUploaders.PicasaOAuth2Info);
+                    imageUploader = new Picasa(SettingsManager.ConfigUploaders.PicasaOAuth2Info)
+                                        {
+                                            AlbumID = SettingsManager.ConfigUploaders.PicasaAlbumID
+                                        };
                     break;
 
                 case ImageDestination.Flickr:
@@ -832,8 +835,9 @@ namespace ShareX
                 case FileDestination.Dropbox:
                     NameParser parser = new NameParser(NameParserType.FolderPath);
                     string uploadPath = parser.Parse(Dropbox.TidyUploadPath(SettingsManager.ConfigUploaders.DropboxUploadPath));
-                    fileUploader = new Dropbox(SettingsManager.ConfigUploaders.DropboxOAuthInfo, uploadPath, SettingsManager.ConfigUploaders.DropboxAccountInfo)
+                    fileUploader = new Dropbox(SettingsManager.ConfigUploaders.DropboxOAuthInfo, SettingsManager.ConfigUploaders.DropboxAccountInfo)
                     {
+                        UploadPath = uploadPath,
                         AutoCreateShareableLink = SettingsManager.ConfigUploaders.DropboxAutoCreateShareableLink
                     };
                     break;

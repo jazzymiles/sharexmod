@@ -22,6 +22,7 @@ namespace HelpersLib.Hotkeys2
             wf.Settings.GetDefaults();
 
             InitializeComponent();
+            IntPtr h = tcWorkflow.Handle; // bug in .net maybe: The TabControl's handle must be created for the Insert method to work. 
             OnLoad();
         }
 
@@ -394,7 +395,7 @@ namespace HelpersLib.Hotkeys2
         {
             if (!tcWorkflow.TabPages.Contains(tpAfterCapture))
             {
-                tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpCapture) + 1, tpAfterCapture);
+                tcWorkflow.TabPages.Insert(1, tpAfterCapture);
             }
         }
 
@@ -452,6 +453,7 @@ namespace HelpersLib.Hotkeys2
                     tcWorkflow.TabPages.Insert(tcWorkflow.TabPages.IndexOf(tpCapture) + 2, tpShare);
                 }
             }
+            ShowTabAfterCapture();
         }
 
         private void HideTabUploadAndShare()
@@ -465,6 +467,7 @@ namespace HelpersLib.Hotkeys2
             {
                 tcWorkflow.TabPages.Remove(tpShare);
             }
+            HideTabAfterCapture();
         }
 
         #endregion Show/Hide Tabs
@@ -481,18 +484,19 @@ namespace HelpersLib.Hotkeys2
             {
                 case EHotkey.ClipboardUpload:
                     ShowAllUploaders();
-                    gbSettings.Visible = true;
+                    ShowTabAfterCapture();
+                    gbTextUploaderSettings.Visible = true;
                     break;
 
                 case EHotkey.FileUpload:
                     ShowAllUploaders();
-                    gbSettings.Visible = false;
+                    gbTextUploaderSettings.Visible = false;
                     break;
 
                 default:
                     HideTextUploaders();
                     ShowTabAfterCapture();
-                    gbSettings.Visible = false;
+                    gbTextUploaderSettings.Visible = false;
                     break;
             }
             Workflow.Hotkey = hotkey;

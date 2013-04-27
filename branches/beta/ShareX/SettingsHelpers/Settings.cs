@@ -176,23 +176,31 @@ namespace ShareX
             ApplyDefaultValues(this);
         }
 
-        public void CryptPasswords(bool doEncrypt)
+        public bool CryptPasswords(bool doEncrypt)
         {
-            bool isEncrypted = TestPassword != "password";
-
-            if (doEncrypt && isEncrypted || !doEncrypt && !isEncrypted)
+            try
             {
-                // ensure encrupted passwords are not encrypted again or decrypted passwords are not decrypted again
-                return;
+                bool isEncrypted = TestPassword != "password";
+
+                if (doEncrypt && isEncrypted || !doEncrypt && !isEncrypted)
+                {
+                    // ensure encrupted passwords are not encrypted again or decrypted passwords are not decrypted again
+                    return false;
+                }
+
+                DebugHelper.WriteLine((doEncrypt ? "Encrypting " : "Decrypting") + " passwords.");
+
+                CryptKeys crypt = new CryptKeys() { KeySize = this.PasswordsEncryptionStrength };
+
+                this.TestPassword = doEncrypt ? crypt.Encrypt(TestPassword) : crypt.Decrypt(TestPassword);
+                this.ProxySettings.Password = doEncrypt ? crypt.Encrypt(this.ProxySettings.Password) : crypt.Decrypt(this.ProxySettings.Password);
+
+                return true;
             }
-
-            DebugHelper.WriteLine((doEncrypt ? "Encrypting " : "Decrypting") + " passwords.");
-
-            CryptKeys crypt = new CryptKeys() { KeySize = this.PasswordsEncryptionStrength };
-
-            this.TestPassword = doEncrypt ? crypt.Encrypt(TestPassword) : crypt.Decrypt(TestPassword);
-
-            this.ProxySettings.Password = doEncrypt ? crypt.Encrypt(this.ProxySettings.Password) : crypt.Decrypt(this.ProxySettings.Password);
+            catch (System.Exception)
+            {
+                return false;
+            }
         }
 
         #endregion Methods
@@ -209,9 +217,10 @@ namespace ShareX
         public override bool Save(string filePath)
         {
             bool result;
-            if (PasswordsSecureUsingEncryption) CryptPasswords(true);
+            bool resultCrypt = false;
+            if (PasswordsSecureUsingEncryption) resultCrypt = CryptPasswords(true);
             result = base.Save(filePath);
-            if (PasswordsSecureUsingEncryption) CryptPasswords(false);
+            if (PasswordsSecureUsingEncryption && resultCrypt) CryptPasswords(false);
             return result;
         }
 

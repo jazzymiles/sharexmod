@@ -42,8 +42,10 @@ namespace ShareX.HelperClasses
             };
 
             string filename = nameParser.Parse(SettingsManager.ConfigCore.NameFormatPattern);
-            if (!string.IsNullOrEmpty(extension)) filename += "." + extension;
-
+            if (!string.IsNullOrEmpty(extension))
+            {
+                filename += "." + extension.TrimStart('.');
+            }
             SettingsManager.ConfigCore.AutoIncrementNumber = nameParser.AutoIncrementNumber;
 
             return filename;
