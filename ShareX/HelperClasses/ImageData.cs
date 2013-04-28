@@ -265,6 +265,11 @@ namespace ShareX.HelperClasses
             return string.Empty;
         }
 
+        public static ImageData FromScreenshot(Image rect)
+        {
+            return new ImageData(rect, true);
+        }
+
         public void Dispose()
         {
             if (ImageStream != null) ImageStream.Dispose();

@@ -1035,14 +1035,28 @@ namespace ShareX
 
         private void tsddbCapture_DropDownOpening(object sender, EventArgs e)
         {
-            PrepareWindowsMenu(tsmiWindow, tsmiWindowItems_Click);
+            PrepareCaptureMenuAsync(tsmiWindow, tsmiWindowItems_Click, tsmiMonitor, tsmiMonitorItems_Click);
+        }
+
+        private void tsmiMonitorItems_Click(object sender, EventArgs e)
+        {
+            CaptureMonitor(sender as ToolStripItem);
+        }
+
+        private void CaptureMonitor(ToolStripItem tsi)
+        {
+            Rectangle rectangle = (Rectangle)tsi.Tag;
+            if (!rectangle.IsEmpty)
+            {
+                DoAfterCapture(ImageData.FromScreenshot(Screenshot.CaptureRectangle(rectangle)));
+            }
         }
 
         private void tsmiWindowItems_Click(object sender, EventArgs e)
         {
             ToolStripItem tsi = (ToolStripItem)sender;
             WindowInfo wi = tsi.Tag as WindowInfo;
-            if (wi != null) AfterCapture(CaptureWindow(wi.Handle));
+            if (wi != null) DoAfterCapture(CaptureWindow(wi.Handle));
         }
 
         private void tsmiWindowRectangle_Click(object sender, EventArgs e)
@@ -1104,9 +1118,14 @@ namespace ShareX
             tsmiFullscreen_Click(sender, e);
         }
 
-        private void tsmiCapture_DropDownOpening(object sender, EventArgs e)
+        private void tsmiTrayCapture_DropDownOpening(object sender, EventArgs e)
         {
-            PrepareWindowsMenu(tsmiTrayWindow, tsmiTrayWindowItems_Click);
+            PrepareCaptureMenuAsync(tsmiTrayWindow, tsmiTrayWindowItems_Click, tsmiTrayMonitor, tsmiTrayMonitorItems_Click);
+        }
+
+        private void tsmiTrayMonitorItems_Click(object sender, EventArgs e)
+        {
+            CaptureMonitor(sender as ToolStripItem);
         }
 
         private void tsmiTrayWindowItems_Click(object sender, EventArgs e)
@@ -1389,5 +1408,7 @@ namespace ShareX
             // Perform the sort with these new sort options.
             this.lvUploads.Sort();
         }
+
+
     }
 }
