@@ -156,6 +156,13 @@ namespace ShareX
             UploadTask task = new UploadTask(dataType, taskJob);
             if (destination != EDataType.Default) task.Info.UploadDestination = destination;
             task.Info.FilePath = filePath;
+
+            if (SettingsManager.ConfigCore.FileUploadUseNamePattern)
+            {
+                string ext = Path.GetExtension(task.Info.FilePath);
+                task.Info.FileName = task.Info.FileNameWithoutExtension + "-" + TaskHelper.GetFilename(ext);
+            }
+
             if (taskJob == TaskJob.ImageUpload)
                 task.imageData = ImageData.GetNew(filePath);
 
