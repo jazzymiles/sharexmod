@@ -92,7 +92,7 @@ namespace ShareX
         /// </summary>
         /// <param name="imageData">ImageData object contains Image and WindowText.</param>
         /// <param name="act">AfterCaptureActivity object is null when default hotkeys are run.</param>
-        private void AfterCapture(ImageData imageData, AfterCaptureActivity act = null)
+        private void DoAfterCapture(ImageData imageData, AfterCaptureActivity act = null)
         {
             if (imageData != null)
             {
@@ -272,9 +272,9 @@ namespace ShareX
             return id_screencast;
         }
 
-        private void PrepareWindowsMenu(ToolStripMenuItem tsmi, EventHandler handler)
+        private void PrepareCaptureMenuAsync(ToolStripMenuItem tsmiWindow, EventHandler handlerWindow, ToolStripMenuItem tsmiMonitor, EventHandler handlerMonitor)
         {
-            tsmi.DropDownItems.Clear();
+            tsmiWindow.DropDownItems.Clear();
 
             WindowsList windowsList = new WindowsList();
             List<WindowInfo> windows = windowsList.GetVisibleWindowsList();
@@ -284,8 +284,9 @@ namespace ShareX
                 foreach (WindowInfo window in windows)
                 {
                     string title = window.Text.Truncate(50);
-                    ToolStripItem tsi = tsmi.DropDownItems.Add(title);
-                    tsi.Click += handler;
+                    ToolStripItem tsi = tsmiWindow.DropDownItems.Add(title);
+                    tsi.Tag = window;
+                    tsi.Click += handlerWindow;
 
                     try
                     {
@@ -301,12 +302,24 @@ namespace ShareX
                     {
                         log.Error(e);
                     }
-
-                    tsi.Tag = window;
                 }
-
-                tsmi.Invalidate();
             }
+
+            tsmiMonitor.DropDownItems.Clear();
+
+            Screen[] screens = Screen.AllScreens;
+
+            for (int i = 0; i < screens.Length; i++)
+            {
+                Screen screen = screens[i];
+                string text = string.Format("{0}. {1}x{2}", i + 1, screen.Bounds.Width, screen.Bounds.Height);
+                ToolStripItem tsi = tsmiMonitor.DropDownItems.Add(text);
+                tsi.Tag = screen.Bounds;
+                tsi.Click += handlerMonitor;
+            }
+
+            tsmiWindow.Invalidate();
+            tsmiMonitor.Invalidate();
         }
     }
 }
