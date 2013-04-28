@@ -304,7 +304,7 @@ namespace ShareX
 
             while (timer.ElapsedMilliseconds < wait)
             {
-                if (FormsHelper.Main != null && FormsHelper.Main.IsReady) return true;
+                if (FormsHelper.Main.IsReady) return true;
 
                 Thread.Sleep(10);
             }

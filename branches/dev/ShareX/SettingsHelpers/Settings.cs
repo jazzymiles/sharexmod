@@ -90,6 +90,7 @@ namespace ShareX
 
         public string NameFormatPattern = "%y-%mo-%d_%h-%mi-%s";
         public string NameFormatPatternOther = "%y-%mo-%d_%h-%mi-%s";
+        public bool FileUploadUseNamePattern = false;
         public int AutoIncrementNumber = 0;
 
         // Capture
