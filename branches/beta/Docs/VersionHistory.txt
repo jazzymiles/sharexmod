@@ -1,4 +1,5 @@
-﻿* Imgur album support
+﻿* Capture monitor
+* Imgur album support
 * Google Drive file uploader
 * Command-line encoder support for screencasting
 
