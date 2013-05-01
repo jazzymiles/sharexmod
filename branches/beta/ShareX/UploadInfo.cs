@@ -67,6 +67,14 @@ namespace ShareX
 
         public string FileName { get; set; }
 
+        public string FileNameWithoutExtension
+        {
+            get
+            {
+                return Path.GetFileNameWithoutExtension(this.FileName);
+            }
+        }
+
         public EDataType DataType { get; set; }
 
         public EDataType UploadDestination { get; set; }

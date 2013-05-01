@@ -157,6 +157,7 @@ namespace ShareX.Forms
             cbClipboardUploadAutoDetectURL.Checked = SettingsManager.ConfigCore.ClipboardUploadAutoDetectURL;
             txtNameFormatPatternImages.Text = SettingsManager.ConfigCore.NameFormatPattern;
             txtNameFormatPatternOther.Text = SettingsManager.ConfigCore.NameFormatPatternOther;
+            chkFileUploadUseNamePattern.Checked = SettingsManager.ConfigCore.FileUploadUseNamePattern;
 
             // Image - Quality
             ucImageQualityUI.ConfigUI(SettingsManager.ConfigUser);
@@ -635,6 +636,11 @@ namespace ShareX.Forms
         private void chkFileUploadImageProcess_CheckedChanged(object sender, EventArgs e)
         {
             SettingsManager.ConfigCore.FileUploadImageProcess = chkFileUploadImageProcess.Checked;
+        }
+
+        private void chkFileUploadUseNamePattern_CheckedChanged(object sender, EventArgs e)
+        {
+            SettingsManager.ConfigCore.FileUploadUseNamePattern = chkFileUploadUseNamePattern.Checked;
         }
     }
 }
