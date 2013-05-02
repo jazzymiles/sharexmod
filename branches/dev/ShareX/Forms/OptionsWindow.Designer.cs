@@ -107,8 +107,10 @@ namespace ShareX.Forms
             this.cbBufferSize = new System.Windows.Forms.ComboBox();
             this.tpImageResize = new System.Windows.Forms.TabPage();
             this.panelImageResize = new System.Windows.Forms.Panel();
+            this.ucImageResizeUI = new ShareX.ImageResizeUI();
             this.tpImageQuality2 = new System.Windows.Forms.TabPage();
             this.panelImageQuality = new System.Windows.Forms.Panel();
+            this.ucImageQualityUI = new ShareX.ImageQualityUI();
             this.tpPaths = new System.Windows.Forms.TabPage();
             this.panelPaths = new System.Windows.Forms.Panel();
             this.gbPathRoot = new System.Windows.Forms.GroupBox();
@@ -140,13 +142,12 @@ namespace ShareX.Forms
             this.tpFileNaming = new System.Windows.Forms.TabPage();
             this.panelFileNaming = new System.Windows.Forms.Panel();
             this.gbFilenamingPatternOthers = new System.Windows.Forms.GroupBox();
+            this.chkFileUploadUseNamePattern = new System.Windows.Forms.CheckBox();
             this.txtNameFormatPatternOther = new System.Windows.Forms.TextBox();
             this.lblNameFormatPatternPreviewOther = new System.Windows.Forms.Label();
-            this.btnNameFormatPatternHelpOther = new System.Windows.Forms.Button();
             this.gbFilenamingPatternImages = new System.Windows.Forms.GroupBox();
             this.lblNameFormatPatternPreviewImages = new System.Windows.Forms.Label();
             this.txtNameFormatPatternImages = new System.Windows.Forms.TextBox();
-            this.btnNameFormatPatternHelpImages = new System.Windows.Forms.Button();
             this.tpShapes2 = new System.Windows.Forms.TabPage();
             this.panelShapes2 = new System.Windows.Forms.Panel();
             this.pgShapes = new System.Windows.Forms.PropertyGrid();
@@ -156,9 +157,6 @@ namespace ShareX.Forms
             this.tpImageProcessing = new System.Windows.Forms.TabPage();
             this.panelImageProcessing = new System.Windows.Forms.Panel();
             this.chkFileUploadImageProcess = new System.Windows.Forms.CheckBox();
-            this.chkFileUploadUseNamePattern = new System.Windows.Forms.CheckBox();
-            this.ucImageResizeUI = new ShareX.ImageResizeUI();
-            this.ucImageQualityUI = new ShareX.ImageQualityUI();
             this.tlpMain.SuspendLayout();
             this.tcBase.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -964,6 +962,14 @@ namespace ShareX.Forms
             this.panelImageResize.Size = new System.Drawing.Size(719, 585);
             this.panelImageResize.TabIndex = 0;
             // 
+            // ucImageResizeUI
+            // 
+            this.ucImageResizeUI.Location = new System.Drawing.Point(11, 10);
+            this.ucImageResizeUI.Margin = new System.Windows.Forms.Padding(5);
+            this.ucImageResizeUI.Name = "ucImageResizeUI";
+            this.ucImageResizeUI.Size = new System.Drawing.Size(619, 381);
+            this.ucImageResizeUI.TabIndex = 0;
+            // 
             // tpImageQuality2
             // 
             this.tpImageQuality2.Controls.Add(this.panelImageQuality);
@@ -985,6 +991,14 @@ namespace ShareX.Forms
             this.panelImageQuality.Name = "panelImageQuality";
             this.panelImageQuality.Size = new System.Drawing.Size(719, 585);
             this.panelImageQuality.TabIndex = 0;
+            // 
+            // ucImageQualityUI
+            // 
+            this.ucImageQualityUI.Location = new System.Drawing.Point(21, 20);
+            this.ucImageQualityUI.Margin = new System.Windows.Forms.Padding(5);
+            this.ucImageQualityUI.Name = "ucImageQualityUI";
+            this.ucImageQualityUI.Size = new System.Drawing.Size(509, 273);
+            this.ucImageQualityUI.TabIndex = 0;
             // 
             // tpPaths
             // 
@@ -1381,7 +1395,6 @@ namespace ShareX.Forms
             this.gbFilenamingPatternOthers.Controls.Add(this.chkFileUploadUseNamePattern);
             this.gbFilenamingPatternOthers.Controls.Add(this.txtNameFormatPatternOther);
             this.gbFilenamingPatternOthers.Controls.Add(this.lblNameFormatPatternPreviewOther);
-            this.gbFilenamingPatternOthers.Controls.Add(this.btnNameFormatPatternHelpOther);
             this.gbFilenamingPatternOthers.Location = new System.Drawing.Point(11, 128);
             this.gbFilenamingPatternOthers.Margin = new System.Windows.Forms.Padding(4);
             this.gbFilenamingPatternOthers.Name = "gbFilenamingPatternOthers";
@@ -1390,6 +1403,17 @@ namespace ShareX.Forms
             this.gbFilenamingPatternOthers.TabIndex = 1;
             this.gbFilenamingPatternOthers.TabStop = false;
             this.gbFilenamingPatternOthers.Text = "File naming pattern for other files that do not already exist in the computer:";
+            // 
+            // chkFileUploadUseNamePattern
+            // 
+            this.chkFileUploadUseNamePattern.AutoSize = true;
+            this.chkFileUploadUseNamePattern.Location = new System.Drawing.Point(24, 96);
+            this.chkFileUploadUseNamePattern.Name = "chkFileUploadUseNamePattern";
+            this.chkFileUploadUseNamePattern.Size = new System.Drawing.Size(498, 21);
+            this.chkFileUploadUseNamePattern.TabIndex = 3;
+            this.chkFileUploadUseNamePattern.Text = "Append this file pattern for uploading files that are already in the computer";
+            this.chkFileUploadUseNamePattern.UseVisualStyleBackColor = true;
+            this.chkFileUploadUseNamePattern.CheckedChanged += new System.EventHandler(this.chkFileUploadUseNamePattern_CheckedChanged);
             // 
             // txtNameFormatPatternOther
             // 
@@ -1410,22 +1434,10 @@ namespace ShareX.Forms
             this.lblNameFormatPatternPreviewOther.TabIndex = 2;
             this.lblNameFormatPatternPreviewOther.Text = "Preview:";
             // 
-            // btnNameFormatPatternHelpOther
-            // 
-            this.btnNameFormatPatternHelpOther.Location = new System.Drawing.Point(587, 30);
-            this.btnNameFormatPatternHelpOther.Margin = new System.Windows.Forms.Padding(4);
-            this.btnNameFormatPatternHelpOther.Name = "btnNameFormatPatternHelpOther";
-            this.btnNameFormatPatternHelpOther.Size = new System.Drawing.Size(32, 28);
-            this.btnNameFormatPatternHelpOther.TabIndex = 1;
-            this.btnNameFormatPatternHelpOther.Text = "?";
-            this.btnNameFormatPatternHelpOther.UseVisualStyleBackColor = true;
-            this.btnNameFormatPatternHelpOther.Click += new System.EventHandler(this.btnNameFormatPatternHelpOther_Click);
-            // 
             // gbFilenamingPatternImages
             // 
             this.gbFilenamingPatternImages.Controls.Add(this.lblNameFormatPatternPreviewImages);
             this.gbFilenamingPatternImages.Controls.Add(this.txtNameFormatPatternImages);
-            this.gbFilenamingPatternImages.Controls.Add(this.btnNameFormatPatternHelpImages);
             this.gbFilenamingPatternImages.Location = new System.Drawing.Point(11, 10);
             this.gbFilenamingPatternImages.Margin = new System.Windows.Forms.Padding(4);
             this.gbFilenamingPatternImages.Name = "gbFilenamingPatternImages";
@@ -1453,17 +1465,6 @@ namespace ShareX.Forms
             this.txtNameFormatPatternImages.Size = new System.Drawing.Size(553, 22);
             this.txtNameFormatPatternImages.TabIndex = 0;
             this.txtNameFormatPatternImages.TextChanged += new System.EventHandler(this.txtNameFormatPattern_TextChanged);
-            // 
-            // btnNameFormatPatternHelpImages
-            // 
-            this.btnNameFormatPatternHelpImages.Location = new System.Drawing.Point(587, 30);
-            this.btnNameFormatPatternHelpImages.Margin = new System.Windows.Forms.Padding(4);
-            this.btnNameFormatPatternHelpImages.Name = "btnNameFormatPatternHelpImages";
-            this.btnNameFormatPatternHelpImages.Size = new System.Drawing.Size(32, 28);
-            this.btnNameFormatPatternHelpImages.TabIndex = 1;
-            this.btnNameFormatPatternHelpImages.Text = "?";
-            this.btnNameFormatPatternHelpImages.UseVisualStyleBackColor = true;
-            this.btnNameFormatPatternHelpImages.Click += new System.EventHandler(this.btnNameFormatPatternHelp_Click);
             // 
             // tpShapes2
             // 
@@ -1559,33 +1560,6 @@ namespace ShareX.Forms
             this.chkFileUploadImageProcess.Text = "Process image files during File Upload or Drag n Drop from Explorer";
             this.chkFileUploadImageProcess.UseVisualStyleBackColor = true;
             this.chkFileUploadImageProcess.CheckedChanged += new System.EventHandler(this.chkFileUploadImageProcess_CheckedChanged);
-            // 
-            // chkFileUploadUseNamePattern
-            // 
-            this.chkFileUploadUseNamePattern.AutoSize = true;
-            this.chkFileUploadUseNamePattern.Location = new System.Drawing.Point(24, 96);
-            this.chkFileUploadUseNamePattern.Name = "chkFileUploadUseNamePattern";
-            this.chkFileUploadUseNamePattern.Size = new System.Drawing.Size(498, 21);
-            this.chkFileUploadUseNamePattern.TabIndex = 3;
-            this.chkFileUploadUseNamePattern.Text = "Append this file pattern for uploading files that are already in the computer";
-            this.chkFileUploadUseNamePattern.UseVisualStyleBackColor = true;
-            this.chkFileUploadUseNamePattern.CheckedChanged += new System.EventHandler(this.chkFileUploadUseNamePattern_CheckedChanged);
-            // 
-            // ucImageResizeUI
-            // 
-            this.ucImageResizeUI.Location = new System.Drawing.Point(11, 10);
-            this.ucImageResizeUI.Margin = new System.Windows.Forms.Padding(5);
-            this.ucImageResizeUI.Name = "ucImageResizeUI";
-            this.ucImageResizeUI.Size = new System.Drawing.Size(619, 381);
-            this.ucImageResizeUI.TabIndex = 0;
-            // 
-            // ucImageQualityUI
-            // 
-            this.ucImageQualityUI.Location = new System.Drawing.Point(21, 20);
-            this.ucImageQualityUI.Margin = new System.Windows.Forms.Padding(5);
-            this.ucImageQualityUI.Name = "ucImageQualityUI";
-            this.ucImageQualityUI.Size = new System.Drawing.Size(509, 273);
-            this.ucImageQualityUI.TabIndex = 0;
             // 
             // OptionsWindow
             // 
@@ -1712,7 +1686,6 @@ namespace ShareX.Forms
         private System.Windows.Forms.CheckBox cbClipboardUploadAutoDetectURL;
         private System.Windows.Forms.Label lblClipboardUploadInfo;
         private System.Windows.Forms.Label lblNameFormatPatternPreviewOther;
-        private System.Windows.Forms.Button btnNameFormatPatternHelpImages;
         private System.Windows.Forms.TextBox txtNameFormatPatternImages;
         private System.Windows.Forms.TabPage tpImageResize;
         private System.Windows.Forms.Panel panelImageResize;
@@ -1755,7 +1728,6 @@ namespace ShareX.Forms
         private System.Windows.Forms.Panel panelFileNaming;
         private System.Windows.Forms.GroupBox gbFilenamingPatternOthers;
         private System.Windows.Forms.TextBox txtNameFormatPatternOther;
-        private System.Windows.Forms.Button btnNameFormatPatternHelpOther;
         private System.Windows.Forms.Label lblNameFormatPatternPreviewImages;
         private System.Windows.Forms.Button btnImagesOrganise;
         private System.Windows.Forms.CheckBox chkShowBalloonAfterUpload;
