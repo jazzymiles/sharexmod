@@ -636,22 +636,28 @@ namespace ShareX
                 ReleaseChannelType.Stable, Uploader.ProxySettings.GetWebProxy);
             updateChecker.CheckUpdate();
 
-            if (updateChecker.UpdateInfo != null && updateChecker.UpdateInfo.Status == UpdateStatus.UpdateRequired && !string.IsNullOrEmpty(updateChecker.UpdateInfo.URL))
+            if (updateChecker.UpdateInfo != null)
             {
-                NewVersionWindowOptions nvwo = new NewVersionWindowOptions()
+                switch (updateChecker.UpdateInfo.Status)
                 {
-                    MyIcon = this.Icon,
-                    MyImage = Resources.ShareXLogo,
-                    ProjectName = Application.ProductName,
-                    UpdateInfo = updateChecker.UpdateInfo
-                };
+                    case UpdateStatus.UpdateRequired:
+                        string updateText = string.Format("Would you like to download the update?\r\n\r\n{0} is current version.\r\n{1} is latest version.",
+                            updateChecker.UpdateInfo.CurrentVersion, updateChecker.UpdateInfo.LatestVersion);
 
-                UpdaterForm dlg = new UpdaterForm(nvwo);
-                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.Yes)
-                {
-                    DownloaderForm downloader = new DownloaderForm(updateChecker.UpdateInfo.URL, updateChecker.Proxy, updateChecker.UpdateInfo.Summary);
-                    downloader.ShowDialog();
-                    if (downloader.Status == DownloaderFormStatus.InstallStarted) Application.Exit();
+                        if (MessageBox.Show(updateText, Application.ProductName + " update is available", MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                        {
+                            UpdaterForm downloader = new UpdaterForm(updateChecker.UpdateInfo.URL, updateChecker.Proxy, updateChecker.UpdateInfo.Summary);
+                            downloader.ShowDialog();
+                            if (downloader.Status == DownloaderFormStatus.InstallStarted)
+                            {
+                                Application.Exit();
+                            }
+                        }
+                        break;
+                    case UpdateStatus.UpdateCheckFailed:
+                        DebugHelper.WriteLine("Update check failed.");
+                        break;
                 }
             }
         }
@@ -987,6 +993,16 @@ namespace ShareX
             if (!string.IsNullOrEmpty(url))
             {
                 Helpers.LoadBrowserAsync(url);
+            }
+        }
+
+        private void niTray_MouseUp(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case System.Windows.Forms.MouseButtons.Middle:
+                    tsmiRectangle_Click(sender, e);
+                    break;
             }
         }
 
@@ -1407,6 +1423,8 @@ namespace ShareX
             // Perform the sort with these new sort options.
             this.lvUploads.Sort();
         }
+
+
 
 
     }
