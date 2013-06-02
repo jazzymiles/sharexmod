@@ -508,7 +508,11 @@ namespace HelpersLib.Hotkeys2
             gbImageUploaders.Visible = true;
             gbTextUploaders.Visible = true;
             ShowTabUploadAndShare();
-            HideTabAfterCapture();
+            if (Workflow.Settings.ApplyDefaultSettings)
+            {
+                HideTabAfterCapture();
+            }
+        
         }
 
         private void HideTextUploaders()
