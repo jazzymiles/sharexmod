@@ -62,9 +62,9 @@ namespace ShareX
         private void tvMain_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Node.Nodes.Count > 0)
-                Helpers.CopyTextSafely(e.Node.FirstNode.Text);
+                ClipboardHelper.CopyText(e.Node.FirstNode.Text);
             else
-                Helpers.CopyTextSafely(e.Node.Text);
+                ClipboardHelper.CopyText(e.Node.Text);
         }
 
         private void tmrClose_Tick(object sender, EventArgs e)
@@ -81,7 +81,7 @@ namespace ShareX
         private void btnCopyImage_Click(object sender, EventArgs e)
         {
             if (File.Exists(mUploadInfo.FilePath))
-                Helpers.CopyImageFileToClipboard(mUploadInfo.FilePath);
+                ClipboardHelper.CopyImageFile(mUploadInfo.FilePath);
         }
 
         private void btnOpenLink_Click(object sender, EventArgs e)
@@ -103,7 +103,7 @@ namespace ShareX
                 url = tvMain.Nodes[0].Nodes[0].Text;
             }
             if (!string.IsNullOrEmpty(url))
-                Helpers.CopyTextSafely(url);
+                ClipboardHelper.CopyText(url);
         }
     }
 }
