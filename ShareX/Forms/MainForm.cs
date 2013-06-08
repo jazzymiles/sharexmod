@@ -745,7 +745,7 @@ namespace ShareX
 
             if (!string.IsNullOrEmpty(errors))
             {
-                Helpers.CopyTextSafely(errors);
+                ClipboardHelper.CopyText(errors);
             }
         }
 
