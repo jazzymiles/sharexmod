@@ -896,7 +896,7 @@ namespace ShareX
                     break;
 
                 case FileDestination.Localhostr:
-                    fileUploader = new Localhostr(SettingsManager.ConfigUploaders.LocalhostrEmail, SettingsManager.ConfigUploaders.LocalhostrPassword)
+                    fileUploader = new Hostr(SettingsManager.ConfigUploaders.LocalhostrEmail, SettingsManager.ConfigUploaders.LocalhostrPassword)
                     {
                         DirectURL = SettingsManager.ConfigUploaders.LocalhostrDirectURL
                     };
