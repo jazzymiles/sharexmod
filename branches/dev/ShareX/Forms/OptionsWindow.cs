@@ -442,7 +442,7 @@ namespace ShareX.Forms
                         if (File.Exists(image))
                         {
                             time = File.GetLastWriteTime(image);
-                            string subDirName = new NameParser(NameParserType.FolderPath).Parse(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
+                            string subDirName = new NameParser(NameParserType.FolderPath) { CustomDate = time }.Parse(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
                             string subDirPath = Path.Combine(rootDir, subDirName);
 
                             if (!Directory.Exists(subDirPath))
@@ -462,12 +462,14 @@ namespace ShareX.Forms
 
         private void btnBrowseScreenshotsDir_Click(object sender, EventArgs e)
         {
-            string dir = Path.Combine(txtScreenshotsPath.Text, txtSaveImageSubFolderPatternPreview.Text);
-            if (!Directory.Exists(dir))
+            if (HelpersLib.Helpers.BrowseFolder("Browse for the screenshot folder...", txtScreenshotsPath))
             {
-                Directory.CreateDirectory(dir);
+                string dir = Path.Combine(txtScreenshotsPath.Text, txtSaveImageSubFolderPatternPreview.Text);
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
             }
-            Process.Start(dir);
         }
 
         private void btnOpenPersonalPath_Click(object sender, EventArgs e)

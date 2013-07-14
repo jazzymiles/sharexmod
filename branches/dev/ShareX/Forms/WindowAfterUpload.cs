@@ -81,7 +81,7 @@ namespace ShareX
         private void btnCopyImage_Click(object sender, EventArgs e)
         {
             if (File.Exists(mUploadInfo.FilePath))
-                ClipboardHelper.CopyImageFile(mUploadInfo.FilePath);
+                ClipboardHelper.CopyImageFromFile(mUploadInfo.FilePath);
         }
 
         private void btnOpenLink_Click(object sender, EventArgs e)
