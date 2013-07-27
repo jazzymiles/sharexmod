@@ -845,7 +845,8 @@ namespace ShareX
                     fileUploader = new Dropbox(SettingsManager.ConfigUploaders.DropboxOAuthInfo, SettingsManager.ConfigUploaders.DropboxAccountInfo)
                     {
                         UploadPath = uploadPath,
-                        AutoCreateShareableLink = SettingsManager.ConfigUploaders.DropboxAutoCreateShareableLink
+                        AutoCreateShareableLink = SettingsManager.ConfigUploaders.DropboxAutoCreateShareableLink,
+                        ShortURL = SettingsManager.ConfigUploaders.DropboxShortURL
                     };
                     break;
 
