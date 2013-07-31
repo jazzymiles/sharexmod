@@ -22,8 +22,8 @@ namespace ShareX.Forms
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private bool loaded;
+        private ContextMenuStrip cmsNameFormatPatternOthers, cmsNameFormatPatternImages, cmsSaveImageSubFolderPattern;
         private const int MaxBufferSizePower = 12;
-        private ContextMenuStrip codesMenu;
         private Dictionary<string, Panel> Panels = new Dictionary<string, Panel>();
 
         #region General / Notifications
@@ -120,6 +120,8 @@ namespace ShareX.Forms
 
             // Upload
             cbUseCustomUploadersConfigPath.Checked = SettingsManager.ConfigCore.UseCustomUploadersConfigPath;
+            cmsNameFormatPatternImages = NameParser.CreateCodesMenu(txtNameFormatPatternImages, ReplacementVariables.n);
+            cmsNameFormatPatternOthers = NameParser.CreateCodesMenu(txtNameFormatPatternOther, ReplacementVariables.n);
             txtCustomUploadersConfigPath.Text = SettingsManager.ConfigCore.CustomUploadersConfigPath;
             nudUploadLimit.Value = SettingsManager.ConfigCore.UploadLimit;
 
@@ -140,8 +142,10 @@ namespace ShareX.Forms
             cbCaptureShadow.Checked = SettingsManager.ConfigCore.CaptureShadow;
             chkFileUploadImageProcess.Checked = SettingsManager.ConfigCore.FileUploadImageProcess;
 
+            // Paths
             txtScreenshotsPath.Text = Program.ScreenshotsRootPath;
             txtSaveImageSubFolderPattern.Text = SettingsManager.ConfigCore.SaveImageSubFolderPattern;
+            cmsSaveImageSubFolderPattern = NameParser.CreateCodesMenu(txtSaveImageSubFolderPattern, ReplacementVariables.n);
 
             if (SettingsManager.ConfigCore.SurfaceOptions == null) SettingsManager.ConfigCore.SurfaceOptions = new SurfaceOptions();
             cbDrawBorder.Checked = SettingsManager.ConfigCore.SurfaceOptions.DrawBorder;
@@ -214,47 +218,6 @@ namespace ShareX.Forms
 
             ListViewManager.RefreshThumbnails();
             DropboxSyncHelper.SaveAsync();
-        }
-
-        /// <summary>
-        /// Creates a menu with replacement variables
-        /// </summary>
-        /// <param name="textBox">TextBox where the replacement variables should be appended to</param>
-        /// <param name="ignoreList">List of replacement variables to be ignored</param>
-        private void CreateCodesMenu(TextBox textBox, List<ReplacementVariables> ignoreList = null)
-        {
-            codesMenu = new ContextMenuStrip
-            {
-                Font = new XFont("Lucida Console", 8),
-                Opacity = 0.8,
-                ShowImageMargin = false
-            };
-
-            if (ignoreList == null)
-                ignoreList = new List<ReplacementVariables>();
-
-            var variables = Enum.GetValues(typeof(ReplacementVariables)).Cast<ReplacementVariables>().
-                Where(x => !ignoreList.Contains(x)).
-                Select(x => new
-                {
-                    Name = ReplacementExtension.Prefix + Enum.GetName(typeof(ReplacementVariables), x),
-                    Description = x.GetDescription(),
-                    Enum = x,
-                });
-
-            foreach (var variable in variables)
-            {
-                switch (variable.Enum)
-                {
-                    case ReplacementVariables.i:
-                    case ReplacementVariables.n:
-                        continue;
-                }
-
-                ToolStripMenuItem tsi = new ToolStripMenuItem { Text = string.Format("{0} - {1}", variable.Name, variable.Description), Tag = variable.Name };
-                tsi.Click += (sender, e) => textBox.AppendText(((ToolStripMenuItem)sender).Tag.ToString());
-                codesMenu.Items.Add(tsi);
-            }
         }
 
         #endregion Helper Methods
@@ -358,18 +321,6 @@ namespace ShareX.Forms
         #endregion Capture / Shapes
 
         #region File Naming
-
-        private void btnNameFormatPatternHelp_Click(object sender, EventArgs e)
-        {
-            CreateCodesMenu(txtNameFormatPatternImages);
-            codesMenu.Show(btnNameFormatPatternHelpImages, new Point(btnNameFormatPatternHelpImages.Width + 1, 0));
-        }
-
-        private void btnNameFormatPatternHelpOther_Click(object sender, EventArgs e)
-        {
-            CreateCodesMenu(txtNameFormatPatternOther, new List<ReplacementVariables>() { ReplacementVariables.t });
-            codesMenu.Show(btnNameFormatPatternHelpImages, new Point(btnNameFormatPatternHelpOther.Width + 1, gbFilenamingPatternOthers.Location.Y - 8));
-        }
 
         private void txtNameFormatPattern_TextChanged(object sender, EventArgs e)
         {
@@ -491,7 +442,7 @@ namespace ShareX.Forms
                         if (File.Exists(image))
                         {
                             time = File.GetLastWriteTime(image);
-                            string subDirName = new NameParser(NameParserType.FolderPath).Parse(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
+                            string subDirName = new NameParser(NameParserType.FolderPath) { CustomDate = time }.Parse(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
                             string subDirPath = Path.Combine(rootDir, subDirName);
 
                             if (!Directory.Exists(subDirPath))
@@ -511,12 +462,14 @@ namespace ShareX.Forms
 
         private void btnBrowseScreenshotsDir_Click(object sender, EventArgs e)
         {
-            string dir = Path.Combine(txtScreenshotsPath.Text, txtSaveImageSubFolderPatternPreview.Text);
-            if (!Directory.Exists(dir))
+            if (HelpersLib.Helpers.BrowseFolder("Browse for the screenshot folder...", txtScreenshotsPath))
             {
-                Directory.CreateDirectory(dir);
+                string dir = Path.Combine(txtScreenshotsPath.Text, txtSaveImageSubFolderPatternPreview.Text);
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
             }
-            Process.Start(dir);
         }
 
         private void btnOpenPersonalPath_Click(object sender, EventArgs e)

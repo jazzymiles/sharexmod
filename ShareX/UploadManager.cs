@@ -292,10 +292,7 @@ namespace ShareX
 
         public static void UpdateProxySettings()
         {
-            Uploader.ProxySettings = new ProxySettings()
-            {
-                ProxyActive = SettingsManager.ConfigCore.ProxySettings
-            };
+            Uploader.ProxyInfo = SettingsManager.ConfigCore.ProxySettings;
         }
 
         #region Task Event Handler Methods
