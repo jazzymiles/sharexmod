@@ -118,6 +118,7 @@ namespace ShareX
             this.tsmiTrayFileUpload = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayCapture = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayFullscreen = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTrayMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayWindowRectangle = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayRectangle = new System.Windows.Forms.ToolStripMenuItem();
@@ -185,7 +186,6 @@ namespace ShareX
             this.tssUploadInfo1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiUploadFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiShare = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiTrayMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.tsMain.SuspendLayout();
             this.tscMain.ContentPanel.SuspendLayout();
             this.tscMain.TopToolStripPanel.SuspendLayout();
@@ -711,6 +711,7 @@ namespace ShareX
             this.niTray.Text = "ShareX";
             this.niTray.BalloonTipClicked += new System.EventHandler(this.niTray_BalloonTipClicked);
             this.niTray.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.niTray_MouseDoubleClick);
+            this.niTray.MouseUp += new System.Windows.Forms.MouseEventHandler(this.niTray_MouseUp);
             // 
             // cmsTray
             // 
@@ -728,7 +729,7 @@ namespace ShareX
             this.tssTray2,
             this.tsmiTrayExit});
             this.cmsTray.Name = "cmsTray";
-            this.cmsTray.Size = new System.Drawing.Size(210, 278);
+            this.cmsTray.Size = new System.Drawing.Size(210, 256);
             // 
             // tsmiTrayClipboardUpload
             // 
@@ -746,7 +747,7 @@ namespace ShareX
             this.tsmiTrayFileUpload.Text = "File upload...";
             this.tsmiTrayFileUpload.Click += new System.EventHandler(this.tsbFileUpload_Click);
             // 
-            // tsmiCapture
+            // tsmiTrayCapture
             // 
             this.tsmiTrayCapture.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiTrayFullscreen,
@@ -765,7 +766,7 @@ namespace ShareX
             this.toolStripSeparator6,
             this.tsmiTrayScreencast});
             this.tsmiTrayCapture.Image = global::ShareX.Properties.Resources.camera;
-            this.tsmiTrayCapture.Name = "tsmiCapture";
+            this.tsmiTrayCapture.Name = "tsmiTrayCapture";
             this.tsmiTrayCapture.Size = new System.Drawing.Size(209, 24);
             this.tsmiTrayCapture.Text = "Capture";
             this.tsmiTrayCapture.DropDownOpening += new System.EventHandler(this.tsmiTrayCapture_DropDownOpening);
@@ -777,6 +778,13 @@ namespace ShareX
             this.tsmiTrayFullscreen.Size = new System.Drawing.Size(219, 24);
             this.tsmiTrayFullscreen.Text = "Fullscreen";
             this.tsmiTrayFullscreen.Click += new System.EventHandler(this.tsmiTrayFullscreen_Click);
+            // 
+            // tsmiTrayMonitor
+            // 
+            this.tsmiTrayMonitor.Image = global::ShareX.Properties.Resources.Fullscreen;
+            this.tsmiTrayMonitor.Name = "tsmiTrayMonitor";
+            this.tsmiTrayMonitor.Size = new System.Drawing.Size(219, 24);
+            this.tsmiTrayMonitor.Text = "Monitor";
             // 
             // tsmiTrayWindow
             // 
@@ -1288,13 +1296,6 @@ namespace ShareX
             this.tsmiShare.Name = "tsmiShare";
             this.tsmiShare.Size = new System.Drawing.Size(195, 24);
             this.tsmiShare.Text = "Share using";
-            // 
-            // tsmiTrayMonitor
-            // 
-            this.tsmiTrayMonitor.Image = global::ShareX.Properties.Resources.Fullscreen;
-            this.tsmiTrayMonitor.Name = "tsmiTrayMonitor";
-            this.tsmiTrayMonitor.Size = new System.Drawing.Size(219, 24);
-            this.tsmiTrayMonitor.Text = "Monitor";
             // 
             // MainForm
             // 

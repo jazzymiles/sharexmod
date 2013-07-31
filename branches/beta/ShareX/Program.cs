@@ -175,16 +175,22 @@ namespace ShareX
         [STAThread]
         private static void Main(string[] args)
         {
+            Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             AppDomain.CurrentDomain.AssemblyLoad += new AssemblyLoadEventHandler(CurrentDomain_AssemblyLoad);
+            
             StartTimer = Stopwatch.StartNew();
 
             IsMultiInstance = CLIHelper.CheckArgs(args, "m", "multi");
 
-            if (!IsMultiInstance && !ApplicationInstanceManager.CreateSingleInstance(SingleInstanceCallback))
+            if (IsMultiInstance || ApplicationInstanceManager.CreateSingleInstance(SingleInstanceCallback))
             {
-                return;
+                Run(args);
             }
+        }
 
+        private static void Run(string[] args)
+        {
             Mutex mutex = null;
 
             try
@@ -192,7 +198,6 @@ namespace ShareX
                 mutex = new Mutex(false, @"Global\82E6AC09-0FEF-4390-AD9F-0DD3F5561EFC"); // Required for installer
 
                 IsSilentRun = CLIHelper.CheckArgs(args, "s", "silent");
-
                 IsPortable = CLIHelper.CheckArgs(args, "p", "portable");
 
                 if (IsPortable && !Directory.Exists(PortablePersonalPath))
@@ -228,9 +233,6 @@ namespace ShareX
 
                 if (SettingsManager.ConfigCore == null)
                     SettingsManager.CoreResetEvent.WaitOne();
-                Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
-                AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-
                 if (IsDebug)
                     FormsHelper.ShowLog();
 
@@ -248,7 +250,6 @@ namespace ShareX
                 }
             }
         }
-
         private static void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
         {
             LibNames.Add(string.Format("{0} - {1}", args.LoadedAssembly.FullName, args.LoadedAssembly.Location));

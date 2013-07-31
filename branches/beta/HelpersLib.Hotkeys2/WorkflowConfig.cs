@@ -467,7 +467,10 @@ namespace HelpersLib.Hotkeys2
             {
                 tcWorkflow.TabPages.Remove(tpShare);
             }
-            HideTabAfterCapture();
+            if (Workflow.Settings.ApplyDefaultSettings)
+                HideTabAfterCapture();
+            else
+                ShowTabAfterCapture();
         }
 
         #endregion Show/Hide Tabs
@@ -508,7 +511,10 @@ namespace HelpersLib.Hotkeys2
             gbImageUploaders.Visible = true;
             gbTextUploaders.Visible = true;
             ShowTabUploadAndShare();
-            HideTabAfterCapture();
+            if (Workflow.Settings.ApplyDefaultSettings)
+                HideTabAfterCapture();
+            else
+                ShowTabAfterCapture();
         }
 
         private void HideTextUploaders()

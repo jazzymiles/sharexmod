@@ -310,7 +310,7 @@ namespace ShareX
                                     if (!string.IsNullOrEmpty(info.FilePath))
                                     {
                                         showBalloon = true;
-                                        Helpers.CopyTextSafely(info.FilePath);
+                                        ClipboardHelper.CopyText(info.FilePath);
                                     }
                                 }
                                 // Upload to Remote
@@ -319,7 +319,7 @@ namespace ShareX
                                     if (!string.IsNullOrEmpty(url))
                                     {
                                         showBalloon = true;
-                                        Helpers.CopyTextSafely(url);
+                                        ClipboardHelper.CopyText(url);
                                     }
                                 }
                             }

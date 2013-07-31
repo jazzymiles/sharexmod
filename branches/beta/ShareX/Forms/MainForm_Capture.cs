@@ -26,7 +26,6 @@
 using HelpersLib;
 using HelpersLib.Hotkeys2;
 using HelpersLibMod;
-using HelpersLibWatermark;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using ScreenCapture;

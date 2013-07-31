@@ -549,7 +549,7 @@ namespace ShareX
 
             if (Info.Subtasks.HasFlag(Subtask.AddWatermark))
             {
-                imageData.Image = new HelpersLibWatermark.WatermarkEffects(SettingsManager.ConfigUser.ConfigWatermark).ApplyWatermark(imageData.Image);
+                imageData.Image = new WatermarkManager(SettingsManager.ConfigUser.ConfigWatermark).ApplyWatermark(imageData.Image);
             }
 
             if (Info.Subtasks.HasFlag(Subtask.AnnotateImage) || ImageEditOnKeyPress)
@@ -845,7 +845,8 @@ namespace ShareX
                     fileUploader = new Dropbox(SettingsManager.ConfigUploaders.DropboxOAuthInfo, SettingsManager.ConfigUploaders.DropboxAccountInfo)
                     {
                         UploadPath = uploadPath,
-                        AutoCreateShareableLink = SettingsManager.ConfigUploaders.DropboxAutoCreateShareableLink
+                        AutoCreateShareableLink = SettingsManager.ConfigUploaders.DropboxAutoCreateShareableLink,
+                        ShortURL = SettingsManager.ConfigUploaders.DropboxShortURL
                     };
                     break;
 
@@ -896,7 +897,7 @@ namespace ShareX
                     break;
 
                 case FileDestination.Localhostr:
-                    fileUploader = new Localhostr(SettingsManager.ConfigUploaders.LocalhostrEmail, SettingsManager.ConfigUploaders.LocalhostrPassword)
+                    fileUploader = new Hostr(SettingsManager.ConfigUploaders.LocalhostrEmail, SettingsManager.ConfigUploaders.LocalhostrPassword)
                     {
                         DirectURL = SettingsManager.ConfigUploaders.LocalhostrDirectURL
                     };
