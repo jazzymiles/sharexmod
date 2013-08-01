@@ -44,10 +44,6 @@ namespace ShareX
             lblProductName.Text = Application.ProductName + " " + Program.AssemblyVersion;
             lblCopyright.Text = AssemblyCopyright;
 
-            AppendBoldLine("Committers:");
-            AppendLine("Josh Lovins (thedeathly)");
-            AppendLine();
-
             AppendBoldLine("Thanks to:");
             AppendLine("Andrew Moore (zathman) for introducing ZScreen");
             AppendLine("Brandon Zimmerman (rgrthat) for leading the way");
@@ -60,6 +56,10 @@ namespace ShareX
             AppendLine("SSH.NET: http://sshnet.codeplex.com");
             AppendLine("Image Editor: http://getgreenshot.org");
             AppendLine("Menu Icons: http://p.yusukekamiyamane.com");
+            AppendLine();
+
+            AppendBoldLine("Committers:");
+            AppendLine("Josh Lovins (thedeathly)");
             AppendLine();
 
             if (Program.LibNames != null)

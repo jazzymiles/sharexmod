@@ -106,13 +106,12 @@ namespace ShareX
 
         #region Constructors
 
-        private UploadTask(EDataType dataType, TaskJob job)
+        private UploadTask(TaskJob job, EDataType dataType)
         {
             Status = TaskStatus.InQueue;
             Info = new UploadInfo();
             Info.Job = job;
             Info.DataType = dataType;
-            Info.UploadDestination = dataType;
         }
 
         public void SetWorkflow(Workflow wf)
@@ -124,9 +123,7 @@ namespace ShareX
 
         public static UploadTask CreateDataUploaderTask(EDataType dataType, Stream stream, string filePath, EDataType destination = EDataType.Default)
         {
-            UploadTask task = new UploadTask(dataType, TaskJob.DataUpload);
-            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
-            task.Info.FileName = Path.GetFileName(filePath);
+            UploadTask task = new UploadTask(TaskJob.DataUpload, dataType);
             task.Info.FilePath = filePath;
             task.data = stream;
             return task;
@@ -153,8 +150,7 @@ namespace ShareX
                 }
             }
 
-            UploadTask task = new UploadTask(dataType, taskJob);
-            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
+            UploadTask task = new UploadTask(taskJob, dataType);
             task.Info.FilePath = filePath;
 
             if (SettingsManager.ConfigCore.FileUploadUseNamePattern)
@@ -182,8 +178,7 @@ namespace ShareX
         // Image image -> MemoryStream data (in thread)
         public static UploadTask CreateImageUploaderTask(ImageData imageData, EDataType destination = EDataType.Default)
         {
-            UploadTask task = new UploadTask(EDataType.Image, TaskJob.ImageUpload);
-            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
+            UploadTask task = new UploadTask(TaskJob.ImageUpload, EDataType.Image);
             task.Info.FileName = imageData.Filename;
             task.imageData = imageData;
             return task;
@@ -192,8 +187,7 @@ namespace ShareX
         // string text -> MemoryStream data (in thread)
         public static UploadTask CreateTextUploaderTask(string text, EDataType destination = EDataType.Default)
         {
-            UploadTask task = new UploadTask(EDataType.Text, TaskJob.TextUpload);
-            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
+            UploadTask task = new UploadTask(TaskJob.TextUpload, EDataType.Text);
 
             if (SettingsManager.ConfigCore.IndexFolderWhenPossible && Directory.Exists(text))
             {
@@ -211,7 +205,7 @@ namespace ShareX
 
         public static UploadTask CreateURLShortenerTask(string url)
         {
-            UploadTask task = new UploadTask(EDataType.URL, TaskJob.ShortenURL);
+            UploadTask task = new UploadTask(TaskJob.ShortenURL, EDataType.URL);
             task.Info.FileName = url;
             task.Info.Result.URL = url;
             return task;
@@ -219,8 +213,7 @@ namespace ShareX
 
         public static UploadTask CreatePostToSocialNetworkingServiceTask(UploadResult result)
         {
-            UploadTask task = new UploadTask(EDataType.URL, TaskJob.ShareURL);
-            task.Info.UploadDestination = EDataType.Default;
+            UploadTask task = new UploadTask(TaskJob.ShareURL, EDataType.URL);
             task.Info.Result = result;
             return task;
         }
@@ -282,6 +275,9 @@ namespace ShareX
                 Info.Status = "Uploading";
                 Info.StartTime = DateTime.UtcNow;
                 threadWorker.InvokeAsync(OnUploadStarted);
+
+                if (Workflow.Settings.DestConfig.IsEmptyAll)
+                    this.SetWorkflow(AfterCaptureActivity.GetNew().Workflow);
 
                 try
                 {
@@ -604,12 +600,27 @@ namespace ShareX
                 var surface = new Greenshot.Drawing.Surface(capture);
                 var editor = new Greenshot.ImageEditorForm(surface, true) { Icon = Resources.ShareX };
 
+                editor.ClipboardCopyRequested += editor_ClipboardCopyRequested;
+                editor.ImageUploadRequested += editor_ImageUploadRequested;
+
                 if (editor.ShowDialog() == DialogResult.OK)
                 {
                     imageData_gse.Image = editor.GetImageForExport();
                 }
             }
         }
+
+
+        private static void editor_ClipboardCopyRequested(Image img)
+        {
+            FormsHelper.Main.InvokeSafe(() => HelpersLib.ClipboardHelper.CopyImage(img));
+        }
+
+        private static void editor_ImageUploadRequested(Image img)
+        {
+            FormsHelper.Main.InvokeSafe(() => UploadManager.RunImageTask(img));
+        }
+
 
         /// <summary>
         /// Uploads an image using a stream and UploadInfo
