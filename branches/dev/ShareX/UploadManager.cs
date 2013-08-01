@@ -25,6 +25,7 @@
 
 using HelpersLib;
 using HelpersLib.Hotkeys2;
+using HelpersLibMod;
 using HistoryLib;
 using ShareX.Forms;
 using ShareX.HelperClasses;
@@ -147,6 +148,16 @@ namespace ShareX
             {
                 FormsHelper.ScreencastUi = new ScreencastUI(imageData, act) { Icon = FormsHelper.Main.Icon };
                 FormsHelper.ScreencastUi.Show();
+            }
+        }
+
+        public static void RunImageTask(Image img, Subtask subtask = Subtask.UploadToRemoteHost)
+        {
+            if (img != null && subtask != Subtask.None)
+            {
+                UploadTask task = UploadTask.CreateImageUploaderTask(ImageData.FromScreenshot(img));
+                task.SetWorkflow(new Workflow());
+                TaskManager.Start(task);
             }
         }
 
