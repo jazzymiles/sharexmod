@@ -41,9 +41,11 @@ namespace ShareX.HelperClasses
                 MaxNameLength = 100
             };
 
-            string filename = nameParser.Parse(SettingsManager.ConfigCore.NameFormatPattern);
-            if (!string.IsNullOrEmpty(extension)) filename += "." + extension;
-
+            string filename = nameParser.Parse(SettingsManager.ConfigCore.NameFormatPatternOther);
+            if (!string.IsNullOrEmpty(extension))
+            {
+                filename += "." + extension.TrimStart('.');
+            }
             SettingsManager.ConfigCore.AutoIncrementNumber = nameParser.AutoIncrementNumber;
 
             return filename;

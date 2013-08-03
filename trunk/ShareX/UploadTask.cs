@@ -106,13 +106,12 @@ namespace ShareX
 
         #region Constructors
 
-        private UploadTask(EDataType dataType, TaskJob job)
+        private UploadTask(TaskJob job, EDataType dataType)
         {
             Status = TaskStatus.InQueue;
             Info = new UploadInfo();
             Info.Job = job;
             Info.DataType = dataType;
-            Info.UploadDestination = dataType;
         }
 
         public void SetWorkflow(Workflow wf)
@@ -124,9 +123,7 @@ namespace ShareX
 
         public static UploadTask CreateDataUploaderTask(EDataType dataType, Stream stream, string filePath, EDataType destination = EDataType.Default)
         {
-            UploadTask task = new UploadTask(dataType, TaskJob.DataUpload);
-            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
-            task.Info.FileName = Path.GetFileName(filePath);
+            UploadTask task = new UploadTask(TaskJob.DataUpload, dataType);
             task.Info.FilePath = filePath;
             task.data = stream;
             return task;
@@ -153,9 +150,15 @@ namespace ShareX
                 }
             }
 
-            UploadTask task = new UploadTask(dataType, taskJob);
-            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
+            UploadTask task = new UploadTask(taskJob, dataType);
             task.Info.FilePath = filePath;
+
+            if (SettingsManager.ConfigCore.FileUploadUseNamePattern)
+            {
+                string ext = Path.GetExtension(task.Info.FilePath);
+                task.Info.FileName = task.Info.FileNameWithoutExtension + "-" + TaskHelper.GetFilename(ext);
+            }
+
             if (taskJob == TaskJob.ImageUpload)
                 task.imageData = ImageData.GetNew(filePath);
 
@@ -175,8 +178,7 @@ namespace ShareX
         // Image image -> MemoryStream data (in thread)
         public static UploadTask CreateImageUploaderTask(ImageData imageData, EDataType destination = EDataType.Default)
         {
-            UploadTask task = new UploadTask(EDataType.Image, TaskJob.ImageUpload);
-            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
+            UploadTask task = new UploadTask(TaskJob.ImageUpload, EDataType.Image);
             task.Info.FileName = imageData.Filename;
             task.imageData = imageData;
             return task;
@@ -185,8 +187,7 @@ namespace ShareX
         // string text -> MemoryStream data (in thread)
         public static UploadTask CreateTextUploaderTask(string text, EDataType destination = EDataType.Default)
         {
-            UploadTask task = new UploadTask(EDataType.Text, TaskJob.TextUpload);
-            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
+            UploadTask task = new UploadTask(TaskJob.TextUpload, EDataType.Text);
 
             if (SettingsManager.ConfigCore.IndexFolderWhenPossible && Directory.Exists(text))
             {
@@ -204,7 +205,7 @@ namespace ShareX
 
         public static UploadTask CreateURLShortenerTask(string url)
         {
-            UploadTask task = new UploadTask(EDataType.URL, TaskJob.ShortenURL);
+            UploadTask task = new UploadTask(TaskJob.ShortenURL, EDataType.URL);
             task.Info.FileName = url;
             task.Info.Result.URL = url;
             return task;
@@ -212,8 +213,7 @@ namespace ShareX
 
         public static UploadTask CreatePostToSocialNetworkingServiceTask(UploadResult result)
         {
-            UploadTask task = new UploadTask(EDataType.URL, TaskJob.ShareURL);
-            task.Info.UploadDestination = EDataType.Default;
+            UploadTask task = new UploadTask(TaskJob.ShareURL, EDataType.URL);
             task.Info.Result = result;
             return task;
         }
@@ -275,6 +275,9 @@ namespace ShareX
                 Info.Status = "Uploading";
                 Info.StartTime = DateTime.UtcNow;
                 threadWorker.InvokeAsync(OnUploadStarted);
+
+                if (Workflow.Settings.DestConfig.IsEmptyAll)
+                    this.SetWorkflow(AfterCaptureActivity.GetNew().Workflow);
 
                 try
                 {
@@ -542,7 +545,7 @@ namespace ShareX
 
             if (Info.Subtasks.HasFlag(Subtask.AddWatermark))
             {
-                imageData.Image = new HelpersLibWatermark.WatermarkEffects(SettingsManager.ConfigUser.ConfigWatermark).ApplyWatermark(imageData.Image);
+                imageData.Image = new WatermarkManager(SettingsManager.ConfigUser.ConfigWatermark).ApplyWatermark(imageData.Image);
             }
 
             if (Info.Subtasks.HasFlag(Subtask.AnnotateImage) || ImageEditOnKeyPress)
@@ -588,31 +591,36 @@ namespace ShareX
             if (imageData_gse != null)
             {
                 InitGreenshot();
-                GreenshotPlugin.Core.CoreConfiguration conf = Greenshot.IniFile.IniConfig.GetIniSection<GreenshotPlugin.Core.CoreConfiguration>(); ;
-                conf.OutputFileFilenamePattern = "${title}";
-                conf.OutputFilePath = Program.ScreenshotsPath;
 
-                EditorConfiguration editorConfiguration = IniConfig.GetIniSection<EditorConfiguration>();
-                editorConfiguration.SuppressSaveDialogAtClose = true;
+                var capture = new GreenshotPlugin.Core.Capture() { Image = imageData_gse.Image };
 
-                Greenshot.Plugin.ICapture capture = new GreenshotPlugin.Core.Capture();
-                capture.Image = imageData_gse.Image;
                 capture.CaptureDetails.Filename = Path.Combine(Program.ScreenshotsPath, imageData_gse.Filename);
-                capture.CaptureDetails.Title =
-                    Path.GetFileNameWithoutExtension(capture.CaptureDetails.Filename);
-                capture.CaptureDetails.AddMetaData("file", capture.CaptureDetails.Filename);
-                capture.CaptureDetails.AddMetaData("source", "file");
+                capture.CaptureDetails.Title = Path.GetFileNameWithoutExtension(capture.CaptureDetails.Filename);
 
                 var surface = new Greenshot.Drawing.Surface(capture);
                 var editor = new Greenshot.ImageEditorForm(surface, true) { Icon = Resources.ShareX };
 
-                editor.SetImagePath(capture.CaptureDetails.Filename);
-                editor.Visible = false; // required before ShowDialog
-                editor.ShowDialog();
+                editor.ClipboardCopyRequested += editor_ClipboardCopyRequested;
+                editor.ImageUploadRequested += editor_ImageUploadRequested;
 
-                imageData_gse.Image = editor.GetImageForExport();
+                if (editor.ShowDialog() == DialogResult.OK)
+                {
+                    imageData_gse.Image = editor.GetImageForExport();
+                }
             }
         }
+
+
+        private static void editor_ClipboardCopyRequested(Image img)
+        {
+            FormsHelper.Main.InvokeSafe(() => HelpersLib.ClipboardHelper.CopyImage(img));
+        }
+
+        private static void editor_ImageUploadRequested(Image img)
+        {
+            FormsHelper.Main.InvokeSafe(() => UploadManager.RunImageTask(img));
+        }
+
 
         /// <summary>
         /// Uploads an image using a stream and UploadInfo
@@ -655,6 +663,8 @@ namespace ShareX
                     break;
 
                 case ImageDestination.Imgur:
+                    if (SettingsManager.ConfigUploaders.ImgurOAuth2Info == null)
+                        SettingsManager.ConfigUploaders.ImgurOAuth2Info = new OAuth2Info(ApiKeys.ImgurClientID, ApiKeys.ImgurClientSecret);
                     imageUploader = new Imgur_v3(SettingsManager.ConfigUploaders.ImgurOAuth2Info)
                     {
                         UploadMethod = SettingsManager.ConfigUploaders.ImgurAccountType,
@@ -663,7 +673,10 @@ namespace ShareX
                     break;
 
                 case ImageDestination.Picasa:
-                    imageUploader = new Picasa(SettingsManager.ConfigUploaders.PicasaOAuth2Info);
+                    imageUploader = new Picasa(SettingsManager.ConfigUploaders.PicasaOAuth2Info)
+                                        {
+                                            AlbumID = SettingsManager.ConfigUploaders.PicasaAlbumID
+                                        };
                     break;
 
                 case ImageDestination.Flickr:
@@ -840,9 +853,11 @@ namespace ShareX
                 case FileDestination.Dropbox:
                     NameParser parser = new NameParser(NameParserType.FolderPath);
                     string uploadPath = parser.Parse(Dropbox.TidyUploadPath(SettingsManager.ConfigUploaders.DropboxUploadPath));
-                    fileUploader = new Dropbox(SettingsManager.ConfigUploaders.DropboxOAuthInfo, uploadPath, SettingsManager.ConfigUploaders.DropboxAccountInfo)
+                    fileUploader = new Dropbox(SettingsManager.ConfigUploaders.DropboxOAuthInfo, SettingsManager.ConfigUploaders.DropboxAccountInfo)
                     {
-                        AutoCreateShareableLink = SettingsManager.ConfigUploaders.DropboxAutoCreateShareableLink
+                        UploadPath = uploadPath,
+                        AutoCreateShareableLink = SettingsManager.ConfigUploaders.DropboxAutoCreateShareableLink,
+                        ShortURL = SettingsManager.ConfigUploaders.DropboxShortURL
                     };
                     break;
 
@@ -893,7 +908,7 @@ namespace ShareX
                     break;
 
                 case FileDestination.Localhostr:
-                    fileUploader = new Localhostr(SettingsManager.ConfigUploaders.LocalhostrEmail, SettingsManager.ConfigUploaders.LocalhostrPassword)
+                    fileUploader = new Hostr(SettingsManager.ConfigUploaders.LocalhostrEmail, SettingsManager.ConfigUploaders.LocalhostrPassword)
                     {
                         DirectURL = SettingsManager.ConfigUploaders.LocalhostrDirectURL
                     };

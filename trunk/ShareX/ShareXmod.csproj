@@ -125,7 +125,6 @@
     <Compile Include="HelperClasses\AfterCaptureActivity.cs" />
     <Compile Include="HelperClasses\DropboxSyncHelper.cs" />
     <Compile Include="HelperClasses\FallbackDestHelper.cs" />
-    <Compile Include="HelperClasses\FolderWatcher.cs" />
     <Compile Include="HelperClasses\FormsHelper.cs" />
     <Compile Include="Forms\MainForm_Capture.cs">
       <SubType>Form</SubType>
@@ -163,6 +162,7 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="HelperClasses\ListViewColumnSorter.cs" />
     <Compile Include="HelperClasses\ListViewManager.cs" />
     <Compile Include="HelperClasses\TaskHelper.cs" />
     <Compile Include="Forms\MainForm_Workflow.cs">
@@ -286,10 +286,6 @@
     <ProjectReference Include="..\..\..\ShareX\trunk\HelpersLib\HelpersLib.csproj">
       <Project>{327750e1-9fb7-4cc3-8aea-9bc42180cad3}</Project>
       <Name>HelpersLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\ShareX\trunk\ScreenCapture.Shapes\ScreenCapture.Shapes.csproj">
-      <Project>{7f53bd0c-1bbd-416c-89ce-3ff39d4d3414}</Project>
-      <Name>ScreenCapture.Shapes</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\ShareX\trunk\ScreenCapture\ScreenCapture.csproj">
       <Project>{dbdb0daa-b3ae-4cc4-a8c2-20550b7f32e3}</Project>

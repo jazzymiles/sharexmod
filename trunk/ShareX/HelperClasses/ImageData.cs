@@ -114,8 +114,9 @@ namespace ShareX.HelperClasses
                 imageName = imageName.Substring(0, wtLenMax);
 
             NameParser parser = new NameParser(NameParserType.FileName) { Picture = this.Image, WindowText = WindowText };
-
-            return parser.Parse(string.IsNullOrEmpty(this.UserText) ? SettingsManager.ConfigCore.NameFormatPattern : this.UserText);
+            string fnwe = parser.Parse(string.IsNullOrEmpty(this.UserText) ? SettingsManager.ConfigCore.NameFormatPattern : this.UserText);
+            fnwe = fnwe.Replace("%t", imageName);
+            return fnwe;
         }
 
         private string PrepareFilename()
@@ -263,6 +264,11 @@ namespace ShareX.HelperClasses
             }
 
             return string.Empty;
+        }
+
+        public static ImageData FromScreenshot(Image rect)
+        {
+            return new ImageData(rect, true);
         }
 
         public void Dispose()

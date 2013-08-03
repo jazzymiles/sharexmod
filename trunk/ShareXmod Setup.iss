@@ -7,7 +7,7 @@
 
 [Setup]
 AllowNoIcons=true
-AppCopyright=Copyright (C) 2013 {#MyAppPublisher}
+AppCopyright=Copyright (C) 2008-2013 {#MyAppPublisher}
 AppId=82E6AC09-0FEF-4390-AD9F-0DD3F5561EFC
 AppMutex=Global\82E6AC09-0FEF-4390-AD9F-0DD3F5561EFC
 AppName={#MyAppName}
@@ -25,10 +25,10 @@ DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 DirExistsWarning=no
 InfoBeforeFile=Docs\VersionHistory.txt
-;InfoBeforeFile=Docs\license.txt
 InternalCompressLevel=ultra64
 LanguageDetectionMethod=uilanguage
-MinVersion=5.01sp3
+LicenseFile=Docs\license.txt
+MinVersion=0,5.01.2600
 OutputBaseFilename={#MyAppName}-{#MyAppVersion}-setup
 OutputDir=Output\
 PrivilegesRequired=none
@@ -51,21 +51,16 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "CreateDesktopIcon"; Description: "Create a desktop shortcut"; GroupDescription: "Additional shortcuts:"
 Name: "CreateQuickLaunchIcon"; Description: "Create a quick launch shortcut"; GroupDescription: "Additional shortcuts:"; Flags: unchecked
 Name: "CreateSendToIcon"; Description: "Create a send to shortcut"; GroupDescription: "Additional shortcuts:"; Flags: unchecked
-Name: "CreateStartupIcon"; Description: "Run {#MyAppName} on Windows startup"; GroupDescription: "Other tasks:"; Flags: unchecked
+Name: "CreateStartupIcon"; Description: "Launch {#MyAppName} automatically at Windows startup"; GroupDescription: "Other tasks:"; Flags: unchecked
 
 [Files]
 Source: "ShareX\bin\Release\*.exe"; Excludes: *.vshost.exe; DestDir: {app}; Flags: ignoreversion
 Source: "ShareX\bin\Release\*.pdb"; DestDir: {app}; Flags: ignoreversion
 Source: "ShareX\bin\Release\*.dll"; DestDir: {app}; Flags: ignoreversion
+Source: "Docs\license.txt"; DestDir: {app}; Flags: ignoreversion
 ;Source: "ShareX\bin\Release\*.wav"; DestDir: {app}; Flags: ignoreversion
 ;Source: "ShareX\bin\Release\*.xml"; Excludes: Newtonsoft.Json.xml; DestDir: {app}; Flags: ignoreversion recursesubdirs
 ;Source: "ShareX\bin\Release\*.html"; DestDir: {app}; Flags: ignoreversion recursesubdirs
-
-[Registry]
-Root: "HKCU"; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueName: "ZScreen"; Flags: deletevalue
-Root: "HKCU"; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueName: "ZUploader"; Flags: deletevalue
-Root: "HKCU"; Subkey: "Software\Classes\*\shell\ZScreen"; Flags: deletekey
-Root: "HKCU"; Subkey: "Software\Classes\*\shell\ZUploader"; Flags: deletekey
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppFile}"; WorkingDir: "{app}"
@@ -76,7 +71,16 @@ Name: "{sendto}\{#MyAppName}"; Filename: "{app}\{#MyAppFile}"; WorkingDir: "{app
 Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppFile}"; WorkingDir: "{app}"; Parameters: "-silent"; Tasks: CreateStartupIcon
 
 [Run]
-Filename: "{app}\{#MyAppFile}"; Description: {cm:LaunchProgram,{#MyAppName}}; Flags: nowait postinstall skipifsilent
+Filename: "{app}\{#MyAppFile}"; Description: "{cm:LaunchProgram,{#MyAppName}}"; Flags: nowait postinstall
+
+[Registry]
+Root: "HKCU"; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueName: "ZScreen"; Flags: deletevalue
+Root: "HKCU"; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueName: "ZUploader"; Flags: deletevalue
+Root: "HKCU"; Subkey: "Software\Classes\*\shell\ZScreen"; Flags: deletekey
+Root: "HKCU"; Subkey: "Software\Classes\*\shell\ZUploader"; Flags: deletekey
+;Root: "HKCU"; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueName: "{#MyAppName}"; Flags: uninsdeletevalue
+;Root: "HKCU"; Subkey: "Software\Classes\*\shell\{#MyAppName}"; Flags: dontcreatekey uninsdeletekey
+;Root: "HKCU"; Subkey: "Software\Classes\Folder\shell\{#MyAppName}"; Flags: dontcreatekey uninsdeletekey
 
 [Code]
 function DesktopIconExists(): Boolean;
