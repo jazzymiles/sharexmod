@@ -41,12 +41,8 @@ namespace ShareX
         {
             InitializeComponent();
             Text = Program.Title;
-            lblProductName.Text = Program.Title;
+            lblProductName.Text = Application.ProductName + " " + Program.AssemblyVersion;
             lblCopyright.Text = AssemblyCopyright;
-
-            AppendBoldLine("Committers:");
-            AppendLine("Josh Lovins (thedeathly)");
-            AppendLine();
 
             AppendBoldLine("Thanks to:");
             AppendLine("Andrew Moore (zathman) for introducing ZScreen");
@@ -62,6 +58,10 @@ namespace ShareX
             AppendLine("Menu Icons: http://p.yusukekamiyamane.com");
             AppendLine();
 
+            AppendBoldLine("Committers:");
+            AppendLine("Josh Lovins (thedeathly)");
+            AppendLine();
+
             if (Program.LibNames != null)
             {
                 AppendBoldLine("Referenced assemblies:");
@@ -72,7 +72,7 @@ namespace ShareX
             }
 
             UpdateChecker updateChecker = new UpdateChecker(Program.URL_UPDATE, Application.ProductName, new Version(Program.AssemblyVersion),
-                ReleaseChannelType.Stable, Uploader.ProxySettings.GetWebProxy);
+                ReleaseChannelType.Stable, Uploader.ProxyInfo.GetWebProxy());
             uclUpdate.CheckUpdate(updateChecker);
         }
 

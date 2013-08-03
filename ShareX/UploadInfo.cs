@@ -67,9 +67,29 @@ namespace ShareX
 
         public string FileName { get; set; }
 
+        public string FileNameWithoutExtension
+        {
+            get
+            {
+                return Path.GetFileNameWithoutExtension(this.FileName);
+            }
+        }
+
         public EDataType DataType { get; set; }
 
-        public EDataType UploadDestination { get; set; }
+        public EDataType UploadDestination
+        {
+            get
+            {
+                if ((DataType == EDataType.Image && UploadManager.ImageUploader == ImageDestination.FileUploader) ||
+                    (DataType == EDataType.Text && UploadManager.TextUploader == TextDestination.FileUploader))
+                {
+                    return EDataType.File;
+                }
+
+                return DataType;
+            }
+        }
 
         private string _destination;
 

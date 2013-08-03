@@ -57,7 +57,12 @@ namespace ShareX
                 chkJob.AutoSize = true;
                 chkJob.Location = new Point(8, yGap);
                 chkJob.CheckedChanged += new EventHandler(chkJob_CheckedChanged);
-                chkJob.Checked = ConfigSubtasks.HasFlag(job.Enum);
+
+                if (job.Enum == Subtask.UploadToRemoteHost)
+                    chkJob.Checked = ConfigSubtasks.HasFlag(job.Enum) && SettingsManager.ConfigCore.Outputs.HasFlag(OutputEnum.RemoteHost);
+                else
+                    chkJob.Checked = ConfigSubtasks.HasFlag(job.Enum);
+
                 this.tpActions.Controls.Add(chkJob);
 
                 maxWidth = Math.Max(maxWidth, chkJob.Width);

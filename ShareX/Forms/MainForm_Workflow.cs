@@ -204,7 +204,7 @@ namespace ShareX
                 if (act.Workflow.Settings.DestConfig.ImageUploaders.Count > 0)
                     act.Workflow.Subtasks |= Subtask.UploadToRemoteHost;
                 log.Debug("After Capture initiated.");
-                AfterCapture(imageData, act);
+                DoAfterCapture(imageData, act);
             }
             else if (act.InputType == EInputType.Clipboard)
             {

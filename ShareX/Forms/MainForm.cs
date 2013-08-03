@@ -26,7 +26,6 @@
 using HelpersLib;
 using HelpersLib.Hotkeys2;
 using HelpersLibMod;
-using HelpersLibWatermark;
 using HistoryLib;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using ScreenCapture;
@@ -57,6 +56,7 @@ namespace ShareX
 
         private bool trayClose;
         private UploadInfoManager uim;
+        private ListViewColumnSorter lvwColumnSorter;
 
         public MainForm()
         {
@@ -112,15 +112,23 @@ namespace ShareX
         /// </summary>
         public void ReloadConfig()
         {
-            FolderWatcher folderWatcher = new FolderWatcher(this);
+            WatchFolder folderWatcher = new WatchFolder()
+            {
+                IncludeSubdirectories = true,
+                Filter = "*.*",
+                FolderPath = SettingsManager.ConfigCore.FolderMonitorPath
+            };
+
             folderWatcher.FolderPath = SettingsManager.ConfigCore.FolderMonitorPath;
             if (SettingsManager.ConfigCore.FolderMonitoring)
             {
-                folderWatcher.StartWatching();
+                log.Info("Monitoring folder: " + folderWatcher.FolderPath);
+                folderWatcher.FileWatcherTrigger += path => UploadManager.UploadFile(path);
+                folderWatcher.Enable();
             }
             else
             {
-                folderWatcher.StopWatching();
+                folderWatcher.Dispose();
             }
 
             lvUploads.View = SettingsManager.ConfigCore.ListViewMode;
@@ -325,7 +333,7 @@ namespace ShareX
                 tsmi.CheckedChanged += new EventHandler(tsmiAfterCaptureTask_CheckedChanged);
                 tsddbAfterCaptureTasks.DropDownItems.Add(tsmi);
             }
-            
+
             #endregion After Capture Tasks
 
             #region After Upload Tasks
@@ -393,6 +401,8 @@ namespace ShareX
             this.Icon = Resources.ShareX;
             niTray.Text = this.Text;
             niTray.Icon = Resources.ShareXSmallIcon;
+            lvwColumnSorter = new ListViewColumnSorter();
+
 
             #region Uploaders
 
@@ -414,7 +424,8 @@ namespace ShareX
 
             #endregion Uploaders
 
-            lvUploads.FillLastColumn();
+            this.lvUploads.ListViewItemSorter = lvwColumnSorter;
+            this.lvUploads.FillLastColumn();
 
             TaskManager.ListViewControl = lvUploads;
             uim = new UploadInfoManager(lvUploads);
@@ -622,25 +633,31 @@ namespace ShareX
         private void CheckUpdate()
         {
             UpdateChecker updateChecker = new UpdateChecker(Program.URL_UPDATE, Application.ProductName, new Version(Program.AssemblyVersion),
-                ReleaseChannelType.Stable, Uploader.ProxySettings.GetWebProxy);
+                ReleaseChannelType.Stable, Uploader.ProxyInfo.GetWebProxy());
             updateChecker.CheckUpdate();
 
-            if (updateChecker.UpdateInfo != null && updateChecker.UpdateInfo.Status == UpdateStatus.UpdateRequired && !string.IsNullOrEmpty(updateChecker.UpdateInfo.URL))
+            if (updateChecker.UpdateInfo != null)
             {
-                NewVersionWindowOptions nvwo = new NewVersionWindowOptions()
+                switch (updateChecker.UpdateInfo.Status)
                 {
-                    MyIcon = this.Icon,
-                    MyImage = Resources.ShareXLogo,
-                    ProjectName = Application.ProductName,
-                    UpdateInfo = updateChecker.UpdateInfo
-                };
+                    case UpdateStatus.UpdateRequired:
+                        string updateText = string.Format("Would you like to download the update?\r\n\r\n{0} is current version.\r\n{1} is latest version.",
+                            updateChecker.UpdateInfo.CurrentVersion, updateChecker.UpdateInfo.LatestVersion);
 
-                UpdaterForm dlg = new UpdaterForm(nvwo);
-                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.Yes)
-                {
-                    DownloaderForm downloader = new DownloaderForm(updateChecker.UpdateInfo.URL, updateChecker.Proxy, updateChecker.UpdateInfo.Summary);
-                    downloader.ShowDialog();
-                    if (downloader.Status == DownloaderFormStatus.InstallStarted) Application.Exit();
+                        if (MessageBox.Show(updateText, Application.ProductName + " update is available", MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                        {
+                            UpdaterForm downloader = new UpdaterForm(updateChecker.UpdateInfo.URL, updateChecker.Proxy, updateChecker.UpdateInfo.Summary);
+                            downloader.ShowDialog();
+                            if (downloader.Status == DownloaderFormStatus.InstallStarted)
+                            {
+                                Application.Exit();
+                            }
+                        }
+                        break;
+                    case UpdateStatus.UpdateCheckFailed:
+                        DebugHelper.WriteLine("Update check failed.");
+                        break;
                 }
             }
         }
@@ -728,7 +745,7 @@ namespace ShareX
 
             if (!string.IsNullOrEmpty(errors))
             {
-                Helpers.CopyTextSafely(errors);
+                ClipboardHelper.CopyText(errors);
             }
         }
 
@@ -979,6 +996,16 @@ namespace ShareX
             }
         }
 
+        private void niTray_MouseUp(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case System.Windows.Forms.MouseButtons.Middle:
+                    tsmiRectangle_Click(sender, e);
+                    break;
+            }
+        }
+
         private void tsmiTrayExit_Click(object sender, EventArgs e)
         {
             trayClose = true;
@@ -999,7 +1026,8 @@ namespace ShareX
 
         private void lvUploads_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
         {
-            SettingsManager.ConfigCore.ColumnWidths[e.ColumnIndex] = lvUploads.Columns[e.ColumnIndex].Width;
+            if (SettingsManager.ConfigCore.ColumnWidths.Length > e.ColumnIndex)
+                SettingsManager.ConfigCore.ColumnWidths[e.ColumnIndex] = lvUploads.Columns[e.ColumnIndex].Width;
         }
 
         #endregion Form events
@@ -1022,14 +1050,28 @@ namespace ShareX
 
         private void tsddbCapture_DropDownOpening(object sender, EventArgs e)
         {
-            PrepareWindowsMenu(tsmiWindow, tsmiWindowItems_Click);
+            PrepareCaptureMenuAsync(tsmiWindow, tsmiWindowItems_Click, tsmiMonitor, tsmiMonitorItems_Click);
+        }
+
+        private void tsmiMonitorItems_Click(object sender, EventArgs e)
+        {
+            CaptureMonitor(sender as ToolStripItem);
+        }
+
+        private void CaptureMonitor(ToolStripItem tsi)
+        {
+            Rectangle rectangle = (Rectangle)tsi.Tag;
+            if (!rectangle.IsEmpty)
+            {
+                DoAfterCapture(ImageData.FromScreenshot(Screenshot.CaptureRectangle(rectangle)));
+            }
         }
 
         private void tsmiWindowItems_Click(object sender, EventArgs e)
         {
             ToolStripItem tsi = (ToolStripItem)sender;
             WindowInfo wi = tsi.Tag as WindowInfo;
-            if (wi != null) AfterCapture(CaptureWindow(wi.Handle));
+            if (wi != null) DoAfterCapture(CaptureWindow(wi.Handle));
         }
 
         private void tsmiWindowRectangle_Click(object sender, EventArgs e)
@@ -1091,9 +1133,14 @@ namespace ShareX
             tsmiFullscreen_Click(sender, e);
         }
 
-        private void tsmiCapture_DropDownOpening(object sender, EventArgs e)
+        private void tsmiTrayCapture_DropDownOpening(object sender, EventArgs e)
         {
-            PrepareWindowsMenu(tsmiTrayWindow, tsmiTrayWindowItems_Click);
+            PrepareCaptureMenuAsync(tsmiTrayWindow, tsmiTrayWindowItems_Click, tsmiTrayMonitor, tsmiTrayMonitorItems_Click);
+        }
+
+        private void tsmiTrayMonitorItems_Click(object sender, EventArgs e)
+        {
+            CaptureMonitor(sender as ToolStripItem);
         }
 
         private void tsmiTrayWindowItems_Click(object sender, EventArgs e)
@@ -1325,8 +1372,17 @@ namespace ShareX
                     uim.OpenFile();
                     break;
 
+                case Keys.Control | Keys.X:
+                    uim.CopyURL();
+                    RemoveSelectedItems();
+                    break;
+
                 case Keys.Control | Keys.C:
                     uim.CopyURL();
+                    break;
+
+                case Keys.Control | Keys.V:
+                    UploadManager.ClipboardUploadWithContentViewer();
                     break;
 
                 case Keys.Delete:
@@ -1341,5 +1397,35 @@ namespace ShareX
         {
             TaskManager.StopAllTasks();
         }
+
+        private void lvUploads_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            // Determine if clicked column is already the column that is being sorted.
+            if (e.Column == lvwColumnSorter.SortColumn)
+            {
+                // Reverse the current sort direction for this column.
+                if (lvwColumnSorter.Order == SortOrder.Ascending)
+                {
+                    lvwColumnSorter.Order = SortOrder.Descending;
+                }
+                else
+                {
+                    lvwColumnSorter.Order = SortOrder.Ascending;
+                }
+            }
+            else
+            {
+                // Set the column number that is to be sorted; default to ascending.
+                lvwColumnSorter.SortColumn = e.Column;
+                lvwColumnSorter.Order = SortOrder.Ascending;
+            }
+
+            // Perform the sort with these new sort options.
+            this.lvUploads.Sort();
+        }
+
+
+
+
     }
 }

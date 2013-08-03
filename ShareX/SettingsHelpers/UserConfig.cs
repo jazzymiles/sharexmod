@@ -1,6 +1,5 @@
 ﻿using HelpersLib;
 using HelpersLibMod;
-using HelpersLibWatermark;
 using IndexersLib;
 using System;
 using System.Collections.Generic;
@@ -83,10 +82,16 @@ namespace ShareX.SettingsHelpers
         public int ScreencastVBRQuality { get; set; }
 
         [Category(ComponentModelStrings.ScreencastsEEWMV), DefaultValue(512), Description("Screencast bitrate")]
-        public int ScreencastBitrate { get; set; }
+        public int ScreencastVideoBitrate { get; set; }
+
+        [Category(ComponentModelStrings.ScreencastsEEWMV), DefaultValue(96), Description("Screencast audio bitrate")]
+        public int ScreencastAudioBitrate { get; set; }
 
         [Category(ComponentModelStrings.ScreencastsEE), DefaultValue(false), Description("Autopan so that the capture window follows the mouse cursor.")]
-        public bool FollowMouseCursor { get; set; }
+        public bool ScreencastFollowMouseCursor { get; set; }
+
+        [Category(ComponentModelStrings.ScreencastsEE), DefaultValue(false), Description("Enable audio while screencasting via Expression Encoder")]
+        public bool ScreencastEnableAudio { get; set; }
 
         [Editor("System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(System.Drawing.Design.UITypeEditor))]
         [TypeConverter(typeof(CsvConverter))]

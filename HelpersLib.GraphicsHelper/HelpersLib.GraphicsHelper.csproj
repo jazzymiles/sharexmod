@@ -94,33 +94,11 @@
     <Compile Include="Apng\Apng.cs" />
     <Compile Include="Apng\ApngBasicWrapper.cs" />
     <Compile Include="Apng\Frame.cs" />
-    <Compile Include="Watermark\GradientMaker.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Watermark\GradientMaker.designer.cs">
-      <DependentUpon>GradientMaker.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Watermark\GradientStop.cs" />
-    <Compile Include="Watermark\WatermarkConfig.cs" />
-    <Compile Include="Watermark\WatermarkEffects.cs" />
-    <Compile Include="Watermark\WatermarkHelper.cs" />
-    <Compile Include="Watermark\WatermarkUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Watermark\WatermarkUI.Designer.cs">
-      <DependentUpon>WatermarkUI.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Watermark\GradientMaker.resx">
-      <DependentUpon>GradientMaker.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Watermark\WatermarkUI.resx">
-      <DependentUpon>WatermarkUI.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
