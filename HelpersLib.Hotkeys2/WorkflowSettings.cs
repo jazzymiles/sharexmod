@@ -16,6 +16,12 @@ namespace HelpersLib.Hotkeys2
         [Category(ComponentModelStrings.ActivitiesAfterCapture), Description("Apply default after capture and upload settings."), DefaultValue(true)]
         public bool ApplyDefaultSettings { get; set; }
 
+        [Category(ComponentModelStrings.ActivitiesUploadersText), DefaultValue("text"), Description("Text format e.g. csharp, cpp, etc.")]
+        public string TextFormat { get; set; }
+
+        [Category(ComponentModelStrings.ActivitiesUploadersText), DefaultValue("txt"), Description("File extension when saving text to the local hard disk.")]
+        public string TextFileExtension { get; set; }
+
         public DestConfig DestConfig = new DestConfig();
         public List<ExternalProgram> ExternalPrograms = new List<ExternalProgram>();
 
@@ -62,6 +68,11 @@ namespace HelpersLib.Hotkeys2
             {
                 ExternalPrograms.Add(externalProgram);
             }
+        }
+
+        public WorkflowSettings Clone()
+        {
+            return (WorkflowSettings)MemberwiseClone();
         }
     }
 }

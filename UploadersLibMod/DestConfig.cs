@@ -49,9 +49,6 @@ namespace UploadersLib
         public List<TextDestination> TextUploaders2 = new List<TextDestination>();
         public List<FileDestination> FileUploaders2 = new List<FileDestination>();
 
-        [Category(ComponentModelStrings.ActivitiesUploadersText), DefaultValue("text"), Description("Text format e.g. csharp, cpp, etc.")]
-        public string TextFormat { get; set; }
-
         [Browsable(false)]
         public bool IsEmptyAny
         {
