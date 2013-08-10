@@ -35,18 +35,11 @@ namespace HelpersLib.Hotkeys2
             this.btnCancel = new System.Windows.Forms.Button();
             this.tcWorkflow = new System.Windows.Forms.TabControl();
             this.tpCapture = new System.Windows.Forms.TabPage();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.gbTextUploaderSettings = new System.Windows.Forms.GroupBox();
-            this.lblTextFormat = new System.Windows.Forms.Label();
-            this.txtTextFormat = new System.Windows.Forms.TextBox();
-            this.chkPerformGlobalAfterCaptureTasks = new System.Windows.Forms.CheckBox();
             this.cboCapture = new System.Windows.Forms.ComboBox();
             this.tpAfterCapture = new System.Windows.Forms.TabPage();
             this.tlpTasks = new System.Windows.Forms.TableLayoutPanel();
             this.gbAfterCaptureTasks = new System.Windows.Forms.GroupBox();
-            this.ucAfterCaptureTasks = new HelpersLib.UserControls.AfterCaptureTasksUI();
             this.gbAfterUploadTasks = new System.Windows.Forms.GroupBox();
-            this.ucAfterUploadTasks = new HelpersLib.UserControls.AfterUploadTasksUI();
             this.tpRunExternalPrograms = new System.Windows.Forms.TabPage();
             this.btnActionsEdit = new System.Windows.Forms.Button();
             this.btnActionsRemove = new System.Windows.Forms.Button();
@@ -79,10 +72,11 @@ namespace HelpersLib.Hotkeys2
             this.flpSocialNetworkingServices = new System.Windows.Forms.FlowLayoutPanel();
             this.tpSummary = new System.Windows.Forms.TabPage();
             this.lblSummary = new System.Windows.Forms.Label();
+            this.pgWorkflow = new System.Windows.Forms.PropertyGrid();
+            this.ucAfterCaptureTasks = new HelpersLib.UserControls.AfterCaptureTasksUI();
+            this.ucAfterUploadTasks = new HelpersLib.UserControls.AfterUploadTasksUI();
             this.tcWorkflow.SuspendLayout();
             this.tpCapture.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.gbTextUploaderSettings.SuspendLayout();
             this.tpAfterCapture.SuspendLayout();
             this.tlpTasks.SuspendLayout();
             this.gbAfterCaptureTasks.SuspendLayout();
@@ -164,74 +158,25 @@ namespace HelpersLib.Hotkeys2
             // 
             // tpCapture
             // 
-            this.tpCapture.Controls.Add(this.pictureBox1);
-            this.tpCapture.Controls.Add(this.gbTextUploaderSettings);
-            this.tpCapture.Controls.Add(this.chkPerformGlobalAfterCaptureTasks);
+            this.tpCapture.Controls.Add(this.pgWorkflow);
             this.tpCapture.Controls.Add(this.cboCapture);
             this.tpCapture.Location = new System.Drawing.Point(4, 22);
             this.tpCapture.Name = "tpCapture";
-            this.tpCapture.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tpCapture.Padding = new System.Windows.Forms.Padding(3);
             this.tpCapture.Size = new System.Drawing.Size(654, 374);
             this.tpCapture.TabIndex = 0;
             this.tpCapture.Text = "Capture";
             this.tpCapture.UseVisualStyleBackColor = true;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::HelpersLib.Hotkeys2.Properties.Resources.camera_add;
-            this.pictureBox1.Location = new System.Drawing.Point(224, 48);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(16, 16);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
-            // 
-            // gbTextUploaderSettings
-            // 
-            this.gbTextUploaderSettings.Controls.Add(this.lblTextFormat);
-            this.gbTextUploaderSettings.Controls.Add(this.txtTextFormat);
-            this.gbTextUploaderSettings.Location = new System.Drawing.Point(16, 80);
-            this.gbTextUploaderSettings.Name = "gbTextUploaderSettings";
-            this.gbTextUploaderSettings.Size = new System.Drawing.Size(616, 72);
-            this.gbTextUploaderSettings.TabIndex = 2;
-            this.gbTextUploaderSettings.TabStop = false;
-            this.gbTextUploaderSettings.Text = "Customize text uploader settings";
-            // 
-            // lblTextFormat
-            // 
-            this.lblTextFormat.AutoSize = true;
-            this.lblTextFormat.Location = new System.Drawing.Point(16, 24);
-            this.lblTextFormat.Name = "lblTextFormat";
-            this.lblTextFormat.Size = new System.Drawing.Size(164, 13);
-            this.lblTextFormat.TabIndex = 0;
-            this.lblTextFormat.Text = "Text format e.g. csharp, cpp, etc.";
-            // 
-            // txtTextFormat
-            // 
-            this.txtTextFormat.Location = new System.Drawing.Point(16, 40);
-            this.txtTextFormat.Name = "txtTextFormat";
-            this.txtTextFormat.Size = new System.Drawing.Size(298, 20);
-            this.txtTextFormat.TabIndex = 1;
-            // 
-            // chkPerformGlobalAfterCaptureTasks
-            // 
-            this.chkPerformGlobalAfterCaptureTasks.AutoSize = true;
-            this.chkPerformGlobalAfterCaptureTasks.Location = new System.Drawing.Point(16, 48);
-            this.chkPerformGlobalAfterCaptureTasks.Name = "chkPerformGlobalAfterCaptureTasks";
-            this.chkPerformGlobalAfterCaptureTasks.Size = new System.Drawing.Size(391, 17);
-            this.chkPerformGlobalAfterCaptureTasks.TabIndex = 1;
-            this.chkPerformGlobalAfterCaptureTasks.Text = "Apply default settings ( access the icon         from the main form to configure " +
-    ") ";
-            this.chkPerformGlobalAfterCaptureTasks.UseVisualStyleBackColor = true;
-            this.chkPerformGlobalAfterCaptureTasks.CheckedChanged += new System.EventHandler(this.chkPerformGlobalAfterCaptureTasks_CheckedChanged);
-            // 
             // cboCapture
             // 
+            this.cboCapture.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cboCapture.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCapture.FormattingEnabled = true;
             this.cboCapture.Location = new System.Drawing.Point(16, 16);
             this.cboCapture.Name = "cboCapture";
-            this.cboCapture.Size = new System.Drawing.Size(384, 21);
+            this.cboCapture.Size = new System.Drawing.Size(624, 21);
             this.cboCapture.TabIndex = 0;
             this.cboCapture.SelectedIndexChanged += new System.EventHandler(this.cboCapture_SelectedIndexChanged);
             // 
@@ -240,7 +185,7 @@ namespace HelpersLib.Hotkeys2
             this.tpAfterCapture.Controls.Add(this.tlpTasks);
             this.tpAfterCapture.Location = new System.Drawing.Point(4, 22);
             this.tpAfterCapture.Name = "tpAfterCapture";
-            this.tpAfterCapture.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tpAfterCapture.Padding = new System.Windows.Forms.Padding(3);
             this.tpAfterCapture.Size = new System.Drawing.Size(654, 374);
             this.tpAfterCapture.TabIndex = 1;
             this.tpAfterCapture.Text = "Tasks";
@@ -272,15 +217,6 @@ namespace HelpersLib.Hotkeys2
             this.gbAfterCaptureTasks.TabStop = false;
             this.gbAfterCaptureTasks.Text = "After Capture Tasks";
             // 
-            // ucAfterCaptureTasks
-            // 
-            this.ucAfterCaptureTasks.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucAfterCaptureTasks.Location = new System.Drawing.Point(3, 16);
-            this.ucAfterCaptureTasks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucAfterCaptureTasks.Name = "ucAfterCaptureTasks";
-            this.ucAfterCaptureTasks.Size = new System.Drawing.Size(312, 345);
-            this.ucAfterCaptureTasks.TabIndex = 0;
-            // 
             // gbAfterUploadTasks
             // 
             this.gbAfterUploadTasks.Controls.Add(this.ucAfterUploadTasks);
@@ -292,15 +228,6 @@ namespace HelpersLib.Hotkeys2
             this.gbAfterUploadTasks.TabStop = false;
             this.gbAfterUploadTasks.Text = "After Upload Tasks";
             // 
-            // ucAfterUploadTasks
-            // 
-            this.ucAfterUploadTasks.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucAfterUploadTasks.Location = new System.Drawing.Point(3, 16);
-            this.ucAfterUploadTasks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ucAfterUploadTasks.Name = "ucAfterUploadTasks";
-            this.ucAfterUploadTasks.Size = new System.Drawing.Size(312, 345);
-            this.ucAfterUploadTasks.TabIndex = 0;
-            // 
             // tpRunExternalPrograms
             // 
             this.tpRunExternalPrograms.Controls.Add(this.btnActionsEdit);
@@ -309,7 +236,7 @@ namespace HelpersLib.Hotkeys2
             this.tpRunExternalPrograms.Controls.Add(this.lvActions);
             this.tpRunExternalPrograms.Location = new System.Drawing.Point(4, 22);
             this.tpRunExternalPrograms.Name = "tpRunExternalPrograms";
-            this.tpRunExternalPrograms.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tpRunExternalPrograms.Padding = new System.Windows.Forms.Padding(3);
             this.tpRunExternalPrograms.Size = new System.Drawing.Size(654, 374);
             this.tpRunExternalPrograms.TabIndex = 2;
             this.tpRunExternalPrograms.Text = "External Programs";
@@ -383,7 +310,7 @@ namespace HelpersLib.Hotkeys2
             this.tpUpload.Controls.Add(this.tlpUpload);
             this.tpUpload.Location = new System.Drawing.Point(4, 22);
             this.tpUpload.Name = "tpUpload";
-            this.tpUpload.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tpUpload.Padding = new System.Windows.Forms.Padding(3);
             this.tpUpload.Size = new System.Drawing.Size(654, 374);
             this.tpUpload.TabIndex = 3;
             this.tpUpload.Text = "Upload";
@@ -470,9 +397,9 @@ namespace HelpersLib.Hotkeys2
             // 
             this.tpUpload2.Controls.Add(this.tlpUpload2);
             this.tpUpload2.Location = new System.Drawing.Point(4, 22);
-            this.tpUpload2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tpUpload2.Margin = new System.Windows.Forms.Padding(2);
             this.tpUpload2.Name = "tpUpload2";
-            this.tpUpload2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tpUpload2.Padding = new System.Windows.Forms.Padding(2);
             this.tpUpload2.Size = new System.Drawing.Size(654, 374);
             this.tpUpload2.TabIndex = 6;
             this.tpUpload2.Text = "Secondary Upload";
@@ -560,7 +487,7 @@ namespace HelpersLib.Hotkeys2
             this.tpShare.Controls.Add(this.tlpShare);
             this.tpShare.Location = new System.Drawing.Point(4, 22);
             this.tpShare.Name = "tpShare";
-            this.tpShare.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tpShare.Padding = new System.Windows.Forms.Padding(3);
             this.tpShare.Size = new System.Drawing.Size(654, 374);
             this.tpShare.TabIndex = 4;
             this.tpShare.Text = "Share";
@@ -626,7 +553,7 @@ namespace HelpersLib.Hotkeys2
             this.tpSummary.Controls.Add(this.lblSummary);
             this.tpSummary.Location = new System.Drawing.Point(4, 22);
             this.tpSummary.Name = "tpSummary";
-            this.tpSummary.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tpSummary.Padding = new System.Windows.Forms.Padding(3);
             this.tpSummary.Size = new System.Drawing.Size(654, 374);
             this.tpSummary.TabIndex = 5;
             this.tpSummary.Text = "Summary";
@@ -640,6 +567,35 @@ namespace HelpersLib.Hotkeys2
             this.lblSummary.Name = "lblSummary";
             this.lblSummary.Size = new System.Drawing.Size(648, 368);
             this.lblSummary.TabIndex = 0;
+            // 
+            // pgWorkflow
+            // 
+            this.pgWorkflow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pgWorkflow.Location = new System.Drawing.Point(16, 48);
+            this.pgWorkflow.Name = "pgWorkflow";
+            this.pgWorkflow.Size = new System.Drawing.Size(624, 312);
+            this.pgWorkflow.TabIndex = 2;
+            this.pgWorkflow.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pgWorkflow_PropertyValueChanged);
+            // 
+            // ucAfterCaptureTasks
+            // 
+            this.ucAfterCaptureTasks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucAfterCaptureTasks.Location = new System.Drawing.Point(3, 16);
+            this.ucAfterCaptureTasks.Margin = new System.Windows.Forms.Padding(4);
+            this.ucAfterCaptureTasks.Name = "ucAfterCaptureTasks";
+            this.ucAfterCaptureTasks.Size = new System.Drawing.Size(312, 345);
+            this.ucAfterCaptureTasks.TabIndex = 0;
+            // 
+            // ucAfterUploadTasks
+            // 
+            this.ucAfterUploadTasks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucAfterUploadTasks.Location = new System.Drawing.Point(3, 16);
+            this.ucAfterUploadTasks.Margin = new System.Windows.Forms.Padding(4);
+            this.ucAfterUploadTasks.Name = "ucAfterUploadTasks";
+            this.ucAfterUploadTasks.Size = new System.Drawing.Size(312, 345);
+            this.ucAfterUploadTasks.TabIndex = 0;
             // 
             // WindowWorkflow
             // 
@@ -657,13 +613,10 @@ namespace HelpersLib.Hotkeys2
             this.Name = "WindowWorkflow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "WindowWorkflow";
+            this.Load += new System.EventHandler(this.WindowWorkflow_Load);
             this.Resize += new System.EventHandler(this.WindowWorkflow_Resize);
             this.tcWorkflow.ResumeLayout(false);
             this.tpCapture.ResumeLayout(false);
-            this.tpCapture.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.gbTextUploaderSettings.ResumeLayout(false);
-            this.gbTextUploaderSettings.PerformLayout();
             this.tpAfterCapture.ResumeLayout(false);
             this.tlpTasks.ResumeLayout(false);
             this.gbAfterCaptureTasks.ResumeLayout(false);
@@ -708,15 +661,11 @@ namespace HelpersLib.Hotkeys2
         private System.Windows.Forms.TabPage tpSummary;
         private System.Windows.Forms.ComboBox cboCapture;
         private System.Windows.Forms.TabPage tpCapture;
-        private System.Windows.Forms.CheckBox chkPerformGlobalAfterCaptureTasks;
         private System.Windows.Forms.TabPage tpUpload;
         private System.Windows.Forms.TableLayoutPanel tlpUpload;
         private System.Windows.Forms.FlowLayoutPanel flpFileUploaders;
         private System.Windows.Forms.FlowLayoutPanel flpImageUploaders;
         private System.Windows.Forms.FlowLayoutPanel flpTextUploaders;
-        private System.Windows.Forms.GroupBox gbTextUploaderSettings;
-        private System.Windows.Forms.Label lblTextFormat;
-        private System.Windows.Forms.TextBox txtTextFormat;
         private System.Windows.Forms.Label lblSummary;
         private System.Windows.Forms.GroupBox gbFileUploaders;
         private System.Windows.Forms.GroupBox gbImageUploaders;
@@ -731,7 +680,6 @@ namespace HelpersLib.Hotkeys2
         private System.Windows.Forms.GroupBox gbAfterCaptureTasks;
         private System.Windows.Forms.GroupBox gbAfterUploadTasks;
         private UserControls.AfterUploadTasksUI ucAfterUploadTasks;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TabPage tpUpload2;
         private System.Windows.Forms.TableLayoutPanel tlpUpload2;
         private System.Windows.Forms.GroupBox gbFileUploaders2;
@@ -740,6 +688,7 @@ namespace HelpersLib.Hotkeys2
         private System.Windows.Forms.FlowLayoutPanel flpImageUploaders2;
         private System.Windows.Forms.GroupBox gbTextUploaders2;
         private System.Windows.Forms.FlowLayoutPanel flpTextUploaders2;
+        private System.Windows.Forms.PropertyGrid pgWorkflow;
 
     }
 }

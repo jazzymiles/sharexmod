@@ -185,8 +185,7 @@ namespace ShareX
                 EDataType destination = EDataType.Text;
                 if (act.Workflow.Settings.DestConfig.TextUploaders.Count > 0)
                     destination = act.Workflow.Settings.DestConfig.TextUploaders[0] == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
-                UploadTask task = UploadTask.CreateTextUploaderTask(text, destination);
-                task.SetWorkflow(act.Workflow);
+                UploadTask task = UploadTask.CreateTextUploaderTask(text, destination, act.Workflow);
                 TaskManager.Start(task);
             }
         }
@@ -295,8 +294,7 @@ namespace ShareX
                 AfterCaptureActivity.Prepare(ref act);
 
                 EDataType destination = ImageUploader == ImageDestination.FileUploader ? EDataType.File : dataType;
-                UploadTask task = UploadTask.CreateDataUploaderTask(EDataType.Image, stream, filePath, destination);
-                task.SetWorkflow(act.Workflow);
+                UploadTask task = UploadTask.CreateDataUploaderTask(EDataType.Image, stream, filePath, destination, act.Workflow);
                 TaskManager.Start(task);
             }
         }
