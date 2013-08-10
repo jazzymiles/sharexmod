@@ -29,9 +29,6 @@ namespace ShareX.Forms
         private ScreenRecorderCache ImgCache;
         private int delay = 200;
 
-        // Avi settings
-        private int heightLimit = 720;
-
         private BackgroundWorker ImgRecorder = new BackgroundWorker() { WorkerReportsProgress = true };
         private BackgroundWorker Encoder = new BackgroundWorker() { WorkerReportsProgress = true };
 
@@ -196,23 +193,15 @@ namespace ShareX.Forms
                 int count = 0;
                 foreach (Image img in ImgCache.GetImageEnumerator())
                 {
-                    Image img2 = img;
-
                     try
                     {
-                        if (heightLimit > 0 && CaptureRectangle.Height > heightLimit)
-                        {
-                            int width = (int)((float)heightLimit / CaptureRectangle.Height * CaptureRectangle.Width);
-                            img2 = CaptureHelpers.ResizeImage(img2, FixRes(width), heightLimit);
-                        }
-
-                        aviManager.AddFrame(img2, writeCompressed);
+                        aviManager.AddFrame(img, writeCompressed);
                         count++;
                         ImgRecorder_ReportProgress(count, total);
                     }
                     finally
                     {
-                        if (img2 != null) img2.Dispose();
+                        if (img != null) img.Dispose();
                     }
                 }
             }
