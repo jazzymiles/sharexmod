@@ -106,12 +106,14 @@ namespace ShareX
 
         #region Constructors
 
-        private UploadTask(TaskJob job, EDataType dataType)
+        private UploadTask(TaskJob job, EDataType dataType, Workflow wf = null)
         {
             Status = TaskStatus.InQueue;
             Info = new UploadInfo();
             Info.Job = job;
             Info.DataType = dataType;
+            if (wf != null)
+                this.SetWorkflow(wf);
         }
 
         public void SetWorkflow(Workflow wf)
@@ -121,16 +123,16 @@ namespace ShareX
             this.Info.SetDestination(wf.Settings.DestConfig);
         }
 
-        public static UploadTask CreateDataUploaderTask(EDataType dataType, Stream stream, string filePath, EDataType destination = EDataType.Default)
+        public static UploadTask CreateDataUploaderTask(EDataType dataType, Stream stream, string filePath, EDataType destination = EDataType.Default, Workflow wf = null)
         {
-            UploadTask task = new UploadTask(TaskJob.DataUpload, dataType);
+            UploadTask task = new UploadTask(TaskJob.DataUpload, dataType, wf);
             task.Info.FilePath = filePath;
             task.data = stream;
             return task;
         }
 
         // string filePath -> FileStream data
-        public static UploadTask CreateFileUploaderTask(string filePath, EDataType destination = EDataType.Default)
+        public static UploadTask CreateFileUploaderTask(string filePath, EDataType destination = EDataType.Default, Workflow wf = null)
         {
             EDataType dataType = Helpers.FindDataType(filePath);
 
@@ -150,7 +152,7 @@ namespace ShareX
                 }
             }
 
-            UploadTask task = new UploadTask(taskJob, dataType);
+            UploadTask task = new UploadTask(taskJob, dataType, wf);
             task.Info.FilePath = filePath;
 
             if (SettingsManager.ConfigCore.FileUploadUseNamePattern)
@@ -176,18 +178,18 @@ namespace ShareX
         }
 
         // Image image -> MemoryStream data (in thread)
-        public static UploadTask CreateImageUploaderTask(ImageData imageData, EDataType destination = EDataType.Default)
+        public static UploadTask CreateImageUploaderTask(ImageData imageData, EDataType destination = EDataType.Default, Workflow wf = null)
         {
-            UploadTask task = new UploadTask(TaskJob.ImageUpload, EDataType.Image);
+            UploadTask task = new UploadTask(TaskJob.ImageUpload, EDataType.Image, wf);
             task.Info.FileName = imageData.Filename;
             task.imageData = imageData;
             return task;
         }
 
         // string text -> MemoryStream data (in thread)
-        public static UploadTask CreateTextUploaderTask(string text, EDataType destination = EDataType.Default)
+        public static UploadTask CreateTextUploaderTask(string text, EDataType destination = EDataType.Default, Workflow wf = null)
         {
-            UploadTask task = new UploadTask(TaskJob.TextUpload, EDataType.Text);
+            UploadTask task = new UploadTask(TaskJob.TextUpload, EDataType.Text, wf);
 
             if (SettingsManager.ConfigCore.IndexFolderWhenPossible && Directory.Exists(text))
             {
@@ -197,7 +199,7 @@ namespace ShareX
             }
             else
             {
-                task.Info.FileName = new NameParser(NameParserType.FileName).Parse(SettingsManager.ConfigCore.NameFormatPatternOther) + ".txt";
+                task.Info.FileName = new NameParser(NameParserType.FileName).Parse(SettingsManager.ConfigCore.NameFormatPatternOther) + "." + task.Workflow.Settings.TextFileExtension;
                 task.tempText = text;
             }
             return task;
@@ -772,33 +774,33 @@ namespace ShareX
             {
                 case TextDestination.Pastebin:
                     PastebinSettings pastebinSettings = SettingsManager.ConfigUploaders.PastebinSettings;
-                    pastebinSettings.TextFormat = Workflow.Settings.DestConfig.TextFormat;
+                    pastebinSettings.TextFormat = Workflow.Settings.TextFormat;
                     textUploader = new Pastebin(ApiKeys.PastebinKey, pastebinSettings);
                     break;
 
                 case TextDestination.PastebinCA:
                     textUploader = new Pastebin_ca(ApiKeys.PastebinCaKey, new PastebinCaSettings()
                     {
-                        TextFormat = Workflow.Settings.DestConfig.TextFormat
+                        TextFormat = Workflow.Settings.TextFormat
                     });
                     break;
 
                 case TextDestination.Paste2:
                     textUploader = new Paste2(new Paste2Settings()
                     {
-                        TextFormat = Workflow.Settings.DestConfig.TextFormat
+                        TextFormat = Workflow.Settings.TextFormat
                     });
                     break;
 
                 case TextDestination.Slexy:
                     textUploader = new Slexy(new SlexySettings()
                     {
-                        TextFormat = Workflow.Settings.DestConfig.TextFormat
+                        TextFormat = Workflow.Settings.TextFormat
                     });
                     break;
 
                 case TextDestination.Pastee:
-                    textUploader = new Pastee() { Lexer = Workflow.Settings.DestConfig.TextFormat };
+                    textUploader = new Pastee() { Lexer = Workflow.Settings.TextFormat };
                     break;
 
                 case TextDestination.Paste_ee:

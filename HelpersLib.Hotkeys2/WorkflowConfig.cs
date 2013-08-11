@@ -22,6 +22,7 @@ namespace HelpersLib.Hotkeys2
             wf.Settings.GetDefaults();
 
             InitializeComponent();
+
             IntPtr h = tcWorkflow.Handle; // bug in .net maybe: The TabControl's handle must be created for the Insert method to work. 
             OnLoad();
         }
@@ -40,8 +41,7 @@ namespace HelpersLib.Hotkeys2
             }
             cboCapture.SelectedIndex = (int)Workflow.Hotkey;
 
-            chkPerformGlobalAfterCaptureTasks.Checked = Workflow.Settings.ApplyDefaultSettings;
-            txtTextFormat.Text = this.Workflow.Settings.DestConfig.TextFormat;
+            pgWorkflow.SelectedObject = this.Workflow.Settings;
 
             #endregion Capture
 
@@ -304,7 +304,6 @@ namespace HelpersLib.Hotkeys2
         private void btnOk_Click(object sender, EventArgs e)
         {
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.Workflow.Settings.DestConfig.TextFormat = txtTextFormat.Text;
             this.Workflow.Subtasks &= ~Subtask.None;
             this.Close();
         }
@@ -378,16 +377,6 @@ namespace HelpersLib.Hotkeys2
         }
 
         #endregion External Programs
-
-        private void chkPerformGlobalAfterCaptureTasks_CheckedChanged(object sender, EventArgs e)
-        {
-            Workflow.Settings.ApplyDefaultSettings = chkPerformGlobalAfterCaptureTasks.Checked;
-
-            if (chkPerformGlobalAfterCaptureTasks.Checked)
-                HideTabUploadAndShare();
-            else
-                ShowTabUploadAndShare();
-        }
 
         #region Show/Hide Tabs
 
@@ -488,18 +477,15 @@ namespace HelpersLib.Hotkeys2
                 case EHotkey.ClipboardUpload:
                     ShowAllUploaders();
                     ShowTabAfterCapture();
-                    gbTextUploaderSettings.Visible = true;
                     break;
 
                 case EHotkey.FileUpload:
                     ShowAllUploaders();
-                    gbTextUploaderSettings.Visible = false;
                     break;
 
                 default:
                     HideTextUploaders();
                     ShowTabAfterCapture();
-                    gbTextUploaderSettings.Visible = false;
                     break;
             }
             Workflow.Hotkey = hotkey;
@@ -571,7 +557,7 @@ namespace HelpersLib.Hotkeys2
                             foreach (TextDestination uploader in Workflow.Settings.DestConfig.TextUploaders)
                             {
                                 sb.AppendLine("-------- Share text using " + uploader.GetDescription());
-                                sb.AppendLine("-------- Text format: " + Workflow.Settings.DestConfig.TextFormat);
+                                sb.AppendLine("-------- Text format: " + Workflow.Settings.TextFormat);
                             }
                         }
                     }
@@ -631,6 +617,19 @@ namespace HelpersLib.Hotkeys2
         private void WindowWorkflow_Resize(object sender, EventArgs e)
         {
             this.Refresh();
+        }
+
+        private void WindowWorkflow_Load(object sender, EventArgs e)
+        {
+            // nothing
+        }
+
+        private void pgWorkflow_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            if (this.Workflow.Settings.ApplyDefaultSettings)
+                HideTabUploadAndShare();
+            else
+                ShowTabUploadAndShare();
         }
     }
 }
