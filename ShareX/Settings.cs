@@ -76,6 +76,9 @@ namespace ShareX
         [Category(ComponentModelStrings.SettingsInteraction), DefaultValue(true), Description("Show clipboard options after host upload is completed. Dynamically choose which link format to be copied to the clipboad.")]
         public bool ShowClipboardOptionsWizard { get; set; }
 
+        [Category(ComponentModelStrings.InputsClipboard), DefaultValue(true), Description("When a folder path is in the clipboard, upload the folder index instead of the folder path as part of Clipboard Upload.")]
+        public bool IndexFolderWhenPossible { get; set; }
+
         #endregion General
 
         #region Paths

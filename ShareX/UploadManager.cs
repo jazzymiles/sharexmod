@@ -110,7 +110,7 @@ namespace ShareX
             }
         }
 
-        public static void ClipboardUpload()
+        public static void ClipboardUpload(TaskSettings taskSettings = null)
         {
             if (Clipboard.ContainsImage())
             {
@@ -148,7 +148,7 @@ namespace ShareX
                 }
                 else
                 {
-                    UploadText(text);
+                    UploadText(text, taskSettings);
                 }
             }
         }
@@ -219,11 +219,11 @@ namespace ShareX
             }
         }
 
-        public static void UploadText(string text)
+        public static void UploadText(string text, TaskSettings taskSettings = null)
         {
             if (!string.IsNullOrEmpty(text))
             {
-                UploadTask task = UploadTask.CreateTextUploaderTask(text);
+                UploadTask task = UploadTask.CreateTextUploaderTask(text, taskSettings);
                 TaskManager.Start(task);
             }
         }

@@ -68,7 +68,7 @@ namespace ShareX
             switch (hotkeySetting.Job)
             {
                 case EHotkey.ClipboardUpload:
-                    UploadManager.ClipboardUpload();
+                    UploadManager.ClipboardUpload(taskSettings);
                     break;
                 case EHotkey.FileUpload:
                     UploadManager.UploadFile();

@@ -69,6 +69,7 @@ namespace ShareX
             SetEnumChecked(Setting.TaskSettings.URLShortenerDestination, cmsURLShorteners);
             SetEnumChecked(Setting.TaskSettings.SocialNetworkingServiceDestination, cmsSocialNetworkingServices);
 
+            pgSettings.SelectedObject = Setting.TaskSettings;
             UpdateDestinationStates();
             UpdateUploaderMenuNames();
         }

@@ -24,9 +24,9 @@
 #endregion License Information (GPL v3)
 
 using HelpersLib;
-using ShareXmodHelper;
 using SingleInstanceApplication;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -208,6 +208,16 @@ namespace ShareX
         public static Stopwatch StartTimer { get; private set; }
         public static Logger MyLogger { get; private set; }
 
+        public const string URL_WEBSITE = "http://code.google.com/p/sharexmod";
+        public const string URL_ISSUES = "http://code.google.com/p/sharexmod/issues/entry";
+        public const string URL_UPDATE = "http://sharexmod.googlecode.com/svn/trunk/Update.xml";
+        public const string URL_DONATE = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mcored%40gmail%2ecom&lc=US&item_name=ShareXmod&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest";
+
+        public static List<string> LibNames = new List<string>();
+
+        public static bool IsRecordingScreencast { get; set; }
+        public static bool ScreencastCancellationPending { get; set; }
+
         public static string Title
         {
             get
@@ -378,7 +388,7 @@ namespace ShareX
 
         private static void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
         {
-            ProgramMod.LibNames.Add(string.Format("{0} - {1}", args.LoadedAssembly.FullName, args.LoadedAssembly.Location));
+            Program.LibNames.Add(string.Format("{0} - {1}", args.LoadedAssembly.FullName, args.LoadedAssembly.Location));
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
