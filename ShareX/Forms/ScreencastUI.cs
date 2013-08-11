@@ -26,7 +26,8 @@ namespace ShareX.Forms
         private Rectangle CaptureRectangle;
         int pixelRound = 8;
 
-        private ScreenRecorderCache ImgCache;
+        AVICache aviCache;
+        private HardDiskCache hdCache;
         private int delay = 200;
 
         private BackgroundWorker ImgRecorder = new BackgroundWorker() { WorkerReportsProgress = true };
@@ -69,59 +70,46 @@ namespace ShareX.Forms
             return ((int)Math.Ceiling(round / (double)pixelRound)) * pixelRound;
         }
 
-        private void timerScreencast_Tick(object sender, EventArgs e)
+        #region ImgRecord
+
+        private void ImgRecord()
         {
-            Program.IsRecordingScreencast = true;
-            this.BackgroundImage = Resources.stop;
+            while (!Program.ScreencastCancellationPending)
+            {
+                Stopwatch timer = Stopwatch.StartNew();
+
+                Screenshot.CaptureCursor = SettingsManager.ConfigCore.ShowCursor;
+                Image img = Screenshot.CaptureRectangle(CaptureRectangle);
+
+                switch (SettingsManager.ConfigUser.ScreencastEncoderType)
+                {
+                    case EScreencastEncoderType.PromptUser:
+                    case EScreencastEncoderType.CommandLineEncoder:
+                        aviCache.AddImageAsync(img);
+                        break;
+                    case EScreencastEncoderType.GraphicsInterchangeFormat:
+                        hdCache.AddImageAsync(img);
+                        break;
+                }
+
+                int sleepTime = delay - (int)timer.ElapsedMilliseconds;
+
+                if (sleepTime > 0)
+                {
+                    Thread.Sleep(sleepTime);
+                }
+            }
 
             switch (SettingsManager.ConfigUser.ScreencastEncoderType)
             {
                 case EScreencastEncoderType.PromptUser:
-                case EScreencastEncoderType.GraphicsInterchangeFormat:
                 case EScreencastEncoderType.CommandLineEncoder:
-                    ImgEncoderStart();
+                    aviCache.Finish();
                     break;
-
-                case EScreencastEncoderType.WindowsMediaVideo:
-                case EScreencastEncoderType.ExpressionEncoderScreenCaptureCodec:
-                    ExpressionEncoderStart();
+                case EScreencastEncoderType.GraphicsInterchangeFormat:
+                    hdCache.Finish();
                     break;
-
-                default:
-                    throw new Exception("Unsupported screencast filetype: " + SettingsManager.ConfigUser.ScreencastEncoderType.GetDescription());
             }
-
-            timerScreencastDelay.Stop();
-        }
-
-        private ScreenRecorderCache ImgRecord()
-        {
-            using (ImgCache = new ScreenRecorderCache(ScreenRecorderCacheFilePath))
-            {
-                while (!Program.ScreencastCancellationPending)
-                {
-                    Stopwatch timer = Stopwatch.StartNew();
-
-                    Screenshot.CaptureCursor = SettingsManager.ConfigCore.ShowCursor;
-                    Image img = Screenshot.CaptureRectangle(CaptureRectangle);
-
-                    ImgCache.AddImageAsync(img);
-
-                    int sleepTime = delay - (int)timer.ElapsedMilliseconds;
-
-                    if (sleepTime > 0)
-                    {
-                        Thread.Sleep(sleepTime);
-                    }
-                    else
-                    {
-                        Debug.WriteLine("FPS drop: " + sleepTime);
-                    }
-                }
-                ImgCache.Finish();
-            }
-
-            return ImgCache;
         }
 
         /// <summary>
@@ -158,19 +146,34 @@ namespace ShareX.Forms
 
             Screencast.FilePath = Path.Combine(Program.ScreenshotsPath, Screencast.Filename + fileExt);
 
+            switch (SettingsManager.ConfigUser.ScreencastEncoderType)
+            {
+                case EScreencastEncoderType.PromptUser:
+                    aviCache = new AVICache(Screencast.FilePath, SettingsManager.ConfigUser.ScreencastFPS, this.CaptureRectangle.Size, true);
+                    break;
+                case EScreencastEncoderType.CommandLineEncoder:
+                    aviCache = new AVICache(Screencast.FilePath, SettingsManager.ConfigUser.ScreencastFPS, this.CaptureRectangle.Size, false);
+                    break;
+                case EScreencastEncoderType.GraphicsInterchangeFormat:
+                    hdCache = new HardDiskCache(ScreenRecorderCacheFilePath);
+                    break;
+            }
+
             ImgRecorder.DoWork += ImgRecorder_DoWork;
             ImgRecorder.RunWorkerCompleted += ImgRecorder_RunWorkerCompleted;
 
             ImgRecorder.RunWorkerAsync();
         }
 
+        #endregion
+
         private void GifEncode()
         {
             using (GifCreator gifEncoder = new GifCreator(delay))
             {
-                int total = ImgCache.GetImageEnumerator().Count();
+                int total = hdCache.GetImageEnumerator().Count();
                 int count = 0;
-                foreach (Image img in ImgCache.GetImageEnumerator())
+                foreach (Image img in hdCache.GetImageEnumerator())
                 {
                     using (img)
                     {
@@ -185,32 +188,9 @@ namespace ShareX.Forms
             }
         }
 
-        private void AviEncode(bool writeCompressed)
-        {
-            using (AVIManager aviManager = new AVIManager(Screencast.FilePath, SettingsManager.ConfigUser.ScreencastFPS))
-            {
-                int total = ImgCache.GetImageEnumerator().Count();
-                int count = 0;
-                foreach (Image img in ImgCache.GetImageEnumerator())
-                {
-                    try
-                    {
-                        aviManager.AddFrame(img, writeCompressed);
-                        count++;
-                        ImgRecorder_ReportProgress(count, total);
-                    }
-                    finally
-                    {
-                        if (img != null) img.Dispose();
-                    }
-                }
-            }
-        }
 
         private void CommandlineEncode()
         {
-            AviEncode(false); // create uncompressed RAW video
-
             if (File.Exists(Screencast.FilePath) && File.Exists(SettingsManager.ConfigUser.ScreencastCmdEncoderPath))
             {
                 Process p = new Process();
@@ -245,7 +225,6 @@ namespace ShareX.Forms
             switch (SettingsManager.ConfigUser.ScreencastEncoderType)
             {
                 case EScreencastEncoderType.PromptUser:
-                    AviEncode(true);
                     break;
 
                 case EScreencastEncoderType.GraphicsInterchangeFormat:
@@ -273,8 +252,8 @@ namespace ShareX.Forms
 
         private void Encoder_RunWorkerCompleted_Img()
         {
-            if (ImgCache != null)
-                ImgCache.Dispose();
+            if (hdCache != null)
+                hdCache.Dispose();
 
             try
             {

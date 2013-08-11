@@ -31,18 +31,6 @@ namespace HelpersLib.Hotkeys2
         public Workflow Clone()
         {
             return (Workflow)MemberwiseClone();
-            //Workflow wf_clone = new Workflow();
-
-            //wf_clone.Hotkey = Hotkey;
-            //wf_clone.Subtasks = this.Subtasks;
-            //wf_clone.AfterUploadTasks = this.AfterUploadTasks;
-
-            //wf_clone.Settings = this.Settings.Clone();
-            ////  wf_clone.Settings.ApplyDefaultSettings = this.Settings.ApplyDefaultSettings;
-            ////  wf_clone.Settings.DestConfig = this.Settings.DestConfig.Clone();
-            ////  wf_clone.Settings.ExternalPrograms.AddRange(this.Settings.ExternalPrograms);
-
-            //return wf_clone;
         }
 
         public Workflow(EHotkey hotkey, HotkeySetting hotkeyConfig)
