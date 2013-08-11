@@ -916,6 +916,10 @@ namespace ShareX
                     };
                     break;
 
+                case FileDestination.Jira:
+                    fileUploader = new Jira(SettingsManager.ConfigUploaders.JiraHost, SettingsManager.ConfigUploaders.JiraOAuthInfo, SettingsManager.ConfigUploaders.JiraIssuePrefix);
+                    break;
+
                 case FileDestination.CustomFileUploader:
                     if (SettingsManager.ConfigUploaders.CustomUploadersList.IsValidIndex(SettingsManager.ConfigUploaders.CustomFileUploaderSelected))
                     {
