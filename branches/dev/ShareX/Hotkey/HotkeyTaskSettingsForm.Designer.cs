@@ -51,11 +51,18 @@
             this.tbDescription = new System.Windows.Forms.TextBox();
             this.btnTask = new System.Windows.Forms.Button();
             this.cmsTask = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tpGeneral = new System.Windows.Forms.TabPage();
+            this.tpAdvanced = new System.Windows.Forms.TabPage();
+            this.pgSettings = new System.Windows.Forms.PropertyGrid();
+            this.tabControl1.SuspendLayout();
+            this.tpGeneral.SuspendLayout();
+            this.tpAdvanced.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAfterCapture
             // 
-            this.btnAfterCapture.Location = new System.Drawing.Point(16, 96);
+            this.btnAfterCapture.Location = new System.Drawing.Point(12, 94);
             this.btnAfterCapture.Name = "btnAfterCapture";
             this.btnAfterCapture.Size = new System.Drawing.Size(328, 23);
             this.btnAfterCapture.TabIndex = 2;
@@ -71,7 +78,7 @@
             // 
             // btnAfterUpload
             // 
-            this.btnAfterUpload.Location = new System.Drawing.Point(16, 152);
+            this.btnAfterUpload.Location = new System.Drawing.Point(12, 150);
             this.btnAfterUpload.Name = "btnAfterUpload";
             this.btnAfterUpload.Size = new System.Drawing.Size(328, 23);
             this.btnAfterUpload.TabIndex = 3;
@@ -82,7 +89,7 @@
             // 
             // btnImageUploaders
             // 
-            this.btnImageUploaders.Location = new System.Drawing.Point(16, 208);
+            this.btnImageUploaders.Location = new System.Drawing.Point(12, 206);
             this.btnImageUploaders.Name = "btnImageUploaders";
             this.btnImageUploaders.Size = new System.Drawing.Size(328, 23);
             this.btnImageUploaders.TabIndex = 4;
@@ -93,7 +100,7 @@
             // 
             // btnTextUploaders
             // 
-            this.btnTextUploaders.Location = new System.Drawing.Point(16, 232);
+            this.btnTextUploaders.Location = new System.Drawing.Point(12, 230);
             this.btnTextUploaders.Name = "btnTextUploaders";
             this.btnTextUploaders.Size = new System.Drawing.Size(328, 23);
             this.btnTextUploaders.TabIndex = 5;
@@ -104,7 +111,7 @@
             // 
             // btnFileUploaders
             // 
-            this.btnFileUploaders.Location = new System.Drawing.Point(16, 256);
+            this.btnFileUploaders.Location = new System.Drawing.Point(12, 254);
             this.btnFileUploaders.Name = "btnFileUploaders";
             this.btnFileUploaders.Size = new System.Drawing.Size(328, 23);
             this.btnFileUploaders.TabIndex = 6;
@@ -115,7 +122,7 @@
             // 
             // btnURLShorteners
             // 
-            this.btnURLShorteners.Location = new System.Drawing.Point(16, 280);
+            this.btnURLShorteners.Location = new System.Drawing.Point(12, 278);
             this.btnURLShorteners.Name = "btnURLShorteners";
             this.btnURLShorteners.Size = new System.Drawing.Size(328, 23);
             this.btnURLShorteners.TabIndex = 7;
@@ -126,7 +133,7 @@
             // 
             // btnSocialNetworkingServices
             // 
-            this.btnSocialNetworkingServices.Location = new System.Drawing.Point(16, 304);
+            this.btnSocialNetworkingServices.Location = new System.Drawing.Point(12, 302);
             this.btnSocialNetworkingServices.Name = "btnSocialNetworkingServices";
             this.btnSocialNetworkingServices.Size = new System.Drawing.Size(328, 23);
             this.btnSocialNetworkingServices.TabIndex = 8;
@@ -168,7 +175,7 @@
             // cbUseDefaultAfterCaptureSettings
             // 
             this.cbUseDefaultAfterCaptureSettings.AutoSize = true;
-            this.cbUseDefaultAfterCaptureSettings.Location = new System.Drawing.Point(16, 72);
+            this.cbUseDefaultAfterCaptureSettings.Location = new System.Drawing.Point(12, 70);
             this.cbUseDefaultAfterCaptureSettings.Name = "cbUseDefaultAfterCaptureSettings";
             this.cbUseDefaultAfterCaptureSettings.Size = new System.Drawing.Size(193, 17);
             this.cbUseDefaultAfterCaptureSettings.TabIndex = 13;
@@ -179,7 +186,7 @@
             // cbUseDefaultAfterUploadSettings
             // 
             this.cbUseDefaultAfterUploadSettings.AutoSize = true;
-            this.cbUseDefaultAfterUploadSettings.Location = new System.Drawing.Point(16, 128);
+            this.cbUseDefaultAfterUploadSettings.Location = new System.Drawing.Point(12, 126);
             this.cbUseDefaultAfterUploadSettings.Name = "cbUseDefaultAfterUploadSettings";
             this.cbUseDefaultAfterUploadSettings.Size = new System.Drawing.Size(189, 17);
             this.cbUseDefaultAfterUploadSettings.TabIndex = 14;
@@ -190,7 +197,7 @@
             // cbUseDefaultDestinationSettings
             // 
             this.cbUseDefaultDestinationSettings.AutoSize = true;
-            this.cbUseDefaultDestinationSettings.Location = new System.Drawing.Point(16, 184);
+            this.cbUseDefaultDestinationSettings.Location = new System.Drawing.Point(12, 182);
             this.cbUseDefaultDestinationSettings.Name = "cbUseDefaultDestinationSettings";
             this.cbUseDefaultDestinationSettings.Size = new System.Drawing.Size(185, 17);
             this.cbUseDefaultDestinationSettings.TabIndex = 15;
@@ -200,7 +207,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(264, 336);
+            this.btnOK.Location = new System.Drawing.Point(288, 424);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(80, 23);
             this.btnOK.TabIndex = 9;
@@ -211,7 +218,7 @@
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(16, 16);
+            this.lblDescription.Location = new System.Drawing.Point(12, 14);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(63, 13);
             this.lblDescription.TabIndex = 18;
@@ -219,7 +226,7 @@
             // 
             // tbDescription
             // 
-            this.tbDescription.Location = new System.Drawing.Point(88, 12);
+            this.tbDescription.Location = new System.Drawing.Point(84, 10);
             this.tbDescription.Name = "tbDescription";
             this.tbDescription.Size = new System.Drawing.Size(256, 20);
             this.tbDescription.TabIndex = 0;
@@ -227,7 +234,7 @@
             // 
             // btnTask
             // 
-            this.btnTask.Location = new System.Drawing.Point(16, 40);
+            this.btnTask.Location = new System.Drawing.Point(12, 38);
             this.btnTask.Name = "btnTask";
             this.btnTask.Size = new System.Drawing.Size(328, 23);
             this.btnTask.TabIndex = 1;
@@ -241,32 +248,76 @@
             this.cmsTask.Name = "cmsAfterCapture";
             this.cmsTask.Size = new System.Drawing.Size(61, 4);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tpGeneral);
+            this.tabControl1.Controls.Add(this.tpAdvanced);
+            this.tabControl1.Location = new System.Drawing.Point(8, 8);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(360, 408);
+            this.tabControl1.TabIndex = 19;
+            // 
+            // tpGeneral
+            // 
+            this.tpGeneral.Controls.Add(this.tbDescription);
+            this.tpGeneral.Controls.Add(this.btnAfterCapture);
+            this.tpGeneral.Controls.Add(this.btnAfterUpload);
+            this.tpGeneral.Controls.Add(this.btnImageUploaders);
+            this.tpGeneral.Controls.Add(this.btnTextUploaders);
+            this.tpGeneral.Controls.Add(this.btnFileUploaders);
+            this.tpGeneral.Controls.Add(this.btnURLShorteners);
+            this.tpGeneral.Controls.Add(this.btnSocialNetworkingServices);
+            this.tpGeneral.Controls.Add(this.cbUseDefaultAfterCaptureSettings);
+            this.tpGeneral.Controls.Add(this.btnTask);
+            this.tpGeneral.Controls.Add(this.cbUseDefaultAfterUploadSettings);
+            this.tpGeneral.Controls.Add(this.cbUseDefaultDestinationSettings);
+            this.tpGeneral.Controls.Add(this.lblDescription);
+            this.tpGeneral.Location = new System.Drawing.Point(4, 22);
+            this.tpGeneral.Name = "tpGeneral";
+            this.tpGeneral.Padding = new System.Windows.Forms.Padding(3);
+            this.tpGeneral.Size = new System.Drawing.Size(352, 382);
+            this.tpGeneral.TabIndex = 0;
+            this.tpGeneral.Text = "General";
+            this.tpGeneral.UseVisualStyleBackColor = true;
+            // 
+            // tpAdvanced
+            // 
+            this.tpAdvanced.Controls.Add(this.pgSettings);
+            this.tpAdvanced.Location = new System.Drawing.Point(4, 22);
+            this.tpAdvanced.Name = "tpAdvanced";
+            this.tpAdvanced.Padding = new System.Windows.Forms.Padding(3);
+            this.tpAdvanced.Size = new System.Drawing.Size(352, 382);
+            this.tpAdvanced.TabIndex = 1;
+            this.tpAdvanced.Text = "Advanced";
+            this.tpAdvanced.UseVisualStyleBackColor = true;
+            // 
+            // pgSettings
+            // 
+            this.pgSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pgSettings.Location = new System.Drawing.Point(3, 3);
+            this.pgSettings.Name = "pgSettings";
+            this.pgSettings.Size = new System.Drawing.Size(346, 376);
+            this.pgSettings.TabIndex = 0;
+            // 
             // HotkeyTaskSettingsForm
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(358, 369);
-            this.Controls.Add(this.btnTask);
-            this.Controls.Add(this.tbDescription);
-            this.Controls.Add(this.lblDescription);
+            this.ClientSize = new System.Drawing.Size(384, 457);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.cbUseDefaultDestinationSettings);
-            this.Controls.Add(this.cbUseDefaultAfterUploadSettings);
-            this.Controls.Add(this.cbUseDefaultAfterCaptureSettings);
-            this.Controls.Add(this.btnSocialNetworkingServices);
-            this.Controls.Add(this.btnURLShorteners);
-            this.Controls.Add(this.btnFileUploaders);
-            this.Controls.Add(this.btnTextUploaders);
-            this.Controls.Add(this.btnImageUploaders);
-            this.Controls.Add(this.btnAfterUpload);
-            this.Controls.Add(this.btnAfterCapture);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MinimumSize = new System.Drawing.Size(400, 496);
             this.Name = "HotkeyTaskSettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ShareX - Hotkey settings";
+            this.tabControl1.ResumeLayout(false);
+            this.tpGeneral.ResumeLayout(false);
+            this.tpGeneral.PerformLayout();
+            this.tpAdvanced.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -294,6 +345,10 @@
         private System.Windows.Forms.TextBox tbDescription;
         private System.Windows.Forms.Button btnTask;
         private System.Windows.Forms.ContextMenuStrip cmsTask;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tpGeneral;
+        private System.Windows.Forms.TabPage tpAdvanced;
+        private System.Windows.Forms.PropertyGrid pgSettings;
 
 
     }

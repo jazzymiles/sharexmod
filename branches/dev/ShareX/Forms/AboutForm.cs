@@ -32,7 +32,6 @@ using System.Windows.Forms;
 using HelpersLib;
 using UpdateCheckerLib;
 using UploadersLib;
-using ShareXmodHelper;
 
 namespace ShareX
 {
@@ -63,16 +62,16 @@ namespace ShareX
             AppendLine("Josh Lovins (thedeathly)");
             AppendLine();
 
-            if (ProgramMod.LibNames != null)
+            if (Program.LibNames != null)
             {
                 AppendBoldLine("Referenced assemblies:");
-                foreach (string dll in ProgramMod.LibNames)
+                foreach (string dll in Program.LibNames)
                 {
                     AppendLine(dll);
                 }
             }
 
-            UpdateChecker updateChecker = new UpdateChecker(ProgramMod.URL_UPDATE, Application.ProductName, Program.AssemblyVersion,
+            UpdateChecker updateChecker = new UpdateChecker(Program.URL_UPDATE, Application.ProductName, Program.AssemblyVersion,
                 ReleaseChannelType.Stable, Uploader.ProxyInfo.GetWebProxy());
             uclUpdate.CheckUpdate(updateChecker);
         }
@@ -110,12 +109,12 @@ namespace ShareX
 
         private void lblWebsite_Click(object sender, EventArgs e)
         {
-            Helpers.LoadBrowserAsync(ProgramMod.URL_WEBSITE);
+            Helpers.LoadBrowserAsync(Program.URL_WEBSITE);
         }
 
         private void lblBugs_Click(object sender, EventArgs e)
         {
-            Helpers.LoadBrowserAsync(ProgramMod.URL_ISSUES);
+            Helpers.LoadBrowserAsync(Program.URL_ISSUES);
         }
 
         private void pbBerkURL_Click(object sender, EventArgs e)

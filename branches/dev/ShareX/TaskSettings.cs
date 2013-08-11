@@ -23,8 +23,10 @@
 
 #endregion License Information (GPL v3)
 
+using HelpersLibMod;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using UploadersLib;
@@ -33,20 +35,41 @@ namespace ShareX
 {
     public class TaskSettings
     {
+        [Browsable(false)] 
         public bool UseDefaultAfterCaptureJob { get; set; }
+        [Browsable(false)]
         public AfterCaptureTasks AfterCaptureJob { get; set; }
 
+        [Browsable(false)] 
         public bool UseDefaultAfterUploadJob { get; set; }
+        [Browsable(false)] 
         public AfterUploadTasks AfterUploadJob { get; set; }
 
+        [Browsable(false)] 
         public bool UseDefaultDestinations { get; set; }
+        [Browsable(false)] 
         public ImageDestination ImageDestination { get; set; }
+        [Browsable(false)]
         public TextDestination TextDestination { get; set; }
+        [Browsable(false)] 
         public FileDestination FileDestination { get; set; }
+        [Browsable(false)]
         public UrlShortenerType URLShortenerDestination { get; set; }
+        [Browsable(false)]
         public SocialNetworkingService SocialNetworkingServiceDestination { get; set; }
-
+        [Browsable(false)] 
         public bool DisableNotifications { get; set; }
+
+        [Category(ComponentModelStrings.ActivitiesUploadersText), DefaultValue("text"), Description("Text format e.g. csharp, cpp, etc.")]
+        public string TextFormat { get; set; }
+
+        [Category(ComponentModelStrings.ActivitiesUploadersText), DefaultValue("txt"), Description("File extension when saving text to the local hard disk.")]
+        public string TextFileExtension { get; set; }
+
+        public TaskSettings()
+        {
+            ApplyDefaultValues(this);
+        }
 
         public TaskSettings(bool useDefaultSettings = false)
         {
@@ -88,6 +111,16 @@ namespace ShareX
         public TaskSettings Clone()
         {
             return (TaskSettings)MemberwiseClone();
+        }
+
+        public static void ApplyDefaultValues(object self)
+        {
+            foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(self))
+            {
+                DefaultValueAttribute attr = prop.Attributes[typeof(DefaultValueAttribute)] as DefaultValueAttribute;
+                if (attr == null) continue;
+                prop.SetValue(self, attr.Value);
+            }
         }
     }
 }

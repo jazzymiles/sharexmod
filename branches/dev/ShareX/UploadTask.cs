@@ -131,13 +131,30 @@ namespace ShareX
             return task;
         }
 
-        public static UploadTask CreateTextUploaderTask(string text)
+        public static UploadTask CreateTextUploaderTask(string text, TaskSettings taskSettings = null)
         {
             UploadTask task = new UploadTask();
+
+            if (taskSettings != null)
+            {
+                task.Info.Settings = taskSettings;
+            }
+
             task.Info.Job = TaskJob.TextUpload;
             task.Info.DataType = EDataType.Text;
-            task.Info.FileName = TaskHelper.GetFilename("txt");
-            task.tempText = text;
+            task.Info.FileName = TaskHelper.GetFilename(taskSettings.TextFileExtension);
+
+            if (Program.Settings.IndexFolderWhenPossible && Directory.Exists(text))
+            {
+                bool html = task.Info.UploadDestination == EDataType.File;
+                task.Info.FileName = new NameParser(NameParserType.FileName).Parse(Program.Settings.NameFormatPattern) + (html ? ".html" : ".log");
+                task.tempText = IndexersLib.QuickIndexer.Index(text, html);
+            }
+            else
+            {
+                task.tempText = text;
+            }
+
             return task;
         }
 
@@ -605,19 +622,21 @@ namespace ShareX
             switch (Info.Settings.TextDestination)
             {
                 case TextDestination.Pastebin:
-                    textUploader = new Pastebin(ApiKeys.PastebinKey, Program.UploadersConfig.PastebinSettings);
+                    PastebinSettings settings = Program.UploadersConfig.PastebinSettings;
+                    settings.TextFormat = this.Info.Settings.TextFormat;
+                    textUploader = new Pastebin(ApiKeys.PastebinKey, settings);
                     break;
                 case TextDestination.PastebinCA:
-                    textUploader = new Pastebin_ca(ApiKeys.PastebinCaKey);
+                    textUploader = new Pastebin_ca(ApiKeys.PastebinCaKey, new PastebinCaSettings() { TextFormat = Info.Settings.TextFormat });
                     break;
                 case TextDestination.Paste2:
-                    textUploader = new Paste2();
+                    textUploader = new Paste2(new Paste2Settings() { TextFormat = Info.Settings.TextFormat });
                     break;
                 case TextDestination.Slexy:
-                    textUploader = new Slexy();
+                    textUploader = new Slexy(new SlexySettings() { TextFormat = Info.Settings.TextFormat });
                     break;
                 case TextDestination.Pastee:
-                    textUploader = new Pastee();
+                    textUploader = new Pastee() { Lexer = Info.Settings.TextFormat };
                     break;
                 case TextDestination.Paste_ee:
                     textUploader = new Paste_ee(Program.UploadersConfig.Paste_eeUserAPIKey);

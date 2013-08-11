@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ShareX</RootNamespace>
-    <AssemblyName>ShareX</AssemblyName>
+    <AssemblyName>ShareXmod</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ApplicationIcon>Resources\ShareX.ico</ApplicationIcon>
@@ -281,6 +281,10 @@
     <ProjectReference Include="..\HelpersLibMod\HelpersLibMod.csproj">
       <Project>{a08691c6-5437-4e7b-8c8b-b576f7ce1b57}</Project>
       <Name>HelpersLibMod</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IndexersLib\IndexersLib.csproj">
+      <Project>{47cd5eef-c12d-4cea-b88a-3afaec6ddad8}</Project>
+      <Name>IndexersLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\ShareXmodHelper\ShareXmodHelper.csproj">
       <Project>{74b9d39b-da57-45ee-8e53-f4826795bfa8}</Project>
