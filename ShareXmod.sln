@@ -20,8 +20,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageEffects.Plugin.Filters
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageEffects.Plugin.Manipulations", "ImageEffects.Plugin.Manipulations\ImageEffects.Plugin.Manipulations.csproj", "{EA9CA8EB-9173-4EAB-8174-5BD7E5166206}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpersLib.Hotkeys2", "HelpersLib.Hotkeys2\HelpersLib.Hotkeys2.csproj", "{B791C0EF-7DFD-4F2B-B004-91F7344EE146}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpersLibMod", "HelpersLibMod\HelpersLibMod.csproj", "{A08691C6-5437-4E7B-8C8B-B576F7CE1B57}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpersLib", "..\..\ShareX\trunk\HelpersLib\HelpersLib.csproj", "{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}"
@@ -92,12 +90,6 @@ Global
 		{EA9CA8EB-9173-4EAB-8174-5BD7E5166206}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA9CA8EB-9173-4EAB-8174-5BD7E5166206}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EA9CA8EB-9173-4EAB-8174-5BD7E5166206}.Release|x86.ActiveCfg = Release|Any CPU
-		{B791C0EF-7DFD-4F2B-B004-91F7344EE146}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B791C0EF-7DFD-4F2B-B004-91F7344EE146}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B791C0EF-7DFD-4F2B-B004-91F7344EE146}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B791C0EF-7DFD-4F2B-B004-91F7344EE146}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B791C0EF-7DFD-4F2B-B004-91F7344EE146}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B791C0EF-7DFD-4F2B-B004-91F7344EE146}.Release|x86.ActiveCfg = Release|Any CPU
 		{A08691C6-5437-4E7B-8C8B-B576F7CE1B57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A08691C6-5437-4E7B-8C8B-B576F7CE1B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A08691C6-5437-4E7B-8C8B-B576F7CE1B57}.Debug|x86.ActiveCfg = Debug|Any CPU
