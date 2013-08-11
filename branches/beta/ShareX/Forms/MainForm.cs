@@ -89,7 +89,7 @@ namespace ShareX
 
         private void AfterShownJobs()
         {
-            ShowActivate();
+            // ShowActivate(); // fixed issue 99
             AfterUploadersConfigClosed();
             TaskbarHelper.Init(this);
         }
@@ -1424,8 +1424,12 @@ namespace ShareX
             this.lvUploads.Sort();
         }
 
-
-
-
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            if (Program.IsSilentRun && !SettingsManager.ConfigCore.ShowTray)
+            {
+                this.WindowState = FormWindowState.Minimized;
+            }
+        }
     }
 }

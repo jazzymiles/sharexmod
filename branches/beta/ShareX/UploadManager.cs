@@ -25,6 +25,7 @@
 
 using HelpersLib;
 using HelpersLib.Hotkeys2;
+using HelpersLibMod;
 using HistoryLib;
 using ShareX.Forms;
 using ShareX.HelperClasses;
@@ -150,6 +151,16 @@ namespace ShareX
             }
         }
 
+        public static void RunImageTask(Image img, Subtask subtask = Subtask.UploadToRemoteHost)
+        {
+            if (img != null && subtask != Subtask.None)
+            {
+                UploadTask task = UploadTask.CreateImageUploaderTask(ImageData.FromScreenshot(img));
+                task.SetWorkflow(new Workflow());
+                TaskManager.Start(task);
+            }
+        }
+
         public static void UploadImage(Image img, AfterCaptureActivity act = null)
         {
             AfterCaptureActivity.Prepare(ref act);
@@ -174,8 +185,7 @@ namespace ShareX
                 EDataType destination = EDataType.Text;
                 if (act.Workflow.Settings.DestConfig.TextUploaders.Count > 0)
                     destination = act.Workflow.Settings.DestConfig.TextUploaders[0] == TextDestination.FileUploader ? EDataType.File : EDataType.Text;
-                UploadTask task = UploadTask.CreateTextUploaderTask(text, destination);
-                task.SetWorkflow(act.Workflow);
+                UploadTask task = UploadTask.CreateTextUploaderTask(text, destination, act.Workflow);
                 TaskManager.Start(task);
             }
         }
@@ -284,8 +294,7 @@ namespace ShareX
                 AfterCaptureActivity.Prepare(ref act);
 
                 EDataType destination = ImageUploader == ImageDestination.FileUploader ? EDataType.File : dataType;
-                UploadTask task = UploadTask.CreateDataUploaderTask(EDataType.Image, stream, filePath, destination);
-                task.SetWorkflow(act.Workflow);
+                UploadTask task = UploadTask.CreateDataUploaderTask(EDataType.Image, stream, filePath, destination, act.Workflow);
                 TaskManager.Start(task);
             }
         }
