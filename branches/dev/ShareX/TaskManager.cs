@@ -163,7 +163,7 @@ namespace ShareX
                 lvi.SubItems.Add(info.IsUploadJob ? info.UploaderHost : string.Empty);
                 lvi.SubItems.Add(string.Empty);
                 lvi.ImageIndex = 3;
-                ListViewControl.Items.Add(lvi);
+                ListViewControl.Items.Insert(0, lvi);
                 lvi.EnsureVisible();
                 ListViewControl.FillLastColumn();
             }
