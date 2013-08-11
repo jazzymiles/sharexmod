@@ -37,7 +37,7 @@ Version 7.0 - 2012-06-15
 
 Version 6.x - 2012-06-10
 
-http://sharex.googlecode.com/svn/trunk/ShareX/Docs/VersionHistory.txt
+http://sharex.googlecode.com/svn/trunk/Docs/VersionHistory.txt
 
 Version 5.x - 2012-03-07
 
