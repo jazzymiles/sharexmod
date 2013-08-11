@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (C) 2012 ShareX Developers
+    Copyright (C) 2008-2013 ShareX Developers
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -24,16 +24,13 @@
 #endregion License Information (GPL v3)
 
 using HelpersLib;
-using HelpersLib.Hotkeys2;
-using Microsoft.WindowsAPICodePack.Taskbar;
-using ShareX.Forms;
+using ShareXmodHelper;
 using SingleInstanceApplication;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using UploadersLib;
@@ -42,38 +39,112 @@ namespace ShareX
 {
     internal static class Program
     {
-        [DllImport("user32.dll")]
-        private static extern bool SetProcessDPIAware();
+        public static readonly string ApplicationName = Application.ProductName;
+        public static readonly Version AssemblyVersion = Assembly.GetExecutingAssembly().GetName().Version;
 
-        private static readonly string ApplicationName = Application.ProductName;
+        public static string AssemblyCopyright
+        {
+            get
+            {
+                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
 
-        #region Links
+                if (attributes.Length == 0)
+                {
+                    return string.Empty;
+                }
 
-        public const string URL_WEBSITE = "http://code.google.com/p/sharexmod";
-        public const string URL_ISSUES = "http://code.google.com/p/sharexmod/issues/entry";
-        public const string URL_UPDATE = "http://sharexmod.googlecode.com/svn/trunk/Update.xml";
-        public const string URL_DONATE = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mcored%40gmail%2ecom&lc=US&item_name=ShareXmod&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest";
-
-        #endregion Links
+                return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
+            }
+        }
 
         #region Paths
 
-        private static readonly string DefaultScreenshotsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), ApplicationName);
-        private static readonly string DefaultPersonalPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ApplicationName);
-        private static readonly string PortablePersonalPath = Path.Combine(Application.StartupPath, ApplicationName);
+        public static readonly string StartupPath = Application.StartupPath;
 
-        private static readonly string LogFileName = ApplicationName + "Log-{0}.log";
+        private static readonly string DefaultPersonalPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ApplicationName);
+        private static readonly string PortablePersonalPath = Path.Combine(StartupPath, ApplicationName);
+        private static readonly string PersonalPathConfig = Path.Combine(StartupPath, "PersonalPath.cfg");
+        private static readonly string SettingsFileName = ApplicationName + "Settings.json";
+        private static readonly string UploadersConfigFileName = "UploadersConfig.json";
+        private static readonly string LogFileName = ApplicationName + "-Log-{0:yyyy-MM}.txt";
+
+        public static string CustomPersonalPath { get; private set; }
 
         public static string PersonalPath
         {
             get
             {
-                if (IsPortable)
+                if (!string.IsNullOrEmpty(CustomPersonalPath))
                 {
-                    return PortablePersonalPath;
+                    return CustomPersonalPath;
                 }
 
                 return DefaultPersonalPath;
+            }
+        }
+
+        public static string SettingsFilePath
+        {
+            get
+            {
+                if (!IsSandbox)
+                {
+                    return Path.Combine(PersonalPath, SettingsFileName);
+                }
+
+                return null;
+            }
+        }
+
+        public static string UploadersConfigFilePath
+        {
+            get
+            {
+                if (!IsSandbox)
+                {
+                    if (Settings != null && Settings.UseCustomUploadersConfigPath && !string.IsNullOrEmpty(Settings.CustomUploadersConfigPath))
+                    {
+                        return Settings.CustomUploadersConfigPath;
+                    }
+
+                    return Path.Combine(PersonalPath, UploadersConfigFileName);
+                }
+
+                return null;
+            }
+        }
+
+        public static string HistoryFilePath
+        {
+            get
+            {
+                if (Settings != null && Settings.UseCustomHistoryPath && !string.IsNullOrEmpty(Settings.CustomHistoryPath))
+                {
+                    return Settings.CustomHistoryPath;
+                }
+
+                return Path.Combine(PersonalPath, "History.xml");
+            }
+        }
+
+        public static string OldHistoryFilePath
+        {
+            get
+            {
+                if (Settings != null && Settings.UseCustomHistoryPath && !string.IsNullOrEmpty(Settings.CustomHistoryPath))
+                {
+                    return Settings.CustomHistoryPath;
+                }
+
+                return Path.Combine(PersonalPath, "UploadersHistory.xml");
+            }
+        }
+
+        private static string LogParentFolder
+        {
+            get
+            {
+                return Path.Combine(PersonalPath, "Logs");
             }
         }
 
@@ -81,23 +152,21 @@ namespace ShareX
         {
             get
             {
-                DateTime now = FastDateTime.Now;
-                return Path.Combine(PersonalPath, string.Format(LogFileName, now.ToString("yyyy-MM")));
+                string filename = string.Format(LogFileName, FastDateTime.Now);
+                return Path.Combine(LogParentFolder, filename);
             }
         }
 
-        public static string ScreenshotsRootPath
+        private static string ScreenshotsParentFolder
         {
             get
             {
-                if (SettingsManager.ConfigCore != null && Directory.Exists(SettingsManager.ConfigCore.ScreenshotsPath))
+                if (Settings != null && Settings.UseCustomScreenshotsPath && !string.IsNullOrEmpty(Settings.CustomScreenshotsPath))
                 {
-                    return SettingsManager.ConfigCore.ScreenshotsPath;
+                    return Settings.CustomScreenshotsPath;
                 }
-                else
-                {
-                    return DefaultScreenshotsPath;
-                }
+
+                return Path.Combine(PersonalPath, "Screenshots");
             }
         }
 
@@ -105,72 +174,63 @@ namespace ShareX
         {
             get
             {
-                string subFolderName = new NameParser(NameParserType.FolderPath).Parse(SettingsManager.ConfigCore.SaveImageSubFolderPattern);
-                return Path.Combine(ScreenshotsRootPath, subFolderName);
+                string subFolderName = new NameParser(NameParserType.FolderPath).Parse(Settings.SaveImageSubFolderPattern);
+                return Path.Combine(ScreenshotsParentFolder, subFolderName);
+            }
+        }
+
+        public static string ScreenRecorderCacheFilePath
+        {
+            get
+            {
+                return Path.Combine(PersonalPath, "ScreenRecorder.avi");
+            }
+        }
+
+        private static string BackupFolder
+        {
+            get
+            {
+                return Path.Combine(PersonalPath, "Backup");
             }
         }
 
         #endregion Paths
 
-        #region Hotkeys / Workflows
-
-        public static HotkeySetting HotkeyClipboardUpload = new HotkeySetting(Keys.Control | Keys.Alt | Keys.F12);
-        public static HotkeySetting HotkeyFileUpload = new HotkeySetting(Keys.Shift | Keys.PageUp);
-        public static HotkeySetting HotkeyPrintScreen = new HotkeySetting(Keys.PrintScreen);
-        public static HotkeySetting HotkeyActiveWindow = new HotkeySetting(Keys.Alt | Keys.PrintScreen);
-        public static HotkeySetting HotkeyActiveMonitor = new HotkeySetting(Keys.Control | Keys.Alt | Keys.PrintScreen);
-        public static HotkeySetting HotkeyWindowRectangle = new HotkeySetting(Keys.Shift | Keys.PrintScreen);
-        public static HotkeySetting HotkeyRectangleRegion = new HotkeySetting(Keys.Control | Keys.PrintScreen);
-        public static HotkeySetting HotkeyRoundedRectangleRegion = new HotkeySetting(Keys.Control | Keys.Shift | Keys.R);
-        public static HotkeySetting HotkeyEllipseRegion = new HotkeySetting(Keys.Control | Keys.Shift | Keys.E);
-        public static HotkeySetting HotkeyTriangleRegion = new HotkeySetting(Keys.Control | Keys.Shift | Keys.T);
-        public static HotkeySetting HotkeyDiamondRegion = new HotkeySetting(Keys.Control | Keys.Shift | Keys.D);
-        public static HotkeySetting HotkeyPolygonRegion = new HotkeySetting(Keys.Control | Keys.Shift | Keys.P);
-        public static HotkeySetting HotkeyFreeHandRegion = new HotkeySetting(Keys.Control | Keys.Shift | Keys.F);
-        public static HotkeySetting HotkeyScreencast = new HotkeySetting(Keys.Control | Keys.F11);
-
-        #endregion Hotkeys / Workflows
-
+        public static Settings Settings { get; private set; }
+        public static UploadersConfig UploadersConfig { get; private set; }
         public static bool IsMultiInstance { get; private set; }
         public static bool IsPortable { get; private set; }
         public static bool IsSilentRun { get; private set; }
-        public static bool IsHotkeysAllowed { get; private set; }
         public static bool IsDebug { get; private set; }
-
-        public static bool IsRecordingScreencast { get; set; }
-        public static bool ScreencastCancellationPending { get; set; }
-
+        public static bool IsHotkeysAllowed { get; private set; }
+        public static bool IsSandbox { get; private set; }
         public static Stopwatch StartTimer { get; private set; }
-
-        private static log4net.ILog log = null;
+        public static Logger MyLogger { get; private set; }
 
         public static string Title
         {
             get
             {
-                string title = string.Format("{0} {1} r{2}", ApplicationName, Application.ProductVersion, AppRevision);
+                string title = string.Format("{0} {1}.{2}", ApplicationName, AssemblyVersion.Major, AssemblyVersion.Minor);
                 if (IsPortable) title += " Portable";
                 return title;
             }
         }
 
-        public static string AppRevision
+        public static string FullTitle
         {
             get
             {
-                return AssemblyVersion.Split('.')[3];
+                string title = string.Format("{0} {1}.{2}.{3}.{4}", ApplicationName, AssemblyVersion.Major, AssemblyVersion.Minor, AssemblyVersion.Build, AssemblyVersion.Revision);
+                if (IsPortable) title += " Portable";
+                return title;
             }
         }
 
-        public static string AssemblyVersion
-        {
-            get
-            {
-                return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            }
-        }
-
-        public static List<string> LibNames = new List<string>();
+        public static MainForm MainForm;
+        public static ManualResetEvent SettingsResetEvent;
+        public static ManualResetEvent UploaderSettingsResetEvent;
 
         [STAThread]
         private static void Main(string[] args)
@@ -178,10 +238,10 @@ namespace ShareX
             Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             AppDomain.CurrentDomain.AssemblyLoad += new AssemblyLoadEventHandler(CurrentDomain_AssemblyLoad);
-            
+
             StartTimer = Stopwatch.StartNew();
 
-            IsMultiInstance = CLIHelper.CheckArgs(args, "m", "multi");
+            IsMultiInstance = CLIHelper.CheckArgs(args, "multi", "m");
 
             if (IsMultiInstance || ApplicationInstanceManager.CreateSingleInstance(SingleInstanceCallback))
             {
@@ -197,50 +257,66 @@ namespace ShareX
             {
                 mutex = new Mutex(false, @"Global\82E6AC09-0FEF-4390-AD9F-0DD3F5561EFC"); // Required for installer
 
-                IsSilentRun = CLIHelper.CheckArgs(args, "s", "silent");
-                IsPortable = CLIHelper.CheckArgs(args, "p", "portable");
+                IsSilentRun = CLIHelper.CheckArgs(args, "silent", "s");
+                IsSandbox = CLIHelper.CheckArgs(args, "sandbox");
 
-                if (IsPortable && !Directory.Exists(PortablePersonalPath))
+                if (!IsSandbox)
                 {
-                    Directory.CreateDirectory(PortablePersonalPath);
+                    IsPortable = CLIHelper.CheckArgs(args, "portable", "p");
+
+                    if (IsPortable)
+                    {
+                        CustomPersonalPath = PortablePersonalPath;
+                    }
+                    else
+                    {
+                        CheckPersonalPathConfig();
+                    }
+
+                    if (!string.IsNullOrEmpty(PersonalPath) && !Directory.Exists(PersonalPath))
+                    {
+                        Directory.CreateDirectory(PersonalPath);
+                    }
                 }
 
-                IsDebug = CLIHelper.CheckArgs(args, "d", "debug");
-                IsHotkeysAllowed = !CLIHelper.CheckArgs(args, "nohotkeys");
-
-                if (Environment.OSVersion.Version.Major >= 6) SetProcessDPIAware();
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-                Log4netHelper.Init_log4net(LogFilePath);
-
-                log.InfoFormat("{0} {1} r{2} started", Application.ProductName, Application.ProductVersion, AppRevision);
-                log.InfoFormat("Operating system: " + Environment.OSVersion.VersionString);
-                log.InfoFormat("CommandLine: " + Environment.CommandLine);
-                log.InfoFormat("IsMultiInstance: " + IsMultiInstance);
-                log.InfoFormat("IsSilentRun: " + IsSilentRun);
-                log.InfoFormat("IsPortable: " + IsPortable);
-                log.InfoFormat("IsDebug: " + IsDebug);
-                log.InfoFormat("IsHotkeysEnabled: " + IsHotkeysAllowed);
-
-                SettingsManager.LoadAsync();
 #if DEBUG
                 IsDebug = true;
+#else
+                IsDebug = CLIHelper.CheckArgs(args, "debug", "d");
 #endif
-                log.InfoFormat("new FormsHelper.mainForm() started");
-                FormsHelper.Main = new MainForm();
-                log.InfoFormat("new FormsHelper.mainForm() finished");
 
-                if (SettingsManager.ConfigCore == null)
-                    SettingsManager.CoreResetEvent.WaitOne();
-                if (IsDebug)
-                    FormsHelper.ShowLog();
+                IsHotkeysAllowed = !CLIHelper.CheckArgs(args, "nohotkeys");
 
-                Application.Run(FormsHelper.Main);
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
 
-                SettingsManager.Save();
+                MyLogger = new Logger();
+                DebugHelper.MyLogger = MyLogger;
+                MyLogger.WriteLine("{0} started", FullTitle);
+                MyLogger.WriteLine("Operating system: " + Environment.OSVersion.VersionString);
+                MyLogger.WriteLine("Command line: " + Environment.CommandLine);
+                MyLogger.WriteLine("Personal path: " + PersonalPath);
 
-                log.Info("ShareX closing\n");
+                SettingsResetEvent = new ManualResetEvent(false);
+                UploaderSettingsResetEvent = new ManualResetEvent(false);
+                ThreadPool.QueueUserWorkItem(state => LoadSettings());
+
+                MyLogger.WriteLine("new MainForm() started");
+                MainForm = new MainForm();
+                MyLogger.WriteLine("new MainForm() finished");
+
+                if (Settings == null)
+                {
+                    SettingsResetEvent.WaitOne();
+                }
+
+                Application.Run(MainForm);
+
+                SaveSettings();
+                BackupSettings();
+
+                MyLogger.WriteLine("ShareX closing");
+                MyLogger.SaveLog(LogFilePath);
             }
             finally
             {
@@ -250,9 +326,59 @@ namespace ShareX
                 }
             }
         }
+
+        public static void LoadSettings()
+        {
+            LoadProgramSettings();
+            SettingsResetEvent.Set();
+            LoadUploadersConfig();
+            UploaderSettingsResetEvent.Set();
+        }
+
+        public static void LoadProgramSettings()
+        {
+            Settings = Settings.Load(SettingsFilePath);
+        }
+
+        public static void LoadUploadersConfig()
+        {
+            UploadersConfig = UploadersConfig.Load(UploadersConfigFilePath);
+        }
+
+        public static void SaveSettings()
+        {
+            Settings.Save();
+            UploadersConfig.Save();
+        }
+
+        public static void BackupSettings()
+        {
+            Helpers.BackupFileMonthly(SettingsFilePath, BackupFolder);
+            Helpers.BackupFileMonthly(UploadersConfigFilePath, BackupFolder);
+            Helpers.BackupFileMonthly(HistoryFilePath, BackupFolder);
+        }
+
+        private static void CheckPersonalPathConfig()
+        {
+            if (File.Exists(PersonalPathConfig))
+            {
+                string customPersonalPath = File.ReadAllText(PersonalPathConfig, Encoding.UTF8).Trim();
+
+                if (!string.IsNullOrEmpty(customPersonalPath))
+                {
+                    CustomPersonalPath = Path.GetFullPath(customPersonalPath);
+
+                    if (CustomPersonalPath.Equals(PortablePersonalPath, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        IsPortable = true;
+                    }
+                }
+            }
+        }
+
         private static void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
         {
-            LibNames.Add(string.Format("{0} - {1}", args.LoadedAssembly.FullName, args.LoadedAssembly.Location));
+            ProgramMod.LibNames.Add(string.Format("{0} - {1}", args.LoadedAssembly.FullName, args.LoadedAssembly.Location));
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
@@ -267,7 +393,7 @@ namespace ShareX
 
         private static void OnError(Exception e)
         {
-            new ErrorForm(Application.ProductName, e, new Logger(), LogFilePath, Program.URL_ISSUES).ShowDialog();
+            new ErrorForm(Application.ProductName, e, MyLogger, LogFilePath, Links.URL_ISSUES).ShowDialog();
         }
 
         private static void SingleInstanceCallback(object sender, InstanceCallbackEventArgs args)
@@ -278,24 +404,24 @@ namespace ShareX
                 {
                     if (args.CommandLineArgs == null || args.CommandLineArgs.Length <= 1)
                     {
-                        if (FormsHelper.Main.niTray != null && FormsHelper.Main.niTray.Visible)
+                        if (MainForm.niTray != null && MainForm.niTray.Visible)
                         {
                             // Workaround for Windows startup tray icon bug
-                            FormsHelper.Main.niTray.Visible = false;
-                            FormsHelper.Main.niTray.Visible = true;
+                            MainForm.niTray.Visible = false;
+                            MainForm.niTray.Visible = true;
                         }
 
-                        FormsHelper.Main.ShowActivate();
+                        MainForm.ShowActivate();
                     }
-                    else if (FormsHelper.Main.Visible)
+                    else if (MainForm.Visible)
                     {
-                        FormsHelper.Main.ShowActivate();
+                        MainForm.ShowActivate();
                     }
 
-                    FormsHelper.Main.UseCommandLineArgs(args.CommandLineArgs);
+                    MainForm.UseCommandLineArgs(args.CommandLineArgs);
                 };
 
-                FormsHelper.Main.Invoke(d);
+                MainForm.InvokeSafe(d);
             }
         }
 
@@ -305,7 +431,7 @@ namespace ShareX
 
             while (timer.ElapsedMilliseconds < wait)
             {
-                if (FormsHelper.Main.IsReady) return true;
+                if (MainForm != null && MainForm.IsReady) return true;
 
                 Thread.Sleep(10);
             }

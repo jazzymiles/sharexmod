@@ -9,8 +9,8 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ShareX</RootNamespace>
-    <AssemblyName>ShareXmod</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <AssemblyName>ShareX</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ApplicationIcon>Resources\ShareX.ico</ApplicationIcon>
     <FileUpgradeFlags>
@@ -18,8 +18,7 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -44,88 +43,68 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.0\lib\net35-full\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Encoder, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Microsoft.Expression.Encoder.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Encoder.Types, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Microsoft.Expression.Encoder.Types.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Encoder.Utilities, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Microsoft.Expression.Encoder.Utilities.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack">
-      <HintPath>..\Lib\Microsoft.WindowsAPICodePack.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
-      <HintPath>..\Lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    <Reference Include="AsyncBridge.Net35">
+      <HintPath>..\packages\AsyncBridge.Net35.0.2.0\lib\net35-Client\AsyncBridge.Net35.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net35\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net35\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Design" />
-    <Reference Include="System.Runtime.Remoting" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq">
+    <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
+    <Reference Include="System.Threading">
+      <HintPath>..\packages\TaskParallelLibrary.1.0.2856.0\lib\Net35\System.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\ImageEffectsGUI.cs">
+    <Compile Include="Forms\AfterCaptureForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ImageEffectsGUI.Designer.cs">
-      <DependentUpon>ImageEffectsGUI.cs</DependentUpon>
+    <Compile Include="Forms\AfterCaptureForm.Designer.cs">
+      <DependentUpon>AfterCaptureForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ScreencastUI_x32.cs">
+    <Compile Include="Forms\AutoCapture.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ScreencastUI_x32.Designer.cs">
-      <DependentUpon>ScreencastUI_x32.cs</DependentUpon>
+    <Compile Include="Forms\AutoCapture.Designer.cs">
+      <DependentUpon>AutoCapture.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ScreencastUI.cs">
+    <Compile Include="Forms\ExternalProgramForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HelperClasses\AddressBookHelper.cs" />
-    <Compile Include="HelperClasses\AfterCaptureActivity.cs" />
-    <Compile Include="HelperClasses\DropboxSyncHelper.cs" />
-    <Compile Include="HelperClasses\FallbackDestHelper.cs" />
-    <Compile Include="HelperClasses\FormsHelper.cs" />
+    <Compile Include="Forms\ExternalProgramForm.Designer.cs">
+      <DependentUpon>ExternalProgramForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MainForm_Capture.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,83 +115,81 @@
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Enums.cs" />
-    <Compile Include="Forms\InputBox.cs">
+    <Compile Include="Forms\ScreenRecordCommandLineForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\InputBox.Designer.cs">
-      <DependentUpon>InputBox.cs</DependentUpon>
+    <Compile Include="Forms\ScreenRecordCommandLineForm.Designer.cs">
+      <DependentUpon>ScreenRecordCommandLineForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\OptionsWindow.cs">
+    <Compile Include="Forms\ScreenRecordForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\OptionsWindow.Designer.cs">
-      <DependentUpon>OptionsWindow.cs</DependentUpon>
+    <Compile Include="Forms\ScreenRecordForm.Designer.cs">
+      <DependentUpon>ScreenRecordForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ResponseForm.cs">
+    <Compile Include="Forms\ScreenRegionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ResponseForm.Designer.cs">
-      <DependentUpon>ResponseForm.cs</DependentUpon>
+    <Compile Include="Forms\ScreenRegionForm.Designer.cs">
+      <DependentUpon>ScreenRegionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="HelperClasses\ImageData.cs" />
-    <Compile Include="HelperClasses\ImageExtensions.cs" />
+    <Compile Include="Forms\SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SettingsForm.Designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UploadTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UploadTestForm.Designer.cs">
+      <DependentUpon>UploadTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Hotkey\HotkeyManager.cs" />
+    <Compile Include="Hotkey\HotkeySetting.cs" />
+    <Compile Include="Hotkey\HotkeyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Hotkey\HotkeyInfo.cs" />
+    <Compile Include="Hotkey\HotkeyInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Hotkey\HotkeyInputForm.Designer.cs">
+      <DependentUpon>HotkeyInputForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Hotkey\HotkeyManagerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Hotkey\HotkeyManagerControl.Designer.cs">
+      <DependentUpon>HotkeyManagerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Hotkey\HotkeySelectionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Hotkey\HotkeySelectionControl.Designer.cs">
+      <DependentUpon>HotkeySelectionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Hotkey\HotkeyTaskSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Hotkey\HotkeyTaskSettingsForm.Designer.cs">
+      <DependentUpon>HotkeyTaskSettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Hotkey\KeyInfo.cs" />
+    <Compile Include="ImageData.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="HelperClasses\ListViewColumnSorter.cs" />
-    <Compile Include="HelperClasses\ListViewManager.cs" />
-    <Compile Include="HelperClasses\TaskHelper.cs" />
-    <Compile Include="Forms\MainForm_Workflow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HelperClasses\TaskbarHelper.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ScreencastUI_EE.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UserControls\ImageQualityUI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\ImageQualityUI.Designer.cs">
-      <DependentUpon>ImageQualityUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\ImageResizeUI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\ImageResizeUI.Designer.cs">
-      <DependentUpon>ImageResizeUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Log4netHelpers\LevelTextStyle.cs" />
-    <Compile Include="Log4netHelpers\ListViewAppender.cs" />
-    <Compile Include="Log4netHelpers\Log4netHelper.cs" />
-    <Compile Include="Log4netHelpers\Log4netViewer_ListView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Log4netHelpers\Log4netViewer_ListView.Designer.cs">
-      <DependentUpon>Log4netViewer_ListView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Log4netHelpers\Log4netViewer_RichTextBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Log4netHelpers\Log4netViewer_RichTextBox.Designer.cs">
-      <DependentUpon>Log4netViewer_RichTextBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Log4netHelpers\RichTextBoxAppender.cs" />
+    <Compile Include="ScreenRegionManager.cs" />
+    <Compile Include="TaskHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Forms\WindowAfterCapture.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\WindowAfterCapture.Designer.cs">
-      <DependentUpon>WindowAfterCapture.cs</DependentUpon>
-    </Compile>
+    <Compile Include="TaskManager.cs" />
+    <Compile Include="TaskSettings.cs" />
+    <Compile Include="UploadInfoStatus.cs" />
     <Compile Include="Forms\WindowAfterUpload.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -221,59 +198,61 @@
     </Compile>
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ImageEffectsGUI.resx">
-      <DependentUpon>ImageEffectsGUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="Forms\AfterCaptureForm.resx">
+      <DependentUpon>AfterCaptureForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\InputBox.resx">
-      <DependentUpon>InputBox.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AutoCapture.resx">
+      <DependentUpon>AutoCapture.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\OptionsWindow.resx">
-      <DependentUpon>OptionsWindow.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ExternalProgramForm.resx">
+      <DependentUpon>ExternalProgramForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ResponseForm.resx">
-      <DependentUpon>ResponseForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ScreenRecordCommandLineForm.resx">
+      <DependentUpon>ScreenRecordCommandLineForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScreenRecordForm.resx">
+      <DependentUpon>ScreenRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScreenRegionForm.resx">
+      <DependentUpon>ScreenRegionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SettingsForm.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScreencastUI_x32.resx">
-      <DependentUpon>ScreencastUI_x32.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\UploadTestForm.resx">
+      <DependentUpon>UploadTestForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\ImageQualityUI.resx">
-      <DependentUpon>ImageQualityUI.cs</DependentUpon>
+    <EmbeddedResource Include="Hotkey\HotkeyInputForm.resx">
+      <DependentUpon>HotkeyInputForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\ImageResizeUI.resx">
-      <DependentUpon>ImageResizeUI.cs</DependentUpon>
+    <EmbeddedResource Include="Hotkey\HotkeyManagerControl.resx">
+      <DependentUpon>HotkeyManagerControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log4netHelpers\Log4netViewer_ListView.resx">
-      <DependentUpon>Log4netViewer_ListView.cs</DependentUpon>
+    <EmbeddedResource Include="Hotkey\HotkeySelectionControl.resx">
+      <DependentUpon>HotkeySelectionControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log4netHelpers\Log4netViewer_RichTextBox.resx">
-      <DependentUpon>Log4netViewer_RichTextBox.cs</DependentUpon>
+    <EmbeddedResource Include="Hotkey\HotkeyTaskSettingsForm.resx">
+      <DependentUpon>HotkeyTaskSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="SettingsHelpers\UpgradeHelper.cs" />
-    <Compile Include="SettingsHelpers\UserConfig.cs" />
-    <Compile Include="SettingsManager.cs" />
-    <Compile Include="SettingsHelpers\WorkflowsConfig.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="UploadTask.cs" />
-    <Compile Include="HelperClasses\TrayIconManager.cs" />
-    <Compile Include="TaskManager.cs" />
     <Compile Include="UploadInfoManager.cs" />
-    <Compile Include="UploadInfoStatus.cs" />
     <Compile Include="UploadManager.cs" />
-    <Compile Include="SettingsHelpers\Settings.cs" />
-    <Compile Include="UploadInfo.cs" />
-    <EmbeddedResource Include="Forms\WindowAfterCapture.resx">
-      <DependentUpon>WindowAfterCapture.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="Settings.cs" />
+    <Compile Include="TaskInfo.cs" />
     <EmbeddedResource Include="Forms\WindowAfterUpload.resx">
       <DependentUpon>WindowAfterUpload.cs</DependentUpon>
     </EmbeddedResource>
@@ -283,41 +262,29 @@
       <Project>{cd642bf4-d815-4d67-a0b5-c69f0b8231af}</Project>
       <Name>GreenshotImageEditor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\ShareX\trunk\HelpersLib\HelpersLib.csproj">
-      <Project>{327750e1-9fb7-4cc3-8aea-9bc42180cad3}</Project>
-      <Name>HelpersLib</Name>
+    <ProjectReference Include="..\..\..\ShareX\trunk\HistoryLib\HistoryLib.csproj">
+      <Project>{E7DE6237-AEA2-498B-8F56-9B392472C490}</Project>
+      <Name>HistoryLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\ShareX\trunk\ScreenCapture\ScreenCapture.csproj">
-      <Project>{dbdb0daa-b3ae-4cc4-a8c2-20550b7f32e3}</Project>
+      <Project>{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}</Project>
       <Name>ScreenCapture</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\ShareX\trunk\UploadersLib\UploadersLib.csproj">
-      <Project>{e1c94415-3424-4517-a2a1-b2fdd1f59c67}</Project>
-      <Name>UploadersLib</Name>
+    <ProjectReference Include="..\..\..\ShareX\trunk\HelpersLib\HelpersLib.csproj">
+      <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
+      <Name>HelpersLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HelpersLib.Hotkeys2\HelpersLib.Hotkeys2.csproj">
-      <Project>{B791C0EF-7DFD-4F2B-B004-91F7344EE146}</Project>
-      <Name>HelpersLib.Hotkeys2</Name>
+    <ProjectReference Include="..\..\..\ShareX\trunk\UploadersLib\UploadersLib.csproj">
+      <Project>{E1C94415-3424-4517-A2A1-B2FDD1F59C67}</Project>
+      <Name>UploadersLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\HelpersLibMod\HelpersLibMod.csproj">
       <Project>{a08691c6-5437-4e7b-8c8b-b576f7ce1b57}</Project>
       <Name>HelpersLibMod</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\ShareX\trunk\HistoryLib\HistoryLib.csproj">
-      <Project>{E7DE6237-AEA2-498B-8F56-9B392472C490}</Project>
-      <Name>HistoryLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HelpersLib.GraphicsHelper\HelpersLib.GraphicsHelper.csproj">
-      <Project>{39CBF608-D7E7-405B-BCB4-A316BB76B562}</Project>
-      <Name>HelpersLib.GraphicsHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ImageEffects.IPlugin\ImageEffects.IPlugin.csproj">
-      <Project>{D13441B6-96E1-4D1B-8A95-58A7D6CB1E24}</Project>
-      <Name>ImageEffects.IPlugin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IndexersLib\IndexersLib.csproj">
-      <Project>{47CD5EEF-C12D-4CEA-B88A-3AFAEC6DDAD8}</Project>
-      <Name>IndexersLib</Name>
+    <ProjectReference Include="..\ShareXmodHelper\ShareXmodHelper.csproj">
+      <Project>{74b9d39b-da57-45ee-8e53-f4826795bfa8}</Project>
+      <Name>ShareXmodHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\UploadersLibMod\UploadersLibMod.csproj">
       <Project>{8e90666d-0921-41a3-a30c-52166c402404}</Project>
@@ -325,7 +292,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config">
+    <None Include="app.config" />
+    <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
@@ -352,7 +320,6 @@
     <None Include="Resources\navigation-000-button.png" />
     <None Include="Resources\tr.png" />
     <None Include="Resources\au.png" />
-    <None Include="Resources\us.png" />
     <None Include="Resources\application-block.png" />
     <None Include="Resources\edit-scale.png" />
     <None Include="Resources\drive-globe.png" />
@@ -382,40 +349,94 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ShareXSmallIcon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ShareXLogo2.png" />
-    <None Include="Resources\camcorder-image.png" />
-    <None Include="Resources\stop.png" />
-    <None Include="Resources\record.png" />
-    <None Include="Resources\server.png" />
-    <None Include="Resources\calculator_add.png" />
-    <None Include="Resources\camera_add.png" />
-    <None Include="Resources\world_link.png" />
-    <None Include="Resources\image1.png" />
-    <None Include="Resources\Camera.wav" />
-    <None Include="Resources\share2.png" />
-    <None Include="Resources\folder.png" />
-    <None Include="Resources\share.png" />
-    <None Include="Resources\target.png" />
-    <None Include="Resources\ShareXSmallBusyIcon2.ico" />
-    <None Include="Resources\ShareXSmallBusyIcon3.ico" />
-    <None Include="Resources\ShareXSmallBusyIcon4.ico" />
-    <None Include="Resources\ShareXSmallBusyIcon1.ico" />
     <None Include="Resources\sharex-16px-0.ico" />
-    <None Include="Resources\sharex-16px-1.ico" />
-    <None Include="Resources\sharex-16px-2.ico" />
-    <None Include="Resources\sharex-16px-3.ico" />
-    <None Include="Resources\sharex-16px-4.ico" />
-    <None Include="Resources\sharex-16px-5.ico" />
-    <None Include="Resources\sharex-16px-6.ico" />
-    <None Include="Resources\Loading.gif" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\sharex-16px-1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sharex-16px-2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sharex-16px-3.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sharex-16px-4.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sharex-16px-5.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sharex-16px-6.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Camera.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\application-task.png" />
+    <None Include="Resources\steam.ico" />
+    <None Include="Resources\camcorder-image.png" />
+    <None Include="Resources\cursor-question.png" />
+    <None Include="Resources\toolbox.png" />
+    <None Include="Resources\application-icon-large.png" />
+    <None Include="Resources\upload-cloud.png" />
+    <None Include="Resources\globe-share.png" />
+    <None Include="Resources\image-export.png" />
     <None Include="Resources\folder-open-image.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock--plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer-select-point.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer-shape-curve.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer-shape-polyline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer-shape-ellipse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer-shape-round.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer-shape-polygon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer-shade.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer-shape.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layers-ungroup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\monitor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\application-blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer-flip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layers-arrange.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
