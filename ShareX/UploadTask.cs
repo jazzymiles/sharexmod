@@ -106,13 +106,14 @@ namespace ShareX
 
         #region Constructors
 
-        private UploadTask(EDataType dataType, TaskJob job)
+        private UploadTask(TaskJob job, EDataType dataType, Workflow wf = null)
         {
             Status = TaskStatus.InQueue;
             Info = new UploadInfo();
             Info.Job = job;
             Info.DataType = dataType;
-            Info.UploadDestination = dataType;
+            if (wf != null)
+                this.SetWorkflow(wf);
         }
 
         public void SetWorkflow(Workflow wf)
@@ -122,18 +123,16 @@ namespace ShareX
             this.Info.SetDestination(wf.Settings.DestConfig);
         }
 
-        public static UploadTask CreateDataUploaderTask(EDataType dataType, Stream stream, string filePath, EDataType destination = EDataType.Default)
+        public static UploadTask CreateDataUploaderTask(EDataType dataType, Stream stream, string filePath, EDataType destination = EDataType.Default, Workflow wf = null)
         {
-            UploadTask task = new UploadTask(dataType, TaskJob.DataUpload);
-            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
-            task.Info.FileName = Path.GetFileName(filePath);
+            UploadTask task = new UploadTask(TaskJob.DataUpload, dataType, wf);
             task.Info.FilePath = filePath;
             task.data = stream;
             return task;
         }
 
         // string filePath -> FileStream data
-        public static UploadTask CreateFileUploaderTask(string filePath, EDataType destination = EDataType.Default)
+        public static UploadTask CreateFileUploaderTask(string filePath, EDataType destination = EDataType.Default, Workflow wf = null)
         {
             EDataType dataType = Helpers.FindDataType(filePath);
 
@@ -153,8 +152,7 @@ namespace ShareX
                 }
             }
 
-            UploadTask task = new UploadTask(dataType, taskJob);
-            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
+            UploadTask task = new UploadTask(taskJob, dataType, wf);
             task.Info.FilePath = filePath;
 
             if (SettingsManager.ConfigCore.FileUploadUseNamePattern)
@@ -180,20 +178,18 @@ namespace ShareX
         }
 
         // Image image -> MemoryStream data (in thread)
-        public static UploadTask CreateImageUploaderTask(ImageData imageData, EDataType destination = EDataType.Default)
+        public static UploadTask CreateImageUploaderTask(ImageData imageData, EDataType destination = EDataType.Default, Workflow wf = null)
         {
-            UploadTask task = new UploadTask(EDataType.Image, TaskJob.ImageUpload);
-            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
+            UploadTask task = new UploadTask(TaskJob.ImageUpload, EDataType.Image, wf);
             task.Info.FileName = imageData.Filename;
             task.imageData = imageData;
             return task;
         }
 
         // string text -> MemoryStream data (in thread)
-        public static UploadTask CreateTextUploaderTask(string text, EDataType destination = EDataType.Default)
+        public static UploadTask CreateTextUploaderTask(string text, EDataType destination = EDataType.Default, Workflow wf = null)
         {
-            UploadTask task = new UploadTask(EDataType.Text, TaskJob.TextUpload);
-            if (destination != EDataType.Default) task.Info.UploadDestination = destination;
+            UploadTask task = new UploadTask(TaskJob.TextUpload, EDataType.Text, wf);
 
             if (SettingsManager.ConfigCore.IndexFolderWhenPossible && Directory.Exists(text))
             {
@@ -203,7 +199,7 @@ namespace ShareX
             }
             else
             {
-                task.Info.FileName = new NameParser(NameParserType.FileName).Parse(SettingsManager.ConfigCore.NameFormatPatternOther) + ".txt";
+                task.Info.FileName = new NameParser(NameParserType.FileName).Parse(SettingsManager.ConfigCore.NameFormatPatternOther) + "." + task.Workflow.Settings.TextFileExtension;
                 task.tempText = text;
             }
             return task;
@@ -211,7 +207,7 @@ namespace ShareX
 
         public static UploadTask CreateURLShortenerTask(string url)
         {
-            UploadTask task = new UploadTask(EDataType.URL, TaskJob.ShortenURL);
+            UploadTask task = new UploadTask(TaskJob.ShortenURL, EDataType.URL);
             task.Info.FileName = url;
             task.Info.Result.URL = url;
             return task;
@@ -219,8 +215,7 @@ namespace ShareX
 
         public static UploadTask CreatePostToSocialNetworkingServiceTask(UploadResult result)
         {
-            UploadTask task = new UploadTask(EDataType.URL, TaskJob.ShareURL);
-            task.Info.UploadDestination = EDataType.Default;
+            UploadTask task = new UploadTask(TaskJob.ShareURL, EDataType.URL);
             task.Info.Result = result;
             return task;
         }
@@ -282,6 +277,9 @@ namespace ShareX
                 Info.Status = "Uploading";
                 Info.StartTime = DateTime.UtcNow;
                 threadWorker.InvokeAsync(OnUploadStarted);
+
+                if (Workflow.Settings.DestConfig.IsEmptyAll)
+                    this.SetWorkflow(AfterCaptureActivity.GetNew().Workflow);
 
                 try
                 {
@@ -604,12 +602,27 @@ namespace ShareX
                 var surface = new Greenshot.Drawing.Surface(capture);
                 var editor = new Greenshot.ImageEditorForm(surface, true) { Icon = Resources.ShareX };
 
+                editor.ClipboardCopyRequested += editor_ClipboardCopyRequested;
+                editor.ImageUploadRequested += editor_ImageUploadRequested;
+
                 if (editor.ShowDialog() == DialogResult.OK)
                 {
                     imageData_gse.Image = editor.GetImageForExport();
                 }
             }
         }
+
+
+        private static void editor_ClipboardCopyRequested(Image img)
+        {
+            FormsHelper.Main.InvokeSafe(() => HelpersLib.ClipboardHelper.CopyImage(img));
+        }
+
+        private static void editor_ImageUploadRequested(Image img)
+        {
+            FormsHelper.Main.InvokeSafe(() => UploadManager.RunImageTask(img));
+        }
+
 
         /// <summary>
         /// Uploads an image using a stream and UploadInfo
@@ -761,33 +774,33 @@ namespace ShareX
             {
                 case TextDestination.Pastebin:
                     PastebinSettings pastebinSettings = SettingsManager.ConfigUploaders.PastebinSettings;
-                    pastebinSettings.TextFormat = Workflow.Settings.DestConfig.TextFormat;
+                    pastebinSettings.TextFormat = Workflow.Settings.TextFormat;
                     textUploader = new Pastebin(ApiKeys.PastebinKey, pastebinSettings);
                     break;
 
                 case TextDestination.PastebinCA:
                     textUploader = new Pastebin_ca(ApiKeys.PastebinCaKey, new PastebinCaSettings()
                     {
-                        TextFormat = Workflow.Settings.DestConfig.TextFormat
+                        TextFormat = Workflow.Settings.TextFormat
                     });
                     break;
 
                 case TextDestination.Paste2:
                     textUploader = new Paste2(new Paste2Settings()
                     {
-                        TextFormat = Workflow.Settings.DestConfig.TextFormat
+                        TextFormat = Workflow.Settings.TextFormat
                     });
                     break;
 
                 case TextDestination.Slexy:
                     textUploader = new Slexy(new SlexySettings()
                     {
-                        TextFormat = Workflow.Settings.DestConfig.TextFormat
+                        TextFormat = Workflow.Settings.TextFormat
                     });
                     break;
 
                 case TextDestination.Pastee:
-                    textUploader = new Pastee() { Lexer = Workflow.Settings.DestConfig.TextFormat };
+                    textUploader = new Pastee() { Lexer = Workflow.Settings.TextFormat };
                     break;
 
                 case TextDestination.Paste_ee:
@@ -901,6 +914,10 @@ namespace ShareX
                     {
                         DirectURL = SettingsManager.ConfigUploaders.LocalhostrDirectURL
                     };
+                    break;
+
+                case FileDestination.Jira:
+                    fileUploader = new Jira(SettingsManager.ConfigUploaders.JiraHost, SettingsManager.ConfigUploaders.JiraOAuthInfo, SettingsManager.ConfigUploaders.JiraIssuePrefix);
                     break;
 
                 case FileDestination.CustomFileUploader:
