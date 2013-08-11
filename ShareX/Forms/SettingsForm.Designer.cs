@@ -265,7 +265,7 @@
             this.tcSettings.Location = new System.Drawing.Point(3, 3);
             this.tcSettings.Name = "tcSettings";
             this.tcSettings.SelectedIndex = 0;
-            this.tcSettings.Size = new System.Drawing.Size(578, 435);
+            this.tcSettings.Size = new System.Drawing.Size(578, 555);
             this.tcSettings.TabIndex = 0;
             this.tcSettings.SelectedIndexChanged += new System.EventHandler(this.tcSettings_SelectedIndexChanged);
             // 
@@ -559,7 +559,7 @@
             this.tpHotkeys.Controls.Add(this.hmHotkeys);
             this.tpHotkeys.Location = new System.Drawing.Point(4, 22);
             this.tpHotkeys.Name = "tpHotkeys";
-            this.tpHotkeys.Size = new System.Drawing.Size(570, 409);
+            this.tpHotkeys.Size = new System.Drawing.Size(570, 529);
             this.tpHotkeys.TabIndex = 3;
             this.tpHotkeys.Text = "Hotkeys";
             this.tpHotkeys.UseVisualStyleBackColor = true;
@@ -570,7 +570,7 @@
             this.hmHotkeys.Dock = System.Windows.Forms.DockStyle.Fill;
             this.hmHotkeys.Location = new System.Drawing.Point(0, 0);
             this.hmHotkeys.Name = "hmHotkeys";
-            this.hmHotkeys.Size = new System.Drawing.Size(570, 409);
+            this.hmHotkeys.Size = new System.Drawing.Size(570, 529);
             this.hmHotkeys.TabIndex = 0;
             // 
             // tpImage
@@ -1487,7 +1487,7 @@
             this.tpCaptureShape.Location = new System.Drawing.Point(4, 22);
             this.tpCaptureShape.Name = "tpCaptureShape";
             this.tpCaptureShape.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCaptureShape.Size = new System.Drawing.Size(504, 294);
+            this.tpCaptureShape.Size = new System.Drawing.Size(552, 373);
             this.tpCaptureShape.TabIndex = 1;
             this.tpCaptureShape.Text = "Shape capture";
             this.tpCaptureShape.UseVisualStyleBackColor = true;
@@ -1829,7 +1829,7 @@
             this.tpUploadNamePattern.Location = new System.Drawing.Point(4, 22);
             this.tpUploadNamePattern.Name = "tpUploadNamePattern";
             this.tpUploadNamePattern.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUploadNamePattern.Size = new System.Drawing.Size(504, 294);
+            this.tpUploadNamePattern.Size = new System.Drawing.Size(552, 373);
             this.tpUploadNamePattern.TabIndex = 3;
             this.tpUploadNamePattern.Text = "Name pattern";
             this.tpUploadNamePattern.UseVisualStyleBackColor = true;
@@ -1916,7 +1916,7 @@
             this.tpUploadClipboard.Location = new System.Drawing.Point(4, 22);
             this.tpUploadClipboard.Name = "tpUploadClipboard";
             this.tpUploadClipboard.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUploadClipboard.Size = new System.Drawing.Size(504, 294);
+            this.tpUploadClipboard.Size = new System.Drawing.Size(552, 373);
             this.tpUploadClipboard.TabIndex = 2;
             this.tpUploadClipboard.Text = "Clipboard upload";
             this.tpUploadClipboard.UseVisualStyleBackColor = true;
@@ -1974,7 +1974,7 @@
             this.tpUploadWatchFolder.Location = new System.Drawing.Point(4, 22);
             this.tpUploadWatchFolder.Name = "tpUploadWatchFolder";
             this.tpUploadWatchFolder.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUploadWatchFolder.Size = new System.Drawing.Size(504, 294);
+            this.tpUploadWatchFolder.Size = new System.Drawing.Size(552, 373);
             this.tpUploadWatchFolder.TabIndex = 1;
             this.tpUploadWatchFolder.Text = "Watch folder";
             this.tpUploadWatchFolder.UseVisualStyleBackColor = true;
@@ -2222,10 +2222,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 441);
+            this.ClientSize = new System.Drawing.Size(584, 561);
             this.Controls.Add(this.tcSettings);
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(600, 480);
+            this.MinimumSize = new System.Drawing.Size(600, 600);
             this.Name = "SettingsForm";
             this.Padding = new System.Windows.Forms.Padding(3);
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

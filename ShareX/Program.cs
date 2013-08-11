@@ -166,7 +166,7 @@ namespace ShareX
                     return Settings.CustomScreenshotsPath;
                 }
 
-                return Path.Combine(PersonalPath, "Screenshots");
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), Application.ProductName);
             }
         }
 
