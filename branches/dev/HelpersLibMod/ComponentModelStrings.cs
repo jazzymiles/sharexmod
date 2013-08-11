@@ -7,14 +7,14 @@ namespace HelpersLibMod
 {
     public class ComponentModelStrings
     {
-        public const string ActivitiesAfterCapture = "2 - After Capture";
-        public const string ActivitiesAfterCaptureEffects = "2a - Image Effects";
-        public const string ActivitiesCapture = "1 - Capture";
-        public const string ActivitiesUploaders = "3 - Publish";
-        public const string ActivitiesUploadersImages = "3a - Upload Image";
-        public const string ActivitiesUploadersText = "3b - Upload Text";
-        public const string ActivitiesUploadersFiles = "3c - Upload File";
-        public const string ActivitiesUploadersLinks = "4 - Shorten URL";
+        public const string ActivitiesAfterCapture = "After Capture";
+        public const string ActivitiesAfterCaptureEffects = "Image Effects";
+        public const string ActivitiesCapture = "Capture";
+        public const string ActivitiesUploaders = "Publish";
+        public const string ActivitiesUploadersImages = "Upload Image";
+        public const string ActivitiesUploadersText = "Upload Text";
+        public const string ActivitiesUploadersFiles = "Upload File";
+        public const string ActivitiesUploadersLinks = "Shorten URL";
         public const string App = "Application";
         public const string AppPasswords = "Application / Passwords";
         public const string AppPaths = "Application / Paths";

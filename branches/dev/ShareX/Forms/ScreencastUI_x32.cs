@@ -41,7 +41,7 @@ namespace ShareX.Forms
                     throw new Exception("Unsupported screencast filetype: " + SettingsManager.ConfigUser.ScreencastEncoderType.GetDescription());
             }
         }
- 
+
         private void Encoder_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             Program.ScreencastCancellationPending = false;
@@ -68,6 +68,34 @@ namespace ShareX.Forms
             }
 
             Encoder_RunWorkerCompleted_Publish();
+        }
+
+        private void ScreencastUI_Shown(object sender, EventArgs e)
+        {
+            Program.IsRecordingScreencast = true;
+       
+            switch (SettingsManager.ConfigUser.ScreencastEncoderType)
+            {
+                case EScreencastEncoderType.PromptUser:
+                case EScreencastEncoderType.GraphicsInterchangeFormat:
+                case EScreencastEncoderType.CommandLineEncoder:
+                    ImgEncoderStart();
+                    break;
+
+                case EScreencastEncoderType.WindowsMediaVideo:
+                case EScreencastEncoderType.ExpressionEncoderScreenCaptureCodec:
+                    ExpressionEncoderStart();
+                    break;
+
+                default:
+                    throw new Exception("Unsupported screencast filetype: " + SettingsManager.ConfigUser.ScreencastEncoderType.GetDescription());
+            }
+        }
+
+        private void tmrShowStopButton_Tick(object sender, EventArgs e)
+        {
+            this.BackgroundImage = Resources.stop;
+            tmrShowStopButton.Stop();
         }
     }
 }
