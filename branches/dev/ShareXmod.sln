@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UploadersLibMod", "Uploader
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenshotImageEditor", "..\..\ShareX\trunk\GreenshotImageEditor\GreenshotImageEditor.csproj", "{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareXmodHelper", "ShareXmodHelper\ShareXmodHelper.csproj", "{74B9D39B-DA57-45EE-8E53-F4826795BFA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +139,12 @@ Global
 		{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}.Release|x86.ActiveCfg = Release|x86
 		{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}.Release|x86.Build.0 = Release|x86
+		{74B9D39B-DA57-45EE-8E53-F4826795BFA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74B9D39B-DA57-45EE-8E53-F4826795BFA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74B9D39B-DA57-45EE-8E53-F4826795BFA8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{74B9D39B-DA57-45EE-8E53-F4826795BFA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74B9D39B-DA57-45EE-8E53-F4826795BFA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74B9D39B-DA57-45EE-8E53-F4826795BFA8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
