@@ -29,6 +29,7 @@ using ScreenCapture;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Design;
 using System.Windows.Forms;
 using UploadersLib;
 using UploadersLib.HelperClasses;
@@ -213,9 +214,13 @@ namespace ShareX
         public ScreenRecordOutput ScreenRecordOutput = ScreenRecordOutput.GIF;
         public bool ScreenRecordAutoUpload = true;
 
-        public string ScreenRecordCommandLinePath = "x264.exe";
-        public string ScreenRecordCommandLineArgs = "--output %output %input";
-        public string ScreenRecordCommandLineOutputExtension = "mp4";
+        [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
+        [Category(ComponentModelStrings.ScreencastsCmd), Description("Command-line Encoder path e.g. x264.exe")]
+        public string ScreenRecordCommandLinePath { get; set; }
+        [Category(ComponentModelStrings.ScreencastsCmd), DefaultValue("--output %output %input"), Description("Command-line Encoder arguments")]
+        public string ScreenRecordCommandLineArgs { get; set; }
+        [Category(ComponentModelStrings.ScreencastsCmd), DefaultValue("mp4"), Description("Specify the file extension of the target file produced by the Command-line Encoder")]
+        public string ScreenRecordCommandLineOutputExtension { get; set; }
 
         #endregion ScreenRecord Form
 
@@ -226,5 +231,20 @@ namespace ShareX
         public bool AutoCaptureWaitUpload = true;
 
         #endregion AutoCapture Form
+
+        public Settings()
+        {
+            ApplyDefaultValues(this);
+        }
+
+        public static void ApplyDefaultValues(object self)
+        {
+            foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(self))
+            {
+                DefaultValueAttribute attr = prop.Attributes[typeof(DefaultValueAttribute)] as DefaultValueAttribute;
+                if (attr == null) continue;
+                prop.SetValue(self, attr.Value);
+            }
+        }
     }
 }
