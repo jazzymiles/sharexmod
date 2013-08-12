@@ -88,23 +88,109 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\AfterCaptureForm.cs">
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Forms\AfterCaptureForm.cs">
+      <Link>Forms\AfterCaptureForm.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\AfterCaptureForm.Designer.cs">
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Forms\AfterCaptureForm.Designer.cs">
+      <Link>Forms\AfterCaptureForm.Designer.cs</Link>
       <DependentUpon>AfterCaptureForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AutoCapture.cs">
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Forms\AutoCapture.cs">
+      <Link>Forms\AutoCapture.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\AutoCapture.Designer.cs">
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Forms\AutoCapture.Designer.cs">
+      <Link>Forms\AutoCapture.Designer.cs</Link>
       <DependentUpon>AutoCapture.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ExternalProgramForm.cs">
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Forms\ExternalProgramForm.cs">
+      <Link>Forms\ExternalProgramForm.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ExternalProgramForm.Designer.cs">
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Forms\ExternalProgramForm.Designer.cs">
+      <Link>Forms\ExternalProgramForm.Designer.cs</Link>
       <DependentUpon>ExternalProgramForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Forms\ScreenRecordCommandLineForm.cs">
+      <Link>Forms\ScreenRecordCommandLineForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Forms\ScreenRecordCommandLineForm.designer.cs">
+      <Link>Forms\ScreenRecordCommandLineForm.designer.cs</Link>
+      <DependentUpon>ScreenRecordCommandLineForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Forms\ScreenRecordForm.cs">
+      <Link>Forms\ScreenRecordForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Forms\ScreenRecordForm.designer.cs">
+      <Link>Forms\ScreenRecordForm.designer.cs</Link>
+      <DependentUpon>ScreenRecordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Forms\ScreenRegionForm.cs">
+      <Link>Forms\ScreenRegionForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Forms\ScreenRegionForm.designer.cs">
+      <Link>Forms\ScreenRegionForm.designer.cs</Link>
+      <DependentUpon>ScreenRegionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Forms\UploadTestForm.cs">
+      <Link>Forms\UploadTestForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Forms\UploadTestForm.designer.cs">
+      <Link>Forms\UploadTestForm.designer.cs</Link>
+      <DependentUpon>UploadTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeyForm.cs">
+      <Link>Hotkey\HotkeyForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeyInfo.cs">
+      <Link>Hotkey\HotkeyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeyInputForm.cs">
+      <Link>Hotkey\HotkeyInputForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeyInputForm.Designer.cs">
+      <Link>Hotkey\HotkeyInputForm.Designer.cs</Link>
+      <DependentUpon>HotkeyInputForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeyManager.cs">
+      <Link>Hotkey\HotkeyManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeyManagerControl.cs">
+      <Link>Hotkey\HotkeyManagerControl.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeyManagerControl.Designer.cs">
+      <Link>Hotkey\HotkeyManagerControl.Designer.cs</Link>
+      <DependentUpon>HotkeyManagerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeySelectionControl.cs">
+      <Link>Hotkey\HotkeySelectionControl.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeySelectionControl.Designer.cs">
+      <Link>Hotkey\HotkeySelectionControl.Designer.cs</Link>
+      <DependentUpon>HotkeySelectionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeySetting.cs">
+      <Link>Hotkey\HotkeySetting.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeyTaskSettingsForm.cs">
+      <Link>Hotkey\HotkeyTaskSettingsForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeyTaskSettingsForm.Designer.cs">
+      <Link>Hotkey\HotkeyTaskSettingsForm.Designer.cs</Link>
+      <DependentUpon>HotkeyTaskSettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Hotkey\KeyInfo.cs">
+      <Link>Hotkey\KeyInfo.cs</Link>
     </Compile>
     <Compile Include="Forms\MainForm_Capture.cs">
       <SubType>Form</SubType>
@@ -116,67 +202,18 @@
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Enums.cs" />
-    <Compile Include="Forms\ScreenRecordCommandLineForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ScreenRecordCommandLineForm.Designer.cs">
-      <DependentUpon>ScreenRecordCommandLineForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ScreenRecordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ScreenRecordForm.Designer.cs">
-      <DependentUpon>ScreenRecordForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ScreenRegionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ScreenRegionForm.Designer.cs">
-      <DependentUpon>ScreenRegionForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UploadTestForm.cs">
+    <Compile Include="Forms\WindowAfterUpload.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UploadTestForm.Designer.cs">
-      <DependentUpon>UploadTestForm.cs</DependentUpon>
+    <Compile Include="Forms\WindowAfterUpload.designer.cs">
+      <DependentUpon>WindowAfterUpload.cs</DependentUpon>
     </Compile>
-    <Compile Include="Hotkey\HotkeyManager.cs" />
-    <Compile Include="Hotkey\HotkeySetting.cs" />
-    <Compile Include="Hotkey\HotkeyForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Hotkey\HotkeyInfo.cs" />
-    <Compile Include="Hotkey\HotkeyInputForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Hotkey\HotkeyInputForm.Designer.cs">
-      <DependentUpon>HotkeyInputForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Hotkey\HotkeyManagerControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Hotkey\HotkeyManagerControl.Designer.cs">
-      <DependentUpon>HotkeyManagerControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Hotkey\HotkeySelectionControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Hotkey\HotkeySelectionControl.Designer.cs">
-      <DependentUpon>HotkeySelectionControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Hotkey\HotkeyTaskSettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Hotkey\HotkeyTaskSettingsForm.Designer.cs">
-      <DependentUpon>HotkeyTaskSettingsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Hotkey\KeyInfo.cs" />
     <Compile Include="ImageData.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -191,32 +228,52 @@
     <Compile Include="TaskManager.cs" />
     <Compile Include="TaskSettings.cs" />
     <Compile Include="UploadInfoStatus.cs" />
-    <Compile Include="Forms\WindowAfterUpload.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\WindowAfterUpload.Designer.cs">
-      <DependentUpon>WindowAfterUpload.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Forms\AboutForm.resx">
-      <DependentUpon>AboutForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AfterCaptureForm.resx">
+    <EmbeddedResource Include="..\..\..\ShareX\trunk\ShareX\Forms\AfterCaptureForm.resx">
+      <Link>Forms\AfterCaptureForm.resx</Link>
       <DependentUpon>AfterCaptureForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AutoCapture.resx">
+    <EmbeddedResource Include="..\..\..\ShareX\trunk\ShareX\Forms\AutoCapture.resx">
+      <Link>Forms\AutoCapture.resx</Link>
       <DependentUpon>AutoCapture.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ExternalProgramForm.resx">
+    <EmbeddedResource Include="..\..\..\ShareX\trunk\ShareX\Forms\ExternalProgramForm.resx">
+      <Link>Forms\ExternalProgramForm.resx</Link>
       <DependentUpon>ExternalProgramForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScreenRecordCommandLineForm.resx">
+    <EmbeddedResource Include="..\..\..\ShareX\trunk\ShareX\Forms\ScreenRecordCommandLineForm.resx">
+      <Link>Forms\ScreenRecordCommandLineForm.resx</Link>
       <DependentUpon>ScreenRecordCommandLineForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScreenRecordForm.resx">
+    <EmbeddedResource Include="..\..\..\ShareX\trunk\ShareX\Forms\ScreenRecordForm.resx">
+      <Link>Forms\ScreenRecordForm.resx</Link>
       <DependentUpon>ScreenRecordForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScreenRegionForm.resx">
+    <EmbeddedResource Include="..\..\..\ShareX\trunk\ShareX\Forms\ScreenRegionForm.resx">
+      <Link>Forms\ScreenRegionForm.resx</Link>
       <DependentUpon>ScreenRegionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\ShareX\trunk\ShareX\Forms\UploadTestForm.resx">
+      <Link>Forms\UploadTestForm.resx</Link>
+      <DependentUpon>UploadTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeyInputForm.resx">
+      <Link>Hotkey\HotkeyInputForm.resx</Link>
+      <DependentUpon>HotkeyInputForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeyManagerControl.resx">
+      <Link>Hotkey\HotkeyManagerControl.resx</Link>
+      <DependentUpon>HotkeyManagerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeySelectionControl.resx">
+      <Link>Hotkey\HotkeySelectionControl.resx</Link>
+      <DependentUpon>HotkeySelectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\ShareX\trunk\ShareX\Hotkey\HotkeyTaskSettingsForm.resx">
+      <Link>Hotkey\HotkeyTaskSettingsForm.resx</Link>
+      <DependentUpon>HotkeyTaskSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
@@ -224,20 +281,8 @@
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UploadTestForm.resx">
-      <DependentUpon>UploadTestForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Hotkey\HotkeyInputForm.resx">
-      <DependentUpon>HotkeyInputForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Hotkey\HotkeyManagerControl.resx">
-      <DependentUpon>HotkeyManagerControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Hotkey\HotkeySelectionControl.resx">
-      <DependentUpon>HotkeySelectionControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Hotkey\HotkeyTaskSettingsForm.resx">
-      <DependentUpon>HotkeyTaskSettingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\WindowAfterUpload.resx">
+      <DependentUpon>WindowAfterUpload.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -254,9 +299,6 @@
     <Compile Include="UploadManager.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="TaskInfo.cs" />
-    <EmbeddedResource Include="Forms\WindowAfterUpload.resx">
-      <DependentUpon>WindowAfterUpload.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\ShareX\trunk\GreenshotImageEditor\GreenshotImageEditor.csproj">
@@ -286,10 +328,6 @@
     <ProjectReference Include="..\IndexersLib\IndexersLib.csproj">
       <Project>{47cd5eef-c12d-4cea-b88a-3afaec6ddad8}</Project>
       <Name>IndexersLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ShareXmodHelper\ShareXmodHelper.csproj">
-      <Project>{74b9d39b-da57-45ee-8e53-f4826795bfa8}</Project>
-      <Name>ShareXmodHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\UploadersLibMod\UploadersLibMod.csproj">
       <Project>{8e90666d-0921-41a3-a30c-52166c402404}</Project>
