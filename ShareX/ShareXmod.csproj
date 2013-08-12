@@ -88,6 +88,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\Enums.cs">
+      <Link>Enums.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\ShareX\trunk\ShareX\Forms\AfterCaptureForm.cs">
       <Link>Forms\AfterCaptureForm.cs</Link>
       <SubType>Form</SubType>
@@ -192,6 +195,24 @@
     <Compile Include="..\..\..\ShareX\trunk\ShareX\Hotkey\KeyInfo.cs">
       <Link>Hotkey\KeyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\ImageData.cs">
+      <Link>ImageData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\ScreenRegionManager.cs">
+      <Link>ScreenRegionManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\TaskHelper.cs">
+      <Link>TaskHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\TaskInfo.cs">
+      <Link>TaskInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\UploadInfoManager.cs">
+      <Link>UploadInfoManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\UploadInfoStatus.cs">
+      <Link>UploadInfoStatus.cs</Link>
+    </Compile>
     <Compile Include="Forms\MainForm_Capture.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -201,7 +222,6 @@
     <Compile Include="Forms\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Enums.cs" />
     <Compile Include="Forms\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -214,20 +234,16 @@
     <Compile Include="Forms\WindowAfterUpload.designer.cs">
       <DependentUpon>WindowAfterUpload.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImageData.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ScreenRegionManager.cs" />
-    <Compile Include="TaskHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskManager.cs" />
     <Compile Include="TaskSettings.cs" />
-    <Compile Include="UploadInfoStatus.cs" />
     <EmbeddedResource Include="..\..\..\ShareX\trunk\ShareX\Forms\AfterCaptureForm.resx">
       <Link>Forms\AfterCaptureForm.resx</Link>
       <DependentUpon>AfterCaptureForm.cs</DependentUpon>
@@ -295,10 +311,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="UploadTask.cs" />
-    <Compile Include="UploadInfoManager.cs" />
     <Compile Include="UploadManager.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="TaskInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\ShareX\trunk\GreenshotImageEditor\GreenshotImageEditor.csproj">
