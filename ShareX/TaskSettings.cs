@@ -35,29 +35,29 @@ namespace ShareX
 {
     public class TaskSettings
     {
-        [Browsable(false)] 
+        [Browsable(false)]
         public bool UseDefaultAfterCaptureJob { get; set; }
         [Browsable(false)]
         public AfterCaptureTasks AfterCaptureJob { get; set; }
 
-        [Browsable(false)] 
+        [Browsable(false)]
         public bool UseDefaultAfterUploadJob { get; set; }
-        [Browsable(false)] 
+        [Browsable(false)]
         public AfterUploadTasks AfterUploadJob { get; set; }
 
-        [Browsable(false)] 
+        [Browsable(false)]
         public bool UseDefaultDestinations { get; set; }
-        [Browsable(false)] 
+        [Browsable(false)]
         public ImageDestination ImageDestination { get; set; }
         [Browsable(false)]
         public TextDestination TextDestination { get; set; }
-        [Browsable(false)] 
+        [Browsable(false)]
         public FileDestination FileDestination { get; set; }
         [Browsable(false)]
         public UrlShortenerType URLShortenerDestination { get; set; }
         [Browsable(false)]
         public SocialNetworkingService SocialNetworkingServiceDestination { get; set; }
-        [Browsable(false)] 
+        [Browsable(false)]
         public bool DisableNotifications { get; set; }
 
         [Category(ComponentModelStrings.ActivitiesUploadersText), DefaultValue("text"), Description("Text format e.g. csharp, cpp, etc.")]
@@ -66,13 +66,9 @@ namespace ShareX
         [Category(ComponentModelStrings.ActivitiesUploadersText), DefaultValue("txt"), Description("File extension when saving text to the local hard disk.")]
         public string TextFileExtension { get; set; }
 
-        public TaskSettings()
-        {
-            ApplyDefaultValues(this);
-        }
-
         public TaskSettings(bool useDefaultSettings = false)
         {
+            ApplyDefaultValues(this);
             SetDefaultSettings(true);
             UseDefaultAfterCaptureJob = useDefaultSettings;
             UseDefaultAfterUploadJob = useDefaultSettings;
