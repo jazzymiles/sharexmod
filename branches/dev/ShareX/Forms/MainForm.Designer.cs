@@ -633,7 +633,6 @@ namespace ShareX
             this.tsbDonate.Name = "tsbDonate";
             this.tsbDonate.Size = new System.Drawing.Size(147, 20);
             this.tsbDonate.Text = "Donate...";
-            this.tsbDonate.Visible = false;
             this.tsbDonate.Click += new System.EventHandler(this.tsbDonate_Click);
             // 
             // scMain
@@ -799,7 +798,7 @@ namespace ShareX
             this.tssTray2,
             this.tsmiTrayExit});
             this.cmsTray.Name = "cmsTray";
-            this.cmsTray.Size = new System.Drawing.Size(181, 324);
+            this.cmsTray.Size = new System.Drawing.Size(181, 346);
             // 
             // tsmiTrayClipboardUpload
             // 
@@ -1105,7 +1104,6 @@ namespace ShareX
             this.tsmiTrayDonate.Name = "tsmiTrayDonate";
             this.tsmiTrayDonate.Size = new System.Drawing.Size(180, 22);
             this.tsmiTrayDonate.Text = "Donate...";
-            this.tsmiTrayDonate.Visible = false;
             this.tsmiTrayDonate.Click += new System.EventHandler(this.tsbDonate_Click);
             // 
             // tssTray2

@@ -192,6 +192,7 @@
             this.txtDebugLog = new System.Windows.Forms.TextBox();
             this.tpAdvanced = new System.Windows.Forms.TabPage();
             this.pgSettings = new System.Windows.Forms.PropertyGrid();
+            this.btnOrganise = new System.Windows.Forms.Button();
             this.tcSettings.SuspendLayout();
             this.tpGeneral.SuspendLayout();
             this.tpPaths.SuspendLayout();
@@ -398,6 +399,7 @@
             // 
             // tpPaths
             // 
+            this.tpPaths.Controls.Add(this.btnOrganise);
             this.tpPaths.Controls.Add(this.btnBrowseCustomScreenshotsPath);
             this.tpPaths.Controls.Add(this.btnOpenPersonalFolder);
             this.tpPaths.Controls.Add(this.btnLoadUploadersConfig);
@@ -2201,6 +2203,16 @@
             this.pgSettings.Size = new System.Drawing.Size(564, 523);
             this.pgSettings.TabIndex = 0;
             // 
+            // btnOrganise
+            // 
+            this.btnOrganise.Location = new System.Drawing.Point(432, 220);
+            this.btnOrganise.Name = "btnOrganise";
+            this.btnOrganise.Size = new System.Drawing.Size(80, 23);
+            this.btnOrganise.TabIndex = 14;
+            this.btnOrganise.Text = "Organise...";
+            this.btnOrganise.UseVisualStyleBackColor = true;
+            this.btnOrganise.Click += new System.EventHandler(this.btnOrganise_Click);
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2445,5 +2457,6 @@
         private System.Windows.Forms.CheckBox cbCaptureAutoHideTaskbar;
         private System.Windows.Forms.TabPage tpAdvanced;
         private System.Windows.Forms.PropertyGrid pgSettings;
+        private System.Windows.Forms.Button btnOrganise;
     }
 }

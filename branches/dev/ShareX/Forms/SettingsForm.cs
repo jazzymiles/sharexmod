@@ -24,6 +24,7 @@
 #endregion License Information (GPL v3)
 
 using HelpersLib;
+using HelpersLibMod;
 using ScreenCapture;
 using System;
 using System.Collections.Generic;
@@ -388,6 +389,11 @@ namespace ShareX
         {
             Program.Settings.SaveImageSubFolderPattern = txtSaveImageSubFolderPattern.Text;
             lblSaveImageSubFolderPatternPreview.Text = Program.ScreenshotsPath;
+        }
+
+        private void btnOrganise_Click(object sender, EventArgs e)
+        {
+            HelpersMod.ManageImageFolders(txtSaveImageSubFolderPattern.Text, Program.Settings.SaveImageSubFolderPattern);
         }
 
         #endregion Paths
@@ -885,7 +891,7 @@ namespace ShareX
 
         #endregion Proxy
 
-  
+
 
     }
 }
