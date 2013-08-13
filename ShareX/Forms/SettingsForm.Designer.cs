@@ -188,7 +188,6 @@
             this.txtProxyPassword = new System.Windows.Forms.TextBox();
             this.lblProxyUsername = new System.Windows.Forms.Label();
             this.txtProxyUsername = new System.Windows.Forms.TextBox();
-            this.btnAutofillProxy = new System.Windows.Forms.Button();
             this.tpDebug = new System.Windows.Forms.TabPage();
             this.txtDebugLog = new System.Windows.Forms.TextBox();
             this.tpAdvanced = new System.Windows.Forms.TabPage();
@@ -783,7 +782,7 @@
             this.tpResize.Location = new System.Drawing.Point(4, 22);
             this.tpResize.Name = "tpResize";
             this.tpResize.Padding = new System.Windows.Forms.Padding(3);
-            this.tpResize.Size = new System.Drawing.Size(552, 373);
+            this.tpResize.Size = new System.Drawing.Size(552, 493);
             this.tpResize.TabIndex = 1;
             this.tpResize.Text = "Resize";
             this.tpResize.UseVisualStyleBackColor = true;
@@ -1145,7 +1144,7 @@
             this.tpEffects.Location = new System.Drawing.Point(4, 22);
             this.tpEffects.Name = "tpEffects";
             this.tpEffects.Padding = new System.Windows.Forms.Padding(3);
-            this.tpEffects.Size = new System.Drawing.Size(552, 373);
+            this.tpEffects.Size = new System.Drawing.Size(552, 493);
             this.tpEffects.TabIndex = 2;
             this.tpEffects.Text = "Effects";
             this.tpEffects.UseVisualStyleBackColor = true;
@@ -1487,7 +1486,7 @@
             this.tpCaptureShape.Location = new System.Drawing.Point(4, 22);
             this.tpCaptureShape.Name = "tpCaptureShape";
             this.tpCaptureShape.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCaptureShape.Size = new System.Drawing.Size(552, 373);
+            this.tpCaptureShape.Size = new System.Drawing.Size(552, 493);
             this.tpCaptureShape.TabIndex = 1;
             this.tpCaptureShape.Text = "Shape capture";
             this.tpCaptureShape.UseVisualStyleBackColor = true;
@@ -1829,7 +1828,7 @@
             this.tpUploadNamePattern.Location = new System.Drawing.Point(4, 22);
             this.tpUploadNamePattern.Name = "tpUploadNamePattern";
             this.tpUploadNamePattern.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUploadNamePattern.Size = new System.Drawing.Size(552, 373);
+            this.tpUploadNamePattern.Size = new System.Drawing.Size(552, 493);
             this.tpUploadNamePattern.TabIndex = 3;
             this.tpUploadNamePattern.Text = "Name pattern";
             this.tpUploadNamePattern.UseVisualStyleBackColor = true;
@@ -1916,7 +1915,7 @@
             this.tpUploadClipboard.Location = new System.Drawing.Point(4, 22);
             this.tpUploadClipboard.Name = "tpUploadClipboard";
             this.tpUploadClipboard.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUploadClipboard.Size = new System.Drawing.Size(552, 373);
+            this.tpUploadClipboard.Size = new System.Drawing.Size(552, 493);
             this.tpUploadClipboard.TabIndex = 2;
             this.tpUploadClipboard.Text = "Clipboard upload";
             this.tpUploadClipboard.UseVisualStyleBackColor = true;
@@ -1974,7 +1973,7 @@
             this.tpUploadWatchFolder.Location = new System.Drawing.Point(4, 22);
             this.tpUploadWatchFolder.Name = "tpUploadWatchFolder";
             this.tpUploadWatchFolder.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUploadWatchFolder.Size = new System.Drawing.Size(552, 373);
+            this.tpUploadWatchFolder.Size = new System.Drawing.Size(552, 493);
             this.tpUploadWatchFolder.TabIndex = 1;
             this.tpUploadWatchFolder.Text = "Watch folder";
             this.tpUploadWatchFolder.UseVisualStyleBackColor = true;
@@ -2050,7 +2049,6 @@
             this.tpProxy.Controls.Add(this.txtProxyPassword);
             this.tpProxy.Controls.Add(this.lblProxyUsername);
             this.tpProxy.Controls.Add(this.txtProxyUsername);
-            this.tpProxy.Controls.Add(this.btnAutofillProxy);
             this.tpProxy.Location = new System.Drawing.Point(4, 22);
             this.tpProxy.Name = "tpProxy";
             this.tpProxy.Padding = new System.Windows.Forms.Padding(5);
@@ -2161,16 +2159,6 @@
             this.txtProxyUsername.Size = new System.Drawing.Size(416, 20);
             this.txtProxyUsername.TabIndex = 1;
             this.txtProxyUsername.TextChanged += new System.EventHandler(this.txtProxyUsername_TextChanged);
-            // 
-            // btnAutofillProxy
-            // 
-            this.btnAutofillProxy.Location = new System.Drawing.Point(16, 144);
-            this.btnAutofillProxy.Name = "btnAutofillProxy";
-            this.btnAutofillProxy.Size = new System.Drawing.Size(75, 23);
-            this.btnAutofillProxy.TabIndex = 10;
-            this.btnAutofillProxy.Text = "Autofill";
-            this.btnAutofillProxy.UseVisualStyleBackColor = true;
-            this.btnAutofillProxy.Click += new System.EventHandler(this.btnAutofillProxy_Click);
             // 
             // tpDebug
             // 
@@ -2331,7 +2319,6 @@
         private System.Windows.Forms.TextBox txtCustomUploadersConfigPath;
         private System.Windows.Forms.CheckBox cbUseCustomUploadersConfigPath;
         private System.Windows.Forms.Button btnLoadUploadersConfig;
-        private System.Windows.Forms.Button btnAutofillProxy;
         private System.Windows.Forms.CheckBox cbShowTray;
         private System.Windows.Forms.TabPage tpCapture;
         private System.Windows.Forms.TabPage tpHotkeys;
