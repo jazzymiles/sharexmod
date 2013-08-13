@@ -110,7 +110,7 @@ namespace ShareX
                     CaptureScreenshot(CaptureType.LastRegion, false, taskSettings);
                     break;
                 case EHotkey.ScreenRecorder:
-                    DoScreenRecorder();
+                    DoScreenRecorder(isHotkey: true);
                     break;
                 case EHotkey.AutoCapture:
                     OpenAutoCapture();

@@ -159,6 +159,13 @@ namespace ShareX
 
         #endregion Capture / Shape capture
 
+        #region Capture / Screen recorder
+
+        [Category(ComponentModelStrings.Screencasts), DefaultValue(true), Description("Start screen recording soon after you select a region")]
+        public bool ScreenRecorderHotkeyStartInstantly { get; set; }
+
+        #endregion Capture / Screen recorder
+
         #region Actions
 
         public List<ExternalProgram> ExternalPrograms = new List<ExternalProgram>();
