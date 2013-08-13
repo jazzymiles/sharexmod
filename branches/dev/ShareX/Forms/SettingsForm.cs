@@ -203,6 +203,8 @@ namespace ShareX
             // Proxy
             txtProxyUsername.Text = Program.Settings.ProxySettings.UserName;
             txtProxyPassword.Text = Program.Settings.ProxySettings.Password;
+            txtProxyHost.Text = Program.Settings.ProxySettings.Host;
+            nudProxyPort.Value = Program.Settings.ProxySettings.Port;
             cboProxyType.Items.AddRange(Helpers.GetEnumDescriptions<Proxy>());
             cboProxyType.SelectedIndex = (int)Program.Settings.ProxySettings.ProxyType;
 
@@ -870,6 +872,20 @@ namespace ShareX
         {
             Program.Settings.ProxySettings.ProxyType = (UploadersLib.Proxy)cboProxyType.SelectedIndex;
         }
+ 
+        private void txtProxyHost_TextChanged(object sender, EventArgs e)
+        {
+            Program.Settings.ProxySettings.Host = txtProxyHost.Text;
+        }
+
+        private void nudProxyPort_ValueChanged(object sender, EventArgs e)
+        {
+            Program.Settings.ProxySettings.Port = (int)nudProxyPort.Value;
+        }
+
         #endregion Proxy
+
+  
+
     }
 }
