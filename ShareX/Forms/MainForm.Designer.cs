@@ -97,7 +97,9 @@ namespace ShareX
             this.tsbScreenshotsFolder = new System.Windows.Forms.ToolStripButton();
             this.tsbHistory = new System.Windows.Forms.ToolStripButton();
             this.tsbImageHistory = new System.Windows.Forms.ToolStripButton();
-            this.tsbSettings = new System.Windows.Forms.ToolStripButton();
+            this.tsbSettings = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsmiSettingsConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSettingsAdvanced = new System.Windows.Forms.ToolStripMenuItem();
             this.tsbAbout = new System.Windows.Forms.ToolStripButton();
             this.tsbDonate = new System.Windows.Forms.ToolStripButton();
             this.scMain = new System.Windows.Forms.SplitContainer();
@@ -607,13 +609,30 @@ namespace ShareX
             // 
             // tsbSettings
             // 
+            this.tsbSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiSettingsConfig,
+            this.tsmiSettingsAdvanced});
             this.tsbSettings.Image = global::ShareX.Properties.Resources.application_form;
             this.tsbSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tsbSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbSettings.Name = "tsbSettings";
             this.tsbSettings.Size = new System.Drawing.Size(147, 20);
             this.tsbSettings.Text = "Settings...";
-            this.tsbSettings.Click += new System.EventHandler(this.tsbSettings_Click);
+            // 
+            // tsmiSettingsConfig
+            // 
+            this.tsmiSettingsConfig.Name = "tsmiSettingsConfig";
+            this.tsmiSettingsConfig.ShortcutKeys = System.Windows.Forms.Keys.F7;
+            this.tsmiSettingsConfig.Size = new System.Drawing.Size(176, 22);
+            this.tsmiSettingsConfig.Text = "Configuration...";
+            this.tsmiSettingsConfig.Click += new System.EventHandler(this.tsmiSettingsConfig_Click);
+            // 
+            // tsmiSettingsAdvanced
+            // 
+            this.tsmiSettingsAdvanced.Name = "tsmiSettingsAdvanced";
+            this.tsmiSettingsAdvanced.Size = new System.Drawing.Size(176, 22);
+            this.tsmiSettingsAdvanced.Text = "Advanced....";
+            this.tsmiSettingsAdvanced.Click += new System.EventHandler(this.tsmiSettingsAdvanced_Click);
             // 
             // tsbAbout
             // 
@@ -798,7 +817,7 @@ namespace ShareX
             this.tssTray2,
             this.tsmiTrayExit});
             this.cmsTray.Name = "cmsTray";
-            this.cmsTray.Size = new System.Drawing.Size(181, 346);
+            this.cmsTray.Size = new System.Drawing.Size(181, 324);
             // 
             // tsmiTrayClipboardUpload
             // 
@@ -1088,7 +1107,6 @@ namespace ShareX
             this.tsmiTraySettings.Name = "tsmiTraySettings";
             this.tsmiTraySettings.Size = new System.Drawing.Size(180, 22);
             this.tsmiTraySettings.Text = "Settings...";
-            this.tsmiTraySettings.Click += new System.EventHandler(this.tsbSettings_Click);
             // 
             // tsmiTrayAbout
             // 
@@ -1482,7 +1500,7 @@ namespace ShareX
         private System.Windows.Forms.ToolStrip tsMain;
         private System.Windows.Forms.ToolStripButton tsbClipboardUpload;
         private System.Windows.Forms.ToolStripButton tsbFileUpload;
-        private System.Windows.Forms.ToolStripButton tsbSettings;
+        private System.Windows.Forms.ToolStripDropDownButton tsbSettings;
         private System.Windows.Forms.ToolStripButton tsbAbout;
         private System.Windows.Forms.ToolStripSeparator tssMain1;
         private System.Windows.Forms.ColumnHeader chSpeed;
@@ -1615,5 +1633,7 @@ namespace ShareX
         private System.Windows.Forms.ToolStripMenuItem tsmiHideMenu;
         private System.Windows.Forms.ToolStripMenuItem tsmiAutoCapture;
         private System.Windows.Forms.ToolStripMenuItem tsmiTrayAutoCapture;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSettingsConfig;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSettingsAdvanced;
     }
 }

@@ -707,11 +707,17 @@ namespace ShareX
             }
         }
 
-        private void tsbSettings_Click(object sender, EventArgs e)
+
+        private void tsmiSettingsConfig_Click(object sender, EventArgs e)
         {
             new SettingsForm() { Icon = this.Icon }.ShowDialog();
             UploadManager.UpdateProxySettings();
             Program.Settings.SaveAsync();
+        }
+
+        private void tsmiSettingsAdvanced_Click(object sender, EventArgs e)
+        {
+            new SettingsAdvancedForm() { Icon = this.Icon }.ShowDialog();
         }
 
         private void tsbAbout_Click(object sender, EventArgs e)
@@ -990,6 +996,7 @@ namespace ShareX
 
         #endregion UploadInfoMenu events
 
+  
         #endregion Form events
     }
 }
