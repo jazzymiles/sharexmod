@@ -161,7 +161,7 @@ namespace ShareX
 
         #region Capture / Screen recorder
 
-        public bool ScreenRecorderHotkeyStartInstantly { get; set; }
+        public bool ScreenRecorderHotkeyStartInstantly = true;
 
         #endregion Capture / Screen recorder
 
