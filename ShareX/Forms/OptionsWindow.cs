@@ -522,9 +522,9 @@ namespace ShareX.Forms
 
         private void btnAutofillProxy_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(SettingsManager.ConfigCore.ProxySettings.UserName))
+            if (string.IsNullOrEmpty(SettingsManager.ConfigCore.ProxySettings.Username))
             {
-                SettingsManager.ConfigCore.ProxySettings.UserName = Environment.UserName;
+                SettingsManager.ConfigCore.ProxySettings.Username = Environment.UserName;
             }
 
             WebProxy proxy = Helpers.GetDefaultWebProxy();
