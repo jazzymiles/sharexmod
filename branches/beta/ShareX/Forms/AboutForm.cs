@@ -71,7 +71,7 @@ namespace ShareX
                 }
             }
 
-            UpdateChecker updateChecker = new UpdateChecker(Program.URL_UPDATE, Application.ProductName, new Version(Program.AssemblyVersion),
+            UpdateChecker updateChecker = new UpdateChecker(Program.URL_UPDATE, Application.ProductName, Program.AssemblyVersion,
                 ReleaseChannelType.Stable, Uploader.ProxyInfo.GetWebProxy());
             uclUpdate.CheckUpdate(updateChecker);
         }

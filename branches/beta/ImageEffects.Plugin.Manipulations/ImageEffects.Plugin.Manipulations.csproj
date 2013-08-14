@@ -80,10 +80,6 @@
       <Project>{327750e1-9fb7-4cc3-8aea-9bc42180cad3}</Project>
       <Name>HelpersLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HelpersLib.GraphicsHelper\HelpersLib.GraphicsHelper.csproj">
-      <Project>{39CBF608-D7E7-405B-BCB4-A316BB76B562}</Project>
-      <Name>HelpersLib.GraphicsHelper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ImageEffects.IPlugin\ImageEffects.IPlugin.csproj">
       <Project>{D13441B6-96E1-4D1B-8A95-58A7D6CB1E24}</Project>
       <Name>ImageEffects.IPlugin</Name>

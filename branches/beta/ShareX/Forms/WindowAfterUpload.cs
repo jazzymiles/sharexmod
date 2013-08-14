@@ -16,11 +16,9 @@ namespace ShareX
 {
     public partial class WindowAfterUpload : Form
     {
-        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private TaskInfo mUploadInfo { get; set; }
 
-        private UploadInfo mUploadInfo { get; set; }
-
-        public WindowAfterUpload(UploadInfo info)
+        public WindowAfterUpload(TaskInfo info)
         {
             InitializeComponent();
             tmrClose.Start();
@@ -39,6 +37,7 @@ namespace ShareX
             }
 
             this.Text = File.Exists(info.FilePath) ? info.FilePath : info.FileName;
+            info.Result.LocalFilePath = info.FilePath;
 
             foreach (LinkFormatEnum type in Enum.GetValues(typeof(LinkFormatEnum)))
             {

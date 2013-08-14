@@ -1,4 +1,7 @@
-﻿* Capture monitor
+﻿Version 7.3 - 2013-08-19
+
+* Interface based on ShareX 8.0
+* Capture selected monitor screen
 * Imgur album support
 * Google Drive file uploader
 * Command-line encoder support for screencasting
