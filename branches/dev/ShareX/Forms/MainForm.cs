@@ -821,6 +821,18 @@ namespace ShareX
             ForceClose();
         }
 
+        private void tsmiTraySettingsConfig_Click(object sender, EventArgs e)
+        {
+            tsmiSettingsConfig_Click(sender, e);
+        }
+
+        #endregion Form events
+
+        private void tsmiTraySettingsAdvanced_Click(object sender, EventArgs e)
+        {
+            tsmiSettingsAdvanced_Click(sender, e);
+        }
+
         #endregion Tray events
 
         #region UploadInfoMenu events
@@ -996,7 +1008,6 @@ namespace ShareX
 
         #endregion UploadInfoMenu events
 
-  
-        #endregion Form events
+
     }
 }

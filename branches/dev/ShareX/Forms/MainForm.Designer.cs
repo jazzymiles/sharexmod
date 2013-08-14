@@ -154,6 +154,8 @@ namespace ShareX
             this.tsmiTrayHistory = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayImageHistory = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTraySettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTraySettingsConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTraySettingsAdvanced = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayDonate = new System.Windows.Forms.ToolStripMenuItem();
             this.tssTray2 = new System.Windows.Forms.ToolStripSeparator();
@@ -617,10 +619,11 @@ namespace ShareX
             this.tsbSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbSettings.Name = "tsbSettings";
             this.tsbSettings.Size = new System.Drawing.Size(147, 20);
-            this.tsbSettings.Text = "Settings...";
+            this.tsbSettings.Text = "Settings";
             // 
             // tsmiSettingsConfig
             // 
+            this.tsmiSettingsConfig.Image = global::ShareX.Properties.Resources.gear;
             this.tsmiSettingsConfig.Name = "tsmiSettingsConfig";
             this.tsmiSettingsConfig.ShortcutKeys = System.Windows.Forms.Keys.F7;
             this.tsmiSettingsConfig.Size = new System.Drawing.Size(176, 22);
@@ -1103,10 +1106,28 @@ namespace ShareX
             // 
             // tsmiTraySettings
             // 
+            this.tsmiTraySettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiTraySettingsConfig,
+            this.tsmiTraySettingsAdvanced});
             this.tsmiTraySettings.Image = global::ShareX.Properties.Resources.application_form;
             this.tsmiTraySettings.Name = "tsmiTraySettings";
             this.tsmiTraySettings.Size = new System.Drawing.Size(180, 22);
-            this.tsmiTraySettings.Text = "Settings...";
+            this.tsmiTraySettings.Text = "Settings";
+            // 
+            // tsmiTraySettingsConfig
+            // 
+            this.tsmiTraySettingsConfig.Image = global::ShareX.Properties.Resources.gear;
+            this.tsmiTraySettingsConfig.Name = "tsmiTraySettingsConfig";
+            this.tsmiTraySettingsConfig.Size = new System.Drawing.Size(157, 22);
+            this.tsmiTraySettingsConfig.Text = "Configuration...";
+            this.tsmiTraySettingsConfig.Click += new System.EventHandler(this.tsmiTraySettingsConfig_Click);
+            // 
+            // tsmiTraySettingsAdvanced
+            // 
+            this.tsmiTraySettingsAdvanced.Name = "tsmiTraySettingsAdvanced";
+            this.tsmiTraySettingsAdvanced.Size = new System.Drawing.Size(157, 22);
+            this.tsmiTraySettingsAdvanced.Text = "Advanced...";
+            this.tsmiTraySettingsAdvanced.Click += new System.EventHandler(this.tsmiTraySettingsAdvanced_Click);
             // 
             // tsmiTrayAbout
             // 
@@ -1635,5 +1656,7 @@ namespace ShareX
         private System.Windows.Forms.ToolStripMenuItem tsmiTrayAutoCapture;
         private System.Windows.Forms.ToolStripMenuItem tsmiSettingsConfig;
         private System.Windows.Forms.ToolStripMenuItem tsmiSettingsAdvanced;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTraySettingsConfig;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTraySettingsAdvanced;
     }
 }
