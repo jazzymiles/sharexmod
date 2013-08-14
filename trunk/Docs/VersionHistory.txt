@@ -1,5 +1,4 @@
-﻿* Jira file uploader
-* Capture selected monitor screen
+﻿* Capture monitor
 * Imgur album support
 * Google Drive file uploader
 * Command-line encoder support for screencasting
