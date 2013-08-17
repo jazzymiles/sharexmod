@@ -185,6 +185,8 @@ namespace ShareX
         public string NameFormatPatternActiveWindow = "%t_%y-%mo-%d_%h-%mi-%s";
         public int AutoIncrementNumber = 0;
         public bool FileUploadUseNamePattern = false;
+        [Category(ComponentModelStrings.OutputsClipboard), DefaultValue("<a href=\"%url\"><img src=\"%thumbnailurl\" alt=\"\" title\"\" /></a>"), Description("Custom clipboard format")]
+        public string ClipboardFormat { get; set; }
 
         #endregion Upload / Name pattern
 
@@ -215,9 +217,12 @@ namespace ShareX
         #region ScreenRecord Form
 
         public int ScreenRecordFPS = 5;
-        public bool ScreenRecordFixedDuration = true;
-        public float ScreenRecordDuration = 3f;
-        public ScreenRecordOutput ScreenRecordOutput = ScreenRecordOutput.GIF;
+        [Category(ComponentModelStrings.Screencasts), DefaultValue(false), Description("Fixed duration can be adjusted by screencast duration.")]
+        public bool ScreenRecordFixedDuration { get; set; }
+        [Category(ComponentModelStrings.Screencasts), DefaultValue(3f), Description("Screencast duration.")]
+        public float ScreenRecordDuration { get; set; }
+        [Category(ComponentModelStrings.Screencasts), DefaultValue(ScreenRecordOutput.GIF), Description("Screencast encoder type")]
+        public ScreenRecordOutput ScreenRecordOutput { get; set; }
         public bool ScreenRecordAutoUpload = true;
 
         [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
