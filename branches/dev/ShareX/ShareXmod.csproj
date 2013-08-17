@@ -210,6 +210,9 @@
     <Compile Include="..\..\..\ShareX\trunk\ShareX\UploadInfoManager.cs">
       <Link>UploadInfoManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\ShareX\trunk\ShareX\UploadInfoParser.cs">
+      <Link>UploadInfoParser.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\ShareX\trunk\ShareX\UploadInfoStatus.cs">
       <Link>UploadInfoStatus.cs</Link>
     </Compile>

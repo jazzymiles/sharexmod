@@ -192,6 +192,8 @@ namespace ShareX
             this.tsmiCopyFileName = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCopyFileNameWithExtension = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCopyFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.tssCopy5 = new System.Windows.Forms.ToolStripSeparator();
+            this.tssCopyUserFormat = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiShowErrors = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiShowResponse = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiUploadSelectedFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -633,6 +635,7 @@ namespace ShareX
             // tsmiSettingsAdvanced
             // 
             this.tsmiSettingsAdvanced.Name = "tsmiSettingsAdvanced";
+            this.tsmiSettingsAdvanced.ShortcutKeys = System.Windows.Forms.Keys.F12;
             this.tsmiSettingsAdvanced.Size = new System.Drawing.Size(176, 22);
             this.tsmiSettingsAdvanced.Text = "Advanced....";
             this.tsmiSettingsAdvanced.Click += new System.EventHandler(this.tsmiSettingsAdvanced_Click);
@@ -1269,7 +1272,9 @@ namespace ShareX
             this.tsmiCopyFilePath,
             this.tsmiCopyFileName,
             this.tsmiCopyFileNameWithExtension,
-            this.tsmiCopyFolder});
+            this.tsmiCopyFolder,
+            this.tssCopy5,
+            this.tssCopyUserFormat});
             this.tsmiCopy.Name = "tsmiCopy";
             this.tsmiCopy.Size = new System.Drawing.Size(158, 22);
             this.tsmiCopy.Text = "Copy";
@@ -1412,6 +1417,18 @@ namespace ShareX
             this.tsmiCopyFolder.Size = new System.Drawing.Size(233, 22);
             this.tsmiCopyFolder.Text = "Folder";
             this.tsmiCopyFolder.Click += new System.EventHandler(this.tsmiCopyFolder_Click);
+            // 
+            // tssCopy5
+            // 
+            this.tssCopy5.Name = "tssCopy5";
+            this.tssCopy5.Size = new System.Drawing.Size(230, 6);
+            // 
+            // tssCopyUserFormat
+            // 
+            this.tssCopyUserFormat.Name = "tssCopyUserFormat";
+            this.tssCopyUserFormat.Size = new System.Drawing.Size(233, 22);
+            this.tssCopyUserFormat.Text = "User format";
+            this.tssCopyUserFormat.Click += new System.EventHandler(this.tssCopyUserFormat_Click);
             // 
             // tsmiShowErrors
             // 
@@ -1658,5 +1675,7 @@ namespace ShareX
         private System.Windows.Forms.ToolStripMenuItem tsmiSettingsAdvanced;
         private System.Windows.Forms.ToolStripMenuItem tsmiTraySettingsConfig;
         private System.Windows.Forms.ToolStripMenuItem tsmiTraySettingsAdvanced;
+        private System.Windows.Forms.ToolStripSeparator tssCopy5;
+        private System.Windows.Forms.ToolStripMenuItem tssCopyUserFormat;
     }
 }

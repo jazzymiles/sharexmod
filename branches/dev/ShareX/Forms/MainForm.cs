@@ -963,6 +963,11 @@ namespace ShareX
             uim.CopyFolder();
         }
 
+        private void tssCopyUserFormat_Click(object sender, EventArgs e)
+        {
+            uim.CopyUserFormat();
+        }
+
         private void tsmiShowErrors_Click(object sender, EventArgs e)
         {
             uim.ShowErrors();
@@ -1007,7 +1012,6 @@ namespace ShareX
         }
 
         #endregion UploadInfoMenu events
-
-
+       
     }
 }
