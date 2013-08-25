@@ -37,7 +37,6 @@ namespace ShareX
             }
 
             this.Text = File.Exists(info.FilePath) ? info.FilePath : info.FileName;
-            info.Result.LocalFilePath = info.FilePath;
 
             foreach (LinkFormatEnum type in Enum.GetValues(typeof(LinkFormatEnum)))
             {

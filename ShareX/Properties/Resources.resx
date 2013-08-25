@@ -310,4 +310,31 @@
   <data name="control_record" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\control-record.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ShareXIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ShareXIcon.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="application_monitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\application-monitor.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="application__pencil" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\application--pencil.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="camcorder__pencil" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\camcorder--pencil.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="control_record_yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\control-record-yellow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="globe__pencil" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\globe--pencil.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="hammer_pencil" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hammer--pencil.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="keyboard__pencil" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\keyboard--pencil.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="question_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\question-button.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
