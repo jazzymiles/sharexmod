@@ -1,4 +1,14 @@
-﻿Version 7.3 - 2013-08-19
+﻿ShareX 8.1 r542 - 2013-08-25
+
+Please uninstall ShareXmod before installing this update. 
+
+Redesigned main configuration with simplified settings
+Expanded task settings with more options to customize per hotkey
+Support custom formats for clipboard content 
+Improved screen recorder
+Automatic mode for proxy configuration
+
+Version 7.3 - 2013-08-19
 
 * Interface based on ShareX 8.0
 * Capture selected monitor screen
