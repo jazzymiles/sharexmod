@@ -73,6 +73,16 @@ namespace ShareX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap application__pencil {
+            get {
+                object obj = ResourceManager.GetObject("application__pencil", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap application_block {
             get {
                 object obj = ResourceManager.GetObject("application_block", resourceCulture);
@@ -123,6 +133,16 @@ namespace ShareX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap application_monitor {
+            get {
+                object obj = ResourceManager.GetObject("application_monitor", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap application_task {
             get {
                 object obj = ResourceManager.GetObject("application_task", resourceCulture);
@@ -146,6 +166,16 @@ namespace ShareX.Properties {
         public static System.Drawing.Bitmap block {
             get {
                 object obj = ResourceManager.GetObject("block", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap camcorder__pencil {
+            get {
+                object obj = ResourceManager.GetObject("camcorder__pencil", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -205,6 +235,16 @@ namespace ShareX.Properties {
         public static System.Drawing.Bitmap control_record {
             get {
                 object obj = ResourceManager.GetObject("control_record", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap control_record_yellow {
+            get {
+                object obj = ResourceManager.GetObject("control_record_yellow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -352,9 +392,29 @@ namespace ShareX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap globe__pencil {
+            get {
+                object obj = ResourceManager.GetObject("globe__pencil", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap globe_share {
             get {
                 object obj = ResourceManager.GetObject("globe_share", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap hammer_pencil {
+            get {
+                object obj = ResourceManager.GetObject("hammer_pencil", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -375,6 +435,16 @@ namespace ShareX.Properties {
         public static System.Drawing.Bitmap image_export {
             get {
                 object obj = ResourceManager.GetObject("image_export", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap keyboard__pencil {
+            get {
+                object obj = ResourceManager.GetObject("keyboard__pencil", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -522,6 +592,16 @@ namespace ShareX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap question_button {
+            get {
+                object obj = ResourceManager.GetObject("question_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Rectangle {
             get {
                 object obj = ResourceManager.GetObject("Rectangle", resourceCulture);
@@ -615,6 +695,16 @@ namespace ShareX.Properties {
         public static System.Drawing.Icon sharex_16px_6 {
             get {
                 object obj = ResourceManager.GetObject("sharex_16px_6", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        public static System.Drawing.Icon ShareXIcon {
+            get {
+                object obj = ResourceManager.GetObject("ShareXIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

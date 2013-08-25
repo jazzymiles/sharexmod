@@ -1,9 +1,9 @@
-﻿using System;
+﻿using HelpersLib;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using HelpersLib;
 using UploadersLib;
 using UploadersLib.HelperClasses;
 
@@ -11,7 +11,7 @@ namespace UploadersLibMod
 {
     public class UploadResultHelper
     {
-        private UploadResult Result = null; 
+        private UploadResult Result = null;
 
         #region Links
 
@@ -44,10 +44,6 @@ namespace UploadersLibMod
                     return GetLinkedThumbnailWikiUrl(longUrl);
                 case LinkFormatEnum.THUMBNAIL:
                     return this.Result.ThumbnailURL;
-                case LinkFormatEnum.LocalFilePath:
-                    return this.Result.LocalFilePath;
-                case LinkFormatEnum.LocalFilePathUri:
-                    return GetLocalFilePathAsUri(this.Result.LocalFilePath);
             }
 
             return this.Result.URL;
@@ -149,6 +145,5 @@ namespace UploadersLibMod
         }
 
         #endregion Links
-
     }
 }
