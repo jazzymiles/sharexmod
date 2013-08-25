@@ -2,18 +2,10 @@
 <Update>
   <ShareXmod>
     <Stable>
-      <Version>7.2.3.354</Version>
-      <URL>https://sharexmod.googlecode.com/files/ShareXmod-7.2.3.354-setup.exe</URL>
-      <Date>2013-05-01</Date>
+      <Version>8.1.0.542</Version>
+      <URL>https://sharex.googlecode.com/files/ShareX-8.1.0.542-setup.exe</URL>
+      <Date>2013-08-25</Date>
       <Summary>http://sharexmod.googlecode.com/svn/trunk/Docs/VersionHistory.txt</Summary>
     </Stable>
   </ShareXmod>
-   <ShareXmod_x64>
-    <Stable>
-      <Version>7.2.3.354</Version>
-      <URL>https://sharexmod.googlecode.com/files/ShareXmod-7.2.3.354-setup.exe</URL>
-      <Date>2013-05-01</Date>
-      <Summary>http://sharexmod.googlecode.com/svn/trunk/Docs/VersionHistory.txt</Summary>
-    </Stable>
-  </ShareXmod_x64>
 </Update>
