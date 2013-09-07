@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (C) 2012 ShareX Developers
+    Copyright (C) 2008-2013 ShareX Developers
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -23,13 +23,15 @@
 
 #endregion License Information (GPL v3)
 
+using HelpersLib;
+using ShareX.Properties;
 using System;
-using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using HelpersLib;
 using UpdateCheckerLib;
 using UploadersLib;
 
@@ -40,81 +42,38 @@ namespace ShareX
         public AboutForm()
         {
             InitializeComponent();
-            Text = Program.Title;
-            lblProductName.Text = Application.ProductName + " " + Program.AssemblyVersion;
-            lblCopyright.Text = AssemblyCopyright;
+            Text = Program.FullTitle;
+            Icon = Resources.ShareXIcon;
+            lblProductName.Text = Program.FullTitle;
+            lblCopyright.Text = Program.AssemblyCopyright;
 
-            AppendBoldLine("Thanks to:");
-            AppendLine("Andrew Moore (zathman) for introducing ZScreen");
-            AppendLine("Brandon Zimmerman (rgrthat) for leading the way");
-            AppendLine("Mopquill ( www.mpql.net ) for the application icon");
-            AppendLine();
-
-            AppendBoldLine("Acknowledgements:");
-            AppendLine("FTP Library: http://www.starksoft.com");
-            AppendLine("Json.NET: http://json.codeplex.com");
-            AppendLine("SSH.NET: http://sshnet.codeplex.com");
-            AppendLine("Image Editor: http://getgreenshot.org");
-            AppendLine("Menu Icons: http://p.yusukekamiyamane.com");
-            AppendLine();
-
-            AppendBoldLine("Committers:");
-            AppendLine("Josh Lovins (thedeathly)");
-            AppendLine();
-
-            if (Program.LibNames != null)
-            {
-                AppendBoldLine("Referenced assemblies:");
-                foreach (string dll in Program.LibNames)
-                {
-                    AppendLine(dll);
-                }
-            }
-
-            UpdateChecker updateChecker = new UpdateChecker(Program.URL_UPDATE, Application.ProductName, new Version(Program.AssemblyVersion),
+            UpdateChecker updateChecker = new UpdateChecker(Links.URL_UPDATE, Application.ProductName, Program.AssemblyVersion,
                 ReleaseChannelType.Stable, Uploader.ProxyInfo.GetWebProxy());
             uclUpdate.CheckUpdate(updateChecker);
         }
 
-        private void AppendLine(string text = "")
-        {
-            txtDetails.AppendText(text + Environment.NewLine);
-        }
-
-        private void AppendBoldLine(string text)
-        {
-            txtDetails.SelectionFont = new Font(txtDetails.SelectionFont, FontStyle.Bold);
-            txtDetails.AppendText(text + Environment.NewLine);
-            txtDetails.SelectionFont = new Font(txtDetails.SelectionFont, FontStyle.Regular);
-        }
-
         private void AboutForm_Shown(object sender, EventArgs e)
         {
-            this.BringToFront();
-            this.Activate();
+            BringToFront();
+            Activate();
+
+            cLogo.Interval = 50;
+            cLogo.Start();
         }
 
-        public string AssemblyCopyright
+        private void AboutForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            get
-            {
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-                if (attributes.Length == 0)
-                {
-                    return string.Empty;
-                }
-                return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
-            }
+            cLogo.Stop();
         }
 
-        private void lblWebsite_Click(object sender, EventArgs e)
+        private void lblProjectPage_Click(object sender, EventArgs e)
         {
-            Helpers.LoadBrowserAsync(Program.URL_WEBSITE);
+            Helpers.LoadBrowserAsync(Links.URL_WEBSITE);
         }
 
         private void lblBugs_Click(object sender, EventArgs e)
         {
-            Helpers.LoadBrowserAsync(Program.URL_ISSUES);
+            Helpers.LoadBrowserAsync(Links.URL_ISSUES);
         }
 
         private void pbBerkURL_Click(object sender, EventArgs e)
@@ -122,19 +81,86 @@ namespace ShareX
             Helpers.LoadBrowserAsync(Links.URL_BERK);
         }
 
+        private void pbBerkSteamURL_Click(object sender, EventArgs e)
+        {
+            Helpers.LoadBrowserAsync(Links.URL_BERK_STEAM);
+        }
+
         private void pbMikeURL_Click(object sender, EventArgs e)
         {
             Helpers.LoadBrowserAsync(Links.URL_MIKE);
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        #region Animation
+
+        private const int w = 200;
+        private const int h = w;
+        private const int mX = w / 2;
+        private const int mY = h / 2;
+        private const int minStep = 3;
+        private const int maxStep = 30;
+        private const int speed = 1;
+        private int step = 10;
+        private int direction = speed;
+        private Color lineColor = Color.Black;
+        private bool isPaused = false;
+
+        private void cLogo_Draw(Graphics g)
         {
-            this.Close();
+            g.SmoothingMode = SmoothingMode.HighQuality;
+
+            using (Matrix m = new Matrix())
+            {
+                m.RotateAt(45, new PointF(mX, mY));
+                g.Transform = m;
+            }
+
+            using (Pen pen = new Pen(lineColor))
+            {
+                for (int i = 0; i <= mX; i += step)
+                {
+                    g.DrawLine(pen, i, mY, mX, mY + i); // Left top
+                    g.DrawLine(pen, i, mY, mX, mY - i); // Left bottom
+                    g.DrawLine(pen, w - i, mY, mX, mY - i); // Right top
+                    g.DrawLine(pen, w - i, mY, mX, mY + i); // Right bottom
+                }
+
+                g.DrawLine(pen, mX, mY, mX, mY + mX); // Left top
+                g.DrawLine(pen, mX, mY, mX, mY - mX); // Left bottom
+                g.DrawLine(pen, w - mX, mY, mX, mY - mX); // Right top
+                g.DrawLine(pen, w - mX, mY, mX, mY + mX); // Right bottom
+            }
+
+            if (!isPaused)
+            {
+                if (step + speed > maxStep)
+                {
+                    direction = -speed;
+                }
+                else if (step - speed < minStep)
+                {
+                    direction = speed;
+                }
+
+                step += direction;
+            }
         }
 
-        private void txtDetails_LinkClicked(object sender, LinkClickedEventArgs e)
+        private void cLogo_MouseDown(object sender, MouseEventArgs e)
         {
-            Process.Start(e.LinkText);
+            isPaused = !isPaused;
         }
+
+        private void cLogo_MouseMove(object sender, MouseEventArgs e)
+        {
+            lineColor = new HSB((double)e.X / (w - 1), 1, 1.0 - (double)e.Y / (h - 1));
+        }
+
+        private void cLogo_MouseLeave(object sender, EventArgs e)
+        {
+            lineColor = Color.Black;
+        }
+
+        #endregion Animation
     }
 }
