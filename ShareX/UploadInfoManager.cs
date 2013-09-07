@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (C) 2012 ShareX Developers
+    Copyright (C) 2008-2013 ShareX Developers
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -24,24 +24,25 @@
 #endregion License Information (GPL v3)
 
 using HelpersLib;
-using HelpersLibMod;
 using ShareX.Properties;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using UploadersLib;
 
 namespace ShareX
 {
     public class UploadInfoManager
     {
         public UploadInfoStatus[] SelectedItems { get; private set; }
-
         private ListView lv;
+        private UploadInfoParser parser;
 
         public UploadInfoManager(ListView listView)
         {
             lv = listView;
+            parser = new UploadInfoParser();
         }
 
         private UploadInfoStatus[] GetSelectedItems()
@@ -120,61 +121,12 @@ namespace ShareX
                 }
                 else if (SelectedItems[0].IsURLExist)
                 {
-                    OpenItem(SettingsManager.ConfigUser.ItemsWithUrlOnItemDoubleClick, SelectedItems[0].Info.Result.URL, SelectedItems[0].Info.FilePath);
+                    Helpers.LoadBrowserAsync(SelectedItems[0].Info.Result.URL);
                 }
                 else if (SelectedItems[0].IsFileExist)
                 {
-                    OpenItem(SettingsManager.ConfigUser.ItemsWithoutUrlOnItemDoubleClick, SelectedItems[0].Info.Result.URL, SelectedItems[0].Info.FilePath);
+                    Helpers.LoadBrowserAsync(SelectedItems[0].Info.FilePath);
                 }
-            }
-        }
-
-        public void TryView()
-        {
-            if (IsSelectedItemsValid() && SelectedItems[0].IsFileExist)
-            {
-                using (ImageViewer viewer = new ImageViewer(SelectedItems[0].Info.FilePath))
-                {
-                    viewer.ShowDialog();
-                }
-            }
-        }
-
-        private void OpenItem(EListItemDoubleClickBehavior behavior, string link, string filepath)
-        {
-            switch (behavior)
-            {
-                case EListItemDoubleClickBehavior.DoNothing:
-                    break;
-
-                case EListItemDoubleClickBehavior.OpenDirectory:
-                    if (Directory.Exists(Path.GetDirectoryName(filepath)))
-                        Helpers.OpenFolderWithFile(filepath);
-                    break;
-
-                case EListItemDoubleClickBehavior.OpenFile:
-                    if (File.Exists(filepath))
-                        Helpers.LoadBrowserAsync(filepath);
-                    break;
-
-                case EListItemDoubleClickBehavior.OpenFileOrUrl:
-                    if (File.Exists(filepath))
-                        Helpers.LoadBrowserAsync(filepath);
-                    else if (!string.IsNullOrEmpty(link))
-                        Helpers.LoadBrowserAsync(link);
-                    break;
-
-                case EListItemDoubleClickBehavior.OpenUrl:
-                    if (!string.IsNullOrEmpty(link))
-                        Helpers.LoadBrowserAsync(link);
-                    break;
-
-                case EListItemDoubleClickBehavior.OpenUrlOrFile:
-                    if (!string.IsNullOrEmpty(link))
-                        Helpers.LoadBrowserAsync(link);
-                    else if (File.Exists(filepath))
-                        Helpers.LoadBrowserAsync(filepath);
-                    break;
             }
         }
 
@@ -219,34 +171,34 @@ namespace ShareX
 
         public void CopyHTMLLink()
         {
-            if (IsSelectedItemsValid()) CopyTexts(SelectedItems.Where(x => x.IsURLExist).Select(x => string.Format("<a href=\"{0}\">{0}</a>", x.Info.Result.URL)));
+            if (IsSelectedItemsValid()) CopyTexts(SelectedItems.Where(x => x.IsURLExist).Select(x => parser.Parse(x.Info, UploadInfoParser.HTMLLink)));
         }
 
         public void CopyHTMLImage()
         {
-            if (IsSelectedItemsValid()) CopyTexts(SelectedItems.Where(x => x.IsImageURL).Select(x => string.Format("<img src=\"{0}\"/>", x.Info.Result.URL)));
+            if (IsSelectedItemsValid()) CopyTexts(SelectedItems.Where(x => x.IsImageURL).Select(x => parser.Parse(x.Info, UploadInfoParser.HTMLImage)));
         }
 
         public void CopyHTMLLinkedImage()
         {
             if (IsSelectedItemsValid()) CopyTexts(SelectedItems.Where(x => x.IsImageURL && x.IsThumbnailURLExist).
-                Select(x => string.Format("<a href=\"{0}\"><img src=\"{1}\"/></a>", x.Info.Result.URL, x.Info.Result.ThumbnailURL)));
+                Select(x => parser.Parse(x.Info, UploadInfoParser.HTMLLinkedImage)));
         }
 
         public void CopyForumLink()
         {
-            if (IsSelectedItemsValid()) CopyTexts(SelectedItems.Where(x => x.IsURLExist).Select(x => string.Format("[url]{0}[/url]", x.Info.Result.URL)));
+            if (IsSelectedItemsValid()) CopyTexts(SelectedItems.Where(x => x.IsURLExist).Select(x => parser.Parse(x.Info, UploadInfoParser.ForumLink)));
         }
 
         public void CopyForumImage()
         {
-            if (IsSelectedItemsValid()) CopyTexts(SelectedItems.Where(x => x.IsImageURL).Select(x => string.Format("[img]{0}[/img]", x.Info.Result.URL)));
+            if (IsSelectedItemsValid()) CopyTexts(SelectedItems.Where(x => x.IsImageURL).Select(x => parser.Parse(x.Info, UploadInfoParser.ForumImage)));
         }
 
         public void CopyForumLinkedImage()
         {
             if (IsSelectedItemsValid()) CopyTexts(SelectedItems.Where(x => x.IsImageURL && x.IsThumbnailURLExist).
-                Select(x => string.Format("[url={0}][img]{1}[/img][/url]", x.Info.Result.URL, x.Info.Result.ThumbnailURL)));
+                Select(x => parser.Parse(x.Info, UploadInfoParser.ForumLinkedImage)));
         }
 
         public void CopyFilePath()
@@ -269,6 +221,14 @@ namespace ShareX
             if (IsSelectedItemsValid()) CopyTexts(SelectedItems.Where(x => x.IsFilePathValid).Select(x => Path.GetDirectoryName(x.Info.FilePath)));
         }
 
+        public void CopyCustomFormat(string format)
+        {
+            if (!string.IsNullOrEmpty(format) && IsSelectedItemsValid())
+            {
+                CopyTexts(SelectedItems.Where(x => x.IsURLExist).Select(x => parser.Parse(x.Info, format)));
+            }
+        }
+
         #endregion Copy
 
         #region Other
@@ -286,7 +246,10 @@ namespace ShareX
 
                 if (!string.IsNullOrEmpty(errors))
                 {
-                    new ErrorForm(Application.ProductName, "Upload errors", errors, new Logger(), Program.LogFilePath, Links.URL_ISSUES).ShowDialog();
+                    using (ErrorForm form = new ErrorForm(Application.ProductName, "Upload errors", errors, Program.MyLogger, Program.LogFilePath, Links.URL_ISSUES))
+                    {
+                        form.ShowDialog();
+                    }
                 }
             }
         }
@@ -297,7 +260,7 @@ namespace ShareX
             {
                 using (ResponseForm form = new ResponseForm(SelectedItems[0].Info.Result.Response))
                 {
-                    form.Icon = Resources.ShareX;
+                    form.Icon = Resources.ShareXIcon;
                     form.ShowDialog();
                 }
             }

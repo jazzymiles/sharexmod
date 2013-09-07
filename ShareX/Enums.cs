@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (C) 2012 ShareX Developers
+    Copyright (C) 2008-2013 ShareX Developers
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -23,7 +23,6 @@
 
 #endregion License Information (GPL v3)
 
-using HelpersLib;
 using System;
 using System.ComponentModel;
 
@@ -31,42 +30,65 @@ namespace ShareX
 {
     public enum EImageFormat
     {
-        PNG, JPEG, GIF, BMP, TIFF
+        [Description("png")]
+        PNG,
+        [Description("jpg")]
+        JPEG,
+        [Description("gif")]
+        GIF,
+        [Description("bmp")]
+        BMP,
+        [Description("tif")]
+        TIFF
     }
 
     public enum TaskJob
     {
-        DataUpload, FileUpload, ImageUpload, TextUpload, ShortenURL, ShareURL
+        DataUpload, FileUpload, ImageJob, TextUpload, ShortenURL
     }
 
     [Flags]
-    public enum TaskTextJob
+    public enum AfterCaptureTasks
     {
         None = 0,
-
-        [Description("Copy to clipboard")]
-        CopyToClipboard = 2,
-
-        [Description("Save to file")]
-        SaveToFile = 4,
-
-        [Description("Upload to remote host")]
-        UploadToHost = 8,
-
-        [Description("Save to file with dialog")]
-        SaveToFileWithDialog = 16,
-
-        [Description("Send to Printer")]
-        Print = 32,
+        [Description("Add watermark")]
+        AddWatermark = 1,
+        [Description("Add border")]
+        AddBorder = 1 << 1,
+        [Description("Add shadow")]
+        AddShadow = 1 << 2,
+        [Description("Annotate image")]
+        AnnotateImage = 1 << 3,
+        [Description("Copy image to clipboard")]
+        CopyImageToClipboard = 1 << 4,
+        [Description("Print image")]
+        SendImageToPrinter = 1 << 5,
+        [Description("Save image to file")]
+        SaveImageToFile = 1 << 6,
+        [Description("Save image to file as...")]
+        SaveImageToFileWithDialog = 1 << 7,
+        [Description("Copy file to clipboard")]
+        CopyFileToClipboard = 1 << 8,
+        [Description("Copy file path to clipboard")]
+        CopyFilePathToClipboard = 1 << 9,
+        [Description("Perform actions")]
+        PerformActions = 1 << 10,
+        [Description("Upload image to host")]
+        UploadImageToHost = 1 << 11
     }
 
     [Flags]
-    public enum TaskFileJob
+    public enum AfterUploadTasks
     {
         None = 0,
-
-        [Description("Upload to remote host")]
-        UploadToHost = 8,
+        [Description("Use URL Shortener")]
+        UseURLShortener = 1,
+        [Description("Post URL to social networking service")]
+        ShareURLToSocialNetworkingService = 1 << 1,
+        [Description("Send URL with Email")]
+        SendURLWithEmail = 1 << 2,
+        [Description("Copy URL to clipboard")]
+        CopyURLToClipboard = 1 << 3
     }
 
     public enum ImageScaleType
@@ -74,73 +96,69 @@ namespace ShareX
         Percentage, Width, Height, Specific
     }
 
-    public enum EListItemDoubleClickBehavior
+    public enum AfterCaptureFormResult
     {
-        [Description("Open link or file path (if exists)")]
-        OpenUrlOrFile,
-
-        [Description("Open file path or link (if exists)")]
-        OpenFileOrUrl,
-
-        [Description("Open link (if exists)")]
-        OpenUrl,
-
-        [Description("Open file path (if exists)")]
-        OpenFile,
-
-        [Description("Open directory of the file (if exists)")]
-        OpenDirectory,
-
-        [Description("Do nothing")]
-        DoNothing,
+        Continue, Cancel, Copy
     }
 
-    [TypeConverter(typeof(EnumToStringUsingDescription))]
-    public enum EImageEditorOnKeyLock
+    public enum CaptureType
+    {
+        Screen,
+        Monitor,
+        ActiveMonitor,
+        Window,
+        ActiveWindow,
+        RectangleWindow,
+        Rectangle,
+        RoundedRectangle,
+        Ellipse,
+        Triangle,
+        Diamond,
+        Polygon,
+        Freehand,
+        LastRegion
+    }
+
+    public enum HotkeyType
     {
         [Description("None")]
         None,
-
-        [Description("Caps Lock")]
-        CapsLock,
-
-        [Description("Num Lock")]
-        NumLock,
-
-        [Description("Scroll Lock")]
-        ScrollLock
+        [Description("Clipboard Upload")]
+        ClipboardUpload,
+        [Description("File Upload")]
+        FileUpload,
+        [Description("Fullscreen")]
+        PrintScreen,
+        [Description("Active Window")]
+        ActiveWindow,
+        [Description("Active Monitor")]
+        ActiveMonitor,
+        [Description("Window & Rectangle")]
+        WindowRectangle,
+        [Description("Rectangle Region")]
+        RectangleRegion,
+        [Description("Rounded Rectangle Region")]
+        RoundedRectangleRegion,
+        [Description("Ellipse Region")]
+        EllipseRegion,
+        [Description("Triangle Region")]
+        TriangleRegion,
+        [Description("Diamond Region")]
+        DiamondRegion,
+        [Description("Polygon Region")]
+        PolygonRegion,
+        [Description("Freehand Region")]
+        FreeHandRegion,
+        [Description("Last Region")]
+        LastRegion,
+        [Description("Screen Recorder")]
+        ScreenRecorder,
+        [Description("Auto Capture")]
+        AutoCapture
     }
 
-    public enum EScreencastEncoderType
+    public enum HotkeyStatus
     {
-        [Description("Windows Media Video")]
-        WindowsMediaVideo,
-
-        [Description("Expression Encoder Screen Capture codec")]
-        ExpressionEncoderScreenCaptureCodec,
-
-        [Description("Graphics Interchange Format")]
-        GraphicsInterchangeFormat,
-
-        [Description("Video for Windows Compression Manager")]
-        PromptUser,
-
-        [Description("Command-line Interface Encoder")]
-        CommandLineEncoder,
-    }
-
-    public enum EBitrateType
-    {
-        [Description("Used to specify a constant bitrate")]
-        ConstantBitrate,
-
-        [Description("Used to specify a variable constrained bitrate")]
-        VariableConstrainedBitrate,
-
-        [Description("Used to specify a variable quality bitrate")]
-        VariableQualityBitrate,
-
-        [Description("Used to specify a variable unconstrained bitrate")]
-        VariableUnconstrainedBitrate,
+        Registered, Failed, NotConfigured
     }
 }
