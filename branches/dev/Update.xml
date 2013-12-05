@@ -2,10 +2,10 @@
 <Update>
   <ShareXmod>
     <Stable>
-      <Version>8.1.0.573</Version>
-      <URL>https://sharex.googlecode.com/files/ShareX-8.1.0.573-setup.exe</URL>
-      <Date>2013-09-05</Date>
-      <Summary>http://sharexmod.googlecode.com/svn/trunk/Docs/VersionHistory.txt</Summary>
+      <Version>8.4.1</Version>
+      <URL>https://github.com/ShareX/ShareX/releases/download/v8.4.1/ShareX-8.4.1-setup.exe</URL>
+      <Date>2013-12-05</Date>
+      <Summary></Summary>
     </Stable>
   </ShareXmod>
 </Update>
