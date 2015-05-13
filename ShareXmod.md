@@ -1,0 +1,1 @@
+ShareXmod is a derivative of [ShareX](http://code.google.com/p/sharex/).

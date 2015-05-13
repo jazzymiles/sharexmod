@@ -1,0 +1,1 @@
+http://code.google.com/p/sharex/wiki/CapturingShapes
